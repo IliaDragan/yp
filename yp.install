@@ -1,0 +1,117 @@
+<?php
+/**
+ * @file
+ * Install, update and uninstall functions for the standard installation profile.
+ */
+
+/**
+ * Implements hook_install().
+ *
+ * Perform actions to set up the site for this profile.
+ *
+ * @see system_install()
+ */
+function yp_install() {
+
+  // Enable user picture support and set the default to a square thumbnail option.
+  variable_set('user_pictures', '1');
+  variable_set('user_picture_dimensions', '256x256');
+  variable_set('user_picture_file_size', '800');
+  variable_set('user_picture_style', 'thumbnail');
+
+  // Allow visitor account creation with administrative approval.
+  variable_set('user_register', USER_REGISTER_VISITORS);
+
+  // Enable default permissions for system roles.
+  user_role_grant_permissions(DRUPAL_ANONYMOUS_RID, array(
+    'access content',
+    'access comments',
+  ));
+  user_role_grant_permissions(DRUPAL_AUTHENTICATED_RID, array(
+    'access content',
+    'access comments',
+    'post comments',
+    'skip comment approval',
+  ));
+
+  // Create a default role for site administrators, with all available permissions assigned.
+  $admin_role = new stdClass();
+  $admin_role->name = 'administrator';
+  $admin_role->weight = 2;
+  user_role_save($admin_role);
+  user_role_grant_permissions($admin_role->rid, array_keys(module_invoke_all('permission')));
+  // Set this as the administrator role.
+  variable_set('user_admin_role', $admin_role->rid);
+
+  // Assign user 1 the "administrator" role.
+  db_insert('users_roles')
+    ->fields(array(
+      'uid' => 1,
+      'rid' => $admin_role->rid
+    ))
+    ->execute();
+
+  // Create a Home link in the main menu.
+  $item = array(
+    'link_title' => st('Home'),
+    'link_path' => '<front>',
+    'menu_name' => 'main-menu',
+  );
+  menu_link_save($item);
+
+  // Update the menu router information.
+  menu_rebuild();
+
+  // Enable the admin theme.
+  db_update('system')
+    ->fields(array('status' => 1))
+    ->condition('type', 'theme')
+    ->condition('name', 'seven')
+    ->execute();
+
+  variable_set('admin_theme', 'seven');
+  variable_set('node_admin_theme', '1');
+
+  // Add default locales.
+  locale_add_language('ru');
+  locale_add_language('ro');
+
+  // Set default language detection.
+  $negotation = array(
+    LOCALE_LANGUAGE_NEGOTIATION_URL => array(
+      'types' => array(
+        0 => 'language_content',
+        1 => 'language',
+        2 => 'language_url',
+      ),
+      'callbacks' => array(
+        'language' => 'locale_language_from_url',
+        'switcher' => 'locale_language_switcher_url',
+        'url_rewrite' => 'locale_language_url_rewrite_url',
+      ),
+      'file' => 'includes/locale.inc',
+      'weight' => '-8',
+      'name' => 'URL',
+      'description' => st('Determine the language from the URL (Path prefix or domain).'),
+      'config' => 'admin/config/regional/language/configure/url',
+    ),
+    LOCALE_LANGUAGE_NEGOTIATION_USER => array(
+      'callbacks' => array(
+        'language' => 'locale_language_from_user',
+      ),
+      'file' => 'includes/locale.inc',
+      'weight' => '-4',
+      'name' => 'User',
+      'description' => st('Follow the user\'s language preference.'),
+    ),
+    LANGUAGE_NEGOTIATION_DEFAULT => array(
+      'callbacks' => array(
+        'language' => 'language_from_default',
+      ),
+      'weight' => '10',
+      'name' => 'Default',
+      'description' => st('Use the default site language (English).'),
+    ),
+  );
+  language_negotiation_set(LANGUAGE_TYPE_INTERFACE, $negotation);
+}

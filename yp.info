@@ -1,0 +1,46 @@
+name = Yellow Pages
+description = Install Yellow Pages profile.
+version = 7.x-0.1
+core = 7.x
+; Core modules
+dependencies[] = aggregator
+dependencies[] = block
+dependencies[] = comment
+dependencies[] = contextual
+dependencies[] = help
+dependencies[] = image
+dependencies[] = list
+dependencies[] = menu
+dependencies[] = number
+dependencies[] = options
+dependencies[] = path
+dependencies[] = taxonomy
+dependencies[] = dblog
+dependencies[] = search
+dependencies[] = shortcut
+dependencies[] = toolbar
+dependencies[] = field_ui
+dependencies[] = file
+dependencies[] = rdf
+
+; Contrib modules
+dependencies[] = coder
+dependencies[] = coder_review
+dependencies[] = ctools
+dependencies[] = devel
+dependencies[] = devel_generate
+dependencies[] = entity
+dependencies[] = i18n
+dependencies[] = i18n_node
+dependencies[] = i18n_taxonomy
+dependencies[] = jquery_update
+dependencies[] = module_filter
+dependencies[] = page_manager
+dependencies[] = panels
+dependencies[] = panels_ipe
+dependencies[] = search_api
+dependencies[] = search_api_solr
+dependencies[] = search_api_views
+dependencies[] = variable
+dependencies[] = views
+dependencies[] = views_ui

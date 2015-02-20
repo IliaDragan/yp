@@ -1,7 +1,7 @@
 <?php
 /**
  * @file
- * Install, update and uninstall functions for the standard installation profile.
+ * Install, update and uninstall functions for the yellow pages installation profile.
  */
 
 /**
@@ -12,14 +12,13 @@
  * @see system_install()
  */
 function yp_install() {
-
   // Enable user picture support and set the default to a square thumbnail option.
   variable_set('user_pictures', '1');
   variable_set('user_picture_dimensions', '256x256');
   variable_set('user_picture_file_size', '800');
   variable_set('user_picture_style', 'thumbnail');
 
-  // Allow visitor account creation with administrative approval.
+  // Allow visitor account creation.
   variable_set('user_register', USER_REGISTER_VISITORS);
 
   // Enable default permissions for system roles.
@@ -91,7 +90,7 @@ function yp_install() {
       ),
       'file' => 'includes/locale.inc',
       'weight' => '-8',
-      'name' => 'URL',
+      'name' => st('URL'),
       'description' => st('Determine the language from the URL (Path prefix or domain).'),
       'config' => 'admin/config/regional/language/configure/url',
     ),
@@ -101,7 +100,7 @@ function yp_install() {
       ),
       'file' => 'includes/locale.inc',
       'weight' => '-4',
-      'name' => 'User',
+      'name' => st('User'),
       'description' => st('Follow the user\'s language preference.'),
     ),
     LANGUAGE_NEGOTIATION_DEFAULT => array(
@@ -109,7 +108,7 @@ function yp_install() {
         'language' => 'language_from_default',
       ),
       'weight' => '10',
-      'name' => 'Default',
+      'name' => st('Default'),
       'description' => st('Use the default site language (English).'),
     ),
   );

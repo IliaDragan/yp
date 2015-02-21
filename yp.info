@@ -53,3 +53,4 @@ dependencies[] = file_entity
 dependencies[] = media
 dependencies[] = media_youtube
 dependencies[] = font_icons
+dependencies[] = features

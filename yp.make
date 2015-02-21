@@ -60,6 +60,9 @@ projects[file_entity][subdir] = "contrib"
 projects[media_youtube][version] = "2.0-rc4"
 projects[media_youtube][subdir] = "contrib"
 
+projects[features][version] = "2.3"
+projects[features][subdir] = "contrib"
+
 projects[media][type] = "module"
 projects[media][subdir] = "contrib"
 projects[media][download][type] = "git"

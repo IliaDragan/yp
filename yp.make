@@ -38,3 +38,33 @@ projects[variable][subdir] = "contrib"
 
 projects[views][version] = "3.10"
 projects[views][subdir] = "contrib"
+
+projects[socialfield][version] = "1.4"
+projects[socialfield][subdir] = "contrib"
+
+projects[libraries][version] = "2.2"
+projects[libraries][subdir] = "contrib"
+
+projects[date][version] = "2.8"
+projects[date][subdir] = "contrib"
+
+projects[link][version] = "1.3"
+projects[link][subdir] = "contrib"
+
+projects[entityreference][version] = "1.1"
+projects[entityreference][subdir] = "contrib"
+
+projects[file_entity][version] = "2.0-beta1"
+projects[file_entity][subdir] = "contrib"
+
+projects[media_youtube][version] = "2.0-rc4"
+projects[media_youtube][subdir] = "contrib"
+
+projects[features][version] = "2.3"
+projects[features][subdir] = "contrib"
+
+projects[media][type] = "module"
+projects[media][subdir] = "contrib"
+projects[media][download][type] = "git"
+projects[media][download][url] = "http://git.drupal.org/project/media.git"
+projects[media][download][revision] = "199e5013dc9915a3d67d73d681a1db6ba56b63e6"

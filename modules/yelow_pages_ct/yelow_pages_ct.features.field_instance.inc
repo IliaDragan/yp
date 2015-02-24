@@ -51,7 +51,7 @@ function yelow_pages_ct_field_default_field_instances() {
         'summary_rows' => 5,
       ),
       'type' => 'text_textarea_with_summary',
-      'weight' => 1,
+      'weight' => 2,
     ),
   );
 
@@ -91,47 +91,7 @@ function yelow_pages_ct_field_default_field_instances() {
         'size' => 60,
       ),
       'type' => 'text_textfield',
-      'weight' => 3,
-    ),
-  );
-
-  // Exported field_instance: 'node-company-field_company_email'
-  $field_instances['node-company-field_company_email'] = array(
-    'bundle' => 'company',
-    'default_value' => NULL,
-    'deleted' => 0,
-    'description' => '',
-    'display' => array(
-      'default' => array(
-        'label' => 'above',
-        'module' => 'text',
-        'settings' => array(),
-        'type' => 'text_default',
-        'weight' => 3,
-      ),
-      'teaser' => array(
-        'label' => 'above',
-        'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 0,
-      ),
-    ),
-    'entity_type' => 'node',
-    'field_name' => 'field_company_email',
-    'label' => 'Email',
-    'required' => 0,
-    'settings' => array(
-      'text_processing' => 0,
-      'user_register_form' => FALSE,
-    ),
-    'widget' => array(
-      'active' => 1,
-      'module' => 'text',
-      'settings' => array(
-        'size' => 60,
-      ),
-      'type' => 'text_textfield',
-      'weight' => 4,
+      'weight' => 5,
     ),
   );
 
@@ -196,7 +156,7 @@ function yelow_pages_ct_field_default_field_instances() {
         ),
       ),
       'type' => 'media_generic',
-      'weight' => 2,
+      'weight' => 3,
     ),
   );
 
@@ -236,7 +196,7 @@ function yelow_pages_ct_field_default_field_instances() {
         'size' => 60,
       ),
       'type' => 'text_textfield',
-      'weight' => 6,
+      'weight' => 7,
     ),
   );
 
@@ -293,12 +253,51 @@ function yelow_pages_ct_field_default_field_instances() {
       'module' => 'link',
       'settings' => array(),
       'type' => 'link_field',
-      'weight' => 5,
+      'weight' => 6,
     ),
   );
 
-  // Exported field_instance: 'node-company-field_mdb_synch_date'
-  $field_instances['node-company-field_mdb_synch_date'] = array(
+  // Exported field_instance: 'node-company-field_email'
+  $field_instances['node-company-field_email'] = array(
+    'bundle' => 'company',
+    'default_value' => NULL,
+    'deleted' => 0,
+    'description' => '',
+    'display' => array(
+      'default' => array(
+        'label' => 'above',
+        'module' => 'email',
+        'settings' => array(),
+        'type' => 'email_default',
+        'weight' => 13,
+      ),
+      'teaser' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+    ),
+    'entity_type' => 'node',
+    'field_name' => 'field_email',
+    'label' => 'Email',
+    'required' => 0,
+    'settings' => array(
+      'user_register_form' => FALSE,
+    ),
+    'widget' => array(
+      'active' => 1,
+      'module' => 'email',
+      'settings' => array(
+        'size' => 60,
+      ),
+      'type' => 'email_textfield',
+      'weight' => 14,
+    ),
+  );
+
+  // Exported field_instance: 'node-company-field_mdb_sync_date'
+  $field_instances['node-company-field_mdb_sync_date'] = array(
     'bundle' => 'company',
     'deleted' => 0,
     'description' => '',
@@ -314,7 +313,7 @@ function yelow_pages_ct_field_default_field_instances() {
           'multiple_to' => '',
         ),
         'type' => 'date_default',
-        'weight' => 6,
+        'weight' => 14,
       ),
       'teaser' => array(
         'label' => 'above',
@@ -324,11 +323,11 @@ function yelow_pages_ct_field_default_field_instances() {
       ),
     ),
     'entity_type' => 'node',
-    'field_name' => 'field_mdb_synch_date',
-    'label' => 'MDB synch date',
+    'field_name' => 'field_mdb_sync_date',
+    'label' => 'MDB sync date',
     'required' => 0,
     'settings' => array(
-      'default_value' => 'blank',
+      'default_value' => 'now',
       'default_value2' => 'same',
       'default_value_code' => '',
       'default_value_code2' => '',
@@ -345,8 +344,8 @@ function yelow_pages_ct_field_default_field_instances() {
         'text_parts' => array(),
         'year_range' => '-3:+3',
       ),
-      'type' => 'date_popup',
-      'weight' => 7,
+      'type' => 'date_text',
+      'weight' => 15,
     ),
   );
 
@@ -511,59 +510,6 @@ function yelow_pages_ct_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-company-field_update'
-  $field_instances['node-company-field_update'] = array(
-    'bundle' => 'company',
-    'deleted' => 0,
-    'description' => '',
-    'display' => array(
-      'default' => array(
-        'label' => 'above',
-        'module' => 'date',
-        'settings' => array(
-          'format_type' => 'long',
-          'fromto' => 'both',
-          'multiple_from' => '',
-          'multiple_number' => '',
-          'multiple_to' => '',
-        ),
-        'type' => 'date_default',
-        'weight' => 7,
-      ),
-      'teaser' => array(
-        'label' => 'above',
-        'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 0,
-      ),
-    ),
-    'entity_type' => 'node',
-    'field_name' => 'field_update',
-    'label' => 'Update',
-    'required' => 0,
-    'settings' => array(
-      'default_value' => 'now',
-      'default_value2' => 'same',
-      'default_value_code' => '',
-      'default_value_code2' => '',
-      'user_register_form' => FALSE,
-    ),
-    'widget' => array(
-      'active' => 1,
-      'module' => 'date',
-      'settings' => array(
-        'increment' => 15,
-        'input_format' => 'd/m/Y - H:i:s',
-        'input_format_custom' => '',
-        'label_position' => 'above',
-        'text_parts' => array(),
-        'year_range' => '-3:+3',
-      ),
-      'type' => 'date_popup',
-      'weight' => 8,
-    ),
-  );
-
   // Exported field_instance: 'node-company-field_we_buy'
   $field_instances['node-company-field_we_buy'] = array(
     'bundle' => 'company',
@@ -650,13 +596,12 @@ function yelow_pages_ct_field_default_field_instances() {
   t('Description of activity');
   t('Email');
   t('Logo');
-  t('MDB synch date');
+  t('MDB sync date');
   t('Media materials');
   t('Phone numbers');
   t('Price list');
   t('Site');
   t('Social links');
-  t('Update');
   t('We buy');
   t('We sell');
 

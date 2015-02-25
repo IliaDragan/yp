@@ -63,6 +63,9 @@ projects[media_youtube][subdir] = "contrib"
 projects[features][version] = "2.3"
 projects[features][subdir] = "contrib"
 
+projects[email][version] = "1.3"
+projects[email][subdir] = "contrib"
+
 projects[media][type] = "module"
 projects[media][subdir] = "contrib"
 projects[media][download][type] = "git"

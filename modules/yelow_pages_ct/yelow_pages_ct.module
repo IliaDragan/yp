@@ -1,7 +1,0 @@
-<?php
-/**
- * @file
- * Code for the Yelow Pages CT feature.
- */
-
-include_once 'yelow_pages_ct.features.inc';

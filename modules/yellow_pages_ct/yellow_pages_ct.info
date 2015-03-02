@@ -1,9 +1,8 @@
-name = Yelow Pages CT
-description = Content type features for YP
+name = Yellow pages CT
 core = 7.x
 package = YP
 version = 7.x-0.2
-project = yelow_pages_ct
+project = yellow_pages_ct
 dependencies[] = date
 dependencies[] = email
 dependencies[] = entityreference

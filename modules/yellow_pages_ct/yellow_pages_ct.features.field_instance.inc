@@ -1,13 +1,13 @@
 <?php
 /**
  * @file
- * yelow_pages_ct.features.field_instance.inc
+ * yellow_pages_ct.features.field_instance.inc
  */
 
 /**
  * Implements hook_field_default_field_instances().
  */
-function yelow_pages_ct_field_default_field_instances() {
+function yellow_pages_ct_field_default_field_instances() {
   $field_instances = array();
 
   // Exported field_instance: 'node-company-body'

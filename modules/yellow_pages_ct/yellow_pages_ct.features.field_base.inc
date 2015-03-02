@@ -1,13 +1,13 @@
 <?php
 /**
  * @file
- * yelow_pages_ct.features.field_base.inc
+ * yellow_pages_ct.features.field_base.inc
  */
 
 /**
  * Implements hook_field_default_field_bases().
  */
-function yelow_pages_ct_field_default_field_bases() {
+function yellow_pages_ct_field_default_field_bases() {
   $field_bases = array();
 
   // Exported field_base: 'body'

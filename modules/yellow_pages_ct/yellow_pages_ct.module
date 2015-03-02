@@ -1,0 +1,7 @@
+<?php
+/**
+ * @file
+ * Code for the Yellow pages CT feature.
+ */
+
+include_once 'yellow_pages_ct.features.inc';

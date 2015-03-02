@@ -8,21 +8,23 @@ dependencies[] = aggregator
 dependencies[] = block
 dependencies[] = comment
 dependencies[] = contextual
+dependencies[] = dblog
+dependencies[] = field_ui
+dependencies[] = file
 dependencies[] = help
 dependencies[] = image
 dependencies[] = list
+dependencies[] = locale
 dependencies[] = menu
 dependencies[] = number
 dependencies[] = options
 dependencies[] = path
-dependencies[] = taxonomy
-dependencies[] = dblog
+dependencies[] = rdf
 dependencies[] = search
 dependencies[] = shortcut
+dependencies[] = taxonomy
 dependencies[] = toolbar
-dependencies[] = field_ui
-dependencies[] = file
-dependencies[] = rdf
+dependencies[] = translation
 
 ; Contrib modules
 dependencies[] = ckeditor
@@ -50,4 +52,4 @@ dependencies[] = views
 dependencies[] = views_ui
 
 ; Yellow Pages modules
-dependencies[] = yellow_pages_ct
+;dependencies[] = yellow_pages_ct

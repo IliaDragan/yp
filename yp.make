@@ -21,7 +21,7 @@ projects[devel][subdir] = "contrib"
 projects[email][version] = "1.3"
 projects[email][subdir] = "contrib"
 
-projects[entity][version] = "1.5"
+projects[entity][version] = "1.6"
 projects[entity][subdir] = "contrib"
 
 projects[entityreference][version] = "1.1"
@@ -54,7 +54,7 @@ projects[media][download][revision] = "199e5013dc9915a3d67d73d681a1db6ba56b63e6"
 projects[media_youtube][version] = "2.0-rc4"
 projects[media_youtube][subdir] = "contrib"
 
-projects[module_filter][version] = "2.0-alpha2"
+projects[module_filter][version] = "2.0"
 projects[module_filter][subdir] = "contrib"
 
 projects[panels][version] = "3.5"

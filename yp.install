@@ -76,6 +76,9 @@ function yp_install() {
   locale_add_language('ro');
 
   // Set default language detection.
+  require_once DRUPAL_ROOT . '/includes/language.inc';
+  require_once DRUPAL_ROOT . '/includes/locale.inc';
+  require_once DRUPAL_ROOT . '/modules/locale/locale.module';
   $negotation = array(
     LOCALE_LANGUAGE_NEGOTIATION_URL => array(
       'types' => array(

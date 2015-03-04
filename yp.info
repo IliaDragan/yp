@@ -38,6 +38,7 @@ dependencies[] = i18n
 dependencies[] = i18n_node
 dependencies[] = i18n_taxonomy
 dependencies[] = jquery_update
+dependencies[] = l10n_update
 dependencies[] = media
 dependencies[] = module_filter
 dependencies[] = media_youtube

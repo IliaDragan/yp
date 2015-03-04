@@ -36,6 +36,9 @@ projects[file_entity][subdir] = "contrib"
 projects[i18n][version] = "1.12"
 projects[i18n][subdir] = "contrib"
 
+projects[l10n_update][version] = "2.0"
+projects[l10n_update][subdir] = "contrib"
+
 projects[jquery_update][version] = "2.5"
 projects[jquery_update][subdir] = "contrib"
 
@@ -66,11 +69,11 @@ projects[search_api][subdir] = "contrib"
 projects[search_api_solr][version] = "1.6"
 projects[search_api_solr][subdir] = "contrib"
 
+projects[socialfield][version] = "1.4"
+projects[socialfield][subdir] = "contrib"
+
 projects[variable][version] = "2.5"
 projects[variable][subdir] = "contrib"
 
 projects[views][version] = "3.10"
 projects[views][subdir] = "contrib"
-
-projects[socialfield][version] = "1.4"
-projects[socialfield][subdir] = "contrib"

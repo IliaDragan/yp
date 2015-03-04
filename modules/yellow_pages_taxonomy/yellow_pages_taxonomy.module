@@ -1,0 +1,21 @@
+<?php
+/**
+ * @file
+ * Drupal needs this blank file.
+ */
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ */
+function yellow_pages_taxonomy_form_taxonomy_form_term_alter(&$form, &$form_state) {
+  // Hide standard 'description' field.
+  $form['description']['#access'] = FALSE;
+
+  // Unfold related items.
+  $form['relations']['#type'] = 'container';
+  $form['relations']['#collapsible'] = FALSE;
+  $form['relations']['#collapsed'] = FALSE;
+
+  // Change 'parent term' field title.
+  $form['relations']['parent']['#title'] = t('Parent category');
+}

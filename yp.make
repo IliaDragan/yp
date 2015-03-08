@@ -75,6 +75,9 @@ projects[search_api_solr][subdir] = "contrib"
 projects[socialfield][version] = "1.4"
 projects[socialfield][subdir] = "contrib"
 
+projects[strongarm][version] = "2.0"
+projects[strongarm][subdir] = "contrib"
+
 projects[variable][version] = "2.5"
 projects[variable][subdir] = "contrib"
 

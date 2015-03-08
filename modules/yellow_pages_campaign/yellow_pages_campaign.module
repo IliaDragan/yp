@@ -12,3 +12,5 @@ function yellow_pages_campaign_ctools_plugin_directory($owner, $plugin_type) {
     return 'plugins/' . $plugin_type;
   }
 }
+
+include_once 'yellow_pages_campaign.features.inc';

@@ -1,8 +1,9 @@
 name = Yellow Pages Campaign
 description = Create and display campaign and banner blocks.
-version = 7.x-0.1
 core = 7.x
 package = Yellow Pages
+version = 7.x-0.1
+project = yellow_pages_campaign
 dependencies[] = ctools
 dependencies[] = features
 dependencies[] = image

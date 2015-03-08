@@ -1,0 +1,4 @@
+name = Yellow Pages Permissions
+core = 7.x
+package = Yellow Pages
+version = 7.x-0.1

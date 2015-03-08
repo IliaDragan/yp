@@ -1,0 +1,36 @@
+<?php
+/**
+ * @file
+ * Install/uninstall routine for yellow pages permissions.
+ */
+
+/**
+ * Implements hook_install().
+ */
+function yellow_pages_permissions_install() {
+  $roles = array(
+    'global editor',
+    'enterprise editor',
+  );
+
+  foreach ($roles as $role) {
+    $role_object = new stdClass();
+    $role_object->name = $role;
+
+    user_role_save($role_object);
+  }
+}
+
+/**
+ * Implements hook_uninstall().
+ */
+function yellow_pages_permissions_uninstall() {
+  $roles = array(
+    'global editor',
+    'enterprise editor',
+  );
+
+  foreach ($roles as $role) {
+    user_role_delete($role);
+  }
+}

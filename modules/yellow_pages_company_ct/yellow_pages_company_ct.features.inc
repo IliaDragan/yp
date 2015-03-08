@@ -1,13 +1,13 @@
 <?php
 /**
  * @file
- * yelow_pages_ct.features.inc
+ * yellow_pages_company_ct.features.inc
  */
 
 /**
  * Implements hook_node_info().
  */
-function yelow_pages_ct_node_info() {
+function yellow_pages_company_ct_node_info() {
   $items = array(
     'company' => array(
       'name' => t('Company'),

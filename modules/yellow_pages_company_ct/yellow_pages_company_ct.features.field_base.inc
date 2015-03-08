@@ -1,13 +1,13 @@
 <?php
 /**
  * @file
- * yelow_pages_ct.features.field_base.inc
+ * yellow_pages_company_ct.features.field_base.inc
  */
 
 /**
  * Implements hook_field_default_field_bases().
  */
-function yelow_pages_ct_field_default_field_bases() {
+function yellow_pages_company_ct_field_default_field_bases() {
   $field_bases = array();
 
   // Exported field_base: 'body'
@@ -39,33 +39,20 @@ function yelow_pages_ct_field_default_field_bases() {
     'type' => 'text_with_summary',
   );
 
-  // Exported field_base: 'field_company_address'
-  $field_bases['field_company_address'] = array(
+  // Exported field_base: 'field_address'
+  $field_bases['field_address'] = array(
     'active' => 1,
     'cardinality' => 1,
     'deleted' => 0,
     'entity_types' => array(),
-    'field_name' => 'field_company_address',
-    'foreign keys' => array(
-      'format' => array(
-        'columns' => array(
-          'format' => 'format',
-        ),
-        'table' => 'filter_format',
-      ),
-    ),
-    'indexes' => array(
-      'format' => array(
-        0 => 'format',
-      ),
-    ),
+    'field_name' => 'field_address',
+    'foreign keys' => array(),
+    'indexes' => array(),
     'locked' => 0,
-    'module' => 'text',
-    'settings' => array(
-      'max_length' => 255,
-    ),
+    'module' => 'addressfield',
+    'settings' => array(),
     'translatable' => 0,
-    'type' => 'text',
+    'type' => 'addressfield',
   );
 
   // Exported field_base: 'field_company_logo'
@@ -96,35 +83,6 @@ function yelow_pages_ct_field_default_field_bases() {
     ),
     'translatable' => 0,
     'type' => 'image',
-  );
-
-  // Exported field_base: 'field_company_phone_numbers'
-  $field_bases['field_company_phone_numbers'] = array(
-    'active' => 1,
-    'cardinality' => -1,
-    'deleted' => 0,
-    'entity_types' => array(),
-    'field_name' => 'field_company_phone_numbers',
-    'foreign keys' => array(
-      'format' => array(
-        'columns' => array(
-          'format' => 'format',
-        ),
-        'table' => 'filter_format',
-      ),
-    ),
-    'indexes' => array(
-      'format' => array(
-        0 => 'format',
-      ),
-    ),
-    'locked' => 0,
-    'module' => 'text',
-    'settings' => array(
-      'max_length' => 255,
-    ),
-    'translatable' => 0,
-    'type' => 'text',
   );
 
   // Exported field_base: 'field_company_site'
@@ -171,6 +129,115 @@ function yelow_pages_ct_field_default_field_bases() {
     'settings' => array(),
     'translatable' => 0,
     'type' => 'email',
+  );
+
+  // Exported field_base: 'field_fax'
+  $field_bases['field_fax'] = array(
+    'active' => 1,
+    'cardinality' => -1,
+    'deleted' => 0,
+    'entity_types' => array(),
+    'field_name' => 'field_fax',
+    'foreign keys' => array(
+      'format' => array(
+        'columns' => array(
+          'format' => 'format',
+        ),
+        'table' => 'filter_format',
+      ),
+    ),
+    'indexes' => array(
+      'format' => array(
+        0 => 'format',
+      ),
+    ),
+    'locked' => 0,
+    'module' => 'text',
+    'settings' => array(
+      'max_length' => 255,
+    ),
+    'translatable' => 0,
+    'type' => 'text',
+  );
+
+  // Exported field_base: 'field_geocode'
+  $field_bases['field_geocode'] = array(
+    'active' => 1,
+    'cardinality' => 1,
+    'deleted' => 0,
+    'entity_types' => array(),
+    'field_name' => 'field_geocode',
+    'foreign keys' => array(),
+    'indexes' => array(
+      'bbox' => array(
+        0 => 'top',
+        1 => 'bottom',
+        2 => 'left',
+        3 => 'right',
+      ),
+      'bottom' => array(
+        0 => 'bottom',
+      ),
+      'centroid' => array(
+        0 => 'lat',
+        1 => 'lon',
+      ),
+      'geohash' => array(
+        0 => 'geohash',
+      ),
+      'lat' => array(
+        0 => 'lat',
+      ),
+      'left' => array(
+        0 => 'left',
+      ),
+      'lon' => array(
+        0 => 'lon',
+      ),
+      'right' => array(
+        0 => 'right',
+      ),
+      'top' => array(
+        0 => 'top',
+      ),
+    ),
+    'locked' => 0,
+    'module' => 'geofield',
+    'settings' => array(
+      'backend' => 'default',
+      'srid' => 4326,
+    ),
+    'translatable' => 0,
+    'type' => 'geofield',
+  );
+
+  // Exported field_base: 'field_landline_phone'
+  $field_bases['field_landline_phone'] = array(
+    'active' => 1,
+    'cardinality' => -1,
+    'deleted' => 0,
+    'entity_types' => array(),
+    'field_name' => 'field_landline_phone',
+    'foreign keys' => array(
+      'format' => array(
+        'columns' => array(
+          'format' => 'format',
+        ),
+        'table' => 'filter_format',
+      ),
+    ),
+    'indexes' => array(
+      'format' => array(
+        0 => 'format',
+      ),
+    ),
+    'locked' => 0,
+    'module' => 'text',
+    'settings' => array(
+      'max_length' => 255,
+    ),
+    'translatable' => 0,
+    'type' => 'text',
   );
 
   // Exported field_base: 'field_mdb_sync_date'
@@ -228,6 +295,35 @@ function yelow_pages_ct_field_default_field_bases() {
     'settings' => array(),
     'translatable' => 0,
     'type' => 'media',
+  );
+
+  // Exported field_base: 'field_mobile_phone'
+  $field_bases['field_mobile_phone'] = array(
+    'active' => 1,
+    'cardinality' => -1,
+    'deleted' => 0,
+    'entity_types' => array(),
+    'field_name' => 'field_mobile_phone',
+    'foreign keys' => array(
+      'format' => array(
+        'columns' => array(
+          'format' => 'format',
+        ),
+        'table' => 'filter_format',
+      ),
+    ),
+    'indexes' => array(
+      'format' => array(
+        0 => 'format',
+      ),
+    ),
+    'locked' => 0,
+    'module' => 'text',
+    'settings' => array(
+      'max_length' => 255,
+    ),
+    'translatable' => 0,
+    'type' => 'text',
   );
 
   // Exported field_base: 'field_price_list'

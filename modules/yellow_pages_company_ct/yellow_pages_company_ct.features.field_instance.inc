@@ -1,13 +1,13 @@
 <?php
 /**
  * @file
- * yelow_pages_ct.features.field_instance.inc
+ * yellow_pages_company_ct.features.field_instance.inc
  */
 
 /**
  * Implements hook_field_default_field_instances().
  */
-function yelow_pages_ct_field_default_field_instances() {
+function yellow_pages_company_ct_field_default_field_instances() {
   $field_instances = array();
 
   // Exported field_instance: 'node-company-body'
@@ -18,6 +18,13 @@ function yelow_pages_ct_field_default_field_instances() {
     'description' => '',
     'display' => array(
       'default' => array(
+        'label' => 'hidden',
+        'module' => 'text',
+        'settings' => array(),
+        'type' => 'text_default',
+        'weight' => 0,
+      ),
+      'search_index' => array(
         'label' => 'hidden',
         'module' => 'text',
         'settings' => array(),
@@ -51,12 +58,12 @@ function yelow_pages_ct_field_default_field_instances() {
         'summary_rows' => 5,
       ),
       'type' => 'text_textarea_with_summary',
-      'weight' => 2,
+      'weight' => 3,
     ),
   );
 
-  // Exported field_instance: 'node-company-field_company_address'
-  $field_instances['node-company-field_company_address'] = array(
+  // Exported field_instance: 'node-company-field_address'
+  $field_instances['node-company-field_address'] = array(
     'bundle' => 'company',
     'default_value' => NULL,
     'deleted' => 0,
@@ -64,10 +71,27 @@ function yelow_pages_ct_field_default_field_instances() {
     'display' => array(
       'default' => array(
         'label' => 'above',
-        'module' => 'text',
-        'settings' => array(),
-        'type' => 'text_default',
-        'weight' => 2,
+        'module' => 'addressfield',
+        'settings' => array(
+          'format_handlers' => array(
+            0 => 'address',
+          ),
+          'use_widget_handlers' => 1,
+        ),
+        'type' => 'addressfield_default',
+        'weight' => 15,
+      ),
+      'search_index' => array(
+        'label' => 'hidden',
+        'module' => 'addressfield',
+        'settings' => array(
+          'format_handlers' => array(
+            'address' => 'address',
+          ),
+          'use_widget_handlers' => 1,
+        ),
+        'type' => 'addressfield_default',
+        'weight' => 5,
       ),
       'teaser' => array(
         'label' => 'above',
@@ -77,21 +101,34 @@ function yelow_pages_ct_field_default_field_instances() {
       ),
     ),
     'entity_type' => 'node',
-    'field_name' => 'field_company_address',
+    'field_name' => 'field_address',
     'label' => 'Address',
     'required' => 0,
     'settings' => array(
-      'text_processing' => 0,
       'user_register_form' => FALSE,
     ),
     'widget' => array(
       'active' => 1,
-      'module' => 'text',
+      'module' => 'addressfield',
       'settings' => array(
-        'size' => 60,
+        'available_countries' => array(
+          'MD' => 'MD',
+        ),
+        'default_country' => 'MD',
+        'format_handlers' => array(
+          'address' => 'address',
+          'phone' => 0,
+          'address-hide-postal-code' => 0,
+          'address-hide-street' => 0,
+          'address-hide-country' => 0,
+          'organisation' => 0,
+          'name-full' => 0,
+          'name-oneline' => 0,
+          'address-optional' => 0,
+        ),
       ),
-      'type' => 'text_textfield',
-      'weight' => 5,
+      'type' => 'addressfield_standard',
+      'weight' => 12,
     ),
   );
 
@@ -103,6 +140,16 @@ function yelow_pages_ct_field_default_field_instances() {
     'display' => array(
       'default' => array(
         'label' => 'above',
+        'module' => 'image',
+        'settings' => array(
+          'image_link' => '',
+          'image_style' => '',
+        ),
+        'type' => 'image',
+        'weight' => 1,
+      ),
+      'search_index' => array(
+        'label' => 'hidden',
         'module' => 'image',
         'settings' => array(
           'image_link' => '',
@@ -156,47 +203,7 @@ function yelow_pages_ct_field_default_field_instances() {
         ),
       ),
       'type' => 'media_generic',
-      'weight' => 3,
-    ),
-  );
-
-  // Exported field_instance: 'node-company-field_company_phone_numbers'
-  $field_instances['node-company-field_company_phone_numbers'] = array(
-    'bundle' => 'company',
-    'default_value' => NULL,
-    'deleted' => 0,
-    'description' => '',
-    'display' => array(
-      'default' => array(
-        'label' => 'above',
-        'module' => 'text',
-        'settings' => array(),
-        'type' => 'text_default',
-        'weight' => 5,
-      ),
-      'teaser' => array(
-        'label' => 'above',
-        'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 0,
-      ),
-    ),
-    'entity_type' => 'node',
-    'field_name' => 'field_company_phone_numbers',
-    'label' => 'Phone numbers',
-    'required' => 0,
-    'settings' => array(
-      'text_processing' => 0,
-      'user_register_form' => FALSE,
-    ),
-    'widget' => array(
-      'active' => 1,
-      'module' => 'text',
-      'settings' => array(
-        'size' => 60,
-      ),
-      'type' => 'text_textfield',
-      'weight' => 7,
+      'weight' => 2,
     ),
   );
 
@@ -214,6 +221,12 @@ function yelow_pages_ct_field_default_field_instances() {
         'type' => 'link_default',
         'weight' => 4,
       ),
+      'search_index' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 7,
+      ),
       'teaser' => array(
         'label' => 'above',
         'settings' => array(),
@@ -223,7 +236,7 @@ function yelow_pages_ct_field_default_field_instances() {
     ),
     'entity_type' => 'node',
     'field_name' => 'field_company_site',
-    'label' => 'Site',
+    'label' => 'Site URL',
     'required' => 0,
     'settings' => array(
       'absolute_url' => 1,
@@ -240,7 +253,7 @@ function yelow_pages_ct_field_default_field_instances() {
       ),
       'enable_tokens' => 1,
       'rel_remove' => 'default',
-      'title' => 'optional',
+      'title' => 'none',
       'title_label_use_field_label' => 0,
       'title_maxlength' => 128,
       'title_value' => '',
@@ -271,6 +284,13 @@ function yelow_pages_ct_field_default_field_instances() {
         'type' => 'email_default',
         'weight' => 13,
       ),
+      'search_index' => array(
+        'label' => 'hidden',
+        'module' => 'email',
+        'settings' => array(),
+        'type' => 'email_default',
+        'weight' => 4,
+      ),
       'teaser' => array(
         'label' => 'above',
         'settings' => array(),
@@ -292,6 +312,204 @@ function yelow_pages_ct_field_default_field_instances() {
         'size' => 60,
       ),
       'type' => 'email_textfield',
+      'weight' => 10,
+    ),
+  );
+
+  // Exported field_instance: 'node-company-field_fax'
+  $field_instances['node-company-field_fax'] = array(
+    'bundle' => 'company',
+    'default_value' => NULL,
+    'deleted' => 0,
+    'description' => '',
+    'display' => array(
+      'default' => array(
+        'label' => 'above',
+        'module' => 'text',
+        'settings' => array(),
+        'type' => 'text_default',
+        'weight' => 19,
+      ),
+      'search_index' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+      'teaser' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+    ),
+    'entity_type' => 'node',
+    'field_name' => 'field_fax',
+    'label' => 'Fax',
+    'required' => 0,
+    'settings' => array(
+      'text_processing' => 0,
+      'user_register_form' => FALSE,
+    ),
+    'widget' => array(
+      'active' => 1,
+      'module' => 'text',
+      'settings' => array(
+        'size' => 60,
+      ),
+      'type' => 'text_textfield',
+      'weight' => 15,
+    ),
+  );
+
+  // Exported field_instance: 'node-company-field_geocode'
+  $field_instances['node-company-field_geocode'] = array(
+    'bundle' => 'company',
+    'deleted' => 0,
+    'description' => '',
+    'display' => array(
+      'default' => array(
+        'label' => 'above',
+        'module' => 'leaflet',
+        'settings' => array(
+          'height' => 400,
+          'icon' => array(
+            'html' => '',
+            'htmlClass' => '',
+            'iconAnchor' => array(
+              'x' => '',
+              'y' => '',
+            ),
+            'iconImageStyle' => '',
+            'iconSize' => array(
+              'x' => '',
+              'y' => '',
+            ),
+            'iconType' => 'marker',
+            'iconUrl' => '',
+            'popupAnchor' => array(
+              'x' => '',
+              'y' => '',
+            ),
+            'shadowAnchor' => array(
+              'x' => '',
+              'y' => '',
+            ),
+            'shadowUrl' => '',
+          ),
+          'leaflet_map' => 'OSM Mapnik',
+          'popup' => array(
+            'show' => 0,
+            'text' => '',
+          ),
+          'vector_display' => array(
+            'clickable' => 0,
+            'color' => '',
+            'dashArray' => '',
+            'fill' => 0,
+            'fillColor' => '',
+            'fillOpacity' => '',
+            'opacity' => '',
+            'stroke' => 0,
+            'stroke_override' => 0,
+            'weight' => '',
+          ),
+          'zoom' => array(
+            'initialZoom' => -1,
+            'maxZoom' => -1,
+            'minZoom' => 1,
+          ),
+        ),
+        'type' => 'geofield_leaflet',
+        'weight' => 16,
+      ),
+      'search_index' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+      'teaser' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+    ),
+    'entity_type' => 'node',
+    'field_name' => 'field_geocode',
+    'label' => 'Geocode',
+    'required' => 0,
+    'settings' => array(
+      'user_register_form' => FALSE,
+    ),
+    'widget' => array(
+      'active' => 1,
+      'module' => 'geocoder',
+      'settings' => array(
+        'delta_handling' => 'default',
+        'geocoder_field' => 'field_address',
+        'geocoder_handler' => 'google',
+        'handler_settings' => array(
+          'google' => array(
+            'all_results' => 0,
+            'geometry_type' => 'point',
+            'reject_results' => array(
+              'APPROXIMATE' => 0,
+              'GEOMETRIC_CENTER' => 0,
+              'RANGE_INTERPOLATED' => 0,
+              'ROOFTOP' => 0,
+            ),
+          ),
+        ),
+      ),
+      'type' => 'geocoder',
+      'weight' => 13,
+    ),
+  );
+
+  // Exported field_instance: 'node-company-field_landline_phone'
+  $field_instances['node-company-field_landline_phone'] = array(
+    'bundle' => 'company',
+    'default_value' => NULL,
+    'deleted' => 0,
+    'description' => '',
+    'display' => array(
+      'default' => array(
+        'label' => 'above',
+        'module' => 'text',
+        'settings' => array(),
+        'type' => 'text_default',
+        'weight' => 18,
+      ),
+      'search_index' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+      'teaser' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+    ),
+    'entity_type' => 'node',
+    'field_name' => 'field_landline_phone',
+    'label' => 'Landline phone',
+    'required' => 0,
+    'settings' => array(
+      'text_processing' => 0,
+      'user_register_form' => FALSE,
+    ),
+    'widget' => array(
+      'active' => 1,
+      'module' => 'text',
+      'settings' => array(
+        'size' => 60,
+      ),
+      'type' => 'text_textfield',
       'weight' => 14,
     ),
   );
@@ -314,6 +532,12 @@ function yelow_pages_ct_field_default_field_instances() {
         ),
         'type' => 'date_default',
         'weight' => 14,
+      ),
+      'search_index' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 12,
       ),
       'teaser' => array(
         'label' => 'above',
@@ -345,7 +569,7 @@ function yelow_pages_ct_field_default_field_instances() {
         'year_range' => '-3:+3',
       ),
       'type' => 'date_text',
-      'weight' => 15,
+      'weight' => 11,
     ),
   );
 
@@ -362,6 +586,12 @@ function yelow_pages_ct_field_default_field_instances() {
           'file_view_mode' => 'default',
         ),
         'type' => 'media',
+        'weight' => 8,
+      ),
+      'search_index' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
         'weight' => 8,
       ),
       'teaser' => array(
@@ -402,7 +632,53 @@ function yelow_pages_ct_field_default_field_instances() {
         ),
       ),
       'type' => 'media_generic',
-      'weight' => 9,
+      'weight' => 7,
+    ),
+  );
+
+  // Exported field_instance: 'node-company-field_mobile_phone'
+  $field_instances['node-company-field_mobile_phone'] = array(
+    'bundle' => 'company',
+    'default_value' => NULL,
+    'deleted' => 0,
+    'description' => '',
+    'display' => array(
+      'default' => array(
+        'label' => 'above',
+        'module' => 'text',
+        'settings' => array(),
+        'type' => 'text_default',
+        'weight' => 17,
+      ),
+      'search_index' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+      'teaser' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+    ),
+    'entity_type' => 'node',
+    'field_name' => 'field_mobile_phone',
+    'label' => 'Mobile phone',
+    'required' => 0,
+    'settings' => array(
+      'text_processing' => 0,
+      'user_register_form' => FALSE,
+    ),
+    'widget' => array(
+      'active' => 1,
+      'module' => 'text',
+      'settings' => array(
+        'size' => 60,
+      ),
+      'type' => 'text_textfield',
+      'weight' => 16,
     ),
   );
 
@@ -419,6 +695,12 @@ function yelow_pages_ct_field_default_field_instances() {
           'file_view_mode' => 'default',
         ),
         'type' => 'media',
+        'weight' => 9,
+      ),
+      'search_index' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
         'weight' => 9,
       ),
       'teaser' => array(
@@ -459,7 +741,7 @@ function yelow_pages_ct_field_default_field_instances() {
         ),
       ),
       'type' => 'media_generic',
-      'weight' => 10,
+      'weight' => 8,
     ),
   );
 
@@ -478,6 +760,15 @@ function yelow_pages_ct_field_default_field_instances() {
         ),
         'type' => 'socialfield_formatter',
         'weight' => 12,
+      ),
+      'search_index' => array(
+        'label' => 'hidden',
+        'module' => 'socialfield',
+        'settings' => array(
+          'link_text' => FALSE,
+        ),
+        'type' => 'socialfield_formatter',
+        'weight' => 3,
       ),
       'teaser' => array(
         'label' => 'above',
@@ -506,7 +797,7 @@ function yelow_pages_ct_field_default_field_instances() {
       'module' => 'socialfield',
       'settings' => array(),
       'type' => 'socialfield_widget',
-      'weight' => 13,
+      'weight' => 9,
     ),
   );
 
@@ -522,6 +813,12 @@ function yelow_pages_ct_field_default_field_instances() {
         'module' => 'text',
         'settings' => array(),
         'type' => 'text_default',
+        'weight' => 10,
+      ),
+      'search_index' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
         'weight' => 10,
       ),
       'teaser' => array(
@@ -546,7 +843,7 @@ function yelow_pages_ct_field_default_field_instances() {
         'rows' => 5,
       ),
       'type' => 'text_textarea',
-      'weight' => 11,
+      'weight' => 4,
     ),
   );
 
@@ -562,6 +859,12 @@ function yelow_pages_ct_field_default_field_instances() {
         'module' => 'text',
         'settings' => array(),
         'type' => 'text_default',
+        'weight' => 11,
+      ),
+      'search_index' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
         'weight' => 11,
       ),
       'teaser' => array(
@@ -586,7 +889,7 @@ function yelow_pages_ct_field_default_field_instances() {
         'rows' => 5,
       ),
       'type' => 'text_textarea',
-      'weight' => 12,
+      'weight' => 5,
     ),
   );
 
@@ -595,12 +898,15 @@ function yelow_pages_ct_field_default_field_instances() {
   t('Address');
   t('Description of activity');
   t('Email');
+  t('Fax');
+  t('Geocode');
+  t('Landline phone');
   t('Logo');
   t('MDB sync date');
   t('Media materials');
-  t('Phone numbers');
+  t('Mobile phone');
   t('Price list');
-  t('Site');
+  t('Site URL');
   t('Social links');
   t('We buy');
   t('We sell');

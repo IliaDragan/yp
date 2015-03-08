@@ -3,6 +3,9 @@ core = 7.x
 api = 2
 
 ; Contrib modules
+projects[addressfield][version] = "1.0"
+projects[addressfield][subdir] = "contrib"
+
 projects[ckeditor][version] = "1.16"
 projects[ckeditor][subdir] = "contrib"
 
@@ -33,6 +36,12 @@ projects[features][subdir] = "contrib"
 projects[file_entity][version] = "2.0-beta1"
 projects[file_entity][subdir] = "contrib"
 
+projects[geocoder][version] = "1.2"
+projects[geocoder][subdir] = "contrib"
+
+projects[geofield][version] = "2.3"
+projects[geofield][subdir] = "contrib"
+
 projects[i18n][version] = "1.12"
 projects[i18n][subdir] = "contrib"
 
@@ -41,6 +50,9 @@ projects[l10n_update][subdir] = "contrib"
 
 projects[jquery_update][version] = "2.5"
 projects[jquery_update][subdir] = "contrib"
+
+projects[leaflet][version] = "1.1"
+projects[leaflet][subdir] = "contrib"
 
 projects[libraries][version] = "2.2"
 projects[libraries][subdir] = "contrib"
@@ -77,3 +89,9 @@ projects[variable][subdir] = "contrib"
 
 projects[views][version] = "3.10"
 projects[views][subdir] = "contrib"
+
+; Libraries
+libraries[leaflet][destination]    = "libraries"
+libraries[leaflet][directory_name] = "leaflet"
+libraries[leaflet][download][type] = "get"
+libraries[leaflet][download][url]  = "http://leaflet-cdn.s3.amazonaws.com/build/leaflet-0.7.3.zip"

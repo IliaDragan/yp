@@ -63,6 +63,9 @@ projects[module_filter][subdir] = "contrib"
 projects[panels][version] = "3.5"
 projects[panels][subdir] = "contrib"
 
+projects[scheduler][version] = "1.3"
+projects[scheduler][subdir] = "contrib"
+
 projects[search_api][version] = "1.14"
 projects[search_api][subdir] = "contrib"
 

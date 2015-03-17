@@ -40,6 +40,32 @@ function yellow_pages_campaign_field_default_field_bases() {
     'type' => 'image',
   );
 
+  // Exported field_base: 'field_ad_size'
+  $field_bases['field_ad_size'] = array(
+    'active' => 1,
+    'cardinality' => 1,
+    'deleted' => 0,
+    'entity_types' => array(),
+    'field_name' => 'field_ad_size',
+    'foreign keys' => array(),
+    'indexes' => array(
+      'value' => array(
+        0 => 'value',
+      ),
+    ),
+    'locked' => 0,
+    'module' => 'list',
+    'settings' => array(
+      'allowed_values' => array(
+        'top_wide' => 'Top wide',
+        'side_square' => 'Side square',
+      ),
+      'allowed_values_function' => '',
+    ),
+    'translatable' => 0,
+    'type' => 'list_text',
+  );
+
   // Exported field_base: 'field_ad_type'
   $field_bases['field_ad_type'] = array(
     'active' => 1,

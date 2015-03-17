@@ -4,6 +4,8 @@
  * Manage Yellow Pages campaign and banner blocks.
  */
 
+include_once 'yellow_pages_campaign.features.inc';
+
 /**
  * Implements hook_ctools_plugin_directory().
  */
@@ -13,4 +15,190 @@ function yellow_pages_campaign_ctools_plugin_directory($owner, $plugin_type) {
   }
 }
 
-include_once 'yellow_pages_campaign.features.inc';
+/**
+ * Fetch nodes by type.
+ *
+ * @param string $type
+ *   The type of banner/campaign.
+ * @param int $count
+ *   Number of nodes to fetch.
+ * @param int $offset
+ *   Skip this amount of nodes.
+ *
+ * @return Array|boolean
+ *   An array with node objects, FALSE on failure.
+ */
+function yellow_pages_campaign_get_content($type = 'side_square', $count = 1, $offset = 1) {
+  $query = new EntityFieldQuery();
+  $query->entityCondition('entity_type', 'node')
+    ->entityCondition('bundle', 'advertisement')
+    ->propertyCondition('status', NODE_PUBLISHED)
+    ->fieldCondition('field_ad_size', 'value', $type, '=')
+    ->range($offset, $count);
+  $result = $query->execute();
+
+  if (isset($result['node'])) {
+    $nids = array_keys($result['node']);
+    $nodes = entity_load('node', $nids);
+
+    return $nodes;
+  }
+
+  return FALSE;
+}
+
+/**
+ * Theme wrapper for ad markup.
+ *
+ * @param array $nodes
+ *   Set of nodes to generate markup from.
+ *
+ * @return string
+ *   HTML markup.
+ */
+function yellow_pages_campaign_create_markup(array $nodes) {
+  $ad_markup = array();
+  foreach ($nodes as $node) {
+    $ad_markup[] = theme('yp_ad', array('node' => $node));
+  }
+
+  return implode('', $ad_markup);
+}
+
+/**
+ * Implements hook_theme().
+ */
+function yellow_pages_campaign_theme($existing, $type, $theme, $path) {
+  $hooks = array();
+
+  $hooks['yp_ad'] = array(
+    'variables' => array(),
+    'template' => 'yellow_pages-ad',
+    'path' => $path . '/templates',
+  );
+
+  return $hooks;
+}
+
+/**
+ * Implements hook_preprocess_HOOK().
+ *
+ * Prepare variables for the ad template.
+ */
+function yellow_pages_campaign_preprocess_yp_ad(&$variables) {
+  $classes = array('yellow-pages-campaign');
+  $node = $variables['node'];
+  $entity = entity_metadata_wrapper('node', $node);
+
+  $size = $entity->field_ad_size->value();
+  $image_style = yellow_pages_campaign_image_style($size);
+  if (!$image_style) {
+    return;
+  }
+
+  $link = $entity->field_ad_url->value();
+  $image_tag = theme_image_style(array(
+    'style_name' => $image_style,
+    'path' => $entity->field_ad_image->value()['uri'],
+    'width' => '',
+    'height' => '',
+    'alt' => '',
+    'title' => $link['title'],
+    'attributes' => array(),
+  ));
+
+  $link_tag = l($image_tag, $link['url'], array('html' => TRUE,
+    'attributes' => array(
+      'target' => '_blank',
+    ),
+  ));
+
+  $classes[] = drupal_html_class($size);
+  $variables['additional_classes'] = implode(' ', $classes);
+  $variables['ad_markup'] = $link_tag;
+}
+
+/**
+ * Render callback for the ctools plugin.
+ */
+function yellow_pages_campaign_ad_render($subtype, $conf, $args, $context) {
+  $block = new stdClass();
+
+  $offset = isset($conf['offset']) ? $conf['offset'] : 1;
+  $amount = isset($conf['amount']) ? $conf['amount'] : 3;
+
+  $content = yellow_pages_campaign_get_content($subtype, $amount, --$offset);
+  $markup = '';
+  if (is_array($content)) {
+    $markup = yellow_pages_campaign_create_markup($content);
+  }
+
+  $block->content = $markup;
+
+  return $block;
+}
+
+/**
+ * Map ad types/sizes with image styles.
+ *
+ * @param string $type
+ *   Type identifier.
+ *
+ * @return string|boolean
+ *   Specific image style, or FALSE when no map found.
+ */
+function yellow_pages_campaign_image_style($type = 'side_square') {
+  $map = array(
+    'side_square' => 'advertisement_square',
+    'top_wide' => 'advertisement_wide',
+  );
+
+  return isset($map[$type]) ? $map[$type] : FALSE;
+}
+
+/**
+ * CTools plugin edit form definition.
+ */
+function yellow_pages_campaign_ad_render_edit_form($form, &$form_state) {
+  $conf = $form_state['conf'];
+
+  $form['offset'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Offset'),
+    '#description' => t('Start from this entry'),
+    '#default_value' => isset($conf['offset']) ? $conf['offset'] : 1,
+    '#element_validate' => array('element_validate_integer_positive'),
+    '#size' => 3,
+  );
+
+  $form['amount'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Amount'),
+    '#description' => t('Show this amount of entries'),
+    '#default_value' => isset($conf['amount']) ? $conf['amount'] : 3,
+    '#element_validate' => array('element_validate_integer_positive'),
+    '#size' => 3,
+  );
+
+
+  return $form;
+}
+
+/**
+ * Custom submit handler for CTools form definition.
+ *
+ * @see yellow_pages_campaign_ad_render_edit_form()
+ */
+function yellow_pages_campaign_ad_render_edit_form_submit($form, &$form_state) {
+  $fields = array(
+    'offset',
+    'amount',
+  );
+  $input = $form_state['input'];
+
+  foreach ($fields as $field) {
+    if (isset($input[$field])) {
+      $form_state['conf'][$field] = $input[$field];
+    }
+  }
+}

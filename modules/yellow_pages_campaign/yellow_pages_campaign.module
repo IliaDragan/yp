@@ -59,7 +59,7 @@ function yellow_pages_campaign_get_content($type = 'side_square', $count = 1, $o
 function yellow_pages_campaign_create_markup(array $nodes) {
   $ad_markup = array();
   foreach ($nodes as $node) {
-    $render = node_view($node, 'default');
+    $render = node_view($node, 'full');
     $ad_markup[] = drupal_render($render);
   }
 
@@ -72,19 +72,28 @@ function yellow_pages_campaign_create_markup(array $nodes) {
 function yellow_pages_campaign_theme($existing, $type, $theme, $path) {
   $hooks = array();
 
-  $hooks['node__advertisement'] = array(
-    'render element' => 'content',
-    'base hook' => 'node',
-    'template' => 'node--advertisement',
+  $hooks['yp__node__advertisement'] = array(
+    'template' => 'yp--node--advertisement',
     'path' => $path . '/templates',
   );
 
   return $hooks;
 }
 
+/**
+ * Implements hook_preprocess_HOOK().
+ *
+ * Alter the way campaign content is shown.
+ */
 function yellow_pages_campaign_preprocess_node(&$variables) {
+  $elements = $variables['elements'];
+
+  if ($elements['#view_mode'] != 'full') {
+    return;
+  }
+
   $classes = array('yellow-pages-campaign');
-  $node = $variables['elements']['#node'];
+  $node = $elements['#node'];
   $entity = entity_metadata_wrapper('node', $node);
 
   $size = $entity->field_ad_size->value();
@@ -113,6 +122,7 @@ function yellow_pages_campaign_preprocess_node(&$variables) {
   $classes[] = drupal_html_class($size);
   $variables['additional_classes'] = implode(' ', $classes);
   $variables['ad_markup'] = $link_tag;
+  $variables['theme_hook_suggestions'][] = 'yp__node__advertisement';
 }
 
 /**

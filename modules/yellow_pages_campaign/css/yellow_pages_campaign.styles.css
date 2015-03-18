@@ -1,0 +1,8 @@
+.yellow-pages-rules-table .yellow-pages-rule-row td {
+	width: 50%;
+}
+
+.yellow-pages-rules-table .yellow-pages-rule-row td select,
+.yellow-pages-rules-table .yellow-pages-rule-row td input {
+	width: 95%;
+}

@@ -16,6 +16,42 @@ function yellow_pages_campaign_ctools_plugin_directory($owner, $plugin_type) {
 }
 
 /**
+ * Implements hook_menu().
+ */
+function yellow_pages_campaign_menu() {
+  $menu = array();
+
+  $menu['node/%node/rules'] = array(
+    'title' => 'Display rules',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('yellow_pages_campaign_node_rules_form', 1),
+    'access callback' => 'yellow_pages_campaign_node_rules_access',
+    'access arguments' => array(1),
+    'type' => MENU_LOCAL_TASK,
+    'file' => 'yellow_pages_campaign.rules.inc',
+  );
+
+  return $menu;
+}
+
+/**
+ * Custom access callback for the campaign rules page.
+ *
+ * Limits rules tab only for campaign type ad's.
+ *
+ * @see yellow_pages_campaign_menu()
+ */
+function yellow_pages_campaign_node_rules_access($node) {
+  $entity = entity_metadata_wrapper('node', $node);
+
+  if ($entity->field_ad_type->value() != 'campaign') {
+    return FALSE;
+  }
+
+  return TRUE;
+}
+
+/**
  * Fetch nodes by type.
  *
  * @param string $type
@@ -28,12 +64,14 @@ function yellow_pages_campaign_ctools_plugin_directory($owner, $plugin_type) {
  * @return Array|boolean
  *   An array with node objects, FALSE on failure.
  */
-function yellow_pages_campaign_get_content($type = 'side_square', $count = 1, $offset = 1) {
+function yellow_pages_campaign_get_content($type = 'banner', $size = 'side_square', $count = 1, $offset = 1) {
   $query = new EntityFieldQuery();
-  $query->entityCondition('entity_type', 'node')
+  $query
+    ->entityCondition('entity_type', 'node')
     ->entityCondition('bundle', 'advertisement')
     ->propertyCondition('status', NODE_PUBLISHED)
-    ->fieldCondition('field_ad_size', 'value', $type, '=')
+    ->fieldCondition('field_ad_size', 'value', $size, '=')
+    ->fieldCondition('field_ad_type', 'value', $type, '=')
     ->range($offset, $count);
   $result = $query->execute();
 
@@ -77,6 +115,10 @@ function yellow_pages_campaign_theme($existing, $type, $theme, $path) {
     'path' => $path . '/templates',
   );
 
+  $hooks['yp_campaign_rule_element'] = array(
+    'render element' => 'element',
+  );
+
   return $hooks;
 }
 
@@ -92,12 +134,11 @@ function yellow_pages_campaign_preprocess_node(&$variables) {
     return;
   }
 
-  $classes = array('yellow-pages-campaign');
+  $classes = array('yellow-pages-advert');
   $node = $elements['#node'];
   $entity = entity_metadata_wrapper('node', $node);
 
-  $size = $entity->field_ad_size->value();
-  $image_style = yellow_pages_campaign_image_style($size);
+  $image_style = yellow_pages_campaign_image_style($entity->field_ad_size->value());
   if (!$image_style) {
     return;
   }
@@ -113,13 +154,15 @@ function yellow_pages_campaign_preprocess_node(&$variables) {
     'attributes' => array(),
   ));
 
-  $link_tag = l($image_tag, $link['url'], array('html' => TRUE,
+  $link_tag = l($image_tag, $link['url'], array(
+    'html' => TRUE,
     'attributes' => array(
       'target' => '_blank',
     ),
   ));
 
-  $classes[] = drupal_html_class($size);
+  $classes[] = drupal_html_class($entity->field_ad_size->value());
+  $classes[] = drupal_html_class($entity->field_ad_type->value());
   $variables['additional_classes'] = implode(' ', $classes);
   $variables['ad_markup'] = $link_tag;
   $variables['theme_hook_suggestions'][] = 'yp__node__advertisement';
@@ -133,8 +176,9 @@ function yellow_pages_campaign_ad_render($subtype, $conf, $args, $context) {
 
   $offset = isset($conf['offset']) ? $conf['offset'] : 1;
   $amount = isset($conf['amount']) ? $conf['amount'] : 3;
+  $type = isset($conf['type']) ? $conf['type'] : 'banner';
 
-  $content = yellow_pages_campaign_get_content($subtype, $amount, --$offset);
+  $content = yellow_pages_campaign_get_content($type, $subtype, $amount, --$offset);
   $markup = '';
   if (is_array($content)) {
     $markup = yellow_pages_campaign_create_markup($content);
@@ -169,6 +213,17 @@ function yellow_pages_campaign_image_style($type = 'side_square') {
 function yellow_pages_campaign_ad_render_edit_form($form, &$form_state) {
   $conf = $form_state['conf'];
 
+  $form['type'] = array(
+    '#type' => 'select',
+    '#title' => t('Type'),
+    '#options' => array(
+      'banner' => t('Banner'),
+      'campaign' => t('Campaign'),
+    ),
+    '#description' => t('Show this type of advertisement'),
+    '#default_value' => isset($conf['type']) ? $conf['type'] : 'banner',
+  );
+
   $form['offset'] = array(
     '#type' => 'textfield',
     '#title' => t('Offset'),
@@ -198,6 +253,7 @@ function yellow_pages_campaign_ad_render_edit_form($form, &$form_state) {
  */
 function yellow_pages_campaign_ad_render_edit_form_submit($form, &$form_state) {
   $fields = array(
+    'type',
     'offset',
     'amount',
   );

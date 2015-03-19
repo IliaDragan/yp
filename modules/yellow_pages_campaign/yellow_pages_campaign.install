@@ -1,0 +1,131 @@
+<?php
+/**
+ * @file
+ * Install/uninstall routine.
+ */
+
+/**
+ * Save a default set of available rules.
+ */
+function yellow_pages_campaign_set_rules() {
+  $rules = array(
+    array(
+      'id' => YP_RULE_GENERIC,
+      'label' => 'Generic',
+    ),
+    array(
+      'id' => YP_RULE_COMPANY,
+      'label' => 'Company',
+    ),
+    array(
+      'id' => YP_RULE_PAGE,
+      'label' => 'Page',
+    ),
+    array(
+      'id' => YP_RULE_KEYWORDS,
+      'label' => 'Search keywords',
+    ),
+  );
+
+  $fields = array(
+    'id',
+    'label',
+  );
+  $query = db_insert('yp_campaign_rules_type')->fields($fields);
+
+  foreach ($rules as $rule) {
+    $query->values($rule);
+  }
+
+  $query->execute();
+}
+
+/**
+ * Implements hook_install().
+ */
+function yellow_pages_campaign_install() {
+  yellow_pages_campaign_set_rules();
+}
+
+/**
+ * Implements hook_uninstall().
+ */
+function yellow_pages_campaign_uninstall() {
+
+}
+
+/**
+ * Implements hook_schema().
+ */
+function yellow_pages_campaign_schema() {
+  $schema = array();
+
+  $schema['yp_campaign_rules_type'] = array(
+    'description' => 'Campaign display rules types',
+    'fields' => array(
+      'id' => array(
+        'type' => 'int',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+      ),
+      'label' => array(
+        'type' => 'varchar',
+        'length' => 64,
+        'not null' => TRUE,
+        'default' => '',
+      ),
+    ),
+    'unique keys' => array(
+      'unq_id' => array(
+        'id',
+      ),
+    ),
+    'indexes' => array(
+      'ind_id' => array(
+        'id',
+      ),
+    ),
+  );
+
+  $schema['yp_campaign_rules_usage'] = array(
+    'description' => 'Campaign rules usage',
+    'fields' => array(
+      'id' => array(
+        'type' => 'serial',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+      ),
+      'nid' => array(
+        'type' => 'int',
+        'default' => 0,
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+      ),
+      'rule' => array(
+        'type' => 'int',
+        'default' => 0,
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+      ),
+      'value' => array(
+        'type' => 'varchar',
+        'length' => 256,
+        'not null' => TRUE,
+        'default' => '',
+      )
+    ),
+    'indexes' => array(
+      'ind_id' => array(
+        'id',
+      ),
+      'ind_nid' => array(
+        'nid',
+      )
+    ),
+    'primary key' => array(
+      'id',
+    ),
+  );
+
+  return $schema;
+}

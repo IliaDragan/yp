@@ -6,6 +6,11 @@
 
 include_once 'yellow_pages_campaign.features.inc';
 
+define('YP_RULE_GENERIC', 1);
+define('YP_RULE_COMPANY', 2);
+define('YP_RULE_PAGE', 4);
+define('YP_RULE_KEYWORDS', 8);
+
 /**
  * Implements hook_ctools_plugin_directory().
  */
@@ -27,6 +32,8 @@ function yellow_pages_campaign_menu() {
     'page arguments' => array('yellow_pages_campaign_node_rules_form', 1),
     'access callback' => 'yellow_pages_campaign_node_rules_access',
     'access arguments' => array(1),
+    'theme callback' => 'variable_get',
+    'theme arguments' => array('admin_theme'),
     'type' => MENU_LOCAL_TASK,
     'file' => 'yellow_pages_campaign.rules.inc',
   );
@@ -264,4 +271,62 @@ function yellow_pages_campaign_ad_render_edit_form_submit($form, &$form_state) {
       $form_state['conf'][$field] = $input[$field];
     }
   }
+}
+
+/**
+ * Retrieve all rules types.
+ *
+ * @return array
+ *   A set of defined rules types.
+ */
+function yellow_pages_campaign_rules_list() {
+  $rules_list = &drupal_static(__FUNCTION__, array());
+
+  if (empty($rules_list)) {
+    $query = db_select('yp_campaign_rules_type', 'yp_rt')
+      ->fields('yp_rt', array('id', 'label'));
+    $result = $query
+      ->execute()
+      ->fetchAllKeyed();
+
+    $rules_list = $result;
+  }
+
+  return $rules_list;
+}
+
+function yellow_pages_campaign_rules_save(array $rules, $node_id) {
+  if (empty($rules) || empty($node_id)) {
+    return;
+  }
+
+  yellow_pages_campaign_rules_purge($node_id);
+
+  $fields = array(
+    'nid',
+    'rule',
+    'value',
+  );
+  $query = db_insert('yp_campaign_rules_usage')->fields($fields);
+
+  foreach ($rules as $rule) {
+    $values = array(
+      'nid' => $node_id,
+      'rule' => $rule['rule_type'],
+      'value' => $rule['rule_value'],
+    );
+    $query->values($values);
+  }
+
+  $query->execute();
+}
+
+function yellow_pages_campaign_rules_purge($nid) {
+  if (empty($nid)) {
+    return;
+  }
+
+  db_delete('yp_campaign_rules_usage')
+    ->condition('nid', $nid, '=')
+    ->execute();
 }

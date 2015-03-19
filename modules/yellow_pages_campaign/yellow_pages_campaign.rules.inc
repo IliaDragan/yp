@@ -56,6 +56,11 @@ function yellow_pages_campaign_node_rules_form($form, &$form_state, $node) {
     '#value' => t('Save rules'),
   );
 
+  $form['rules_node'] = array(
+    '#type' => 'hidden',
+    '#value' => $entity->nid->value(),
+  );
+
   $form['#attached']['css'][] = drupal_get_path('module', 'yellow_pages_campaign') . '/css/yellow_pages_campaign.styles.css';
 
   return $form;
@@ -68,6 +73,18 @@ function yellow_pages_campaign_node_rules_form($form, &$form_state, $node) {
  */
 function yellow_pages_campaign_node_rules_form_submit($form, &$form_state) {
   $input = $form_state['input'];
+  $nid = $input['rules_node'];
+  $rules = array();
+
+  foreach ($input['rules_table'] as $rule) {
+    if ($rule['rule_type'] != YP_RULE_GENERIC && empty($rule['rule_value'])) {
+      continue;
+    }
+
+    $rules[] = $rule;
+  }
+
+  yellow_pages_campaign_rules_save($rules, $nid);
 }
 
 /**
@@ -82,9 +99,11 @@ function yellow_pages_campaign_node_rules_form_submit($form, &$form_state) {
 function yellow_pages_campaign_single_rule_form($default) {
   $form = array();
 
+  $rules = yellow_pages_campaign_rules_list();
+
   $form['rule_type'] = array(
     '#type' => 'select',
-    '#options' => array(),
+    '#options' => $rules,
     '#default_value' => isset($default['rule_type']) ? $default['rule_type'] : '',
   );
 

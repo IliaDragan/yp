@@ -8,6 +8,9 @@
  * Implements hook_ctools_plugin_api().
  */
 function yellow_pages_solr_configuration_ctools_plugin_api($module = NULL, $api = NULL) {
+  if ($module == "facetapi" && $api == "facetapi_defaults") {
+    return array("version" => "1");
+  }
   if ($module == "page_manager" && $api == "pages_default") {
     return array("version" => "1");
   }
@@ -40,6 +43,7 @@ function yellow_pages_solr_configuration_default_search_api_index() {
         "field_address:premise" : { "type" : "text" },
         "field_address:thoroughfare" : { "type" : "text" },
         "field_fax" : { "type" : "list\\u003Ctext\\u003E" },
+        "field_goods_and_services" : { "type" : "list\\u003Cinteger\\u003E", "entity_type" : "taxonomy_term" },
         "field_landline_phone" : { "type" : "list\\u003Ctext\\u003E" },
         "field_mobile_phone" : { "type" : "list\\u003Ctext\\u003E" },
         "field_we_buy" : { "type" : "text" },
@@ -163,7 +167,7 @@ function yellow_pages_solr_configuration_default_search_api_server() {
       "clean_ids" : true,
       "site_hash" : true,
       "scheme" : "http",
-      "host" : "localhost",
+      "host" : "dev.inlead.dk",
       "port" : "8983",
       "path" : "\\/solr",
       "http_user" : "",

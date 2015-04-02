@@ -90,6 +90,8 @@ projects[variable][subdir] = "contrib"
 projects[views][version] = "3.10"
 projects[views][subdir] = "contrib"
 
+projects[bootstrap][version] = "3.0"
+
 ; Libraries
 libraries[leaflet][destination]    = "libraries"
 libraries[leaflet][directory_name] = "leaflet"

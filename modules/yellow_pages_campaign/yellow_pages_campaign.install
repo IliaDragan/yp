@@ -25,6 +25,10 @@ function yellow_pages_campaign_set_rules() {
       'id' => YP_RULE_KEYWORDS,
       'label' => 'Search keywords',
     ),
+    array(
+      'id' => YP_RULE_CATEGORY,
+      'label' => 'Category',
+    )
   );
 
   $fields = array(

@@ -10,11 +10,10 @@
 function yellow_pages_campaign_node_rules_form($form, &$form_state, $node) {
   $entity = entity_metadata_wrapper('node', $node);
 
+  $default_rules = yellow_pages_campaign_saved_rules($entity->nid->value());
   if (!isset($form_state['rules_count'])) {
-    $form_state['rules_count'] = 1;
+    $form_state['rules_count'] = !empty($default_rules) ? count($default_rules) : 1;
   }
-
-  $rules_count = $form_state['rules_count'];
 
   $form['rules_wrapper'] = array(
     '#type' => 'fieldset',
@@ -29,8 +28,8 @@ function yellow_pages_campaign_node_rules_form($form, &$form_state, $node) {
     '#theme' => 'yp_campaign_rule_element',
   );
 
-  for ($i = 0; $i < $rules_count; $i++) {
-    $default = array();
+  for ($i = 0; $i < $form_state['rules_count']; $i++) {
+    $default = (array) $default_rules[$i];
     $form['rules_wrapper']['rules_table'][] = yellow_pages_campaign_single_rule_form($default);
   }
 
@@ -46,10 +45,10 @@ function yellow_pages_campaign_node_rules_form($form, &$form_state, $node) {
     '#submit' => array('yellow_pages_campaign_node_rules_form_ajax_submit'),
   );
 
-  $form['rules_wrapper']['rules_info'] = array(
-    '#type' => 'item',
-    '#markup' => t('<em>Note: To remove a rule, clear it\'s value and save the form.</em>'),
-  );
+//   $form['rules_wrapper']['rules_info'] = array(
+//     '#type' => 'item',
+//     '#markup' => t('<em>Note: To remove a rule, clear it\'s value and save the form.</em>'),
+//   );
 
   $form['rules_save'] = array(
     '#type' => 'submit',
@@ -98,18 +97,17 @@ function yellow_pages_campaign_node_rules_form_submit($form, &$form_state) {
  */
 function yellow_pages_campaign_single_rule_form($default) {
   $form = array();
-
   $rules = yellow_pages_campaign_rules_list();
 
   $form['rule_type'] = array(
     '#type' => 'select',
     '#options' => $rules,
-    '#default_value' => isset($default['rule_type']) ? $default['rule_type'] : '',
+    '#default_value' => isset($default['rule']) ? $default['rule'] : '',
   );
 
   $form['rule_value'] = array(
     '#type' => 'textfield',
-    '#default_value' => isset($default['rule_value']) ? $default['rule_value'] : '',
+    '#default_value' => isset($default['value']) ? $default['value'] : '',
   );
 
   return $form;

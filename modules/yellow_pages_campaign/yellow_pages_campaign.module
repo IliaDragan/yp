@@ -7,9 +7,11 @@
 include_once 'yellow_pages_campaign.features.inc';
 
 define('YP_RULE_GENERIC', 1);
-define('YP_RULE_COMPANY', 2);
-define('YP_RULE_PAGE', 4);
-define('YP_RULE_KEYWORDS', 8);
+define('YP_RULE_PAGE', 2);
+define('YP_RULE_COMPANY', 4);
+define('YP_RULE_CATEGORY', 8);
+define('YP_RULE_KEYWORDS', 16);
+
 
 /**
  * Implements hook_ctools_plugin_directory().
@@ -301,6 +303,7 @@ function yellow_pages_campaign_rules_save(array $rules, $node_id) {
   }
 
   yellow_pages_campaign_rules_purge($node_id);
+  $rules = yellow_pages_campaign_rules_distinct($rules);
 
   $fields = array(
     'nid',
@@ -321,6 +324,26 @@ function yellow_pages_campaign_rules_save(array $rules, $node_id) {
   $query->execute();
 }
 
+function yellow_pages_campaign_rules_distinct(array $rules) {
+  $unique = array();
+
+  foreach ($rules as $rule) {
+    $seen = FALSE;
+    foreach ($unique as $u) {
+      if ($rule['rule_type'] == $u['rule_type'] && $rule['rule_value'] == $u['rule_value']) {
+        $seen = TRUE;
+        break;
+      }
+    }
+
+    if (!$seen) {
+      $unique[] = $rule;
+    }
+  }
+
+  return $unique;
+}
+
 function yellow_pages_campaign_rules_purge($nid) {
   if (empty($nid)) {
     return;
@@ -329,4 +352,20 @@ function yellow_pages_campaign_rules_purge($nid) {
   db_delete('yp_campaign_rules_usage')
     ->condition('nid', $nid, '=')
     ->execute();
+}
+
+function yellow_pages_campaign_saved_rules($nid) {
+  if (empty($nid)) {
+    return FALSE;
+  }
+
+  $query = db_select('yp_campaign_rules_usage', 'yp_ru')
+    ->fields('yp_ru', array('rule', 'value'))
+    ->condition('yp_ru.nid', $nid, '=');
+
+  $result = $query
+    ->execute()
+    ->fetchAll();
+
+  return $result;
 }

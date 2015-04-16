@@ -42,6 +42,9 @@ projects[geocoder][subdir] = "contrib"
 projects[geofield][version] = "2.3"
 projects[geofield][subdir] = "contrib"
 
+projects[geophp][version] = "1.7"
+projects[geophp][subdir] = "contrib"
+
 projects[i18n][version] = "1.12"
 projects[i18n][subdir] = "contrib"
 
@@ -83,6 +86,9 @@ projects[search_api_solr][subdir] = "contrib"
 
 projects[socialfield][version] = "1.4"
 projects[socialfield][subdir] = "contrib"
+
+projects[strongarm][version] = "2.0"
+projects[strongarm][subdir] = "contrib"
 
 projects[variable][version] = "2.5"
 projects[variable][subdir] = "contrib"

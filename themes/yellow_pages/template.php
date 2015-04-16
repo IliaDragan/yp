@@ -22,5 +22,6 @@ function yellow_pages_preprocess_views_view(&$vars) {
     $path = drupal_get_path('theme', 'yellow_pages');
     drupal_add_js($path . '/js/owl.carousel.min.js');
     drupal_add_css($path . '/css/owl.carousel.css');
+    drupal_add_css($path . '/css/news_carousel.css');
   }
 }

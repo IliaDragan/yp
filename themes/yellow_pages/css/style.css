@@ -3,6 +3,16 @@
  * remove this comment and start adding your styles to this file.
  */
 
+@media screen and (min-width: 1650px) {
+  .container {
+    width: 1630px;
+  }
+}
+
+.container {
+  min-width: 900px;
+}
+
 #navbar,
 #footer {
   font-family: 'PT Sans';
@@ -123,6 +133,7 @@
   padding: 0;
   position: fixed;
   width: 100%;
+  z-index: 99;
 }
 
 .footer .footer-wrapper {

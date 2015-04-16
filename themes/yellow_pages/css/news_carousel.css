@@ -1,0 +1,18 @@
+/**
+ * @file
+ * Tweaks for news carousel.
+ */
+
+.view-id-news.view-display-id-default .owl-item img {
+  height: 100%;
+}
+
+.view-id-news.view-display-id-default .views-row {
+  position: relative;
+}
+
+.view-id-news.view-display-id-default .views-row .views-row-field-wrapper {
+  background-color: rgba(55,55,55,0.95);
+  position: absolute;
+  height: 100%;
+}

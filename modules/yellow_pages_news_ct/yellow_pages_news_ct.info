@@ -22,6 +22,7 @@ features[field_instance][] = node-news-field_companies
 features[field_instance][] = node-news-field_list_image
 features[field_instance][] = node-news-field_main_image
 features[field_instance][] = node-news-field_video
+features[image][] = news_carousel
 features[node][] = news
 features[variable][] = comment_anonymous_news
 features[variable][] = comment_default_mode_news

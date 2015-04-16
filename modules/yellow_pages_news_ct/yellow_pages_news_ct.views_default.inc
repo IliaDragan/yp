@@ -40,8 +40,8 @@ function yellow_pages_news_ct_views_default_views() {
   $handler->display->display_options['fields']['field_list_image']['element_label_colon'] = FALSE;
   $handler->display->display_options['fields']['field_list_image']['click_sort_column'] = 'fid';
   $handler->display->display_options['fields']['field_list_image']['settings'] = array(
-    'image_style' => 'carousel_item',
-    'image_link' => 'content',
+    'image_style' => 'news_carousel',
+    'image_link' => '',
   );
   /* Field: Content: Title */
   $handler->display->display_options['fields']['title']['id'] = 'title';
@@ -54,6 +54,8 @@ function yellow_pages_news_ct_views_default_views() {
   $handler->display->display_options['fields']['changed']['id'] = 'changed';
   $handler->display->display_options['fields']['changed']['table'] = 'node';
   $handler->display->display_options['fields']['changed']['field'] = 'changed';
+  $handler->display->display_options['fields']['changed']['label'] = '';
+  $handler->display->display_options['fields']['changed']['element_label_colon'] = FALSE;
   $handler->display->display_options['fields']['changed']['date_format'] = 'custom';
   $handler->display->display_options['fields']['changed']['custom_date_format'] = 'd.m.Y';
   $handler->display->display_options['fields']['changed']['second_date_format'] = 'long';
@@ -66,8 +68,18 @@ function yellow_pages_news_ct_views_default_views() {
   $handler->display->display_options['fields']['body']['element_label_colon'] = FALSE;
   $handler->display->display_options['fields']['body']['type'] = 'text_trimmed';
   $handler->display->display_options['fields']['body']['settings'] = array(
-    'trim_length' => '600',
+    'trim_length' => '300',
   );
+  /* Field: Content: Nid */
+  $handler->display->display_options['fields']['nid']['id'] = 'nid';
+  $handler->display->display_options['fields']['nid']['table'] = 'node';
+  $handler->display->display_options['fields']['nid']['field'] = 'nid';
+  $handler->display->display_options['fields']['nid']['label'] = '';
+  $handler->display->display_options['fields']['nid']['alter']['alter_text'] = TRUE;
+  $handler->display->display_options['fields']['nid']['alter']['text'] = 'Read more &gt;';
+  $handler->display->display_options['fields']['nid']['alter']['make_link'] = TRUE;
+  $handler->display->display_options['fields']['nid']['alter']['path'] = 'node/[nid]';
+  $handler->display->display_options['fields']['nid']['element_label_colon'] = FALSE;
   /* Sort criterion: Content: Post date */
   $handler->display->display_options['sorts']['created']['id'] = 'created';
   $handler->display->display_options['sorts']['created']['table'] = 'node';
@@ -96,7 +108,7 @@ function yellow_pages_news_ct_views_default_views() {
     t('Sort by'),
     t('Asc'),
     t('Desc'),
-    t('Updated date'),
+    t('Read more &gt;'),
   );
   $export['news'] = $view;
 

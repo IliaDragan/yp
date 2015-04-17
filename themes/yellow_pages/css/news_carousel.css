@@ -7,13 +7,14 @@
   color: #fff;
   font-family: 'PT Sans';
   font-size: 14px;
-  padding-bottom: 20px;
+  padding-bottom: 50px;
 }
 
 .pane-views-news-carousel h2.pane-title {
   color: #000;
   font-family: 'PT Sans';
   font-weight: bold;
+  margin: 50px 0;
   text-align: center;
 }
 
@@ -78,11 +79,11 @@
 }
 
 .pane-views-news-carousel .owl-controls {
-  margin-top: 20px;
+  margin-top: 50px;
 }
 
 .pane-views-news-carousel .owl-controls .owl-nav > div {
-  bottom: 65px;
+  bottom: 95px;
   position: absolute;
 }
 

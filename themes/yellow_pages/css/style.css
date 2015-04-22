@@ -4,8 +4,13 @@
  */
 
 @media screen and (min-width: 1650px) {
-  .container {
+  .container,
+  .footer {
     width: 1630px;
+  }
+
+  .footer-wrapper {
+    width: 1140px;
   }
 }
 
@@ -130,15 +135,13 @@
   display: block;
   height: 80px;
   line-height: 20px;
+  margin: 0 auto;
   padding: 0;
-  position: fixed;
-  width: 100%;
-  z-index: 99;
 }
 
 .footer .footer-wrapper {
   margin: 0 auto;
-  padding: 30px 15px;
+  padding: 30px 15px 0;
 }
 
 .footer .footer-wrapper .copyright {

@@ -152,7 +152,7 @@
   </div>
 </div>
 <footer id="footer" class="footer">
-  <div class="footer-wrapper container">
+  <div class="footer-wrapper">
     <?php print render($page['footer']); ?>
     <p class="copyright">
       <?php print '&copy; ' . date('Y');?>

@@ -25,3 +25,15 @@ function yellow_pages_preprocess_views_view(&$vars) {
     drupal_add_css($path . '/css/news_carousel.css');
   }
 }
+
+/**
+ * Implements hook_menu_link().
+ */
+function yellow_pages_menu_link(array $variables) {
+  $element = $variables['element'];
+
+  $element['#localized_options']['html'] = TRUE;
+  $output = l('<span>' . $element['#title'] . '</span>', $element['#href'], $element['#localized_options']);
+
+  return '<li' . drupal_attributes($element['#attributes']) . '>' . $output . "</li>\n";
+}

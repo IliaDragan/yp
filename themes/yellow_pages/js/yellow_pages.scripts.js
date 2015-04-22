@@ -17,17 +17,7 @@ var Drupal = Drupal || {};
           '<span class="glyphicon glyphicon-chevron-right"></span>'
         ],
         mouseDrag : false,
-        responsive : {
-          900 : {
-            items : 2
-          },
-          1200 : {
-            items : 3
-          },
-          1600 : {
-            items : 4
-          }
-        }
+        items: 4
       });
 
       var $div;
@@ -45,17 +35,13 @@ var Drupal = Drupal || {};
       $('.views-row-field-wrapper').on('click', function (evt, e) {
         $ele = $(this);
 
-        $ele.animate({
-          'top': 0
-        }, 500).addClass('active');
+        $ele.addClass('active');
       });
 
       $('.views-row-field-wrapper .close').on('click', function (evt, e) {
         $ele = $(this).parents('.views-row-field-wrapper');
 
-        $ele.animate({
-          'top': '365px'
-        }, 500).removeClass('active');
+        $ele.removeClass('active');
         evt.stopPropagation();
       });
     }

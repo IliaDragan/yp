@@ -18,9 +18,12 @@
   min-width: 900px;
 }
 
+body {
+  font-family: 'PT Sans';
+}
+
 #navbar,
 #footer {
-  font-family: 'PT Sans';
   font-weight: bold;
   text-transform: uppercase;
 }
@@ -43,6 +46,8 @@
   margin-left: -30px;
 }
 
+.navbar-collapse > nav:before,
+.navbar-collapse > nav:after,
 .navbar-default .language-switcher-locale-url:before,
 .navbar-default .language-switcher-locale-url:after,
 .footer .copyright:before,
@@ -65,7 +70,7 @@
 }
 
 .navbar-default .navbar-nav:not(.secondary) {
-  margin-left: 220px;
+  margin-left: 15%;
 }
 
 .navbar-default .language-switcher-locale-url li a,
@@ -100,8 +105,8 @@
   background-color: transparent;
 }
 
-.navbar-default .navbar-nav > li {
-  margin-left: 30px;
+.navbar-default .navbar-nav > li:not(.last) {
+  margin-right: 30px;
 }
 
 .navbar-default .navbar-nav.secondary li a {
@@ -123,8 +128,57 @@
   text-align: center;
 }
 
-.main-container {
-  padding-bottom: 80px;
+.frontpage-header {
+  background-image: url('../images/frontpage_header.jpg');
+  height: 684px;
+  position: relative;
+  width: 100%;
+}
+
+.frontpage-header .activity {
+  color: #fff;
+  margin-left: 15%;
+  max-width: 700px;
+  position: relative;
+  text-transform: uppercase;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.frontpage-header .activity .search-block-form {
+  background-color: rgba(0, 0, 0, 0.5);
+  margin-top: 66px;
+  padding: 25px 45px;
+}
+
+.frontpage-header .activity .search-block-form .form-group {
+  margin: 0;
+}
+
+.frontpage-header .activity .search-block-form .form-text,
+.frontpage-header .activity .search-block-form .btn {
+  padding: 0;
+}
+
+.frontpage-header .activity .search-block-form .btn {
+  font-size: 18px;
+  height: 34px;
+}
+
+.frontpage-header .activity .search-block-form .form-text,
+.frontpage-header .activity .search-block-form .form-text:focus,
+.frontpage-header .activity .search-block-form .btn {
+  background-color: transparent;
+  border: 0;
+  border-bottom: 1px solid #fff;
+  border-radius: 0;
+  box-shadow: none;
+  color: #fff;
+}
+
+.frontpage-header .activity .slogan {
+  font-size: 30px;
+  font-weight: bold;
 }
 
 .footer {
@@ -165,4 +219,8 @@
 .footer .footer-wrapper .navbar-nav li a:hover {
   color: #fff;
   background-color: transparent;
+}
+
+.yellow {
+  color: #ffdd00;
 }

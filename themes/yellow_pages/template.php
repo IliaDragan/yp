@@ -14,6 +14,15 @@ function yellow_pages_preprocess_page(&$variables) {
 }
 
 /**
+ * Implements hook_preprocess_hook().
+ */
+function yellow_pages_preprocess_yp_frontpage(&$variables) {
+  $form = drupal_get_form('search_form');
+  $search_box = drupal_render($form);
+  $variables['search_box'] = $search_box;
+}
+
+/**
  * Implements hook_preprocess_views_view().
  */
 function yellow_pages_preprocess_views_view(&$vars) {

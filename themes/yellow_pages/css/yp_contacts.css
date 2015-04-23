@@ -1,0 +1,23 @@
+.pane-yellow-pages-contacts-yp-contacts {
+  margin: 0 auto;
+  width: 140px;
+}
+
+.pane-yellow-pages-contacts-yp-contacts .pane-title {
+  font-size: 14px;
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+
+.yp-contacts .fa {
+  color: #999;
+}
+
+.yp-contacts .item {
+  color: #333;
+  margin-left: 6px;
+}
+
+.yp-contacts .entry {
+  margin-bottom: 10px;
+}

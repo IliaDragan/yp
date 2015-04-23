@@ -18,7 +18,7 @@
   min-width: 900px;
 }
 
-body {
+body, h2 {
   font-family: 'PT Sans';
 }
 

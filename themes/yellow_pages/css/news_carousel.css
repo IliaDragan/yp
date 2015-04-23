@@ -45,6 +45,7 @@
   text-shadow: none;
   top: 5px;
   width: 24px;
+  z-index: 99;
 }
 
 .pane-views-news-carousel .views-row-field-wrapper.active .close {
@@ -68,28 +69,29 @@
 
 .pane-views-news-carousel .views-row-field-wrapper {
   border-bottom: 3px solid #ffdd00;
-/*   padding-top: 5%; */
 }
 
 .pane-views-news-carousel .views-row-field-wrapper > div {
   text-align: center;
 }
 
-.pane-views-news-carousel .views-row-field-wrapper > div.views-field-body {
-/*   padding: 0 10%; */
-/*   position: absolute; */
-/*   top: 50%; */
-/*   transform: translateY(-50%); */
+.pane-views-news-carousel .views-row-field-wrapper > div.views-field-title {
+  margin-top: 20px;
 }
 
-.pane-views-news-carousel .views-row-field-wrapper > div.views-field-body .field-content {
-  position: relative;
+.pane-views-news-carousel .views-row-field-wrapper > div.views-field-body {
+  max-height: 49%;
+  padding: 20px;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 100%;
 }
 
 .pane-views-news-carousel .views-row-field-wrapper > div.views-field-nid {
-/*   bottom: 20px; */
-/*   position: absolute; */
-/*   width: 100%; */
+  bottom: 20px;
+  position: absolute;
+  width: 100%;
 }
 
 .pane-views-news-carousel .owl-controls {

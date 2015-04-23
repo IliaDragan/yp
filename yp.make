@@ -90,6 +90,9 @@ projects[socialfield][subdir] = "contrib"
 projects[strongarm][version] = "2.0"
 projects[strongarm][subdir] = "contrib"
 
+projects[taxonomy_menu][version] = "1.5"
+projects[taxonomy_menu][subdir] = "contrib"
+
 projects[variable][version] = "2.5"
 projects[variable][subdir] = "contrib"
 

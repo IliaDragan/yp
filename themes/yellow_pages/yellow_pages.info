@@ -31,3 +31,9 @@ stylesheets[all][] = css/category_menu.css
 ;;;;;;;;;;;;;;;;;;;;;
 
 scripts[] = js/yellow_pages.scripts.js
+
+
+;;;;;;;;;;;;;;;;;;;;;
+;; Layouts
+;;;;;;;;;;;;;;;;;;;;;
+plugins[panels][layouts] = layouts

@@ -36,6 +36,9 @@ projects[features][subdir] = "contrib"
 projects[file_entity][version] = "2.0-beta1"
 projects[file_entity][subdir] = "contrib"
 
+projects[fontawesome][version] = "2.1"
+projects[fontawesome][subdir] = "contrib"
+
 projects[geocoder][version] = "1.2"
 projects[geocoder][subdir] = "contrib"
 
@@ -50,6 +53,9 @@ projects[i18n][subdir] = "contrib"
 
 projects[l10n_update][version] = "2.0"
 projects[l10n_update][subdir] = "contrib"
+
+projects[libraries][version] = "2.2"
+projects[libraries][subdir] = "contrib"
 
 projects[jquery_update][version] = "2.5"
 projects[jquery_update][subdir] = "contrib"
@@ -102,6 +108,11 @@ projects[views][subdir] = "contrib"
 projects[bootstrap][version] = "3.0"
 
 ; Libraries
+libraries[fontawesome][destination]    = "libraries"
+libraries[fontawesome][directory_name] = "fontawesome"
+libraries[fontawesome][download][type] = "get"
+libraries[fontawesome][download][url]  = "http://fortawesome.github.io/Font-Awesome/assets/font-awesome-4.3.0.zip"
+
 libraries[leaflet][destination]    = "libraries"
 libraries[leaflet][directory_name] = "leaflet"
 libraries[leaflet][download][type] = "get"

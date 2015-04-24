@@ -4,7 +4,8 @@
  * Template file for contacts.
  */
 ?>
-<div class="yp-contacts">
+<div class="yp-widget yp-contacts">
+  <h2 class="title"><?php print $title; ?></h2>
   <div class="entry contact-mail">
     <i class="fa fa-envelope-o"></i>
     <span class="item"><?php print $mail; ?></span>

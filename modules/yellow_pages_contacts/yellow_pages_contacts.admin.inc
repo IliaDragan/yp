@@ -32,6 +32,11 @@ function yellow_pages_contacts_admin_form($form, &$form_state) {
   return system_settings_form($form);
 }
 
+/**
+ * Custom validate for settings form.
+ *
+ * @see yellow_pages_contacts_admin_form()
+ */
 function yellow_pages_contacts_admin_form_validate($form, &$form_state) {
   $input = $form_state['input'];
 

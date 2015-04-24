@@ -1,4 +1,4 @@
-name = YellowPages Weather
+name = Yellow Pages Weather
 description = Display weather information block
 core = 7.x
 version = 7.x-0.1

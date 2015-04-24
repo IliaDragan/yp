@@ -71,7 +71,7 @@
   position: relative;
   top: 52%;
   transform: translateY(-50%) skew(-25deg);
-  max-width: 48px;
+  max-width: 64px;
   word-break: break-word;
 }
 

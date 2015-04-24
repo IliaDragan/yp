@@ -1,0 +1,7 @@
+<?php
+/**
+ * @file
+ * Code for the Yellow Pages Frontend feature.
+ */
+
+include_once 'yellow_pages_frontend.features.inc';

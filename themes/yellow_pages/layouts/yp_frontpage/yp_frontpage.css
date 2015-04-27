@@ -1,0 +1,10 @@
+#panels-panel-context-edit-content .row {
+  display: table;
+  content: " ";
+  width: 100%;
+}
+
+#panels-panel-context-edit-content .col-sm-4 {
+  float: left;
+  width: 33.33%;
+}

@@ -61,14 +61,21 @@ function yp_install() {
   // Update the menu router information.
   menu_rebuild();
 
-  // Enable the admin theme.
-  db_update('system')
-    ->fields(array('status' => 1))
-    ->condition('type', 'theme')
-    ->condition('name', 'seven')
-    ->execute();
+  // Enable the themes.
+  $enable = array(
+    'theme_default' => 'yellow_pages',
+    'admin_theme' => 'seven',
+  );
+  theme_enable($enable);
 
-  variable_set('admin_theme', 'seven');
+  foreach ($enable as $var => $theme) {
+    if (!is_numeric($var)) {
+      variable_set($var, $theme);
+    }
+  }
+
+  // Disable the default Bartik theme.
+  theme_disable(array('bartik'));
   variable_set('node_admin_theme', '1');
 
   // Add default locales.

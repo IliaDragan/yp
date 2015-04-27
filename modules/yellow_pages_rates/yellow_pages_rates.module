@@ -1,0 +1,52 @@
+<?php
+/**
+ * @file
+ * YellowPages currency rates module stub.
+ */
+
+/**
+ * Implements hook_block_info().
+ */
+function yellow_pages_rates_block_info() {
+  $blocks = array();
+
+  $blocks['yp_rates'] = array(
+    'info' => 'YellowPages Currency Rates',
+    'cache' => DRUPAL_CACHE_GLOBAL,
+  );
+
+  return $blocks;
+}
+
+/**
+ * Implements hook_block_view().
+ */
+function yellow_pages_rates_block_view($delta = '') {
+  $block = array();
+
+  switch ($delta) {
+    case 'yp_rates':
+      $block['subject'] = t('Rates');
+      $block['content'] = array(
+        '#theme' => 'yp_rates',
+      );
+      break;
+  }
+
+  return $block;
+}
+
+/**
+ * Implements hook_theme().
+ */
+function yellow_pages_rates_theme($existing, $type, $theme, $path) {
+  $hooks = array();
+
+  $hooks['yp_rates'] = array(
+    'template' => 'yp_rates',
+    'path' => $path . '/templates',
+    'variables' => array(),
+  );
+
+  return $hooks;
+}

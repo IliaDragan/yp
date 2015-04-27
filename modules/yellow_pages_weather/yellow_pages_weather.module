@@ -1,0 +1,51 @@
+<?php
+/**
+ * YellowPages weather module stub.
+ */
+
+/**
+ * Implements hook_block_info().
+ */
+function yellow_pages_weather_block_info() {
+  $blocks = array();
+
+  $blocks['yp_weather'] = array(
+    'info' => 'YellowPages Current Weather',
+    'cache' => DRUPAL_CACHE_GLOBAL,
+  );
+
+  return $blocks;
+}
+
+/**
+ * Implements hook_block_view().
+ */
+function yellow_pages_weather_block_view($delta = '') {
+  $block = array();
+
+  switch ($delta) {
+    case 'yp_weather':
+      $block['subject'] = t('Weather');
+      $block['content'] = array(
+        '#theme' => 'yp_weather',
+      );
+      break;
+  }
+
+  return $block;
+}
+
+/**
+ * Implements hook_theme().
+ */
+function yellow_pages_weather_theme($existing, $type, $theme, $path) {
+  $hooks = array();
+
+  $hooks['yp_weather'] = array(
+    'template' => 'yp_weather',
+    'path' => $path . '/templates',
+    'variables' => array(),
+  );
+
+  return $hooks;
+}

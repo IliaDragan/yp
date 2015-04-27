@@ -1,0 +1,226 @@
+/**
+ * This file should get overwritten if Method 1 is used. If Method 2 is chosen,
+ * remove this comment and start adding your styles to this file.
+ */
+
+@media screen and (min-width: 1650px) {
+  .container,
+  .footer {
+    width: 1630px;
+  }
+
+  .footer-wrapper {
+    width: 1140px;
+  }
+}
+
+.container {
+  min-width: 900px;
+}
+
+body, h2 {
+  font-family: 'PT Sans';
+}
+
+#navbar,
+#footer {
+  font-weight: bold;
+  text-transform: uppercase;
+}
+
+.navbar .logo {
+  padding-right: 0;
+}
+
+.navbar-collapse {
+  margin-top: 35px;
+}
+
+.navbar-default {
+  border: 0;
+  background-color: transparent;
+}
+
+.navbar-default .language-switcher-locale-url {
+  float: left;
+  margin-left: -30px;
+}
+
+.navbar-collapse > nav:before,
+.navbar-collapse > nav:after,
+.navbar-default .language-switcher-locale-url:before,
+.navbar-default .language-switcher-locale-url:after,
+.footer .copyright:before,
+.footer .copyright:after {
+  display: table;
+  content: " ";
+}
+
+.navbar-default .language-switcher-locale-url li {
+  color: #a4a4a4;
+  float: left;
+  list-style: outside none none;
+  margin-right: 6px;
+}
+
+.navbar-default .language-switcher-locale-url li a {
+  color: #a4a4a4;
+  display: block;
+  position: relative;
+}
+
+.navbar-default .navbar-nav:not(.secondary) {
+  margin-left: 15%;
+}
+
+.navbar-default .language-switcher-locale-url li a,
+.navbar-default .navbar-nav > li > a {
+  line-height: 25px;
+}
+
+.navbar-default .language-switcher-locale-url li.active a,
+.navbar-default .navbar-nav > li > a,
+.navbar-default .navbar-nav > li > a:hover,
+.navbar-default .navbar-nav > .active > a,
+.navbar-default .navbar-nav > .active > a:hover {
+  color: #1d1d1d;
+}
+
+.navbar-default .language-switcher-locale-url li a:hover,
+.navbar-default .navbar-nav:not(.secondary) > li > a:hover,
+.navbar-default .navbar-nav:not(.secondary) > .active > a:hover {
+  border-bottom: 2px solid #ffdd00;
+  text-decoration: none;
+}
+
+.navbar-default .language-switcher-locale-url li a,
+.navbar-default .navbar-nav > li > a,
+.navbar-default .navbar-nav > .active > a {
+  padding: 2px 0;
+}
+
+.navbar-default .navbar-nav > li > a,
+.navbar-default .navbar-nav > .active > a,
+.navbar-default .navbar-nav > .active > a:hover {
+  background-color: transparent;
+}
+
+.navbar-default .navbar-nav > li:not(.last) {
+  margin-right: 30px;
+}
+
+.navbar-default .navbar-nav.secondary li a {
+  background-image: url('../images/user_menu_button.png');
+  height: 30px;
+  margin-left: 0;
+  width: 87px;
+}
+
+.navbar-default .navbar-nav.secondary li a:hover {
+  background-image: url('../images/user_menu_button_hover.png');
+}
+
+.navbar-default .navbar-nav.secondary li a:active {
+  background-image: url('../images/user_menu_button_active.png');
+}
+
+.navbar-default .navbar-nav.secondary li {
+  text-align: center;
+}
+
+.frontpage-header {
+  background-image: url('../images/frontpage_header.jpg');
+  height: 684px;
+  position: relative;
+  width: 100%;
+}
+
+.frontpage-header .activity {
+  color: #fff;
+  margin-left: 15%;
+  max-width: 700px;
+  position: relative;
+  text-transform: uppercase;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.frontpage-header .activity .search-block-form {
+  background-color: rgba(0, 0, 0, 0.5);
+  margin-top: 66px;
+  padding: 25px 45px;
+}
+
+.frontpage-header .activity .search-block-form .form-group {
+  margin: 0;
+}
+
+.frontpage-header .activity .search-block-form .form-text,
+.frontpage-header .activity .search-block-form .btn {
+  padding: 0;
+}
+
+.frontpage-header .activity .search-block-form .btn {
+  font-size: 18px;
+  height: 34px;
+}
+
+.frontpage-header .activity .search-block-form .form-text,
+.frontpage-header .activity .search-block-form .form-text:focus,
+.frontpage-header .activity .search-block-form .btn {
+  background-color: transparent;
+  border: 0;
+  border-bottom: 1px solid #fff;
+  border-radius: 0;
+  box-shadow: none;
+  color: #fff;
+}
+
+.frontpage-header .activity .slogan {
+  font-size: 30px;
+  font-weight: bold;
+}
+
+.footer {
+  background-color: #2e2e2e;
+  bottom: 0;
+  color: #fff;
+  font-size: 12px;
+  display: block;
+  height: 80px;
+  line-height: 20px;
+  margin: 0 auto;
+  padding: 0;
+}
+
+.footer .footer-wrapper {
+  margin: 0 auto;
+  padding: 30px 15px 0;
+}
+
+.footer .footer-wrapper .copyright {
+  float: left;
+}
+
+.footer .footer-wrapper .navbar-nav {
+  float: right;
+}
+
+.footer .footer-wrapper .navbar-nav li {
+  margin-left: 24px;
+}
+
+.footer .footer-wrapper .navbar-nav li a {
+  margin: 0;
+  padding: 0;
+}
+
+.footer .footer-wrapper .navbar-nav li a,
+.footer .footer-wrapper .navbar-nav li a:hover {
+  color: #fff;
+  background-color: transparent;
+}
+
+.yellow {
+  color: #ffdd00;
+}

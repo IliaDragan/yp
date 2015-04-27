@@ -1,0 +1,79 @@
+<?php
+/**
+ * @file
+ * YellowPages contacts.
+ */
+
+/**
+ * Implements hook_menu().
+ */
+function yellow_pages_contacts_menu() {
+  $menu = array();
+
+  $menu['admin/config/yp/contacts'] = array(
+    'title' => 'YellowPages contacts',
+    'description' => 'Manage contacts information',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('yellow_pages_contacts_admin_form'),
+    'access arguments' => array('administer yp contacts'),
+    'file' => 'yellow_pages_contacts.admin.inc',
+  );
+
+  return $menu;
+}
+
+/**
+ * Implements hook_block_info().
+ */
+function yellow_pages_contacts_block_info() {
+  $blocks = array();
+
+  $blocks['yp_contacts'] = array(
+    'info' => 'YellowPages Contacts',
+    'cache' => DRUPAL_CACHE_GLOBAL,
+  );
+
+  return $blocks;
+}
+
+/**
+ * Implements hook_block_view().
+ */
+function yellow_pages_contacts_block_view($delta = '') {
+  $block = array();
+
+  switch ($delta) {
+    case 'yp_contacts':
+      $block['subject'] = t('Contacts');
+      $block['content'] = array(
+        '#theme' => 'yp_contacts',
+        '#title' => t('Contacts'),
+        '#mail' => variable_get('yp_contacts_mail', ''),
+        '#phone' => variable_get('yp_contacts_phone', ''),
+        '#url' => variable_get('yp_contacts_social', ''),
+      );
+      break;
+  }
+
+  return $block;
+}
+
+/**
+ * Implements hook_theme().
+ */
+function yellow_pages_contacts_theme($existing, $type, $theme, $path) {
+  $hooks = array();
+
+  $hooks['yp_contacts'] = array(
+    'template' => 'yp_contacts',
+    'path' => $path . '/templates',
+    'variables' => array(
+      'title' => '',
+      'mail' => '',
+      'phone' => '',
+      'url' => '',
+    ),
+  );
+
+  return $hooks;
+}

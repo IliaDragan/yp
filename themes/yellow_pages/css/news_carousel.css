@@ -1,0 +1,128 @@
+/**
+ * @file
+ * Tweaks for news carousel.
+ */
+
+.pane-views-news-carousel {
+  color: #fff;
+  font-family: 'PT Sans';
+  font-size: 14px;
+  padding-bottom: 50px;
+}
+
+.pane-views-news-carousel h2.pane-title {
+  color: #000;
+  font-family: 'PT Sans';
+  font-weight: bold;
+  margin: 50px 0;
+  text-align: center;
+}
+
+.pane-views-news-carousel .views-row {
+  position: relative;
+}
+
+.pane-views-news-carousel .views-row-field-wrapper {
+  background-color: rgba(55, 55, 55, 0.95);
+  cursor: pointer;
+  top: 83%;
+  position: absolute;
+  height: 100%;
+  width: 100%;
+}
+
+.pane-views-news-carousel .views-row-field-wrapper.active {
+  top: 0;
+}
+
+.pane-views-news-carousel .views-row-field-wrapper .close {
+  color: #ffdd00;
+  display: none;
+  font-weight: normal;
+  opacity: 1;
+  position: absolute;
+  right: 5px;
+  text-shadow: none;
+  top: 5px;
+  width: 24px;
+  z-index: 99;
+}
+
+.pane-views-news-carousel .views-row-field-wrapper.active .close {
+  display: block;
+}
+
+.pane-views-news-carousel .views-row-field-wrapper.active {
+  cursor: default;
+}
+
+.pane-views-news-carousel .views-field-title,
+.pane-views-news-carousel .views-field-nid a {
+  color: #ffdd00;
+  text-decoration: none;
+}
+
+.pane-views-news-carousel .views-field-field-list-image img {
+  height: auto;
+  max-width: 100%;
+}
+
+.pane-views-news-carousel .views-row-field-wrapper {
+  border-bottom: 3px solid #ffdd00;
+}
+
+.pane-views-news-carousel .views-row-field-wrapper > div {
+  text-align: center;
+}
+
+.pane-views-news-carousel .views-row-field-wrapper > div.views-field-title {
+  margin-top: 20px;
+}
+
+.pane-views-news-carousel .views-row-field-wrapper > div.views-field-body {
+  max-height: 49%;
+  padding: 20px;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 100%;
+}
+
+.pane-views-news-carousel .views-row-field-wrapper > div.views-field-nid {
+  bottom: 20px;
+  position: absolute;
+  width: 100%;
+}
+
+.pane-views-news-carousel .owl-controls {
+  margin-top: 50px;
+}
+
+.pane-views-news-carousel .owl-controls .owl-nav > div {
+  bottom: 95px;
+  position: absolute;
+}
+
+.pane-views-news-carousel .owl-controls .owl-nav .owl-prev {
+  left: 10px;
+}
+
+.pane-views-news-carousel .owl-controls .owl-nav .owl-next {
+  right: 10px;
+}
+
+.pane-views-news-carousel .owl-controls .owl-dots {
+  text-align: center;
+}
+
+.pane-views-news-carousel .owl-controls .owl-dots .owl-dot {
+  display: inline-block;
+  background-color: #000;
+  height: 10px;
+  margin-right: 10px;
+  width: 10px;
+}
+
+.pane-views-news-carousel .owl-controls .owl-dots .owl-dot.active {
+  background-color: #ffdd00;
+}

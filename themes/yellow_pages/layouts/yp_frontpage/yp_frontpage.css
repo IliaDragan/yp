@@ -4,7 +4,8 @@
   width: 100%;
 }
 
-#panels-panel-context-edit-content .col-sm-4 {
+#panels-panel-context-edit-content .col-sm-4,
+.yp-frontpage-layout .col-sm-4 {
   float: left;
   width: 33.33%;
 }

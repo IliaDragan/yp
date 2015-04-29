@@ -1,0 +1,51 @@
+<?php
+/**
+ * YellowPages print button module stub.
+ */
+
+/**
+ * Implements hook_block_info().
+ */
+function yellow_pages_print_block_info() {
+  $blocks = array();
+
+  $blocks['yp_print'] = array(
+    'info' => 'YellowPages Print Button',
+    'cache' => DRUPAL_CACHE_GLOBAL,
+  );
+
+  return $blocks;
+}
+
+/**
+ * Implements hook_block_view().
+ */
+function yellow_pages_print_block_view($delta = '') {
+  $block = array();
+
+  switch ($delta) {
+    case 'yp_print':
+      $block['subject'] = t('Print');
+      $block['content'] = array(
+        '#theme' => 'yp_print',
+      );
+      break;
+  }
+
+  return $block;
+}
+
+/**
+ * Implements hook_theme().
+ */
+function yellow_pages_print_theme($existing, $type, $theme, $path) {
+  $hooks = array();
+
+  $hooks['yp_print'] = array(
+    'template' => 'yp_print',
+    'path' => $path . '/templates',
+    'variables' => array(),
+  );
+
+  return $hooks;
+}

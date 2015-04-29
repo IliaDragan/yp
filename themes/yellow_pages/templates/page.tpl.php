@@ -151,7 +151,7 @@
 
   </div>
 </div>
-<footer id="footer" class="footer">
+<footer id="footer" class="footer container">
   <div class="footer-wrapper">
     <?php print render($page['footer']); ?>
     <p class="copyright">

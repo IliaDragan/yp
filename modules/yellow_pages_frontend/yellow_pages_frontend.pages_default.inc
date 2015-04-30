@@ -19,7 +19,7 @@ function yellow_pages_frontend_default_page_manager_handlers() {
   $handler->handler = 'panel_context';
   $handler->weight = 0;
   $handler->conf = array(
-    'title' => 'Node page',
+    'title' => 'Company node page',
     'no_blocks' => 1,
     'pipeline' => 'standard',
     'body_classes_to_remove' => '',
@@ -29,6 +29,21 @@ function yellow_pages_frontend_default_page_manager_handlers() {
     'contexts' => array(),
     'relationships' => array(),
     'name' => 'node_page',
+    'access' => array(
+      'plugins' => array(
+        0 => array(
+          'name' => 'entity_bundle:node',
+          'settings' => array(
+            'type' => array(
+              'company' => 'company',
+            ),
+          ),
+          'context' => 'argument_entity_id:node_1',
+          'not' => FALSE,
+        ),
+      ),
+      'logic' => 'and',
+    ),
   );
   $display = new panels_display();
   $display->layout = 'yp_node';

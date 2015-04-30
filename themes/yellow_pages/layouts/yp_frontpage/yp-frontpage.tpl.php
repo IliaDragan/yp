@@ -5,6 +5,7 @@
  */
 ?>
 <div <?php if (!empty($css_id)) { print 'id="$css_id"'; } ?> class="yp-frontpage-layout">
+  <?php if (drupal_is_front_page()) : ?>
   <div class="row">
     <div class="col-sm-12">
       <div class="frontpage-header">
@@ -18,6 +19,7 @@
       </div>
     </div>
   </div>
+  <?php endif; ?>
   <div class="row">
     <div class="col-sm-12">
       <?php print $content['main']; ?>

@@ -10,6 +10,10 @@ var Drupal = Drupal || {};
 
   Drupal.behaviors.yp_news_carousel = {
     attach: function () {
+      if ($('.view-id-news.view-display-id-default').length === 0) {
+        return;
+      }
+
       $('.view-id-news.view-display-id-default .view-content').owlCarousel({
         nav : true,
         navText : [

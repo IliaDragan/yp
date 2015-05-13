@@ -93,6 +93,9 @@ projects[search_api][subdir] = "contrib"
 projects[search_api_solr][version] = "1.6"
 projects[search_api_solr][subdir] = "contrib"
 
+projects[simpleads][version] = "1.9"
+projects[simpleads][subdir] = "contrib"
+
 projects[socialfield][version] = "1.4"
 projects[socialfield][subdir] = "contrib"
 

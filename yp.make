@@ -30,6 +30,9 @@ projects[entity][subdir] = "contrib"
 projects[entityreference][version] = "1.1"
 projects[entityreference][subdir] = "contrib"
 
+projects[facetapi][version] = "1.5"
+projects[facetapi][subdir] = "contrib"
+
 projects[features][version] = "2.3"
 projects[features][subdir] = "contrib"
 

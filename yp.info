@@ -54,3 +54,5 @@ dependencies[] = views_ui
 
 ; Yellow Pages modules
 ;dependencies[] = yellow_pages_ct
+
+exclusive = TRUE

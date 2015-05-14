@@ -13,7 +13,7 @@ function yellow_pages_taxonomy_taxonomy_default_vocabularies() {
       'name' => 'Categories',
       'machine_name' => 'categories',
       'description' => '',
-      'hierarchy' => 1,
+      'hierarchy' => 0,
       'module' => 'taxonomy',
       'weight' => 0,
       'language' => 'und',

@@ -39,17 +39,26 @@ projects[features][subdir] = "contrib"
 projects[file_entity][version] = "2.0-beta1"
 projects[file_entity][subdir] = "contrib"
 
+projects[fontawesome][version] = "2.1"
+projects[fontawesome][subdir] = "contrib"
+
 projects[geocoder][version] = "1.2"
 projects[geocoder][subdir] = "contrib"
 
 projects[geofield][version] = "2.3"
 projects[geofield][subdir] = "contrib"
 
+projects[geophp][version] = "1.7"
+projects[geophp][subdir] = "contrib"
+
 projects[i18n][version] = "1.12"
 projects[i18n][subdir] = "contrib"
 
 projects[l10n_update][version] = "2.0"
 projects[l10n_update][subdir] = "contrib"
+
+projects[libraries][version] = "2.2"
+projects[libraries][subdir] = "contrib"
 
 projects[jquery_update][version] = "2.5"
 projects[jquery_update][subdir] = "contrib"
@@ -84,8 +93,17 @@ projects[search_api][subdir] = "contrib"
 projects[search_api_solr][version] = "1.6"
 projects[search_api_solr][subdir] = "contrib"
 
+projects[simpleads][version] = "1.9"
+projects[simpleads][subdir] = "contrib"
+
 projects[socialfield][version] = "1.4"
 projects[socialfield][subdir] = "contrib"
+
+projects[strongarm][version] = "2.0"
+projects[strongarm][subdir] = "contrib"
+
+projects[taxonomy_menu][version] = "1.5"
+projects[taxonomy_menu][subdir] = "contrib"
 
 projects[variable][version] = "2.5"
 projects[variable][subdir] = "contrib"
@@ -93,7 +111,14 @@ projects[variable][subdir] = "contrib"
 projects[views][version] = "3.10"
 projects[views][subdir] = "contrib"
 
+projects[bootstrap][version] = "3.0"
+
 ; Libraries
+libraries[fontawesome][destination]    = "libraries"
+libraries[fontawesome][directory_name] = "fontawesome"
+libraries[fontawesome][download][type] = "get"
+libraries[fontawesome][download][url]  = "http://fortawesome.github.io/Font-Awesome/assets/font-awesome-4.3.0.zip"
+
 libraries[leaflet][destination]    = "libraries"
 libraries[leaflet][directory_name] = "leaflet"
 libraries[leaflet][download][type] = "get"

@@ -82,6 +82,11 @@ function yp_install() {
   locale_add_language('ru');
   locale_add_language('ro');
 
+  // Set default language.
+  $langs = language_list();
+  $langcode = 'ru';
+  variable_set('language_default', $langs[$langcode]);
+
   // Set default language detection.
   require_once DRUPAL_ROOT . '/includes/language.inc';
   require_once DRUPAL_ROOT . '/includes/locale.inc';

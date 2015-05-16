@@ -17,6 +17,7 @@ dependencies[] = media
 dependencies[] = mediafield
 dependencies[] = socialfield
 dependencies[] = text
+dependencies[] = yellow_pages_core
 dependencies[] = yellow_pages_taxonomy
 features[features_api][] = api:2
 features[field_base][] = body

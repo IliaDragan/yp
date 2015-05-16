@@ -83,7 +83,6 @@ function yellow_pages_solr_configuration_views_default_views() {
   $handler->display->display_options['arguments']['search_api_views_fulltext']['id'] = 'search_api_views_fulltext';
   $handler->display->display_options['arguments']['search_api_views_fulltext']['table'] = 'search_api_index_company_nodes';
   $handler->display->display_options['arguments']['search_api_views_fulltext']['field'] = 'search_api_views_fulltext';
-  $handler->display->display_options['arguments']['search_api_views_fulltext']['default_action'] = 'empty';
   $handler->display->display_options['arguments']['search_api_views_fulltext']['default_argument_type'] = 'fixed';
   $handler->display->display_options['arguments']['search_api_views_fulltext']['summary']['format'] = 'default_summary';
   $handler->display->display_options['arguments']['search_api_views_fulltext']['break_phrase'] = 0;

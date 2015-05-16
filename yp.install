@@ -79,7 +79,6 @@ function yp_install() {
   variable_set('node_admin_theme', '1');
 
   // Add default locales.
-  locale_add_language('ru');
   locale_add_language('ro');
 
   // Set default language.

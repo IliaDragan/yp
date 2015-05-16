@@ -5,6 +5,15 @@
  */
 
 /**
+ * Implements hook_profile_details().
+ */
+function yp_profile_details(){
+  $details['language'] = "ru";
+
+  return $details;
+}
+
+/**
  * Implements hook_form_FORM_ID_alter().
  */
 function yp_form_install_configure_form_alter(&$form, $form_state) {

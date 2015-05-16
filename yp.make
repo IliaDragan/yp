@@ -36,6 +36,9 @@ projects[facetapi][subdir] = "contrib"
 projects[features][version] = "2.3"
 projects[features][subdir] = "contrib"
 
+projects[features_extra][version] = "1.0-beta1"
+projects[features_extra][subdir] = "contrib"
+
 projects[file_entity][version] = "2.0-beta1"
 projects[file_entity][subdir] = "contrib"
 

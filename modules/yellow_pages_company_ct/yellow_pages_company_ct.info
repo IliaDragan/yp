@@ -7,6 +7,7 @@ dependencies[] = addressfield
 dependencies[] = date
 dependencies[] = email
 dependencies[] = features
+dependencies[] = font_icons
 dependencies[] = geocoder
 dependencies[] = geofield
 dependencies[] = image

@@ -61,7 +61,7 @@ function yellow_pages_news_ct_views_default_views() {
   $handler->display->display_options['fields']['changed']['date_format'] = 'custom';
   $handler->display->display_options['fields']['changed']['custom_date_format'] = 'd.m.Y';
   $handler->display->display_options['fields']['changed']['second_date_format'] = 'long';
-  /* Field: Content: Description of activity */
+  /* Field: Content: Body */
   $handler->display->display_options['fields']['body']['id'] = 'body';
   $handler->display->display_options['fields']['body']['table'] = 'field_data_body';
   $handler->display->display_options['fields']['body']['field'] = 'body';

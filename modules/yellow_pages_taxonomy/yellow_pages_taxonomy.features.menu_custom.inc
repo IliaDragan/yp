@@ -14,10 +14,13 @@ function yellow_pages_taxonomy_menu_default_menu_custom() {
   $menus['menu-category-menu'] = array(
     'menu_name' => 'menu-category-menu',
     'title' => 'Category menu',
-    'description' => '',
+    'description' => 'Automated menu items based on category terms.',
+    'language' => 'und',
+    'i18n_mode' => 5,
   );
   // Translatables
   // Included for use with string extractors like potx.
+  t('Automated menu items based on category terms.');
   t('Category menu');
 
 

@@ -35,6 +35,7 @@ dependencies[] = devel
 dependencies[] = devel_generate
 dependencies[] = entity
 dependencies[] = i18n
+dependencies[] = i18n_menu
 dependencies[] = i18n_node
 dependencies[] = i18n_taxonomy
 dependencies[] = jquery_update

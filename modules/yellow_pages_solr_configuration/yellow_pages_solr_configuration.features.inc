@@ -167,7 +167,7 @@ function yellow_pages_solr_configuration_default_search_api_server() {
       "clean_ids" : true,
       "site_hash" : true,
       "scheme" : "http",
-      "host" : "dev.inlead.dk",
+      "host" : "localhost",
       "port" : "8983",
       "path" : "\\/solr",
       "http_user" : "",

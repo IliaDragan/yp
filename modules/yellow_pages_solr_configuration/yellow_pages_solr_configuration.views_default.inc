@@ -111,6 +111,63 @@ function yellow_pages_solr_configuration_views_default_views() {
     ),
   );
   $handler->display->display_options['inherit_panels_path'] = '0';
+
+  /* Display: Similar companies */
+  $handler = $view->new_display('panel_pane', 'Similar companies', 'similar_companies');
+  $handler->display->display_options['defaults']['pager'] = FALSE;
+  $handler->display->display_options['pager']['type'] = 'some';
+  $handler->display->display_options['pager']['options']['items_per_page'] = '3';
+  $handler->display->display_options['pager']['options']['offset'] = '0';
+  $handler->display->display_options['defaults']['style_plugin'] = FALSE;
+  $handler->display->display_options['style_plugin'] = 'default';
+  $handler->display->display_options['defaults']['style_options'] = FALSE;
+  $handler->display->display_options['defaults']['row_plugin'] = FALSE;
+  $handler->display->display_options['row_plugin'] = 'entity';
+  $handler->display->display_options['row_options']['view_mode'] = 'search_index';
+  $handler->display->display_options['defaults']['row_options'] = FALSE;
+  $handler->display->display_options['defaults']['arguments'] = FALSE;
+  /* Contextual filter: Search: More like this */
+  $handler->display->display_options['arguments']['search_api_views_more_like_this']['id'] = 'search_api_views_more_like_this';
+  $handler->display->display_options['arguments']['search_api_views_more_like_this']['table'] = 'search_api_index_company_nodes';
+  $handler->display->display_options['arguments']['search_api_views_more_like_this']['field'] = 'search_api_views_more_like_this';
+  $handler->display->display_options['arguments']['search_api_views_more_like_this']['default_action'] = 'not found';
+  $handler->display->display_options['arguments']['search_api_views_more_like_this']['default_argument_type'] = 'fixed';
+  $handler->display->display_options['arguments']['search_api_views_more_like_this']['summary']['format'] = 'default_summary';
+  $handler->display->display_options['arguments']['search_api_views_more_like_this']['fields'] = array(
+    'field_goods_and_services' => 'field_goods_and_services',
+  );
+  $handler->display->display_options['argument_input'] = array(
+    'search_api_views_more_like_this' => array(
+      'type' => 'context',
+      'context' => 'entity:taxonomy_term.tid',
+      'context_optional' => 0,
+      'panel' => '0',
+      'fixed' => '',
+      'label' => 'Search: More like this',
+    ),
+  );
+
+  /* Display: Sticky on top */
+  $handler = $view->new_display('panel_pane', 'Sticky on top', 'panel_pane_1');
+  $handler->display->display_options['defaults']['pager'] = FALSE;
+  $handler->display->display_options['pager']['type'] = 'some';
+  $handler->display->display_options['pager']['options']['items_per_page'] = '3';
+  $handler->display->display_options['pager']['options']['offset'] = '0';
+  $handler->display->display_options['defaults']['style_plugin'] = FALSE;
+  $handler->display->display_options['style_plugin'] = 'default';
+  $handler->display->display_options['defaults']['style_options'] = FALSE;
+  $handler->display->display_options['defaults']['row_plugin'] = FALSE;
+  $handler->display->display_options['row_plugin'] = 'entity';
+  $handler->display->display_options['row_options']['view_mode'] = 'search_index';
+  $handler->display->display_options['defaults']['row_options'] = FALSE;
+  $handler->display->display_options['defaults']['arguments'] = FALSE;
+  $handler->display->display_options['defaults']['filter_groups'] = FALSE;
+  $handler->display->display_options['defaults']['filters'] = FALSE;
+  /* Filter criterion: Indexed Node: Sticky in lists */
+  $handler->display->display_options['filters']['sticky']['id'] = 'sticky';
+  $handler->display->display_options['filters']['sticky']['table'] = 'search_api_index_company_nodes';
+  $handler->display->display_options['filters']['sticky']['field'] = 'sticky';
+  $handler->display->display_options['filters']['sticky']['value'] = '1';
   $translatables['solr_views'] = array(
     t('Master'),
     t('more'),
@@ -133,6 +190,8 @@ function yellow_pages_solr_configuration_views_default_views() {
     t('Search'),
     t('All'),
     t('View panes'),
+    t('Similar companies'),
+    t('Sticky on top'),
   );
   $export['solr_views'] = $view;
 

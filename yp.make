@@ -87,8 +87,14 @@ projects[media_youtube][subdir] = "contrib"
 projects[module_filter][version] = "2.0"
 projects[module_filter][subdir] = "contrib"
 
+projects[node_expire][version] = "1.8"
+projects[node_expire][subdir] = "contrib"
+
 projects[panels][version] = "3.5"
 projects[panels][subdir] = "contrib"
+
+projects[rules][version] = "2.9"
+projects[rules][subdir] = "contrib"
 
 projects[search_api][version] = "1.14"
 projects[search_api][subdir] = "contrib"

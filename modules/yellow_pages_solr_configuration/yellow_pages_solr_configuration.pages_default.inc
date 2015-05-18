@@ -144,6 +144,25 @@ function yellow_pages_solr_configuration_default_page_manager_handlers() {
     $pane->uuid = '7f69f7dd-cbe7-47ae-a861-36eaad7df0cf';
     $display->content['new-7f69f7dd-cbe7-47ae-a861-36eaad7df0cf'] = $pane;
     $display->panels['top'][0] = 'new-7f69f7dd-cbe7-47ae-a861-36eaad7df0cf';
+    $pane = new stdClass();
+    $pane->pid = 'new-4cf4b860-bd43-4a12-92b5-ed5ec4e28fbd';
+    $pane->panel = 'top';
+    $pane->type = 'views_panes';
+    $pane->subtype = 'solr_views-panel_pane_1';
+    $pane->shown = TRUE;
+    $pane->access = array();
+    $pane->configuration = array();
+    $pane->cache = array();
+    $pane->style = array(
+      'settings' => NULL,
+    );
+    $pane->css = array();
+    $pane->extras = array();
+    $pane->position = 1;
+    $pane->locks = array();
+    $pane->uuid = '4cf4b860-bd43-4a12-92b5-ed5ec4e28fbd';
+    $display->content['new-4cf4b860-bd43-4a12-92b5-ed5ec4e28fbd'] = $pane;
+    $display->panels['top'][1] = 'new-4cf4b860-bd43-4a12-92b5-ed5ec4e28fbd';
   $display->hide_title = PANELS_TITLE_FIXED;
   $display->title_pane = '0';
   $handler->conf['display'] = $display;

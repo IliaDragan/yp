@@ -1,49 +1,39 @@
 <?php
 /**
  * @file
- * yellow_pages_news_ct.views_default.inc
+ * yellow_pages_article_ct.views_default.inc
  */
 
 /**
  * Implements hook_views_default_views().
  */
-function yellow_pages_news_ct_views_default_views() {
+function yellow_pages_article_ct_views_default_views() {
   $export = array();
 
   $view = new view();
-  $view->name = 'news';
+  $view->name = 'articles';
   $view->description = '';
   $view->tag = 'default';
   $view->base_table = 'node';
-  $view->human_name = 'News';
+  $view->human_name = 'Articles';
   $view->core = 7;
   $view->api_version = '3.0';
   $view->disabled = FALSE; /* Edit this to true to make a default view disabled initially */
 
   /* Display: Master */
   $handler = $view->new_display('default', 'Master', 'default');
-  $handler->display->display_options['title'] = 'News';
   $handler->display->display_options['use_more_always'] = FALSE;
   $handler->display->display_options['access']['type'] = 'perm';
   $handler->display->display_options['cache']['type'] = 'none';
   $handler->display->display_options['query']['type'] = 'views_query';
   $handler->display->display_options['exposed_form']['type'] = 'basic';
-  $handler->display->display_options['pager']['type'] = 'some';
+  $handler->display->display_options['pager']['type'] = 'full';
   $handler->display->display_options['pager']['options']['items_per_page'] = '8';
   $handler->display->display_options['pager']['options']['offset'] = '0';
-  $handler->display->display_options['style_plugin'] = 'default';
+  $handler->display->display_options['pager']['options']['id'] = '0';
+  $handler->display->display_options['pager']['options']['quantity'] = '9';
+  $handler->display->display_options['style_plugin'] = 'list';
   $handler->display->display_options['row_plugin'] = 'fields';
-  /* Field: Content: List Image */
-  $handler->display->display_options['fields']['field_list_image']['id'] = 'field_list_image';
-  $handler->display->display_options['fields']['field_list_image']['table'] = 'field_data_field_list_image';
-  $handler->display->display_options['fields']['field_list_image']['field'] = 'field_list_image';
-  $handler->display->display_options['fields']['field_list_image']['label'] = '';
-  $handler->display->display_options['fields']['field_list_image']['element_label_colon'] = FALSE;
-  $handler->display->display_options['fields']['field_list_image']['click_sort_column'] = 'fid';
-  $handler->display->display_options['fields']['field_list_image']['settings'] = array(
-    'image_style' => 'news_carousel',
-    'image_link' => '',
-  );
   /* Field: Content: Title */
   $handler->display->display_options['fields']['title']['id'] = 'title';
   $handler->display->display_options['fields']['title']['table'] = 'node';
@@ -51,43 +41,56 @@ function yellow_pages_news_ct_views_default_views() {
   $handler->display->display_options['fields']['title']['label'] = '';
   $handler->display->display_options['fields']['title']['alter']['word_boundary'] = FALSE;
   $handler->display->display_options['fields']['title']['alter']['ellipsis'] = FALSE;
-  $handler->display->display_options['fields']['title']['element_label_colon'] = FALSE;
-  $handler->display->display_options['fields']['title']['link_to_node'] = FALSE;
-  /* Field: Content: Updated date */
-  $handler->display->display_options['fields']['changed']['id'] = 'changed';
-  $handler->display->display_options['fields']['changed']['table'] = 'node';
-  $handler->display->display_options['fields']['changed']['field'] = 'changed';
-  $handler->display->display_options['fields']['changed']['label'] = '';
-  $handler->display->display_options['fields']['changed']['element_label_colon'] = FALSE;
-  $handler->display->display_options['fields']['changed']['date_format'] = 'custom';
-  $handler->display->display_options['fields']['changed']['custom_date_format'] = 'd.m.Y';
-  $handler->display->display_options['fields']['changed']['second_date_format'] = 'long';
-  /* Field: Content: Body */
-  $handler->display->display_options['fields']['body']['id'] = 'body';
-  $handler->display->display_options['fields']['body']['table'] = 'field_data_body';
-  $handler->display->display_options['fields']['body']['field'] = 'body';
-  $handler->display->display_options['fields']['body']['label'] = '';
-  $handler->display->display_options['fields']['body']['alter']['strip_tags'] = TRUE;
-  $handler->display->display_options['fields']['body']['element_label_colon'] = FALSE;
-  $handler->display->display_options['fields']['body']['type'] = 'text_trimmed';
-  $handler->display->display_options['fields']['body']['settings'] = array(
-    'trim_length' => '450',
+  /* Field: Content: Categories */
+  $handler->display->display_options['fields']['field_categories']['id'] = 'field_categories';
+  $handler->display->display_options['fields']['field_categories']['table'] = 'field_data_field_categories';
+  $handler->display->display_options['fields']['field_categories']['field'] = 'field_categories';
+  $handler->display->display_options['fields']['field_categories']['type'] = 'taxonomy_term_reference_link';
+  $handler->display->display_options['fields']['field_categories']['delta_offset'] = '0';
+  /* Field: Content: Companies */
+  $handler->display->display_options['fields']['field_companies']['id'] = 'field_companies';
+  $handler->display->display_options['fields']['field_companies']['table'] = 'field_data_field_companies';
+  $handler->display->display_options['fields']['field_companies']['field'] = 'field_companies';
+  $handler->display->display_options['fields']['field_companies']['settings'] = array(
+    'link' => 0,
+  );
+  $handler->display->display_options['fields']['field_companies']['delta_offset'] = '0';
+  /* Field: Content: List Image */
+  $handler->display->display_options['fields']['field_list_image']['id'] = 'field_list_image';
+  $handler->display->display_options['fields']['field_list_image']['table'] = 'field_data_field_list_image';
+  $handler->display->display_options['fields']['field_list_image']['field'] = 'field_list_image';
+  $handler->display->display_options['fields']['field_list_image']['label'] = 'List image';
+  $handler->display->display_options['fields']['field_list_image']['click_sort_column'] = 'fid';
+  $handler->display->display_options['fields']['field_list_image']['settings'] = array(
+    'image_style' => '',
+    'image_link' => '',
   );
   /* Field: Content: Nid */
   $handler->display->display_options['fields']['nid']['id'] = 'nid';
   $handler->display->display_options['fields']['nid']['table'] = 'node';
   $handler->display->display_options['fields']['nid']['field'] = 'nid';
   $handler->display->display_options['fields']['nid']['label'] = '';
-  $handler->display->display_options['fields']['nid']['alter']['alter_text'] = TRUE;
-  $handler->display->display_options['fields']['nid']['alter']['text'] = 'Read more &gt;';
-  $handler->display->display_options['fields']['nid']['alter']['make_link'] = TRUE;
-  $handler->display->display_options['fields']['nid']['alter']['path'] = 'node/[nid]';
+  $handler->display->display_options['fields']['nid']['exclude'] = TRUE;
   $handler->display->display_options['fields']['nid']['element_label_colon'] = FALSE;
+  /* Field: Content: Post date */
+  $handler->display->display_options['fields']['created']['id'] = 'created';
+  $handler->display->display_options['fields']['created']['table'] = 'node';
+  $handler->display->display_options['fields']['created']['field'] = 'created';
+  $handler->display->display_options['fields']['created']['label'] = '';
+  $handler->display->display_options['fields']['created']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['created']['date_format'] = 'long';
+  $handler->display->display_options['fields']['created']['second_date_format'] = 'long';
   /* Sort criterion: Content: Post date */
   $handler->display->display_options['sorts']['created']['id'] = 'created';
   $handler->display->display_options['sorts']['created']['table'] = 'node';
   $handler->display->display_options['sorts']['created']['field'] = 'created';
   $handler->display->display_options['sorts']['created']['order'] = 'DESC';
+  /* Contextual filter: Content: Categories (field_categories) */
+  $handler->display->display_options['arguments']['field_categories_tid']['id'] = 'field_categories_tid';
+  $handler->display->display_options['arguments']['field_categories_tid']['table'] = 'field_data_field_categories';
+  $handler->display->display_options['arguments']['field_categories_tid']['field'] = 'field_categories_tid';
+  $handler->display->display_options['arguments']['field_categories_tid']['default_argument_type'] = 'fixed';
+  $handler->display->display_options['arguments']['field_categories_tid']['summary']['format'] = 'default_summary';
   /* Filter criterion: Content: Published */
   $handler->display->display_options['filters']['status']['id'] = 'status';
   $handler->display->display_options['filters']['status']['table'] = 'node';
@@ -100,7 +103,7 @@ function yellow_pages_news_ct_views_default_views() {
   $handler->display->display_options['filters']['type']['table'] = 'node';
   $handler->display->display_options['filters']['type']['field'] = 'type';
   $handler->display->display_options['filters']['type']['value'] = array(
-    'news' => 'news',
+    'article' => 'article',
   );
 
   /* Display: Block */
@@ -121,28 +124,36 @@ function yellow_pages_news_ct_views_default_views() {
   $handler->display->display_options['defaults']['exposed_form'] = FALSE;
   $handler->display->display_options['exposed_form']['type'] = 'basic';
   $handler->display->display_options['exposed_form']['options']['autosubmit'] = TRUE;
-  $handler->display->display_options['path'] = 'news';
+  $handler->display->display_options['path'] = 'articles';
   $handler->display->display_options['menu']['type'] = 'normal';
-  $handler->display->display_options['menu']['title'] = 'News';
-  $handler->display->display_options['menu']['description'] = 'List of news';
+  $handler->display->display_options['menu']['title'] = 'Articles';
+  $handler->display->display_options['menu']['description'] = 'List of articles';
   $handler->display->display_options['menu']['weight'] = '0';
   $handler->display->display_options['menu']['context'] = 0;
   $handler->display->display_options['menu']['context_only_inline'] = 0;
-  $translatables['news'] = array(
+  $translatables['articles'] = array(
     t('Master'),
-    t('News'),
     t('more'),
     t('Apply'),
     t('Reset'),
     t('Sort by'),
     t('Asc'),
     t('Desc'),
-    t('Read more &gt;'),
-    t('Block'),
+    t('Items per page'),
+    t('- All -'),
+    t('Offset'),
+    t('« first'),
+    t('‹ previous'),
+    t('next ›'),
+    t('last »'),
+    t('Categories'),
+    t('Companies'),
+    t('List image'),
     t('All'),
+    t('Block'),
     t('Page'),
   );
-  $export['news'] = $view;
+  $export['articles'] = $view;
 
   return $export;
 }

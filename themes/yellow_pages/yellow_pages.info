@@ -8,6 +8,7 @@ base theme = bootstrap
 ;;;;;;;;;;;;;;;;;;;;;
 
 regions[header]  = 'Header'
+regions[help]    = 'Help'
 regions[content] = 'Content'
 regions[aside_a] = 'Aside Alpha'
 regions[aside_b] = 'Aside Beta'

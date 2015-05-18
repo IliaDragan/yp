@@ -56,6 +56,7 @@
  *
  * Regions:
  * - $page['header']
+ * - $page['help']
  * - $page['content']
  * - $page['aside_a']
  * - $page['aside_b']
@@ -82,32 +83,50 @@
       <?php endif; ?>
     </div>
     <?php
-
     if ($is_front) {
       print render($page['main_menu']);
     }
-
     print render($page['header']);
     ?>
   </div>
 </header>
 
 <div class="main-container container">
+<div class="row">
+    <div class="col-sm-12">
+      <?php
+      if (!empty($page['help'])) {
+        print render($page['help']);
+      }
+      ?>
+    </div>
+  </div>
   <div class="row">
     <div class="col-sm-12">
       <?php print render($page['content']); ?>
     </div>
   </div>
-
   <div class="row">
     <div class="col-sm-4">
-      <?php print render($page['aside_a']); ?>
+      <?php
+      if (!empty($page['aside_a'])) {
+        print render($page['aside_a']);
+      }
+      ?>
     </div>
     <div class="col-sm-4">
-      <?php print render($page['aside_b']); ?>
+      <?php
+      if (!empty($page['aside_b'])) {
+        print render($page['aside_b']);
+      }
+      ?>
     </div>
     <div class="col-sm-4">
-      <?php print render($page['aside_c']); ?>
+      <?php
+      if (!empty($page['aside_c'])) {
+        print render($page['aside_c']);
+      }
+      ?>
     </div>
   </div>
 </div>
@@ -117,7 +136,7 @@
     <span class="copyright">
       <?php print '&copy; ' . date('Y');?>
     </span>
-    <?php print render($page['footer']); ?>
     <?php print render($page['main_menu']); ?>
+    <?php print render($page['footer']); ?>
   </div>
 </footer>

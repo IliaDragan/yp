@@ -1,18 +1,18 @@
 <?php
 /**
  * @file
- * yellow_pages_news_ct.features.field_instance.inc
+ * yellow_pages_article_ct.features.field_instance.inc
  */
 
 /**
  * Implements hook_field_default_field_instances().
  */
-function yellow_pages_news_ct_field_default_field_instances() {
+function yellow_pages_article_ct_field_default_field_instances() {
   $field_instances = array();
 
-  // Exported field_instance: 'node-news-body'
-  $field_instances['node-news-body'] = array(
-    'bundle' => 'news',
+  // Exported field_instance: 'node-article-body'
+  $field_instances['node-article-body'] = array(
+    'bundle' => 'article',
     'default_value' => NULL,
     'deleted' => 0,
     'description' => '',
@@ -37,27 +37,26 @@ function yellow_pages_news_ct_field_default_field_instances() {
     'entity_type' => 'node',
     'field_name' => 'body',
     'label' => 'Body',
-    'required' => 1,
+    'required' => FALSE,
     'settings' => array(
-      'display_summary' => 0,
+      'display_summary' => TRUE,
       'text_processing' => 1,
       'user_register_form' => FALSE,
     ),
     'widget' => array(
-      'active' => 1,
       'module' => 'text',
       'settings' => array(
         'rows' => 20,
         'summary_rows' => 5,
       ),
       'type' => 'text_textarea_with_summary',
-      'weight' => 1,
+      'weight' => -4,
     ),
   );
 
-  // Exported field_instance: 'node-news-field_categories'
-  $field_instances['node-news-field_categories'] = array(
-    'bundle' => 'news',
+  // Exported field_instance: 'node-article-field_categories'
+  $field_instances['node-article-field_categories'] = array(
+    'bundle' => 'article',
     'default_value' => array(),
     'deleted' => 0,
     'description' => '',
@@ -67,7 +66,7 @@ function yellow_pages_news_ct_field_default_field_instances() {
         'module' => 'i18n_taxonomy',
         'settings' => array(),
         'type' => 'i18n_taxonomy_term_reference_link',
-        'weight' => 4,
+        'weight' => 3,
       ),
       'teaser' => array(
         'label' => 'above',
@@ -91,13 +90,13 @@ function yellow_pages_news_ct_field_default_field_instances() {
         'size' => 60,
       ),
       'type' => 'taxonomy_autocomplete',
-      'weight' => 5,
+      'weight' => 6,
     ),
   );
 
-  // Exported field_instance: 'node-news-field_companies'
-  $field_instances['node-news-field_companies'] = array(
-    'bundle' => 'news',
+  // Exported field_instance: 'node-article-field_companies'
+  $field_instances['node-article-field_companies'] = array(
+    'bundle' => 'article',
     'default_value' => array(),
     'deleted' => 0,
     'description' => '',
@@ -109,7 +108,7 @@ function yellow_pages_news_ct_field_default_field_instances() {
           'link' => FALSE,
         ),
         'type' => 'entityreference_label',
-        'weight' => 3,
+        'weight' => 5,
       ),
       'teaser' => array(
         'label' => 'above',
@@ -134,20 +133,24 @@ function yellow_pages_news_ct_field_default_field_instances() {
         'size' => 60,
       ),
       'type' => 'entityreference_autocomplete_tags',
-      'weight' => 4,
+      'weight' => 10,
     ),
   );
 
-  // Exported field_instance: 'node-news-field_list_image'
-  $field_instances['node-news-field_list_image'] = array(
-    'bundle' => 'news',
+  // Exported field_instance: 'node-article-field_list_image'
+  $field_instances['node-article-field_list_image'] = array(
+    'bundle' => 'article',
     'deleted' => 0,
     'description' => '',
     'display' => array(
       'default' => array(
         'label' => 'above',
-        'settings' => array(),
-        'type' => 'hidden',
+        'module' => 'image',
+        'settings' => array(
+          'image_link' => '',
+          'image_style' => '',
+        ),
+        'type' => 'image',
         'weight' => 2,
       ),
       'teaser' => array(
@@ -159,13 +162,14 @@ function yellow_pages_news_ct_field_default_field_instances() {
     ),
     'entity_type' => 'node',
     'field_name' => 'field_list_image',
-    'label' => 'List Image',
+    'label' => 'List image',
     'required' => 0,
     'settings' => array(
       'alt_field' => 0,
       'default_image' => 0,
-      'file_directory' => '',
-      'file_extensions' => 'png gif jpg jpeg',
+      'description_field' => 0,
+      'file_directory' => 'list_image',
+      'file_extensions' => 'png gif jpeg jpg',
       'max_filesize' => '',
       'max_resolution' => '',
       'min_resolution' => '',
@@ -195,13 +199,13 @@ function yellow_pages_news_ct_field_default_field_instances() {
         ),
       ),
       'type' => 'media_generic',
-      'weight' => 3,
+      'weight' => 4,
     ),
   );
 
-  // Exported field_instance: 'node-news-field_main_image'
-  $field_instances['node-news-field_main_image'] = array(
-    'bundle' => 'news',
+  // Exported field_instance: 'node-article-field_main_image'
+  $field_instances['node-article-field_main_image'] = array(
+    'bundle' => 'article',
     'deleted' => 0,
     'description' => '',
     'display' => array(
@@ -224,13 +228,14 @@ function yellow_pages_news_ct_field_default_field_instances() {
     ),
     'entity_type' => 'node',
     'field_name' => 'field_main_image',
-    'label' => 'Main Image',
-    'required' => 1,
+    'label' => 'Main image',
+    'required' => 0,
     'settings' => array(
       'alt_field' => 0,
       'default_image' => 0,
-      'file_directory' => '',
-      'file_extensions' => 'png gif jpg jpeg',
+      'description_field' => 0,
+      'file_directory' => 'main_image',
+      'file_extensions' => 'png gif jpeg jpg',
       'max_filesize' => '',
       'max_resolution' => '',
       'min_resolution' => '',
@@ -264,9 +269,9 @@ function yellow_pages_news_ct_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-news-field_video'
-  $field_instances['node-news-field_video'] = array(
-    'bundle' => 'news',
+  // Exported field_instance: 'node-article-field_video'
+  $field_instances['node-article-field_video'] = array(
+    'bundle' => 'article',
     'deleted' => 0,
     'description' => '',
     'display' => array(
@@ -277,7 +282,7 @@ function yellow_pages_news_ct_field_default_field_instances() {
           'file_view_mode' => 'default',
         ),
         'type' => 'media',
-        'weight' => 5,
+        'weight' => 6,
       ),
       'teaser' => array(
         'label' => 'above',
@@ -317,7 +322,7 @@ function yellow_pages_news_ct_field_default_field_instances() {
         ),
       ),
       'type' => 'media_generic',
-      'weight' => 6,
+      'weight' => 12,
     ),
   );
 
@@ -326,8 +331,8 @@ function yellow_pages_news_ct_field_default_field_instances() {
   t('Body');
   t('Categories');
   t('Companies');
-  t('List Image');
-  t('Main Image');
+  t('List image');
+  t('Main image');
   t('Video');
 
   return $field_instances;

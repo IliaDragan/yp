@@ -24,8 +24,6 @@ regions[page_bottom]    = 'Page bottom'
 ;;;;;;;;;;;;;;;;;;;;;
 
 stylesheets[all][] = css/style.css
-stylesheets[all][] = css/category_menu.css
-stylesheets[all][] = css/yp_widgets.css
 
 ;;;;;;;;;;;;;;;;;;;;;
 ;; Scripts

@@ -4,7 +4,7 @@
  * Layout markup for frontpage.
  */
 ?>
-<div <?php if (!empty($css_id)) { print 'id="$css_id"'; } ?> class="yp-frontpage-layout">
+<div <?php if (!empty($css_id)) { print 'id="$css_id"'; } ?> class="yp-onecol-100-layout">
   <?php if (drupal_is_front_page()) : ?>
   <div class="row">
     <div class="col-sm-12">

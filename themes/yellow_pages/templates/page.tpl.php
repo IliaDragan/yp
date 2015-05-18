@@ -81,8 +81,14 @@
       </a>
       <?php endif; ?>
     </div>
-    <?php print render($page['main_menu']); ?>
-    <?php print render($page['header']); ?>
+    <?php
+
+    if ($is_front) {
+      print render($page['main_menu']);
+    }
+
+    print render($page['header']);
+    ?>
   </div>
 </header>
 

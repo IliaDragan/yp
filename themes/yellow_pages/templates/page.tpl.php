@@ -81,6 +81,7 @@
       </a>
       <?php endif; ?>
     </div>
+    <?php print render($page['main_menu']); ?>
     <?php print render($page['header']); ?>
   </div>
 </header>
@@ -111,5 +112,6 @@
       <?php print '&copy; ' . date('Y');?>
     </span>
     <?php print render($page['footer']); ?>
+    <?php print render($page['main_menu']); ?>
   </div>
 </footer>

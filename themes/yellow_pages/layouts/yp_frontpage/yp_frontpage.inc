@@ -12,9 +12,6 @@ $plugin['yp_frontpage'] = array(
   'css' => 'yp_frontpage.css',
   'regions' => array(
     'main' => t('Main'),
-    'bottom_a' => t('Bottom A'),
-    'bottom_b' => t('Bottom B'),
-    'bottom_c' => t('Bottom C'),
   ),
   'regions_image_styles' => array(),
 );

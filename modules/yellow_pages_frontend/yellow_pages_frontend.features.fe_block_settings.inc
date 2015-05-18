@@ -38,6 +38,32 @@ function yellow_pages_frontend_default_fe_block_settings() {
     'visibility' => 0,
   );
 
+  $export['search-form'] = array(
+    'cache' => -1,
+    'custom' => 0,
+    'delta' => 'form',
+    'module' => 'search',
+    'node_types' => array(),
+    'pages' => '<front>',
+    'roles' => array(),
+    'themes' => array(
+      'seven' => array(
+        'region' => '',
+        'status' => 0,
+        'theme' => 'seven',
+        'weight' => 0,
+      ),
+      'yellow_pages' => array(
+        'region' => 'header',
+        'status' => 1,
+        'theme' => 'yellow_pages',
+        'weight' => -15,
+      ),
+    ),
+    'title' => '',
+    'visibility' => 0,
+  );
+
   $export['system-main'] = array(
     'cache' => -1,
     'custom' => 0,
@@ -70,7 +96,7 @@ function yellow_pages_frontend_default_fe_block_settings() {
     'delta' => 'user-menu',
     'module' => 'system',
     'node_types' => array(),
-    'pages' => '',
+    'pages' => '<front>',
     'roles' => array(),
     'themes' => array(
       'seven' => array(
@@ -87,7 +113,7 @@ function yellow_pages_frontend_default_fe_block_settings() {
       ),
     ),
     'title' => '<none>',
-    'visibility' => 0,
+    'visibility' => 1,
   );
 
   $export['yellow_pages_contacts-yp_contacts'] = array(

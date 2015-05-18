@@ -7,7 +7,7 @@
 $plugin['yp_frontpage'] = array(
   'title' => t('YellowPages Frontpage'),
   'category' => 'YellowPages',
-  'icon' => 'yp_frontpage.png',
+  'icon' => 'yp_onecol_100.png',
   'theme' => 'yp_frontpage',
   'css' => 'yp_frontpage.css',
   'regions' => array(

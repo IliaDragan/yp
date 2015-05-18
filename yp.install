@@ -80,6 +80,7 @@ function yp_install() {
 
   // Add default locales.
   locale_add_language('ro');
+  locale_add_language('ru');
 
   // Set default language.
   $langs = language_list();

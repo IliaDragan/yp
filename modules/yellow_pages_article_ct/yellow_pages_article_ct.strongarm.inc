@@ -87,7 +87,14 @@ function yellow_pages_article_ct_strongarm() {
           'weight' => '-5',
         ),
       ),
-      'display' => array(),
+      'display' => array(
+        'language' => array(
+          'full' => array(
+            'weight' => '2',
+            'visible' => FALSE,
+          ),
+        ),
+      ),
     ),
   );
   $export['field_bundle_settings_node__article'] = $strongarm;

@@ -24,6 +24,13 @@ function yellow_pages_news_ct_field_default_field_instances() {
         'type' => 'text_default',
         'weight' => 0,
       ),
+      'full' => array(
+        'label' => 'hidden',
+        'module' => 'text',
+        'settings' => array(),
+        'type' => 'text_default',
+        'weight' => 1,
+      ),
       'teaser' => array(
         'label' => 'hidden',
         'module' => 'text',
@@ -69,6 +76,12 @@ function yellow_pages_news_ct_field_default_field_instances() {
         'type' => 'i18n_taxonomy_term_reference_link',
         'weight' => 4,
       ),
+      'full' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 3,
+      ),
       'teaser' => array(
         'label' => 'above',
         'settings' => array(),
@@ -111,6 +124,12 @@ function yellow_pages_news_ct_field_default_field_instances() {
         'type' => 'entityreference_label',
         'weight' => 3,
       ),
+      'full' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 2,
+      ),
       'teaser' => array(
         'label' => 'above',
         'settings' => array(),
@@ -149,6 +168,12 @@ function yellow_pages_news_ct_field_default_field_instances() {
         'settings' => array(),
         'type' => 'hidden',
         'weight' => 2,
+      ),
+      'full' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 6,
       ),
       'teaser' => array(
         'label' => 'above',
@@ -215,6 +240,16 @@ function yellow_pages_news_ct_field_default_field_instances() {
         'type' => 'image',
         'weight' => 1,
       ),
+      'full' => array(
+        'label' => 'hidden',
+        'module' => 'image',
+        'settings' => array(
+          'image_link' => '',
+          'image_style' => '',
+        ),
+        'type' => 'image',
+        'weight' => 0,
+      ),
       'teaser' => array(
         'label' => 'above',
         'settings' => array(),
@@ -278,6 +313,12 @@ function yellow_pages_news_ct_field_default_field_instances() {
         ),
         'type' => 'media',
         'weight' => 5,
+      ),
+      'full' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 4,
       ),
       'teaser' => array(
         'label' => 'above',

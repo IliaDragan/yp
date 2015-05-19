@@ -55,11 +55,10 @@ function yellow_pages_article_ct_views_default_views() {
     'link' => 0,
   );
   $handler->display->display_options['fields']['field_companies']['delta_offset'] = '0';
-  /* Field: Content: List Image */
+  /* Field: Content: List image */
   $handler->display->display_options['fields']['field_list_image']['id'] = 'field_list_image';
   $handler->display->display_options['fields']['field_list_image']['table'] = 'field_data_field_list_image';
   $handler->display->display_options['fields']['field_list_image']['field'] = 'field_list_image';
-  $handler->display->display_options['fields']['field_list_image']['label'] = 'List image';
   $handler->display->display_options['fields']['field_list_image']['click_sort_column'] = 'fid';
   $handler->display->display_options['fields']['field_list_image']['settings'] = array(
     'image_style' => '',

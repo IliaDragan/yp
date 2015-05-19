@@ -119,7 +119,7 @@ function yellow_pages_frontend_default_page_manager_handlers() {
     $pane->access = array();
     $pane->configuration = array(
       'label' => 'above',
-      'formatter' => 'i18n_taxonomy_term_reference_plain',
+      'formatter' => 'i18n_taxonomy_term_reference_link',
       'delta_limit' => '0',
       'delta_offset' => '0',
       'delta_reversed' => 0,

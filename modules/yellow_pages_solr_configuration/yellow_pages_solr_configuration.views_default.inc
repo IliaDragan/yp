@@ -57,6 +57,14 @@ function yellow_pages_solr_configuration_views_default_views() {
   $handler->display->display_options['row_options']['view_mode'] = 'search_index';
   $handler->display->display_options['defaults']['row_options'] = FALSE;
   $handler->display->display_options['exposed_block'] = TRUE;
+  $handler->display->display_options['defaults']['empty'] = FALSE;
+  /* No results behavior: Global: View area */
+  $handler->display->display_options['empty']['view']['id'] = 'view';
+  $handler->display->display_options['empty']['view']['table'] = 'views';
+  $handler->display->display_options['empty']['view']['field'] = 'view';
+  $handler->display->display_options['empty']['view']['empty'] = TRUE;
+  $handler->display->display_options['empty']['view']['view_to_insert'] = 'solr_views:page_1';
+  $handler->display->display_options['empty']['view']['inherit_arguments'] = TRUE;
   $handler->display->display_options['defaults']['fields'] = FALSE;
   /* Field: Indexed Node: Title */
   $handler->display->display_options['fields']['title']['id'] = 'title';
@@ -83,18 +91,13 @@ function yellow_pages_solr_configuration_views_default_views() {
   $handler->display->display_options['arguments']['search_api_views_fulltext']['id'] = 'search_api_views_fulltext';
   $handler->display->display_options['arguments']['search_api_views_fulltext']['table'] = 'search_api_index_company_nodes';
   $handler->display->display_options['arguments']['search_api_views_fulltext']['field'] = 'search_api_views_fulltext';
-  $handler->display->display_options['arguments']['search_api_views_fulltext']['default_argument_type'] = 'fixed';
+  $handler->display->display_options['arguments']['search_api_views_fulltext']['exception']['value'] = '';
+  $handler->display->display_options['arguments']['search_api_views_fulltext']['default_argument_type'] = 'raw';
+  $handler->display->display_options['arguments']['search_api_views_fulltext']['default_argument_options']['index'] = '2';
   $handler->display->display_options['arguments']['search_api_views_fulltext']['summary']['format'] = 'default_summary';
   $handler->display->display_options['arguments']['search_api_views_fulltext']['break_phrase'] = 0;
   $handler->display->display_options['arguments']['search_api_views_fulltext']['not'] = 0;
   $handler->display->display_options['arguments']['search_api_views_fulltext']['fields'] = array(
-    'body:value' => 'body:value',
-    'field_address:locality' => 'field_address:locality',
-    'field_address:premise' => 'field_address:premise',
-    'field_address:thoroughfare' => 'field_address:thoroughfare',
-    'field_fax' => 'field_fax',
-    'field_landline_phone' => 'field_landline_phone',
-    'field_mobile_phone' => 'field_mobile_phone',
     'title' => 'title',
   );
   $handler->display->display_options['arguments']['search_api_views_fulltext']['conjunction'] = 'OR';
@@ -102,8 +105,8 @@ function yellow_pages_solr_configuration_views_default_views() {
   $handler->display->display_options['defaults']['filters'] = FALSE;
   $handler->display->display_options['argument_input'] = array(
     'search_api_views_fulltext' => array(
-      'type' => 'panel',
-      'context' => 'string.html_safe',
+      'type' => 'context',
+      'context' => 'string.raw',
       'context_optional' => 0,
       'panel' => '0',
       'fixed' => '',

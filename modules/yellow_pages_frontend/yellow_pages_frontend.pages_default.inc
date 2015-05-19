@@ -36,6 +36,7 @@ function yellow_pages_frontend_default_page_manager_handlers() {
           'settings' => array(
             'type' => array(
               'article' => 'article',
+              'news' => 'news',
             ),
           ),
           'context' => 'argument_entity_id:node_1',

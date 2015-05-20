@@ -17,7 +17,7 @@ function yellow_pages_frontend_default_page_manager_handlers() {
   $handler->task = 'node_view';
   $handler->subtask = '';
   $handler->handler = 'panel_context';
-  $handler->weight = 2;
+  $handler->weight = -28;
   $handler->conf = array(
     'title' => 'Companies',
     'no_blocks' => 0,
@@ -163,13 +163,192 @@ function yellow_pages_frontend_default_page_manager_handlers() {
   $handler = new stdClass();
   $handler->disabled = FALSE; /* Edit this to true to make a default handler disabled initially */
   $handler->api_version = 1;
+  $handler->name = 'node_view__news';
+  $handler->task = 'node_view';
+  $handler->subtask = '';
+  $handler->handler = 'panel_context';
+  $handler->weight = -29;
+  $handler->conf = array(
+    'title' => 'News',
+    'no_blocks' => 0,
+    'pipeline' => 'standard',
+    'body_classes_to_remove' => '',
+    'body_classes_to_add' => '',
+    'css_id' => '',
+    'css' => '',
+    'contexts' => array(),
+    'relationships' => array(),
+    'name' => 'news',
+    'access' => array(
+      'plugins' => array(
+        0 => array(
+          'name' => 'entity_bundle:node',
+          'settings' => array(
+            'type' => array(
+              'news' => 'news',
+            ),
+          ),
+          'context' => 'argument_entity_id:node_1',
+          'not' => FALSE,
+        ),
+      ),
+      'logic' => 'and',
+    ),
+  );
+  $display = new panels_display();
+  $display->layout = 'yp_twocol_75_25';
+  $display->layout_settings = array();
+  $display->panel_settings = array(
+    'style_settings' => array(
+      'default' => NULL,
+      'alpha_75' => NULL,
+      'beta_25' => NULL,
+    ),
+  );
+  $display->cache = array();
+  $display->title = '';
+  $display->uuid = 'a126f51a-cf86-4c09-82ee-9c071d7efc69';
+  $display->content = array();
+  $display->panels = array();
+    $pane = new stdClass();
+    $pane->pid = 'new-0667fd27-a44d-4f42-a355-ffd42e72e885';
+    $pane->panel = 'alpha_75';
+    $pane->type = 'entity_view';
+    $pane->subtype = 'node';
+    $pane->shown = TRUE;
+    $pane->access = array();
+    $pane->configuration = array(
+      'view_mode' => 'full',
+      'context' => 'argument_entity_id:node_1',
+      'override_title' => 1,
+      'override_title_text' => '%node:title',
+      'override_title_heading' => 'h3',
+    );
+    $pane->cache = array();
+    $pane->style = array(
+      'settings' => NULL,
+    );
+    $pane->css = array();
+    $pane->extras = array();
+    $pane->position = 0;
+    $pane->locks = array();
+    $pane->uuid = '0667fd27-a44d-4f42-a355-ffd42e72e885';
+    $display->content['new-0667fd27-a44d-4f42-a355-ffd42e72e885'] = $pane;
+    $display->panels['alpha_75'][0] = 'new-0667fd27-a44d-4f42-a355-ffd42e72e885';
+    $pane = new stdClass();
+    $pane->pid = 'new-56561e6d-3858-413b-a822-bf93d7b73dec';
+    $pane->panel = 'alpha_75';
+    $pane->type = 'block';
+    $pane->subtype = 'yellow_pages_print-yp_print';
+    $pane->shown = TRUE;
+    $pane->access = array();
+    $pane->configuration = array(
+      'override_title' => 1,
+      'override_title_text' => '',
+      'override_title_heading' => 'h2',
+    );
+    $pane->cache = array();
+    $pane->style = array(
+      'settings' => NULL,
+    );
+    $pane->css = array();
+    $pane->extras = array();
+    $pane->position = 1;
+    $pane->locks = array();
+    $pane->uuid = '56561e6d-3858-413b-a822-bf93d7b73dec';
+    $display->content['new-56561e6d-3858-413b-a822-bf93d7b73dec'] = $pane;
+    $display->panels['alpha_75'][1] = 'new-56561e6d-3858-413b-a822-bf93d7b73dec';
+    $pane = new stdClass();
+    $pane->pid = 'new-2e5256ac-e000-4cc2-bc98-a4b04f100b94';
+    $pane->panel = 'alpha_75';
+    $pane->type = 'views_panes';
+    $pane->subtype = 'news-panel_pane_3';
+    $pane->shown = TRUE;
+    $pane->access = array();
+    $pane->configuration = array(
+      'override_title' => 0,
+      'override_title_text' => '',
+      'override_title_heading' => 'h2',
+    );
+    $pane->cache = array();
+    $pane->style = array(
+      'settings' => NULL,
+    );
+    $pane->css = array();
+    $pane->extras = array();
+    $pane->position = 2;
+    $pane->locks = array();
+    $pane->uuid = '2e5256ac-e000-4cc2-bc98-a4b04f100b94';
+    $display->content['new-2e5256ac-e000-4cc2-bc98-a4b04f100b94'] = $pane;
+    $display->panels['alpha_75'][2] = 'new-2e5256ac-e000-4cc2-bc98-a4b04f100b94';
+    $pane = new stdClass();
+    $pane->pid = 'new-3d9778b1-7abf-433d-b291-0b9d07b04a20';
+    $pane->panel = 'beta_25';
+    $pane->type = 'entity_field';
+    $pane->subtype = 'node:field_categories';
+    $pane->shown = TRUE;
+    $pane->access = array();
+    $pane->configuration = array(
+      'label' => 'above',
+      'formatter' => 'i18n_taxonomy_term_reference_link',
+      'delta_limit' => '0',
+      'delta_offset' => '0',
+      'delta_reversed' => 0,
+      'formatter_settings' => array(),
+      'context' => 'argument_entity_id:node_1',
+      'override_title' => 0,
+      'override_title_text' => '',
+      'override_title_heading' => 'h2',
+    );
+    $pane->cache = array();
+    $pane->style = array(
+      'settings' => NULL,
+    );
+    $pane->css = array();
+    $pane->extras = array();
+    $pane->position = 0;
+    $pane->locks = array();
+    $pane->uuid = '3d9778b1-7abf-433d-b291-0b9d07b04a20';
+    $display->content['new-3d9778b1-7abf-433d-b291-0b9d07b04a20'] = $pane;
+    $display->panels['beta_25'][0] = 'new-3d9778b1-7abf-433d-b291-0b9d07b04a20';
+    $pane = new stdClass();
+    $pane->pid = 'new-b198df13-2eea-4b7b-adbe-5365ab0b3722';
+    $pane->panel = 'beta_25';
+    $pane->type = 'block';
+    $pane->subtype = 'simpleads-ad_groups_1';
+    $pane->shown = TRUE;
+    $pane->access = array();
+    $pane->configuration = array(
+      'override_title' => 1,
+      'override_title_text' => '',
+      'override_title_heading' => 'h2',
+    );
+    $pane->cache = array();
+    $pane->style = array(
+      'settings' => NULL,
+    );
+    $pane->css = array();
+    $pane->extras = array();
+    $pane->position = 1;
+    $pane->locks = array();
+    $pane->uuid = 'b198df13-2eea-4b7b-adbe-5365ab0b3722';
+    $display->content['new-b198df13-2eea-4b7b-adbe-5365ab0b3722'] = $pane;
+    $display->panels['beta_25'][1] = 'new-b198df13-2eea-4b7b-adbe-5365ab0b3722';
+  $display->hide_title = PANELS_TITLE_FIXED;
+  $display->title_pane = 'new-3d9778b1-7abf-433d-b291-0b9d07b04a20';
+  $handler->conf['display'] = $display;
+  $export['node_view__news'] = $handler;
+
+  $handler = new stdClass();
+  $handler->disabled = FALSE; /* Edit this to true to make a default handler disabled initially */
+  $handler->api_version = 1;
   $handler->name = 'node_view__node_page';
   $handler->task = 'node_view';
   $handler->subtask = '';
   $handler->handler = 'panel_context';
-  $handler->weight = 1;
+  $handler->weight = -30;
   $handler->conf = array(
-    'title' => 'Articles & News',
+    'title' => 'Articles',
     'no_blocks' => 1,
     'pipeline' => 'standard',
     'body_classes_to_remove' => '',
@@ -186,7 +365,6 @@ function yellow_pages_frontend_default_page_manager_handlers() {
           'settings' => array(
             'type' => array(
               'article' => 'article',
-              'news' => 'news',
             ),
           ),
           'context' => 'argument_entity_id:node_1',
@@ -222,9 +400,9 @@ function yellow_pages_frontend_default_page_manager_handlers() {
     $pane->configuration = array(
       'view_mode' => 'full',
       'context' => 'argument_entity_id:node_1',
-      'override_title' => 0,
-      'override_title_text' => '',
-      'override_title_heading' => 'h2',
+      'override_title' => 1,
+      'override_title_text' => '%node:title',
+      'override_title_heading' => 'h3',
     );
     $pane->cache = array();
     $pane->style = array(
@@ -268,7 +446,7 @@ function yellow_pages_frontend_default_page_manager_handlers() {
     $pane->shown = TRUE;
     $pane->access = array();
     $pane->configuration = array(
-      'override_title' => 1,
+      'override_title' => 0,
       'override_title_text' => '',
       'override_title_heading' => 'h2',
     );
@@ -336,7 +514,7 @@ function yellow_pages_frontend_default_page_manager_handlers() {
     $pane->uuid = '33845fa8-7f1e-42bd-9e78-09c1782a389d';
     $display->content['new-33845fa8-7f1e-42bd-9e78-09c1782a389d'] = $pane;
     $display->panels['beta_25'][1] = 'new-33845fa8-7f1e-42bd-9e78-09c1782a389d';
-  $display->hide_title = PANELS_TITLE_FIXED;
+  $display->hide_title = PANELS_TITLE_NONE;
   $display->title_pane = '0';
   $handler->conf['display'] = $display;
   $export['node_view__node_page'] = $handler;

@@ -133,6 +133,29 @@ function yellow_pages_frontend_default_page_manager_handlers() {
     $display->content['new-75d0624b-feac-4b8e-aa60-60a97b77e3de'] = $pane;
     $display->panels['beta_75'][0] = 'new-75d0624b-feac-4b8e-aa60-60a97b77e3de';
     $pane = new stdClass();
+    $pane->pid = 'new-1d752665-26b0-47c2-9728-6758a616e6f6';
+    $pane->panel = 'beta_75';
+    $pane->type = 'views_panes';
+    $pane->subtype = 'companies-panel_pane_1';
+    $pane->shown = TRUE;
+    $pane->access = array();
+    $pane->configuration = array(
+      'override_title' => 0,
+      'override_title_text' => '',
+      'override_title_heading' => 'h2',
+    );
+    $pane->cache = array();
+    $pane->style = array(
+      'settings' => NULL,
+    );
+    $pane->css = array();
+    $pane->extras = array();
+    $pane->position = 1;
+    $pane->locks = array();
+    $pane->uuid = '1d752665-26b0-47c2-9728-6758a616e6f6';
+    $display->content['new-1d752665-26b0-47c2-9728-6758a616e6f6'] = $pane;
+    $display->panels['beta_75'][1] = 'new-1d752665-26b0-47c2-9728-6758a616e6f6';
+    $pane = new stdClass();
     $pane->pid = 'new-d1e90075-d4a5-428d-82d7-3f0f9fb5fa6e';
     $pane->panel = 'gamma_25';
     $pane->type = 'block';
@@ -281,6 +304,29 @@ function yellow_pages_frontend_default_page_manager_handlers() {
     $pane->uuid = '2e5256ac-e000-4cc2-bc98-a4b04f100b94';
     $display->content['new-2e5256ac-e000-4cc2-bc98-a4b04f100b94'] = $pane;
     $display->panels['alpha_75'][2] = 'new-2e5256ac-e000-4cc2-bc98-a4b04f100b94';
+    $pane = new stdClass();
+    $pane->pid = 'new-797456c8-71b9-457c-9455-7361d65f81b1';
+    $pane->panel = 'alpha_75';
+    $pane->type = 'views_panes';
+    $pane->subtype = 'companies-panel_pane_1';
+    $pane->shown = TRUE;
+    $pane->access = array();
+    $pane->configuration = array(
+      'override_title' => 0,
+      'override_title_text' => '',
+      'override_title_heading' => 'h2',
+    );
+    $pane->cache = array();
+    $pane->style = array(
+      'settings' => NULL,
+    );
+    $pane->css = array();
+    $pane->extras = array();
+    $pane->position = 3;
+    $pane->locks = array();
+    $pane->uuid = '797456c8-71b9-457c-9455-7361d65f81b1';
+    $display->content['new-797456c8-71b9-457c-9455-7361d65f81b1'] = $pane;
+    $display->panels['alpha_75'][3] = 'new-797456c8-71b9-457c-9455-7361d65f81b1';
     $pane = new stdClass();
     $pane->pid = 'new-3d9778b1-7abf-433d-b291-0b9d07b04a20';
     $pane->panel = 'beta_25';
@@ -461,6 +507,29 @@ function yellow_pages_frontend_default_page_manager_handlers() {
     $pane->uuid = '8d802ac4-3a37-4f13-b900-f049ffb342db';
     $display->content['new-8d802ac4-3a37-4f13-b900-f049ffb342db'] = $pane;
     $display->panels['alpha_75'][2] = 'new-8d802ac4-3a37-4f13-b900-f049ffb342db';
+    $pane = new stdClass();
+    $pane->pid = 'new-495f8035-eddf-48ce-b102-8c309bc74b70';
+    $pane->panel = 'alpha_75';
+    $pane->type = 'views_panes';
+    $pane->subtype = 'companies-panel_pane_1';
+    $pane->shown = TRUE;
+    $pane->access = array();
+    $pane->configuration = array(
+      'override_title' => 0,
+      'override_title_text' => '',
+      'override_title_heading' => 'h2',
+    );
+    $pane->cache = array();
+    $pane->style = array(
+      'settings' => NULL,
+    );
+    $pane->css = array();
+    $pane->extras = array();
+    $pane->position = 3;
+    $pane->locks = array();
+    $pane->uuid = '495f8035-eddf-48ce-b102-8c309bc74b70';
+    $display->content['new-495f8035-eddf-48ce-b102-8c309bc74b70'] = $pane;
+    $display->panels['alpha_75'][3] = 'new-495f8035-eddf-48ce-b102-8c309bc74b70';
     $pane = new stdClass();
     $pane->pid = 'new-f33d820c-cca1-4876-a2ad-add094193d1b';
     $pane->panel = 'beta_25';

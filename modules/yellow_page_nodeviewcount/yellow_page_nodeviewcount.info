@@ -1,7 +1,7 @@
 name = Yellow page nodeviewcount
 description = Configuration of nodeviewcoint module.
 core = 7.x
-package = Features
+package = Yellow Pages
 dependencies[] = ctools
 dependencies[] = nodeviewcount
 dependencies[] = strongarm

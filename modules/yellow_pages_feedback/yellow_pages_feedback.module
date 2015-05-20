@@ -84,3 +84,5 @@ function yellow_pages_feedback_ad_request_submit($form, &$form_state) {
 function yellow_pages_feedback_ad_request_validate($form, &$form_state) {
 
 }
+
+include_once 'yellow_pages_feedback.features.inc';

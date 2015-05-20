@@ -110,6 +110,29 @@ function yellow_pages_frontend_default_page_manager_handlers() {
     $display->content['new-da8637c3-d56b-4cbc-adaa-301f4109a016'] = $pane;
     $display->panels['alpha_100'][1] = 'new-da8637c3-d56b-4cbc-adaa-301f4109a016';
     $pane = new stdClass();
+    $pane->pid = 'new-75d0624b-feac-4b8e-aa60-60a97b77e3de';
+    $pane->panel = 'beta_75';
+    $pane->type = 'views_panes';
+    $pane->subtype = 'articles-panel_pane_1';
+    $pane->shown = TRUE;
+    $pane->access = array();
+    $pane->configuration = array(
+      'override_title' => 1,
+      'override_title_text' => 'Similar articles',
+      'override_title_heading' => 'h3',
+    );
+    $pane->cache = array();
+    $pane->style = array(
+      'settings' => NULL,
+    );
+    $pane->css = array();
+    $pane->extras = array();
+    $pane->position = 0;
+    $pane->locks = array();
+    $pane->uuid = '75d0624b-feac-4b8e-aa60-60a97b77e3de';
+    $display->content['new-75d0624b-feac-4b8e-aa60-60a97b77e3de'] = $pane;
+    $display->panels['beta_75'][0] = 'new-75d0624b-feac-4b8e-aa60-60a97b77e3de';
+    $pane = new stdClass();
     $pane->pid = 'new-d1e90075-d4a5-428d-82d7-3f0f9fb5fa6e';
     $pane->panel = 'gamma_25';
     $pane->type = 'block';
@@ -302,6 +325,107 @@ function yellow_pages_frontend_default_page_manager_handlers() {
  * Implements hook_default_page_manager_pages().
  */
 function yellow_pages_frontend_default_page_manager_pages() {
+  $page = new stdClass();
+  $page->disabled = FALSE; /* Edit this to true to make a default page disabled initially */
+  $page->api_version = 1;
+  $page->name = 'articles';
+  $page->task = 'page';
+  $page->admin_title = 'Articles';
+  $page->admin_description = '';
+  $page->path = 'articles';
+  $page->access = array();
+  $page->menu = array();
+  $page->arguments = array();
+  $page->conf = array(
+    'admin_paths' => FALSE,
+  );
+  $page->default_handlers = array();
+  $handler = new stdClass();
+  $handler->disabled = FALSE; /* Edit this to true to make a default handler disabled initially */
+  $handler->api_version = 1;
+  $handler->name = 'page_articles__panel_context_30afce7b-4b96-45e8-858d-7bf9d03c61e0';
+  $handler->task = 'page';
+  $handler->subtask = 'articles';
+  $handler->handler = 'panel_context';
+  $handler->weight = 0;
+  $handler->conf = array(
+    'title' => 'Panel',
+    'no_blocks' => 0,
+    'pipeline' => 'standard',
+    'body_classes_to_remove' => '',
+    'body_classes_to_add' => '',
+    'css_id' => '',
+    'css' => '',
+    'contexts' => array(),
+    'relationships' => array(),
+  );
+  $display = new panels_display();
+  $display->layout = 'yp_twocol_75_25';
+  $display->layout_settings = array();
+  $display->panel_settings = array(
+    'style_settings' => array(
+      'default' => NULL,
+      'alpha_75' => NULL,
+      'beta_25' => NULL,
+    ),
+  );
+  $display->cache = array();
+  $display->title = '';
+  $display->uuid = '9e5acc8b-0c09-4b1d-9b20-c47a649ffedb';
+  $display->content = array();
+  $display->panels = array();
+    $pane = new stdClass();
+    $pane->pid = 'new-e1f7ef28-6322-4bfb-bb8f-7505edbd7288';
+    $pane->panel = 'alpha_75';
+    $pane->type = 'views_panes';
+    $pane->subtype = 'articles-panel_pane_1';
+    $pane->shown = TRUE;
+    $pane->access = array();
+    $pane->configuration = array(
+      'override_title' => 1,
+      'override_title_text' => '',
+      'override_title_heading' => 'h2',
+    );
+    $pane->cache = array();
+    $pane->style = array(
+      'settings' => NULL,
+    );
+    $pane->css = array();
+    $pane->extras = array();
+    $pane->position = 0;
+    $pane->locks = array();
+    $pane->uuid = 'e1f7ef28-6322-4bfb-bb8f-7505edbd7288';
+    $display->content['new-e1f7ef28-6322-4bfb-bb8f-7505edbd7288'] = $pane;
+    $display->panels['alpha_75'][0] = 'new-e1f7ef28-6322-4bfb-bb8f-7505edbd7288';
+    $pane = new stdClass();
+    $pane->pid = 'new-5c0d7460-2864-4873-bdbf-34e06cd07aa6';
+    $pane->panel = 'beta_25';
+    $pane->type = 'block';
+    $pane->subtype = 'simpleads-ad_groups_1';
+    $pane->shown = TRUE;
+    $pane->access = array();
+    $pane->configuration = array(
+      'override_title' => 1,
+      'override_title_text' => '',
+      'override_title_heading' => 'h2',
+    );
+    $pane->cache = array();
+    $pane->style = array(
+      'settings' => NULL,
+    );
+    $pane->css = array();
+    $pane->extras = array();
+    $pane->position = 0;
+    $pane->locks = array();
+    $pane->uuid = '5c0d7460-2864-4873-bdbf-34e06cd07aa6';
+    $display->content['new-5c0d7460-2864-4873-bdbf-34e06cd07aa6'] = $pane;
+    $display->panels['beta_25'][0] = 'new-5c0d7460-2864-4873-bdbf-34e06cd07aa6';
+  $display->hide_title = PANELS_TITLE_FIXED;
+  $display->title_pane = 'new-e1f7ef28-6322-4bfb-bb8f-7505edbd7288';
+  $handler->conf['display'] = $display;
+  $page->default_handlers[$handler->name] = $handler;
+  $pages['articles'] = $page;
+
   $page = new stdClass();
   $page->disabled = FALSE; /* Edit this to true to make a default page disabled initially */
   $page->api_version = 1;

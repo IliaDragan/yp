@@ -128,6 +128,13 @@ function yellow_pages_solr_configuration_views_default_views() {
   $handler->display->display_options['arguments']['search_api_views_fulltext']['conjunction'] = 'OR';
   $handler->display->display_options['defaults']['filter_groups'] = FALSE;
   $handler->display->display_options['defaults']['filters'] = FALSE;
+  /* Filter criterion: Indexed Материал: Content type */
+  $handler->display->display_options['filters']['type']['id'] = 'type';
+  $handler->display->display_options['filters']['type']['table'] = 'search_api_index_company_nodes';
+  $handler->display->display_options['filters']['type']['field'] = 'type';
+  $handler->display->display_options['filters']['type']['value'] = array(
+    'company' => 'company',
+  );
   $handler->display->display_options['argument_input'] = array(
     'search_api_views_fulltext' => array(
       'type' => 'context',

@@ -1,13 +1,13 @@
 <?php
 /**
  * @file
- * yellow_page_nodeviewcount.strongarm.inc
+ * yellow_pages_nodeviewcount.strongarm.inc
  */
 
 /**
  * Implements hook_strongarm().
  */
-function yellow_page_nodeviewcount_strongarm() {
+function yellow_pages_nodeviewcount_strongarm() {
   $export = array();
 
   $strongarm = new stdClass();
@@ -23,6 +23,8 @@ function yellow_page_nodeviewcount_strongarm() {
   $strongarm->name = 'nodeviewcount_node_types';
   $strongarm->value = array(
     'company' => 'company',
+    'simpleads' => 0,
+    'article' => 0,
     'news' => 0,
   );
   $export['nodeviewcount_node_types'] = $strongarm;
@@ -46,10 +48,10 @@ function yellow_page_nodeviewcount_strongarm() {
   $strongarm->name = 'nodeviewcount_user_roles';
   $strongarm->value = array(
     1 => '1',
-    2 => '2',
-    4 => '4',
-    5 => '5',
+    2 => 0,
     3 => 0,
+    4 => 0,
+    5 => 0,
   );
   $export['nodeviewcount_user_roles'] = $strongarm;
 

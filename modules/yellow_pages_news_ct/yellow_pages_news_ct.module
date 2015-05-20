@@ -1,11 +1,7 @@
 <?php
 /**
  * @file
-<<<<<<< HEAD
  * Code for the Yellow pages News CT feature.
-=======
- * Code for the Yellow Pages News CT feature.
->>>>>>> develop
  */
 
 include_once 'yellow_pages_news_ct.features.inc';

@@ -55,7 +55,8 @@ function _yp_enable_modules() {
     'yellow_pages_rates',
     'yellow_pages_solr_configuration',
     'yellow_pages_taxonomy',
-    'yellow_pages_weather'
+    'yellow_pages_weather',
+    'yellow_pages_feedback',
   );
 
   module_enable($modules);

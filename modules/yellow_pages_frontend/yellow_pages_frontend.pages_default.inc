@@ -61,6 +61,54 @@ function yellow_pages_frontend_default_page_manager_handlers() {
   $display->uuid = 'a4963899-1b11-4766-8e5a-211e90fb92bb';
   $display->content = array();
   $display->panels = array();
+    $pane = new stdClass();
+    $pane->pid = 'new-da8637c3-d56b-4cbc-adaa-301f4109a016';
+    $pane->panel = 'alpha_100';
+    $pane->type = 'entity_view';
+    $pane->subtype = 'node';
+    $pane->shown = TRUE;
+    $pane->access = array();
+    $pane->configuration = array(
+      'view_mode' => 'full',
+      'context' => 'argument_entity_id:node_1',
+      'override_title' => 1,
+      'override_title_text' => '%title',
+      'override_title_heading' => 'h3',
+    );
+    $pane->cache = array();
+    $pane->style = array(
+      'settings' => NULL,
+    );
+    $pane->css = array();
+    $pane->extras = array();
+    $pane->position = 0;
+    $pane->locks = array();
+    $pane->uuid = 'da8637c3-d56b-4cbc-adaa-301f4109a016';
+    $display->content['new-da8637c3-d56b-4cbc-adaa-301f4109a016'] = $pane;
+    $display->panels['alpha_100'][0] = 'new-da8637c3-d56b-4cbc-adaa-301f4109a016';
+    $pane = new stdClass();
+    $pane->pid = 'new-d1e90075-d4a5-428d-82d7-3f0f9fb5fa6e';
+    $pane->panel = 'gamma_25';
+    $pane->type = 'block';
+    $pane->subtype = 'simpleads-ad_groups_1';
+    $pane->shown = TRUE;
+    $pane->access = array();
+    $pane->configuration = array(
+      'override_title' => 1,
+      'override_title_text' => '',
+      'override_title_heading' => 'h2',
+    );
+    $pane->cache = array();
+    $pane->style = array(
+      'settings' => NULL,
+    );
+    $pane->css = array();
+    $pane->extras = array();
+    $pane->position = 0;
+    $pane->locks = array();
+    $pane->uuid = 'd1e90075-d4a5-428d-82d7-3f0f9fb5fa6e';
+    $display->content['new-d1e90075-d4a5-428d-82d7-3f0f9fb5fa6e'] = $pane;
+    $display->panels['gamma_25'][0] = 'new-d1e90075-d4a5-428d-82d7-3f0f9fb5fa6e';
   $display->hide_title = PANELS_TITLE_FIXED;
   $display->title_pane = '0';
   $handler->conf['display'] = $display;

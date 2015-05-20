@@ -261,6 +261,29 @@ function yellow_pages_frontend_default_page_manager_handlers() {
     $display->content['new-07104128-fd54-47af-b116-fd2dc2fe25f4'] = $pane;
     $display->panels['alpha_75'][1] = 'new-07104128-fd54-47af-b116-fd2dc2fe25f4';
     $pane = new stdClass();
+    $pane->pid = 'new-8d802ac4-3a37-4f13-b900-f049ffb342db';
+    $pane->panel = 'alpha_75';
+    $pane->type = 'views_panes';
+    $pane->subtype = 'articles-panel_pane_1';
+    $pane->shown = TRUE;
+    $pane->access = array();
+    $pane->configuration = array(
+      'override_title' => 1,
+      'override_title_text' => '',
+      'override_title_heading' => 'h2',
+    );
+    $pane->cache = array();
+    $pane->style = array(
+      'settings' => NULL,
+    );
+    $pane->css = array();
+    $pane->extras = array();
+    $pane->position = 2;
+    $pane->locks = array();
+    $pane->uuid = '8d802ac4-3a37-4f13-b900-f049ffb342db';
+    $display->content['new-8d802ac4-3a37-4f13-b900-f049ffb342db'] = $pane;
+    $display->panels['alpha_75'][2] = 'new-8d802ac4-3a37-4f13-b900-f049ffb342db';
+    $pane = new stdClass();
     $pane->pid = 'new-f33d820c-cca1-4876-a2ad-add094193d1b';
     $pane->panel = 'beta_25';
     $pane->type = 'entity_field';

@@ -24,6 +24,12 @@ function yellow_pages_company_ct_field_default_field_instances() {
         'type' => 'text_default',
         'weight' => 0,
       ),
+      'full' => array(
+        'label' => 'hidden',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 9,
+      ),
       'search_index' => array(
         'label' => 'hidden',
         'module' => 'text',
@@ -80,6 +86,18 @@ function yellow_pages_company_ct_field_default_field_instances() {
         ),
         'type' => 'addressfield_default',
         'weight' => 15,
+      ),
+      'full' => array(
+        'label' => 'hidden',
+        'module' => 'addressfield',
+        'settings' => array(
+          'format_handlers' => array(
+            0 => 'address',
+          ),
+          'use_widget_handlers' => 1,
+        ),
+        'type' => 'addressfield_default',
+        'weight' => 1,
       ),
       'search_index' => array(
         'label' => 'hidden',
@@ -147,6 +165,16 @@ function yellow_pages_company_ct_field_default_field_instances() {
         ),
         'type' => 'image',
         'weight' => 1,
+      ),
+      'full' => array(
+        'label' => 'hidden',
+        'module' => 'image',
+        'settings' => array(
+          'image_link' => '',
+          'image_style' => '',
+        ),
+        'type' => 'image',
+        'weight' => 0,
       ),
       'search_index' => array(
         'label' => 'hidden',
@@ -221,6 +249,13 @@ function yellow_pages_company_ct_field_default_field_instances() {
         'type' => 'link_default',
         'weight' => 4,
       ),
+      'full' => array(
+        'label' => 'hidden',
+        'module' => 'link',
+        'settings' => array(),
+        'type' => 'link_default',
+        'weight' => 4,
+      ),
       'search_index' => array(
         'label' => 'above',
         'settings' => array(),
@@ -284,6 +319,13 @@ function yellow_pages_company_ct_field_default_field_instances() {
         'type' => 'email_default',
         'weight' => 13,
       ),
+      'full' => array(
+        'label' => 'hidden',
+        'module' => 'email',
+        'settings' => array(),
+        'type' => 'email_default',
+        'weight' => 5,
+      ),
       'search_index' => array(
         'label' => 'hidden',
         'module' => 'email',
@@ -329,6 +371,13 @@ function yellow_pages_company_ct_field_default_field_instances() {
         'settings' => array(),
         'type' => 'text_default',
         'weight' => 19,
+      ),
+      'full' => array(
+        'label' => 'hidden',
+        'module' => 'text',
+        'settings' => array(),
+        'type' => 'text_default',
+        'weight' => 3,
       ),
       'search_index' => array(
         'label' => 'above',
@@ -423,6 +472,61 @@ function yellow_pages_company_ct_field_default_field_instances() {
         'type' => 'geofield_leaflet',
         'weight' => 16,
       ),
+      'full' => array(
+        'label' => 'hidden',
+        'module' => 'leaflet',
+        'settings' => array(
+          'height' => 400,
+          'icon' => array(
+            'html' => '',
+            'htmlClass' => '',
+            'iconAnchor' => array(
+              'x' => '',
+              'y' => '',
+            ),
+            'iconImageStyle' => '',
+            'iconSize' => array(
+              'x' => '',
+              'y' => '',
+            ),
+            'iconType' => 'marker',
+            'iconUrl' => '',
+            'popupAnchor' => array(
+              'x' => '',
+              'y' => '',
+            ),
+            'shadowAnchor' => array(
+              'x' => '',
+              'y' => '',
+            ),
+            'shadowUrl' => '',
+          ),
+          'leaflet_map' => 'OSM Mapnik',
+          'popup' => array(
+            'show' => 0,
+            'text' => '',
+          ),
+          'vector_display' => array(
+            'clickable' => 0,
+            'color' => '',
+            'dashArray' => '',
+            'fill' => 0,
+            'fillColor' => '',
+            'fillOpacity' => '',
+            'opacity' => '',
+            'stroke' => 0,
+            'stroke_override' => 0,
+            'weight' => '',
+          ),
+          'zoom' => array(
+            'initialZoom' => -1,
+            'maxZoom' => -1,
+            'minZoom' => 1,
+          ),
+        ),
+        'type' => 'geofield_leaflet',
+        'weight' => 8,
+      ),
       'search_index' => array(
         'label' => 'above',
         'settings' => array(),
@@ -482,6 +586,13 @@ function yellow_pages_company_ct_field_default_field_instances() {
         'type' => 'i18n_taxonomy_term_reference_link',
         'weight' => 20,
       ),
+      'full' => array(
+        'label' => 'hidden',
+        'module' => 'i18n_taxonomy',
+        'settings' => array(),
+        'type' => 'i18n_taxonomy_term_reference_link',
+        'weight' => 7,
+      ),
       'search_index' => array(
         'label' => 'above',
         'settings' => array(),
@@ -524,6 +635,13 @@ function yellow_pages_company_ct_field_default_field_instances() {
         'settings' => array(),
         'type' => 'text_default',
         'weight' => 18,
+      ),
+      'full' => array(
+        'label' => 'hidden',
+        'module' => 'text',
+        'settings' => array(),
+        'type' => 'text_default',
+        'weight' => 2,
       ),
       'search_index' => array(
         'label' => 'above',
@@ -574,6 +692,12 @@ function yellow_pages_company_ct_field_default_field_instances() {
           'multiple_to' => '',
         ),
         'type' => 'date_default',
+        'weight' => 14,
+      ),
+      'full' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
         'weight' => 14,
       ),
       'search_index' => array(
@@ -630,6 +754,12 @@ function yellow_pages_company_ct_field_default_field_instances() {
         ),
         'type' => 'media',
         'weight' => 8,
+      ),
+      'full' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 10,
       ),
       'search_index' => array(
         'label' => 'above',
@@ -693,6 +823,12 @@ function yellow_pages_company_ct_field_default_field_instances() {
         'type' => 'text_default',
         'weight' => 17,
       ),
+      'full' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 15,
+      ),
       'search_index' => array(
         'label' => 'above',
         'settings' => array(),
@@ -739,6 +875,12 @@ function yellow_pages_company_ct_field_default_field_instances() {
         ),
         'type' => 'media',
         'weight' => 9,
+      ),
+      'full' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 11,
       ),
       'search_index' => array(
         'label' => 'above',
@@ -804,6 +946,15 @@ function yellow_pages_company_ct_field_default_field_instances() {
         'type' => 'socialfield_formatter',
         'weight' => 12,
       ),
+      'full' => array(
+        'label' => 'hidden',
+        'module' => 'socialfield',
+        'settings' => array(
+          'link_text' => FALSE,
+        ),
+        'type' => 'socialfield_formatter',
+        'weight' => 6,
+      ),
       'search_index' => array(
         'label' => 'hidden',
         'module' => 'socialfield',
@@ -858,6 +1009,12 @@ function yellow_pages_company_ct_field_default_field_instances() {
         'type' => 'text_default',
         'weight' => 10,
       ),
+      'full' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 12,
+      ),
       'search_index' => array(
         'label' => 'above',
         'settings' => array(),
@@ -903,6 +1060,12 @@ function yellow_pages_company_ct_field_default_field_instances() {
         'settings' => array(),
         'type' => 'text_default',
         'weight' => 11,
+      ),
+      'full' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 13,
       ),
       'search_index' => array(
         'label' => 'above',

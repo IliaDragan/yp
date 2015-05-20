@@ -33,7 +33,7 @@ function yellow_pages_news_ct_views_default_views() {
   $handler->display->display_options['pager']['options']['offset'] = '0';
   $handler->display->display_options['style_plugin'] = 'default';
   $handler->display->display_options['row_plugin'] = 'fields';
-  /* Field: Content: List Image */
+  /* Field: Content: List image */
   $handler->display->display_options['fields']['field_list_image']['id'] = 'field_list_image';
   $handler->display->display_options['fields']['field_list_image']['table'] = 'field_data_field_list_image';
   $handler->display->display_options['fields']['field_list_image']['field'] = 'field_list_image';
@@ -103,31 +103,23 @@ function yellow_pages_news_ct_views_default_views() {
     'news' => 'news',
   );
 
-  /* Display: Block */
-  $handler = $view->new_display('block', 'Block', 'block_1');
-  $handler->display->display_options['defaults']['arguments'] = FALSE;
-  /* Contextual filter: Content: Categories (field_categories) */
-  $handler->display->display_options['arguments']['field_categories_tid']['id'] = 'field_categories_tid';
-  $handler->display->display_options['arguments']['field_categories_tid']['table'] = 'field_data_field_categories';
-  $handler->display->display_options['arguments']['field_categories_tid']['field'] = 'field_categories_tid';
-  $handler->display->display_options['arguments']['field_categories_tid']['default_action'] = 'not found';
-  $handler->display->display_options['arguments']['field_categories_tid']['default_argument_type'] = 'fixed';
-  $handler->display->display_options['arguments']['field_categories_tid']['summary']['number_of_records'] = '0';
-  $handler->display->display_options['arguments']['field_categories_tid']['summary']['format'] = 'default_summary';
-  $handler->display->display_options['arguments']['field_categories_tid']['summary_options']['items_per_page'] = '25';
+  /* Display: Carousel */
+  $handler = $view->new_display('panel_pane', 'Carousel', 'panel_pane_1');
 
-  /* Display: Page */
-  $handler = $view->new_display('page', 'Page', 'page_1');
-  $handler->display->display_options['defaults']['exposed_form'] = FALSE;
-  $handler->display->display_options['exposed_form']['type'] = 'basic';
-  $handler->display->display_options['exposed_form']['options']['autosubmit'] = TRUE;
-  $handler->display->display_options['path'] = 'news';
-  $handler->display->display_options['menu']['type'] = 'normal';
-  $handler->display->display_options['menu']['title'] = 'News';
-  $handler->display->display_options['menu']['description'] = 'List of news';
-  $handler->display->display_options['menu']['weight'] = '0';
-  $handler->display->display_options['menu']['context'] = 0;
-  $handler->display->display_options['menu']['context_only_inline'] = 0;
+  /* Display: List */
+  $handler = $view->new_display('panel_pane', 'List', 'panel_pane_2');
+  $handler->display->display_options['defaults']['title'] = FALSE;
+  $handler->display->display_options['defaults']['pager'] = FALSE;
+  $handler->display->display_options['pager']['type'] = 'some';
+  $handler->display->display_options['pager']['options']['items_per_page'] = '8';
+  $handler->display->display_options['pager']['options']['offset'] = '0';
+  $handler->display->display_options['defaults']['style_plugin'] = FALSE;
+  $handler->display->display_options['style_plugin'] = 'default';
+  $handler->display->display_options['defaults']['style_options'] = FALSE;
+  $handler->display->display_options['defaults']['row_plugin'] = FALSE;
+  $handler->display->display_options['row_plugin'] = 'entity';
+  $handler->display->display_options['row_options']['view_mode'] = 'teaser';
+  $handler->display->display_options['defaults']['row_options'] = FALSE;
   $translatables['news'] = array(
     t('Master'),
     t('News'),
@@ -138,9 +130,9 @@ function yellow_pages_news_ct_views_default_views() {
     t('Asc'),
     t('Desc'),
     t('Read more &gt;'),
-    t('Block'),
-    t('All'),
-    t('Page'),
+    t('Carousel'),
+    t('View panes'),
+    t('List'),
   );
   $export['news'] = $view;
 

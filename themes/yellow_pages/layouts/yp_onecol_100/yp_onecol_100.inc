@@ -4,12 +4,12 @@
  * Frontpage layout plugin definition.
  */
 
-$plugin['yp_node'] = array(
-  'title' => t('YellowPages Node'),
+$plugin['yp_onecol_100'] = array(
+  'title' => t('One Column 100%'),
   'category' => 'YellowPages',
-  'icon' => 'yp_node.png',
-  'theme' => 'yp_node',
-  'css' => 'yp_node.css',
+  'icon' => 'yp_onecol_100.png',
+  'theme' => 'yp_onecol_100',
+  'css' => 'yp_onecol_100.css',
   'regions' => array(
     'main' => t('Main'),
   ),

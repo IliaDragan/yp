@@ -45,6 +45,7 @@ function yp_install_tasks($install_state) {
  */
 function _yp_enable_modules() {
   $modules = array(
+    'yellow_pages_article_ct',
     'yellow_pages_company_ct',
     'yellow_pages_contacts',
     'yellow_pages_frontend',

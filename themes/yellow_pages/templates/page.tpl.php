@@ -55,13 +55,13 @@
  *   comment/reply/12345).
  *
  * Regions:
- * - $page['help']: Dynamic help text, mostly for admin pages.
- * - $page['highlighted']: Items for the highlighted content region.
- * - $page['content']: The main content of the current page.
- * - $page['sidebar_first']: Items for the first sidebar.
- * - $page['sidebar_second']: Items for the second sidebar.
- * - $page['header']: Items for the header region.
- * - $page['footer']: Items for the footer region.
+ * - $page['header']
+ * - $page['help']
+ * - $page['content']
+ * - $page['aside_a']
+ * - $page['aside_b']
+ * - $page['aside_c']
+ * - $page['footer']
  *
  * @see bootstrap_preprocess_page()
  * @see template_preprocess()
@@ -82,83 +82,61 @@
       </a>
       <?php endif; ?>
     </div>
-
-    <?php if (!empty($primary_nav) || !empty($secondary_nav) || !empty($page['navigation'])): ?>
-      <div class="navbar-collapse collapse">
-        <nav role="navigation">
-          <?php if (!empty($page['language_switcher'])): ?>
-            <?php print $page['language_switcher']; ?>
-          <?php endif; ?>
-          <?php if (!empty($primary_nav)): ?>
-            <?php print render($primary_nav); ?>
-          <?php endif; ?>
-          <?php if (!empty($secondary_nav)): ?>
-            <?php print render($secondary_nav); ?>
-          <?php endif; ?>
-        </nav>
-      </div>
-    <?php endif; ?>
+    <?php
+    if ($is_front) {
+      print render($page['main_menu']);
+    }
+    print render($page['header']);
+    ?>
   </div>
 </header>
 
 <div class="main-container container">
-
-  <header role="banner" id="page-header">
-    <?php if (!empty($site_slogan)): ?>
-      <p class="lead"><?php print $site_slogan; ?></p>
-    <?php endif; ?>
-
-    <?php print render($page['header']); ?>
-  </header> <!-- /#page-header -->
-
+<div class="row">
+    <div class="col-sm-12">
+      <?php
+      if (!empty($page['help'])) {
+        print render($page['help']);
+      }
+      ?>
+    </div>
+  </div>
   <div class="row">
-
-    <?php if (!empty($page['sidebar_first'])): ?>
-      <aside class="col-sm-3" role="complementary">
-        <?php print render($page['sidebar_first']); ?>
-      </aside>  <!-- /#sidebar-first -->
-    <?php endif; ?>
-
-    <section<?php print $content_column_class; ?>>
-      <?php if (!empty($page['highlighted'])): ?>
-        <div class="highlighted jumbotron"><?php print render($page['highlighted']); ?></div>
-      <?php endif; ?>
-      <?php if (!empty($breadcrumb)): print $breadcrumb; endif;?>
-      <a id="main-content"></a>
-      <?php print render($title_prefix); ?>
-      <?php if (!empty($title)): ?>
-        <!-- <h1 class="page-header"><?php print $title; ?></h1> -->
-      <?php endif; ?>
-      <?php print render($title_suffix); ?>
-      <?php print $messages; ?>
-      <?php if (!empty($tabs)): ?>
-        <?php print render($tabs); ?>
-      <?php endif; ?>
-      <?php if (!empty($page['help'])): ?>
-        <?php print render($page['help']); ?>
-      <?php endif; ?>
-      <?php if (!empty($action_links)): ?>
-        <ul class="action-links"><?php print render($action_links); ?></ul>
-      <?php endif; ?>
+    <div class="col-sm-12">
       <?php print render($page['content']); ?>
-    </section>
-
-    <?php if (!empty($page['sidebar_second'])): ?>
-      <aside class="col-sm-3" role="complementary">
-        <?php print render($page['sidebar_second']); ?>
-      </aside>  <!-- /#sidebar-second -->
-    <?php endif; ?>
-
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-4">
+      <?php
+      if (!empty($page['aside_a'])) {
+        print render($page['aside_a']);
+      }
+      ?>
+    </div>
+    <div class="col-sm-4">
+      <?php
+      if (!empty($page['aside_b'])) {
+        print render($page['aside_b']);
+      }
+      ?>
+    </div>
+    <div class="col-sm-4">
+      <?php
+      if (!empty($page['aside_c'])) {
+        print render($page['aside_c']);
+      }
+      ?>
+    </div>
   </div>
 </div>
+
 <footer id="footer" class="footer container">
   <div class="footer-wrapper">
-    <?php print render($page['footer']); ?>
-    <p class="copyright">
+    <span class="copyright">
       <?php print '&copy; ' . date('Y');?>
-    </p>
-    <?php if (!empty($primary_nav)): ?>
-      <?php print render($primary_nav); ?>
-    <?php endif; ?>
+    </span>
+    <?php print render($page['main_menu']); ?>
+    <?php print render($page['footer']); ?>
   </div>
 </footer>

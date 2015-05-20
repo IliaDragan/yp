@@ -10,11 +10,11 @@ var Drupal = Drupal || {};
 
   Drupal.behaviors.yp_news_carousel = {
     attach: function () {
-      if ($('.view-id-news.view-display-id-default').length === 0) {
+      if ($('.view-id-news.view-display-id-panel_pane_1').length === 0) {
         return;
       }
 
-      $('.view-id-news.view-display-id-default .view-content').owlCarousel({
+      $('.view-id-news.view-display-id-panel_pane_1 .view-content').owlCarousel({
         nav : true,
         navText : [
           '<span class="glyphicon glyphicon-chevron-left"></span>',

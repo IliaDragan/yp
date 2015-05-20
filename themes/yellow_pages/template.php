@@ -28,7 +28,7 @@ function yellow_pages_preprocess_yp_onecol_100(&$variables) {
  */
 function yellow_pages_preprocess_views_view(&$vars) {
   // Add specific scripts and styles for news carousel.
-  if ($vars['name'] == 'news' && $vars['display_id'] == 'default') {
+  if ($vars['name'] == 'news' && $vars['display_id'] == 'panel_pane_1') {
     $path = drupal_get_path('theme', 'yellow_pages');
     drupal_add_js($path . '/js/owl.carousel.min.js');
     drupal_add_css($path . '/css/owl.carousel.css');

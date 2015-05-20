@@ -46,7 +46,7 @@ function yellow_pages_feedback_mail($key, &$message, $params) {
       );
       $message['to'] = $params['to'];
       $message['subject'] = t('Advertisement request');
-      $message['body'][] = t('@name is eager to post an advertisement!', $body_t);
+      $message['body'][] = t('@name wants to post an advertisement!', $body_t);
       $message['body'][] = t('@phone', $body_t);
       break;
   }

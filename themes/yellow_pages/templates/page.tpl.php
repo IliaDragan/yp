@@ -92,7 +92,7 @@
 </header>
 
 <div class="main-container container">
-<div class="row">
+  <div class="row">
     <div class="col-sm-12">
       <?php
       if (!empty($page['help'])) {
@@ -103,6 +103,7 @@
   </div>
   <div class="row">
     <div class="col-sm-12">
+      <?php print $messages; ?>
       <?php print render($page['content']); ?>
     </div>
   </div>

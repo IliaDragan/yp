@@ -26,6 +26,7 @@ features[fe_block_settings][] = yellow_pages_rates-yp_rates
 features[fe_block_settings][] = yellow_pages_weather-yp_weather
 features[features_api][] = api:2
 features[page_manager_handlers][] = node_view__companies
+features[page_manager_handlers][] = node_view__news
 features[page_manager_handlers][] = node_view__node_page
 features[page_manager_pages][] = articles
 features[page_manager_pages][] = frontpage

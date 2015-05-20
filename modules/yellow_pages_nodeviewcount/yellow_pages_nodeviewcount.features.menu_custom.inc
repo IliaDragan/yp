@@ -1,13 +1,13 @@
 <?php
 /**
  * @file
- * yellow_page_nodeviewcount.features.menu_custom.inc
+ * yellow_pages_nodeviewcount.features.menu_custom.inc
  */
 
 /**
  * Implements hook_menu_default_menu_custom().
  */
-function yellow_page_nodeviewcount_menu_default_menu_custom() {
+function yellow_pages_nodeviewcount_menu_default_menu_custom() {
   $menus = array();
 
   // Exported menu: management.

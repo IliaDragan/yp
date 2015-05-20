@@ -1,13 +1,13 @@
 <?php
 /**
  * @file
- * yellow_page_nodeviewcount.strongarm.inc
+ * yellow_pages_nodeviewcount.strongarm.inc
  */
 
 /**
  * Implements hook_strongarm().
  */
-function yellow_page_nodeviewcount_strongarm() {
+function yellow_pages_nodeviewcount_strongarm() {
   $export = array();
 
   $strongarm = new stdClass();

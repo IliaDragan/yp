@@ -28,14 +28,14 @@ function yellow_pages_solr_configuration_views_default_views() {
   $handler->display->display_options['cache']['type'] = 'none';
   $handler->display->display_options['query']['type'] = 'views_query';
   $handler->display->display_options['exposed_form']['type'] = 'basic';
-  $handler->display->display_options['exposed_form']['options']['submit_button'] = 'Применить';
-  $handler->display->display_options['exposed_form']['options']['reset_button_label'] = 'Сбросить';
-  $handler->display->display_options['exposed_form']['options']['sort_asc_label'] = 'По возрастанию';
-  $handler->display->display_options['exposed_form']['options']['sort_desc_label'] = 'По убыванию';
+  $handler->display->display_options['exposed_form']['options']['submit_button'] = 'Apply';
+  $handler->display->display_options['exposed_form']['options']['reset_button_label'] = 'Reset';
+  $handler->display->display_options['exposed_form']['options']['sort_asc_label'] = 'Asc';
+  $handler->display->display_options['exposed_form']['options']['sort_desc_label'] = 'Desc';
   $handler->display->display_options['pager']['type'] = 'full';
-  $handler->display->display_options['pager']['options']['expose']['items_per_page_label'] = 'Элементов на страницу';
-  $handler->display->display_options['pager']['options']['expose']['items_per_page_options_all_label'] = '- Все -';
-  $handler->display->display_options['pager']['options']['expose']['offset_label'] = 'Пропустить';
+  $handler->display->display_options['pager']['options']['expose']['items_per_page_label'] = 'Items per page';
+  $handler->display->display_options['pager']['options']['expose']['items_per_page_options_all_label'] = '- All -';
+  $handler->display->display_options['pager']['options']['expose']['offset_label'] = 'Offset';
   $handler->display->display_options['style_plugin'] = 'default';
   $handler->display->display_options['row_plugin'] = 'fields';
   /* Field: Indexed Node: Node ID */
@@ -58,9 +58,9 @@ function yellow_pages_solr_configuration_views_default_views() {
   $handler->display->display_options['defaults']['exposed_form'] = FALSE;
   $handler->display->display_options['exposed_form']['type'] = 'basic';
   $handler->display->display_options['exposed_form']['options']['submit_button'] = 'Search';
-  $handler->display->display_options['exposed_form']['options']['reset_button_label'] = 'Сбросить';
-  $handler->display->display_options['exposed_form']['options']['sort_asc_label'] = 'По возрастанию';
-  $handler->display->display_options['exposed_form']['options']['sort_desc_label'] = 'По убыванию';
+  $handler->display->display_options['exposed_form']['options']['reset_button_label'] = 'Reset';
+  $handler->display->display_options['exposed_form']['options']['sort_asc_label'] = 'Asc';
+  $handler->display->display_options['exposed_form']['options']['sort_desc_label'] = 'Desc';
   $handler->display->display_options['defaults']['style_plugin'] = FALSE;
   $handler->display->display_options['style_plugin'] = 'default';
   $handler->display->display_options['defaults']['style_options'] = FALSE;
@@ -128,7 +128,7 @@ function yellow_pages_solr_configuration_views_default_views() {
   $handler->display->display_options['arguments']['search_api_views_fulltext']['conjunction'] = 'OR';
   $handler->display->display_options['defaults']['filter_groups'] = FALSE;
   $handler->display->display_options['defaults']['filters'] = FALSE;
-  /* Filter criterion: Indexed Материал: Content type */
+  /* Filter criterion: Indexed Node: Content type */
   $handler->display->display_options['filters']['type']['id'] = 'type';
   $handler->display->display_options['filters']['type']['table'] = 'search_api_index_company_nodes';
   $handler->display->display_options['filters']['type']['field'] = 'type';
@@ -166,7 +166,7 @@ function yellow_pages_solr_configuration_views_default_views() {
   $handler->display->display_options['arguments']['search_api_views_more_like_this']['table'] = 'search_api_index_company_nodes';
   $handler->display->display_options['arguments']['search_api_views_more_like_this']['field'] = 'search_api_views_more_like_this';
   $handler->display->display_options['arguments']['search_api_views_more_like_this']['default_action'] = 'not found';
-  $handler->display->display_options['arguments']['search_api_views_more_like_this']['exception']['title'] = 'Все';
+  $handler->display->display_options['arguments']['search_api_views_more_like_this']['exception']['title'] = 'All';
   $handler->display->display_options['arguments']['search_api_views_more_like_this']['default_argument_type'] = 'fixed';
   $handler->display->display_options['arguments']['search_api_views_more_like_this']['summary']['format'] = 'default_summary';
   $handler->display->display_options['arguments']['search_api_views_more_like_this']['fields'] = array(
@@ -199,7 +199,7 @@ function yellow_pages_solr_configuration_views_default_views() {
   $handler->display->display_options['defaults']['arguments'] = FALSE;
   $handler->display->display_options['defaults']['filter_groups'] = FALSE;
   $handler->display->display_options['defaults']['filters'] = FALSE;
-  /* Filter criterion: Indexed Node Sticky in lists */
+  /* Filter criterion: Indexed Node: Sticky in lists */
   $handler->display->display_options['filters']['sticky']['id'] = 'sticky';
   $handler->display->display_options['filters']['sticky']['table'] = 'search_api_index_company_nodes';
   $handler->display->display_options['filters']['sticky']['field'] = 'sticky';

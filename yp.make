@@ -120,6 +120,9 @@ projects[variable][subdir] = "contrib"
 projects[views][version] = "3.10"
 projects[views][subdir] = "contrib"
 
+projects[nodeviewcount][version] = "2.3"
+projects[nodeviewcount][subdir] = "contrib"
+
 projects[bootstrap][version] = "3.0"
 
 ; Libraries

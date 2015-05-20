@@ -91,10 +91,10 @@ function yellow_pages_article_ct_views_default_views() {
     'article' => 'article',
   );
 
-  /* Display: Contextual articles */
-  $handler = $view->new_display('panel_pane', 'Contextual articles', 'panel_pane_1');
+  /* Display: Contextual */
+  $handler = $view->new_display('panel_pane', 'Contextual', 'panel_pane_1');
   $handler->display->display_options['defaults']['title'] = FALSE;
-  $handler->display->display_options['title'] = 'Contextual articles';
+  $handler->display->display_options['title'] = 'Similar articles';
   $handler->display->display_options['defaults']['hide_admin_links'] = FALSE;
   $handler->display->display_options['defaults']['style_plugin'] = FALSE;
   $handler->display->display_options['style_plugin'] = 'default';
@@ -152,8 +152,8 @@ function yellow_pages_article_ct_views_default_views() {
     ),
   );
 
-  /* Display: Articles list */
-  $handler = $view->new_display('panel_pane', 'Articles list', 'panel_pane_2');
+  /* Display: List */
+  $handler = $view->new_display('panel_pane', 'List', 'panel_pane_2');
   $handler->display->display_options['defaults']['hide_admin_links'] = FALSE;
   $handler->display->display_options['defaults']['style_plugin'] = FALSE;
   $handler->display->display_options['style_plugin'] = 'default';
@@ -199,8 +199,10 @@ function yellow_pages_article_ct_views_default_views() {
     t('next ›'),
     t('last »'),
     t('All'),
-    t('Contextual articles'),
+    t('Contextual'),
+    t('Similar articles'),
     t('View panes'),
+    t('List'),
   );
   $export['articles'] = $view;
 

@@ -100,6 +100,10 @@ function yellow_pages_news_ct_strongarm() {
             'weight' => '5',
             'visible' => FALSE,
           ),
+          'teaser' => array(
+            'weight' => '3',
+            'visible' => FALSE,
+          ),
         ),
       ),
     ),

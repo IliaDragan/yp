@@ -105,6 +105,18 @@ function yellow_pages_news_ct_views_default_views() {
 
   /* Display: Carousel */
   $handler = $view->new_display('panel_pane', 'Carousel', 'panel_pane_1');
+
+  /* Display: List */
+  $handler = $view->new_display('panel_pane', 'List', 'panel_pane_2');
+  $handler->display->display_options['defaults']['title'] = FALSE;
+  $handler->display->display_options['title'] = 'List';
+  $handler->display->display_options['defaults']['style_plugin'] = FALSE;
+  $handler->display->display_options['style_plugin'] = 'default';
+  $handler->display->display_options['defaults']['style_options'] = FALSE;
+  $handler->display->display_options['defaults']['row_plugin'] = FALSE;
+  $handler->display->display_options['row_plugin'] = 'entity';
+  $handler->display->display_options['row_options']['view_mode'] = 'teaser';
+  $handler->display->display_options['defaults']['row_options'] = FALSE;
   $translatables['news'] = array(
     t('Master'),
     t('News'),
@@ -117,6 +129,7 @@ function yellow_pages_news_ct_views_default_views() {
     t('Read more &gt;'),
     t('Carousel'),
     t('View panes'),
+    t('List'),
   );
   $export['news'] = $view;
 

@@ -1,0 +1,88 @@
+<?php
+/**
+ * YellowPages feedback forms module.
+ */
+
+/**
+ * Implements hook_block_info().
+ */
+function yellow_pages_feedback_block_info() {
+  $blocks = array();
+
+  $blocks['yp_ad_request'] = array(
+    'info' => 'YellowPages Advertisement Request',
+    'cache' => DRUPAL_CACHE_GLOBAL,
+  );
+
+  return $blocks;
+}
+
+/**
+ * Implements hook_block_view().
+ */
+function yellow_pages_feedback_block_view($delta = '') {
+  $block = array();
+
+  switch ($delta) {
+    case 'yp_ad_request':
+      $form = drupal_get_form('yellow_pages_feedback_ad_request');
+      $block['subject'] = t('Advertisement request');
+      $block['content'] = drupal_render($form);
+      break;
+  }
+
+  return $block;
+}
+
+/**
+ * Implements hook_theme().
+ */
+function yellow_pages_feedback_theme($existing, $type, $theme, $path) {
+  $hooks = array();
+
+  return $hooks;
+}
+
+function yellow_pages_feedback_ad_request($form, &$form_state) {
+  $form['firstname'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Firstname'),
+  );
+
+  $form['middlename'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Middlename'),
+  );
+
+  $form['familyname'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Familyname'),
+  );
+
+  $form['email'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Email'),
+  );
+
+  $form['telephone'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Telephone'),
+  );
+
+  $form['submit'] = array(
+    '#type' => 'submit',
+    '#value' => t('Submit'),
+  );
+
+  return $form;
+}
+
+function yellow_pages_feedback_ad_request_submit($form, &$form_state) {
+  drupal_set_message(t('Thank you, we will contact you soon.'));
+}
+
+function yellow_pages_feedback_ad_request_validate($form, &$form_state) {
+
+}
+
+include_once 'yellow_pages_feedback.features.inc';

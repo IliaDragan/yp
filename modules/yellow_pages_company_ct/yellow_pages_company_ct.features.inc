@@ -14,6 +14,13 @@ function yellow_pages_company_ct_ctools_plugin_api($module = NULL, $api = NULL) 
 }
 
 /**
+ * Implements hook_views_api().
+ */
+function yellow_pages_company_ct_views_api($module = NULL, $api = NULL) {
+  return array("api" => "3.0");
+}
+
+/**
  * Implements hook_node_info().
  */
 function yellow_pages_company_ct_node_info() {

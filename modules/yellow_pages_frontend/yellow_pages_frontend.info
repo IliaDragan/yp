@@ -28,4 +28,5 @@ features[features_api][] = api:2
 features[page_manager_handlers][] = node_view__companies
 features[page_manager_handlers][] = node_view__node_page
 features[page_manager_pages][] = frontpage
+features[page_manager_pages][] = news
 features[variable][] = site_frontpage

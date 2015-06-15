@@ -57,7 +57,7 @@ function _yp_enable_modules() {
     'yellow_pages_taxonomy',
     'yellow_pages_weather',
     'yellow_pages_feedback',
-    'yellow_pages_nodeviewcount',
+    //'yellow_pages_nodeviewcount', //@todo buggy on install
   );
 
   module_enable($modules);

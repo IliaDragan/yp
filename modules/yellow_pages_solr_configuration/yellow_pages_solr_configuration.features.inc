@@ -71,7 +71,7 @@ function yellow_pages_solr_configuration_default_search_api_index() {
           "weight" : "0",
           "settings" : {
             "lang_field" : "language",
-            "languages" : { "und" : "und", "en" : "en", "ro" : "ro" }
+            "languages" : { "und" : "und", "en" : "en", "ro" : "ro", "ru" : "ru" }
           }
         },
         "search_api_alter_add_viewed_entity" : { "status" : 0, "weight" : "0", "settings" : { "mode" : "full" } },

@@ -120,29 +120,6 @@ function yellow_pages_solr_configuration_default_page_manager_pages() {
     $display->content['new-79f5b511-8298-47fe-96a8-bf9de4bde4fb'] = $pane;
     $display->panels['alpha_25'][1] = 'new-79f5b511-8298-47fe-96a8-bf9de4bde4fb';
     $pane = new stdClass();
-    $pane->pid = 'new-546b73c5-c417-4e25-8cf0-876adfcb4fac';
-    $pane->panel = 'beta_75';
-    $pane->type = 'block';
-    $pane->subtype = 'search-form';
-    $pane->shown = TRUE;
-    $pane->access = array();
-    $pane->configuration = array(
-      'override_title' => 0,
-      'override_title_text' => '',
-      'override_title_heading' => 'h2',
-    );
-    $pane->cache = array();
-    $pane->style = array(
-      'settings' => NULL,
-    );
-    $pane->css = array();
-    $pane->extras = array();
-    $pane->position = 0;
-    $pane->locks = array();
-    $pane->uuid = '546b73c5-c417-4e25-8cf0-876adfcb4fac';
-    $display->content['new-546b73c5-c417-4e25-8cf0-876adfcb4fac'] = $pane;
-    $display->panels['beta_75'][0] = 'new-546b73c5-c417-4e25-8cf0-876adfcb4fac';
-    $pane = new stdClass();
     $pane->pid = 'new-0bf856a0-0654-4c71-9987-801c17cb37a7';
     $pane->panel = 'beta_75';
     $pane->type = 'views_panes';
@@ -160,11 +137,11 @@ function yellow_pages_solr_configuration_default_page_manager_pages() {
     );
     $pane->css = array();
     $pane->extras = array();
-    $pane->position = 1;
+    $pane->position = 0;
     $pane->locks = array();
     $pane->uuid = '0bf856a0-0654-4c71-9987-801c17cb37a7';
     $display->content['new-0bf856a0-0654-4c71-9987-801c17cb37a7'] = $pane;
-    $display->panels['beta_75'][1] = 'new-0bf856a0-0654-4c71-9987-801c17cb37a7';
+    $display->panels['beta_75'][0] = 'new-0bf856a0-0654-4c71-9987-801c17cb37a7';
   $display->hide_title = PANELS_TITLE_FIXED;
   $display->title_pane = '0';
   $handler->conf['display'] = $display;

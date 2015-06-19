@@ -34,3 +34,11 @@ function yellow_pages_preprocess_views_view(&$vars) {
     drupal_add_css($path . '/css/owl.carousel.css');
   }
 }
+
+/**
+ * Implements hook_preprocess_node().
+ */
+function yellow_pages_preprocess_node(&$vars) {
+  $vars['classes_array'][] = 'node--' . $vars['type'] . '--' . $vars['view_mode'];
+  $vars['theme_hook_suggestions'][] = 'node__' . $vars['type'] . '__' . $vars['view_mode'];
+}

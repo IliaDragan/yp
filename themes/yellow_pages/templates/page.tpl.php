@@ -73,7 +73,7 @@
  * @ingroup themeable
  */
 ?>
-<header id="navbar" role="banner" class="<?php print $navbar_classes; ?>">
+<header id="navbar" role="banner">
   <div class="container">
     <div class="navbar-header">
       <?php if ($logo): ?>
@@ -81,17 +81,21 @@
         <img src="<?php print $logo; ?>" alt="<?php print t('Home'); ?>" />
       </a>
       <?php endif; ?>
+      <?php
+      if ($is_front) {
+        print render($page['main_menu']);
+      }
+      print render($page['header']);
+      ?>
     </div>
-    <?php
-    if ($is_front) {
-      print render($page['main_menu']);
-    }
-    print render($page['header']);
-    ?>
   </div>
 </header>
 
+<?php if($is_front): ?>
+<div class="main-container homepage-container">
+<?php else: ?>
 <div class="main-container container">
+<?php endif; ?>
   <div class="row">
     <div class="col-sm-12">
       <?php
@@ -132,8 +136,8 @@
   </div>
 </div>
 
-<footer id="footer" class="footer container">
-  <div class="footer-wrapper">
+<footer id="footer" class="footer">
+  <div class="footer-wrapper container">
     <span class="copyright">
       <?php print '&copy; ' . date('Y');?>
     </span>

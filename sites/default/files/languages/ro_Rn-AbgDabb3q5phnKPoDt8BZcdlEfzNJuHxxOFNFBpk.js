@@ -1,0 +1,1 @@
+Drupal.locale = { 'pluralFormula': function ($n) { return Number((($n==1)?(0):((($n==0)||((($n%100)>0)&&(($n%100)<20)))?(1):2))); }, 'strings': {"":{"Edit":"Modific\u0103","All":"Toate","Add":"Ad\u0103ugare"}} };

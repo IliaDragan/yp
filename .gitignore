@@ -2,3 +2,8 @@ libraries/fontawesome
 libraries/leaflet
 modules/contrib
 themes/bootstrap
+themes/config.rb
+
+# exclude imac
+*.DS_Store
+*.sass-cache/

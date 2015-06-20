@@ -1,7 +1,7 @@
 name = Yellow Pages
 description = Yellow Pages theme
 core = 7.x
-base theme = bootstrap
+base theme = circle
 
 ;;;;;;;;;;;;;;;;;;;;;
 ;; Regions

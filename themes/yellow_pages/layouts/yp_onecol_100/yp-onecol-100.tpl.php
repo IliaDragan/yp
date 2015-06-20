@@ -9,7 +9,8 @@
   <div class="row">
     <div class="col-sm-12">
       <div class="frontpage-header">
-        <div class="activity">
+        <div class="activity container">
+        <h3 class="slogan-header"><?php print t('YELLOW PAGES OF MOLDOVA') ?></h3>
           <p class="slogan"><?php print t('All <span class="yellow">Moldova</span> facilities at your demand'); ?></p>
           <p class="description"><?php print t('Search companies by name, activity, take your own pick or make a tour through links'); ?></p>
           <div class="search-block-form">
@@ -20,9 +21,15 @@
     </div>
   </div>
   <?php endif; ?>
+  <?php if (drupal_is_front_page()) : ?>
+  <div class="container">
+  <?php endif; ?>
   <div class="row">
     <div class="col-sm-12">
       <?php print $content['main']; ?>
     </div>
   </div>
+  <?php if (drupal_is_front_page()) : ?>
+    </div>
+  <?php endif; ?>
 </div>

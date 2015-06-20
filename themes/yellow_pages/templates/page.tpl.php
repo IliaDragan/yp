@@ -111,29 +111,35 @@
       <?php print render($page['content']); ?>
     </div>
   </div>
-  <div class="row">
-    <div class="col-sm-4">
-      <?php
-      if (!empty($page['aside_a'])) {
-        print render($page['aside_a']);
-      }
-      ?>
+  <?php if($is_front): ?>
+  <div class="container">
+  <?php endif; ?>
+    <div class="row">
+      <div class="col-sm-4">
+        <?php
+        if (!empty($page['aside_a'])) {
+          print render($page['aside_a']);
+        }
+        ?>
+      </div>
+      <div class="col-sm-4">
+        <?php
+        if (!empty($page['aside_b'])) {
+          print render($page['aside_b']);
+        }
+        ?>
+      </div>
+      <div class="col-sm-4">
+        <?php
+        if (!empty($page['aside_c'])) {
+          print render($page['aside_c']);
+        }
+        ?>
+      </div>
     </div>
-    <div class="col-sm-4">
-      <?php
-      if (!empty($page['aside_b'])) {
-        print render($page['aside_b']);
-      }
-      ?>
-    </div>
-    <div class="col-sm-4">
-      <?php
-      if (!empty($page['aside_c'])) {
-        print render($page['aside_c']);
-      }
-      ?>
-    </div>
+  <?php if($is_front): ?>
   </div>
+  <?php endif; ?>
 </div>
 
 <footer id="footer" class="footer">

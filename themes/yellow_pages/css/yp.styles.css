@@ -432,20 +432,20 @@ form.search-block-form .form-actions:before {
   right: 10px;
 }
 
-.node-main-carousel a {
+.owl-carousel .node-teaser a {
   color: #ffdd00;
 }
-.node-main-carousel .field-name-field-list-image {
+.owl-carousel .node-teaser .field-name-field-list-image {
   /* To remove*/
 }
-.node-main-carousel .field-name-field-list-image img {
+.owl-carousel .node-teaser .field-name-field-list-image img {
   width: 400px;
   height: 440px;
 }
-.node-main-carousel .content {
+.owl-carousel .node-teaser .content {
   position: relative;
 }
-.node-main-carousel .content:hover .right {
+.owl-carousel .node-teaser .content:hover .right {
   height: 100%;
   padding-top: 30px;
   -moz-transition: max-height 0.3s ease-out;
@@ -453,11 +453,11 @@ form.search-block-form .form-actions:before {
   -webkit-transition: max-height 0.3s ease-out;
   transition: max-height 0.3s ease-out;
 }
-.node-main-carousel .content:hover .right .field-name-body,
-.node-main-carousel .content:hover .right .node-link {
+.owl-carousel .node-teaser .content:hover .right .field-name-body,
+.owl-carousel .node-teaser .content:hover .right .node-link {
   display: block;
 }
-.node-main-carousel .content:hover .right .field-name-body {
+.owl-carousel .node-teaser .content:hover .right .field-name-body {
   width: 100%;
   padding: 15px;
   position: absolute;
@@ -468,7 +468,7 @@ form.search-block-form .form-actions:before {
   -webkit-transform: translate3d(-50%, -50%, 0);
   transform: translate3d(-50%, -50%, 0);
 }
-.node-main-carousel .content:hover .right:after {
+.owl-carousel .node-teaser .content:hover .right:after {
   content: "";
   display: block;
   position: absolute;
@@ -478,20 +478,20 @@ form.search-block-form .form-actions:before {
   height: 3px;
   background: #ffdd00;
 }
-.node-main-carousel .node-link {
+.owl-carousel .node-teaser .node-link {
   width: 100%;
   position: absolute;
   bottom: 30px;
   left: 0;
 }
-.node-main-carousel .node-link:after {
+.owl-carousel .node-teaser .node-link:after {
   content: ">";
   display: inline-block;
   vertical-align: middle;
   font-weight: bold;
   margin-left: 5px;
 }
-.node-main-carousel .right {
+.owl-carousel .node-teaser .right {
   position: absolute;
   bottom: 0;
   width: 100%;
@@ -500,24 +500,24 @@ form.search-block-form .form-actions:before {
   text-align: center;
   overflow: hidden;
 }
-.node-main-carousel .node-title {
+.owl-carousel .node-teaser .node-title {
   height: 32px;
   margin-bottom: 5px;
   padding: 0 40px;
   overflow: hidden;
 }
-.node-main-carousel .node-title a {
+.owl-carousel .node-teaser .node-title a {
   color: #ffdd00;
 }
-.node-main-carousel .node-created,
-.node-main-carousel .field-name-body {
+.owl-carousel .node-teaser .node-created,
+.owl-carousel .node-teaser .field-name-body {
   color: #fff;
 }
-.node-main-carousel .node-link,
-.node-main-carousel .field-name-body {
+.owl-carousel .node-teaser .node-link,
+.owl-carousel .node-teaser .field-name-body {
   display: none;
 }
-.node-main-carousel .field-name-body ul {
+.owl-carousel .node-teaser .field-name-body ul {
   list-style-type: none;
   margin: 0;
   padding: 0;

@@ -57,13 +57,17 @@ header {
 .navbar-header {
   .menu-main-menu {
     float: left;
-    padding-top: 38px;
   }
   .region-header {
     overflow: hidden;
     .block-locale {
       float: left;
       padding-top: 38px;
+      + .block-menu {
+        float: left;
+        margin-left: 100px;
+        padding-top: 38px;
+      }
     }
     .block-menu {
       float: right;
@@ -213,47 +217,58 @@ header {
   padding: 0 15px;
   li {
     width: 12.5%;
-    height: 70px;
-    border-right: 1px solid $border-color;
-    @include transform(skew(20deg));
-    position: relative;
     a {
-      font-size: 14px;
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      text-align: center;
-      @include transform(translate3d(-50%, -50%, 0) skew(-20deg));
-    }
-    &:after {
-      content: "";
       display: block;
-      height: 3px;
-      width: 100%;
-      background: $main-yellow;
-      position: absolute;
-      bottom: 0;
+      height: 70px;
+      border-right: 1px solid $border-color;
+      text-align: center;
+      font-size: 14px;
+      @include transform(skew(20deg));
+      position: relative;
+      span {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        @include transform(translate3d(-50%, -50%, 0) skew(-20deg));
+      }
+      &:after {
+        content: "";
+        display: block;
+        height: 3px;
+        width: 100%;
+        background: $main-yellow;
+        position: absolute;
+        bottom: 0;
+      }
+      &:hover {
+        background: $light-yellow;
+        @include transition (background 0.3s ease-out);
+      }
     }
     &:first-child {
-      border-left: 1px solid $border-color;
-    }
-    &:hover {
-      background: $light-yellow;
-      @include transition (background 0.3s ease-out);
+      a {
+        border-left: 1px solid $border-color;
+      }
     }
   }
 }
 
 /* Slider block mainpage */
 .frontpage-header {
-  background: $dark;
+  height: 685px;
   position: relative;
+  background: rgba(0,0,0,0.20) url(../images/frontpage_header.jpg) center center no-repeat;
+  background-size: cover;
   .activity {
-    padding: 40px 15px;
+    padding: 20px 15px;
+    position: relative;
+    top: 50%;
+    @include transform(translate3d(0, -50%, 0));
   }
   .description {
     color: #fff;
     text-transform: uppercase;
+    margin-bottom: 50px;
   }
   &:after {
     content: "";
@@ -263,6 +278,39 @@ header {
     width: 100%;
     height: 70px;
     background: $main-yellow;
+  }
+  .activity-banner {
+    background: rgba(0, 0, 0, 0.4);
+    color: #fff;
+    padding: 30px;
+    img,
+    h5,
+    p {
+      margin-bottom: 20px;
+    }
+    img {
+      display: block;
+      width: 100%;
+      height: auto;
+      border-bottom: 1px solid #fff;
+    }
+    p {
+      font-size: 12px;
+    }
+    .button {
+      display: block;
+      background: #fff;
+      padding: 14px 10px;
+      text-align: center;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      overflow: hidden;
+      .fa {
+        color: $main-yellow;
+        font-size: 11px;
+        margin-right: 5px;
+      }
+    }
   }
 }
 
@@ -299,7 +347,7 @@ button {
 
 form.search-block-form {
   background: rgba(0,0,0,0.4);
-  padding: 27px 40px;
+  padding: 20px 40px;
   .container-inline {
     border-bottom: 1px solid #fff;
     position: relative;
@@ -561,15 +609,142 @@ form.search-block-form {
     }
   }
 }
+/* One news, article page */
+.node-type-news .region-content {
+  padding: 30px 0;
+}
+.node-type-news {
+  .pane-entity-view {
+    background: #fff;
+    .field-name-field-main-image {
+      img {
+        width: 100%;
+        height: auto;
+      }
+    }
+    .node-main-image-block {
+      min-height: 80px;
+      position: relative;
+      header {
+        padding: 30px;
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        background: rgba(29, 29, 29, 0.5);
+        color: #fff;
+        h2 {
+          margin: 0;
+          text-transform: uppercase;
+          font-size: 18px;
+          font-weight: 400;
+          line-height: 1.2;
+          a {
+            color: #fff;
+          }
+        }
+      }
+    }
+    .field-name-body {
+      padding: 20px;
+    }
+    .submitted {
+      padding: 0 20px;
+      color: $gray;
+      font-size: 12px;
+    }
+  }
+  .pane-entity-field {
+    .pane-title {
+      margin-top: 0;    
+      font-size: 12px;
+      text-transform: uppercase;
+    }
+    .pane-content {
+      a {
+        display: inline-block;
+        margin-right: 5px;
+        font-size: 10px;
+        text-decoration: underline;
+      }
+    }
+  }
+  .pane-yellow-pages-print-yp-print {
+    padding: 20px;
+    background: #fff;
+    text-align: right;
+  }
+}
+.yp-print {
+  text-transform: uppercase;
+  font-size: 12px;
+  font-weight: bold;
+  span {
+    margin-left: 5px;
+  }
+}
+
+.node-tabs-block-header {
+  margin-top: 30px;
+  background: $light-yellow;
+  border-bottom: 3px solid $main-yellow;
+  overflow: hidden;
+  .pane-title {
+    float: left;
+    margin: 0;
+    padding: 10px 20px 7px;
+    background: $light-yellow;
+    font-size: 12px;
+    text-transform: uppercase;
+    font-weight: bold;
+    @include transform(skew(20deg));
+    cursor: pointer;
+    span {
+      display: block;
+      @include transform(skew(-20deg));
+    }
+    &:first-child {
+      margin-left: -10px;
+      padding-left: 30px;
+    }
+    &.is-active {
+      background: $main-yellow;
+      cursor: default;
+    }
+  }
+  &:empty {
+    border-bottom: none;
+  }
+}
+.node-tabs-content {
+  .panel-pane {
+    display: none;
+    .pane-title {
+      display: none;
+    }
+    .views-row {
+      margin-bottom: 0;
+      border-bottom: 1px solid #f2f2f2;
+      &:hover {
+        @include box-shadow(none);
+      }
+    }
+    &:first-child {
+      display: block;
+    }
+  }
+}
+
+
 
 /* Widgets */
 .region-asides {
   background: #fff;
+  padding: 50px 0;
 }
 .region-aside-a,
 .region-aside-b,
 .region-aside-c {
-  padding: 50px 0;
   h2 {
     margin-bottom: 20px;
     font-size: 14px;

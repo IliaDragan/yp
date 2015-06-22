@@ -21,6 +21,7 @@ var Drupal = Drupal || {};
           '<span class="glyphicon glyphicon-chevron-right"></span>'
         ],
         mouseDrag : false,
+        pagination: true,
         items: 4
       });
     }
@@ -29,6 +30,29 @@ var Drupal = Drupal || {};
   Drupal.behaviors.search_form = {
     attach : function () {
       $('.search-block-form input.form-text').attr('placeholder', Drupal.t('Facility search'));
+    }
+  }
+
+  Drupal.behaviors.node_tabs = {
+    attach : function () {
+      if ($('.node-tabs-block').length) {
+        var $nodeTabItem = $('.node-tabs-block .panel-pane');
+        var $headerTabItem = $nodeTabItem.find('h2.pane-title');
+        $headerTabItem.clone().appendTo('.node-tabs-block-header');
+        var $headerTabMain = $('.node-tabs-block-header h2');
+        $headerTabMain.wrapInner( "<span></span>")
+        $headerTabMain.eq(0).addClass('is-active');
+        for (var i = 0; i < $headerTabMain.length; i++) {
+          var $headerTabMainSingle = $headerTabMain.eq(i);
+          $headerTabMainSingle.click(function() {
+            var $this = $(this);
+            $headerTabMain.removeClass('is-active');
+            $this.addClass('is-active');
+            $nodeTabItem.hide();
+            $nodeTabItem.eq($this.index()).show();
+          });
+        }
+      }
     }
   }
 

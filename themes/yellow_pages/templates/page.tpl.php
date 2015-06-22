@@ -82,9 +82,6 @@
       </a>
       <?php endif; ?>
       <?php
-      if ($is_front) {
-        print render($page['main_menu']);
-      }
       print render($page['header']);
       ?>
     </div>
@@ -111,23 +108,25 @@
       <?php print render($page['content']); ?>
     </div>
   </div>
-  <div class="container region-asides">
+</div>
+<div class="region-asides">
+  <div class="container">
     <div class="row">
-      <div class="col-sm-4">
+      <div class="col-sm-5">
         <?php
         if (!empty($page['aside_a'])) {
           print render($page['aside_a']);
         }
         ?>
       </div>
-      <div class="col-sm-4">
+      <div class="col-sm-5">
         <?php
         if (!empty($page['aside_b'])) {
           print render($page['aside_b']);
         }
         ?>
       </div>
-      <div class="col-sm-4">
+      <div class="col-sm-2">
         <?php
         if (!empty($page['aside_c'])) {
           print render($page['aside_c']);

@@ -42,3 +42,33 @@ function yellow_pages_preprocess_node(&$vars) {
   $vars['classes_array'][] = 'node--' . $vars['type'] . '--' . $vars['view_mode'];
   $vars['theme_hook_suggestions'][] = 'node__' . $vars['type'] . '__' . $vars['view_mode'];
 }
+
+/**
+ * Implements hook_preprocess_menu_link().
+ */
+function yellow_pages_preprocess_menu_link(&$variables) {
+  if ($variables['theme_hook_original'] == 'menu_link__menu_category_menu') {
+    $variables['prefix'] = '<span>';
+    $variables['suffix'] = '</span>';
+  }
+}
+
+function yellow_pages_menu_link(array $variables) {
+  $element = $variables ['element'];
+  $sub_menu = '';
+  if ($element ['#below']) {
+    $sub_menu = drupal_render($element ['#below']);
+  }
+  $prefix = isset($variables['prefix']) ? $variables['prefix'] : '';
+  $suffix = isset($variables['suffix']) ? $variables['suffix'] : '';
+  if ($suffix || $prefix) {
+    $element ['#localized_options']['html'] = TRUE;
+  }
+  $output = l($prefix . $element ['#title'] . $suffix, $element ['#href'], $element ['#localized_options']);
+  return '<li' . drupal_attributes($element ['#attributes']) . '>' . $output . $sub_menu . "</li>\n";
+}
+
+function yellow_pages_preprocess_region(&$variables) {
+  if ($variables['region'] == 'header') {
+  }
+}

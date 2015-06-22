@@ -111,9 +111,7 @@
       <?php print render($page['content']); ?>
     </div>
   </div>
-  <?php if($is_front): ?>
-  <div class="container">
-  <?php endif; ?>
+  <div class="container region-asides">
     <div class="row">
       <div class="col-sm-4">
         <?php
@@ -137,9 +135,7 @@
         ?>
       </div>
     </div>
-  <?php if($is_front): ?>
   </div>
-  <?php endif; ?>
 </div>
 
 <footer id="footer" class="footer">

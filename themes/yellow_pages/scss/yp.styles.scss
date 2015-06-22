@@ -38,6 +38,8 @@ a {
   &:hover,
   &:active,
   &:focus {
+    outline: none;
+    border: none;
     text-decoration: none;
     color: $gray;
   }
@@ -167,6 +169,11 @@ header {
       }
     }
   }
+  .locale-untranslated {
+    line-height: 23px;
+    text-transform: uppercase;
+    font-size: 12px;
+  }
 }
 
 .menu-user-menu {
@@ -176,6 +183,16 @@ header {
     border-left: 1px solid $border-color;
     background: $main-yellow;
     @include transform(skew(20deg));
+    position: relative;
+    &:after {
+      content: "";
+      display: block;
+      height: 3px;
+      width: 100%;
+      background: $main-yellow;
+      position: absolute;
+      bottom: 0;
+    }
     a {
       line-height: 30px;
       padding-left: 20px;
@@ -322,21 +339,28 @@ form.search-block-form {
     }
   }
 }
-.not-front form.search-block-form {
-  background: #fff;
-  .container-inline {
-    border-bottom: 1px solid $dark;
+.not-front {
+  .block-search {
+    float: right;
+    width: 80%;
   }
-  input[type="text"]::-webkit-input-placeholder { color: $dark; text-transform: uppercase;}
-  input[type="text"]:-moz-placeholder { color: $dark; text-transform: uppercase;}
-  input[type="text"]::-moz-placeholder { color: $dark; text-transform: uppercase;}
-  input[type="text"]:-ms-input-placeholder { color: $dark; text-transform: uppercase;}
-  .field-search_block_form-textfield {
-    color: $dark;
-  }
-  .form-actions {
-    &:before {
+  form.search-block-form {
+    padding-top: 34px;
+    background: #fff;
+    .container-inline {
+      border-bottom: 1px solid $dark;
+    }
+    input[type="text"]::-webkit-input-placeholder { color: $dark; text-transform: uppercase; font-size: 12px; font-weight: bold;}
+    input[type="text"]:-moz-placeholder { color: $dark; text-transform: uppercase; font-size: 12px; font-weight: bold;}
+    input[type="text"]::-moz-placeholder { color: $dark; text-transform: uppercase; font-size: 12px; font-weight: bold;}
+    input[type="text"]:-ms-input-placeholder { color: $dark; text-transform: uppercase; font-size: 12px; font-weight: bold;}
+    .field-search_block_form-textfield {
       color: $dark;
+    }
+    .form-actions {
+      &:before {
+        color: $dark;
+      }
     }
   }
 }
@@ -473,19 +497,37 @@ form.search-block-form {
 /* Views block */
 .not-front .views-row {
   margin-bottom: 30px;
-  padding: 20px;
-  border-bottom: 7px solid transparent;
   background: #fff;
   &:hover {
     @include box-shadow(0 0 20px 10px rgba(58, 58, 58, 0.05));
   }
-  &.views-row-first {
-    border-bottom: 7px solid $main-yellow;
+  &.views-row-last {
+    margin-bottom: 10px;
   }
-  h2 {
+  .node {
+    &.node-sticky {
+      border-bottom: 7px solid $main-yellow;
+    }
+  }
+  .content {
+    .left {
+      float: left;
+      margin-right: 20px;
+    }
+    .right {
+      padding: 20px;
+    }
+  }
+  .node-title {
     text-transform: uppercase;
+    font-weight: bold;
+    margin-bottom: 5px;
   }
-  .field-name-body {
+  .node-created {
+    margin-bottom: 5px;
+  }
+  .field-name-body,
+  .node-created {
     font-size: 12px;
   }
   .links {
@@ -494,9 +536,36 @@ form.search-block-form {
     padding: 0;
   }
 }
+/* Pagination */
+
+.item-list {
+  text-align: center;
+  .pager {
+    display: inline-block;
+    padding: 0 10px;
+    border-radius: 10px;
+    background: #fff;
+    font-size: 12px;
+    li {
+      > a,
+      > span {
+        padding: 7px;
+        border: none;
+        border-radius: 0;
+        background: transparent;
+      }
+      &.pager-current {
+        padding: 7px;
+        color: $main-yellow;
+      }
+    }
+  }
+}
 
 /* Widgets */
-
+.region-asides {
+  background: #fff;
+}
 .region-aside-a,
 .region-aside-b,
 .region-aside-c {
@@ -512,6 +581,10 @@ form.search-block-form {
   }
   .entry {
     margin-bottom: 12px;
+    .fa {
+      width: 17px;
+      color: $gray;
+    }
   }
   .amount {
     display: inline-block;

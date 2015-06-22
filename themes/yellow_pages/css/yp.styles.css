@@ -27,6 +27,8 @@ a {
   color: #1d1d1d;
 }
 a:hover, a:active, a:focus {
+  outline: none;
+  border: none;
   text-decoration: none;
   color: #a4a4a4;
 }
@@ -169,6 +171,11 @@ header {
 .language-switcher-locale-url li a:hover, .language-switcher-locale-url li a:active, .language-switcher-locale-url li a:focus {
   color: #a4a4a4;
 }
+.language-switcher-locale-url .locale-untranslated {
+  line-height: 23px;
+  text-transform: uppercase;
+  font-size: 12px;
+}
 
 .menu-user-menu {
   padding-left: 10px;
@@ -181,6 +188,16 @@ header {
   -ms-transform: skew(20deg);
   -webkit-transform: skew(20deg);
   transform: skew(20deg);
+  position: relative;
+}
+.menu-user-menu li:after {
+  content: "";
+  display: block;
+  height: 3px;
+  width: 100%;
+  background: #ffdd00;
+  position: absolute;
+  bottom: 0;
 }
 .menu-user-menu li a {
   line-height: 30px;
@@ -366,7 +383,12 @@ form.search-block-form .form-actions:before {
   transform: translate(0, 0);
 }
 
+.not-front .block-search {
+  float: right;
+  width: 80%;
+}
 .not-front form.search-block-form {
+  padding-top: 34px;
   background: #fff;
 }
 .not-front form.search-block-form .container-inline {
@@ -375,18 +397,26 @@ form.search-block-form .form-actions:before {
 .not-front form.search-block-form input[type="text"]::-webkit-input-placeholder {
   color: #1d1d1d;
   text-transform: uppercase;
+  font-size: 12px;
+  font-weight: bold;
 }
 .not-front form.search-block-form input[type="text"]:-moz-placeholder {
   color: #1d1d1d;
   text-transform: uppercase;
+  font-size: 12px;
+  font-weight: bold;
 }
 .not-front form.search-block-form input[type="text"]::-moz-placeholder {
   color: #1d1d1d;
   text-transform: uppercase;
+  font-size: 12px;
+  font-weight: bold;
 }
 .not-front form.search-block-form input[type="text"]:-ms-input-placeholder {
   color: #1d1d1d;
   text-transform: uppercase;
+  font-size: 12px;
+  font-weight: bold;
 }
 .not-front form.search-block-form .field-search_block_form-textfield {
   color: #1d1d1d;
@@ -526,8 +556,6 @@ form.search-block-form .form-actions:before {
 /* Views block */
 .not-front .views-row {
   margin-bottom: 30px;
-  padding: 20px;
-  border-bottom: 7px solid transparent;
   background: #fff;
 }
 .not-front .views-row:hover {
@@ -535,13 +563,29 @@ form.search-block-form .form-actions:before {
   -webkit-box-shadow: 0 0 20px 10px rgba(58, 58, 58, 0.05);
   box-shadow: 0 0 20px 10px rgba(58, 58, 58, 0.05);
 }
-.not-front .views-row.views-row-first {
+.not-front .views-row.views-row-last {
+  margin-bottom: 10px;
+}
+.not-front .views-row .node.node-sticky {
   border-bottom: 7px solid #ffdd00;
 }
-.not-front .views-row h2 {
-  text-transform: uppercase;
+.not-front .views-row .content .left {
+  float: left;
+  margin-right: 20px;
 }
-.not-front .views-row .field-name-body {
+.not-front .views-row .content .right {
+  padding: 20px;
+}
+.not-front .views-row .node-title {
+  text-transform: uppercase;
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+.not-front .views-row .node-created {
+  margin-bottom: 5px;
+}
+.not-front .views-row .field-name-body,
+.not-front .views-row .node-created {
   font-size: 12px;
 }
 .not-front .views-row .links {
@@ -550,7 +594,34 @@ form.search-block-form .form-actions:before {
   padding: 0;
 }
 
+/* Pagination */
+.item-list {
+  text-align: center;
+}
+.item-list .pager {
+  display: inline-block;
+  padding: 0 10px;
+  border-radius: 10px;
+  background: #fff;
+  font-size: 12px;
+}
+.item-list .pager li > a,
+.item-list .pager li > span {
+  padding: 7px;
+  border: none;
+  border-radius: 0;
+  background: transparent;
+}
+.item-list .pager li.pager-current {
+  padding: 7px;
+  color: #ffdd00;
+}
+
 /* Widgets */
+.region-asides {
+  background: #fff;
+}
+
 .region-aside-a,
 .region-aside-b,
 .region-aside-c {
@@ -573,6 +644,12 @@ form.search-block-form .form-actions:before {
 .region-aside-b .entry,
 .region-aside-c .entry {
   margin-bottom: 12px;
+}
+.region-aside-a .entry .fa,
+.region-aside-b .entry .fa,
+.region-aside-c .entry .fa {
+  width: 17px;
+  color: #a4a4a4;
 }
 .region-aside-a .amount,
 .region-aside-b .amount,

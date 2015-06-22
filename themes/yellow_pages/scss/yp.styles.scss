@@ -613,7 +613,8 @@ form.search-block-form {
 .node-type-news .region-content {
   padding: 30px 0;
 }
-.node-type-news {
+.node-type-news,
+.node-type-article {
   .pane-entity-view {
     background: #fff;
     .field-name-field-main-image {
@@ -649,6 +650,7 @@ form.search-block-form {
       padding: 20px;
     }
     .submitted {
+      clear: both;
       padding: 0 20px;
       color: $gray;
       font-size: 12px;

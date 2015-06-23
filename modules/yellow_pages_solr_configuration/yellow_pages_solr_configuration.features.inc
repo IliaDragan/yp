@@ -78,7 +78,7 @@ function yellow_pages_solr_configuration_default_search_api_index() {
         "search_api_alter_add_url" : { "status" : 0, "weight" : "0", "settings" : [] },
         "search_api_alter_add_aggregation" : { "status" : 0, "weight" : "0", "settings" : [] },
         "search_api_alter_add_hierarchy" : {
-          "status" : 0,
+          "status" : 1,
           "weight" : "0",
           "settings" : { "fields" : {
               "field_goods_and_services:parent" : "field_goods_and_services:parent",

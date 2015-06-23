@@ -7,6 +7,18 @@
 include_once 'yellow_pages_solr_configuration.features.inc';
 
 /**
+ * Implements hook_ctools_plugin_directory().
+ *
+ * It simply tells panels where to find the .inc files that define various
+ * args, contexts, content_types.
+ */
+function yellow_pages_solr_configuration_ctools_plugin_directory($module, $plugin) {
+  if ($module == 'ctools' && !empty($plugin)) {
+    return "plugins/$plugin";
+  }
+}
+
+/**
  * Implementation of hook_form_alter()
  */
 function yellow_pages_solr_configuration_form_alter(&$form, &$form_state, $form_id) {

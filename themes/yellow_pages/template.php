@@ -72,3 +72,11 @@ function yellow_pages_preprocess_region(&$variables) {
   if ($variables['region'] == 'header') {
   }
 }
+
+function yellow_pages_css_alter(&$css) {
+  // Exclude all the unused core and modules css.
+    $exclude = array(
+      'profiles/yp/modules/contrib/addressfield/addressfield.css' => FALSE,
+    );
+    $css = array_diff_key($css, $exclude);
+  }

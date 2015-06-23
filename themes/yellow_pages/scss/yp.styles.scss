@@ -466,7 +466,7 @@ form.search-block-form {
     }
   }
 }
-.owl-carousel .node-teaser {
+.owl-carousel .node--news--slider_teaser {
   a {
     color: $main-yellow;
   }
@@ -556,9 +556,9 @@ form.search-block-form {
     }
   }
 }
-
-.node-link {
-  font-weight: bold;
+.node-read-more {
+  clear: both;
+  display: block;
   &:after {
     content: ">";
     display: inline-block;
@@ -567,21 +567,19 @@ form.search-block-form {
     margin-left: 5px;
   }
 }
+.node-link {
+  font-weight: bold;
+}
 
 /* Views block */
-.not-front .views-row {
+.node-teaser {
   margin-bottom: 30px;
   background: #fff;
   &:hover {
     @include box-shadow(0 0 20px 10px rgba(58, 58, 58, 0.05));
   }
-  &.views-row-last {
-    margin-bottom: 10px;
-  }
-  .node {
-    &.node-sticky {
-      border-bottom: 7px solid $main-yellow;
-    }
+  &.node-sticky {
+    border-bottom: 7px solid $main-yellow;
   }
   .content {
     .left {
@@ -589,6 +587,7 @@ form.search-block-form {
       margin-right: 20px;
     }
     .right {
+      margin-left: 150px;
       padding: 20px;
     }
   }
@@ -609,6 +608,10 @@ form.search-block-form {
     margin: 0;
     padding: 0;
   }
+}
+
+div.panel-pane div.node-teaser {
+  margin-bottom: 30px;
 }
 /* Pagination */
 
@@ -702,10 +705,13 @@ form.search-block-form {
     }
   }
   .pane-yellow-pages-print-yp-print {
-    padding: 20px;
     background: #fff;
-    text-align: right;
   }
+}
+
+.pane-yellow-pages-print-yp-print {
+  padding: 20px;
+  text-align: right;
 }
 .yp-print {
   text-transform: uppercase;
@@ -721,7 +727,8 @@ form.search-block-form {
   background: $light-yellow;
   border-bottom: 3px solid $main-yellow;
   overflow: hidden;
-  .pane-title {
+  .pane-title,
+  .field-label {
     float: left;
     margin: 0;
     padding: 10px 20px 7px;
@@ -748,10 +755,17 @@ form.search-block-form {
     border-bottom: none;
   }
 }
+.node-tabs-block-company {
+  .node-tabs-block-header {
+    margin-top: 0;
+  }
+}
 .node-tabs-content {
-  .panel-pane {
+  .panel-pane,
+  .field {
     display: none;
-    .pane-title {
+    .pane-title,
+    .field-label {
       display: none;
     }
     .views-row {
@@ -764,6 +778,78 @@ form.search-block-form {
     &:first-child {
       display: block;
     }
+  }
+  .field-item {
+    padding: 20px;
+  }
+}
+/* Company page */
+
+.node-company.node--company--full {
+  margin-bottom: 30px;
+  background: #fff;
+  overflow: hidden;
+  .field-name-field-company-logo {
+    img {
+      max-width: 100%;
+      height: auto;
+    }
+  }
+  .field-row-custom {
+    overflow: hidden;
+    > div {
+      float: left;
+      margin-right: 20px;
+    }
+  }
+  .field-row-tags {
+    a {
+      font-size: 11px;
+    }
+  }
+  .field-type-datetime {
+    margin-bottom: 10px;
+  }
+  .field-name-field-address,
+  .field-name-field-landline-phone,
+  .field-name-field-fax,
+  .field-name-field-mobile-phone,
+  .field-name-field-company-site,
+  .field-name-field-email {
+    position: relative;
+    padding-left: 20px;
+    font-weight: bold;
+    margin-bottom: 10px;
+    &:before {
+      content: "";
+      display: inline-block;
+      position: absolute;
+      left: 0px;
+      font: normal normal normal 14px/1 FontAwesome;
+      text-rendering: auto;
+      color: $dark;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      transform: translate(0, 0);
+    }
+  }
+  .field-name-field-address:before {
+    content: "\f041";
+  }
+  .field-name-field-landline-phone:before {
+    content: "\f095";
+  }
+  .field-name-field-fax:before {
+    content: "\f1ac";
+  }
+  .field-name-field-mobile-phone:before {
+    content: "\f10b";
+  }
+  .field-name-field-company-site:before {
+    content: "\f0c1";
+  }
+  .field-name-field-email:before {
+    content: "\f0e0";
   }
 }
 
@@ -804,6 +890,58 @@ article {
   }
 }
 
+/* Search page */
+
+.page-search {
+  .pane-block {
+    margin-bottom: 30px;
+    background: #393939;
+    color: #fff;
+    .pane-content {
+      padding: 25px 30px 25px 40px;
+    }
+    .pane-title {
+      padding: 25px 30px 25px 40px;
+      background: $dark;
+      font-size: 14px;
+      font-weight: 400;
+      color: $main-yellow;
+      text-transform: uppercase;
+    }
+    ul {
+      margin: 0;
+      padding: 0;
+      list-style-type: none;
+      text-align: left;
+      li {
+        margin-bottom: 7px;
+        position: relative;
+        .facetapi-active {
+          color: #393939;
+          position: absolute;
+          left: -20px;
+          &:before {
+            content: "\f00d";
+            display: inline-block;
+            position: absolute;
+            font: normal normal normal 14px/1 FontAwesome;
+            text-rendering: auto;
+            color: $main-yellow;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            transform: translate(0, 0);
+          }
+        }
+        .facetapi-inactive {
+          color: $gray;
+        }
+      }
+    }
+    a {
+      color: #fff;
+    }
+  }
+}
 
 /* Widgets */
 .region-asides {

@@ -83,8 +83,10 @@
 <div id="node-<?php print $node->nid; ?>" class="<?php print $classes; ?> clearfix"<?php print $attributes; ?>>
   <div class="content"<?php print $content_attributes; ?>>
     <div class="left">
-    <?php if (!empty($content['field_company_logo'])): ?>
-      <?php print render($content['field_company_logo']);?>
+    <?php if (!empty($content['field_list_image'])): ?>
+      <?php print render($content['field_list_image']);?>
+    <?php else: ?>
+      <?php print render($content['field_main_image']); ?>
     <?php endif; ?>
     </div>
     <div class="right">
@@ -95,10 +97,7 @@
         <!-- @todo FORMAT DATE -->
         <span><?php print $created; ?></span>
       </div>
-      <?php print render($content['field_address']); ?>
       <?php print render($content['body']); ?>
-      <?php print render($content['field_goods_and_services']); ?>
-      <?php print render($content['field_landline_phone']); ?>
       <a href="#" class="node-link node-read-more">Read more</a>
     </div>
   </div>

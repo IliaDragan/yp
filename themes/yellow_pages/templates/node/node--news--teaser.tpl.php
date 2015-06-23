@@ -99,7 +99,7 @@
       </div>
       <?php print render($content['body']); ?>
       <?php print render($content['field_categories']); ?>
-      <a href="#" class="node-link">Read more</a>
+      <a href="#" class="node-link node-read-more">Read more</a>
     </div>
   </div>
 </div>

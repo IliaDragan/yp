@@ -13,6 +13,12 @@
   <div class="row">
     <div class="col-sm-9">
       <?php print $content['beta_75']; ?>
+      <div class="node-tabs-block">
+        <div class="node-tabs-block-header"></div>
+        <div class="node-tabs-content">
+          <?php print $content['tabs_75']; ?>
+        </div>
+      </div>
     </div>
     <div class="col-sm-3">
       <?php print $content['gamma_25']; ?>

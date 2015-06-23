@@ -15,7 +15,7 @@ $plugin = array(
 
 function switch_search_content_type_render($subtype, $conf, $panel_args, $context) {
   // Create a form with the radio buttons.
-  $form = drupal_get_form('switch_search_form');
+  $form = drupal_get_form('switch_search_form', $panel_args);
 
   $block = new stdClass();
   $block->content = $form;
@@ -23,17 +23,27 @@ function switch_search_content_type_render($subtype, $conf, $panel_args, $contex
   return $block;
 }
 
-function switch_search_form($form, &$form_state) {
+function switch_search_form($form, &$form_state, $search_query) {
+  $search_query = (empty($search_query)) ? '' : $search_query[0];
+  $companies_url = l(t('Companies'), 'search/companies/' . $search_query);
+  $articles_url = l(t('Content'), 'search/content/' . $search_query);
   $search_pages = array(
-    'companies' => t('Companies'),
-    'articles' => t('Articles'),
+    'companies' => $companies_url,
+    'content' => $articles_url,
   );
 
+  $form = array(
+    '#attached' => array(
+      'js' => array(
+        drupal_get_path('module', 'yellow_pages_solr_configuration') . '/js/switch_search.js'
+      ),
+    ),
+  );
   $form['pages'] = array(
     '#type' => 'radios',
     '#required' => FALSE,
     '#options' => $search_pages,
-
+    '#default_value' => arg(1),
   );
 
   return $form;

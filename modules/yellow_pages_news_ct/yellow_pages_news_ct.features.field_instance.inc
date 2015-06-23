@@ -31,6 +31,12 @@ function yellow_pages_news_ct_field_default_field_instances() {
         'type' => 'text_default',
         'weight' => 1,
       ),
+      'slider_teaser' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
       'teaser' => array(
         'label' => 'hidden',
         'module' => 'text',
@@ -82,6 +88,12 @@ function yellow_pages_news_ct_field_default_field_instances() {
         'type' => 'hidden',
         'weight' => 3,
       ),
+      'slider_teaser' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
       'teaser' => array(
         'label' => 'hidden',
         'module' => 'i18n_taxonomy',
@@ -131,6 +143,12 @@ function yellow_pages_news_ct_field_default_field_instances() {
         'type' => 'hidden',
         'weight' => 2,
       ),
+      'slider_teaser' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
       'teaser' => array(
         'label' => 'above',
         'settings' => array(),
@@ -175,6 +193,12 @@ function yellow_pages_news_ct_field_default_field_instances() {
         'settings' => array(),
         'type' => 'hidden',
         'weight' => 6,
+      ),
+      'slider_teaser' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
       ),
       'teaser' => array(
         'label' => 'hidden',
@@ -255,6 +279,12 @@ function yellow_pages_news_ct_field_default_field_instances() {
         'type' => 'image',
         'weight' => 0,
       ),
+      'slider_teaser' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
       'teaser' => array(
         'label' => 'above',
         'settings' => array(),
@@ -324,6 +354,12 @@ function yellow_pages_news_ct_field_default_field_instances() {
         'settings' => array(),
         'type' => 'hidden',
         'weight' => 4,
+      ),
+      'slider_teaser' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
       ),
       'teaser' => array(
         'label' => 'above',

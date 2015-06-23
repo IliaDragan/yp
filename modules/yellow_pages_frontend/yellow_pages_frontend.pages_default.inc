@@ -226,6 +226,7 @@ function yellow_pages_frontend_default_page_manager_handlers() {
       'default' => NULL,
       'alpha_75' => NULL,
       'beta_25' => NULL,
+      'tabs_75' => NULL,
     ),
   );
   $display->cache = array();
@@ -244,7 +245,7 @@ function yellow_pages_frontend_default_page_manager_handlers() {
       'view_mode' => 'full',
       'context' => 'argument_entity_id:node_1',
       'override_title' => 1,
-      'override_title_text' => '%node:title',
+      'override_title_text' => '',
       'override_title_heading' => 'h3',
     );
     $pane->cache = array();
@@ -282,52 +283,6 @@ function yellow_pages_frontend_default_page_manager_handlers() {
     $display->content['new-56561e6d-3858-413b-a822-bf93d7b73dec'] = $pane;
     $display->panels['alpha_75'][1] = 'new-56561e6d-3858-413b-a822-bf93d7b73dec';
     $pane = new stdClass();
-    $pane->pid = 'new-2e5256ac-e000-4cc2-bc98-a4b04f100b94';
-    $pane->panel = 'alpha_75';
-    $pane->type = 'views_panes';
-    $pane->subtype = 'news-panel_pane_3';
-    $pane->shown = TRUE;
-    $pane->access = array();
-    $pane->configuration = array(
-      'override_title' => 0,
-      'override_title_text' => '',
-      'override_title_heading' => 'h2',
-    );
-    $pane->cache = array();
-    $pane->style = array(
-      'settings' => NULL,
-    );
-    $pane->css = array();
-    $pane->extras = array();
-    $pane->position = 2;
-    $pane->locks = array();
-    $pane->uuid = '2e5256ac-e000-4cc2-bc98-a4b04f100b94';
-    $display->content['new-2e5256ac-e000-4cc2-bc98-a4b04f100b94'] = $pane;
-    $display->panels['alpha_75'][2] = 'new-2e5256ac-e000-4cc2-bc98-a4b04f100b94';
-    $pane = new stdClass();
-    $pane->pid = 'new-797456c8-71b9-457c-9455-7361d65f81b1';
-    $pane->panel = 'alpha_75';
-    $pane->type = 'views_panes';
-    $pane->subtype = 'companies-panel_pane_1';
-    $pane->shown = TRUE;
-    $pane->access = array();
-    $pane->configuration = array(
-      'override_title' => 0,
-      'override_title_text' => '',
-      'override_title_heading' => 'h2',
-    );
-    $pane->cache = array();
-    $pane->style = array(
-      'settings' => NULL,
-    );
-    $pane->css = array();
-    $pane->extras = array();
-    $pane->position = 3;
-    $pane->locks = array();
-    $pane->uuid = '797456c8-71b9-457c-9455-7361d65f81b1';
-    $display->content['new-797456c8-71b9-457c-9455-7361d65f81b1'] = $pane;
-    $display->panels['alpha_75'][3] = 'new-797456c8-71b9-457c-9455-7361d65f81b1';
-    $pane = new stdClass();
     $pane->pid = 'new-3d9778b1-7abf-433d-b291-0b9d07b04a20';
     $pane->panel = 'beta_25';
     $pane->type = 'entity_field';
@@ -336,7 +291,7 @@ function yellow_pages_frontend_default_page_manager_handlers() {
     $pane->access = array();
     $pane->configuration = array(
       'label' => 'above',
-      'formatter' => 'i18n_taxonomy_term_reference_link',
+      'formatter' => 'taxonomy_term_reference_link',
       'delta_limit' => '0',
       'delta_offset' => '0',
       'delta_reversed' => 0,
@@ -380,7 +335,53 @@ function yellow_pages_frontend_default_page_manager_handlers() {
     $pane->uuid = 'b198df13-2eea-4b7b-adbe-5365ab0b3722';
     $display->content['new-b198df13-2eea-4b7b-adbe-5365ab0b3722'] = $pane;
     $display->panels['beta_25'][1] = 'new-b198df13-2eea-4b7b-adbe-5365ab0b3722';
-  $display->hide_title = PANELS_TITLE_FIXED;
+    $pane = new stdClass();
+    $pane->pid = 'new-2e5256ac-e000-4cc2-bc98-a4b04f100b94';
+    $pane->panel = 'tabs_75';
+    $pane->type = 'views_panes';
+    $pane->subtype = 'news-panel_pane_3';
+    $pane->shown = TRUE;
+    $pane->access = array();
+    $pane->configuration = array(
+      'override_title' => 0,
+      'override_title_text' => '',
+      'override_title_heading' => 'h2',
+    );
+    $pane->cache = array();
+    $pane->style = array(
+      'settings' => NULL,
+    );
+    $pane->css = array();
+    $pane->extras = array();
+    $pane->position = 0;
+    $pane->locks = array();
+    $pane->uuid = '2e5256ac-e000-4cc2-bc98-a4b04f100b94';
+    $display->content['new-2e5256ac-e000-4cc2-bc98-a4b04f100b94'] = $pane;
+    $display->panels['tabs_75'][0] = 'new-2e5256ac-e000-4cc2-bc98-a4b04f100b94';
+    $pane = new stdClass();
+    $pane->pid = 'new-797456c8-71b9-457c-9455-7361d65f81b1';
+    $pane->panel = 'tabs_75';
+    $pane->type = 'views_panes';
+    $pane->subtype = 'companies-panel_pane_1';
+    $pane->shown = TRUE;
+    $pane->access = array();
+    $pane->configuration = array(
+      'override_title' => 0,
+      'override_title_text' => '',
+      'override_title_heading' => 'h2',
+    );
+    $pane->cache = array();
+    $pane->style = array(
+      'settings' => NULL,
+    );
+    $pane->css = array();
+    $pane->extras = array();
+    $pane->position = 1;
+    $pane->locks = array();
+    $pane->uuid = '797456c8-71b9-457c-9455-7361d65f81b1';
+    $display->content['new-797456c8-71b9-457c-9455-7361d65f81b1'] = $pane;
+    $display->panels['tabs_75'][1] = 'new-797456c8-71b9-457c-9455-7361d65f81b1';
+  $display->hide_title = PANELS_TITLE_NONE;
   $display->title_pane = 'new-3d9778b1-7abf-433d-b291-0b9d07b04a20';
   $handler->conf['display'] = $display;
   $export['node_view__news'] = $handler;
@@ -429,6 +430,7 @@ function yellow_pages_frontend_default_page_manager_handlers() {
       'main' => NULL,
       'alpha_75' => NULL,
       'beta_25' => NULL,
+      'tabs_75' => NULL,
     ),
   );
   $display->cache = array();
@@ -447,7 +449,7 @@ function yellow_pages_frontend_default_page_manager_handlers() {
       'view_mode' => 'full',
       'context' => 'argument_entity_id:node_1',
       'override_title' => 1,
-      'override_title_text' => '%node:title',
+      'override_title_text' => '',
       'override_title_heading' => 'h3',
     );
     $pane->cache = array();
@@ -484,52 +486,6 @@ function yellow_pages_frontend_default_page_manager_handlers() {
     $pane->uuid = '07104128-fd54-47af-b116-fd2dc2fe25f4';
     $display->content['new-07104128-fd54-47af-b116-fd2dc2fe25f4'] = $pane;
     $display->panels['alpha_75'][1] = 'new-07104128-fd54-47af-b116-fd2dc2fe25f4';
-    $pane = new stdClass();
-    $pane->pid = 'new-8d802ac4-3a37-4f13-b900-f049ffb342db';
-    $pane->panel = 'alpha_75';
-    $pane->type = 'views_panes';
-    $pane->subtype = 'articles-panel_pane_1';
-    $pane->shown = TRUE;
-    $pane->access = array();
-    $pane->configuration = array(
-      'override_title' => 0,
-      'override_title_text' => '',
-      'override_title_heading' => 'h2',
-    );
-    $pane->cache = array();
-    $pane->style = array(
-      'settings' => NULL,
-    );
-    $pane->css = array();
-    $pane->extras = array();
-    $pane->position = 2;
-    $pane->locks = array();
-    $pane->uuid = '8d802ac4-3a37-4f13-b900-f049ffb342db';
-    $display->content['new-8d802ac4-3a37-4f13-b900-f049ffb342db'] = $pane;
-    $display->panels['alpha_75'][2] = 'new-8d802ac4-3a37-4f13-b900-f049ffb342db';
-    $pane = new stdClass();
-    $pane->pid = 'new-495f8035-eddf-48ce-b102-8c309bc74b70';
-    $pane->panel = 'alpha_75';
-    $pane->type = 'views_panes';
-    $pane->subtype = 'companies-panel_pane_1';
-    $pane->shown = TRUE;
-    $pane->access = array();
-    $pane->configuration = array(
-      'override_title' => 0,
-      'override_title_text' => '',
-      'override_title_heading' => 'h2',
-    );
-    $pane->cache = array();
-    $pane->style = array(
-      'settings' => NULL,
-    );
-    $pane->css = array();
-    $pane->extras = array();
-    $pane->position = 3;
-    $pane->locks = array();
-    $pane->uuid = '495f8035-eddf-48ce-b102-8c309bc74b70';
-    $display->content['new-495f8035-eddf-48ce-b102-8c309bc74b70'] = $pane;
-    $display->panels['alpha_75'][3] = 'new-495f8035-eddf-48ce-b102-8c309bc74b70';
     $pane = new stdClass();
     $pane->pid = 'new-f33d820c-cca1-4876-a2ad-add094193d1b';
     $pane->panel = 'beta_25';
@@ -583,6 +539,52 @@ function yellow_pages_frontend_default_page_manager_handlers() {
     $pane->uuid = '33845fa8-7f1e-42bd-9e78-09c1782a389d';
     $display->content['new-33845fa8-7f1e-42bd-9e78-09c1782a389d'] = $pane;
     $display->panels['beta_25'][1] = 'new-33845fa8-7f1e-42bd-9e78-09c1782a389d';
+    $pane = new stdClass();
+    $pane->pid = 'new-8d802ac4-3a37-4f13-b900-f049ffb342db';
+    $pane->panel = 'tabs_75';
+    $pane->type = 'views_panes';
+    $pane->subtype = 'articles-panel_pane_1';
+    $pane->shown = TRUE;
+    $pane->access = array();
+    $pane->configuration = array(
+      'override_title' => 0,
+      'override_title_text' => '',
+      'override_title_heading' => 'h2',
+    );
+    $pane->cache = array();
+    $pane->style = array(
+      'settings' => NULL,
+    );
+    $pane->css = array();
+    $pane->extras = array();
+    $pane->position = 0;
+    $pane->locks = array();
+    $pane->uuid = '8d802ac4-3a37-4f13-b900-f049ffb342db';
+    $display->content['new-8d802ac4-3a37-4f13-b900-f049ffb342db'] = $pane;
+    $display->panels['tabs_75'][0] = 'new-8d802ac4-3a37-4f13-b900-f049ffb342db';
+    $pane = new stdClass();
+    $pane->pid = 'new-495f8035-eddf-48ce-b102-8c309bc74b70';
+    $pane->panel = 'tabs_75';
+    $pane->type = 'views_panes';
+    $pane->subtype = 'companies-panel_pane_1';
+    $pane->shown = TRUE;
+    $pane->access = array();
+    $pane->configuration = array(
+      'override_title' => 0,
+      'override_title_text' => '',
+      'override_title_heading' => 'h2',
+    );
+    $pane->cache = array();
+    $pane->style = array(
+      'settings' => NULL,
+    );
+    $pane->css = array();
+    $pane->extras = array();
+    $pane->position = 1;
+    $pane->locks = array();
+    $pane->uuid = '495f8035-eddf-48ce-b102-8c309bc74b70';
+    $display->content['new-495f8035-eddf-48ce-b102-8c309bc74b70'] = $pane;
+    $display->panels['tabs_75'][1] = 'new-495f8035-eddf-48ce-b102-8c309bc74b70';
   $display->hide_title = PANELS_TITLE_NONE;
   $display->title_pane = '0';
   $handler->conf['display'] = $display;

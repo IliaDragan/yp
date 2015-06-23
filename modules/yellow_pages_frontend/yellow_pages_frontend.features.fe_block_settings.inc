@@ -21,6 +21,12 @@ function yellow_pages_frontend_default_fe_block_settings() {
     'pages' => '',
     'roles' => array(),
     'themes' => array(
+      'bartik' => array(
+        'region' => 'header',
+        'status' => 1,
+        'theme' => 'bartik',
+        'weight' => 0,
+      ),
       'seven' => array(
         'region' => '',
         'status' => 0,
@@ -31,7 +37,7 @@ function yellow_pages_frontend_default_fe_block_settings() {
         'region' => 'header',
         'status' => 1,
         'theme' => 'yellow_pages',
-        'weight' => -14,
+        'weight' => -15,
       ),
     ),
     'title' => '<none>',
@@ -47,6 +53,12 @@ function yellow_pages_frontend_default_fe_block_settings() {
     'pages' => '<front>',
     'roles' => array(),
     'themes' => array(
+      'bartik' => array(
+        'region' => '',
+        'status' => 0,
+        'theme' => 'bartik',
+        'weight' => 0,
+      ),
       'seven' => array(
         'region' => '',
         'status' => 0,
@@ -57,7 +69,7 @@ function yellow_pages_frontend_default_fe_block_settings() {
         'region' => 'header',
         'status' => 1,
         'theme' => 'yellow_pages',
-        'weight' => -15,
+        'weight' => -16,
       ),
     ),
     'title' => '',
@@ -73,6 +85,12 @@ function yellow_pages_frontend_default_fe_block_settings() {
     'pages' => '',
     'roles' => array(),
     'themes' => array(
+      'bartik' => array(
+        'region' => '',
+        'status' => 0,
+        'theme' => 'bartik',
+        'weight' => 0,
+      ),
       'seven' => array(
         'region' => '',
         'status' => 0,
@@ -99,6 +117,12 @@ function yellow_pages_frontend_default_fe_block_settings() {
     'pages' => '',
     'roles' => array(),
     'themes' => array(
+      'bartik' => array(
+        'region' => 'content',
+        'status' => 1,
+        'theme' => 'bartik',
+        'weight' => 0,
+      ),
       'seven' => array(
         'region' => 'content',
         'status' => 1,
@@ -116,6 +140,38 @@ function yellow_pages_frontend_default_fe_block_settings() {
     'visibility' => 0,
   );
 
+  $export['system-main-menu'] = array(
+    'cache' => -1,
+    'custom' => 0,
+    'delta' => 'main-menu',
+    'module' => 'system',
+    'node_types' => array(),
+    'pages' => '<front>',
+    'roles' => array(),
+    'themes' => array(
+      'bartik' => array(
+        'region' => '',
+        'status' => 0,
+        'theme' => 'bartik',
+        'weight' => 0,
+      ),
+      'seven' => array(
+        'region' => '',
+        'status' => 0,
+        'theme' => 'seven',
+        'weight' => 0,
+      ),
+      'yellow_pages' => array(
+        'region' => 'header',
+        'status' => 1,
+        'theme' => 'yellow_pages',
+        'weight' => -14,
+      ),
+    ),
+    'title' => '<none>',
+    'visibility' => 1,
+  );
+
   $export['system-user-menu'] = array(
     'cache' => -1,
     'custom' => 0,
@@ -125,6 +181,12 @@ function yellow_pages_frontend_default_fe_block_settings() {
     'pages' => '<front>',
     'roles' => array(),
     'themes' => array(
+      'bartik' => array(
+        'region' => '',
+        'status' => 0,
+        'theme' => 'bartik',
+        'weight' => 0,
+      ),
       'seven' => array(
         'region' => '',
         'status' => 0,
@@ -151,6 +213,12 @@ function yellow_pages_frontend_default_fe_block_settings() {
     'pages' => '',
     'roles' => array(),
     'themes' => array(
+      'bartik' => array(
+        'region' => '',
+        'status' => 0,
+        'theme' => 'bartik',
+        'weight' => 0,
+      ),
       'seven' => array(
         'region' => '',
         'status' => 0,
@@ -177,6 +245,12 @@ function yellow_pages_frontend_default_fe_block_settings() {
     'pages' => '',
     'roles' => array(),
     'themes' => array(
+      'bartik' => array(
+        'region' => '',
+        'status' => 0,
+        'theme' => 'bartik',
+        'weight' => 0,
+      ),
       'seven' => array(
         'region' => '',
         'status' => 0,
@@ -203,6 +277,12 @@ function yellow_pages_frontend_default_fe_block_settings() {
     'pages' => '',
     'roles' => array(),
     'themes' => array(
+      'bartik' => array(
+        'region' => '',
+        'status' => 0,
+        'theme' => 'bartik',
+        'weight' => 0,
+      ),
       'seven' => array(
         'region' => '',
         'status' => 0,

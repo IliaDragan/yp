@@ -24,6 +24,7 @@ features[facetapi][] = search_api@company_nodes::field_goods_and_services
 features[facetapi][] = search_api@company_nodes:block:field_address:locality
 features[facetapi][] = search_api@company_nodes:block:field_goods_and_services
 features[features_api][] = api:2
+features[page_manager_pages][] = search_content_with_solr
 features[page_manager_pages][] = search_with_solr
 features[search_api_index][] = company_nodes
 features[search_api_server][] = yp

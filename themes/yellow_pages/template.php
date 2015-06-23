@@ -44,6 +44,13 @@ function yellow_pages_preprocess_node(&$vars) {
 }
 
 /**
+ * Implements hook_preprocess_field().
+ */
+function yellow_pages_preprocess_field(&$vars) {
+  $vars['theme_hook_suggestions'][] = 'field__' . $vars['element']['#field_name'] . '__' . $vars['element']['#view_mode'];
+}
+
+/**
  * Implements hook_preprocess_menu_link().
  */
 function yellow_pages_preprocess_menu_link(&$variables) {

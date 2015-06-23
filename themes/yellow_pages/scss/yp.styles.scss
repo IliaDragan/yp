@@ -434,7 +434,7 @@ form.search-block-form {
   .owl-nav {
     > div {
       position: absolute;
-      bottom: 15px;
+      bottom: 65px;
       height: 40px;
       width: 40px;
       text-align: center;
@@ -449,6 +449,20 @@ form.search-block-form {
     }
     .owl-next {
       right: 10px;
+    }
+  }
+  .owl-dots {
+    text-align: center;
+    padding-top: 20px;
+    .owl-dot {
+      display: inline-block;
+      width: 10px;
+      height: 10px;
+      margin: 10px 3px;
+      background: $dark;
+      &.active {
+        background: $main-yellow;
+      }
     }
   }
 }

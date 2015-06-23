@@ -494,7 +494,7 @@ form.search-block-form .form-actions:before {
 }
 .view-news.view-id-news.view-display-id-panel_pane_1 .owl-nav > div {
   position: absolute;
-  bottom: 15px;
+  bottom: 65px;
   height: 40px;
   width: 40px;
   text-align: center;
@@ -509,6 +509,20 @@ form.search-block-form .form-actions:before {
 }
 .view-news.view-id-news.view-display-id-panel_pane_1 .owl-nav .owl-next {
   right: 10px;
+}
+.view-news.view-id-news.view-display-id-panel_pane_1 .owl-dots {
+  text-align: center;
+  padding-top: 20px;
+}
+.view-news.view-id-news.view-display-id-panel_pane_1 .owl-dots .owl-dot {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  margin: 10px 3px;
+  background: #1d1d1d;
+}
+.view-news.view-id-news.view-display-id-panel_pane_1 .owl-dots .owl-dot.active {
+  background: #ffdd00;
 }
 
 .owl-carousel .node-teaser a {

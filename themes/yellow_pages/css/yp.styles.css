@@ -722,7 +722,7 @@ form.search-block-form .form-actions:before {
   bottom: 0;
   left: 0;
   width: 100%;
-  background: rgba(29, 29, 29, 0.5);
+  background: rgba(29, 29, 29, 0.8);
   color: #fff;
 }
 .node-type-news .pane-entity-view .node-main-image-block header h2,
@@ -838,11 +838,35 @@ form.search-block-form .form-actions:before {
 }
 
 /* Article */
-.node-article ul {
+article h1, article h2, article h3 {
+  text-transform: uppercase;
+}
+article h1 {
+  font-size: 30px;
+}
+article h2 {
+  font-size: 18px;
+}
+article h3 {
+  font-size: 16px;
+}
+article h4 {
+  font-size: 14px;
+}
+article h5 {
+  font-size: 12px;
+}
+article h6 {
+  font-size: 11px;
+}
+article ul {
   list-style-type: square;
 }
-.node-article ul li {
+article ul li {
   position: relative;
+}
+article a {
+  text-decoration: underline;
 }
 
 /* Widgets */

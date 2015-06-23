@@ -576,10 +576,10 @@ function yellow_pages_company_ct_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-company-field_goods_and_services'
-  $field_instances['node-company-field_goods_and_services'] = array(
+  // Exported field_instance: 'node-company-field_categories'
+  $field_instances['node-company-field_categories'] = array(
     'bundle' => 'company',
-    'default_value' => NULL,
+    'default_value' => array(),
     'deleted' => 0,
     'description' => '',
     'display' => array(
@@ -612,18 +612,21 @@ function yellow_pages_company_ct_field_default_field_instances() {
       ),
     ),
     'entity_type' => 'node',
-    'field_name' => 'field_goods_and_services',
-    'label' => 'Goods and services',
+    'field_name' => 'field_categories',
+    'label' => 'Categories',
     'required' => 0,
     'settings' => array(
       'user_register_form' => FALSE,
     ),
     'widget' => array(
       'active' => 1,
-      'module' => 'options',
-      'settings' => array(),
-      'type' => 'options_buttons',
-      'weight' => 17,
+      'module' => 'taxonomy',
+      'settings' => array(
+        'autocomplete_path' => 'taxonomy/autocomplete',
+        'size' => 60,
+      ),
+      'type' => 'taxonomy_autocomplete',
+      'weight' => 6,
     ),
   );
 

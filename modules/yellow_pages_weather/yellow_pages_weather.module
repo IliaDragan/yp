@@ -49,3 +49,31 @@ function yellow_pages_weather_theme($existing, $type, $theme, $path) {
 
   return $hooks;
 }
+/**
+ * Implements hook_preprocess_THEME().
+ *
+ * Weather theme override.
+ * Retrieve current weather information and pass the values to the template.
+ */
+function yellow_pages_weather_preprocess_yp_weather(&$variables) {
+  $weather = yellow_pages_current_weather();
+}
+
+function yellow_pages_current_weather() {
+  $url = 'http://api.openweathermap.org/data/2.5/weather?q=Chisinau,md&units=metric';
+
+  try {
+    $weather_api = json_decode(file_get_contents($url));
+  }
+  catch (Exception $e) {
+    watchdog_exception('yp_weather', $e);
+  }
+
+  $weather = array();
+  $weather['temperature'] = isset($weather_api->main->temp) ? $weather_api->main->temp : '';
+  $weather['pressure'] = isset($weather_api->main->pressure) ? $weather_api->main->pressure : '';
+  $weather['wind_dir'] = isset($weather_api->wind->deg) ? $weather_api->wind->deg : '';
+  $weather['wind_speed'] = isset($weather_api->wind->speed) ? $weather_api->wind->speed : '';
+
+  return $weather;
+}

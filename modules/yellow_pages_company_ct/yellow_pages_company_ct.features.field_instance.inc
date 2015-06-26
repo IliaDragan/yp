@@ -873,9 +873,8 @@ function yellow_pages_company_ct_field_default_field_instances() {
         'browser_plugins' => array(
           'media_default--media_browser_1' => 0,
           'media_default--media_browser_my_files' => 'media_default--media_browser_my_files',
-          'media_internet' => 0,
+          'media_internet' => 'media_internet',
           'upload' => 'upload',
-          'youtube' => 'youtube',
         ),
       ),
       'type' => 'media_generic',

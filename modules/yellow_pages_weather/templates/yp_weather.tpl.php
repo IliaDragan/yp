@@ -5,7 +5,7 @@
  */
 ?>
 <div class="yp-widget yp-weather">
-  <h2 class="title">Weather <span class="info">(Chisinau)</span></h2>
+  <h2 class="title"><?php print t('Weather'); ?> <span class="info"><?php print t('(Chisinau)')?></span></h2>
   <div class="entry">
     <span class="date <?php print $weather['classes']; ?>"><?php print date('D, d/m')?></span>
   </div>

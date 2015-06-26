@@ -3,6 +3,8 @@
  * YellowPages weather module stub.
  */
 
+ define('WEATHER_UPDATE_AT', 3600);
+
 /**
  * Implements hook_block_info().
  */
@@ -57,23 +59,114 @@ function yellow_pages_weather_theme($existing, $type, $theme, $path) {
  */
 function yellow_pages_weather_preprocess_yp_weather(&$variables) {
   $weather = yellow_pages_current_weather();
+
+  $variables['weather'] = $weather;
 }
 
+/**
+ * Retrieve current weather condition.
+ *
+ * Uses data provided @ http://openweathermap.org/
+ *
+ * @return array
+ *   Various weather information.
+ */
 function yellow_pages_current_weather() {
   $url = 'http://api.openweathermap.org/data/2.5/weather?q=Chisinau,md&units=metric';
 
-  try {
-    $weather_api = json_decode(file_get_contents($url));
-  }
-  catch (Exception $e) {
-    watchdog_exception('yp_weather', $e);
+  $cid = md5('yp_weather');
+  $cache = cache_get($cid);
+  $weather_api = $cache->data;
+
+  if (REQUEST_TIME > $cache->expire) {
+    try {
+      $weather_api = json_decode(file_get_contents($url));
+      if (!empty($weather_api)) {
+        cache_set($cid, $weather_api, 'cache', REQUEST_TIME + WEATHER_UPDATE_AT);
+      }
+    }
+    catch (Exception $e) {
+      watchdog_exception('yp_weather', $e);
+    }
   }
 
   $weather = array();
+  $classes = array();
+
   $weather['temperature'] = isset($weather_api->main->temp) ? $weather_api->main->temp : '';
-  $weather['pressure'] = isset($weather_api->main->pressure) ? $weather_api->main->pressure : '';
-  $weather['wind_dir'] = isset($weather_api->wind->deg) ? $weather_api->wind->deg : '';
+  $weather['pressure'] = isset($weather_api->main->pressure) ? (int) ($weather_api->main->pressure / 1.3332239) : '';
+  $weather['wind_dir'] = isset($weather_api->wind->deg) ? yellow_pages_weather_angle_to_dir($weather_api->wind->deg) : '';
   $weather['wind_speed'] = isset($weather_api->wind->speed) ? $weather_api->wind->speed : '';
 
+  // Icons can be found @ http://openweathermap.org/weather-conditions
+  $classes[] = isset($weather_api->weather[0]->description) ? drupal_html_class($weather_api->weather[0]->description) : '';
+  $classes[] = isset($weather_api->weather[0]->icon) ? drupal_html_class('icon-' . $weather_api->weather[0]->icon) : '';
+  $weather['classes'] = implode(' ', $classes);
+
   return $weather;
+}
+
+/**
+ * Convert wind angle to convetional direction.
+ *
+ * @param float $angle
+ *   Wind direction, in degrees.
+ * @return string
+ *   Cardinal direction.
+ */
+function yellow_pages_weather_angle_to_dir($angle) {
+  $dir = '';
+  if ($angle <= 11.25) {
+    $dir = t('N');
+  }
+  elseif ($angle > 11.25 && $angle < 33.75) {
+    $dir = t('NNE');
+  }
+  elseif ($angle >= 33.75 && $angle < 56.25) {
+    $dir = t('NE');
+  }
+  elseif ($angle >= 56.25 && $angle < 78.75) {
+    $dir = t('ENE');
+  }
+  elseif ($angle >= 78.75 && $angle < 101.25) {
+    $dir = t('E');
+  }
+  elseif ($angle >= 101.25 && $angle < 123.75) {
+    $dir = t('ESE');
+  }
+  elseif ($angle >= 123.75 && $angle < 146.25) {
+    $dir = t('SE');
+  }
+  elseif ($angle >= 146.25 && $angle < 168.75) {
+    $dir = t('SSE');
+  }
+  elseif ($angle >= 168.75 && $angle < 191.25) {
+    $dir = t('S');
+  }
+  elseif ($angle >= 191.25 && $angle < 213.75) {
+    $dir = t('SSW');
+  }
+  elseif ($angle >= 213.75 && $angle < 236.25) {
+    $dir = t('SW');
+  }
+  elseif ($angle >= 236.25 && $angle < 258.75) {
+    $dir = t('WSW');
+  }
+  elseif ($angle >= 258.75 && $angle < 281.25) {
+    $dir = t('W');
+  }
+  elseif ($angle >= 281.25 && $angle < 303.75) {
+    $dir = t('WNW');
+  }
+  elseif ($angle >= 303.75 && $angle < 326.25) {
+    $dir = t('NW');
+  }
+  elseif ($angle >= 326.25 && $angle < 348.75) {
+    $dir = t('NNW');
+  }
+  else {
+    $dir = t('N');
+  }
+
+  return $dir;
 }

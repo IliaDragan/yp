@@ -18,5 +18,5 @@
   <div class="entry">
     <span class="wind"><?php print $weather['wind_dir']; ?>, <?php print $weather['wind_speed']; ?>m/s</span>
   </div>
-  <p class="link"><?php print l('http://openweathermap.org/', 'http://openweathermap.org/', array('attributes' => array('target' => '_blank'))); ?></p>
+  <p class="link"><?php print l('openweathermap.org', 'http://openweathermap.org/', array('attributes' => array('target' => '_blank'))); ?></p>
 </div>

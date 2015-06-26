@@ -100,7 +100,7 @@ function yellow_pages_rates_fetch_rates() {
     $rates = $cache->data;
   }
 
-  $required = array('USD', 'EUR' , 'RON', 'RUB');
+  $required = array('USD', 'EUR', 'RON', 'RUB');
   $filtered_rates = array();
   foreach ($required as $currency) {
     $filtered_rates[$currency] = $rates[$currency];

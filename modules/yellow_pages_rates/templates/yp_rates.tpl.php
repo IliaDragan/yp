@@ -13,5 +13,5 @@
     <span class="rate"><?php print $rate['value']; ?></span>
   </div>
   <?php endforeach; ?>
-  <p class="link"><?php print l('http://bnm.md/', 'http://bnm.md/', array('attributes' => array('target' => '_blank'))); ?></p>
+  <p class="link"><?php print l('bnm.md', 'http://bnm.md/', array('attributes' => array('target' => '_blank'))); ?></p>
 </div>

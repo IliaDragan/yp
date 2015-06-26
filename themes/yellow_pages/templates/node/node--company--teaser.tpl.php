@@ -97,7 +97,7 @@
       </div>
       <?php print render($content['field_address']); ?>
       <?php print render($content['body']); ?>
-      <?php print render($content['field_goods_and_services']); ?>
+      <?php print render($content['field_categories']); ?>
       <?php print render($content['field_landline_phone']); ?>
       <a href="#" class="node-link node-read-more">Read more</a>
     </div>

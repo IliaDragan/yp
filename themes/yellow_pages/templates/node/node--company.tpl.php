@@ -33,7 +33,7 @@
           <?php print render($content['field_email']); ?>
         </div>
         <div class="field-row-tags">
-          <?php print render($content['field_goods_and_services']); ?>
+          <?php print render($content['field_categories']); ?>
         </div>
       </div>
       <?php if (!empty($content['field_geocode'])): ?>

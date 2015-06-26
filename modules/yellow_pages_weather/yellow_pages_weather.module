@@ -95,7 +95,7 @@ function yellow_pages_current_weather() {
   $weather = array();
   $classes = array();
 
-  $weather['temperature'] = isset($weather_api->main->temp) ? $weather_api->main->temp : '';
+  $weather['temperature'] = isset($weather_api->main->temp) ? (int) $weather_api->main->temp : '';
   $weather['pressure'] = isset($weather_api->main->pressure) ? (int) ($weather_api->main->pressure / 1.3332239) : '';
   $weather['wind_dir'] = isset($weather_api->wind->deg) ? yellow_pages_weather_angle_to_dir($weather_api->wind->deg) : '';
   $weather['wind_speed'] = isset($weather_api->wind->speed) ? $weather_api->wind->speed : '';

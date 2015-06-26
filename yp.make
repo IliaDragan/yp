@@ -81,7 +81,7 @@ projects[media][download][type] = "git"
 projects[media][download][url] = "http://git.drupal.org/project/media.git"
 projects[media][download][revision] = "199e5013dc9915a3d67d73d681a1db6ba56b63e6"
 
-projects[media_youtube][version] = "2.0-rc4"
+projects[media_youtube][version] = "3.0"
 projects[media_youtube][subdir] = "contrib"
 
 projects[module_filter][version] = "2.0"

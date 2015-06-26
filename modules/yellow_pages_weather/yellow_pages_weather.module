@@ -76,9 +76,8 @@ function yellow_pages_current_weather() {
 
   $cid = md5('yp_weather');
   $cache = cache_get($cid);
-  $weather_api = $cache->data;
 
-  if (REQUEST_TIME > $cache->expire) {
+  if (!$cache || REQUEST_TIME > $cache->expire) {
     try {
       $weather_api = json_decode(file_get_contents($url));
       if (!empty($weather_api)) {
@@ -88,6 +87,9 @@ function yellow_pages_current_weather() {
     catch (Exception $e) {
       watchdog_exception('yp_weather', $e);
     }
+  }
+  else {
+    $weather_api = $cache->data;
   }
 
   $weather = array();

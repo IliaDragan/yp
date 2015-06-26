@@ -10,7 +10,6 @@ dependencies[] = page_manager
 dependencies[] = search
 dependencies[] = simpleads
 dependencies[] = strongarm
-dependencies[] = system
 dependencies[] = yellow_pages_contacts
 dependencies[] = yellow_pages_core
 dependencies[] = yellow_pages_rates

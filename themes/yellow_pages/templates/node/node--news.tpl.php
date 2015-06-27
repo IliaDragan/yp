@@ -30,6 +30,13 @@
     //print render($content);
     print render($content['body']);
   ?>
+  <!-- Social links. -->
+  <?php if (isset($service_links_rendered) && !empty($service_links_rendered)): ; ?>
+    <div class="social-links">
+      <?php print $service_links_rendered; ?>
+    </div>
+  <?php endif;?>
+
   <?php if ($display_submitted): ?>
     <p class="submitted">
       <?php print $user_picture; ?>

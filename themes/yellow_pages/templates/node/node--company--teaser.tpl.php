@@ -99,6 +99,14 @@
       <?php print render($content['body']); ?>
       <?php print render($content['field_categories']); ?>
       <?php print render($content['field_landline_phone']); ?>
+
+      <!-- Social links. -->
+      <?php if (isset($service_links_rendered) && !empty($service_links_rendered)): ; ?>
+        <div class="social-links">
+          <?php print $service_links_rendered; ?>
+        </div>
+      <?php endif;?>
+
       <a href="#" class="node-link node-read-more">Read more</a>
     </div>
   </div>

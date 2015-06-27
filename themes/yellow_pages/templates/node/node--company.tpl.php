@@ -50,14 +50,9 @@
         </div>
       <?php endif; ?>
     </div>
-    <div class="node-tabs-block-company">
-      <div class="node-tabs-block-header"></div>
-      <div class="node-tabs-content">
-        <?php print render($content['field_we_buy']); ?>
-        <?php print render($content['field_we_sell']); ?>
-        <?php print render($content['field_price_list']); ?>
-      </div>
-    </div>
+
+    <!-- Tabbed content -->
+    <?php print render($content['group_tabbed_content']); ?>
   </div>
 
   <?php if ($unpublished): ?>

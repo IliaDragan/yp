@@ -42,6 +42,9 @@ projects[features_extra][subdir] = "contrib"
 projects[file_entity][version] = "2.0-beta1"
 projects[file_entity][subdir] = "contrib"
 
+projects[field_group][version] = "1.4"
+projects[field_group][subdir] = "contrib"
+
 projects[fontawesome][version] = "2.1"
 projects[fontawesome][subdir] = "contrib"
 

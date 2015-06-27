@@ -82,7 +82,14 @@ function yellow_pages_company_ct_strongarm() {
       ),
     ),
     'extra_fields' => array(
-      'form' => array(),
+      'form' => array(
+        'language' => array(
+          'weight' => '0',
+        ),
+        'title' => array(
+          'weight' => '-5',
+        ),
+      ),
       'display' => array(
         'language' => array(
           'default' => array(
@@ -90,7 +97,7 @@ function yellow_pages_company_ct_strongarm() {
             'visible' => FALSE,
           ),
           'full' => array(
-            'weight' => '16',
+            'weight' => '13',
             'visible' => FALSE,
           ),
           'teaser' => array(

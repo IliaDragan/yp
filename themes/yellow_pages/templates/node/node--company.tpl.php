@@ -19,8 +19,8 @@
         <div class="col-sm-9">
       <?php endif; ?>
         <h2<?php print $title_attributes; ?>><?php print $title; ?></h2>
-        <?php // $date = $node->changed; $date = Date('d.m.y', $date); ?>
-        <?php // print $date; ?>
+        <?php  $date = $node->changed; $date = Date('d.m.y', $date); ?>
+        <?php print t('Date of update: ') . $date; ?>
         <?php print render($content['field_mdb_sync_date']); ?>
         <?php print render($content['field_address']); ?>
         <div class="field-row-custom">

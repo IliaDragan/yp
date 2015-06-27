@@ -45,6 +45,9 @@ projects[file_entity][subdir] = "contrib"
 projects[fontawesome][version] = "2.1"
 projects[fontawesome][subdir] = "contrib"
 
+projects[forward][version] = "2.0"
+projects[forward][subdir] = "contrib"
+
 projects[geocoder][version] = "1.2"
 projects[geocoder][subdir] = "contrib"
 
@@ -101,6 +104,9 @@ projects[search_api][subdir] = "contrib"
 
 projects[search_api_solr][version] = "1.6"
 projects[search_api_solr][subdir] = "contrib"
+
+projects[service_links][version] = "2.3"
+projects[service_links][subdir] = "contrib"
 
 projects[simpleads][version] = "1.9"
 projects[simpleads][subdir] = "contrib"

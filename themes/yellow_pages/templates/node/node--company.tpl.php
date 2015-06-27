@@ -36,6 +36,14 @@
           <?php print render($content['field_categories']); ?>
         </div>
       </div>
+
+      <!-- Social links. -->
+      <?php if (isset($service_links_rendered) && !empty($service_links_rendered)): ; ?>
+        <div class="social-links">
+          <?php print $service_links_rendered; ?>
+        </div>
+      <?php endif;?>
+
       <?php if (!empty($content['field_geocode'])): ?>
         <div class="col-sm-3">
           <?php print render($content['field_geocode']); ?>

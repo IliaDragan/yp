@@ -98,6 +98,14 @@
         <span><?php print $created; ?></span>
       </div>
       <?php print render($content['body']); ?>
+
+      <!-- Social links. -->
+      <?php if (isset($service_links_rendered) && !empty($service_links_rendered)): ; ?>
+        <div class="social-links">
+          <?php print $service_links_rendered; ?>
+        </div>
+      <?php endif;?>
+
       <a href="#" class="node-link node-read-more">Read more</a>
     </div>
   </div>

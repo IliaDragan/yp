@@ -1,0 +1,23 @@
+<?php
+/**
+ * @file
+ * Synchronize data with MDB.
+ */
+
+/**
+ * Implements hook_menu().
+ */
+function yellow_pages_sync_menu() {
+  $items = array();
+
+  $items['admin/config/yp/sync'] = array(
+    'title' => 'Synchronize',
+    'description' => 'Setup data sync from MDB source.',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('yellow_pages_sync_admin_form'),
+    'access arguments' => array('administer yellow pages sync'),
+    'file' => 'yellow_pages_sync.admin.inc',
+  );
+
+  return $items;
+}

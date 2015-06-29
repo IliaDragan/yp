@@ -3,3 +3,21 @@
  * @file
  * Core functionality, not suitable to be specifically placed anywhere else.
  */
+
+/**
+ * Implements hook_menu().
+ */
+function yellow_pages_core_menu() {
+  $items = array();
+
+  $items['admin/config/yp'] = array(
+    'title' => 'Yellow Pages',
+    'description' => 'Yellow Pages related settings',
+    'page callback' => 'system_admin_menu_block_page',
+    'access arguments' => array('access administration pages'),
+    'file' => 'system.admin.inc',
+    'file path' => drupal_get_path('module', 'system'),
+  );
+
+  return $items;
+}

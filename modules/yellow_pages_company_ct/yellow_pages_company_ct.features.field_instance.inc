@@ -950,7 +950,7 @@ function yellow_pages_company_ct_field_default_field_instances() {
         'weight' => 9,
       ),
       'full' => array(
-        'label' => 'above',
+        'label' => 'hidden',
         'module' => 'mediafield',
         'settings' => array(
           'file_view_mode' => 'default',
@@ -1098,7 +1098,7 @@ function yellow_pages_company_ct_field_default_field_instances() {
         'weight' => 10,
       ),
       'full' => array(
-        'label' => 'above',
+        'label' => 'hidden',
         'module' => 'text',
         'settings' => array(),
         'type' => 'text_default',
@@ -1157,7 +1157,7 @@ function yellow_pages_company_ct_field_default_field_instances() {
         'weight' => 11,
       ),
       'full' => array(
-        'label' => 'above',
+        'label' => 'hidden',
         'module' => 'text',
         'settings' => array(),
         'type' => 'text_default',

@@ -35,48 +35,77 @@ var Drupal = Drupal || {};
 
   Drupal.behaviors.node_tabs = {
     attach : function () {
-      if ($('.node-tabs-block').length) {
-        var $nodeTabItem = $('.node-tabs-block .panel-pane');
-        var $headerTabItem = $nodeTabItem.find('h2.pane-title');
-        $headerTabItem.clone().appendTo('.node-tabs-block-header');
-        var $headerTabMain = $('.node-tabs-block-header h2');
-        $headerTabMain.wrapInner( "<span></span>")
-        $headerTabMain.eq(0).addClass('is-active');
-        for (var i = 0; i < $headerTabMain.length; i++) {
-          var $headerTabMainSingle = $headerTabMain.eq(i);
-          $headerTabMainSingle.click(function() {
-            var $this = $(this);
-            $headerTabMain.removeClass('is-active');
-            $this.addClass('is-active');
-            $nodeTabItem.hide();
-            $nodeTabItem.eq($this.index()).show();
-          });
-        }
+      var $nodeTabsBlock = $('.node-tabs-block');
+      if ($nodeTabsBlock.length) {
+        $nodeTabsBlock.each(function() {
+          var $this = $(this);
+          var $nodeTabItem = $this.find('.panel-pane');
+          var $headerTab = $this.find('.node-tabs-block-header');
+          var $headerTabItem = $nodeTabItem.find('h2.pane-title');
+          $headerTabItem.clone().appendTo($headerTab);
+          var $headerTabMain = $headerTab.find('h2');
+          $headerTabMain.wrapInner( "<span></span>")
+          $headerTabMain.eq(0).addClass('is-active');
+          for (var i = 0; i < $headerTabMain.length; i++) {
+            var $headerTabMainSingle = $headerTabMain.eq(i);
+            $headerTabMainSingle.click(function() {
+              var $this = $(this);
+              $this.siblings().removeClass('is-active');
+              $this.addClass('is-active');
+              $nodeTabItem.hide();
+              $nodeTabItem.eq($this.index()).show();
+            });
+          }
+        });
       }
     }
   }
 
-  Drupal.behaviors.node_tabs_company = {
-    attach : function () {
-      if ($('.node-tabs-block-company').length) {
-        var $nodeTabItem = $('.node-tabs-block-company .field');
-        var $headerTabItem = $nodeTabItem.find('.field-label');
-        $headerTabItem.clone().appendTo('.node-tabs-block-company .node-tabs-block-header');
-        var $headerTabMain = $('.node-tabs-block-header .field-label');
-        $headerTabMain.wrapInner( "<span></span>")
-        $headerTabMain.eq(0).addClass('is-active');
-        for (var i = 0; i < $headerTabMain.length; i++) {
-          var $headerTabMainSingle = $headerTabMain.eq(i);
-          $headerTabMainSingle.click(function() {
-            var $this = $(this);
-            $headerTabMain.removeClass('is-active');
-            $this.addClass('is-active');
-            $nodeTabItem.hide();
-            $nodeTabItem.eq($this.index()).show();
-          });
-        }
-      }
-    }
-  }
+
+  // Drupal.behaviors.node_tabs = {
+  //   attach : function () {
+  //     if ($('.node-tabs-block').length) {
+  //       var $nodeTabItem = $('.node-tabs-block .panel-pane');
+  //       var $headerTabItem = $nodeTabItem.find('h2.pane-title');
+  //       $headerTabItem.clone().appendTo('.node-tabs-block-header');
+  //       var $headerTabMain = $('.node-tabs-block-header h2');
+  //       $headerTabMain.wrapInner( "<span></span>")
+  //       $headerTabMain.eq(0).addClass('is-active');
+  //       for (var i = 0; i < $headerTabMain.length; i++) {
+  //         var $headerTabMainSingle = $headerTabMain.eq(i);
+  //         $headerTabMainSingle.click(function() {
+  //           var $this = $(this);
+  //           $headerTabMain.removeClass('is-active');
+  //           $this.addClass('is-active');
+  //           $nodeTabItem.hide();
+  //           $nodeTabItem.eq($this.index()).show();
+  //         });
+  //       }
+  //     }
+  //   }
+  // }
+
+  // Drupal.behaviors.node_tabs_company = {
+  //   attach : function () {
+  //     if ($('.node-tabs-block-company').length) {
+  //       var $nodeTabItem = $('.node-tabs-block-company .field');
+  //       var $headerTabItem = $nodeTabItem.find('.field-label');
+  //       $headerTabItem.clone().appendTo('.node-tabs-block-company .node-tabs-block-header');
+  //       var $headerTabMain = $('.node-tabs-block-header .field-label');
+  //       $headerTabMain.wrapInner( "<span></span>")
+  //       $headerTabMain.eq(0).addClass('is-active');
+  //       for (var i = 0; i < $headerTabMain.length; i++) {
+  //         var $headerTabMainSingle = $headerTabMain.eq(i);
+  //         $headerTabMainSingle.click(function() {
+  //           var $this = $(this);
+  //           $headerTabMain.removeClass('is-active');
+  //           $this.addClass('is-active');
+  //           $nodeTabItem.hide();
+  //           $nodeTabItem.eq($this.index()).show();
+  //         });
+  //       }
+  //     }
+  //   }
+  // }
 
 }) (jQuery, Drupal);

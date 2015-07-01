@@ -676,6 +676,11 @@ div.panel-pane div.node-teaser {
   margin-bottom: 30px;
 }
 
+.node--company--teaser .left img {
+  max-width: 150px;
+  height: auto;
+}
+
 /* Pagination */
 .item-list {
   text-align: center;
@@ -761,22 +766,15 @@ div.panel-pane div.node-teaser {
   font-size: 12px;
   text-transform: uppercase;
 }
-.node-type-news .pane-entity-field .pane-content a,
-.node-type-news .pane-entity-field .pane-content .field-item,
-.node-type-article .pane-entity-field .pane-content a,
-.node-type-article .pane-entity-field .pane-content .field-item {
-  display: inline;
-  margin-right: 5px;
-  font-size: 11px;
-  text-decoration: underline;
-}
 .node-type-news .pane-yellow-pages-print-yp-print,
 .node-type-article .pane-yellow-pages-print-yp-print {
   background: #fff;
+  padding-left: 20px;
+  padding-right: 20px;
 }
 
 .pane-yellow-pages-print-yp-print {
-  padding: 20px;
+  padding: 20px 0;
   text-align: right;
 }
 
@@ -803,7 +801,7 @@ div.panel-pane div.node-teaser {
   background: #fff7c0;
   font-size: 12px;
   text-transform: uppercase;
-  font-weight: bold;
+  font-weight: normal;
   -moz-transform: skew(20deg);
   -ms-transform: skew(20deg);
   -webkit-transform: skew(20deg);
@@ -826,14 +824,27 @@ div.panel-pane div.node-teaser {
 .node-tabs-block-header .pane-title.is-active,
 .node-tabs-block-header .field-label.is-active {
   background: #ffdd00;
+  border-right-color: transparent;
+  font-weight: bold;
   cursor: default;
 }
 .node-tabs-block-header:empty {
   border-bottom: none;
 }
 
-.node-tabs-block-company .node-tabs-block-header {
+.node-tabs-fields .node-tabs-block-header {
   margin-top: 0;
+}
+.node-tabs-fields .node-tabs-block-header .pane-title,
+.node-tabs-fields .node-tabs-block-header .field-label {
+  border-left: 1px solid #d1b500;
+}
+.node-tabs-fields .node-tabs-block-header .pane-title:first-child, .node-tabs-fields .node-tabs-block-header .pane-title.is-active, .node-tabs-fields .node-tabs-block-header .pane-title.is-active + .pane-title, .node-tabs-fields .node-tabs-block-header .pane-title.is-active + .field-label,
+.node-tabs-fields .node-tabs-block-header .field-label:first-child,
+.node-tabs-fields .node-tabs-block-header .field-label.is-active,
+.node-tabs-fields .node-tabs-block-header .field-label.is-active + .pane-title,
+.node-tabs-fields .node-tabs-block-header .field-label.is-active + .field-label {
+  border-left-color: transparent;
 }
 
 .node-tabs-content .panel-pane,
@@ -846,28 +857,43 @@ div.panel-pane div.node-teaser {
 .node-tabs-content .field .field-label {
   display: none;
 }
-.node-tabs-content .panel-pane .views-row,
-.node-tabs-content .field .views-row {
+.node-tabs-content .panel-pane .node-teaser,
+.node-tabs-content .field .node-teaser {
   margin-bottom: 0;
   border-bottom: 1px solid #f2f2f2;
 }
-.node-tabs-content .panel-pane .views-row:hover,
-.node-tabs-content .field .views-row:hover {
+.node-tabs-content .panel-pane .node-teaser:hover,
+.node-tabs-content .field .node-teaser:hover {
   -moz-box-shadow: none;
   -webkit-box-shadow: none;
   box-shadow: none;
+}
+.node-tabs-content .panel-pane .node-teaser.node-sticky,
+.node-tabs-content .field .node-teaser.node-sticky {
+  border-bottom: 7px solid #ffdd00;
 }
 .node-tabs-content .panel-pane:first-child,
 .node-tabs-content .field:first-child {
   display: block;
 }
-.node-tabs-content .field-item {
-  padding: 20px;
+
+.field-name-field-categories {
+  margin: 0;
+  padding: 0;
+  list-style-type: none;
+}
+.field-name-field-categories li {
+  display: inline;
+  margin-left: 5px;
+  font-size: 11px;
+  text-decoration: underline;
+}
+.field-name-field-categories li:first-child {
+  margin-left: 0;
 }
 
 /* Company page */
 .node-company.node--company--full {
-  margin-bottom: 30px;
   background: #fff;
   overflow: hidden;
 }
@@ -885,7 +911,7 @@ div.panel-pane div.node-teaser {
 .node-company.node--company--full .field-row-tags a {
   font-size: 11px;
 }
-.node-company.node--company--full .field-type-datetime {
+.node-company.node--company--full .field-date-update {
   margin-bottom: 10px;
 }
 .node-company.node--company--full .field-name-field-address,
@@ -934,6 +960,9 @@ div.panel-pane div.node-teaser {
 .node-company.node--company--full .field-name-field-email:before {
   content: "\f0e0";
 }
+.node-company.node--company--full a {
+  text-decoration: none;
+}
 
 /* Article */
 article h1, article h2, article h3 {
@@ -968,6 +997,9 @@ article a {
 }
 
 /* Search page */
+.page-search .block-system {
+  padding-top: 30px;
+}
 .page-search .pane-block {
   margin-bottom: 30px;
   background: #393939;
@@ -977,6 +1009,7 @@ article a {
   padding: 25px 30px 25px 40px;
 }
 .page-search .pane-block .pane-title {
+  margin: 0;
   padding: 25px 30px 25px 40px;
   background: #1d1d1d;
   font-size: 14px;
@@ -991,8 +1024,10 @@ article a {
   text-align: left;
 }
 .page-search .pane-block ul li {
-  margin-bottom: 7px;
   position: relative;
+}
+.page-search .pane-block ul li a {
+  padding: 3px 0;
 }
 .page-search .pane-block ul li .facetapi-active {
   color: #393939;
@@ -1013,8 +1048,52 @@ article a {
 .page-search .pane-block ul li .facetapi-inactive {
   color: #a4a4a4;
 }
+.page-search .pane-block ul li .facetapi-inactive:hover {
+  color: #fff;
+}
 .page-search .pane-block a {
   color: #fff;
+}
+
+.switch-search-form .form-radios {
+  background: #fff7c0;
+  overflow: hidden;
+}
+.switch-search-form .form-type-radio {
+  float: left;
+  margin: 0;
+  position: relative;
+}
+.switch-search-form .form-type-radio label {
+  margin-bottom: 0;
+  padding: 10px 20px 7px;
+  background: #fff7c0;
+  border-bottom: 3px solid transparent;
+  font-size: 12px;
+  text-transform: uppercase;
+  font-weight: bold;
+  cursor: pointer;
+}
+.switch-search-form .form-type-radio label:hover {
+  border-bottom: 3px solid #ffdd00;
+}
+.switch-search-form .form-type-radio label a {
+  color: #1d1d1d;
+}
+.switch-search-form .form-type-radio input[type="radio"] {
+  visibility: hidden;
+  width: 1px;
+  height: 1px;
+  position: absolute;
+  top: -1px;
+}
+.switch-search-form .form-type-radio input[type="radio"]:checked + label {
+  background: #ffdd00;
+}
+
+.pane-entity-field {
+  background: #fff;
+  padding: 20px 30px;
 }
 
 /* Widgets */

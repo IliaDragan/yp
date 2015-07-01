@@ -83,9 +83,9 @@
 <div id="node-<?php print $node->nid; ?>" class="<?php print $classes; ?> clearfix"<?php print $attributes; ?>>
   <div class="content"<?php print $content_attributes; ?>>
     <div class="left">
-      <?php if (!empty($content['field_company_logo'])): ?>
-        <?php print render($content['field_company_logo']);?>
-      <?php endif; ?>
+    <?php if (!empty($content['field_company_logo'])): ?>
+      <?php print render($content['field_company_logo']);?>
+    <?php endif; ?>
     </div>
     <div class="right">
       <div class="node-title">
@@ -106,8 +106,6 @@
           <?php print $service_links_rendered; ?>
         </div>
       <?php endif;?>
-
-      <a href="#" class="node-link node-read-more">Read more</a>
     </div>
   </div>
 </div>

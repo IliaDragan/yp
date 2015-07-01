@@ -106,7 +106,7 @@
         </div>
       <?php endif;?>
 
-      <a href="#" class="node-link node-read-more">Read more</a>
+      <a href="#" class="node-link node-read-more"><?php print t('Read more'); ?></a>
     </div>
   </div>
 </div>

@@ -106,8 +106,6 @@
           <?php print $service_links_rendered; ?>
         </div>
       <?php endif;?>
-
-      <a href="#" class="node-link node-read-more">Read more</a>
     </div>
   </div>
 </div>

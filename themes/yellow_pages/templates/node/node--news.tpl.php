@@ -8,12 +8,9 @@
  */
 ?>
 <article class="node-<?php print $node->nid; ?> <?php print $classes; ?> clearfix"<?php print $attributes; ?>>
-<?php // dpm($content); ?>
   <div class="node-main-image-block">
       <header>
         <h2<?php print $title_attributes; ?>><?php print $title; ?></h2>
-
-        
 
         <?php if ($unpublished): ?>
           <mark class="unpublished"><?php print t('Unpublished'); ?></mark>
@@ -21,7 +18,6 @@
       </header>
     <?php print render($content['field_main_image']); ?>
   </div>
-  
 
   <?php
     // We hide the comments and links now so that we can render them later.

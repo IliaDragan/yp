@@ -91,10 +91,6 @@
       <div class="node-title">
         <a href="<?php print $node_url; ?>"><?php print $title; ?></a>
       </div>
-      <div class="node-created">
-        <!-- @todo FORMAT DATE -->
-        <span><?php print $created; ?></span>
-      </div>
       <?php print render($content['field_address']); ?>
       <?php print render($content['body']); ?>
       <?php print render($content['field_categories']); ?>

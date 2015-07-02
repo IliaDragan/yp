@@ -572,7 +572,9 @@ form.search-block-form {
 }
 
 /* Views block */
-.node-teaser {
+.node-teaser,
+.node--company--search_index,
+.node--article--search_index {
   margin-bottom: 30px;
   background: #fff;
   &:hover {
@@ -603,10 +605,59 @@ form.search-block-form {
   .node-created {
     font-size: 12px;
   }
+  .field-name-body {
+    span {
+      font-size: 12px !important;
+      color: $dark !important;
+      font-family: "PT Sans", sans-serif !important;
+    }
+  }
   .links {
     list-style-type: none;
     margin: 0;
     padding: 0;
+  }
+  .field-name-field-address,
+  .field-name-field-landline-phone {
+    font-size: 12px;
+  }
+  .field-name-field-address {
+    margin-bottom: 10px;
+    .street-block,
+    .country {
+      display: none;
+    }
+  }
+  .field-name-field-landline-phone {
+    .field-items {
+      &:before {
+        content: "\f095";
+        display: inline-block;
+        margin-right: 10px;
+        font: normal normal normal 14px/1 FontAwesome;
+        font-size: inherit;
+        text-rendering: auto;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+        transform: translate(0, 0);
+      }
+      .field-item {
+        display: inline-block;
+        margin-right: 15px;
+        &:after {
+          content: ";";
+        }
+      }
+    }
+  }
+}
+
+.node--company--search_index {
+  .left {
+    img {
+      max-width: 150px;
+      height: auto;
+    }
   }
 }
 
@@ -623,7 +674,8 @@ div.panel-pane div.node-teaser {
 }
 .node-bottom {
   overflow: hidden;
-  .field-name-field-categories {
+  .field-name-field-categories,
+  .field-type-text {
     float: left;
     width: 80%;
   }
@@ -880,11 +932,9 @@ div.panel-pane div.node-teaser {
   }
 }
 .node-tabs-content {
-  .panel-pane,
-  .field {
+  .panel-pane {
     display: none;
-    .pane-title,
-    .field-label {
+    .pane-title {
       display: none;
     }
     .node-teaser {
@@ -904,7 +954,7 @@ div.panel-pane div.node-teaser {
 }
 
 .field-name-field-categories {
-  margin: 0;
+  margin: 0 0 10px 0;
   padding: 0;
   list-style-type: none;
   li {
@@ -1029,6 +1079,15 @@ article {
 /* Search page */
 
 .page-search {
+  div.panel-pane div.node {
+    margin-bottom: 30px;
+  }
+  .views-row {
+    border-top: 1px solid #f2f2f2;
+    &.views-row-first {
+      border-top: none;
+    }
+  }
   .block-system {
     padding-top: 30px;
   }
@@ -1056,6 +1115,7 @@ article {
       li {
         position: relative;
         a {
+          display: block;
           padding: 3px 0;
         }
         .facetapi-active {
@@ -1088,6 +1148,7 @@ article {
   }
 }
 .switch-search-form {
+  margin-bottom: 30px;
   .form-radios {
     background: $light-yellow;
     overflow: hidden;
@@ -1164,6 +1225,8 @@ article {
       border-bottom: 2px solid $main-yellow;
     }
   }
+}
+.block-yellow-pages-rates {
   .usd:before {
       content: url(../images/icon_usd.jpg);
   }
@@ -1183,6 +1246,39 @@ article {
     &:before {
       display: inline-block;
       margin-right: 10px;
+    }
+  }
+}
+.yp-weather {
+  .title {
+    margin-bottom: 13px;
+    + .entry {
+      margin-bottom: 5px;
+    }
+  }
+  .date {
+    &:after {
+      content: "";
+      display: inline-block;
+      vertical-align: middle;
+      width: 30px;
+      height: 30px;
+    }
+    &.icon-01d:after {
+      background: url(http://openweathermap.org/img/w/01d.png) no-repeat;
+      background-size: 30px;
+    }
+    &.icon-02d:after {
+      background: url(http://openweathermap.org/img/w/02d.png) no-repeat;
+      background-size: 30px;
+    }
+    &.icon-03d:after {
+      background: url(http://openweathermap.org/img/w/03d.png) no-repeat;
+      background-size: 30px;
+    }
+    &.icon-04d:after {
+      background: url(http://openweathermap.org/img/w/04d.png) no-repeat;
+      background-size: 30px;
     }
   }
 }

@@ -59,6 +59,7 @@ function yellow_pages_weather_theme($existing, $type, $theme, $path) {
  */
 function yellow_pages_weather_preprocess_yp_weather(&$variables) {
   $weather = yellow_pages_current_weather();
+
   $variables['weather'] = $weather;
 }
 

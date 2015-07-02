@@ -14,9 +14,9 @@
         <?php print render($content['field_company_logo']); ?>
       </div>
       <?php if (!empty($content['field_geocode'])): ?>
-        <div class="col-sm-6">
+        <div class="col-sm-5">
       <?php else: ?>
-        <div class="col-sm-9">
+        <div class="col-sm-8">
       <?php endif; ?>
         <h2<?php print $title_attributes; ?>><?php print $title; ?></h2>
         <?php  $date = $node->changed; $date = Date('d.m.y', $date); ?>
@@ -37,13 +37,14 @@
           <?php print render($content['field_categories']); ?>
         </div>
       </div>
-
-      <!-- Social links. -->
-      <?php if (isset($service_links_rendered) && !empty($service_links_rendered)): ; ?>
-        <div class="social-links">
-          <?php print $service_links_rendered; ?>
-        </div>
-      <?php endif;?>
+      <div class="col-sm-1">
+        <!-- Social links. -->
+        <?php if (isset($service_links_rendered) && !empty($service_links_rendered)): ; ?>
+          <div class="social-links">
+            <?php print $service_links_rendered; ?>
+          </div>
+        <?php endif;?>
+      </div>
 
       <?php if (!empty($content['field_geocode'])): ?>
         <div class="col-sm-3">

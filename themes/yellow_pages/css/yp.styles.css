@@ -634,42 +634,119 @@ form.search-block-form .form-actions:before {
 }
 
 /* Views block */
-.node-teaser {
+.node-teaser,
+.node--company--search_index,
+.node--article--search_index {
   margin-bottom: 30px;
   background: #fff;
 }
-.node-teaser:hover {
+.node-teaser:hover,
+.node--company--search_index:hover,
+.node--article--search_index:hover {
   -moz-box-shadow: 0 0 20px 10px rgba(58, 58, 58, 0.05);
   -webkit-box-shadow: 0 0 20px 10px rgba(58, 58, 58, 0.05);
   box-shadow: 0 0 20px 10px rgba(58, 58, 58, 0.05);
 }
-.node-teaser.node-sticky {
+.node-teaser.node-sticky,
+.node--company--search_index.node-sticky,
+.node--article--search_index.node-sticky {
   border-bottom: 7px solid #ffdd00;
 }
-.node-teaser .content .left {
+.node-teaser .content .left,
+.node--company--search_index .content .left,
+.node--article--search_index .content .left {
   float: left;
   margin-right: 20px;
 }
-.node-teaser .content .right {
+.node-teaser .content .right,
+.node--company--search_index .content .right,
+.node--article--search_index .content .right {
   margin-left: 150px;
   padding: 20px;
 }
-.node-teaser .node-title {
+.node-teaser .node-title,
+.node--company--search_index .node-title,
+.node--article--search_index .node-title {
   text-transform: uppercase;
   font-weight: bold;
   margin-bottom: 5px;
 }
-.node-teaser .node-created {
+.node-teaser .node-created,
+.node--company--search_index .node-created,
+.node--article--search_index .node-created {
   margin-bottom: 5px;
 }
 .node-teaser .field-name-body,
-.node-teaser .node-created {
+.node-teaser .node-created,
+.node--company--search_index .field-name-body,
+.node--company--search_index .node-created,
+.node--article--search_index .field-name-body,
+.node--article--search_index .node-created {
   font-size: 12px;
 }
-.node-teaser .links {
+.node-teaser .field-name-body span,
+.node--company--search_index .field-name-body span,
+.node--article--search_index .field-name-body span {
+  font-size: 12px !important;
+  color: #1d1d1d !important;
+  font-family: "PT Sans", sans-serif !important;
+}
+.node-teaser .links,
+.node--company--search_index .links,
+.node--article--search_index .links {
   list-style-type: none;
   margin: 0;
   padding: 0;
+}
+.node-teaser .field-name-field-address,
+.node-teaser .field-name-field-landline-phone,
+.node--company--search_index .field-name-field-address,
+.node--company--search_index .field-name-field-landline-phone,
+.node--article--search_index .field-name-field-address,
+.node--article--search_index .field-name-field-landline-phone {
+  font-size: 12px;
+}
+.node-teaser .field-name-field-address,
+.node--company--search_index .field-name-field-address,
+.node--article--search_index .field-name-field-address {
+  margin-bottom: 10px;
+}
+.node-teaser .field-name-field-address .street-block,
+.node-teaser .field-name-field-address .country,
+.node--company--search_index .field-name-field-address .street-block,
+.node--company--search_index .field-name-field-address .country,
+.node--article--search_index .field-name-field-address .street-block,
+.node--article--search_index .field-name-field-address .country {
+  display: none;
+}
+.node-teaser .field-name-field-landline-phone .field-items:before,
+.node--company--search_index .field-name-field-landline-phone .field-items:before,
+.node--article--search_index .field-name-field-landline-phone .field-items:before {
+  content: "\f095";
+  display: inline-block;
+  margin-right: 10px;
+  font: normal normal normal 14px/1 FontAwesome;
+  font-size: inherit;
+  text-rendering: auto;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  transform: translate(0, 0);
+}
+.node-teaser .field-name-field-landline-phone .field-items .field-item,
+.node--company--search_index .field-name-field-landline-phone .field-items .field-item,
+.node--article--search_index .field-name-field-landline-phone .field-items .field-item {
+  display: inline-block;
+  margin-right: 15px;
+}
+.node-teaser .field-name-field-landline-phone .field-items .field-item:after,
+.node--company--search_index .field-name-field-landline-phone .field-items .field-item:after,
+.node--article--search_index .field-name-field-landline-phone .field-items .field-item:after {
+  content: ";";
+}
+
+.node--company--search_index .left img {
+  max-width: 150px;
+  height: auto;
 }
 
 div.panel-pane div.node-teaser {
@@ -684,7 +761,8 @@ div.panel-pane div.node-teaser {
 .node-bottom {
   overflow: hidden;
 }
-.node-bottom .field-name-field-categories {
+.node-bottom .field-name-field-categories,
+.node-bottom .field-type-text {
   float: left;
   width: 80%;
 }
@@ -954,38 +1032,30 @@ div.panel-pane div.node-teaser {
   border-left-color: transparent;
 }
 
-.node-tabs-content .panel-pane,
-.node-tabs-content .field {
+.node-tabs-content .panel-pane {
   display: none;
 }
-.node-tabs-content .panel-pane .pane-title,
-.node-tabs-content .panel-pane .field-label,
-.node-tabs-content .field .pane-title,
-.node-tabs-content .field .field-label {
+.node-tabs-content .panel-pane .pane-title {
   display: none;
 }
-.node-tabs-content .panel-pane .node-teaser,
-.node-tabs-content .field .node-teaser {
+.node-tabs-content .panel-pane .node-teaser {
   margin-bottom: 0;
   border-bottom: 1px solid #f2f2f2;
 }
-.node-tabs-content .panel-pane .node-teaser:hover,
-.node-tabs-content .field .node-teaser:hover {
+.node-tabs-content .panel-pane .node-teaser:hover {
   -moz-box-shadow: none;
   -webkit-box-shadow: none;
   box-shadow: none;
 }
-.node-tabs-content .panel-pane .node-teaser.node-sticky,
-.node-tabs-content .field .node-teaser.node-sticky {
+.node-tabs-content .panel-pane .node-teaser.node-sticky {
   border-bottom: 7px solid #ffdd00;
 }
-.node-tabs-content .panel-pane:first-child,
-.node-tabs-content .field:first-child {
+.node-tabs-content .panel-pane:first-child {
   display: block;
 }
 
 .field-name-field-categories {
-  margin: 0;
+  margin: 0 0 10px 0;
   padding: 0;
   list-style-type: none;
 }
@@ -1104,6 +1174,15 @@ article a {
 }
 
 /* Search page */
+.page-search div.panel-pane div.node {
+  margin-bottom: 30px;
+}
+.page-search .views-row {
+  border-top: 1px solid #f2f2f2;
+}
+.page-search .views-row.views-row-first {
+  border-top: none;
+}
 .page-search .block-system {
   padding-top: 30px;
 }
@@ -1134,6 +1213,7 @@ article a {
   position: relative;
 }
 .page-search .pane-block ul li a {
+  display: block;
   padding: 3px 0;
 }
 .page-search .pane-block ul li .facetapi-active {
@@ -1162,6 +1242,9 @@ article a {
   color: #fff;
 }
 
+.switch-search-form {
+  margin-bottom: 30px;
+}
 .switch-search-form .form-radios {
   background: #fff7c0;
   overflow: hidden;
@@ -1240,40 +1323,55 @@ article a {
 .region-aside-c .link a {
   border-bottom: 2px solid #ffdd00;
 }
-.region-aside-a .usd:before,
-.region-aside-b .usd:before,
-.region-aside-c .usd:before {
+
+.block-yellow-pages-rates .usd:before {
   content: url(../images/icon_usd.jpg);
 }
-.region-aside-a .eur:before,
-.region-aside-b .eur:before,
-.region-aside-c .eur:before {
+.block-yellow-pages-rates .eur:before {
   content: url(../images/icon_eur.jpg);
 }
-.region-aside-a .rub:before,
-.region-aside-b .rub:before,
-.region-aside-c .rub:before {
+.block-yellow-pages-rates .rub:before {
   content: url(../images/icon_rub.jpg);
 }
-.region-aside-a .ron:before,
-.region-aside-b .ron:before,
-.region-aside-c .ron:before {
+.block-yellow-pages-rates .ron:before {
   content: url(../images/icon_ron.jpg);
 }
-.region-aside-a .usd:before,
-.region-aside-a .eur:before,
-.region-aside-a .rub:before,
-.region-aside-a .ron:before,
-.region-aside-b .usd:before,
-.region-aside-b .eur:before,
-.region-aside-b .rub:before,
-.region-aside-b .ron:before,
-.region-aside-c .usd:before,
-.region-aside-c .eur:before,
-.region-aside-c .rub:before,
-.region-aside-c .ron:before {
+.block-yellow-pages-rates .usd:before,
+.block-yellow-pages-rates .eur:before,
+.block-yellow-pages-rates .rub:before,
+.block-yellow-pages-rates .ron:before {
   display: inline-block;
   margin-right: 10px;
+}
+
+.yp-weather .title {
+  margin-bottom: 13px;
+}
+.yp-weather .title + .entry {
+  margin-bottom: 5px;
+}
+.yp-weather .date:after {
+  content: "";
+  display: inline-block;
+  vertical-align: middle;
+  width: 30px;
+  height: 30px;
+}
+.yp-weather .date.icon-01d:after {
+  background: url(http://openweathermap.org/img/w/01d.png) no-repeat;
+  background-size: 30px;
+}
+.yp-weather .date.icon-02d:after {
+  background: url(http://openweathermap.org/img/w/02d.png) no-repeat;
+  background-size: 30px;
+}
+.yp-weather .date.icon-03d:after {
+  background: url(http://openweathermap.org/img/w/03d.png) no-repeat;
+  background-size: 30px;
+}
+.yp-weather .date.icon-04d:after {
+  background: url(http://openweathermap.org/img/w/04d.png) no-repeat;
+  background-size: 30px;
 }
 
 /* Footer */

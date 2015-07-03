@@ -21,3 +21,76 @@ function yellow_pages_sync_menu() {
 
   return $items;
 }
+
+function yellow_pages_sync_nodes() {
+  $conn = Database::getConnection('default', 'mdb');
+  $query = $conn->select('enterprise_enterprise', 'ent');
+
+  // Join the titles.
+  $query->leftJoin('enterprise_title', 'ent_title', 'ent.id = ent_title.enterprise_id');
+  // Join the url.
+  $query->leftJoin('enterprise_www', 'ent_url', 'ent.id = ent_url.enterprise_id');
+
+  $query
+  ->fields('ent', array('id', 'activity'))
+  ->fields('ent_title', array('title'))
+  ->fields('ent_url', array('url'))
+  ->range(0, 1);
+
+  $result = $query
+  ->execute()
+  ->fetchAll();
+
+  $languages = array_keys(locale_language_list('name'));
+  $node_defaults = array(
+    'type' => 'company',
+    'language' => 'ru',
+    'uid' => 1,
+    'status' => 0,
+    'promote' => 0,
+  );
+
+  foreach ($result as $source) {
+    $tnid = NULL;
+    if (empty($source->title)) {
+      continue;
+    }
+
+    // Basics.
+    $node_defaults['language'] = 'ru';
+    $entity = entity_create('node', $node_defaults);
+
+    // Fields.
+    yellow_pages_sync_fill_entity($entity, $source);
+
+    // Save new node.
+    node_save($entity);
+    $entity->tnid = $tnid = $entity->nid;
+    node_save($entity);
+
+    // Translations.
+    foreach ($languages as $lang) {
+      if ($lang == 'ru') {
+        continue;
+      }
+
+      $node_defaults['language'] = $lang;
+      $translated_entity = entity_create('node', $node_defaults);
+
+      // Fields.
+      yellow_pages_sync_fill_entity($translated_entity, $source);
+
+      // Parent reference.
+      $translated_entity->tnid = $tnid;
+
+      node_save($translated_entity);
+    }
+  }
+}
+
+function yellow_pages_sync_fill_entity(stdClass $target, stdClass $source) {
+  $target->title = $source->title;
+  $target->body[LANGUAGE_NONE][0]['value'] = $source->activity;
+  $target->field_company_site[LANGUAGE_NONE][0]['url'] = $source->url;
+  $target->field_mdb_sync_date[LANGUAGE_NONE][0]['value'] = date('Y-m-d H:i:s', time());
+}

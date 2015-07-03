@@ -108,12 +108,6 @@
           </div>
         <?php endif;?>
       </div>
-      <!-- Social links. -->
-      <?php if (isset($service_links_rendered) && !empty($service_links_rendered)): ; ?>
-        <div class="social-links">
-          <?php print $service_links_rendered; ?>
-        </div>
-      <?php endif;?>
     </div>
   </div>
 </div>

@@ -1225,6 +1225,7 @@ article a {
   content: "\f00d";
   display: inline-block;
   position: absolute;
+  top: 0;
   font: normal normal normal 14px/1 FontAwesome;
   text-rendering: auto;
   color: #ffdd00;
@@ -1345,33 +1346,90 @@ article a {
 }
 
 .yp-weather .title {
-  margin-bottom: 13px;
+  margin-bottom: 16px;
 }
 .yp-weather .title + .entry {
-  margin-bottom: 5px;
+  margin-bottom: 7px;
 }
 .yp-weather .date:after {
   content: "";
   display: inline-block;
   vertical-align: middle;
-  width: 30px;
-  height: 30px;
+  width: 25px;
+  height: 25px;
+  margin-left: 10px;
 }
 .yp-weather .date.icon-01d:after {
-  background: url(http://openweathermap.org/img/w/01d.png) no-repeat;
-  background-size: 30px;
+  background: url(../images/01d.png) no-repeat;
+  background-size: 25px;
 }
 .yp-weather .date.icon-02d:after {
-  background: url(http://openweathermap.org/img/w/02d.png) no-repeat;
-  background-size: 30px;
+  background: url(../images/02d.png) no-repeat;
+  background-size: 25px;
 }
 .yp-weather .date.icon-03d:after {
-  background: url(http://openweathermap.org/img/w/03d.png) no-repeat;
-  background-size: 30px;
+  background: url(../images/03d.png) no-repeat;
+  background-size: 25px;
 }
 .yp-weather .date.icon-04d:after {
-  background: url(http://openweathermap.org/img/w/04d.png) no-repeat;
-  background-size: 30px;
+  background: url(../images/04d.png) no-repeat;
+  background-size: 25px;
+}
+.yp-weather .date.icon-09d:after {
+  background: url(../images/09d.png) no-repeat;
+  background-size: 25px;
+}
+.yp-weather .date.icon-10d:after {
+  background: url(../images/10d.png) no-repeat;
+  background-size: 25px;
+}
+.yp-weather .date.icon-11d:after {
+  background: url(../images/11d.png) no-repeat;
+  background-size: 25px;
+}
+.yp-weather .date.icon-13d:after {
+  background: url(../images/13d.png) no-repeat;
+  background-size: 25px;
+}
+.yp-weather .date.icon-50d:after {
+  background: url(../images/50d.png) no-repeat;
+  background-size: 25px;
+}
+.yp-weather .date.icon-01n:after {
+  background: url(../images/01n.png) no-repeat;
+  background-size: 25px;
+}
+.yp-weather .date.icon-02n:after {
+  background: url(../images/02n.png) no-repeat;
+  background-size: 25px;
+}
+.yp-weather .date.icon-03n:after {
+  background: url(../images/03n.png) no-repeat;
+  background-size: 25px;
+}
+.yp-weather .date.icon-04n:after {
+  background: url(../images/04n.png) no-repeat;
+  background-size: 25px;
+}
+.yp-weather .date.icon-09n:after {
+  background: url(../images/09n.png) no-repeat;
+  background-size: 25px;
+}
+.yp-weather .date.icon-10n:after {
+  background: url(../images/10n.png) no-repeat;
+  background-size: 25px;
+}
+.yp-weather .date.icon-11n:after {
+  background: url(../images/11n.png) no-repeat;
+  background-size: 25px;
+}
+.yp-weather .date.icon-13n:after {
+  background: url(../images/13n.png) no-repeat;
+  background-size: 25px;
+}
+.yp-weather .date.icon-50n:after {
+  background: url(../images/50n.png) no-repeat;
+  background-size: 25px;
 }
 
 /* Footer */

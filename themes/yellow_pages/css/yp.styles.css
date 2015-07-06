@@ -348,21 +348,59 @@ header {
 input[type="text"],
 input[type="email"],
 input[type="password"],
-input[type="submit"],
 input[type="search"],
+select,
 textarea,
 button {
   -webkit-appearance: none;
   background: transparent;
+  border: 1px solid #ccc;
+  border-radius: 0;
+  padding: 0 10px;
+  line-height: 1em;
+}
+input[type="text"]:focus,
+input[type="email"]:focus,
+input[type="password"]:focus,
+input[type="search"]:focus,
+select:focus,
+textarea:focus,
+button:focus {
+  outline: none;
+  border: 1px solid #ffdd00;
+}
+
+input[type="text"],
+input[type="email"],
+input[type="password"],
+input[type="search"],
+select {
+  height: 30px;
+}
+
+input[type="submit"] {
+  min-width: 160px;
+  padding: 0;
+  -webkit-appearance: none;
+  background: #ffdd00;
   border: none;
   outline: none;
   font-smoothing: antialiased;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   font-family: 'PT Sans', serif;
-  padding-top: 0;
-  padding-bottom: 0;
-  line-height: 1em;
+  text-align: center;
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 32px;
+  text-transform: uppercase;
+}
+input[type="submit"]:hover, input[type="submit"]:focus {
+  background: #fff7c0;
+  -moz-transition: background 0.3s ease-out;
+  -o-transition: background 0.3s ease-out;
+  -webkit-transition: background 0.3s ease-out;
+  transition: background 0.3s ease-out;
 }
 
 form.search-block-form {
@@ -372,6 +410,15 @@ form.search-block-form {
 form.search-block-form .container-inline {
   border-bottom: 1px solid #fff;
   position: relative;
+}
+form.search-block-form input[type="text"],
+form.search-block-form input[type="email"],
+form.search-block-form input[type="password"],
+form.search-block-form input[type="submit"],
+form.search-block-form input[type="search"],
+form.search-block-form textarea,
+form.search-block-form button {
+  border: none;
 }
 form.search-block-form input[type="text"]::-webkit-input-placeholder {
   color: #fff;
@@ -415,9 +462,12 @@ form.search-block-form .form-actions {
   top: 0;
 }
 form.search-block-form .form-actions input[type="submit"] {
+  min-width: 0;
+  background: transparent;
   text-indent: -10000px;
   height: 30px;
   width: 30px;
+  line-height: 1em;
   position: absolute;
   right: 0;
 }

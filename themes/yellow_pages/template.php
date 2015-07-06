@@ -9,7 +9,15 @@
  * Implements hook_preprocess_page().
  */
 function yellow_pages_preprocess_page(&$variables) {
+  $status = drupal_get_http_header("status");
   $variables['page']['main_menu'] = menu_tree('main-menu');
+
+  if($status == "404 Not Found") {
+    $variables['theme_hook_suggestions'][] = 'page__404';
+  }
+    if($status == "403 Forbidden") {
+    $variables['theme_hook_suggestions'][] = 'page__403';
+  }
 }
 
 /**

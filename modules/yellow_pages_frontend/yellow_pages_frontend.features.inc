@@ -25,9 +25,9 @@ function yellow_pages_frontend_image_default_styles() {
   // Exported image style: list_image_new__150x200_.
   $styles['list_image_new__150x200_'] = array(
     'name' => 'list_image_new__150x200_',
-    'label' => 'List image new (150x200)',
+    'label' => 'Node list image (150x200)',
     'effects' => array(
-      1 => array(
+      3 => array(
         'label' => 'Scale and crop',
         'help' => 'Scale and crop will maintain the aspect-ratio of the original image, then crop the larger dimension. This is most useful for creating perfectly square thumbnails without stretching the image.',
         'effect callback' => 'image_scale_and_crop_effect',

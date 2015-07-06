@@ -328,21 +328,49 @@ header {
 input[type="text"],
 input[type="email"],
 input[type="password"],
-input[type="submit"],
 input[type="search"],
+select,
 textarea,
 button {
   -webkit-appearance: none;
   background: transparent;
+  border: 1px solid #ccc;
+  border-radius: 0;
+  padding: 0 10px;
+  line-height: 1em;
+  &:focus {
+    outline: none;
+    border: 1px solid $main-yellow;
+  }
+}
+input[type="text"],
+input[type="email"],
+input[type="password"],
+input[type="search"],
+select {
+  height: 30px;
+}
+input[type="submit"] {
+  min-width: 160px;
+  padding: 0;
+  -webkit-appearance: none;
+  background: $main-yellow;
   border: none;
   outline: none;
   font-smoothing: antialiased;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   font-family: 'PT Sans', serif;
-  padding-top: 0;
-  padding-bottom: 0;
-  line-height: 1em;
+  text-align: center;
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 32px;
+  text-transform: uppercase;
+  &:hover,
+  &:focus {
+    background: $light-yellow;
+    @include transition(background 0.3s ease-out);
+  }
 }
 
 form.search-block-form {
@@ -351,6 +379,15 @@ form.search-block-form {
   .container-inline {
     border-bottom: 1px solid #fff;
     position: relative;
+  }
+  input[type="text"],
+  input[type="email"],
+  input[type="password"],
+  input[type="submit"],
+  input[type="search"],
+  textarea,
+  button {
+    border: none;
   }
   input[type="text"]::-webkit-input-placeholder { color: #fff; line-height: 1em; padding-top:3px; padding-bottom: 0; font-size: 14px;}
   input[type="text"]:-moz-placeholder { color: #fff; line-height: 1em; padding-top:10px; padding-bottom: 0; font-size: 14px;}
@@ -369,9 +406,12 @@ form.search-block-form {
     right: 0;
     top: 0;
     input[type="submit"] {
+      min-width: 0;
+      background: transparent;
       text-indent: -10000px;
       height: 30px;
       width: 30px;
+      line-height: 1em;
       position: absolute;
       right: 0;
     }

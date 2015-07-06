@@ -105,13 +105,21 @@
   <div class="row">
     <div class="col-sm-12">
       <?php print $messages; ?>
-      <h1><?php print t('Запрашиваемая вами страница не найдена.'); ?></h1>
-      <ul class="menu menu-notfound-menu">
-        <li class="first leaf depth-1 item-notfound-menu"><a href="/ru" title="" class="link-notfound-menu">На главную</a></li>
-        <li class="leaf leaf depth-1 item-notfound-menu"><a href="/ru/news" title="" class="link-notfound-menu">Новости</a></li>
-        <li class="leaf leaf depth-1 item-notfound-menu"><a href="/ru/articles" title="" class="link-notfound-menu">Статьи</a></li>
-        <li class="last leaf depth-1 item-notfound-menu"><a href="/ru/node/10" title="" class="link-notfound-menu">Рубрики</a></li>
-      </ul>
+      <div class="notfound-content">
+        <div class="notfound-image-block">
+          <div class="notfound-image-text">
+            <span><?php print t('Ошибка'); ?></span>
+            <span class="text-lg">404</span>
+          </div>
+        </div>
+        <h1><?php print t('Запрашиваемая вами страница не найдена.'); ?></h1>
+        <ul class="menu menu-notfound-menu">
+          <li class="first leaf depth-1 item-notfound-menu"><a href="/ru" title="" class="link-notfound-menu">На главную</a></li>
+          <li class="leaf leaf depth-1 item-notfound-menu"><a href="/ru/news" title="" class="link-notfound-menu">Новости</a></li>
+          <li class="leaf leaf depth-1 item-notfound-menu"><a href="/ru/articles" title="" class="link-notfound-menu">Статьи</a></li>
+          <li class="last leaf depth-1 item-notfound-menu"><a href="/ru/node/10" title="" class="link-notfound-menu">Рубрики</a></li>
+        </ul>
+      </div>
     </div>
   </div>
 </div>

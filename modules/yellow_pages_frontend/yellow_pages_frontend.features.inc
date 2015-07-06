@@ -22,12 +22,12 @@ function yellow_pages_frontend_ctools_plugin_api($module = NULL, $api = NULL) {
 function yellow_pages_frontend_image_default_styles() {
   $styles = array();
 
-  // Exported image style: list_image_new__150x200_.
-  $styles['list_image_new__150x200_'] = array(
-    'name' => 'list_image_new__150x200_',
-    'label' => 'Node list image (150x200)',
+  // Exported image style: node_list_image.
+  $styles['node_list_image'] = array(
+    'name' => 'node_list_image',
+    'label' => 'Node list image',
     'effects' => array(
-      3 => array(
+      1 => array(
         'label' => 'Scale and crop',
         'help' => 'Scale and crop will maintain the aspect-ratio of the original image, then crop the larger dimension. This is most useful for creating perfectly square thumbnails without stretching the image.',
         'effect callback' => 'image_scale_and_crop_effect',
@@ -38,7 +38,7 @@ function yellow_pages_frontend_image_default_styles() {
         'name' => 'image_scale_and_crop',
         'data' => array(
           'width' => 150,
-          'height' => 200,
+          'height' => 220,
         ),
         'weight' => 1,
       ),

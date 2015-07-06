@@ -32,6 +32,28 @@ var Drupal = Drupal || {};
       $('.search-block-form input.form-text').attr('placeholder', Drupal.t('Facility search'));
     }
   }
+  Drupal.behaviors.custom_select = {
+    attach : function () {
+      var $select = $('select');
+       if ($select.length) {
+           for (var i = 0, len = $select.length; i < len; i++) {
+               var $this = $select.eq(i);
+               if ($this.hasClass('multiple')) {
+                   // chosen multiple
+               } else if ($this.hasClass('custom')) {
+                   // custom chosen
+               } else {
+                   // basic chosen no search
+                   $this.chosen({
+                       disable_search: true,
+                       width: '100%',
+                       display_disabled_options: false
+                   });
+               }
+           }
+       }
+    }
+  }
 
   Drupal.behaviors.node_tabs = {
     attach : function () {

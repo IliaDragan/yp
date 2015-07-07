@@ -83,31 +83,28 @@
 <div id="node-<?php print $node->nid; ?>" class="<?php print $classes; ?> clearfix"<?php print $attributes; ?>>
   <div class="content"<?php print $content_attributes; ?>>
     <div class="left">
-      <?php if (!empty($content['field_company_logo'])): ?>
-        <?php print render($content['field_company_logo']);?>
-      <?php endif; ?>
+    <?php if(isset($field_company_logo) && !empty($field_company_logo)): ?>
+      <?php $uri = $field_company_logo[0]['uri']; ?>
+      <img src="<?php print image_style_url('medium', $uri); ?>">
+    <?php endif; ?>
     </div>
     <div class="right">
       <div class="node-title">
         <a href="<?php print $node_url; ?>"><?php print $title; ?></a>
       </div>
-      <div class="node-created">
-        <!-- @todo FORMAT DATE -->
-        <span><?php print $created; ?></span>
-      </div>
       <?php print render($content['field_address']); ?>
       <?php print render($content['body']); ?>
       <?php print render($content['field_categories']); ?>
-      <?php print render($content['field_landline_phone']); ?>
+      <div class="node-bottom">
+        <?php print render($content['field_landline_phone']); ?>
 
-      <!-- Social links. -->
-      <?php if (isset($service_links_rendered) && !empty($service_links_rendered)): ; ?>
-        <div class="social-links">
-          <?php print $service_links_rendered; ?>
-        </div>
-      <?php endif;?>
-
-      <a href="#" class="node-link node-read-more">Read more</a>
+        <!-- Social links. -->
+        <?php if (isset($service_links_rendered) && !empty($service_links_rendered)): ; ?>
+          <div class="social-links">
+            <?php print $service_links_rendered; ?>
+          </div>
+        <?php endif;?>
+      </div>
     </div>
   </div>
 </div>

@@ -19,12 +19,14 @@ regions[footer]  = 'Footer'
 ;; Stylesheets
 ;;;;;;;;;;;;;;;;;;;;;
 
+stylesheets[all][] = css/chosen.css
 stylesheets[all][] = css/yp.styles.css
 
 ;;;;;;;;;;;;;;;;;;;;;
 ;; Scripts
 ;;;;;;;;;;;;;;;;;;;;;
 
+scripts[] = js/chosen.jquery.min.js
 scripts[] = js/yellow_pages.scripts.js
 
 ;;;;;;;;;;;;;;;;;;;;;

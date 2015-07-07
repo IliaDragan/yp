@@ -208,7 +208,7 @@ function yellow_pages_article_ct_field_default_field_instances() {
         'module' => 'image',
         'settings' => array(
           'image_link' => 'content',
-          'image_style' => 'list_image_new__150x200_',
+          'image_style' => 'node_list_image',
         ),
         'type' => 'image',
         'weight' => 0,
@@ -294,7 +294,7 @@ function yellow_pages_article_ct_field_default_field_instances() {
         'module' => 'image',
         'settings' => array(
           'image_link' => 'content',
-          'image_style' => 'list_image_new__150x200_',
+          'image_style' => 'node_list_image',
         ),
         'type' => 'image',
         'weight' => 1,

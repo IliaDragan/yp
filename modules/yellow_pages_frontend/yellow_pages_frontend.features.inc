@@ -22,10 +22,10 @@ function yellow_pages_frontend_ctools_plugin_api($module = NULL, $api = NULL) {
 function yellow_pages_frontend_image_default_styles() {
   $styles = array();
 
-  // Exported image style: list_image_new__150x200_.
-  $styles['list_image_new__150x200_'] = array(
-    'name' => 'list_image_new__150x200_',
-    'label' => 'List image new (150x200)',
+  // Exported image style: node_list_image.
+  $styles['node_list_image'] = array(
+    'name' => 'node_list_image',
+    'label' => 'Node list image (150x220)',
     'effects' => array(
       1 => array(
         'label' => 'Scale and crop',
@@ -38,7 +38,7 @@ function yellow_pages_frontend_image_default_styles() {
         'name' => 'image_scale_and_crop',
         'data' => array(
           'width' => 150,
-          'height' => 200,
+          'height' => 220,
         ),
         'weight' => 1,
       ),

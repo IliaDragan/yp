@@ -19,10 +19,11 @@
         </div>
         <div class="col-sm-4 col-lg-push-1 col-lg-3">
           <div class="activity-banner">
-            <img src="http://yp:8888/profiles/yp/themes/yellow_pages/images/notebook.png" alt="">
-            <h5>Introducing mybook</h4>
-            <p>Add business contacts and notes, and get things done anywhere!</p>
-            <a href="#" class="button"><span class="fa fa-bookmark"></span>Start adding to <b>mybook</b></a>
+            <?php global $base_url; ?>
+            <img src="<?php print $base_url; ?>/profiles/yp/themes/yellow_pages/images/notebook.png" alt="">
+            <h5><?php print t('Introducing mybook') ?></h4>
+            <p><?php print t('Add business contacts and notes, and get things done anywhere!') ?></p>
+            <a href="#" class="button"><span class="fa fa-bookmark"></span><?php print t('Start adding to ') ?><b><?php print t('mybook') ?></b></a>
           </div>
         </div>
       </div>

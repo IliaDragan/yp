@@ -17,8 +17,8 @@ var Drupal = Drupal || {};
       $('.view-id-news.view-display-id-panel_pane_1 .view-content').owlCarousel({
         nav : true,
         navText : [
-          '<span class="glyphicon glyphicon-chevron-left"></span>',
-          '<span class="glyphicon glyphicon-chevron-right"></span>'
+          '<span class="fa fa-angle-left"></span>',
+          '<span class="fa fa-angle-right"></span>'
         ],
         mouseDrag : false,
         pagination: true,
@@ -32,51 +32,80 @@ var Drupal = Drupal || {};
       $('.search-block-form input.form-text').attr('placeholder', Drupal.t('Facility search'));
     }
   }
+  Drupal.behaviors.custom_select = {
+    attach : function () {
+      var $select = $('select');
+       if ($select.length) {
+           for (var i = 0, len = $select.length; i < len; i++) {
+               var $this = $select.eq(i);
+               if ($this.hasClass('multiple')) {
+                   // chosen multiple
+               } else if ($this.hasClass('custom')) {
+                   // custom chosen
+               } else {
+                   // basic chosen no search
+                   $this.chosen({
+                       disable_search: true,
+                       width: '100%',
+                       display_disabled_options: false
+                   });
+               }
+           }
+       }
+    }
+  }
 
   Drupal.behaviors.node_tabs = {
     attach : function () {
-      if ($('.node-tabs-block').length) {
-        var $nodeTabItem = $('.node-tabs-block .panel-pane');
-        var $headerTabItem = $nodeTabItem.find('h2.pane-title');
-        $headerTabItem.clone().appendTo('.node-tabs-block-header');
-        var $headerTabMain = $('.node-tabs-block-header h2');
-        $headerTabMain.wrapInner( "<span></span>")
-        $headerTabMain.eq(0).addClass('is-active');
-        for (var i = 0; i < $headerTabMain.length; i++) {
-          var $headerTabMainSingle = $headerTabMain.eq(i);
-          $headerTabMainSingle.click(function() {
-            var $this = $(this);
-            $headerTabMain.removeClass('is-active');
-            $this.addClass('is-active');
-            $nodeTabItem.hide();
-            $nodeTabItem.eq($this.index()).show();
-          });
-        }
+      var $nodeTabsBlock = $('.node-tabs-block');
+      if ($nodeTabsBlock.length) {
+        $nodeTabsBlock.each(function() {
+          var $this = $(this);
+          var $nodeTabItem = $this.find('.panel-pane');
+          var $headerTab = $this.find('.node-tabs-block-header');
+          var $headerTabItem = $nodeTabItem.find('h2.pane-title');
+          $headerTabItem.clone().appendTo($headerTab);
+          var $headerTabMain = $headerTab.find('h2');
+          $headerTabMain.wrapInner( "<span></span>")
+          $headerTabMain.eq(0).addClass('is-active');
+          for (var i = 0; i < $headerTabMain.length; i++) {
+            var $headerTabMainSingle = $headerTabMain.eq(i);
+            $headerTabMainSingle.click(function() {
+              var $this = $(this);
+              $this.siblings().removeClass('is-active');
+              $this.addClass('is-active');
+              $nodeTabItem.hide();
+              $nodeTabItem.eq($this.index()).show();
+            });
+          }
+        });
       }
     }
   }
 
-  Drupal.behaviors.node_tabs_company = {
+  Drupal.behaviors.sticky_footer = {
     attach : function () {
-      if ($('.node-tabs-block-company').length) {
-        var $nodeTabItem = $('.node-tabs-block-company .field');
-        var $headerTabItem = $nodeTabItem.find('.field-label');
-        $headerTabItem.clone().appendTo('.node-tabs-block-company .node-tabs-block-header');
-        var $headerTabMain = $('.node-tabs-block-header .field-label');
-        $headerTabMain.wrapInner( "<span></span>")
-        $headerTabMain.eq(0).addClass('is-active');
-        for (var i = 0; i < $headerTabMain.length; i++) {
-          var $headerTabMainSingle = $headerTabMain.eq(i);
-          $headerTabMainSingle.click(function() {
-            var $this = $(this);
-            $headerTabMain.removeClass('is-active');
-            $this.addClass('is-active');
-            $nodeTabItem.hide();
-            $nodeTabItem.eq($this.index()).show();
-          });
-        }
+      var $stickyFooter = $('.footer');
+      if ($stickyFooter.length) {
+
+        var vwptHeight = $(window).height();
+        if (vwptHeight > $('body').height()) {
+          var $mainwrapper = $('.main-container'),
+            wrapperHeight = $mainwrapper.height(),
+            $header = $('header#navbar'),
+            $toolbar = $('#toolbar'),
+            $regionAsides = $('.region-asides'),
+            headerHeight = $header.outerHeight()|0,
+            footerHeight = $stickyFooter.outerHeight()|0,
+            regionsHeight = $regionAsides.outerHeight()|0,
+            toolbarHeight = $toolbar.outerHeight()|0;
+
+          $mainwrapper.css('min-height', 0);
+          $mainwrapper.css('min-height', vwptHeight - (footerHeight + regionsHeight + headerHeight + toolbarHeight));
+        } 
       }
     }
   }
+
 
 }) (jQuery, Drupal);

@@ -8,15 +8,15 @@
  */
 ?>
 <article class="node-<?php print $node->nid; ?> <?php print $classes; ?> clearfix"<?php print $attributes; ?>>
-  <div class="">
+  <div class="company-content">
     <div class="row">
-      <div class="col-sm-3">
+      <div class="col-sm-2 col-lg-3 col-company col-company-logo">
         <?php print render($content['field_company_logo']); ?>
       </div>
       <?php if (!empty($content['field_geocode'])): ?>
-        <div class="col-sm-5">
+        <div class="col-sm-7 col-lg-6 col-company">
       <?php else: ?>
-        <div class="col-sm-8">
+        <div class="col-sm-10 col-lg-8 col-company">
       <?php endif; ?>
         <h2<?php print $title_attributes; ?>><?php print $title; ?></h2>
         <?php  $date = $node->changed; $date = Date('d.m.y', $date); ?>
@@ -36,8 +36,6 @@
         <div class="field-row-tags">
           <?php print render($content['field_categories']); ?>
         </div>
-      </div>
-      <div class="col-sm-1">
         <!-- Social links. -->
         <?php if (isset($service_links_rendered) && !empty($service_links_rendered)): ; ?>
           <div class="social-links">
@@ -47,7 +45,7 @@
       </div>
 
       <?php if (!empty($content['field_geocode'])): ?>
-        <div class="col-sm-3">
+        <div class="col-sm-3 col-lg-3 col-company col-company-geo">
           <?php print render($content['field_geocode']); ?>
         </div>
       <?php endif; ?>

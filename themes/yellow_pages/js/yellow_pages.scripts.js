@@ -83,5 +83,29 @@ var Drupal = Drupal || {};
     }
   }
 
+  Drupal.behaviors.sticky_footer = {
+    attach : function () {
+      var $stickyFooter = $('.footer');
+      if ($stickyFooter.length) {
+
+        var vwptHeight = $(window).height();
+        if (vwptHeight > $('body').height()) {
+          var $mainwrapper = $('.main-container'),
+            wrapperHeight = $mainwrapper.height(),
+            $header = $('header#navbar'),
+            $toolbar = $('#toolbar'),
+            $regionAsides = $('.region-asides'),
+            headerHeight = $header.outerHeight()|0,
+            footerHeight = $stickyFooter.outerHeight()|0,
+            regionsHeight = $regionAsides.outerHeight()|0,
+            toolbarHeight = $toolbar.outerHeight()|0;
+
+          $mainwrapper.css('min-height', 0);
+          $mainwrapper.css('min-height', vwptHeight - (footerHeight + regionsHeight + headerHeight + toolbarHeight));
+        } 
+      }
+    }
+  }
+
 
 }) (jQuery, Drupal);

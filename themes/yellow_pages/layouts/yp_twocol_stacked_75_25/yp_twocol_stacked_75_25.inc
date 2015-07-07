@@ -13,7 +13,6 @@ $plugin['yp_twocol_stacked_75_25'] = array(
   'regions' => array(
     'alpha_100' => t('Alpha 100'),
     'beta_75' => t('Beta 75'),
-    'tabs_100' => t('tabs 100'),
     'gamma_25' => t('Gamma 25'),
   ),
   'regions_image_styles' => array(),

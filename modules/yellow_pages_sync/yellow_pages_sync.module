@@ -32,14 +32,14 @@ function yellow_pages_sync_nodes() {
   $query->leftJoin('enterprise_www', 'ent_url', 'ent.id = ent_url.enterprise_id');
 
   $query
-  ->fields('ent', array('id', 'activity'))
-  ->fields('ent_title', array('title'))
-  ->fields('ent_url', array('url'))
-  ->range(0, 1);
+    ->fields('ent', array('id', 'activity'))
+    ->fields('ent_title', array('title'))
+    ->fields('ent_url', array('url'))
+    ->range(0, 1);
 
   $result = $query
-  ->execute()
-  ->fetchAll();
+    ->execute()
+    ->fetchAll();
 
   $languages = array_keys(locale_language_list('name'));
   $node_defaults = array(
@@ -93,4 +93,62 @@ function yellow_pages_sync_fill_entity(stdClass $target, stdClass $source) {
   $target->body[LANGUAGE_NONE][0]['value'] = $source->activity;
   $target->field_company_site[LANGUAGE_NONE][0]['url'] = $source->url;
   $target->field_mdb_sync_date[LANGUAGE_NONE][0]['value'] = date('Y-m-d H:i:s', time());
+}
+
+function yellow_pages_sync_taxonomy() {
+  $conn = Database::getConnection('default', 'mdb');
+  $query = $conn->select('product_node', 'pn');
+  $query->fields('pn', array('id', 'ru_field', 'ro_field', 'en_field'));
+  // @todo
+  // Experimental setting.
+  $query->condition('pn.id', '2', '>');
+  $result = $query->execute()->fetchAll();
+
+  $m_name = 'categories';
+  $voc = taxonomy_vocabulary_machine_name_load($m_name);
+
+  if (!$voc) {
+    watchdog('yp_sync', 'Vocabulary with name "@name" not found.', array('@name' => $m_name), WATCHDOG_NOTICE);
+    return;
+  }
+
+  $vid = $voc->vid;
+
+  foreach ($result as $r) {
+    $name = trim($r->ru_field);
+    $parent = yellow_pages_sync_create_term($name, $vid);
+
+    $query = $conn->select('product_product', 'pp');
+    $query->join('product_node_products', 'pnp', 'pp.id = pnp.product_id');
+    $query->fields('pp', array('ru_field', 'ro_field', 'en_field'));
+    $query->condition('pnp.node_id', $r->id, '=');
+    $pp_result = $query->execute()->fetchAll();
+
+    foreach ($pp_result as $pp_r) {
+      $pp_name = $pp_r->ru_field;
+      yellow_pages_sync_create_term($pp_name, $vid, $parent);
+    }
+  }
+}
+
+function yellow_pages_sync_create_term($name, $vid, $parent = NULL) {
+  $name = trim($name);
+
+  $term = taxonomy_get_term_by_name($name);
+  if (empty($term)) {
+    $term = new stdClass();
+    $term->name = $name;
+    $term->vid = $vid;
+
+    if ($parent) {
+      $term->parent = (int) $parent;
+    }
+
+    taxonomy_term_save($term);
+  }
+  else {
+    $term = reset($term);
+  }
+
+  return $term->tid;
 }

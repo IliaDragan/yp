@@ -8,12 +8,6 @@
   <div class="row">
     <div class="col-sm-12">
       <?php print $content['alpha_100']; ?>
-      <div class="node-tabs-block node-tabs-fields">
-        <div class="node-tabs-block-header"></div>
-        <div class="node-tabs-content">
-          <?php print $content['tabs_100']; ?>
-        </div>
-      </div>
     </div>
   </div>
   <div class="row">

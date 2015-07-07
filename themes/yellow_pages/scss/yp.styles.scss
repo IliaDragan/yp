@@ -59,19 +59,13 @@ header {
     float: left;
   }
   .region-header {
+    padding-top: 35px;
     overflow: hidden;
     .block-locale {
       float: left;
-      padding-top: 38px;
-      + .block-menu {
-        float: left;
-        margin-left: 100px;
-        padding-top: 38px;
-      }
     }
     .block-menu {
       float: right;
-      padding-top: 34px;
     }
   }
 }
@@ -115,9 +109,12 @@ header {
 .menu-main-menu,
 .language-switcher-locale-url {
   > li {
-    > a {
+    > a,
+    .language-link {
+      display: block;
       border-bottom: 3px solid transparent;
       line-height: 23px;
+      padding-top: 4px;
       &:hover,
       &:active,
       &:focus {
@@ -148,10 +145,11 @@ header {
 }
 
 .language-switcher-locale-url {
+  margin-left: 50px;
   li {
-    padding-left: 5px;
-    padding-right: 5px;
-    a {
+    .language-link {
+      padding-left: 3px;
+      padding-right: 3px;
       color: $gray;
       &.active {
         color: $dark !important;
@@ -618,7 +616,7 @@ form.search-block-form {
     width: 80%;
   }
   form.search-block-form {
-    padding-top: 34px;
+    padding-top: 0;
     background: #fff;
     .container-inline {
       border-bottom: 1px solid $dark;
@@ -700,14 +698,13 @@ form.yellow-pages-feedback-ad-request {
   }
 }
 .owl-carousel .node--news--slider_teaser {
+  img {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
   a {
     color: $main-yellow;
-  }
-  .field-name-field-list-image { /* To remove*/
-    img {
-      width: 400px;
-      height: 440px;
-    }
   }
   .content {
     position: relative;
@@ -787,6 +784,10 @@ form.yellow-pages-feedback-ad-request {
       margin: 0;
       padding: 0;
     }
+    @include breakpoint ($extralargedown) {
+      max-height: 110px;
+      overflow: hidden;
+    }
   }
 }
 .node-read-more {
@@ -820,6 +821,9 @@ form.yellow-pages-feedback-ad-request {
     .left {
       float: left;
       margin-right: 20px;
+      img {
+        max-width: 150px;
+      }
     }
     .right {
       margin-left: 150px;
@@ -1037,13 +1041,20 @@ div.panel-pane div.node-teaser {
     }
   }
   .pane-yellow-pages-print-yp-print {
+    margin-bottom: 30px;
     background: #fff;
     padding-left: 20px;
     padding-right: 20px;
+    margin-top: -35px;
   }
-  .social-links {
-    padding-left: 20px;
-  }
+}
+
+.node-type-article  .node--article--full .social-links,
+.node-type-news  .node--news--full .social-links {
+  width: 300px;
+  padding-left: 20px;
+  position: relative;
+  z-index: 2;
 }
 
 .pane-yellow-pages-print-yp-print {
@@ -1113,8 +1124,10 @@ div.panel-pane div.node-teaser {
     }
   }
 }
+.node-tabs-block {
+  margin-bottom: 30px;
+}
 .node-tabs-block-header {
-  margin-top: 30px;
   background: $light-yellow;
   border-bottom: 3px solid $main-yellow;
   overflow: hidden;
@@ -1150,21 +1163,6 @@ div.panel-pane div.node-teaser {
   }
 }
 
-.node-tabs-fields {
-  .node-tabs-block-header {
-    margin-top: 0;
-    .pane-title,
-    .field-label {
-      border-left: 1px solid $border-color;
-      &:first-child,
-      &.is-active,
-      &.is-active + .pane-title,
-      &.is-active + .field-label {
-        border-left-color: transparent;
-      }
-    }
-  }
-}
 .node-tabs-content {
   .panel-pane {
     display: none;
@@ -1202,10 +1200,44 @@ div.panel-pane div.node-teaser {
   }
 }
 /* Company page */
+.page-news,
+.page-articles {
+  .main-container {
+    padding-top: 30px;
+  }
+}
 
 .node-company.node--company--full {
+  margin-bottom: 30px;
   background: #fff;
   overflow: hidden;
+  position: relative;
+  .company-content {
+    .row {
+      margin: 0;
+      display: table;
+      width: 100%;
+    }
+    .col-company {
+      display: table-cell;
+      float: none;
+      vertical-align: top;
+    }
+    .col-company-logo {
+      vertical-align: middle;
+    }
+    .col-company-geo {
+      padding-right: 0;
+    }
+    .social-links {
+      position: absolute;
+      top: 22px;
+      right: 20px;
+    }
+  }
+  h2 {
+    padding-right: 80px;
+  }
   .field-name-field-company-logo {
     img {
       max-width: 100%;
@@ -1270,6 +1302,31 @@ div.panel-pane div.node-teaser {
   }
   a {
     text-decoration: none;
+  }
+}
+.node--company--teaser,
+.node--company--search_index {
+  .content {
+    display: table;
+    width: 100%;
+    .left,
+    .right {
+      display: table-cell;
+      float: none;
+    }
+    .left {
+      vertical-align: middle;
+      .field-name-field-company-logo {
+        width: 150px;
+        padding: 10px;
+        img {
+          max-width: 100%;
+        }
+      }
+    }
+    .right {
+      width: 2000px;
+    }
   }
 }
 
@@ -1445,6 +1502,10 @@ article {
     font-size: 14px;
     font-weight: bold;
   }
+  .currency {
+    display: inline-block;
+    width: 60px;
+  }
   .info {
     color: $gray;
     font-weight: normal;
@@ -1458,7 +1519,7 @@ article {
   }
   .amount {
     display: inline-block;
-    width: 40px;
+    width: 30px;
     text-align: center;
   }
   .link {
@@ -1592,7 +1653,7 @@ article {
     display: block;
     float: left;
     margin-right: 100px;
-    line-height: 23px;
+    line-height: 26px;
     font-weight: bold;
   }
   .menu-main-menu {

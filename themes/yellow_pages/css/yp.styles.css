@@ -1367,6 +1367,8 @@ div.panel-pane div.node-teaser {
 }
 .node-company.node--company--full h2 {
   padding-right: 80px;
+  line-height: 1.2;
+  margin-bottom: 13px;
 }
 .node-company.node--company--full .field-name-field-company-logo img {
   max-width: 100%;
@@ -1383,7 +1385,7 @@ div.panel-pane div.node-teaser {
   font-size: 11px;
 }
 .node-company.node--company--full .field-date-update {
-  margin-bottom: 10px;
+  margin-bottom: 13px;
 }
 .node-company.node--company--full .field-name-field-address,
 .node-company.node--company--full .field-name-field-landline-phone,
@@ -1394,7 +1396,7 @@ div.panel-pane div.node-teaser {
   position: relative;
   padding-left: 20px;
   font-weight: bold;
-  margin-bottom: 10px;
+  margin-bottom: 13px;
 }
 .node-company.node--company--full .field-name-field-address:before,
 .node-company.node--company--full .field-name-field-landline-phone:before,

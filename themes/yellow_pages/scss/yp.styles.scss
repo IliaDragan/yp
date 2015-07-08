@@ -1237,6 +1237,8 @@ div.panel-pane div.node-teaser {
   }
   h2 {
     padding-right: 80px;
+    line-height: 1.2;
+    margin-bottom: 13px;
   }
   .field-name-field-company-logo {
     img {
@@ -1257,7 +1259,7 @@ div.panel-pane div.node-teaser {
     }
   }
   .field-date-update {
-    margin-bottom: 10px;
+    margin-bottom: 13px;
   }
   .field-name-field-address,
   .field-name-field-landline-phone,
@@ -1268,7 +1270,7 @@ div.panel-pane div.node-teaser {
     position: relative;
     padding-left: 20px;
     font-weight: bold;
-    margin-bottom: 10px;
+    margin-bottom: 13px;
     &:before {
       content: "";
       display: inline-block;

@@ -75,10 +75,13 @@ function yellow_pages_article_ct_strongarm() {
         'custom_settings' => FALSE,
       ),
       'search_index' => array(
-        'custom_settings' => FALSE,
+        'custom_settings' => TRUE,
       ),
       'search_result' => array(
         'custom_settings' => FALSE,
+      ),
+      'slider_teaser' => array(
+        'custom_settings' => TRUE,
       ),
     ),
     'extra_fields' => array(
@@ -96,6 +99,14 @@ function yellow_pages_article_ct_strongarm() {
           'teaser' => array(
             'weight' => '5',
             'visible' => FALSE,
+          ),
+          'default' => array(
+            'weight' => '0',
+            'visible' => TRUE,
+          ),
+          'search_index' => array(
+            'weight' => '3',
+            'visible' => TRUE,
           ),
         ),
       ),

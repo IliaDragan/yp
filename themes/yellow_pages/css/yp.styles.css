@@ -550,11 +550,13 @@ form label {
 }
 form .form-type-textfield,
 form .form-type-select,
+form .form-item-pass,
 form .form-type-textarea {
   margin-bottom: 25px;
 }
 form .form-type-textfield label,
 form .form-type-select label,
+form .form-item-pass label,
 form .form-type-textarea label {
   display: block;
 }
@@ -925,7 +927,7 @@ form.yellow-pages-feedback-ad-request .form-type-textarea textarea {
 .node--company--search_index .content .right,
 .node--article--search_index .content .right {
   margin-left: 150px;
-  padding: 20px;
+  padding: 20px 20px 10px;
 }
 .node-teaser .node-title,
 .node--company--search_index .node-title,
@@ -946,6 +948,11 @@ form.yellow-pages-feedback-ad-request .form-type-textarea textarea {
 .node--article--search_index .field-name-body,
 .node--article--search_index .node-created {
   font-size: 12px;
+}
+.node-teaser .field-name-body,
+.node--company--search_index .field-name-body,
+.node--article--search_index .field-name-body {
+  min-height: 84px;
 }
 .node-teaser .field-name-body span,
 .node--company--search_index .field-name-body span,
@@ -1329,7 +1336,8 @@ div.panel-pane div.node-teaser {
 
 /* Company page */
 .page-news .main-container,
-.page-articles .main-container {
+.page-articles .main-container,
+.page-node.node-type-article .main-container {
   padding-top: 30px;
 }
 
@@ -1362,6 +1370,8 @@ div.panel-pane div.node-teaser {
 }
 .node-company.node--company--full h2 {
   padding-right: 80px;
+  line-height: 1.2;
+  margin-bottom: 13px;
 }
 .node-company.node--company--full .field-name-field-company-logo img {
   max-width: 100%;
@@ -1378,7 +1388,7 @@ div.panel-pane div.node-teaser {
   font-size: 11px;
 }
 .node-company.node--company--full .field-date-update {
-  margin-bottom: 10px;
+  margin-bottom: 13px;
 }
 .node-company.node--company--full .field-name-field-address,
 .node-company.node--company--full .field-name-field-landline-phone,
@@ -1389,7 +1399,7 @@ div.panel-pane div.node-teaser {
   position: relative;
   padding-left: 20px;
   font-weight: bold;
-  margin-bottom: 10px;
+  margin-bottom: 13px;
 }
 .node-company.node--company--full .field-name-field-address:before,
 .node-company.node--company--full .field-name-field-landline-phone:before,
@@ -1430,6 +1440,10 @@ div.panel-pane div.node-teaser {
   text-decoration: none;
 }
 
+.node--company--teaser .field-name-body,
+.node--company--search_index .field-name-body {
+  min-height: 0px;
+}
 .node--company--teaser .content,
 .node--company--search_index .content {
   display: table;
@@ -1458,6 +1472,7 @@ div.panel-pane div.node-teaser {
 .node--company--teaser .content .right,
 .node--company--search_index .content .right {
   width: 2000px;
+  padding-bottom: 20px;
 }
 
 /* Article */

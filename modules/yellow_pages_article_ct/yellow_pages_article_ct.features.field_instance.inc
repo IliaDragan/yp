@@ -31,6 +31,13 @@ function yellow_pages_article_ct_field_default_field_instances() {
         'type' => 'text_default',
         'weight' => 1,
       ),
+      'search_index' => array(
+        'label' => 'hidden',
+        'module' => 'text',
+        'settings' => array(),
+        'type' => 'text_plain',
+        'weight' => 2,
+      ),
       'slider_teaser' => array(
         'label' => 'above',
         'settings' => array(),
@@ -40,10 +47,8 @@ function yellow_pages_article_ct_field_default_field_instances() {
       'teaser' => array(
         'label' => 'hidden',
         'module' => 'text',
-        'settings' => array(
-          'trim_length' => 600,
-        ),
-        'type' => 'text_summary_or_trimmed',
+        'settings' => array(),
+        'type' => 'text_plain',
         'weight' => 2,
       ),
     ),
@@ -86,6 +91,13 @@ function yellow_pages_article_ct_field_default_field_instances() {
         'settings' => array(),
         'type' => 'hidden',
         'weight' => 3,
+      ),
+      'search_index' => array(
+        'label' => 'hidden',
+        'module' => 'i18n_taxonomy',
+        'settings' => array(),
+        'type' => 'i18n_taxonomy_term_reference_link',
+        'weight' => 4,
       ),
       'slider_teaser' => array(
         'label' => 'above',
@@ -142,6 +154,12 @@ function yellow_pages_article_ct_field_default_field_instances() {
         'type' => 'hidden',
         'weight' => 4,
       ),
+      'search_index' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 5,
+      ),
       'slider_teaser' => array(
         'label' => 'above',
         'settings' => array(),
@@ -196,6 +214,16 @@ function yellow_pages_article_ct_field_default_field_instances() {
         'settings' => array(),
         'type' => 'hidden',
         'weight' => 6,
+      ),
+      'search_index' => array(
+        'label' => 'hidden',
+        'module' => 'image',
+        'settings' => array(
+          'image_link' => 'content',
+          'image_style' => 'node_list_image',
+        ),
+        'type' => 'image',
+        'weight' => 1,
       ),
       'slider_teaser' => array(
         'label' => 'above',
@@ -283,6 +311,16 @@ function yellow_pages_article_ct_field_default_field_instances() {
         'type' => 'image',
         'weight' => 0,
       ),
+      'search_index' => array(
+        'label' => 'hidden',
+        'module' => 'image',
+        'settings' => array(
+          'image_link' => 'content',
+          'image_style' => 'node_list_image',
+        ),
+        'type' => 'image',
+        'weight' => 0,
+      ),
       'slider_teaser' => array(
         'label' => 'above',
         'settings' => array(),
@@ -363,6 +401,12 @@ function yellow_pages_article_ct_field_default_field_instances() {
         'settings' => array(),
         'type' => 'hidden',
         'weight' => 5,
+      ),
+      'search_index' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 6,
       ),
       'slider_teaser' => array(
         'label' => 'above',

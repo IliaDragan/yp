@@ -34,19 +34,15 @@ function yellow_pages_news_ct_field_default_field_instances() {
       'slider_teaser' => array(
         'label' => 'hidden',
         'module' => 'text',
-        'settings' => array(
-          'trim_length' => 600,
-        ),
-        'type' => 'text_trimmed',
+        'settings' => array(),
+        'type' => 'text_plain',
         'weight' => 2,
       ),
       'teaser' => array(
         'label' => 'hidden',
         'module' => 'text',
-        'settings' => array(
-          'trim_length' => 600,
-        ),
-        'type' => 'text_summary_or_trimmed',
+        'settings' => array(),
+        'type' => 'text_plain',
         'weight' => 2,
       ),
     ),

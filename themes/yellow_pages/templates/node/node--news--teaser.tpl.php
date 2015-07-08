@@ -97,7 +97,10 @@
         <!-- @todo FORMAT DATE -->
         <span><?php print $created; ?></span>
       </div>
-      <?php print render($content['body']); ?>
+      <?php if (isset($content['body'][0])): ?>
+        <?php $content['body'][0]['#markup'] = '<p>' . truncate_utf8($content['body'][0]['#markup'], 500) . '</p>'; ?>
+      <?php endif; ?>
+      <p><?php print render($content['body']); ?>
       <div class="node-bottom">
         <?php print render($content['field_categories']); ?>
 

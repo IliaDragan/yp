@@ -25,7 +25,7 @@ function yellow_pages_frontend_image_default_styles() {
   // Exported image style: node_list_image.
   $styles['node_list_image'] = array(
     'name' => 'node_list_image',
-    'label' => 'Node list image (150x220)',
+    'label' => 'Node list image (150x200)',
     'effects' => array(
       1 => array(
         'label' => 'Scale and crop',
@@ -38,7 +38,7 @@ function yellow_pages_frontend_image_default_styles() {
         'name' => 'image_scale_and_crop',
         'data' => array(
           'width' => 150,
-          'height' => 220,
+          'height' => 200,
         ),
         'weight' => 1,
       ),

@@ -97,9 +97,12 @@
         <!-- @todo FORMAT DATE -->
         <span><?php print $created; ?></span>
       </div>
+      <?php if (isset($content['body'][0])): ?>
+        <?php $content['body'][0]['#markup'] = '<p>' . truncate_utf8($content['body'][0]['#markup'], 500) . '</p>'; ?>
+      <?php endif; ?>
       <?php print render($content['body']); ?>
 
-      <a href="#" class="node-link node-read-more"><?php print t('Read more'); ?></a>
+      <a href="<?php print $node_url; ?>" class="node-link node-read-more"><?php print t('Read more'); ?></a>
     </div>
   </div>
 </div>

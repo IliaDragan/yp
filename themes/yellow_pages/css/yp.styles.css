@@ -1336,7 +1336,8 @@ div.panel-pane div.node-teaser {
 
 /* Company page */
 .page-news .main-container,
-.page-articles .main-container {
+.page-articles .main-container,
+.page-node.node-type-article .main-container {
   padding-top: 30px;
 }
 

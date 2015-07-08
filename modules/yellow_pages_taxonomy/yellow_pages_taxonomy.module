@@ -11,7 +11,6 @@ include_once 'yellow_pages_taxonomy.features.inc';
  */
 function yellow_pages_taxonomy_form_taxonomy_form_term_alter(&$form, &$form_state) {
   // Hide standard 'description' field.
-  $form['description']['#access'] = FALSE;
 
   // Unfold related items.
   $form['relations']['#type'] = 'container';

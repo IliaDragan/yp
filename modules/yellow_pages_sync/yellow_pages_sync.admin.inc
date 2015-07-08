@@ -8,7 +8,7 @@
  * Admin form structure.
  */
 function yellow_pages_sync_admin_form($form, $form_state) {
-//   $node = node_load(158);
+//   $node = node_load(1);
 //   dump($node);
 //   $term = taxonomy_term_load(40);
 //   dump($term);

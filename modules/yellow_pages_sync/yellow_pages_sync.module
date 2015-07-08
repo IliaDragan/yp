@@ -4,6 +4,8 @@
  * Synchronize data with MDB.
  */
 
+ define('CATEGORIES_VOCABULARY', 'categories');
+
 /**
  * Implements hook_menu().
  */
@@ -34,8 +36,7 @@ function yellow_pages_sync_nodes() {
   $query
     ->fields('ent', array('id', 'activity'))
     ->fields('ent_title', array('title'))
-    ->fields('ent_url', array('url'))
-    ->range(0, 1);
+    ->fields('ent_url', array('url'));
 
   $result = $query
     ->execute()
@@ -49,6 +50,7 @@ function yellow_pages_sync_nodes() {
     'status' => 0,
     'promote' => 0,
   );
+  $voc = taxonomy_vocabulary_machine_name_load(CATEGORIES_VOCABULARY);
 
   foreach ($result as $source) {
     $tnid = NULL;
@@ -59,6 +61,19 @@ function yellow_pages_sync_nodes() {
     // Basics.
     $node_defaults['language'] = 'ru';
     $entity = entity_create('node', $node_defaults);
+
+    // Categories.
+    if ($voc) {
+      $query = $conn->select('enterprise_product', 'ep');
+      $query->join('product_product', 'pp', 'ep.product_id = pp.id');
+      $query->fields('pp', array('ru_field', 'ro_field', 'en_field'));
+      $query->condition('ep.enterprise_id', $source->id, '=');
+      $p_result = $query->execute()->fetchAll();
+
+      foreach ($p_result as $p) {
+        $source->products[] = yellow_pages_sync_create_term($p->ru_field, $voc->vid);
+      }
+    }
 
     // Fields.
     yellow_pages_sync_fill_entity($entity, $source);
@@ -93,6 +108,12 @@ function yellow_pages_sync_fill_entity(stdClass $target, stdClass $source) {
   $target->body[LANGUAGE_NONE][0]['value'] = $source->activity;
   $target->field_company_site[LANGUAGE_NONE][0]['url'] = $source->url;
   $target->field_mdb_sync_date[LANGUAGE_NONE][0]['value'] = date('Y-m-d H:i:s', time());
+
+  if (isset($source->products) && is_array($source->products)) {
+    foreach ($source->products as $product) {
+      $target->field_categories[LANGUAGE_NONE][]['tid'] = $product;
+    }
+  }
 }
 
 function yellow_pages_sync_taxonomy() {
@@ -104,18 +125,17 @@ function yellow_pages_sync_taxonomy() {
   $query->condition('pn.id', '2', '>');
   $result = $query->execute()->fetchAll();
 
-  $m_name = 'categories';
-  $voc = taxonomy_vocabulary_machine_name_load($m_name);
+  $voc = taxonomy_vocabulary_machine_name_load(CATEGORIES_VOCABULARY);
 
   if (!$voc) {
-    watchdog('yp_sync', 'Vocabulary with name "@name" not found.', array('@name' => $m_name), WATCHDOG_NOTICE);
+    watchdog('yp_sync', 'Vocabulary with name "@name" not found.', array('@name' => CATEGORIES_VOCABULARY), WATCHDOG_NOTICE);
     return;
   }
 
   $vid = $voc->vid;
 
   foreach ($result as $r) {
-    $name = trim($r->ru_field);
+    $name = $r->ru_field;
     $parent = yellow_pages_sync_create_term($name, $vid);
 
     $query = $conn->select('product_product', 'pp');

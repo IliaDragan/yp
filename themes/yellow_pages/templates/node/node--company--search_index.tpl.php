@@ -93,6 +93,9 @@
         <a href="<?php print $node_url; ?>"><?php print $title; ?></a>
       </div>
       <?php print render($content['field_address']); ?>
+      <?php if (isset($content['body'][0])): ?>
+        <?php $content['body'][0]['#markup'] = '<p>' . truncate_utf8($content['body'][0]['#markup'], 300) . '</p>'; ?>
+      <?php endif; ?>
       <?php print render($content['body']); ?>
       <?php print render($content['field_categories']); ?>
       <div class="node-bottom">

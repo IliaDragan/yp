@@ -925,7 +925,7 @@ form.yellow-pages-feedback-ad-request .form-type-textarea textarea {
 .node--company--search_index .content .right,
 .node--article--search_index .content .right {
   margin-left: 150px;
-  padding: 20px;
+  padding: 20px 20px 10px;
 }
 .node-teaser .node-title,
 .node--company--search_index .node-title,
@@ -946,6 +946,11 @@ form.yellow-pages-feedback-ad-request .form-type-textarea textarea {
 .node--article--search_index .field-name-body,
 .node--article--search_index .node-created {
   font-size: 12px;
+}
+.node-teaser .field-name-body,
+.node--company--search_index .field-name-body,
+.node--article--search_index .field-name-body {
+  min-height: 84px;
 }
 .node-teaser .field-name-body span,
 .node--company--search_index .field-name-body span,
@@ -1430,6 +1435,10 @@ div.panel-pane div.node-teaser {
   text-decoration: none;
 }
 
+.node--company--teaser .field-name-body,
+.node--company--search_index .field-name-body {
+  min-height: 0px;
+}
 .node--company--teaser .content,
 .node--company--search_index .content {
   display: table;
@@ -1458,6 +1467,7 @@ div.panel-pane div.node-teaser {
 .node--company--teaser .content .right,
 .node--company--search_index .content .right {
   width: 2000px;
+  padding-bottom: 20px;
 }
 
 /* Article */

@@ -35,7 +35,7 @@ function yellow_pages_company_ct_field_default_field_instances() {
         'label' => 'hidden',
         'module' => 'text',
         'settings' => array(),
-        'type' => 'text_default',
+        'type' => 'text_plain',
         'weight' => 0,
       ),
       'slider_teaser' => array(
@@ -47,10 +47,8 @@ function yellow_pages_company_ct_field_default_field_instances() {
       'teaser' => array(
         'label' => 'hidden',
         'module' => 'text',
-        'settings' => array(
-          'trim_length' => 600,
-        ),
-        'type' => 'text_summary_or_trimmed',
+        'settings' => array(),
+        'type' => 'text_plain',
         'weight' => 2,
       ),
     ),
@@ -116,7 +114,7 @@ function yellow_pages_company_ct_field_default_field_instances() {
           'use_widget_handlers' => 1,
         ),
         'type' => 'addressfield_default',
-        'weight' => 5,
+        'weight' => 2,
       ),
       'slider_teaser' => array(
         'label' => 'above',
@@ -184,11 +182,18 @@ function yellow_pages_company_ct_field_default_field_instances() {
         'weight' => 20,
       ),
       'full' => array(
-        'label' => 'above',
+        'label' => 'hidden',
         'module' => 'taxonomy',
         'settings' => array(),
         'type' => 'taxonomy_term_reference_link',
         'weight' => 8,
+      ),
+      'search_index' => array(
+        'label' => 'hidden',
+        'module' => 'i18n_taxonomy',
+        'settings' => array(),
+        'type' => 'i18n_taxonomy_term_reference_link',
+        'weight' => 3,
       ),
       'slider_teaser' => array(
         'label' => 'above',
@@ -244,7 +249,7 @@ function yellow_pages_company_ct_field_default_field_instances() {
         'module' => 'image',
         'settings' => array(
           'image_link' => '',
-          'image_style' => '',
+          'image_style' => 'medium',
         ),
         'type' => 'image',
         'weight' => 0,
@@ -253,8 +258,8 @@ function yellow_pages_company_ct_field_default_field_instances() {
         'label' => 'hidden',
         'module' => 'image',
         'settings' => array(
-          'image_link' => '',
-          'image_style' => '',
+          'image_link' => 'content',
+          'image_style' => 'medium',
         ),
         'type' => 'image',
         'weight' => 1,
@@ -343,7 +348,7 @@ function yellow_pages_company_ct_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 7,
+        'weight' => 11,
       ),
       'slider_teaser' => array(
         'label' => 'above',
@@ -420,7 +425,7 @@ function yellow_pages_company_ct_field_default_field_instances() {
         'module' => 'email',
         'settings' => array(),
         'type' => 'email_default',
-        'weight' => 4,
+        'weight' => 6,
       ),
       'slider_teaser' => array(
         'label' => 'above',
@@ -478,7 +483,7 @@ function yellow_pages_company_ct_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 0,
+        'weight' => 10,
       ),
       'slider_teaser' => array(
         'label' => 'above',
@@ -577,7 +582,7 @@ function yellow_pages_company_ct_field_default_field_instances() {
         'label' => 'hidden',
         'module' => 'leaflet',
         'settings' => array(
-          'height' => 400,
+          'height' => 300,
           'icon' => array(
             'html' => '',
             'htmlClass' => '',
@@ -632,7 +637,7 @@ function yellow_pages_company_ct_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 0,
+        'weight' => 8,
       ),
       'slider_teaser' => array(
         'label' => 'above',
@@ -701,10 +706,11 @@ function yellow_pages_company_ct_field_default_field_instances() {
         'weight' => 2,
       ),
       'search_index' => array(
-        'label' => 'above',
+        'label' => 'hidden',
+        'module' => 'text',
         'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 0,
+        'type' => 'text_default',
+        'weight' => 4,
       ),
       'slider_teaser' => array(
         'label' => 'above',
@@ -768,7 +774,7 @@ function yellow_pages_company_ct_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 12,
+        'weight' => 16,
       ),
       'slider_teaser' => array(
         'label' => 'above',
@@ -835,7 +841,7 @@ function yellow_pages_company_ct_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 8,
+        'weight' => 12,
       ),
       'slider_teaser' => array(
         'label' => 'above',
@@ -908,7 +914,7 @@ function yellow_pages_company_ct_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 0,
+        'weight' => 9,
       ),
       'slider_teaser' => array(
         'label' => 'above',
@@ -970,7 +976,7 @@ function yellow_pages_company_ct_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 9,
+        'weight' => 13,
       ),
       'slider_teaser' => array(
         'label' => 'above',
@@ -1052,7 +1058,7 @@ function yellow_pages_company_ct_field_default_field_instances() {
           'link_text' => FALSE,
         ),
         'type' => 'socialfield_formatter',
-        'weight' => 3,
+        'weight' => 5,
       ),
       'slider_teaser' => array(
         'label' => 'above',
@@ -1119,7 +1125,7 @@ function yellow_pages_company_ct_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 10,
+        'weight' => 14,
       ),
       'slider_teaser' => array(
         'label' => 'above',
@@ -1178,7 +1184,7 @@ function yellow_pages_company_ct_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 11,
+        'weight' => 15,
       ),
       'slider_teaser' => array(
         'label' => 'above',

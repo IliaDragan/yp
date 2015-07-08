@@ -75,10 +75,13 @@ function yellow_pages_company_ct_strongarm() {
         'custom_settings' => FALSE,
       ),
       'search_index' => array(
-        'custom_settings' => FALSE,
+        'custom_settings' => TRUE,
       ),
       'search_result' => array(
         'custom_settings' => FALSE,
+      ),
+      'slider_teaser' => array(
+        'custom_settings' => TRUE,
       ),
     ),
     'extra_fields' => array(
@@ -102,6 +105,10 @@ function yellow_pages_company_ct_strongarm() {
           ),
           'teaser' => array(
             'weight' => '6',
+            'visible' => FALSE,
+          ),
+          'search_index' => array(
+            'weight' => '7',
             'visible' => FALSE,
           ),
         ),

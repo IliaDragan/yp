@@ -550,11 +550,13 @@ form label {
 }
 form .form-type-textfield,
 form .form-type-select,
+form .form-item-pass,
 form .form-type-textarea {
   margin-bottom: 25px;
 }
 form .form-type-textfield label,
 form .form-type-select label,
+form .form-item-pass label,
 form .form-type-textarea label {
   display: block;
 }

@@ -827,7 +827,7 @@ form.yellow-pages-feedback-ad-request {
     }
     .right {
       margin-left: 150px;
-      padding: 20px;
+      padding: 20px 20px 10px;
     }
   }
   .node-title {
@@ -843,6 +843,7 @@ form.yellow-pages-feedback-ad-request {
     font-size: 12px;
   }
   .field-name-body {
+    min-height: 84px;
     span {
       font-size: 12px !important;
       color: $dark !important;
@@ -888,7 +889,6 @@ form.yellow-pages-feedback-ad-request {
     }
   }
 }
-
 .node--company--search_index {
   .left {
     img {
@@ -1237,6 +1237,8 @@ div.panel-pane div.node-teaser {
   }
   h2 {
     padding-right: 80px;
+    line-height: 1.2;
+    margin-bottom: 13px;
   }
   .field-name-field-company-logo {
     img {
@@ -1257,7 +1259,7 @@ div.panel-pane div.node-teaser {
     }
   }
   .field-date-update {
-    margin-bottom: 10px;
+    margin-bottom: 13px;
   }
   .field-name-field-address,
   .field-name-field-landline-phone,
@@ -1268,7 +1270,7 @@ div.panel-pane div.node-teaser {
     position: relative;
     padding-left: 20px;
     font-weight: bold;
-    margin-bottom: 10px;
+    margin-bottom: 13px;
     &:before {
       content: "";
       display: inline-block;
@@ -1306,6 +1308,9 @@ div.panel-pane div.node-teaser {
 }
 .node--company--teaser,
 .node--company--search_index {
+  .field-name-body {
+    min-height: 0px;
+  }
   .content {
     display: table;
     width: 100%;
@@ -1326,6 +1331,7 @@ div.panel-pane div.node-teaser {
     }
     .right {
       width: 2000px;
+      padding-bottom: 20px;
     }
   }
 }

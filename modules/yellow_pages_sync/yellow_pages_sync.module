@@ -5,7 +5,7 @@
  */
 
  define('CATEGORIES_VOCABULARY', 'categories');
- define('SYNC_BATCH', 10);
+ define('SYNC_BATCH', 5);
 
 /**
  * Implements hook_menu().
@@ -25,13 +25,18 @@ function yellow_pages_sync_menu() {
   return $items;
 }
 
-function yellow_pages_sync_nodes(/*&$context = array()*/) {
+function yellow_pages_sync_nodes(&$context) {
   $conn = Database::getConnection('default', 'mdb');
 
-//   if (!isset($context['sandbox']['progress'])) {
-//     $context['sandbox']['progress'] = 0;
-//     $context['sandbox']['max'] = $conn->select('enterprise_enterprise', 'ent')->countQuery()->execute()->fetchField();
-//   }
+  if (!isset($context['sandbox']['progress'])) {
+    $context['sandbox']['progress'] = 0;
+    $max_elements = $conn
+      ->select('enterprise_enterprise', 'ent')
+      ->countQuery()
+      ->execute()
+      ->fetchField();
+    $context['sandbox']['max'] = 10;//$max_elements;
+  }
 
   $query = $conn->select('enterprise_enterprise', 'ent');
 
@@ -45,7 +50,7 @@ function yellow_pages_sync_nodes(/*&$context = array()*/) {
     ->fields('ent_title', array('title'))
     ->fields('ent_url', array('url'));
 
-  $query->range(0/*$context['sandbox']['progress']*/, SYNC_BATCH);
+  $query->range($context['sandbox']['progress'], SYNC_BATCH);
 
   $result = $query
     ->execute()
@@ -64,12 +69,12 @@ function yellow_pages_sync_nodes(/*&$context = array()*/) {
   foreach ($result as $source) {
     $tnid = NULL;
     if (empty($source->title)) {
-      //$context['sandbox']['max']--;
+      $context['sandbox']['max']--;
       continue;
     }
 
-    //$context['sandbox']['progress']++;
-    //$context['message'] = t('Now processing %title', array('%title' => $source->title));
+    $context['sandbox']['progress']++;
+    $context['message'] = t('Now processing %title', array('%title' => $source->title));
 
     // Basics.
     $node_defaults['language'] = 'ru';
@@ -93,35 +98,36 @@ function yellow_pages_sync_nodes(/*&$context = array()*/) {
 
     // Save new node.
     node_save($entity);
-//     $entity->tnid = $tnid = $entity->nid;
-//     node_save($entity);
+
+    // Update node parent.
+    $tnid = $entity->nid;
     db_update('node')
-      ->fields(array('tnid' => $entity->nid))
+      ->fields(array('tnid' => $tnid))
       ->condition('nid', $entity->nid, '=')
       ->execute();
 
     // Translations.
-//     foreach ($languages as $lang) {
-//       if ($lang == 'ru') {
-//         continue;
-//       }
+    foreach ($languages as $lang) {
+      if ($lang == 'ru') {
+        continue;
+      }
 
-//       $node_defaults['language'] = $lang;
-//       $translated_entity = entity_create('node', $node_defaults);
+      $node_defaults['language'] = $lang;
+      $translated_entity = entity_create('node', $node_defaults);
 
-//       // Fields.
-//       yellow_pages_sync_fill_entity($translated_entity, $source);
+      // Fields.
+      yellow_pages_sync_fill_entity($translated_entity, $source);
 
-//       // Parent reference.
-//       $translated_entity->tnid = $tnid;
+      // Parent reference.
+      $translated_entity->tnid = $tnid;
 
-//       node_save($translated_entity);
-//     }
+      node_save($translated_entity);
+    }
   }
 
-//   if ($context['sandbox']['progress'] != $context['sandbox']['max']) {
-//     $context['finished'] = $context['sandbox']['progress'] / $context['sandbox']['max'];
-//   }
+  if ($context['sandbox']['progress'] != $context['sandbox']['max']) {
+    $context['finished'] = $context['sandbox']['progress'] / $context['sandbox']['max'];
+  }
 }
 
 function yellow_pages_sync_fill_entity(stdClass $target, stdClass $source) {
@@ -195,6 +201,7 @@ function yellow_pages_sync_create_term($name, $vid, $parent = NULL) {
 }
 
 function yellow_pages_sync_batch_finish($success, $results, $operations) {
+  drupal_get_messages();
   if ($success) {
     drupal_set_message(t('Synchronisation process complete.'));
   }

@@ -68,6 +68,9 @@ function yellow_pages_preprocess_menu_link(&$variables) {
   }
 }
 
+/**
+ * Implements theme_menu_link().
+ */
 function yellow_pages_menu_link(array $variables) {
   $element = $variables ['element'];
   $sub_menu = '';
@@ -83,15 +86,128 @@ function yellow_pages_menu_link(array $variables) {
   return '<li' . drupal_attributes($element ['#attributes']) . '>' . $output . $sub_menu . "</li>\n";
 }
 
+/**
+ * Implements hook_preprocess_region().
+ */
 function yellow_pages_preprocess_region(&$variables) {
   if ($variables['region'] == 'header') {
+    if (!drupal_is_front_page()) {
+      $usermenu = theme('links_clear', array('links' => menu_navigation_links('user-menu'), 'attributes' => array('class'=> array('user-menu')) ));
+      $userclass = $usermenu ? 'has-user-menu' : 'no-user-menu';
+      $menu = '<div class="inner-menu-wrapper"><span class="menu-btn fa fa-bars"></span><div class="inner-menu-overlay ' . $userclass  . '">';
+
+      $mainmenu = menu_navigation_links('main-menu');
+      $menu .= '<ul class="nav-list-menu">';
+      $menu .= theme('links_clear', array('links' => $mainmenu));
+
+      $usermenu = theme('links_clear', array('links' => menu_navigation_links('user-menu'), 'attributes' => array('class'=> array('user-menu')) ));
+      if ($usermenu) {
+        $menu .= $usermenu;
+      } else {
+        global $base_url;
+        $menu .= '<li>' . l('Log in', $base_url . '/user/login') . '</li>';
+      }
+      $menu .= '</ul>';
+      $menu .= '<span class="menu-close fa fa-close"></span></div></div>';
+      $variables['content'] = $menu . $variables['content'];
+    }
   }
 }
 
+/**
+ * Implements hook_css_alter().
+ */
 function yellow_pages_css_alter(&$css) {
   // Exclude all the unused core and modules css.
-    $exclude = array(
-      'profiles/yp/modules/contrib/addressfield/addressfield.css' => FALSE,
-    );
-    $css = array_diff_key($css, $exclude);
+  $exclude = array(
+    'profiles/yp/modules/contrib/addressfield/addressfield.css' => FALSE,
+  );
+  $css = array_diff_key($css, $exclude);
+}
+
+/**
+ * Implements hook_theme().
+ */
+function yellow_pages_theme() {
+  return array(
+    'links_clear' => array(
+      'render element' => 'element',
+      'function' => 'yellow_pages_links_clear',
+    ),
+  );
+}
+
+/**
+ * Implements theme_links_clear().
+ */
+function yellow_pages_links_clear($variables) {
+  $links = $variables ['links'];
+  if (!isset($variables ['attributes'])) $variables ['attributes'] = array();
+  $attributes = $variables ['attributes'];
+  if (!isset($variables ['heading'])) $variables ['heading'] = array();
+  $heading = $variables ['heading'];
+  global $language_url;
+  $output = '';
+
+  if (count($links) > 0) {
+    // Treat the heading first if it is present to prepend it to the
+    // list of links.
+    if (!empty($heading)) {
+      if (is_string($heading)) {
+        // Prepare the array that will be used when the passed heading
+        // is a string.
+        $heading = array(
+          'text' => $heading,
+          // Set the default level of the heading.
+          'level' => 'h2',
+        );
+      }
+      $output .= '<' . $heading ['level'];
+      if (!empty($heading ['class'])) {
+        $output .= drupal_attributes(array('class' => $heading ['class']));
+      }
+      $output .= '>' . check_plain($heading ['text']) . '</' . $heading ['level'] . '>';
+    }
+
+    $num_links = count($links);
+    $i = 1;
+
+    foreach ($links as $key => $link) {
+      $class = array($key);
+
+      // Add first, last and active classes to the list of links to help out themers.
+      if ($i == 1) {
+        $class [] = 'first';
+      }
+      if ($i == $num_links) {
+        $class [] = 'last';
+      }
+      if (isset($link ['href']) && ($link ['href'] == $_GET ['q'] || ($link ['href'] == '<front>' && drupal_is_front_page()))
+         && (empty($link ['language']) || $link ['language']->language == $language_url->language)) {
+        $class [] = 'active';
+      }
+      $output .= '<li' . drupal_attributes(array('class' => $class)) . '>';
+
+      if (isset($link ['href'])) {
+        // Pass in $link as $options, they share the same keys.
+        $output .= l($link ['title'], $link ['href'], $link);
+      }
+      elseif (!empty($link ['title'])) {
+        // Some links are actually not links, but we wrap these in <span> for adding title and class attributes.
+        if (empty($link ['html'])) {
+          $link ['title'] = check_plain($link ['title']);
+        }
+        $span_attributes = '';
+        if (isset($link ['attributes'])) {
+          $span_attributes = drupal_attributes($link ['attributes']);
+        }
+        $output .= '<span' . $span_attributes . '>' . $link ['title'] . '</span>';
+      }
+
+      $i++;
+      $output .= "</li>\n";
+    }
   }
+
+  return $output;
+}

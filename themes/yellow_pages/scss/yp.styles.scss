@@ -48,11 +48,17 @@ a {
   color: $main-yellow;
 }
 
+@media (min-width: 1990px) {
+  .not-front .container {
+    width: 1600px;
+  }
+}
 
 /* Header */
 
 header {
   background: #fff;
+  position: relative;
 }
 .navbar-header {
   .menu-main-menu {
@@ -247,6 +253,53 @@ header {
       a {
         border-left: 1px solid $border-color;
       }
+    }
+  }
+}
+.inner-menu-wrapper {
+  float: right;
+  .menu-btn {
+    padding: 7px;
+    font-size: 18px;
+    cursor: pointer;
+  }
+  .inner-menu-overlay {
+    position: absolute;
+    top: 0;
+    background: $main-yellow;
+    @include transform(skew(20deg));
+    z-index: 5;
+    ul {
+      margin: 100px 0 0 0;
+      padding: 0;
+      list-style-type: none;
+      overflow: hidden;
+      li {
+        margin-left: -15px;
+        margin-right: -15px;
+        border-top: 1px solid $border-color;
+        @include transform(skew(-20deg));
+        a {
+          display: block;
+          padding: 28px 40px 28px 52px;
+          text-transform: uppercase;
+          font-size: 12px;
+          font-weight: bold;
+          &:hover {
+            background: $light-yellow;
+            color: $dark;
+          }
+        }
+        &:first-child {
+          border-top: none;
+        }
+      }
+    }
+    .menu-close {
+      position: absolute;
+      top: 40px;
+      font-size: 18px;
+      @include transform(skew(-20deg));
     }
   }
 }

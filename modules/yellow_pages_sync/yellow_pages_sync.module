@@ -35,7 +35,7 @@ function yellow_pages_sync_nodes(&$context) {
       ->countQuery()
       ->execute()
       ->fetchField();
-    $context['sandbox']['max'] = 10;//$max_elements;
+    $context['sandbox']['max'] = 1;//$max_elements;
   }
 
   $query = $conn->select('enterprise_enterprise', 'ent');
@@ -44,13 +44,16 @@ function yellow_pages_sync_nodes(&$context) {
   $query->leftJoin('enterprise_title', 'ent_title', 'ent.id = ent_title.enterprise_id');
   // Join the url.
   $query->leftJoin('enterprise_www', 'ent_url', 'ent.id = ent_url.enterprise_id');
+  // Join the email.
+  $query->leftJoin('enterprise_email', 'ent_email', 'ent.id = ent_email.enterprise_id');
 
   $query
-    ->fields('ent', array('id', 'activity'))
+    ->fields('ent', array('id', 'activity', 'last_change'))
     ->fields('ent_title', array('title'))
-    ->fields('ent_url', array('url'));
+    ->fields('ent_url', array('url'))
+    ->fields('ent_email', array('email'));
 
-  $query->range($context['sandbox']['progress'], SYNC_BATCH);
+  $query->range($context['sandbox']['progress'], 1);
 
   $result = $query
     ->execute()
@@ -67,11 +70,11 @@ function yellow_pages_sync_nodes(&$context) {
   $voc = taxonomy_vocabulary_machine_name_load(CATEGORIES_VOCABULARY);
 
   foreach ($result as $source) {
-    $tnid = NULL;
     if (empty($source->title)) {
-      $context['sandbox']['max']--;
       continue;
     }
+
+    $tnid = NULL;
 
     $context['sandbox']['progress']++;
     $context['message'] = t('Now processing %title', array('%title' => $source->title));
@@ -131,10 +134,31 @@ function yellow_pages_sync_nodes(&$context) {
 }
 
 function yellow_pages_sync_fill_entity(stdClass $target, stdClass $source) {
+  // Remove any whitespace.
+  foreach (get_object_vars($source) as $key => $value) {
+    $source->{$key} = trim($value);
+  }
+
+  // Title.
   $target->title = $source->title;
-  $target->body[LANGUAGE_NONE][0]['value'] = $source->activity;
-  $target->field_company_site[LANGUAGE_NONE][0]['url'] = $source->url;
-  $target->field_mdb_sync_date[LANGUAGE_NONE][0]['value'] = date('Y-m-d H:i:s', time());
+
+  // Activity.
+  if (!empty($source->activity)){
+    $target->body[LANGUAGE_NONE][0]['value'] = $source->activity;
+  }
+
+  // Url.
+  if (!empty($source->url)) {
+    $target->field_company_site[LANGUAGE_NONE][0]['url'] = $source->url;
+  }
+
+  // Email.
+  if (!empty($source->email)) {
+    $target->field_email[LANGUAGE_NONE][0]['email'] = $source->email;
+  }
+
+  // Sync date.
+  $target->field_mdb_sync_date[LANGUAGE_NONE][0]['value'] = date('Y-m-d H:i:s', REQUEST_TIME);
 
   if (isset($source->products) && is_array($source->products)) {
     foreach ($source->products as $product) {

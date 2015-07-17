@@ -8,14 +8,15 @@
  * Admin form structure.
  */
 function yellow_pages_sync_admin_form($form, $form_state) {
-//   $node = node_load(1);
+//   $node = node_load(524);
 //   dump($node);
 //   $term = taxonomy_term_load(40);
 //   dump($term);
 
   $form['submit'] = array(
     '#type' => 'submit',
-    '#value' => 'Submit',
+    '#prefix' => '<p>' . t('Import companies and categories from MDB source.') . '</p>',
+    '#value' => t('Start synchronisation'),
   );
 
   return $form;
@@ -29,7 +30,7 @@ function yellow_pages_sync_admin_form($form, $form_state) {
 function yellow_pages_sync_admin_form_submit($form, &$form_state) {
   $batch = array(
     'operations' => array(
-      array('yellow_pages_sync_taxonomy', array()),
+      // array('yellow_pages_sync_taxonomy', array()),
       array('yellow_pages_sync_nodes', array()),
     ),
     'title' => t('Synchronizing with MDB data...'),

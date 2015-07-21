@@ -92,23 +92,8 @@ function yellow_pages_menu_link(array $variables) {
 function yellow_pages_preprocess_region(&$variables) {
   if ($variables['region'] == 'header') {
     if (!drupal_is_front_page()) {
-      $usermenu = theme('links_clear', array('links' => menu_navigation_links('user-menu'), 'attributes' => array('class'=> array('user-menu')) ));
-      $userclass = $usermenu ? 'has-user-menu' : 'no-user-menu';
-      $menu = '<div class="inner-menu-wrapper"><span class="menu-btn fa fa-bars"></span><div class="inner-menu-overlay ' . $userclass  . '">';
-
-      $mainmenu = menu_navigation_links('main-menu');
-      $menu .= '<ul class="nav-list-menu">';
-      $menu .= theme('links_clear', array('links' => $mainmenu));
-
-      $usermenu = theme('links_clear', array('links' => menu_navigation_links('user-menu'), 'attributes' => array('class'=> array('user-menu')) ));
-      if ($usermenu) {
-        $menu .= $usermenu;
-      } else {
-        global $base_url;
-        $menu .= '<li>' . l('Log in', $base_url . '/user/login') . '</li>';
-      }
-      $menu .= '</ul>';
-      $menu .= '<span class="menu-close fa fa-close"></span></div></div>';
+      $menu = '<div class="inner-menu-wrapper"><span class="menu-btn fa fa-bars"><span class="menu-text">' . t('Menu') . '</span></span>';
+      $menu .= '</div>';
       $variables['content'] = $menu . $variables['content'];
     }
   }

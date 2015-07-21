@@ -22,6 +22,7 @@ body {
   font-smoothing: antialiased;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
   &.not-front {
     background: #f2f2f2;
   }
@@ -263,15 +264,35 @@ header {
     font-size: 18px;
     cursor: pointer;
   }
-  .inner-menu-overlay {
+  .menu-text {
+    display: none;
+  }
+}
+.extra-menu-overlay {
     position: absolute;
     top: 0;
+    bottom: 0;
+    left: 100%;
+    width: 100%;
+    overflow: hidden;
+  &.is-opened {
+    left: 0;
+  }
+  .inner-menu-block {
+    position: absolute;
+    top: 0;
+    left: 100%;
+    padding-left: 100px;
+    z-index: 100;
+    @include transition(transform 0.3s);
+  }
+  .inner-menu-overlay {
     background: $main-yellow;
     @include transform(skew(20deg));
     z-index: 5;
     ul {
-      margin: 100px 0 0 0;
-      padding: 0;
+      width: 500px;
+      padding: 100px 0 0 0;
       list-style-type: none;
       overflow: hidden;
       li {
@@ -295,11 +316,31 @@ header {
         }
       }
     }
-    .menu-close {
+    &:before,
+    &:after {
+      content: "";
+      display: block;
       position: absolute;
-      top: 40px;
+      width: 500px;
+      height: 1000px;
+      background-color: #ffdd00;
+    }
+    &:before {
+      left: 100%;
+    }
+    &:after {
+      top: 100%;
+    }
+    .menu-close {
+      width: 100%;
+      height: 60px;
+      padding: 20px 0 0 20px;
+      position: absolute;
+      top: 20px;
+      left: 10px;
       font-size: 18px;
       @include transform(skew(-20deg));
+      cursor: pointer;
     }
   }
 }

@@ -146,3 +146,25 @@
     <?php print render($page['footer']); ?>
   </div>
 </footer>
+
+<?php 
+if (!drupal_is_front_page()) {
+  $usermenu = theme('links_clear', array('links' => menu_navigation_links('user-menu'), 'attributes' => array('class'=> array('user-menu')) ));
+  $userclass = $usermenu ? 'has-user-menu' : 'no-user-menu';
+  
+  $menu = '<div class="extra-menu-overlay"><div class="inner-menu-block"><div class="inner-menu-overlay ' . $userclass  . '">';
+  $mainmenu = menu_navigation_links('main-menu');
+  $menu .= '<ul class="nav-list-menu">';
+  $menu .= theme('links_clear', array('links' => $mainmenu));
+
+  if ($usermenu) {
+    $menu .= $usermenu;
+  } else {
+    global $base_url;
+    $menu .= '<li>' . l('Log in', $base_url . '/user/login') . '</li>';
+  }
+  $menu .= '</ul>';
+  $menu .= '<span class="menu-close fa fa-close"></span></div></div></div>';
+  print $menu;
+}
+?>

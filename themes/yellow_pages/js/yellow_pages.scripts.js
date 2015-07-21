@@ -107,5 +107,50 @@ var Drupal = Drupal || {};
     }
   }
 
+  Drupal.behaviors.inner_menu = {
+    attach : function () {
+      var $innerMenuWrapper = $('.inner-menu-wrapper');
+      if ($innerMenuWrapper.length) {
+        var $extraMenuOverlay = $('.extra-menu-overlay'),
+            $innerMenuBlock =  $extraMenuOverlay.find('.inner-menu-block'),
+            $body = $('body');
+        $innerMenuWrapper.find('.menu-btn').click(function() {
+          $body.css('position', 'relative');
+          var bodyPd = $body.css('padding-top');
+          var menuBtnL = $(window).width() - $(this).offset().left + 42;
+          $extraMenuOverlay.addClass('is-opened').css({
+            top: bodyPd
+          });
+          console.log($innerMenuBlock.offset().left);
+          if (menuBtnL > 300) {
+            $innerMenuBlock.css({
+              transform : 'translate3d(-' + menuBtnL + 'px, 0px ,0px)'
+            })
+          }
+          else {
+            $innerMenuBlock.css({
+              transform : 'translate3d(-350px, 0px ,0px)'
+            })
+          }
+        });
+        var hideMenu = function() {
+          $body.css('position', '');
+          $innerMenuBlock.css({
+            transform : 'translate3d(0px, 0px ,0px)'
+          });
+          setTimeout(function() {
+            $extraMenuOverlay.removeClass('is-opened')
+          }, 300);
+        }
+        $innerMenuWrapper.find('.menu-close').click(function() {
+          hideMenu();
+        });
+        $extraMenuOverlay.click(function() {
+          hideMenu();
+        });
+      }
+    }
+  }
+
 
 }) (jQuery, Drupal);

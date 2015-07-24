@@ -73,10 +73,7 @@ function yellow_pages_preprocess_menu_link(&$variables) {
  */
 function yellow_pages_menu_link(array $variables) {
   $element = $variables ['element'];
-  $sub_menu = '';
-  if ($element ['#below']) {
-    $sub_menu = drupal_render($element ['#below']);
-  }
+  $sub_menu =  $element['#below'] ? drupal_render($element ['#below']) : '';
   $prefix = isset($variables['prefix']) ? $variables['prefix'] : '';
   $suffix = isset($variables['suffix']) ? $variables['suffix'] : '';
   if ($suffix || $prefix) {
@@ -91,11 +88,9 @@ function yellow_pages_menu_link(array $variables) {
  */
 function yellow_pages_preprocess_region(&$variables) {
   if ($variables['region'] == 'header') {
-    if (!drupal_is_front_page()) {
-      $menu = '<div class="inner-menu-wrapper"><span class="menu-btn fa fa-bars"><span class="menu-text">' . t('Menu') . '</span></span>';
-      $menu .= '</div>';
-      $variables['content'] = $menu . $variables['content'];
-    }
+    $txt = '<div class="inner-menu-wrapper"><span class="menu-btn fa fa-bars"><span class="menu-text">' . t('Menu') . '</span></span>';
+    $txt .= '</div><span class="fa fa-search search-link-mobile"></span>';
+    $variables['content'] = $txt . $variables['content'];
   }
 }
 
@@ -120,6 +115,21 @@ function yellow_pages_theme() {
       'function' => 'yellow_pages_links_clear',
     ),
   );
+}
+
+/**
+ * Implements hook_preprocess_menu_tree().
+ */
+function yellow_pages_preprocess_menu_tree(&$variables) {
+  if ($variables['menu_name'] == 'menu-category-menu') {
+    global $base_url;
+    $variables['#suffix'] = '<a href="' . $base_url . '/search' . '" class="category-link"><span class="link-icon"></span>' . t('Список всех ссылок') . '</a>';
+  }
+}
+
+function yellow_pages_html_head_alter(&$elements) {
+  // Optimize the mobile viewport.
+  if(isset($elements['circle_viewport'])) unset($elements['circle_viewport']);
 }
 
 /**

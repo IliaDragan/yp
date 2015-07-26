@@ -50,5 +50,7 @@ function circle_menu_tree($variables) {
   if (isset($variables['menu_name']) && $variables['menu_name']) {
     $menu_class .= ' menu-' . $variables['menu_name'];
   }
-  return '<ul class="' . $menu_class . '">' . $variables['tree'] . '</ul>';
+  $prefix = isset($variables['#prefix']) ? $variables['#prefix'] : '';
+  $suffix = isset($variables['#suffix']) ? $variables['#suffix'] : '';
+  return $prefix . '<ul class="' . $menu_class . '">' . $variables['tree'] . '</ul>' . $suffix;
 }

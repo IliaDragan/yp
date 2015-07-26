@@ -4,7 +4,7 @@
  * Synchronize data with MDB.
  */
 
- define('CATEGORIES_VOCABULARY', 'categories');
+ define('CATEGORIES_VOCABULARY', 'products');
  define('SYNC_BATCH', 5);
 
 /**
@@ -83,7 +83,7 @@ function yellow_pages_sync_nodes(&$context) {
     $node_defaults['language'] = 'ru';
     $entity = entity_create('node', $node_defaults);
 
-    // Categories.
+    // Products.
     if ($voc) {
       $query = $conn->select('enterprise_product', 'ep');
       $query->join('product_product', 'pp', 'ep.product_id = pp.id');
@@ -162,7 +162,7 @@ function yellow_pages_sync_fill_entity(stdClass $target, stdClass $source) {
 
   if (isset($source->products) && is_array($source->products)) {
     foreach ($source->products as $product) {
-      $target->field_categories[LANGUAGE_NONE][]['tid'] = $product;
+      $target->field_products[LANGUAGE_NONE][]['tid'] = $product;
     }
   }
 }

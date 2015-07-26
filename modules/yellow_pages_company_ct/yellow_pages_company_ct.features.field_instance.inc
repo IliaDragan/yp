@@ -167,8 +167,8 @@ function yellow_pages_company_ct_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-company-field_categories'
-  $field_instances['node-company-field_categories'] = array(
+  // Exported field_instance: 'node-company-field_products'
+  $field_instances['node-company-field_products'] = array(
     'bundle' => 'company',
     'default_value' => NULL,
     'deleted' => 0,
@@ -210,8 +210,8 @@ function yellow_pages_company_ct_field_default_field_instances() {
       ),
     ),
     'entity_type' => 'node',
-    'field_name' => 'field_categories',
-    'label' => 'Categories',
+    'field_name' => 'field_products',
+    'label' => 'Products',
     'required' => 0,
     'settings' => array(
       'user_register_form' => FALSE,
@@ -1221,7 +1221,7 @@ function yellow_pages_company_ct_field_default_field_instances() {
   // Translatables
   // Included for use with string extractors like potx.
   t('Address');
-  t('Categories');
+  t('Products');
   t('Description of activity');
   t('Email');
   t('Fax');

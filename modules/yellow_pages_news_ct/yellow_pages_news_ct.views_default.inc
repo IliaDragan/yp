@@ -99,7 +99,7 @@ function yellow_pages_news_ct_views_default_views() {
   $handler->display->display_options['arguments']['term_node_tid_depth']['default_argument_options']['anyall'] = '+';
   $handler->display->display_options['arguments']['term_node_tid_depth']['default_argument_options']['limit'] = TRUE;
   $handler->display->display_options['arguments']['term_node_tid_depth']['default_argument_options']['vocabularies'] = array(
-    'categories' => 'categories',
+    'products' => 'products',
   );
   $handler->display->display_options['arguments']['term_node_tid_depth']['summary']['number_of_records'] = '0';
   $handler->display->display_options['arguments']['term_node_tid_depth']['summary']['format'] = 'default_summary';
@@ -209,7 +209,7 @@ function yellow_pages_news_ct_views_default_views() {
   $handler->display->display_options['arguments']['term_node_tid_depth']['default_argument_options']['anyall'] = '+';
   $handler->display->display_options['arguments']['term_node_tid_depth']['default_argument_options']['limit'] = TRUE;
   $handler->display->display_options['arguments']['term_node_tid_depth']['default_argument_options']['vocabularies'] = array(
-    'categories' => 'categories',
+    'products' => 'products',
   );
   $handler->display->display_options['arguments']['term_node_tid_depth']['summary']['number_of_records'] = '0';
   $handler->display->display_options['arguments']['term_node_tid_depth']['summary']['format'] = 'default_summary';

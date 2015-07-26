@@ -286,7 +286,7 @@ function yellow_pages_frontend_default_page_manager_handlers() {
     $pane->pid = 'new-3d9778b1-7abf-433d-b291-0b9d07b04a20';
     $pane->panel = 'beta_25';
     $pane->type = 'entity_field';
-    $pane->subtype = 'node:field_categories';
+    $pane->subtype = 'node:field_products';
     $pane->shown = TRUE;
     $pane->access = array();
     $pane->configuration = array(
@@ -490,7 +490,7 @@ function yellow_pages_frontend_default_page_manager_handlers() {
     $pane->pid = 'new-f33d820c-cca1-4876-a2ad-add094193d1b';
     $pane->panel = 'beta_25';
     $pane->type = 'entity_field';
-    $pane->subtype = 'node:field_categories';
+    $pane->subtype = 'node:field_products';
     $pane->shown = TRUE;
     $pane->access = array();
     $pane->configuration = array(
@@ -755,7 +755,7 @@ function yellow_pages_frontend_default_page_manager_pages() {
     $pane->pid = 'new-eab6e1fc-1fb5-43de-804b-60e5b1a47267';
     $pane->panel = 'main';
     $pane->type = 'block';
-    $pane->subtype = 'menu-menu-category-menu';
+    $pane->subtype = 'menu-menu-product-menu';
     $pane->shown = TRUE;
     $pane->access = array();
     $pane->configuration = array(

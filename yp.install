@@ -172,3 +172,10 @@ function yp_install() {
     ->condition('language', 'ro', '=')
     ->execute();
 }
+
+/**
+ * Adds frontpage ad type.
+ */
+function yp_update_7001() {
+  _yp_create_ad_categories();
+}

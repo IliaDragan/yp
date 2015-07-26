@@ -10,18 +10,18 @@
 function yellow_pages_taxonomy_menu_default_menu_custom() {
   $menus = array();
 
-  // Exported menu: menu-category-menu.
-  $menus['menu-category-menu'] = array(
-    'menu_name' => 'menu-category-menu',
-    'title' => 'Category menu',
-    'description' => 'Automated menu items based on category terms.',
+  // Exported menu: menu-product-menu.
+  $menus['menu-product-menu'] = array(
+    'menu_name' => 'menu-product-menu',
+    'title' => 'Product menu',
+    'description' => 'Automated menu items based on product terms.',
     'language' => 'und',
     'i18n_mode' => 5,
   );
   // Translatables
   // Included for use with string extractors like potx.
-  t('Automated menu items based on category terms.');
-  t('Category menu');
+  t('Automated menu items based on product terms.');
+  t('Product menu');
 
 
   return $menus;

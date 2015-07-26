@@ -15,7 +15,7 @@ function yellow_pages_sync_admin_form($form, $form_state) {
 
   $form['submit'] = array(
     '#type' => 'submit',
-    '#prefix' => '<p>' . t('Import companies and categories from MDB source.') . '</p>',
+    '#prefix' => '<p>' . t('Import companies and products from MDB source.') . '</p>',
     '#value' => t('Start synchronisation'),
   );
 
@@ -30,8 +30,8 @@ function yellow_pages_sync_admin_form($form, $form_state) {
 function yellow_pages_sync_admin_form_submit($form, &$form_state) {
   $batch = array(
     'operations' => array(
-      // array('yellow_pages_sync_taxonomy', array()),
-      array('yellow_pages_sync_nodes', array()),
+      array('yellow_pages_sync_taxonomy', array()),
+//       array('yellow_pages_sync_nodes', array()),
     ),
     'title' => t('Synchronizing with MDB data...'),
     'finished' => 'yellow_pages_sync_batch_finish',

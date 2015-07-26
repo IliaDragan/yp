@@ -161,7 +161,7 @@ header {
 .menu-main-menu,
 .language-switcher-locale-url,
 .menu-user-menu,
-.menu-menu-category-menu {
+.menu-menu-product-menu {
   margin: 0;
   padding: 0px;
   overflow: hidden;
@@ -296,7 +296,7 @@ header {
     }
   }
 }
-.menu-menu-category-menu {
+.menu-menu-product-menu {
   margin: 0 -30px;
   padding: 0 15px;
   background: $main-yellow;
@@ -377,7 +377,7 @@ header {
     }
   }
 }
-.category-link {
+.product-link {
   display: none;
 }
 .inner-menu-wrapper {
@@ -2196,12 +2196,12 @@ article {
   }
 }
 @include breakpoint ($desktopsm) {
-  .pane-menu-menu-category-menu {
+  .pane-menu-menu-product-menu {
     padding-right: 20px;
   }
 }
 @include breakpoint ($tabletlg) {
-  .pane-menu-menu-category-menu {
+  .pane-menu-menu-product-menu {
     padding-right: 20px;
   }
 }
@@ -2218,7 +2218,7 @@ article {
   .block-system.block-menu{
     display: none;
   }
-  .category-link {
+  .product-link {
     clear: both;
     display: block;
     margin: 0 -30px;
@@ -2310,7 +2310,7 @@ article {
   .mobile-hidden {
     display: none !important;
   }
-  .pane-menu-menu-category-menu {
+  .pane-menu-menu-product-menu {
     margin: 0 -15px;
   }
   .node--news--slider_teaser {

@@ -4,6 +4,9 @@
  * Synchronize data with MDB.
  */
 
+ define('CATEGORIES_VOCABULARY', 'categories');
+ define('SYNC_BATCH', 5);
+
 /**
  * Implements hook_menu().
  */
@@ -22,20 +25,35 @@ function yellow_pages_sync_menu() {
   return $items;
 }
 
-function yellow_pages_sync_nodes() {
+function yellow_pages_sync_nodes(&$context) {
   $conn = Database::getConnection('default', 'mdb');
+
+  if (!isset($context['sandbox']['progress'])) {
+    $context['sandbox']['progress'] = 0;
+    $max_elements = $conn
+      ->select('enterprise_enterprise', 'ent')
+      ->countQuery()
+      ->execute()
+      ->fetchField();
+    $context['sandbox']['max'] = 1;//$max_elements;
+  }
+
   $query = $conn->select('enterprise_enterprise', 'ent');
 
   // Join the titles.
   $query->leftJoin('enterprise_title', 'ent_title', 'ent.id = ent_title.enterprise_id');
   // Join the url.
   $query->leftJoin('enterprise_www', 'ent_url', 'ent.id = ent_url.enterprise_id');
+  // Join the email.
+  $query->leftJoin('enterprise_email', 'ent_email', 'ent.id = ent_email.enterprise_id');
 
   $query
-    ->fields('ent', array('id', 'activity'))
+    ->fields('ent', array('id', 'activity', 'last_change'))
     ->fields('ent_title', array('title'))
     ->fields('ent_url', array('url'))
-    ->range(0, 1);
+    ->fields('ent_email', array('email'));
+
+  $query->range($context['sandbox']['progress'], 1);
 
   $result = $query
     ->execute()
@@ -49,24 +67,47 @@ function yellow_pages_sync_nodes() {
     'status' => 0,
     'promote' => 0,
   );
+  $voc = taxonomy_vocabulary_machine_name_load(CATEGORIES_VOCABULARY);
 
   foreach ($result as $source) {
-    $tnid = NULL;
     if (empty($source->title)) {
       continue;
     }
 
+    $tnid = NULL;
+
+    $context['sandbox']['progress']++;
+    $context['message'] = t('Now processing %title', array('%title' => $source->title));
+
     // Basics.
     $node_defaults['language'] = 'ru';
     $entity = entity_create('node', $node_defaults);
+
+    // Categories.
+    if ($voc) {
+      $query = $conn->select('enterprise_product', 'ep');
+      $query->join('product_product', 'pp', 'ep.product_id = pp.id');
+      $query->fields('pp', array('ru_field', 'ro_field', 'en_field'));
+      $query->condition('ep.enterprise_id', $source->id, '=');
+      $p_result = $query->execute()->fetchAll();
+
+      foreach ($p_result as $p) {
+        $source->products[] = yellow_pages_sync_create_term($p->ru_field, $voc->vid);
+      }
+    }
 
     // Fields.
     yellow_pages_sync_fill_entity($entity, $source);
 
     // Save new node.
     node_save($entity);
-    $entity->tnid = $tnid = $entity->nid;
-    node_save($entity);
+
+    // Update node parent.
+    $tnid = $entity->nid;
+    db_update('node')
+      ->fields(array('tnid' => $tnid))
+      ->condition('nid', $entity->nid, '=')
+      ->execute();
 
     // Translations.
     foreach ($languages as $lang) {
@@ -86,16 +127,47 @@ function yellow_pages_sync_nodes() {
       node_save($translated_entity);
     }
   }
+
+  if ($context['sandbox']['progress'] != $context['sandbox']['max']) {
+    $context['finished'] = $context['sandbox']['progress'] / $context['sandbox']['max'];
+  }
 }
 
 function yellow_pages_sync_fill_entity(stdClass $target, stdClass $source) {
+  // Remove any whitespace.
+  foreach (get_object_vars($source) as $key => $value) {
+    $source->{$key} = trim($value);
+  }
+
+  // Title.
   $target->title = $source->title;
-  $target->body[LANGUAGE_NONE][0]['value'] = $source->activity;
-  $target->field_company_site[LANGUAGE_NONE][0]['url'] = $source->url;
-  $target->field_mdb_sync_date[LANGUAGE_NONE][0]['value'] = date('Y-m-d H:i:s', time());
+
+  // Activity.
+  if (!empty($source->activity)){
+    $target->body[LANGUAGE_NONE][0]['value'] = $source->activity;
+  }
+
+  // Url.
+  if (!empty($source->url)) {
+    $target->field_company_site[LANGUAGE_NONE][0]['url'] = $source->url;
+  }
+
+  // Email.
+  if (!empty($source->email)) {
+    $target->field_email[LANGUAGE_NONE][0]['email'] = $source->email;
+  }
+
+  // Sync date.
+  $target->field_mdb_sync_date[LANGUAGE_NONE][0]['value'] = date('Y-m-d H:i:s', REQUEST_TIME);
+
+  if (isset($source->products) && is_array($source->products)) {
+    foreach ($source->products as $product) {
+      $target->field_categories[LANGUAGE_NONE][]['tid'] = $product;
+    }
+  }
 }
 
-function yellow_pages_sync_taxonomy() {
+function yellow_pages_sync_taxonomy(&$context) {
   $conn = Database::getConnection('default', 'mdb');
   $query = $conn->select('product_node', 'pn');
   $query->fields('pn', array('id', 'ru_field', 'ro_field', 'en_field'));
@@ -104,18 +176,17 @@ function yellow_pages_sync_taxonomy() {
   $query->condition('pn.id', '2', '>');
   $result = $query->execute()->fetchAll();
 
-  $m_name = 'categories';
-  $voc = taxonomy_vocabulary_machine_name_load($m_name);
+  $voc = taxonomy_vocabulary_machine_name_load(CATEGORIES_VOCABULARY);
 
   if (!$voc) {
-    watchdog('yp_sync', 'Vocabulary with name "@name" not found.', array('@name' => $m_name), WATCHDOG_NOTICE);
+    watchdog('yp_sync', 'Vocabulary with name "@name" not found.', array('@name' => CATEGORIES_VOCABULARY), WATCHDOG_NOTICE);
     return;
   }
 
   $vid = $voc->vid;
 
   foreach ($result as $r) {
-    $name = trim($r->ru_field);
+    $name = $r->ru_field;
     $parent = yellow_pages_sync_create_term($name, $vid);
 
     $query = $conn->select('product_product', 'pp');
@@ -151,4 +222,14 @@ function yellow_pages_sync_create_term($name, $vid, $parent = NULL) {
   }
 
   return $term->tid;
+}
+
+function yellow_pages_sync_batch_finish($success, $results, $operations) {
+  drupal_get_messages();
+  if ($success) {
+    drupal_set_message(t('Synchronisation process complete.'));
+  }
+  else {
+    drupal_set_message(t('Synchronisation process failed.'), 'error');
+  }
 }

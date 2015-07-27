@@ -102,7 +102,6 @@ features[variable][] = forward_display_article
 features[variable][] = forward_display_company
 features[variable][] = forward_display_news
 features[variable][] = forward_display_nodes
-features[variable][] = forward_display_simpleads
 features[variable][] = forward_display_teasers
 features[variable][] = forward_dynamic_block
 features[variable][] = forward_email_message

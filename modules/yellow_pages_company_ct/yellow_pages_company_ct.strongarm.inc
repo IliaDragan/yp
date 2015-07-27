@@ -190,13 +190,6 @@ function yellow_pages_company_ct_strongarm() {
   $strongarm = new stdClass();
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
-  $strongarm->name = 'forward_display_simpleads';
-  $strongarm->value = FALSE;
-  $export['forward_display_simpleads'] = $strongarm;
-
-  $strongarm = new stdClass();
-  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
-  $strongarm->api_version = 1;
   $strongarm->name = 'forward_display_teasers';
   $strongarm->value = 1;
   $export['forward_display_teasers'] = $strongarm;
@@ -580,7 +573,6 @@ Thank you for spreading the word about [site:name]. We appreciate your help.';
     'article' => 'article',
     'company' => 'company',
     'news' => 'news',
-    'simpleads' => 'simpleads',
   );
   $export['service_links_node_types'] = $strongarm;
 

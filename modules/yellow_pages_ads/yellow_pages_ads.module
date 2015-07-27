@@ -1,0 +1,7 @@
+<?php
+/**
+ * @file
+ * Code for the Yellow Pages Ads feature.
+ */
+
+include_once 'yellow_pages_ads.features.inc';

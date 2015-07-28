@@ -64,7 +64,8 @@ header {
   background: #fff;
   position: relative;
   @include breakpoint ($mobile) {
-    padding-top: 10px;
+    padding-top: 7px;
+    padding-bottom: 7px;
     .container {
       > .navbar-header {
         margin: 0;
@@ -80,8 +81,12 @@ header {
     @include breakpoint ($tabletlgdown) {
       width: 67%;
     }
+    @include breakpoint ($mobile) {
+      padding-top: 4px;
+    }
     @include breakpoint ($mobilesm) {
       display: none;
+      padding-top: 0;
     }
   }
   form.search-block-form {
@@ -124,27 +129,26 @@ header {
     overflow: hidden;
     .block-locale {
       float: left;
+      margin-top: 3px;
     }
     .block-menu {
       float: right;
     }
   }
+  .logo  {
+    height: 84px;
+    img {
+      max-height: 100%;
+      width: auto;
+    }
+  }
   @include breakpoint ($mobile) {
     .logo {
-      width: 80px;
       height: 36px;
       margin: 0px;
-      background: url('../images/YP-logo-mob.png') center center no-repeat;
-      background-size: 80px;
-      img {
-        display: none;
-      }
     }
     .region-header {
       padding-top: 0px;
-      .block-locale {
-        margin-top: 6px;
-      }
     }
     form.search-block-form,
     form.search-block-form--2 {
@@ -387,7 +391,7 @@ header {
     font-size: 18px;
     cursor: pointer;
     @include breakpoint ($mobile) {
-      padding: 15px;
+      padding: 15px 15px 10px;
       margin-top: -5px;
     }
   }
@@ -411,7 +415,6 @@ header {
     left: 100%;
     padding-left: 100px;
     z-index: 100;
-    @include transition(transform 0.3s);
     @include breakpoint ($mobile) {
       padding-left: 80px;
     }
@@ -1905,6 +1908,8 @@ article {
   }
   @include breakpoint ($mobile) {
     display: none;
+    height: 0;
+    padding: 0;
   }
 }
 .region-aside-a,

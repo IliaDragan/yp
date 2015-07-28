@@ -5,3 +5,85 @@
  */
 
 include_once 'yellow_pages_ads.features.inc';
+
+/**
+ * Implements hook_menu().
+ */
+function yellow_pages_ads_menu() {
+  $menu = array();
+
+  $menu['node/%/ad_rules'] = array(
+    'title' => 'Display rules',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('yellow_pages_ads_node_display_rules_form', 1),
+    'access callback' => 'yellow_pages_ads_rules_access',
+    'type' => MENU_LOCAL_TASK,
+    'file' => 'yellow_pages_ads.rules.inc',
+    'weight' => 2,
+  );
+
+  $menu['yellow_pages_ads/autocomplete'] = array(
+    'page callback' => 'yellow_pages_ads_autocomplete',
+    'access arguments' => array('access content'),
+    'type' => MENU_CALLBACK,
+    'file' => 'yellow_pages_ads.rules.inc',
+  );
+
+  return $menu;
+}
+
+/**
+ * Implements hook_permission().
+ */
+function yellow_pages_ads_permission() {
+  $perm = array();
+
+  $perm['access rules config'] = array(
+    'title' => t('Advertisement display rules'),
+    'description' => t('Use this to allow roles manage ad display rules.'),
+  );
+
+  return $perm;
+}
+
+/**
+ * Implements hook_admin_paths().
+ */
+function yellow_pages_ads_admin_paths() {
+  $paths = array(
+    'node/*/ad_rules' => TRUE,
+  );
+
+  return $paths;
+}
+
+/**
+ * Forbids access to rules tab for any content type
+ * except advertisements.
+ *
+ * @return boolean
+ *   Access status.
+ */
+function yellow_pages_ads_rules_access() {
+  $nid = arg(1);
+  $node = node_load($nid);
+
+  if (is_object($node) && $node->type == 'advertisement' && user_access('access rules config')) {
+    return TRUE;
+  }
+
+  return FALSE;
+}
+
+/**
+ * Implements hook_theme().
+ */
+function yellow_pages_ads_theme() {
+  $hooks = array();
+
+  $hooks['yellow_pages_ads_rules_form'] = array(
+    'render element' => 'element',
+  );
+
+  return $hooks;
+}

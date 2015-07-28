@@ -87,3 +87,12 @@ function yellow_pages_ads_theme() {
 
   return $hooks;
 }
+
+/**
+ * Implements hook_ctools_plugin_directory().
+ */
+function yellow_pages_ads_ctools_plugin_directory($module, $plugin) {
+  if ($module == 'ctools' && $plugin == 'content_types') {
+    return 'plugins/content_types';
+  }
+}

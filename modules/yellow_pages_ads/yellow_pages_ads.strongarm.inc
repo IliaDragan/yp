@@ -102,7 +102,7 @@ function yellow_pages_ads_strongarm() {
       'display' => array(
         'language' => array(
           'default' => array(
-            'weight' => '0',
+            'weight' => '3',
             'visible' => FALSE,
           ),
           'teaser' => array(

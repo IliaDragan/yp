@@ -19,9 +19,10 @@ function yellow_pages_ads_field_default_field_instances() {
     'display' => array(
       'default' => array(
         'label' => 'hidden',
+        'module' => 'text',
         'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 0,
+        'type' => 'text_default',
+        'weight' => 1,
       ),
       'slider_teaser' => array(
         'label' => 'above',
@@ -64,10 +65,14 @@ function yellow_pages_ads_field_default_field_instances() {
     'description' => '',
     'display' => array(
       'default' => array(
-        'label' => 'above',
-        'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 1,
+        'label' => 'hidden',
+        'module' => 'image',
+        'settings' => array(
+          'image_link' => '',
+          'image_style' => '',
+        ),
+        'type' => 'image',
+        'weight' => 0,
       ),
       'slider_teaser' => array(
         'label' => 'above',
@@ -133,7 +138,7 @@ function yellow_pages_ads_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 4,
+        'weight' => 5,
       ),
       'slider_teaser' => array(
         'label' => 'above',
@@ -190,7 +195,7 @@ function yellow_pages_ads_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 3,
+        'weight' => 4,
       ),
       'slider_teaser' => array(
         'label' => 'above',
@@ -229,9 +234,10 @@ function yellow_pages_ads_field_default_field_instances() {
     'description' => '',
     'display' => array(
       'default' => array(
-        'label' => 'above',
+        'label' => 'hidden',
+        'module' => 'link',
         'settings' => array(),
-        'type' => 'hidden',
+        'type' => 'link_default',
         'weight' => 2,
       ),
       'slider_teaser' => array(

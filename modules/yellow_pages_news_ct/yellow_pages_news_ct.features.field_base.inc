@@ -10,13 +10,13 @@
 function yellow_pages_news_ct_field_default_field_bases() {
   $field_bases = array();
 
-  // Exported field_base: 'field_categories'
-  $field_bases['field_categories'] = array(
+  // Exported field_base: 'field_products'
+  $field_bases['field_products'] = array(
     'active' => 1,
     'cardinality' => -1,
     'deleted' => 0,
     'entity_types' => array(),
-    'field_name' => 'field_categories',
+    'field_name' => 'field_products',
     'foreign keys' => array(
       'tid' => array(
         'columns' => array(
@@ -35,7 +35,7 @@ function yellow_pages_news_ct_field_default_field_bases() {
     'settings' => array(
       'allowed_values' => array(
         0 => array(
-          'vocabulary' => 'categories',
+          'vocabulary' => 'products',
           'parent' => 0,
         ),
       ),

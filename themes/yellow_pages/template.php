@@ -62,7 +62,7 @@ function yellow_pages_preprocess_field(&$vars) {
  * Implements hook_preprocess_menu_link().
  */
 function yellow_pages_preprocess_menu_link(&$variables) {
-  if ($variables['theme_hook_original'] == 'menu_link__menu_category_menu') {
+  if ($variables['theme_hook_original'] == 'menu_link__menu_product_menu') {
     $variables['prefix'] = '<span>';
     $variables['suffix'] = '</span>';
   }
@@ -121,9 +121,9 @@ function yellow_pages_theme() {
  * Implements hook_preprocess_menu_tree().
  */
 function yellow_pages_preprocess_menu_tree(&$variables) {
-  if ($variables['menu_name'] == 'menu-category-menu') {
+  if ($variables['menu_name'] == 'menu-product-menu') {
     global $base_url;
-    $variables['#suffix'] = '<a href="' . $base_url . '/search' . '" class="category-link"><span class="link-icon"></span>' . t('Список всех ссылок') . '</a>';
+    $variables['#suffix'] = '<a href="' . $base_url . '/search' . '" class="product-link"><span class="link-icon"></span>' . t('Список всех ссылок') . '</a>';
   }
 }
 

@@ -72,8 +72,8 @@ function yellow_pages_article_ct_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-article-field_categories'
-  $field_instances['node-article-field_categories'] = array(
+  // Exported field_instance: 'node-article-field_products'
+  $field_instances['node-article-field_products'] = array(
     'bundle' => 'article',
     'default_value' => array(),
     'deleted' => 0,
@@ -114,8 +114,8 @@ function yellow_pages_article_ct_field_default_field_instances() {
       ),
     ),
     'entity_type' => 'node',
-    'field_name' => 'field_categories',
-    'label' => 'Categories',
+    'field_name' => 'field_products',
+    'label' => 'Products',
     'required' => 0,
     'settings' => array(
       'user_register_form' => FALSE,
@@ -459,7 +459,7 @@ function yellow_pages_article_ct_field_default_field_instances() {
   // Translatables
   // Included for use with string extractors like potx.
   t('Body');
-  t('Categories');
+  t('Products');
   t('Companies');
   t('List image');
   t('Main image');

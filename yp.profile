@@ -37,6 +37,14 @@ function yp_install_tasks($install_state) {
     'function' => '_yp_enable_modules',
   );
 
+  $task['yp_create_ad_categories'] = array(
+    'display_name' => st('Setup ad categories'),
+    'display' => FALSE,
+    'type' => 'normal',
+    'run' => INSTALL_TASK_RUN_IF_NOT_COMPLETED,
+    'function' => '_yp_create_ad_categories',
+  );
+
   return $task;
 }
 
@@ -61,4 +69,19 @@ function _yp_enable_modules() {
   );
 
   module_enable($modules);
+}
+
+/**
+ * Callback for creating ad categories.
+ */
+function _yp_create_ad_categories() {
+  $voc = taxonomy_vocabulary_machine_name_load('ad_groups');
+
+  if ($voc) {
+    $term = new stdClass();
+    $term->name = 'Frontpage Ads';
+    $term->vid = $voc->vid;
+
+    $t = taxonomy_term_save($term);
+  }
 }

@@ -59,7 +59,7 @@ function yellow_pages_article_ct_views_default_views() {
   $handler->display->display_options['arguments']['term_node_tid_depth']['default_argument_options']['anyall'] = '+';
   $handler->display->display_options['arguments']['term_node_tid_depth']['default_argument_options']['limit'] = TRUE;
   $handler->display->display_options['arguments']['term_node_tid_depth']['default_argument_options']['vocabularies'] = array(
-    'categories' => 'categories',
+    'products' => 'products',
   );
   $handler->display->display_options['arguments']['term_node_tid_depth']['summary']['number_of_records'] = '0';
   $handler->display->display_options['arguments']['term_node_tid_depth']['summary']['format'] = 'default_summary';
@@ -122,7 +122,7 @@ function yellow_pages_article_ct_views_default_views() {
   $handler->display->display_options['arguments']['term_node_tid_depth']['default_argument_options']['anyall'] = '+';
   $handler->display->display_options['arguments']['term_node_tid_depth']['default_argument_options']['limit'] = TRUE;
   $handler->display->display_options['arguments']['term_node_tid_depth']['default_argument_options']['vocabularies'] = array(
-    'categories' => 'categories',
+    'products' => 'products',
   );
   $handler->display->display_options['arguments']['term_node_tid_depth']['summary']['number_of_records'] = '0';
   $handler->display->display_options['arguments']['term_node_tid_depth']['summary']['format'] = 'default_summary';
@@ -149,13 +149,13 @@ function yellow_pages_article_ct_views_default_views() {
   $handler->display->display_options['allow']['exposed_form'] = 0;
   $handler->display->display_options['allow']['fields_override'] = 0;
   $handler->display->display_options['argument_input'] = array(
-    'field_categories_tid' => array(
+    'field_products_tid' => array(
       'type' => 'context',
       'context' => 'entity:taxonomy_term.name',
       'context_optional' => 0,
       'panel' => '0',
       'fixed' => '',
-      'label' => 'Content: Categories (field_categories)',
+      'label' => 'Content: Products (field_products)',
     ),
   );
 
@@ -180,13 +180,13 @@ function yellow_pages_article_ct_views_default_views() {
   $handler->display->display_options['allow']['exposed_form'] = 0;
   $handler->display->display_options['allow']['fields_override'] = 0;
   $handler->display->display_options['argument_input'] = array(
-    'field_categories_tid' => array(
+    'field_products_tid' => array(
       'type' => 'context',
       'context' => 'entity:taxonomy_term.name',
       'context_optional' => 0,
       'panel' => '0',
       'fixed' => '',
-      'label' => 'Content: Categories (field_categories)',
+      'label' => 'Content: Products (field_products)',
     ),
   );
   $translatables['articles'] = array(

@@ -99,6 +99,9 @@ projects[node_expire][subdir] = "contrib"
 projects[panels][version] = "3.5"
 projects[panels][subdir] = "contrib"
 
+projects[pathauto][version] = "1.2"
+projects[pathauto][subdir] = "contrib"
+
 projects[rules][version] = "2.9"
 projects[rules][subdir] = "contrib"
 
@@ -122,6 +125,9 @@ projects[strongarm][subdir] = "contrib"
 
 projects[taxonomy_menu][version] = "1.5"
 projects[taxonomy_menu][subdir] = "contrib"
+
+projects[token][version] = "1.6"
+projects[token][subdir] = "contrib"
 
 projects[variable][version] = "2.5"
 projects[variable][subdir] = "contrib"

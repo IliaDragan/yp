@@ -58,6 +58,53 @@ function yellow_pages_ads_field_default_field_instances() {
     ),
   );
 
+  // Exported field_instance: 'node-advertisement-field_ad_category'
+  $field_instances['node-advertisement-field_ad_category'] = array(
+    'bundle' => 'advertisement',
+    'default_value' => array(
+      0 => array(
+        'value' => 'sidebar',
+      ),
+    ),
+    'deleted' => 0,
+    'description' => '',
+    'display' => array(
+      'default' => array(
+        'label' => 'above',
+        'module' => 'list',
+        'settings' => array(),
+        'type' => 'list_default',
+        'weight' => 6,
+      ),
+      'slider_teaser' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+      'teaser' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+    ),
+    'entity_type' => 'node',
+    'field_name' => 'field_ad_category',
+    'label' => 'Category',
+    'required' => 1,
+    'settings' => array(
+      'user_register_form' => FALSE,
+    ),
+    'widget' => array(
+      'active' => 1,
+      'module' => 'options',
+      'settings' => array(),
+      'type' => 'options_select',
+      'weight' => 2,
+    ),
+  );
+
   // Exported field_instance: 'node-advertisement-field_ad_image'
   $field_instances['node-advertisement-field_ad_image'] = array(
     'bundle' => 'advertisement',
@@ -176,7 +223,7 @@ function yellow_pages_ads_field_default_field_instances() {
         'year_range' => '-0:+1',
       ),
       'type' => 'date_popup',
-      'weight' => 5,
+      'weight' => 6,
     ),
   );
 
@@ -222,7 +269,7 @@ function yellow_pages_ads_field_default_field_instances() {
       'module' => 'options',
       'settings' => array(),
       'type' => 'options_buttons',
-      'weight' => 2,
+      'weight' => 3,
     ),
   );
 
@@ -292,6 +339,7 @@ function yellow_pages_ads_field_default_field_instances() {
   // Translatables
   // Included for use with string extractors like potx.
   t('Body');
+  t('Category');
   t('Image');
   t('Schedule');
   t('Type');

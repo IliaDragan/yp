@@ -101,7 +101,7 @@ function yellow_pages_ads_theme() {
  * @return array
  *   Set of node objects.
  */
-function yellow_pages_ads_get_ads($limit = YP_ADS_AMOUNT, $order = 'random') {
+function yellow_pages_ads_get_ads($limit = YP_ADS_AMOUNT, $category = 'sidebar', $order = 'random') {
   $node = menu_get_object('node');
   $forced_hidden = yellow_pages_ads_get_priority_ads($node->nid, 0);
   $forced_shown = yellow_pages_ads_get_priority_ads($node->nid, 1);
@@ -109,9 +109,11 @@ function yellow_pages_ads_get_ads($limit = YP_ADS_AMOUNT, $order = 'random') {
   $forced_result = array();
   if (!empty($forced_shown)) {
     $query = db_select('node', 'n');
+    $query->join('field_data_field_ad_category', 'ad_cat', 'n.nid = ad_cat.entity_id');
     $query->fields('n', array('nid'));
     $query->condition('n.status', NODE_PUBLISHED, '=');
     $query->condition('n.nid', $forced_shown, 'IN');
+    $query->condition('ad_cat.field_ad_category_value', $category, '=');
     $forced_result = $query->execute()->fetchCol();
   }
 
@@ -119,8 +121,10 @@ function yellow_pages_ads_get_ads($limit = YP_ADS_AMOUNT, $order = 'random') {
   $forced_count = count($forced_result);
   if ($forced_count < $limit) {
     $query = db_select('node', 'n');
+    $query->join('field_data_field_ad_category', 'ad_cat', 'n.nid = ad_cat.entity_id');
     $query->fields('n', array('nid'));
     $query->condition('n.status', NODE_PUBLISHED, '=');
+    $query->condition('ad_cat.field_ad_category_value', $category, '=');
     $query->range(0, $limit - $forced_count);
 
     if ($order == 'asc' || $order == 'desc') {
@@ -190,6 +194,67 @@ function yellow_pages_ads_create_content(array $nodes) {
   }
 
   return implode('', $content);
+}
+
+/**
+ * Implements hook_cron().
+ */
+function yellow_pages_ads_cron() {
+  $query = new EntityFieldQuery();
+  $query->entityCondition('entity_type', 'node');
+  $query->entityCondition('bundle', 'advertisement');
+  $result = $query->execute();
+
+  $nids = array_keys($result['node']);
+  $nodes = node_load_multiple($nids);
+
+  foreach ($nodes as $node) {
+    if (yellow_pages_ads_scheduler($node)) {
+      node_save($node);
+    }
+  }
+}
+
+/**
+ * Implements hook_node_presave().
+ */
+function yellow_pages_ads_node_presave($node) {
+  if ($node->type == 'advertisement') {
+    yellow_pages_ads_scheduler($node);
+  }
+}
+
+/**
+ * Publishes or unpublishes the node depending on it's scheduled
+ * settings.
+ *
+ * @param stdClass $node
+ *   Node object.
+ */
+function yellow_pages_ads_scheduler(stdClass $node) {
+  $ad_schedule = field_get_items('node', $node, 'field_ad_schedule');
+
+  if (!$ad_schedule) {
+    return FALSE;
+  }
+
+  $publish_date = strtotime($ad_schedule[0]['value']);
+  $unpublish_date = strtotime($ad_schedule[0]['value2']);
+
+  $new_status = $node->status;
+  if ($node->status == NODE_PUBLISHED && ($unpublish_date < REQUEST_TIME || $publish_date > REQUEST_TIME)) {
+    $new_status = NODE_NOT_PUBLISHED;
+  }
+  elseif ($node->status == NODE_NOT_PUBLISHED && $publish_date < REQUEST_TIME && $unpublish_date > REQUEST_TIME) {
+    $new_status = NODE_PUBLISHED;
+  }
+
+  if ($new_status != $node->status) {
+    $node->status = $new_status;
+    return TRUE;
+  }
+
+  return FALSE;
 }
 
 /**

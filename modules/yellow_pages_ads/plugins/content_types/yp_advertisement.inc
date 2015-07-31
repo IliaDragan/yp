@@ -27,6 +27,14 @@ function yellow_pages_ads_plugin_edit_form($form, &$form_state) {
     '#size' => 3,
   );
 
+  $field_ad_category = field_info_field('field_ad_category');
+  $form['ads_category'] = array(
+    '#type' => 'select',
+    '#title' => t('Filter by category'),
+    '#options' => $field_ad_category['settings']['allowed_values'],
+    '#default_value' => isset($conf['ads_category']) ? $conf['ads_category'] : 'sidebar',
+  );
+
   $form['ads_order'] = array(
     '#type' => 'select',
     '#title' => t('Ads order'),
@@ -50,6 +58,7 @@ function yellow_pages_ads_plugin_edit_form_submit($form, &$form_state) {
   $values = $form_state['values'];
 
   $form_state['conf']['ads_amount'] = $values['ads_amount'];
+  $form_state['conf']['ads_category'] = $values['ads_category'];
   $form_state['conf']['ads_order'] = $values['ads_order'];
 }
 
@@ -58,9 +67,10 @@ function yellow_pages_ads_plugin_edit_form_submit($form, &$form_state) {
  */
 function yellow_pages_ads_plugin_render($subtype, $conf, $panel_args, $context) {
   $amount = isset($conf['ads_amount']) ? $conf['ads_amount'] : YP_ADS_AMOUNT;
+  $category = isset($conf['ads_category']) ? $conf['ads_category'] : 'sidebar';
   $order = isset($conf['ads_order']) ? $conf['ads_order'] : 'random';
 
-  $nodes = yellow_pages_ads_get_ads($amount, $order);
+  $nodes = yellow_pages_ads_get_ads($amount, $category, $order);
   $content = yellow_pages_ads_create_content($nodes);
 
   $plugin_data = new stdClass();

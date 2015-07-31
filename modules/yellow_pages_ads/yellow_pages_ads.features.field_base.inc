@@ -27,6 +27,7 @@ function yellow_pages_ads_field_default_field_bases() {
     'module' => 'list',
     'settings' => array(
       'allowed_values' => array(
+        'topbar' => 'Topbar',
         'sidebar' => 'Sidebar',
         'content' => 'Content',
         'frontpage' => 'Frontpage',

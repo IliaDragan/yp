@@ -102,7 +102,7 @@
       <?php endif; ?>
       <?php print render($content['body']); ?>
       <div class="node-bottom">
-        <?php print render($content['field_categories']); ?>
+        <?php print render($content['field_products']); ?>
 
         <!-- Social links. -->
         <?php if (isset($service_links_rendered) && !empty($service_links_rendered)): ; ?>

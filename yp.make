@@ -114,9 +114,6 @@ projects[search_api_solr][subdir] = "contrib"
 projects[service_links][version] = "2.3"
 projects[service_links][subdir] = "contrib"
 
-projects[simpleads][version] = "1.9"
-projects[simpleads][subdir] = "contrib"
-
 projects[socialfield][version] = "1.4"
 projects[socialfield][subdir] = "contrib"
 

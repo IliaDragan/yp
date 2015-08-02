@@ -1816,16 +1816,6 @@ div.panel-pane div.node-teaser {
   }
 }
 
-.pane-simpleads-ad-groups-1 img {
-  max-width: 100%;
-}
-@media (min-width: 0px) and (max-width: 767px) {
-  .pane-simpleads-ad-groups-1 {
-    text-align: center;
-    padding-bottom: 20px;
-  }
-}
-
 .no-touch .node-company.node--company--full {
   margin-top: 0;
 }

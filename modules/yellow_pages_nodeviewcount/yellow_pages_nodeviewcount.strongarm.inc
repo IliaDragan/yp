@@ -23,7 +23,6 @@ function yellow_pages_nodeviewcount_strongarm() {
   $strongarm->name = 'nodeviewcount_node_types';
   $strongarm->value = array(
     'company' => 'company',
-    'simpleads' => 0,
     'article' => 0,
     'news' => 0,
   );

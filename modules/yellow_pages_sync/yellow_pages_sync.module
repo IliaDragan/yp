@@ -4,7 +4,7 @@
  * Synchronize data with MDB.
  */
 
- define('CATEGORIES_VOCABULARY', 'products');
+ define('SYNC_VOCABULARY', 'products');
  define('SYNC_BATCH', 5);
 
 /**
@@ -26,38 +26,14 @@ function yellow_pages_sync_menu() {
 }
 
 function yellow_pages_sync_nodes(&$context) {
-  $conn = Database::getConnection('default', 'mdb');
-
   if (!isset($context['sandbox']['progress'])) {
+    $xml_file = drupal_get_path('module', 'yellow_pages_sync') . '/data/enterprises.xml';
+    $xml_data = file_get_contents($xml_file);
+
+    $xml = new SimpleXMLElement($xml_data);
     $context['sandbox']['progress'] = 0;
-    $max_elements = $conn
-      ->select('enterprise_enterprise', 'ent')
-      ->countQuery()
-      ->execute()
-      ->fetchField();
-    $context['sandbox']['max'] = 1;//$max_elements;
+    $context['sandbox']['max'] = (int) $xml->count;
   }
-
-  $query = $conn->select('enterprise_enterprise', 'ent');
-
-  // Join the titles.
-  $query->leftJoin('enterprise_title', 'ent_title', 'ent.id = ent_title.enterprise_id');
-  // Join the url.
-  $query->leftJoin('enterprise_www', 'ent_url', 'ent.id = ent_url.enterprise_id');
-  // Join the email.
-  $query->leftJoin('enterprise_email', 'ent_email', 'ent.id = ent_email.enterprise_id');
-
-  $query
-    ->fields('ent', array('id', 'activity', 'last_change'))
-    ->fields('ent_title', array('title'))
-    ->fields('ent_url', array('url'))
-    ->fields('ent_email', array('email'));
-
-  $query->range($context['sandbox']['progress'], 1);
-
-  $result = $query
-    ->execute()
-    ->fetchAll();
 
   $languages = array_keys(locale_language_list('name'));
   $node_defaults = array(
@@ -67,37 +43,53 @@ function yellow_pages_sync_nodes(&$context) {
     'status' => 0,
     'promote' => 0,
   );
-  $voc = taxonomy_vocabulary_machine_name_load(CATEGORIES_VOCABULARY);
+  $voc = taxonomy_vocabulary_machine_name_load(SYNC_VOCABULARY);
 
-  foreach ($result as $source) {
-    if (empty($source->title)) {
-      continue;
-    }
-
+  foreach ($xml->results->{'list-item'} as $list_item) {
+    $item = yellow_page_sync_process_source_element($list_item);
     $tnid = NULL;
 
     $context['sandbox']['progress']++;
-    $context['message'] = t('Now processing %title', array('%title' => $source->title));
+//     $context['message'] = t('Now processing %title', array('%title' => $source->title));
 
     // Basics.
     $node_defaults['language'] = 'ru';
     $entity = entity_create('node', $node_defaults);
 
-    // Products.
-    if ($voc) {
-      $query = $conn->select('enterprise_product', 'ep');
-      $query->join('product_product', 'pp', 'ep.product_id = pp.id');
-      $query->fields('pp', array('ru_field', 'ro_field', 'en_field'));
-      $query->condition('ep.enterprise_id', $source->id, '=');
-      $p_result = $query->execute()->fetchAll();
-
-      foreach ($p_result as $p) {
-        $source->products[] = yellow_pages_sync_create_term($p->ru_field, $voc->vid);
+    // Title.
+    $entity->title = $item['title']['ru'];
+    // Emails.
+    if (!empty($item['email'])) {
+      foreach ($item['email'] as $k => $email) {
+        $entity->field_email[LANGUAGE_NONE][$k]['email'] = $email;
       }
     }
-
-    // Fields.
-    yellow_pages_sync_fill_entity($entity, $source);
+    // URL's.
+    if (!empty($item['url'])) {
+      foreach ($item['url'] as $k => $url) {
+        $entity->field_company_site[LANGUAGE_NONE][$k]['url'] = $url;
+      }
+    }
+    // Products.
+    if (!empty($item['products']['ru'])) {
+      foreach ($item['products']['ru'] as $k => $tid) {
+        $entity->field_products[LANGUAGE_NONE][]['tid'] = $tid;
+      }
+    }
+    // Addresses.
+    if (!empty($item['addresses'])) {
+      foreach ($item['addresses'] as $k => $address) {
+        $entity->field_address[LANGUAGE_NONE][] = array(
+          'country' => 'MD',
+          'locality' => $address['city'],
+          'postal_code' => $address['pcode'],
+          'thoroughfare' => $address['address'],
+          'premise' => $address['premise'],
+        );
+      }
+    }
+    // Sync time.
+    $entity->field_mdb_sync_date[LANGUAGE_NONE][0]['value'] = date('Y-m-d H:i:s', time());
 
     // Save new node.
     node_save($entity);
@@ -110,96 +102,164 @@ function yellow_pages_sync_nodes(&$context) {
       ->execute();
 
     // Translations.
-    foreach ($languages as $lang) {
-      if ($lang == 'ru') {
-        continue;
+//     foreach ($languages as $lang) {
+//       if ($lang == 'ru') {
+//         continue;
+//       }
+
+//       $node_defaults['language'] = $lang;
+//       $translated_entity = entity_create('node', $node_defaults);
+
+//       // Fields.
+//       yellow_pages_sync_fill_entity($translated_entity, $source);
+
+//       // Parent reference.
+//       $translated_entity->tnid = $tnid;
+
+//       node_save($translated_entity);
+//     }
+  }
+
+//   if ($context['sandbox']['progress'] != $context['sandbox']['max']) {
+//     $context['finished'] = $context['sandbox']['progress'] / $context['sandbox']['max'];
+//   }
+}
+
+function yellow_page_sync_process_source_element(SimpleXMLElement $source) {
+  $result = array();
+  // Title.
+  $result['title'] = yellow_pages_sync_process_source_element_title($source);
+  $result['email'] = yellow_pages_sync_process_source_element_email($source);
+  $result['url']   = yellow_pages_sync_process_source_element_url($source);
+  $result['products'] = yellow_pages_sync_process_source_element_products($source);
+  $result['addresses'] = yellow_pages_sync_process_source_element_address($source);
+
+  return $result;
+}
+
+function yellow_pages_sync_process_source_element_title(SimpleXMLElement $source) {
+  $source_title = $source->titles;
+  $titles = array();
+  $locales = array('ru', 'ro', 'en');
+
+  foreach ($source_title->{'list-item'} as $item) {
+    if ((string) $item->title_type == 'DE JURE') {
+      foreach ($locales as $locale) {
+        $titles[$locale] = (string) $item->title . ' ' . (string) $source->enterprise_type->{$locale . '_field'};
+        if (!empty((string) $item->appendix->{$locale . '_field'})) {
+          $titles[$locale] .= ', ' . (string) $item->appendix->{$locale . '_field'};
+        }
+      }
+    }
+    elseif ((string) $item->title_type == 'DE FACTO') {
+      foreach ($locales as $locale) {
+        $titles[$locale] .= ' / ' . (string) $item->title . ' ' . (string) $item->appendix->{$locale . '_field'};
+      }
+    }
+  }
+
+
+  yellow_pages_sync_trim($titles);
+
+  return $titles;
+}
+
+function yellow_pages_sync_process_source_element_email(SimpleXMLElement $source) {
+  $source_email = $source->emails;
+  $emails = array();
+
+  if (isset($source_email->{'list-item'})) {
+    foreach ($source_email->{'list-item'} as $item) {
+      $emails[] = (string) $item;
+    }
+  }
+
+  yellow_pages_sync_trim($emails);
+
+  return $emails;
+}
+
+function yellow_pages_sync_process_source_element_url(SimpleXMLElement $source) {
+  $source_url = $source->www_set;
+  $urls = array();
+
+  if (isset($source_url->{'list-item'})) {
+    foreach ($source_url->{'list-item'} as $item) {
+      $urls[] = (string) $item;
+    }
+  }
+
+  return $urls;
+}
+
+function yellow_pages_sync_process_source_element_products(SimpleXMLElement $source) {
+  $source_products = $source->products;
+  $products = array();
+  $locales = array('ru', 'ro', 'en');
+
+  if (isset($source_products->{'list-item'})) {
+    foreach ($source_products->{'list-item'} as $item) {
+      $p = $item->product;
+      foreach ($locales as $locale) {
+        $products[$locale][] = $p->{$locale . '_field'};
+      }
+    }
+  }
+
+  // @todo
+  // Process all locales and create related terms.
+  array_walk($products['ru'], function(&$product) {
+    $vid = yellow_pages_sync_term_target_vocabulary();
+    $product = yellow_pages_sync_create_term($product, $vid);
+  });
+
+  return $products;
+}
+
+function yellow_pages_sync_process_source_element_address(SimpleXMLElement $source) {
+  $source_address = $source->locations;
+  $addresses = array();
+
+  if (isset($source_address->{'list-item'})) {
+    foreach ($source_address->{'list-item'} as $item) {
+      $street = (string) $item->street->EN_field;
+      $house = (string) $item->house->EN_field;
+      $office = (string) $item->office;
+
+      $thoroughfare = str_replace(array('bd.', 'str.'), '', $street);
+      if (!empty($house)) {
+        $thoroughfare .= ', ' . $house;
       }
 
-      $node_defaults['language'] = $lang;
-      $translated_entity = entity_create('node', $node_defaults);
-
-      // Fields.
-      yellow_pages_sync_fill_entity($translated_entity, $source);
-
-      // Parent reference.
-      $translated_entity->tnid = $tnid;
-
-      node_save($translated_entity);
+      $addresses[] = array(
+        'city' => str_replace(array('mun.', 'or.', 's.'), '', (string) $item->town->EN_field),
+        'pcode' => (int) $item->pcode->{'list-item'},
+        'address' => $thoroughfare,
+        'premise' => $office,
+      );
     }
   }
 
-  if ($context['sandbox']['progress'] != $context['sandbox']['max']) {
-    $context['finished'] = $context['sandbox']['progress'] / $context['sandbox']['max'];
-  }
+  return $addresses;
 }
 
-function yellow_pages_sync_fill_entity(stdClass $target, stdClass $source) {
-  // Remove any whitespace.
-  foreach (get_object_vars($source) as $key => $value) {
-    $source->{$key} = trim($value);
+function yellow_pages_sync_term_target_vocabulary() {
+  $vid = &drupal_static(__FUNCTION__, NULL);
+
+  if (!$vid) {
+    $voc = taxonomy_vocabulary_machine_name_load(SYNC_VOCABULARY);
+    $vid = $voc->vid;
   }
 
-  // Title.
-  $target->title = $source->title;
-
-  // Activity.
-  if (!empty($source->activity)){
-    $target->body[LANGUAGE_NONE][0]['value'] = $source->activity;
-  }
-
-  // Url.
-  if (!empty($source->url)) {
-    $target->field_company_site[LANGUAGE_NONE][0]['url'] = $source->url;
-  }
-
-  // Email.
-  if (!empty($source->email)) {
-    $target->field_email[LANGUAGE_NONE][0]['email'] = $source->email;
-  }
-
-  // Sync date.
-  $target->field_mdb_sync_date[LANGUAGE_NONE][0]['value'] = date('Y-m-d H:i:s', REQUEST_TIME);
-
-  if (isset($source->products) && is_array($source->products)) {
-    foreach ($source->products as $product) {
-      $target->field_products[LANGUAGE_NONE][]['tid'] = $product;
-    }
-  }
+  return $vid;
 }
 
-function yellow_pages_sync_taxonomy(&$context) {
-  $conn = Database::getConnection('default', 'mdb');
-  $query = $conn->select('product_node', 'pn');
-  $query->fields('pn', array('id', 'ru_field', 'ro_field', 'en_field'));
-  // @todo
-  // Experimental setting.
-  $query->condition('pn.id', '2', '>');
-  $result = $query->execute()->fetchAll();
+function yellow_pages_sync_trim(array $input) {
+  array_walk($input, function (&$v) {
+    $v = trim($v);
+  });
 
-  $voc = taxonomy_vocabulary_machine_name_load(CATEGORIES_VOCABULARY);
-
-  if (!$voc) {
-    watchdog('yp_sync', 'Vocabulary with name "@name" not found.', array('@name' => CATEGORIES_VOCABULARY), WATCHDOG_NOTICE);
-    return;
-  }
-
-  $vid = $voc->vid;
-
-  foreach ($result as $r) {
-    $name = $r->ru_field;
-    $parent = yellow_pages_sync_create_term($name, $vid);
-
-    $query = $conn->select('product_product', 'pp');
-    $query->join('product_node_products', 'pnp', 'pp.id = pnp.product_id');
-    $query->fields('pp', array('ru_field', 'ro_field', 'en_field'));
-    $query->condition('pnp.node_id', $r->id, '=');
-    $pp_result = $query->execute()->fetchAll();
-
-    foreach ($pp_result as $pp_r) {
-      $pp_name = $pp_r->ru_field;
-      yellow_pages_sync_create_term($pp_name, $vid, $parent);
-    }
-  }
+  return $input;
 }
 
 function yellow_pages_sync_create_term($name, $vid, $parent = NULL) {

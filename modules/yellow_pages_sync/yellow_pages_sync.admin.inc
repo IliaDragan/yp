@@ -8,9 +8,9 @@
  * Admin form structure.
  */
 function yellow_pages_sync_admin_form($form, $form_state) {
-//   $node = node_load(524);
+//   $node = node_load(229);
 //   dump($node);
-//   $term = taxonomy_term_load(40);
+//   $term = taxonomy_term_load(89);
 //   dump($term);
 
   $form['submit'] = array(
@@ -31,7 +31,7 @@ function yellow_pages_sync_admin_form_submit($form, &$form_state) {
   $batch = array(
     'operations' => array(
       array('yellow_pages_sync_taxonomy', array()),
-//       array('yellow_pages_sync_nodes', array()),
+      array('yellow_pages_sync_nodes', array()),
     ),
     'title' => t('Synchronizing with MDB data...'),
     'finished' => 'yellow_pages_sync_batch_finish',

@@ -155,29 +155,6 @@ function yellow_pages_frontend_default_page_manager_handlers() {
     $pane->uuid = '1d752665-26b0-47c2-9728-6758a616e6f6';
     $display->content['new-1d752665-26b0-47c2-9728-6758a616e6f6'] = $pane;
     $display->panels['beta_75'][1] = 'new-1d752665-26b0-47c2-9728-6758a616e6f6';
-    $pane = new stdClass();
-    $pane->pid = 'new-d1e90075-d4a5-428d-82d7-3f0f9fb5fa6e';
-    $pane->panel = 'gamma_25';
-    $pane->type = 'block';
-    $pane->subtype = 'simpleads-ad_groups_1';
-    $pane->shown = TRUE;
-    $pane->access = array();
-    $pane->configuration = array(
-      'override_title' => 1,
-      'override_title_text' => '',
-      'override_title_heading' => 'h2',
-    );
-    $pane->cache = array();
-    $pane->style = array(
-      'settings' => NULL,
-    );
-    $pane->css = array();
-    $pane->extras = array();
-    $pane->position = 0;
-    $pane->locks = array();
-    $pane->uuid = 'd1e90075-d4a5-428d-82d7-3f0f9fb5fa6e';
-    $display->content['new-d1e90075-d4a5-428d-82d7-3f0f9fb5fa6e'] = $pane;
-    $display->panels['gamma_25'][0] = 'new-d1e90075-d4a5-428d-82d7-3f0f9fb5fa6e';
   $display->hide_title = PANELS_TITLE_FIXED;
   $display->title_pane = '0';
   $handler->conf['display'] = $display;
@@ -312,29 +289,6 @@ function yellow_pages_frontend_default_page_manager_handlers() {
     $pane->uuid = '3d9778b1-7abf-433d-b291-0b9d07b04a20';
     $display->content['new-3d9778b1-7abf-433d-b291-0b9d07b04a20'] = $pane;
     $display->panels['beta_25'][0] = 'new-3d9778b1-7abf-433d-b291-0b9d07b04a20';
-    $pane = new stdClass();
-    $pane->pid = 'new-b198df13-2eea-4b7b-adbe-5365ab0b3722';
-    $pane->panel = 'beta_25';
-    $pane->type = 'block';
-    $pane->subtype = 'simpleads-ad_groups_1';
-    $pane->shown = TRUE;
-    $pane->access = array();
-    $pane->configuration = array(
-      'override_title' => 1,
-      'override_title_text' => '',
-      'override_title_heading' => 'h2',
-    );
-    $pane->cache = array();
-    $pane->style = array(
-      'settings' => NULL,
-    );
-    $pane->css = array();
-    $pane->extras = array();
-    $pane->position = 1;
-    $pane->locks = array();
-    $pane->uuid = 'b198df13-2eea-4b7b-adbe-5365ab0b3722';
-    $display->content['new-b198df13-2eea-4b7b-adbe-5365ab0b3722'] = $pane;
-    $display->panels['beta_25'][1] = 'new-b198df13-2eea-4b7b-adbe-5365ab0b3722';
     $pane = new stdClass();
     $pane->pid = 'new-2e5256ac-e000-4cc2-bc98-a4b04f100b94';
     $pane->panel = 'tabs_75';
@@ -517,29 +471,6 @@ function yellow_pages_frontend_default_page_manager_handlers() {
     $display->content['new-f33d820c-cca1-4876-a2ad-add094193d1b'] = $pane;
     $display->panels['beta_25'][0] = 'new-f33d820c-cca1-4876-a2ad-add094193d1b';
     $pane = new stdClass();
-    $pane->pid = 'new-33845fa8-7f1e-42bd-9e78-09c1782a389d';
-    $pane->panel = 'beta_25';
-    $pane->type = 'block';
-    $pane->subtype = 'simpleads-ad_groups_1';
-    $pane->shown = TRUE;
-    $pane->access = array();
-    $pane->configuration = array(
-      'override_title' => 1,
-      'override_title_text' => '',
-      'override_title_heading' => 'h2',
-    );
-    $pane->cache = array();
-    $pane->style = array(
-      'settings' => NULL,
-    );
-    $pane->css = array();
-    $pane->extras = array();
-    $pane->position = 1;
-    $pane->locks = array();
-    $pane->uuid = '33845fa8-7f1e-42bd-9e78-09c1782a389d';
-    $display->content['new-33845fa8-7f1e-42bd-9e78-09c1782a389d'] = $pane;
-    $display->panels['beta_25'][1] = 'new-33845fa8-7f1e-42bd-9e78-09c1782a389d';
-    $pane = new stdClass();
     $pane->pid = 'new-8d802ac4-3a37-4f13-b900-f049ffb342db';
     $pane->panel = 'tabs_75';
     $pane->type = 'views_panes';
@@ -669,29 +600,6 @@ function yellow_pages_frontend_default_page_manager_pages() {
     $pane->uuid = '37bd4bd8-2ee3-48d6-af1b-0b81885f7486';
     $display->content['new-37bd4bd8-2ee3-48d6-af1b-0b81885f7486'] = $pane;
     $display->panels['alpha_75'][0] = 'new-37bd4bd8-2ee3-48d6-af1b-0b81885f7486';
-    $pane = new stdClass();
-    $pane->pid = 'new-5c0d7460-2864-4873-bdbf-34e06cd07aa6';
-    $pane->panel = 'beta_25';
-    $pane->type = 'block';
-    $pane->subtype = 'simpleads-ad_groups_1';
-    $pane->shown = TRUE;
-    $pane->access = array();
-    $pane->configuration = array(
-      'override_title' => 1,
-      'override_title_text' => '',
-      'override_title_heading' => 'h2',
-    );
-    $pane->cache = array();
-    $pane->style = array(
-      'settings' => NULL,
-    );
-    $pane->css = array();
-    $pane->extras = array();
-    $pane->position = 0;
-    $pane->locks = array();
-    $pane->uuid = '5c0d7460-2864-4873-bdbf-34e06cd07aa6';
-    $display->content['new-5c0d7460-2864-4873-bdbf-34e06cd07aa6'] = $pane;
-    $display->panels['beta_25'][0] = 'new-5c0d7460-2864-4873-bdbf-34e06cd07aa6';
   $display->hide_title = PANELS_TITLE_FIXED;
   $display->title_pane = '0';
   $handler->conf['display'] = $display;
@@ -867,29 +775,6 @@ function yellow_pages_frontend_default_page_manager_pages() {
     $pane->uuid = 'e2c554b3-6eb5-4372-8842-a42e3a2032c4';
     $display->content['new-e2c554b3-6eb5-4372-8842-a42e3a2032c4'] = $pane;
     $display->panels['alpha_75'][0] = 'new-e2c554b3-6eb5-4372-8842-a42e3a2032c4';
-    $pane = new stdClass();
-    $pane->pid = 'new-4d8256d4-e971-468f-a98c-8f295f162d14';
-    $pane->panel = 'beta_25';
-    $pane->type = 'block';
-    $pane->subtype = 'simpleads-ad_groups_1';
-    $pane->shown = TRUE;
-    $pane->access = array();
-    $pane->configuration = array(
-      'override_title' => 1,
-      'override_title_text' => '',
-      'override_title_heading' => 'h2',
-    );
-    $pane->cache = array();
-    $pane->style = array(
-      'settings' => NULL,
-    );
-    $pane->css = array();
-    $pane->extras = array();
-    $pane->position = 0;
-    $pane->locks = array();
-    $pane->uuid = '4d8256d4-e971-468f-a98c-8f295f162d14';
-    $display->content['new-4d8256d4-e971-468f-a98c-8f295f162d14'] = $pane;
-    $display->panels['beta_25'][0] = 'new-4d8256d4-e971-468f-a98c-8f295f162d14';
   $display->hide_title = PANELS_TITLE_FIXED;
   $display->title_pane = 'new-e2c554b3-6eb5-4372-8842-a42e3a2032c4';
   $handler->conf['display'] = $display;

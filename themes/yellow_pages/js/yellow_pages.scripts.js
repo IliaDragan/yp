@@ -126,7 +126,6 @@ function getWindowWidth () {
         var vwptHeight = $(window).height();
         if (vwptHeight > $('body').height()) {
           var $mainwrapper = $('.main-container'),
-            wrapperHeight = $mainwrapper.height(),
             $header = $('header#navbar'),
             $toolbar = $('#toolbar'),
             $regionAsides = $('.region-asides'),
@@ -151,31 +150,34 @@ function getWindowWidth () {
             $body = $('body');
         $innerMenuWrapper.find('.menu-btn').click(function() {
           $body.css('position', 'relative');
-          var bodyPd = $body.css('padding-top');
-          var menuBtnL = $(window).width() - $(this).offset().left + 42;
+          var bodyPd = $body.css('padding-top'),
+              menuBtnL = $(this).offset().left - 36,
+              windowW = $(window).width(),
+              menuInnerLeftMob = windowW - 290,
+              menuInnerLeftAll = windowW - 350;
           $extraMenuOverlay.addClass('is-opened').css({
             top: bodyPd
           });
-          if (menuBtnL > 300 && getWindowWidth() >= 768) {
-            $innerMenuBlock.css({
-              transform : 'translate3d(-' + menuBtnL + 'px, 0px ,0px)'
-            })
+          if ((windowW - menuBtnL) > 300 && getWindowWidth() >= 768) {
+            $innerMenuBlock.animate({
+              left: menuBtnL
+            });
           }
           else if (getWindowWidth() < 768) {
-            $innerMenuBlock.css({
-              transform : 'translate3d(-290px, 0px ,0px)'
-            })
+            $innerMenuBlock.animate({
+              left: menuInnerLeftMob
+            });
           }
           else {
-            $innerMenuBlock.css({
-              transform : 'translate3d(-350px, 0px ,0px)'
-            })
+            $innerMenuBlock.animate({
+              left: menuInnerLeftAll
+            });
           }
         });
         var hideMenu = function() {
           $body.css('position', '');
-          $innerMenuBlock.css({
-            transform : 'translate3d(0px, 0px ,0px)'
+          $innerMenuBlock.animate({
+            left: '100%'
           });
           setTimeout(function() {
             $extraMenuOverlay.removeClass('is-opened')

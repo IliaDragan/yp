@@ -54,7 +54,6 @@ dependencies[] = search_api
 dependencies[] = service_links
 dependencies[] = search_api_solr
 dependencies[] = search_api_views
-dependencies[] = simpleads
 dependencies[] = token
 dependencies[] = variable
 dependencies[] = views

@@ -99,9 +99,6 @@ projects[node_expire][subdir] = "contrib"
 projects[panels][version] = "3.5"
 projects[panels][subdir] = "contrib"
 
-projects[pathauto][version] = "1.2"
-projects[pathauto][subdir] = "contrib"
-
 projects[rules][version] = "2.9"
 projects[rules][subdir] = "contrib"
 

@@ -49,7 +49,6 @@ dependencies[] = media_youtube
 dependencies[] = page_manager
 dependencies[] = panels
 dependencies[] = panels_ipe
-dependencies[] = pathauto
 dependencies[] = search_api
 dependencies[] = service_links
 dependencies[] = search_api_solr

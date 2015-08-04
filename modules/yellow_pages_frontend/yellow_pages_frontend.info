@@ -32,5 +32,6 @@ features[page_manager_handlers][] = node_view__node_page
 features[page_manager_pages][] = articles
 features[page_manager_pages][] = frontpage
 features[page_manager_pages][] = news
+features[variable][] = field_sql_norevisions_enabled_entities
 features[variable][] = site_frontpage
 features[variable][] = theme_yellow_pages_settings

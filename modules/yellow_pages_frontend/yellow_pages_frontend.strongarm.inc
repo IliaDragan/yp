@@ -13,6 +13,28 @@ function yellow_pages_frontend_strongarm() {
   $strongarm = new stdClass();
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
+  $strongarm->name = 'field_sql_norevisions_enabled_entities';
+  $strongarm->value = array(
+    'field_sql_norevisions_comment_comment_node_advertisement_enabled' => 1,
+    'field_sql_norevisions_comment_comment_node_article_enabled' => 1,
+    'field_sql_norevisions_comment_comment_node_company_enabled' => 1,
+    'field_sql_norevisions_comment_comment_node_news_enabled' => 1,
+    'field_sql_norevisions_node_advertisement_enabled' => 1,
+    'field_sql_norevisions_node_article_enabled' => 1,
+    'field_sql_norevisions_node_company_enabled' => 1,
+    'field_sql_norevisions_node_news_enabled' => 1,
+    'field_sql_norevisions_file_image_enabled' => 1,
+    'field_sql_norevisions_file_video_enabled' => 1,
+    'field_sql_norevisions_file_audio_enabled' => 1,
+    'field_sql_norevisions_file_document_enabled' => 1,
+    'field_sql_norevisions_taxonomy_term_products_enabled' => 1,
+    'field_sql_norevisions_user_user_enabled' => 1,
+  );
+  $export['field_sql_norevisions_enabled_entities'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
   $strongarm->name = 'site_frontpage';
   $strongarm->value = 'front';
   $export['site_frontpage'] = $strongarm;

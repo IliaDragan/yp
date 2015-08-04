@@ -150,7 +150,7 @@ function yellow_pages_company_ct_field_group_info() {
   $field_group->parent_name = '';
   $field_group->data = array(
     'label' => 'Tabbed content',
-    'weight' => '15',
+    'weight' => '10',
     'children' => array(
       0 => 'group_details',
       1 => 'group_filials',

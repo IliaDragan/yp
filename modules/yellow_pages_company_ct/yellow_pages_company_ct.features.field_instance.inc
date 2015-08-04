@@ -280,7 +280,7 @@ function yellow_pages_company_ct_field_default_field_instances() {
         'module' => 'link',
         'settings' => array(),
         'type' => 'link_default',
-        'weight' => 4,
+        'weight' => 5,
       ),
       'search_index' => array(
         'label' => 'above',
@@ -356,7 +356,7 @@ function yellow_pages_company_ct_field_default_field_instances() {
         'module' => 'email',
         'settings' => array(),
         'type' => 'email_default',
-        'weight' => 5,
+        'weight' => 6,
       ),
       'search_index' => array(
         'label' => 'hidden',
@@ -569,7 +569,7 @@ function yellow_pages_company_ct_field_default_field_instances() {
           ),
         ),
         'type' => 'geofield_leaflet',
-        'weight' => 7,
+        'weight' => 8,
       ),
       'search_index' => array(
         'label' => 'above',
@@ -706,7 +706,7 @@ function yellow_pages_company_ct_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 11,
+        'weight' => 12,
       ),
       'search_index' => array(
         'label' => 'above',
@@ -773,7 +773,7 @@ function yellow_pages_company_ct_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 10,
+        'weight' => 11,
       ),
       'search_index' => array(
         'label' => 'above',
@@ -843,10 +843,11 @@ function yellow_pages_company_ct_field_default_field_instances() {
         'weight' => 17,
       ),
       'full' => array(
-        'label' => 'above',
+        'label' => 'hidden',
+        'module' => 'text',
         'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 12,
+        'type' => 'text_default',
+        'weight' => 4,
       ),
       'search_index' => array(
         'label' => 'above',
@@ -983,7 +984,7 @@ function yellow_pages_company_ct_field_default_field_instances() {
         'module' => 'i18n_taxonomy',
         'settings' => array(),
         'type' => 'i18n_taxonomy_term_reference_link',
-        'weight' => 8,
+        'weight' => 9,
       ),
       'search_index' => array(
         'label' => 'hidden',
@@ -1048,7 +1049,7 @@ function yellow_pages_company_ct_field_default_field_instances() {
           'link_text' => FALSE,
         ),
         'type' => 'socialfield_formatter',
-        'weight' => 6,
+        'weight' => 7,
       ),
       'search_index' => array(
         'label' => 'hidden',

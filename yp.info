@@ -34,6 +34,7 @@ dependencies[] = ctools
 dependencies[] = devel
 dependencies[] = devel_generate
 dependencies[] = entity
+dependencies[] = field_sql_norevisions
 dependencies[] = forward
 dependencies[] = forward_services
 dependencies[] = general_services

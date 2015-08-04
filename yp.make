@@ -33,6 +33,9 @@ projects[entityreference][subdir] = "contrib"
 projects[facetapi][version] = "1.5"
 projects[facetapi][subdir] = "contrib"
 
+projects[field_sql_norevisions][version] = "2.1"
+projects[field_sql_norevisions][subdir] = "contrib"
+
 projects[features][version] = "2.3"
 projects[features][subdir] = "contrib"
 
@@ -138,9 +141,9 @@ projects[bootstrap][version] = "3.0"
 libraries[fontawesome][destination]    = "libraries"
 libraries[fontawesome][directory_name] = "fontawesome"
 libraries[fontawesome][download][type] = "get"
-libraries[fontawesome][download][url]  = "http://fortawesome.github.io/Font-Awesome/assets/font-awesome-4.3.0.zip"
+libraries[fontawesome][download][url]  = "http://fortawesome.github.io/Font-Awesome/assets/font-awesome-4.4.0.zip"
 
 libraries[leaflet][destination]    = "libraries"
 libraries[leaflet][directory_name] = "leaflet"
 libraries[leaflet][download][type] = "get"
-libraries[leaflet][download][url]  = "http://leaflet-cdn.s3.amazonaws.com/build/leaflet-0.7.3.zip"
+libraries[leaflet][download][url]  = "http://cdn.leafletjs.com/downloads/leaflet-0.7.3.zip"

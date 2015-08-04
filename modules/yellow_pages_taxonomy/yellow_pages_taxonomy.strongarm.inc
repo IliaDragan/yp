@@ -84,7 +84,7 @@ function yellow_pages_taxonomy_strongarm() {
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
   $strongarm->name = 'taxonomy_menu_vocab_menu_products';
-  $strongarm->value = 'menu-product-menu';
+  $strongarm->value = '0';
   $export['taxonomy_menu_vocab_menu_products'] = $strongarm;
 
   $strongarm = new stdClass();
@@ -97,16 +97,16 @@ function yellow_pages_taxonomy_strongarm() {
   $strongarm = new stdClass();
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
-  $strongarm->name = 'taxonomy_menu_voc_item_products';
-  $strongarm->value = FALSE;
-  $export['taxonomy_menu_voc_item_products'] = $strongarm;
+  $strongarm->name = 'taxonomy_menu_voc_item_description_products';
+  $strongarm->value = 0;
+  $export['taxonomy_menu_voc_item_description_products'] = $strongarm;
 
   $strongarm = new stdClass();
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
-  $strongarm->name = 'taxonomy_menu_voc_item_description_products';
-  $strongarm->value = 0;
-  $export['taxonomy_menu_voc_item_description_products'] = $strongarm;
+  $strongarm->name = 'taxonomy_menu_voc_item_products';
+  $strongarm->value = FALSE;
+  $export['taxonomy_menu_voc_item_products'] = $strongarm;
 
   $strongarm = new stdClass();
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */

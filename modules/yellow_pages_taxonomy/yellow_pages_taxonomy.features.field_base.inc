@@ -10,6 +10,32 @@
 function yellow_pages_taxonomy_field_default_field_bases() {
   $field_bases = array();
 
+  // Exported field_base: 'field_product_type'
+  $field_bases['field_product_type'] = array(
+    'active' => 1,
+    'cardinality' => 1,
+    'deleted' => 0,
+    'entity_types' => array(),
+    'field_name' => 'field_product_type',
+    'foreign keys' => array(),
+    'indexes' => array(
+      'value' => array(
+        0 => 'value',
+      ),
+    ),
+    'locked' => 0,
+    'module' => 'list',
+    'settings' => array(
+      'allowed_values' => array(
+        'product' => 'Product',
+        'category' => 'Category',
+      ),
+      'allowed_values_function' => '',
+    ),
+    'translatable' => 0,
+    'type' => 'list_text',
+  );
+
   // Exported field_base: 'field_related'
   $field_bases['field_related'] = array(
     'active' => 1,

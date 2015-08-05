@@ -238,6 +238,32 @@ function yellow_pages_solr_configuration_default_page_manager_pages() {
     $display->content['new-79f5b511-8298-47fe-96a8-bf9de4bde4fb'] = $pane;
     $display->panels['alpha_25'][1] = 'new-79f5b511-8298-47fe-96a8-bf9de4bde4fb';
     $pane = new stdClass();
+    $pane->pid = 'new-bbec92a0-b4e4-474d-a2f0-078a4c5ac5e1';
+    $pane->panel = 'alpha_25';
+    $pane->type = 'yp_advertisement';
+    $pane->subtype = 'yp_advertisement';
+    $pane->shown = TRUE;
+    $pane->access = array();
+    $pane->configuration = array(
+      'ads_amount' => '2',
+      'ads_category' => 'sidebar',
+      'ads_order' => 'random',
+      'override_title' => 1,
+      'override_title_text' => '',
+      'override_title_heading' => 'h2',
+    );
+    $pane->cache = array();
+    $pane->style = array(
+      'settings' => NULL,
+    );
+    $pane->css = array();
+    $pane->extras = array();
+    $pane->position = 2;
+    $pane->locks = array();
+    $pane->uuid = 'bbec92a0-b4e4-474d-a2f0-078a4c5ac5e1';
+    $display->content['new-bbec92a0-b4e4-474d-a2f0-078a4c5ac5e1'] = $pane;
+    $display->panels['alpha_25'][2] = 'new-bbec92a0-b4e4-474d-a2f0-078a4c5ac5e1';
+    $pane = new stdClass();
     $pane->pid = 'new-74bb5053-7d83-424d-ae92-6724834dd15c';
     $pane->panel = 'beta_75';
     $pane->type = 'switch_serch';

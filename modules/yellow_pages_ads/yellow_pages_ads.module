@@ -103,8 +103,12 @@ function yellow_pages_ads_theme() {
  */
 function yellow_pages_ads_get_ads($limit = YP_ADS_AMOUNT, $category = 'sidebar', $order = 'random') {
   $node = menu_get_object('node');
-  $forced_hidden = yellow_pages_ads_get_priority_ads($node->nid, 0);
-  $forced_shown = yellow_pages_ads_get_priority_ads($node->nid, 1);
+  $forced_hidden = array();
+  $forced_shown = array();
+  if ($node) {
+    $forced_hidden = yellow_pages_ads_get_priority_ads($node->nid, 0);
+    $forced_shown = yellow_pages_ads_get_priority_ads($node->nid, 1);
+  }
 
   $forced_result = array();
   if (!empty($forced_shown)) {
@@ -255,6 +259,18 @@ function yellow_pages_ads_scheduler(stdClass $node) {
   }
 
   return FALSE;
+}
+
+/**
+ * Implements hook_preprocess_html().
+ */
+function yellow_pages_ads_preprocess_html(&$variables) {
+  if (!path_is_admin(current_path())) {
+    $nodes = yellow_pages_ads_get_ads(1, 'topbar', 'random');
+    $content = yellow_pages_ads_create_content($nodes);
+
+    $variables['page']['page_top']['yp_ads'] = array('#markup' => $content);
+  }
 }
 
 /**

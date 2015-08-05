@@ -128,7 +128,8 @@ function yellow_pages_sync_nodes(&$context) {
 
     $url_alias = array(
       'source' => 'node/' . $entity->nid,
-      'alias' => 'info/companies/' . $item['id'] . '-' . drupal_html_class(transliteration_get($entity->title)),
+      'alias' => yellow_pages_sync_get_alias($item['id'], $entity->title),
+      'language' => 'ru',
     );
     path_save($url_alias);
 
@@ -170,7 +171,8 @@ function yellow_pages_sync_nodes(&$context) {
 
       $url_alias = array(
         'source' => 'node/' . $translated_entity->nid,
-        'alias' => 'info/companies/' . $item['id'] . '-' . drupal_html_class(transliteration_get($translated_entity->title)),
+        'alias' => yellow_pages_sync_get_alias($item['id'], $translated_entity->title),
+        'language' => $lang,
       );
       path_save($url_alias);
     }
@@ -179,6 +181,10 @@ function yellow_pages_sync_nodes(&$context) {
 //   if ($context['sandbox']['progress'] != $context['sandbox']['max']) {
 //     $context['finished'] = $context['sandbox']['progress'] / $context['sandbox']['max'];
 //   }
+}
+
+function yellow_pages_sync_get_alias($nid, $title) {
+  return 'info/companies/' . $nid . '-' . drupal_html_class(transliteration_get($title));
 }
 
 function yellow_page_sync_process_source_element(SimpleXMLElement $source) {
@@ -471,12 +477,11 @@ function yellow_pages_sync_create_term($name, $vid, array $parent = array(), $ty
     $term = new stdClass();
     $term->name = $name;
     $term->vid = $vid;
+    $term->field_product_type[LANGUAGE_NONE][0]['value'] = $type;
   }
   else {
     $term = reset($term);
   }
-
-  $term->field_product_type[LANGUAGE_NONE][0]['value'] = $type;
 
   if (!empty($parent)) {
     $term->parent = $parent;

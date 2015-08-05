@@ -209,7 +209,7 @@ function yellow_pages_ads_cron() {
   $query->entityCondition('bundle', 'advertisement');
   $result = $query->execute();
 
-  if (is_array($result['node'])) {
+  if (isset($result['node']) && is_array($result['node'])) {
     $nids = array_keys($result['node']);
     $nodes = node_load_multiple($nids);
 

@@ -48,6 +48,9 @@ projects[file_entity][subdir] = "contrib"
 projects[field_group][version] = "1.4"
 projects[field_group][subdir] = "contrib"
 
+projects[find_content][version] = "1.6"
+projects[find_content][subdir] = "contrib"
+
 projects[fontawesome][version] = "2.1"
 projects[fontawesome][subdir] = "contrib"
 

@@ -53,6 +53,7 @@ function yp_install_tasks($install_state) {
  */
 function _yp_enable_modules() {
   $modules = array(
+    'yellow_pages_ads',
     'yellow_pages_article_ct',
     'yellow_pages_company_ct',
     'yellow_pages_contacts',
@@ -62,6 +63,7 @@ function _yp_enable_modules() {
     'yellow_pages_print',
     'yellow_pages_rates',
     'yellow_pages_solr_configuration',
+    'yellow_pages_sync',
     'yellow_pages_taxonomy',
     'yellow_pages_weather',
     'yellow_pages_feedback',

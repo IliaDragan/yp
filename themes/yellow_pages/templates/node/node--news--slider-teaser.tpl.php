@@ -94,8 +94,7 @@
         <a href="<?php print $node_url; ?>"><?php print $title; ?></a>
       </div>
       <div class="node-created">
-        <!-- @todo FORMAT DATE -->
-        <span><?php print $created; ?></span>
+        <span><?php print date('d.m.Y', $created); ?></span>
       </div>
       <?php if (isset($content['body'][0])): ?>
         <?php $content['body'][0]['#markup'] = '<p>' . truncate_utf8($content['body'][0]['#markup'], 500) . '</p>'; ?>

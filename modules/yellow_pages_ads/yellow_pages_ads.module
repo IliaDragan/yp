@@ -209,12 +209,14 @@ function yellow_pages_ads_cron() {
   $query->entityCondition('bundle', 'advertisement');
   $result = $query->execute();
 
-  $nids = array_keys($result['node']);
-  $nodes = node_load_multiple($nids);
+  if (is_array($result['node'])) {
+    $nids = array_keys($result['node']);
+    $nodes = node_load_multiple($nids);
 
-  foreach ($nodes as $node) {
-    if (yellow_pages_ads_scheduler($node)) {
-      node_save($node);
+    foreach ($nodes as $node) {
+      if (yellow_pages_ads_scheduler($node)) {
+        node_save($node);
+      }
     }
   }
 }

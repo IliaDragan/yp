@@ -38,6 +38,7 @@ dependencies[] = field_sql_norevisions
 dependencies[] = forward
 dependencies[] = forward_services
 dependencies[] = general_services
+dependencies[] = find_content
 dependencies[] = i18n
 dependencies[] = i18n_menu
 dependencies[] = i18n_node

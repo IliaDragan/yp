@@ -126,6 +126,12 @@ function yellow_pages_sync_nodes(&$context) {
     // Save new node.
     node_save($entity);
 
+    $url_alias = array(
+      'source' => 'node/' . $entity->nid,
+      'alias' => 'info/companies/' . $item['id'] . '-' . drupal_html_class(transliteration_get($entity->title)),
+    );
+    path_save($url_alias);
+
     db_merge('yp_sync_state')
       ->key(array(
         'nid' => $entity->nid,
@@ -161,6 +167,12 @@ function yellow_pages_sync_nodes(&$context) {
       $translated_entity->tnid = $tnid;
 
       node_save($translated_entity);
+
+      $url_alias = array(
+        'source' => 'node/' . $translated_entity->nid,
+        'alias' => 'info/companies/' . $item['id'] . '-' . drupal_html_class(transliteration_get($translated_entity->title)),
+      );
+      path_save($url_alias);
     }
   }
 

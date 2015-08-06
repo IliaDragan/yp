@@ -1132,12 +1132,12 @@ form.yellow-pages-feedback-ad-request .form-type-textarea textarea {
 
 /* Carousel main page */
 @media (min-width: 1660px) {
-  .view-news.view-id-news.view-display-id-panel_pane_1 {
+  .pane-yp-news-carousel {
     margin-left: -230px;
     margin-right: -230px;
   }
 }
-.view-news.view-id-news.view-display-id-panel_pane_1 .owl-nav > div {
+.pane-yp-news-carousel .owl-nav > div {
   position: absolute;
   bottom: 75px;
   height: 40px;
@@ -1146,27 +1146,27 @@ form.yellow-pages-feedback-ad-request .form-type-textarea textarea {
   font-size: 30px;
   color: #fff;
 }
-.view-news.view-id-news.view-display-id-panel_pane_1 .owl-nav > div:hover {
+.pane-yp-news-carousel .owl-nav > div:hover {
   opacity: 0.85;
 }
-.view-news.view-id-news.view-display-id-panel_pane_1 .owl-nav .owl-prev {
+.pane-yp-news-carousel .owl-nav .owl-prev {
   left: 10px;
 }
-.view-news.view-id-news.view-display-id-panel_pane_1 .owl-nav .owl-next {
+.pane-yp-news-carousel .owl-nav .owl-next {
   right: 10px;
 }
-.view-news.view-id-news.view-display-id-panel_pane_1 .owl-dots {
+.pane-yp-news-carousel .owl-dots {
   text-align: center;
   padding-top: 20px;
 }
-.view-news.view-id-news.view-display-id-panel_pane_1 .owl-dots .owl-dot {
+.pane-yp-news-carousel .owl-dots .owl-dot {
   display: inline-block;
   width: 10px;
   height: 10px;
   margin: 10px 3px;
   background: #1d1d1d;
 }
-.view-news.view-id-news.view-display-id-panel_pane_1 .owl-dots .owl-dot.active {
+.pane-yp-news-carousel .owl-dots .owl-dot.active {
   background: #ffdd00;
 }
 

@@ -32,11 +32,11 @@ function yellow_pages_preprocess_yp_onecol_100(&$variables) {
 }
 
 /**
- * Implements hook_preprocess_views_view().
+ * Implements hook_preprocess_panels_pane().
  */
-function yellow_pages_preprocess_views_view(&$vars) {
+function yellow_pages_preprocess_panels_pane(&$vars) {
   // Add specific scripts and styles for news carousel.
-  if ($vars['name'] == 'news' && $vars['display_id'] == 'panel_pane_1') {
+  if ($vars['pane']->type == 'yp_news_carousel') {
     $path = drupal_get_path('theme', 'yellow_pages');
     drupal_add_js($path . '/js/owl.carousel.min.js');
     drupal_add_css($path . '/css/owl.carousel.css');

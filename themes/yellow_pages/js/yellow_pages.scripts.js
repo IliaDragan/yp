@@ -26,11 +26,11 @@ function getWindowWidth () {
 
   Drupal.behaviors.yp_news_carousel = {
     attach: function (context) {
-      if ($('.view-id-news.view-display-id-panel_pane_1', context).length === 0) {
+      if ($('.pane-yp-news-carousel', context).length === 0) {
         return;
       }
 
-      var $owl = $('.view-id-news.view-display-id-panel_pane_1 .view-content');
+      var $owl = $('.pane-yp-news-carousel .pane-content');
       var carousel_Settings = {
         nav : true,
           navText : [
@@ -136,7 +136,7 @@ function getWindowWidth () {
 
           $mainwrapper.css('min-height', 0);
           $mainwrapper.css('min-height', vwptHeight - (footerHeight + regionsHeight + headerHeight + toolbarHeight));
-        } 
+        }
       }
     }
   }
@@ -192,7 +192,7 @@ function getWindowWidth () {
       }
     }
   }
-  
+
   Drupal.behaviors.search_mobile = {
     attach : function (context) {
       var $searchLink = $('header .search-link-mobile');

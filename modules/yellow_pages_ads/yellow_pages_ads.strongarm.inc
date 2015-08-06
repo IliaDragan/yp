@@ -110,7 +110,7 @@ function yellow_pages_ads_strongarm() {
             'visible' => FALSE,
           ),
           'slider_teaser' => array(
-            'weight' => '0',
+            'weight' => '2',
             'visible' => FALSE,
           ),
         ),

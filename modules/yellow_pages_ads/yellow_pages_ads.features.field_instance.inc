@@ -292,9 +292,10 @@ function yellow_pages_ads_field_default_field_instances() {
         'weight' => 2,
       ),
       'slider_teaser' => array(
-        'label' => 'above',
+        'label' => 'hidden',
+        'module' => 'link',
         'settings' => array(),
-        'type' => 'hidden',
+        'type' => 'link_default',
         'weight' => 1,
       ),
       'teaser' => array(

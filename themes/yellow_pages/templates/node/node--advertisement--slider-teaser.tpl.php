@@ -79,25 +79,17 @@
  *
  * @ingroup themeable
  */
-$ad_content = '';
 ?>
 <div id="node-<?php print $node->nid; ?>" class="<?php print $classes; ?> node--news--slider_teaser clearfix"<?php print $attributes; ?>>
   <div class="content"<?php print $content_attributes; ?>>
     <div class="left">
     <?php
-      if (isset($content['field_ad_image']['#items'][0]['uri'])) {
-        $ad_url = isset($content['field_ad_url']['#items'][0]['url']) ? $content['field_ad_url']['#items'][0]['url'] : '';
-        $content['field_ad_url']['#items'][0]['html'] = TRUE;
-
-        $ad_content = l(render($content['field_ad_image']), $ad_url, $content['field_ad_url']['#items'][0]);
-      }
-
-      print $ad_content;
+      print render($content['field_ad_image']);
     ?>
     </div>
     <div class="right">
       <div class="node-title">
-        <a href="<?php print isset($ad_url) ? $ad_url : ''; ?>"><?php print $title; ?></a>
+        <?php print render($content['field_ad_url']);?>
       </div>
       <div class="node-created">
         <span>&nbsp;</span>

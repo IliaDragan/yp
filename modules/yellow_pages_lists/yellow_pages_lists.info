@@ -7,3 +7,4 @@ dependencies[] = yellow_pages_ads
 dependencies[] = yellow_pages_article_ct
 dependencies[] = yellow_pages_company_ct
 dependencies[] = yellow_pages_news_ct
+package = Yellow Pages

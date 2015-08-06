@@ -69,7 +69,7 @@ function yellow_pages_company_ct_field_default_field_instances() {
         'summary_rows' => 5,
       ),
       'type' => 'text_textarea_with_summary',
-      'weight' => 3,
+      'weight' => 2,
     ),
   );
 
@@ -162,7 +162,7 @@ function yellow_pages_company_ct_field_default_field_instances() {
         ),
       ),
       'type' => 'addressfield_standard',
-      'weight' => 12,
+      'weight' => 9,
     ),
   );
 
@@ -223,7 +223,7 @@ function yellow_pages_company_ct_field_default_field_instances() {
         'size' => 60,
       ),
       'type' => 'entityreference_autocomplete',
-      'weight' => 19,
+      'weight' => 14,
     ),
   );
 
@@ -284,7 +284,7 @@ function yellow_pages_company_ct_field_default_field_instances() {
         'size' => 60,
       ),
       'type' => 'entityreference_autocomplete',
-      'weight' => 20,
+      'weight' => 28,
     ),
   );
 
@@ -455,7 +455,7 @@ function yellow_pages_company_ct_field_default_field_instances() {
       'module' => 'link',
       'settings' => array(),
       'type' => 'link_field',
-      'weight' => 6,
+      'weight' => 3,
     ),
   );
 
@@ -514,7 +514,7 @@ function yellow_pages_company_ct_field_default_field_instances() {
         'size' => 60,
       ),
       'type' => 'email_textfield',
-      'weight' => 10,
+      'weight' => 4,
     ),
   );
 
@@ -573,7 +573,7 @@ function yellow_pages_company_ct_field_default_field_instances() {
         'size' => 60,
       ),
       'type' => 'text_textfield',
-      'weight' => 15,
+      'weight' => 12,
     ),
   );
 
@@ -740,7 +740,7 @@ function yellow_pages_company_ct_field_default_field_instances() {
         ),
       ),
       'type' => 'geocoder',
-      'weight' => 13,
+      'weight' => 10,
     ),
   );
 
@@ -801,7 +801,7 @@ function yellow_pages_company_ct_field_default_field_instances() {
         'size' => 60,
       ),
       'type' => 'text_textfield',
-      'weight' => 14,
+      'weight' => 11,
     ),
   );
 
@@ -872,7 +872,7 @@ function yellow_pages_company_ct_field_default_field_instances() {
         'year_range' => '-3:+3',
       ),
       'type' => 'date_text',
-      'weight' => 11,
+      'weight' => 6,
     ),
   );
 
@@ -946,7 +946,7 @@ function yellow_pages_company_ct_field_default_field_instances() {
         ),
       ),
       'type' => 'media_generic',
-      'weight' => 7,
+      'weight' => 5,
     ),
   );
 
@@ -1005,7 +1005,7 @@ function yellow_pages_company_ct_field_default_field_instances() {
         'size' => 60,
       ),
       'type' => 'text_textfield',
-      'weight' => 16,
+      'weight' => 13,
     ),
   );
 
@@ -1083,7 +1083,7 @@ function yellow_pages_company_ct_field_default_field_instances() {
         ),
       ),
       'type' => 'media_generic',
-      'weight' => 8,
+      'weight' => 6,
     ),
   );
 
@@ -1144,7 +1144,7 @@ function yellow_pages_company_ct_field_default_field_instances() {
         'size' => 60,
       ),
       'type' => 'taxonomy_autocomplete',
-      'weight' => 18,
+      'weight' => 5,
     ),
   );
 
@@ -1218,7 +1218,7 @@ function yellow_pages_company_ct_field_default_field_instances() {
       'module' => 'socialfield',
       'settings' => array(),
       'type' => 'socialfield_widget',
-      'weight' => 9,
+      'weight' => 7,
     ),
   );
 
@@ -1277,7 +1277,7 @@ function yellow_pages_company_ct_field_default_field_instances() {
         'rows' => 5,
       ),
       'type' => 'text_textarea',
-      'weight' => 4,
+      'weight' => 3,
     ),
   );
 
@@ -1336,7 +1336,7 @@ function yellow_pages_company_ct_field_default_field_instances() {
         'rows' => 5,
       ),
       'type' => 'text_textarea',
-      'weight' => 5,
+      'weight' => 4,
     ),
   );
 

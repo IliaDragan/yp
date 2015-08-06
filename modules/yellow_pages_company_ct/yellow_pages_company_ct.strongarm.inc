@@ -90,7 +90,7 @@ function yellow_pages_company_ct_strongarm() {
           'weight' => '0',
         ),
         'title' => array(
-          'weight' => '-5',
+          'weight' => '1',
         ),
       ),
       'display' => array(

@@ -49,7 +49,9 @@ function _yp_enable_modules() {
     'yellow_pages_article_ct',
     'yellow_pages_company_ct',
     'yellow_pages_contacts',
+    'yellow_pages_feedback',
     'yellow_pages_frontend',
+    'yellow_pages_lists',
     'yellow_pages_news_ct',
     'yellow_pages_permissions',
     'yellow_pages_print',
@@ -58,7 +60,6 @@ function _yp_enable_modules() {
     'yellow_pages_sync',
     'yellow_pages_taxonomy',
     'yellow_pages_weather',
-    'yellow_pages_feedback',
     //'yellow_pages_nodeviewcount', //@todo buggy on install
   );
 

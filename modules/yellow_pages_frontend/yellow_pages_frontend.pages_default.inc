@@ -110,16 +110,17 @@ function yellow_pages_frontend_default_page_manager_handlers() {
     $display->content['new-da8637c3-d56b-4cbc-adaa-301f4109a016'] = $pane;
     $display->panels['alpha_100'][1] = 'new-da8637c3-d56b-4cbc-adaa-301f4109a016';
     $pane = new stdClass();
-    $pane->pid = 'new-75d0624b-feac-4b8e-aa60-60a97b77e3de';
+    $pane->pid = 'new-c12eedaa-e768-463e-bc1b-b16326388fb9';
     $pane->panel = 'beta_75';
-    $pane->type = 'views_panes';
-    $pane->subtype = 'articles-panel_pane_1';
+    $pane->type = 'yp_related_articles';
+    $pane->subtype = 'yp_related_articles';
     $pane->shown = TRUE;
     $pane->access = array();
     $pane->configuration = array(
-      'override_title' => 1,
-      'override_title_text' => 'Similar articles',
-      'override_title_heading' => 'h3',
+      'context' => 'argument_entity_id:node_1',
+      'override_title' => 0,
+      'override_title_text' => '',
+      'override_title_heading' => 'h2',
     );
     $pane->cache = array();
     $pane->style = array(
@@ -129,9 +130,9 @@ function yellow_pages_frontend_default_page_manager_handlers() {
     $pane->extras = array();
     $pane->position = 0;
     $pane->locks = array();
-    $pane->uuid = '75d0624b-feac-4b8e-aa60-60a97b77e3de';
-    $display->content['new-75d0624b-feac-4b8e-aa60-60a97b77e3de'] = $pane;
-    $display->panels['beta_75'][0] = 'new-75d0624b-feac-4b8e-aa60-60a97b77e3de';
+    $pane->uuid = 'c12eedaa-e768-463e-bc1b-b16326388fb9';
+    $display->content['new-c12eedaa-e768-463e-bc1b-b16326388fb9'] = $pane;
+    $display->panels['beta_75'][0] = 'new-c12eedaa-e768-463e-bc1b-b16326388fb9';
     $pane = new stdClass();
     $pane->pid = 'new-1d752665-26b0-47c2-9728-6758a616e6f6';
     $pane->panel = 'beta_75';
@@ -792,7 +793,7 @@ function yellow_pages_frontend_default_page_manager_pages() {
     $pane->panel = 'main';
     $pane->type = 'views_panes';
     $pane->subtype = 'news-panel_pane_1';
-    $pane->shown = TRUE;
+    $pane->shown = FALSE;
     $pane->access = array();
     $pane->configuration = array();
     $pane->cache = array();
@@ -806,6 +807,29 @@ function yellow_pages_frontend_default_page_manager_pages() {
     $pane->uuid = '56adfffe-7812-41aa-80c0-5bf838bc73c7';
     $display->content['new-56adfffe-7812-41aa-80c0-5bf838bc73c7'] = $pane;
     $display->panels['main'][1] = 'new-56adfffe-7812-41aa-80c0-5bf838bc73c7';
+    $pane = new stdClass();
+    $pane->pid = 'new-25c0cce6-6db2-45ff-9798-4cd507cc4906';
+    $pane->panel = 'main';
+    $pane->type = 'yp_news_carousel';
+    $pane->subtype = 'yp_news_carousel';
+    $pane->shown = TRUE;
+    $pane->access = array();
+    $pane->configuration = array(
+      'override_title' => 0,
+      'override_title_text' => '',
+      'override_title_heading' => 'h2',
+    );
+    $pane->cache = array();
+    $pane->style = array(
+      'settings' => NULL,
+    );
+    $pane->css = array();
+    $pane->extras = array();
+    $pane->position = 2;
+    $pane->locks = array();
+    $pane->uuid = '25c0cce6-6db2-45ff-9798-4cd507cc4906';
+    $display->content['new-25c0cce6-6db2-45ff-9798-4cd507cc4906'] = $pane;
+    $display->panels['main'][2] = 'new-25c0cce6-6db2-45ff-9798-4cd507cc4906';
   $display->hide_title = PANELS_TITLE_FIXED;
   $display->title_pane = '0';
   $handler->conf['display'] = $display;

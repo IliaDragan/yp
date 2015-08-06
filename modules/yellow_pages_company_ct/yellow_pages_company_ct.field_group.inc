@@ -13,6 +13,152 @@ function yellow_pages_company_ct_field_group_info() {
   $field_group = new stdClass();
   $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
   $field_group->api_version = 1;
+  $field_group->identifier = 'group_additional_information|node|company|form';
+  $field_group->group_name = 'group_additional_information';
+  $field_group->entity_type = 'node';
+  $field_group->bundle = 'company';
+  $field_group->mode = 'form';
+  $field_group->parent_name = 'group_company_info';
+  $field_group->data = array(
+    'label' => 'Additional information',
+    'weight' => '25',
+    'children' => array(
+      0 => 'body',
+      1 => 'field_media_materials',
+      2 => 'field_price_list',
+      3 => 'field_social_links',
+      4 => 'field_we_buy',
+      5 => 'field_we_sell',
+    ),
+    'format_type' => 'tab',
+    'format_settings' => array(
+      'formatter' => 'closed',
+      'instance_settings' => array(
+        'description' => '',
+        'classes' => 'group-additional-information field-group-tab',
+        'required_fields' => 1,
+      ),
+    ),
+  );
+  $export['group_additional_information|node|company|form'] = $field_group;
+
+  $field_group = new stdClass();
+  $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
+  $field_group->api_version = 1;
+  $field_group->identifier = 'group_advertisement|node|company|form';
+  $field_group->group_name = 'group_advertisement';
+  $field_group->entity_type = 'node';
+  $field_group->bundle = 'company';
+  $field_group->mode = 'form';
+  $field_group->parent_name = 'group_company_info';
+  $field_group->data = array(
+    'label' => 'Advertisements',
+    'weight' => '26',
+    'children' => array(
+      0 => 'field_advertisements',
+    ),
+    'format_type' => 'tab',
+    'format_settings' => array(
+      'formatter' => 'closed',
+      'instance_settings' => array(
+        'description' => '',
+        'classes' => 'group-advertisement field-group-tab',
+        'required_fields' => 1,
+      ),
+    ),
+  );
+  $export['group_advertisement|node|company|form'] = $field_group;
+
+  $field_group = new stdClass();
+  $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
+  $field_group->api_version = 1;
+  $field_group->identifier = 'group_articles|node|company|form';
+  $field_group->group_name = 'group_articles';
+  $field_group->entity_type = 'node';
+  $field_group->bundle = 'company';
+  $field_group->mode = 'form';
+  $field_group->parent_name = 'group_company_info';
+  $field_group->data = array(
+    'label' => 'Articles',
+    'weight' => '27',
+    'children' => array(
+      0 => 'field_articles',
+    ),
+    'format_type' => 'tab',
+    'format_settings' => array(
+      'formatter' => 'closed',
+      'instance_settings' => array(
+        'description' => '',
+        'classes' => 'group-articles field-group-tab',
+        'required_fields' => 1,
+      ),
+    ),
+  );
+  $export['group_articles|node|company|form'] = $field_group;
+
+  $field_group = new stdClass();
+  $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
+  $field_group->api_version = 1;
+  $field_group->identifier = 'group_company_info|node|company|form';
+  $field_group->group_name = 'group_company_info';
+  $field_group->entity_type = 'node';
+  $field_group->bundle = 'company';
+  $field_group->mode = 'form';
+  $field_group->parent_name = '';
+  $field_group->data = array(
+    'label' => '',
+    'weight' => '1',
+    'children' => array(
+      0 => 'group_main_content',
+      1 => 'group_contacts',
+      2 => 'group_additional_information',
+      3 => 'group_advertisement',
+      4 => 'group_articles',
+    ),
+    'format_type' => 'tabs',
+    'format_settings' => array(
+      'formatter' => '',
+      'instance_settings' => array(
+        'classes' => 'group-company-info field-group-tabs',
+      ),
+    ),
+  );
+  $export['group_company_info|node|company|form'] = $field_group;
+
+  $field_group = new stdClass();
+  $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
+  $field_group->api_version = 1;
+  $field_group->identifier = 'group_contacts|node|company|form';
+  $field_group->group_name = 'group_contacts';
+  $field_group->entity_type = 'node';
+  $field_group->bundle = 'company';
+  $field_group->mode = 'form';
+  $field_group->parent_name = 'group_company_info';
+  $field_group->data = array(
+    'label' => 'Contacts',
+    'weight' => '24',
+    'children' => array(
+      0 => 'field_address',
+      1 => 'field_fax',
+      2 => 'field_geocode',
+      3 => 'field_landline_phone',
+      4 => 'field_mobile_phone',
+    ),
+    'format_type' => 'tab',
+    'format_settings' => array(
+      'formatter' => 'closed',
+      'instance_settings' => array(
+        'description' => '',
+        'classes' => 'group-contacts field-group-tab',
+        'required_fields' => 1,
+      ),
+    ),
+  );
+  $export['group_contacts|node|company|form'] = $field_group;
+
+  $field_group = new stdClass();
+  $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
+  $field_group->api_version = 1;
   $field_group->identifier = 'group_details|node|company|full';
   $field_group->group_name = 'group_details';
   $field_group->entity_type = 'node';
@@ -61,6 +207,38 @@ function yellow_pages_company_ct_field_group_info() {
     ),
   );
   $export['group_filials|node|company|full'] = $field_group;
+
+  $field_group = new stdClass();
+  $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
+  $field_group->api_version = 1;
+  $field_group->identifier = 'group_main_content|node|company|form';
+  $field_group->group_name = 'group_main_content';
+  $field_group->entity_type = 'node';
+  $field_group->bundle = 'company';
+  $field_group->mode = 'form';
+  $field_group->parent_name = 'group_company_info';
+  $field_group->data = array(
+    'label' => 'Main content',
+    'weight' => '23',
+    'children' => array(
+      0 => 'field_company_logo',
+      1 => 'field_company_site',
+      2 => 'field_email',
+      3 => 'field_mdb_sync_date',
+      4 => 'field_products',
+      5 => 'title',
+    ),
+    'format_type' => 'tab',
+    'format_settings' => array(
+      'formatter' => 'closed',
+      'instance_settings' => array(
+        'description' => '',
+        'classes' => 'group-main-content field-group-tab',
+        'required_fields' => 1,
+      ),
+    ),
+  );
+  $export['group_main_content|node|company|form'] = $field_group;
 
   $field_group = new stdClass();
   $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */

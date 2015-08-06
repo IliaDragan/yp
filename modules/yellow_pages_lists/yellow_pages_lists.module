@@ -1,0 +1,145 @@
+<?php
+/**
+ * @file
+ * Provides various content lists.
+ */
+
+/**
+ * Implements hook_ctools_plugin_directory().
+ */
+function yellow_pages_lists_ctools_plugin_directory($module, $plugin) {
+  if ($module == 'ctools' && $plugin == 'content_types') {
+    return 'plugins/content_types';
+  }
+}
+
+/**
+ *
+ * @param stdClass $context
+ */
+function yellow_pages_lists_similar_articles(stdClass $context) {
+  $references = yellow_pages_lists_get_references($context);
+  $relations = yellow_pages_lists_get_relations($context);
+
+  $nids = array_slice(array_merge($references, $relations), 0, 3);
+  $nodes = node_load_multiple($nids);
+
+  $content = array();
+  foreach ($nodes as $node) {
+    $render = node_view($node, 'teaser');
+    $content[] = drupal_render($render);
+  }
+
+  return implode('', $content);
+}
+
+function yellow_pages_lists_get_relations(stdClass $context) {
+  $relations = array();
+  $tids = array();
+  if (!empty($context->field_products)) {
+    foreach ($context->field_products[LANGUAGE_NONE] as $relation) {
+      $tids[] = $relation['tid'];
+    }
+  }
+
+  global $language;
+
+  $query = new EntityFieldQuery();
+  $query
+    ->entityCondition('entity_type', 'node')
+    ->entityCondition('bundle', 'article')
+    ->propertyCondition('status', NODE_PUBLISHED)
+    ->propertyCondition('language', $language->language)
+    ->fieldCondition('field_products', 'tid', $tids, 'IN')
+    ->range(0, 3);
+  $result = $query->execute();
+
+  if (isset($result['node'])) {
+    $relations = array_keys($result['node']);
+  }
+
+  return $relations;
+}
+
+function yellow_pages_lists_get_references(stdClass $context) {
+  $references = array();
+
+  if (!empty($context->field_articles)) {
+    foreach ($context->field_articles[LANGUAGE_NONE] as $reference) {
+      $references[] = $reference['target_id'];
+    }
+  }
+
+  return $references;
+}
+
+function yellow_pages_lists_news_carousel() {
+  $nids = yellow_pages_lists_get_latest_news();
+  $nodes = node_load_multiple($nids);
+
+  $count = (int) ceil((count($nodes) / 4));
+  $ads_nids = yellow_pages_lists_get_news_ads($count);
+  $ads_nodes = node_load_multiple($ads_nids);
+  $content = array();
+  $i = 0;
+  foreach ($nodes as $node) {
+    $render = node_view($node, 'slider_teaser');
+    if ($i % 4 == 1) {
+      $ad_node = array_pop($ads_nodes);
+      if ($ad_node) {
+        $render = node_view($ad_node, 'slider_teaser');
+        $content[] = drupal_render($render);
+      }
+    }
+    $content[] = drupal_render($render);
+    $i++;
+  }
+
+  return implode('', $content);
+}
+
+function yellow_pages_lists_get_latest_news() {
+  global $language;
+
+  $news = array();
+
+  $query = new EntityFieldQuery();
+  $query
+    ->entityCondition('entity_type', 'node')
+    ->entityCondition('bundle', 'news')
+    ->propertyCondition('status', NODE_PUBLISHED)
+    ->propertyCondition('language', $language->language)
+    ->propertyOrderBy('created', 'DESC')
+    ->range(0, 50);
+  $result = $query->execute();
+
+  if (isset($result['node'])) {
+    $news = array_keys($result['node']);
+  }
+
+  return $news;
+}
+
+function yellow_pages_lists_get_news_ads($count = 4) {
+  global $language;
+
+  $ads = array();
+
+  $query = new EntityFieldQuery();
+  $query
+    ->entityCondition('entity_type', 'node')
+    ->entityCondition('bundle', 'advertisement')
+    ->propertyCondition('status', NODE_PUBLISHED)
+    ->propertyCondition('language', $language->language)
+    ->fieldCondition('field_ad_category', 'value', 'frontpage', '=')
+    ->range(0, $count);
+  $result = $query->execute();
+
+  if (isset($result['node'])) {
+    $ads = array_keys($result['node']);
+  }
+
+  shuffle($ads);
+
+  return $ads;
+}

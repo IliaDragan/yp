@@ -958,7 +958,7 @@ form.yellow-pages-feedback-ad-request {
 }
 /* Carousel main page */
 
-.view-news.view-id-news.view-display-id-panel_pane_1 {
+.pane-yp-news-carousel {
   @include breakpoint ($extralarge) {
     margin-left: -230px;
     margin-right: -230px;

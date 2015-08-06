@@ -77,21 +77,27 @@ function yellow_pages_lists_news_carousel() {
   $nids = yellow_pages_lists_get_latest_news();
   $nodes = node_load_multiple($nids);
 
-  $count = (int) ceil((count($nodes) / 4));
-  $ads_nids = yellow_pages_lists_get_news_ads($count);
+  $ads_nids = yellow_pages_lists_get_news_ads();
   $ads_nodes = node_load_multiple($ads_nids);
   $content = array();
+
+  $entropy = round(count($nodes) / count($ads_nodes));
   $i = 0;
-  foreach ($nodes as $node) {
-    $render = node_view($node, 'slider_teaser');
-    if ($i % 4 == 1) {
-      $ad_node = array_pop($ads_nodes);
-      if ($ad_node) {
-        $render = node_view($ad_node, 'slider_teaser');
-        $content[] = drupal_render($render);
-      }
+  while (TRUE) {
+    if (empty($nodes) && empty($ads_nodes)) {
+      break;
     }
-    $content[] = drupal_render($render);
+
+    if (!empty($nodes)) {
+      $render = node_view(array_pop($nodes), 'slider_teaser');
+      $content[] = drupal_render($render);
+    }
+
+    if (!empty($ads_nodes) && ($entropy == 0 || $i % $entropy == 0)) {
+      $render = node_view(array_pop($ads_nodes), 'slider_teaser');
+      $content[] = drupal_render($render);
+    }
+
     $i++;
   }
 
@@ -120,7 +126,7 @@ function yellow_pages_lists_get_latest_news() {
   return $news;
 }
 
-function yellow_pages_lists_get_news_ads($count = 4) {
+function yellow_pages_lists_get_news_ads() {
   global $language;
 
   $ads = array();
@@ -131,8 +137,7 @@ function yellow_pages_lists_get_news_ads($count = 4) {
     ->entityCondition('bundle', 'advertisement')
     ->propertyCondition('status', NODE_PUBLISHED)
     ->propertyCondition('language', $language->language)
-    ->fieldCondition('field_ad_category', 'value', 'frontpage', '=')
-    ->range(0, $count);
+    ->fieldCondition('field_ad_category', 'value', 'frontpage', '=');
   $result = $query->execute();
 
   if (isset($result['node'])) {

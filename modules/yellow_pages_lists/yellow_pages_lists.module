@@ -81,7 +81,11 @@ function yellow_pages_lists_news_carousel() {
   $ads_nodes = node_load_multiple($ads_nids);
   $content = array();
 
-  $entropy = round(count($nodes) / count($ads_nodes));
+  $entropy = 0;
+  if (!empty($ads_nodes)) {
+    $entropy = round(count($nodes) / count($ads_nodes));
+  }
+
   $i = 0;
   while (TRUE) {
     if (empty($nodes) && empty($ads_nodes)) {

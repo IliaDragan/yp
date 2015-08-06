@@ -90,6 +90,25 @@ function yellow_pages_permissions_user_default_permissions() {
     'module' => 'node',
   );
 
+  // Exported permission: 'administer media browser'.
+  $permissions['administer media browser'] = array(
+    'name' => 'administer media browser',
+    'roles' => array(
+      'administrator' => 'administrator',
+    ),
+    'module' => 'media',
+  );
+
+  // Exported permission: 'administer media wysiwyg view mode'.
+  $permissions['administer media wysiwyg view mode'] = array(
+    'name' => 'administer media wysiwyg view mode',
+    'roles' => array(
+      'administrator' => 'administrator',
+      'global editor' => 'global editor',
+    ),
+    'module' => 'media_wysiwyg_view_mode',
+  );
+
   // Exported permission: 'administer nodes'.
   $permissions['administer nodes'] = array(
     'name' => 'administer nodes',

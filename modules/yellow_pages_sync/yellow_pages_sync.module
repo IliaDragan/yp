@@ -22,19 +22,65 @@ function yellow_pages_sync_menu() {
     'file' => 'yellow_pages_sync.admin.inc',
   );
 
+  $items['yp/sync/%'] = array(
+    'title' => 'Sync single entry',
+    'page callback' => 'yellow_pages_sync_single_node',
+    'page arguments' => array(2),
+    'access arguments' => array('access content'),
+    'type' => MENU_CALLBACK,
+  );
+
   return $items;
 }
 
-function yellow_pages_sync_nodes(&$context) {
-  if (!isset($context['sandbox']['progress'])) {
-    $xml_file = drupal_get_path('module', 'yellow_pages_sync') . '/data/enterprises.xml';
-    $xml_data = file_get_contents($xml_file);
+function yellow_pages_sync_single_node($eid) {
+  if (empty($eid)) {
+    return;
+  }
 
+  // @todo
+  // Change to URL.
+  $xml_file = drupal_get_path('module', 'yellow_pages_sync') . '/data/' . $eid . '.xml';
+  $xml_data = @file_get_contents($xml_file);
+
+  try {
     $xml = new SimpleXMLElement($xml_data);
+  }
+  catch (Exception $e) {
+    $message = $e->getMessage() . '. Tried to import entity with id: ' . $eid . '.';
+    watchdog_exception('yp_sync', $e, $message);
+    echo drupal_json_output(array('status' => FALSE, 'message' => $message));
+    drupal_exit(0);
+  }
+
+  yellow_pages_sync_node($xml);
+}
+
+function yellow_pages_sync_nodes($xml_data, &$context) {
+  if (!isset($context['sandbox']['progress'])) {
+    try {
+      $xml = new SimpleXMLElement($xml_data);
+    }
+    catch (Exception $e) {
+      watchdog_exception('yp_sync', $e);
+      return;
+    }
     $context['sandbox']['progress'] = 0;
     $context['sandbox']['max'] = (int) $xml->count;
   }
 
+  foreach ($xml->results->{'list-item'} as $list_item) {
+    yellow_pages_sync_node($list_item);
+    // $context['message'] = t('Now processing %title', array('%title' => $source->title));
+    $context['sandbox']['progress']++;
+  }
+
+//   if ($context['sandbox']['progress'] != $context['sandbox']['max']) {
+//     $context['finished'] = $context['sandbox']['progress'] / $context['sandbox']['max'];
+//   }
+}
+
+function yellow_pages_sync_node(SimpleXMLElement $list_item) {
   $languages = array_keys(locale_language_list('name'));
   $node_defaults = array(
     'type' => 'company',
@@ -44,143 +90,151 @@ function yellow_pages_sync_nodes(&$context) {
     'promote' => 0,
   );
 
-  foreach ($xml->results->{'list-item'} as $list_item) {
-    $item = yellow_page_sync_process_source_element($list_item);
-    $tnid = NULL;
+  $item = yellow_page_sync_process_source_element($list_item);
+  $tnid = NULL;
 
-    $query = db_select('yp_sync_state', 'yp_sync')
-      ->fields('yp_sync', array(
-        'nid',
-        'last_sync'
-      ))
-      ->condition('eid', $item['id'], '=');
-    $results = $query->execute()->fetchAll();
-    $result = reset($results);
+  $query = db_select('yp_sync_state', 'yp_sync')
+    ->fields('yp_sync', array(
+      'nid',
+      'last_sync'
+    ))
+    ->condition('eid', $item['id'], '=');
+  $results = $query->execute()->fetchAll();
+  $result = reset($results);
 
-    if ($result->last_sync == $item['last_change']) {
+  if (isset($result->last_sync) && $result->last_sync == $item['last_change']) {
+    return;
+  }
+
+  // Basics.
+  if (empty($result)) {
+    $node_defaults['language'] = 'ru';
+    $entity = entity_create('node', $node_defaults);
+  }
+  else {
+    $entities = entity_load('node', array($result->nid));
+    $entity = reset($entities);
+  }
+
+  // Title.
+  $entity->title = $item['title']['ru'];
+  // Emails.
+  if (!empty($item['email'])) {
+    unset($entity->field_email[LANGUAGE_NONE]);
+    foreach ($item['email'] as $k => $email) {
+      $entity->field_email[LANGUAGE_NONE][$k]['email'] = $email;
+    }
+  }
+  // URL's.
+  if (!empty($item['url'])) {
+    unset($entity->field_company_site[LANGUAGE_NONE]);
+    foreach ($item['url'] as $k => $url) {
+      $entity->field_company_site[LANGUAGE_NONE][$k]['url'] = $url;
+    }
+  }
+  // Products.
+  if (!empty($item['products']['ru'])) {
+    unset($entity->field_products[LANGUAGE_NONE]);
+    foreach ($item['products']['ru'] as $k => $tid) {
+      $entity->field_products[LANGUAGE_NONE][$k]['tid'] = $tid;
+    }
+  }
+  // Addresses.
+  if (!empty($item['addresses'])) {
+    unset($entity->field_address[LANGUAGE_NONE]);
+    foreach ($item['addresses'] as $k => $address) {
+      $entity->field_address[LANGUAGE_NONE][$k] = array(
+        'country' => 'MD',
+        'locality' => $address['city'],
+        'postal_code' => $address['pcode'],
+        'thoroughfare' => $address['address'],
+        'premise' => $address['premise'],
+      );
+    }
+  }
+  // Contacts.
+  if (!empty($item['contacts'])) {
+    unset($entity->field_landline_phone[LANGUAGE_NONE]);
+    foreach ($item['contacts']['landline'] as $k => $number) {
+      $entity->field_landline_phone[LANGUAGE_NONE][$k]['value'] = $number;
+    }
+
+    unset($entity->field_mobile_phone[LANGUAGE_NONE]);
+    foreach ($item['contacts']['mobile'] as $k => $number) {
+      $entity->field_mobile_phone[LANGUAGE_NONE][$k]['value'] = $number;
+    }
+
+    unset($entity->field_fax[LANGUAGE_NONE]);
+    foreach ($item['contacts']['fax'] as $k => $number) {
+      $entity->field_fax[LANGUAGE_NONE][$k]['value'] = $number;
+    }
+  }
+  // Sync time.
+  $sync_time = $item['last_change'];
+  $entity->field_mdb_sync_date[LANGUAGE_NONE][0]['value'] = date('Y-m-d H:i:s', $sync_time);
+  // Save new node.
+  node_save($entity);
+
+  $url_alias = array(
+    'source' => 'node/' . $entity->nid,
+    'alias' => yellow_pages_sync_get_alias($item['id'], $entity->title),
+    'language' => 'ru',
+  );
+  path_save($url_alias);
+
+  db_merge('yp_sync_state')
+    ->key(array(
+      'nid' => $entity->nid,
+      'eid' => $item['id'],
+    ))
+    ->fields(array(
+      'nid' => $entity->nid,
+      'eid' => $item['id'],
+      'last_sync' => $sync_time,
+    ))
+    ->execute();
+
+  // Update node parent.
+  $tnid = $entity->nid;
+  db_update('node')
+    ->fields(array('tnid' => $tnid))
+    ->condition('nid', $entity->nid, '=')
+    ->execute();
+
+  // Delete node translations.
+  $query = db_select('node', 'n')
+    ->fields('n', array('nid'))
+    ->condition('tnid', $tnid, '=')
+    ->condition('nid', $tnid, '<>');
+  $result = $query->execute()->fetchCol();
+  if (!empty($result)) {
+    node_delete_multiple($result);
+  }
+
+  // Translations.
+  foreach ($languages as $lang) {
+    if ($lang == 'ru') {
       continue;
     }
 
-    // Basics.
-    if (empty($result)) {
-      $node_defaults['language'] = 'ru';
-      $entity = entity_create('node', $node_defaults);
-    }
-    else {
-      $entities = entity_load('node', array($result->nid));
-      $entity = reset($entities);
-    }
+    $translated_entity = clone($entity);
+    unset($translated_entity->nid);
+    unset($translated_entity->vid);
+    $translated_entity->title = $item['title'][$lang];
+    $translated_entity->language = $lang;
 
-    //     $context['message'] = t('Now processing %title', array('%title' => $source->title));
-    $context['sandbox']['progress']++;
+    // Parent reference.
+    $translated_entity->tnid = $tnid;
 
-    // Title.
-    $entity->title = $item['title']['ru'];
-    // Emails.
-    if (!empty($item['email'])) {
-      foreach ($item['email'] as $k => $email) {
-        $entity->field_email[LANGUAGE_NONE][$k]['email'] = $email;
-      }
-    }
-    // URL's.
-    if (!empty($item['url'])) {
-      foreach ($item['url'] as $k => $url) {
-        $entity->field_company_site[LANGUAGE_NONE][$k]['url'] = $url;
-      }
-    }
-    // Products.
-    if (!empty($item['products']['ru'])) {
-      foreach ($item['products']['ru'] as $k => $tid) {
-        $entity->field_products[LANGUAGE_NONE][]['tid'] = $tid;
-      }
-    }
-    // Addresses.
-    if (!empty($item['addresses'])) {
-      foreach ($item['addresses'] as $k => $address) {
-        $entity->field_address[LANGUAGE_NONE][] = array(
-          'country' => 'MD',
-          'locality' => $address['city'],
-          'postal_code' => $address['pcode'],
-          'thoroughfare' => $address['address'],
-          'premise' => $address['premise'],
-        );
-      }
-    }
-    // Contacts.
-    if (!empty($item['contacts'])) {
-      foreach ($item['contacts']['landline'] as $number) {
-        $entity->field_landline_phone[LANGUAGE_NONE][]['value'] = $number;
-      }
-
-      foreach ($item['contacts']['mobile'] as $number) {
-        $entity->field_mobile_phone[LANGUAGE_NONE][]['value'] = $number;
-      }
-
-      foreach ($item['contacts']['fax'] as $number) {
-        $entity->field_fax[LANGUAGE_NONE][]['value'] = $number;
-      }
-    }
-    // Sync time.
-    $sync_time = $item['last_change'];
-    $entity->field_mdb_sync_date[LANGUAGE_NONE][0]['value'] = date('Y-m-d H:i:s', $sync_time);
-    // Save new node.
-    node_save($entity);
+    node_save($translated_entity);
 
     $url_alias = array(
-      'source' => 'node/' . $entity->nid,
-      'alias' => yellow_pages_sync_get_alias($item['id'], $entity->title),
-      'language' => 'ru',
+      'source' => 'node/' . $translated_entity->nid,
+      'alias' => yellow_pages_sync_get_alias($item['id'], $translated_entity->title),
+      'language' => $lang,
     );
     path_save($url_alias);
-
-    db_merge('yp_sync_state')
-      ->key(array(
-        'nid' => $entity->nid,
-        'eid' => $item['id'],
-      ))
-      ->fields(array(
-        'nid' => $entity->nid,
-        'eid' => $item['id'],
-        'last_sync' => $sync_time,
-      ))
-      ->execute();
-
-    // Update node parent.
-    $tnid = $entity->nid;
-    db_update('node')
-      ->fields(array('tnid' => $tnid))
-      ->condition('nid', $entity->nid, '=')
-      ->execute();
-
-    // Translations.
-    foreach ($languages as $lang) {
-      if ($lang == 'ru') {
-        continue;
-      }
-
-      $translated_entity = clone($entity);
-      unset($translated_entity->nid);
-      unset($translated_entity->vid);
-      $translated_entity->title = $item['title'][$lang];
-      $translated_entity->language = $lang;
-
-      // Parent reference.
-      $translated_entity->tnid = $tnid;
-
-      node_save($translated_entity);
-
-      $url_alias = array(
-        'source' => 'node/' . $translated_entity->nid,
-        'alias' => yellow_pages_sync_get_alias($item['id'], $translated_entity->title),
-        'language' => $lang,
-      );
-      path_save($url_alias);
-    }
   }
-
-//   if ($context['sandbox']['progress'] != $context['sandbox']['max']) {
-//     $context['finished'] = $context['sandbox']['progress'] / $context['sandbox']['max'];
-//   }
 }
 
 function yellow_pages_sync_get_alias($nid, $title) {

@@ -56,6 +56,7 @@ function _yp_enable_modules() {
     'yellow_pages_permissions',
     'yellow_pages_print',
     'yellow_pages_rates',
+    'yellow_pages_rules_configuration',
     'yellow_pages_solr_configuration',
     'yellow_pages_sync',
     'yellow_pages_taxonomy',

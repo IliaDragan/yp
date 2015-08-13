@@ -64,8 +64,8 @@ function yellow_pages_company_ct_field_widget_form(&$form, &$form_state, $field,
         '#options' => array(
           YP_PRODUCT_SELL => t('We sell'),
           YP_PRODUCT_BUY => t('We buy'),
-          YP_PRODUCT_GOODS => t('Goods'),
-          YP_PRODUCT_SERVICES => t('Services'),
+          YP_PRODUCT_MANUFACTURE => t('Manufacture'),
+          YP_PRODUCT_SERVICES => t('Service'),
         ),
         '#required' => $element['#required'],
       );

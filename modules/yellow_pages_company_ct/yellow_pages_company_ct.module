@@ -6,7 +6,7 @@
 
  define('YP_PRODUCT_SELL', 1);
  define('YP_PRODUCT_BUY', 2);
- define('YP_PRODUCT_GOODS', 4);
+ define('YP_PRODUCT_MANUFACTURE', 4);
  define('YP_PRODUCT_SERVICES', 8);
 
 include_once 'yellow_pages_company_ct.features.inc';

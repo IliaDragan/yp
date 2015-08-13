@@ -28,6 +28,12 @@ function yellow_pages_company_ct_menu() {
   return $menu;
 }
 
+/**
+ * Provides product terms suggestons.
+ *
+ * @param string $input
+ *   String to search related terms on.
+ */
 function _products_autocomplete($input) {
   $query = db_select('taxonomy_term_data', 't')
     ->fields('t', array('tid', 'name'));
@@ -44,4 +50,12 @@ function _products_autocomplete($input) {
 
   echo drupal_json_output($response);
   drupal_exit(0);
+}
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ */
+function yellow_pages_company_ct_form_company_node_form_alter(&$form, &$form_state, $form_id) {
+  // Make sync date field readonly.
+  $form['field_mdb_sync_date']['#disabled'] = TRUE;
 }

@@ -33,7 +33,7 @@ function yellow_pages_sync_admin_form_submit($form, &$form_state) {
 
   $batch = array(
     'operations' => array(
-//       array('yellow_pages_sync_taxonomy', array()),
+      array('yellow_pages_sync_taxonomy', array()),
       array('yellow_pages_sync_nodes', array($xml_data)),
     ),
     'title' => t('Synchronizing with MDB data...'),

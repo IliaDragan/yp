@@ -4,4 +4,44 @@
  * Code for the Yellow pages company CT feature.
  */
 
+ define('YP_PRODUCT_SELL', 1);
+ define('YP_PRODUCT_BUY', 2);
+ define('YP_PRODUCT_GOODS', 4);
+ define('YP_PRODUCT_SERVICES', 8);
+
 include_once 'yellow_pages_company_ct.features.inc';
+require_once 'yellow_pages_company_ct.fields.inc';
+
+/**
+ * Implements hook_menu().
+ */
+function yellow_pages_company_ct_menu() {
+  $menu = array();
+
+  $menu['yp/autocomplete/product'] = array(
+    'title' => 'Autocomplete for products',
+    'page callback' => '_products_autocomplete',
+    'access arguments' => array('use autocomplete'),
+    'type' => MENU_CALLBACK,
+  );
+
+  return $menu;
+}
+
+function _products_autocomplete($input) {
+  $query = db_select('taxonomy_term_data', 't')
+    ->fields('t', array('tid', 'name'));
+  $query->join('field_data_field_product_type', 'fpt', 't.tid = fpt.entity_id');
+  $query->condition('fpt.field_product_type_value', YP_TERM_TYPE_PRODUCT, '=');
+  $query->condition('t.name', '%' . db_like($input) . '%', 'LIKE');
+  $result = $query->execute()->fetchAll();
+
+  $response = array();
+
+  foreach ($result as $r) {
+    $response[$r->name . ' [tid:' . $r->tid . ']'] = $r->name;
+  }
+
+  echo drupal_json_output($response);
+  drupal_exit(0);
+}

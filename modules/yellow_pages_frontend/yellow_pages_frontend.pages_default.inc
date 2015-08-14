@@ -114,7 +114,7 @@ function yellow_pages_frontend_default_page_manager_handlers() {
     $pane->panel = 'beta_75';
     $pane->type = 'yp_related_articles';
     $pane->subtype = 'yp_related_articles';
-    $pane->shown = TRUE;
+    $pane->shown = FALSE;
     $pane->access = array();
     $pane->configuration = array(
       'context' => 'argument_entity_id:node_1',
@@ -138,7 +138,7 @@ function yellow_pages_frontend_default_page_manager_handlers() {
     $pane->panel = 'beta_75';
     $pane->type = 'views_panes';
     $pane->subtype = 'companies-panel_pane_1';
-    $pane->shown = TRUE;
+    $pane->shown = FALSE;
     $pane->access = array();
     $pane->configuration = array(
       'override_title' => 0,

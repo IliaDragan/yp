@@ -42,21 +42,10 @@ function yellow_pages_solr_configuration_default_search_api_index() {
       "cron_limit" : "50",
       "fields" : {
         "body:value" : { "type" : "text", "boost" : "3.0" },
-        "field_address:locality" : { "type" : "text" },
-        "field_address:premise" : { "type" : "text" },
-        "field_address:thoroughfare" : { "type" : "text" },
-        "field_fax" : { "type" : "list\\u003Ctext\\u003E" },
-        "field_landline_phone" : { "type" : "list\\u003Ctext\\u003E" },
-        "field_mobile_phone" : { "type" : "list\\u003Ctext\\u003E" },
-        "field_products" : { "type" : "list\\u003Cinteger\\u003E", "entity_type" : "taxonomy_term" },
-        "field_we_buy" : { "type" : "text" },
-        "field_we_sell" : { "type" : "text" },
+        "field_company_products:product" : { "type" : "list\\u003Ctext\\u003E" },
         "nid" : { "type" : "integer" },
         "search_api_language" : { "type" : "string" },
-        "status" : { "type" : "integer" },
-        "sticky" : { "type" : "boolean" },
-        "title" : { "type" : "text" },
-        "type" : { "type" : "string" }
+        "title" : { "type" : "text" }
       },
       "data_alter_callbacks" : {
         "search_api_alter_bundle_filter" : {
@@ -163,7 +152,7 @@ function yellow_pages_solr_configuration_default_search_api_server() {
       "site_hash" : true,
       "scheme" : "http",
       "host" : "localhost",
-      "port" : "8983",
+      "port" : "8080",
       "path" : "\\/solr",
       "http_user" : "",
       "http_pass" : "",

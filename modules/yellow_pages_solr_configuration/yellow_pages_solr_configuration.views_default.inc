@@ -70,13 +70,6 @@ function yellow_pages_solr_configuration_views_default_views() {
   $handler->display->display_options['defaults']['row_options'] = FALSE;
   $handler->display->display_options['exposed_block'] = TRUE;
   $handler->display->display_options['defaults']['empty'] = FALSE;
-  /* No results behavior: Global: View area */
-  $handler->display->display_options['empty']['view']['id'] = 'view';
-  $handler->display->display_options['empty']['view']['table'] = 'views';
-  $handler->display->display_options['empty']['view']['field'] = 'view';
-  $handler->display->display_options['empty']['view']['empty'] = TRUE;
-  $handler->display->display_options['empty']['view']['view_to_insert'] = 'solr_views:page_1';
-  $handler->display->display_options['empty']['view']['inherit_arguments'] = TRUE;
   $handler->display->display_options['defaults']['fields'] = FALSE;
   /* Field: Indexed Node: Title */
   $handler->display->display_options['fields']['title']['id'] = 'title';
@@ -93,11 +86,6 @@ function yellow_pages_solr_configuration_views_default_views() {
   $handler->display->display_options['fields']['body_value']['element_label_colon'] = FALSE;
   $handler->display->display_options['fields']['body_value']['link_to_entity'] = 0;
   $handler->display->display_options['defaults']['sorts'] = FALSE;
-  /* Sort criterion: Indexed Node: Sticky in lists */
-  $handler->display->display_options['sorts']['sticky']['id'] = 'sticky';
-  $handler->display->display_options['sorts']['sticky']['table'] = 'search_api_index_company_nodes';
-  $handler->display->display_options['sorts']['sticky']['field'] = 'sticky';
-  $handler->display->display_options['sorts']['sticky']['order'] = 'DESC';
   /* Sort criterion: Search: Relevance */
   $handler->display->display_options['sorts']['search_api_relevance']['id'] = 'search_api_relevance';
   $handler->display->display_options['sorts']['search_api_relevance']['table'] = 'search_api_index_company_nodes';
@@ -117,24 +105,12 @@ function yellow_pages_solr_configuration_views_default_views() {
   $handler->display->display_options['arguments']['search_api_views_fulltext']['not'] = 0;
   $handler->display->display_options['arguments']['search_api_views_fulltext']['fields'] = array(
     'body:value' => 'body:value',
-    'field_address:locality' => 'field_address:locality',
-    'field_address:premise' => 'field_address:premise',
-    'field_address:thoroughfare' => 'field_address:thoroughfare',
-    'field_fax' => 'field_fax',
-    'field_landline_phone' => 'field_landline_phone',
-    'field_mobile_phone' => 'field_mobile_phone',
+    'field_company_products:product' => 'field_company_products:product',
     'title' => 'title',
   );
   $handler->display->display_options['arguments']['search_api_views_fulltext']['conjunction'] = 'OR';
   $handler->display->display_options['defaults']['filter_groups'] = FALSE;
   $handler->display->display_options['defaults']['filters'] = FALSE;
-  /* Filter criterion: Indexed Node: Content type */
-  $handler->display->display_options['filters']['type']['id'] = 'type';
-  $handler->display->display_options['filters']['type']['table'] = 'search_api_index_company_nodes';
-  $handler->display->display_options['filters']['type']['field'] = 'type';
-  $handler->display->display_options['filters']['type']['value'] = array(
-    'company' => 'company',
-  );
   /* Filter criterion: Indexed Node: Item language */
   $handler->display->display_options['filters']['search_api_language']['id'] = 'search_api_language';
   $handler->display->display_options['filters']['search_api_language']['table'] = 'search_api_index_company_nodes';
@@ -209,11 +185,6 @@ function yellow_pages_solr_configuration_views_default_views() {
   $handler->display->display_options['row_options']['view_mode'] = 'search_index';
   $handler->display->display_options['defaults']['row_options'] = FALSE;
   $handler->display->display_options['defaults']['sorts'] = FALSE;
-  /* Sort criterion: Indexed Node: Sticky in lists */
-  $handler->display->display_options['sorts']['sticky']['id'] = 'sticky';
-  $handler->display->display_options['sorts']['sticky']['table'] = 'search_api_index_company_nodes';
-  $handler->display->display_options['sorts']['sticky']['field'] = 'sticky';
-  $handler->display->display_options['sorts']['sticky']['order'] = 'DESC';
   /* Sort criterion: Search: Relevance */
   $handler->display->display_options['sorts']['search_api_relevance']['id'] = 'search_api_relevance';
   $handler->display->display_options['sorts']['search_api_relevance']['table'] = 'search_api_index_company_nodes';
@@ -233,13 +204,6 @@ function yellow_pages_solr_configuration_views_default_views() {
   );
   $handler->display->display_options['defaults']['filter_groups'] = FALSE;
   $handler->display->display_options['defaults']['filters'] = FALSE;
-  /* Filter criterion: Indexed Node: Content type */
-  $handler->display->display_options['filters']['type']['id'] = 'type';
-  $handler->display->display_options['filters']['type']['table'] = 'search_api_index_company_nodes';
-  $handler->display->display_options['filters']['type']['field'] = 'type';
-  $handler->display->display_options['filters']['type']['value'] = array(
-    'article' => 'article',
-  );
   /* Filter criterion: Indexed Node: Item language */
   $handler->display->display_options['filters']['search_api_language']['id'] = 'search_api_language';
   $handler->display->display_options['filters']['search_api_language']['table'] = 'search_api_index_company_nodes';

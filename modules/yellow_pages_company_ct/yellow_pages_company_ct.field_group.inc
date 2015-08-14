@@ -220,10 +220,10 @@ function yellow_pages_company_ct_field_group_info() {
     'weight' => '23',
     'children' => array(
       0 => 'field_company_logo',
-      1 => 'field_company_site',
-      2 => 'field_email',
-      3 => 'field_mdb_sync_date',
-      4 => 'field_company_products',
+      1 => 'field_company_products',
+      2 => 'field_company_site',
+      3 => 'field_email',
+      4 => 'field_mdb_sync_date',
       5 => 'title',
     ),
     'format_type' => 'tab',
@@ -384,9 +384,7 @@ function yellow_pages_company_ct_field_group_info() {
   $field_group->data = array(
     'label' => 'We buy',
     'weight' => '22',
-    'children' => array(
-      0 => 'field_we_buy',
-    ),
+    'children' => array(),
     'format_type' => 'htab',
     'format_settings' => array(
       'formatter' => 'closed',
@@ -411,9 +409,7 @@ function yellow_pages_company_ct_field_group_info() {
   $field_group->data = array(
     'label' => 'We sell',
     'weight' => '21',
-    'children' => array(
-      0 => 'field_we_sell',
-    ),
+    'children' => array(),
     'format_type' => 'htab',
     'format_settings' => array(
       'formatter' => 'closed',

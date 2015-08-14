@@ -14,7 +14,81 @@ function yellow_pages_company_ct_field_info() {
       'description' => t('Products related to this company.'),
       'default_widget' => 'yp_product_field',
       'default_formatter' => 'yp_product_default',
+      'property_type' => 'yp_product',
+      'property_callbacks' => array('yellow_pages_company_ct_property_info_callback'),
     ),
+  );
+}
+
+/**
+ * Callback to alter the property info of address fields.
+ *
+ * @see addressfield_field_info()
+ */
+function yellow_pages_company_ct_property_info_callback(&$info, $entity_type, $field, $instance, $field_type) {
+  $name = $field['field_name'];
+  $property = &$info[$entity_type]['bundles'][$instance['bundle']]['properties'][$name];
+
+  $property['type'] = ($field['cardinality'] != 1) ? 'list<yp_product>' : 'yp_product';
+  $property['getter callback'] = 'entity_metadata_field_verbatim_get';
+  $property['setter callback'] = 'entity_metadata_field_verbatim_set';
+  $property['auto creation'] = 'yp_product_auto_creation';
+  $property['property info'] = yp_product_data_property_info();
+
+  unset($property['query callback']);
+}
+
+function yp_product_auto_creation($property_name, $context) {
+  return yp_product_default_values($context['field'], $context['instance']);
+}
+
+function yp_product_default_values($field, $instance, array $product = array()) {
+  $default_values = array();
+
+  $context = array(
+    'field' => $field,
+    'instance' => $instance,
+    'address' => $product,
+  );
+  drupal_alter('yp_product_default_values', $default_values, $context);
+
+  return $default_values;
+}
+
+/**
+ * Defines info for the properties of the address field data structure.
+ */
+function yp_product_data_property_info($name = NULL) {
+  // Build an array of basic property information for the product field.
+  $properties = array(
+    'product_source' => array(
+      'label' => t('Product related activity'),
+      'options list' => '_yp_product_activity_options_list',
+    ),
+    'product' => array(
+      'label' => t('Product name'),
+    ),
+  );
+
+  // Add the default values for each of the address field properties.
+  foreach ($properties as $key => &$value) {
+    $value += array(
+      'description' => !empty($name) ? t('!label of field %name', array('!label' => $value['label'], '%name' => $name)) : '',
+      'type' => 'text',
+      'getter callback' => 'entity_property_verbatim_get',
+      'setter callback' => 'entity_property_verbatim_set',
+    );
+  }
+
+  return $properties;
+}
+
+function _yp_product_activity_options_list($field = NULL, $instance = NULL) {
+  return array(
+    YP_PRODUCT_SELL => t('We sell'),
+    YP_PRODUCT_BUY => t('We buy'),
+    YP_PRODUCT_MANUFACTURE => t('Manufacture'),
+    YP_PRODUCT_SERVICES => t('Service'),
   );
 }
 
@@ -56,17 +130,11 @@ function yellow_pages_company_ct_field_instance_settings_form($field, $instance)
 function yellow_pages_company_ct_field_widget_form(&$form, &$form_state, $field, $instance, $langcode, $items, $delta, $element) {
   switch ($instance['widget']['type']) {
     case 'yp_product_field':
-
       $element['product_source'] = array(
         '#type' => 'select',
         '#title' => t('Activity'),
         '#default_value' => isset($items[$delta]['product_source']) ? $items[$delta]['product_source'] : '',
-        '#options' => array(
-          YP_PRODUCT_SELL => t('We sell'),
-          YP_PRODUCT_BUY => t('We buy'),
-          YP_PRODUCT_MANUFACTURE => t('Manufacture'),
-          YP_PRODUCT_SERVICES => t('Service'),
-        ),
+        '#options' => _yp_product_activity_options_list(),
         '#required' => $element['#required'],
       );
 
@@ -127,6 +195,19 @@ function yellow_pages_company_ct_field_formatter_info() {
 }
 
 /**
+ * Implements hook_field_formatter_prepare_view().
+ */
+function yellow_pages_company_ct_field_formatter_prepare_view($entity_type, $entities, $field, $instances, $langcode, &$items, $displays) {
+  foreach ($entities as $id => $entity) {
+    foreach ($items[$id] as $delta => $item) {
+      $tid = $item['product'];
+      $term = taxonomy_term_load($tid);
+      $items[$id][$delta]['taxonomy_term'] = $term;
+    }
+  }
+}
+
+/**
  * Implements hook_field_formatter_view().
  */
 function yellow_pages_company_ct_field_formatter_view($entity_type, $entity, $field, $instance, $langcode, $items, $display) {
@@ -136,7 +217,14 @@ function yellow_pages_company_ct_field_formatter_view($entity_type, $entity, $fi
     case 'yp_product_default':
       foreach ($items as $delta => $item) {
         if (isset($item['product'])) {
-          $element[$delta]['#markup'] = $item['product_source'] . ' - ' . $item['product'];
+          $term = $item['taxonomy_term'];
+          $uri = entity_uri('taxonomy_term', $term);
+          $element[$delta] = array(
+            '#type' => 'link',
+            '#title' => $term->name,
+            '#href' => $uri['path'],
+            '#options' => $uri['options'],
+          );
         }
       }
       break;

@@ -34,7 +34,7 @@
           <?php print render($content['field_email']); ?>
         </div>
         <div class="field-row-tags">
-          <?php print render($content['field_products']); ?>
+          <?php print render($content['field_company_products']); ?>
         </div>
         <!-- Social links. -->
         <?php if (isset($service_links_rendered) && !empty($service_links_rendered)): ; ?>

@@ -21,9 +21,9 @@ function yellow_pages_company_ct_field_info() {
 }
 
 /**
- * Callback to alter the property info of address fields.
+ * Callback to alter the property info of yp_product fields.
  *
- * @see addressfield_field_info()
+ * @see yellow_pages_company_ct_field_info()
  */
 function yellow_pages_company_ct_property_info_callback(&$info, $entity_type, $field, $instance, $field_type) {
   $name = $field['field_name'];
@@ -48,7 +48,7 @@ function yp_product_default_values($field, $instance, array $product = array()) 
   $context = array(
     'field' => $field,
     'instance' => $instance,
-    'address' => $product,
+    'product' => $product,
   );
   drupal_alter('yp_product_default_values', $default_values, $context);
 
@@ -56,25 +56,26 @@ function yp_product_default_values($field, $instance, array $product = array()) 
 }
 
 /**
- * Defines info for the properties of the address field data structure.
+ * Defines info for the properties of the yp_product field data structure.
  */
 function yp_product_data_property_info($name = NULL) {
   // Build an array of basic property information for the product field.
   $properties = array(
     'product_source' => array(
-      'label' => t('Product related activity'),
+      'label' => t('Product activity type'),
       'options list' => '_yp_product_activity_options_list',
+      'type' => 'integer',
     ),
     'product' => array(
-      'label' => t('Product name'),
+      'label' => t('Product term name'),
+      'type' => 'taxonomy_term',
     ),
   );
 
-  // Add the default values for each of the address field properties.
+  // Add the default values for each of the yp_product field properties.
   foreach ($properties as $key => &$value) {
     $value += array(
       'description' => !empty($name) ? t('!label of field %name', array('!label' => $value['label'], '%name' => $name)) : '',
-      'type' => 'text',
       'getter callback' => 'entity_property_verbatim_get',
       'setter callback' => 'entity_property_verbatim_set',
     );

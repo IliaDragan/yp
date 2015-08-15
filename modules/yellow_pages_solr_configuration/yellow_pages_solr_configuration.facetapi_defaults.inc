@@ -40,34 +40,6 @@ function yellow_pages_solr_configuration_facetapi_default_facet_settings() {
   $facet = new stdClass();
   $facet->disabled = FALSE; /* Edit this to true to make a default facet disabled initially */
   $facet->api_version = 1;
-  $facet->name = 'search_api@company_nodes::field_goods_and_services';
-  $facet->searcher = 'search_api@company_nodes';
-  $facet->realm = '';
-  $facet->facet = 'field_goods_and_services';
-  $facet->enabled = FALSE;
-  $facet->settings = array(
-    'operator' => 'and',
-    'hard_limit' => '50',
-    'dependencies' => array(
-      'bundle' => 'none',
-      'bundle_selected' => array(),
-      'roles' => array(),
-    ),
-    'facet_mincount' => '1',
-    'facet_missing' => '0',
-    'flatten' => '0',
-    'individual_parent' => '0',
-    'query_type' => 'term',
-    'limit_active_items' => 0,
-    'default_true' => TRUE,
-    'facet_search_ids' => array(),
-    'exclude' => 0,
-  );
-  $export['search_api@company_nodes::field_goods_and_services'] = $facet;
-
-  $facet = new stdClass();
-  $facet->disabled = FALSE; /* Edit this to true to make a default facet disabled initially */
-  $facet->api_version = 1;
   $facet->name = 'search_api@company_nodes:block:field_address:locality';
   $facet->searcher = 'search_api@company_nodes';
   $facet->realm = 'block';
@@ -111,10 +83,10 @@ function yellow_pages_solr_configuration_facetapi_default_facet_settings() {
   $facet = new stdClass();
   $facet->disabled = FALSE; /* Edit this to true to make a default facet disabled initially */
   $facet->api_version = 1;
-  $facet->name = 'search_api@company_nodes:block:field_goods_and_services';
+  $facet->name = 'search_api@company_nodes:block:field_products';
   $facet->searcher = 'search_api@company_nodes';
   $facet->realm = 'block';
-  $facet->facet = 'field_goods_and_services';
+  $facet->facet = 'field_products';
   $facet->enabled = TRUE;
   $facet->settings = array(
     'weight' => 0,
@@ -124,32 +96,25 @@ function yellow_pages_solr_configuration_facetapi_default_facet_settings() {
       'active' => 'active',
       'count' => 'count',
       'display' => 'display',
-      'indexed' => 0,
     ),
     'sort_weight' => array(
-      'active' => '-50',
-      'count' => '-49',
-      'display' => '-48',
-      'indexed' => '0',
+      'active' => -50,
+      'count' => -49,
+      'display' => -48,
     ),
     'sort_order' => array(
-      'active' => '3',
-      'count' => '3',
-      'display' => '4',
-      'indexed' => '4',
+      'active' => 3,
+      'count' => 3,
+      'display' => 4,
     ),
     'empty_behavior' => 'none',
     'facet_more_text' => 'Show more',
     'facet_fewer_text' => 'Show fewer',
-    'soft_limit' => '20',
+    'soft_limit' => 20,
     'nofollow' => 1,
     'show_expanded' => 0,
-    'empty_text' => array(
-      'value' => '',
-      'format' => 'full_html',
-    ),
   );
-  $export['search_api@company_nodes:block:field_goods_and_services'] = $facet;
+  $export['search_api@company_nodes:block:field_products'] = $facet;
 
   return $export;
 }

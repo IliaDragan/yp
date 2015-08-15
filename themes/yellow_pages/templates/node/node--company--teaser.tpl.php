@@ -91,23 +91,22 @@
       <div class="node-title">
         <a href="<?php print $node_url; ?>"><?php print $title; ?></a>
       </div>
-      <div class="node-created">
-        <!-- @todo FORMAT DATE -->
-        <span><?php print $created; ?></span>
-      </div>
       <?php print render($content['field_address']); ?>
+      <?php if (isset($content['body'][0])): ?>
+        <?php $content['body'][0]['#markup'] = '<p>' . truncate_utf8($content['body'][0]['#markup'], 300) . '</p>'; ?>
+      <?php endif; ?>
       <?php print render($content['body']); ?>
-      <?php print render($content['field_categories']); ?>
-      <?php print render($content['field_landline_phone']); ?>
+      <?php print render($content['field_products']); ?>
+      <div class="node-bottom">
+        <?php print render($content['field_landline_phone']); ?>
 
-      <!-- Social links. -->
-      <?php if (isset($service_links_rendered) && !empty($service_links_rendered)): ; ?>
-        <div class="social-links">
-          <?php print $service_links_rendered; ?>
-        </div>
-      <?php endif;?>
-
-      <a href="#" class="node-link node-read-more">Read more</a>
+        <!-- Social links. -->
+        <?php if (isset($service_links_rendered) && !empty($service_links_rendered)): ; ?>
+          <div class="social-links">
+            <?php print $service_links_rendered; ?>
+          </div>
+        <?php endif;?>
+      </div>
     </div>
   </div>
 </div>

@@ -32,19 +32,18 @@ function yellow_pages_news_ct_field_default_field_instances() {
         'weight' => 1,
       ),
       'slider_teaser' => array(
-        'label' => 'above',
+        'label' => 'hidden',
+        'module' => 'text',
         'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 0,
+        'type' => 'text_plain',
+        'weight' => 2,
       ),
       'teaser' => array(
         'label' => 'hidden',
         'module' => 'text',
-        'settings' => array(
-          'trim_length' => 600,
-        ),
-        'type' => 'text_summary_or_trimmed',
-        'weight' => 1,
+        'settings' => array(),
+        'type' => 'text_plain',
+        'weight' => 2,
       ),
     ),
     'entity_type' => 'node',
@@ -68,8 +67,8 @@ function yellow_pages_news_ct_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-news-field_categories'
-  $field_instances['node-news-field_categories'] = array(
+  // Exported field_instance: 'node-news-field_products'
+  $field_instances['node-news-field_products'] = array(
     'bundle' => 'news',
     'default_value' => array(),
     'deleted' => 0,
@@ -92,19 +91,19 @@ function yellow_pages_news_ct_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 0,
+        'weight' => 6,
       ),
       'teaser' => array(
         'label' => 'hidden',
         'module' => 'i18n_taxonomy',
         'settings' => array(),
         'type' => 'i18n_taxonomy_term_reference_link',
-        'weight' => 2,
+        'weight' => 3,
       ),
     ),
     'entity_type' => 'node',
-    'field_name' => 'field_categories',
-    'label' => 'Categories',
+    'field_name' => 'field_products',
+    'label' => 'Products',
     'required' => 0,
     'settings' => array(
       'user_register_form' => FALSE,
@@ -147,13 +146,13 @@ function yellow_pages_news_ct_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 0,
+        'weight' => 7,
       ),
       'teaser' => array(
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 6,
+        'weight' => 7,
       ),
     ),
     'entity_type' => 'node',
@@ -195,17 +194,21 @@ function yellow_pages_news_ct_field_default_field_instances() {
         'weight' => 6,
       ),
       'slider_teaser' => array(
-        'label' => 'above',
-        'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 0,
+        'label' => 'hidden',
+        'module' => 'image',
+        'settings' => array(
+          'image_link' => 'content',
+          'image_style' => 'news_carousel',
+        ),
+        'type' => 'image',
+        'weight' => 1,
       ),
       'teaser' => array(
         'label' => 'hidden',
         'module' => 'image',
         'settings' => array(
           'image_link' => 'content',
-          'image_style' => 'medium',
+          'image_style' => 'node_list_image',
         ),
         'type' => 'image',
         'weight' => 0,
@@ -280,16 +283,24 @@ function yellow_pages_news_ct_field_default_field_instances() {
         'weight' => 0,
       ),
       'slider_teaser' => array(
-        'label' => 'above',
-        'settings' => array(),
-        'type' => 'hidden',
+        'label' => 'hidden',
+        'module' => 'image',
+        'settings' => array(
+          'image_link' => 'content',
+          'image_style' => 'news_carousel',
+        ),
+        'type' => 'image',
         'weight' => 0,
       ),
       'teaser' => array(
-        'label' => 'above',
-        'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 5,
+        'label' => 'hidden',
+        'module' => 'image',
+        'settings' => array(
+          'image_link' => 'content',
+          'image_style' => 'node_list_image',
+        ),
+        'type' => 'image',
+        'weight' => 1,
       ),
     ),
     'entity_type' => 'node',
@@ -359,13 +370,13 @@ function yellow_pages_news_ct_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 0,
+        'weight' => 4,
       ),
       'teaser' => array(
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 4,
+        'weight' => 5,
       ),
     ),
     'entity_type' => 'node',
@@ -406,7 +417,7 @@ function yellow_pages_news_ct_field_default_field_instances() {
   // Translatables
   // Included for use with string extractors like potx.
   t('Body');
-  t('Categories');
+  t('Products');
   t('Companies');
   t('List Image');
   t('Main Image');

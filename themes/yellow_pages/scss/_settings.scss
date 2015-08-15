@@ -1,16 +1,18 @@
 
 $mobile: 0px 767px;
+$mobilesm: 0px 539px;
 $tablet: 768px 1024px;
-$tabletlg: 960px 1024px;
-$tabletsm: 768px 959px;
-$tabletlgdown: max-width 959px;
-$tabletsmup: min-width 960px;
+$tabletlg: 992px 1024px;
+$tabletsm: 768px 991px;
+$tabletlgdown: max-width 991px;
+$tabletsmup: min-width 992px;
 $desktop: min-width 1025px;
 $desktopsm: 1025px 1199px;
 $desktoplgdown: max-width 1199px;
 $mobileup: min-width 768px;
 $desktopdown: max-width 1024px;
 $extralarge: min-width 1660px;
+$extralargedown: max-width 1659px;
 $any: 100px;
 
 

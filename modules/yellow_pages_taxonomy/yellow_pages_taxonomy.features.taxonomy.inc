@@ -9,11 +9,11 @@
  */
 function yellow_pages_taxonomy_taxonomy_default_vocabularies() {
   return array(
-    'categories' => array(
-      'name' => 'Categories',
-      'machine_name' => 'categories',
+    'products' => array(
+      'name' => 'Products',
+      'machine_name' => 'products',
       'description' => '',
-      'hierarchy' => 0,
+      'hierarchy' => 1,
       'module' => 'taxonomy',
       'weight' => 0,
       'language' => 'und',

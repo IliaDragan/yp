@@ -134,9 +134,12 @@ function yellow_pages_sync_node(SimpleXMLElement $list_item) {
   }
   // Products.
   if (!empty($item['products']['ru'])) {
-    unset($entity->field_products[LANGUAGE_NONE]);
+    unset($entity->field_company_products[LANGUAGE_NONE]);
     foreach ($item['products']['ru'] as $k => $tid) {
-      $entity->field_products[LANGUAGE_NONE][$k]['tid'] = $tid;
+      $entity->field_company_products[LANGUAGE_NONE][$k] = array(
+        'product_source' => YP_PRODUCT_SELL,
+        'product' => $tid,
+      );
     }
   }
   // Addresses.

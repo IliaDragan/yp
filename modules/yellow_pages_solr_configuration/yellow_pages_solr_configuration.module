@@ -23,6 +23,10 @@ function yellow_pages_solr_configuration_ctools_plugin_directory($module, $plugi
  */
 function yellow_pages_solr_configuration_form_alter(&$form, &$form_state, $form_id) {
   if($form_id == 'search_block_form') {
+    $uri = arg();
+    if ($uri[0] === 'search') {
+      $form['search_block_form']['#default_value'] = $uri[2];
+    }
     $form['#submit'][] = 'yellow_pages_solr_configuration_form_submit';
   }
 }

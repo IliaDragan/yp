@@ -27,6 +27,7 @@ dependencies[] = toolbar
 dependencies[] = translation
 
 ; Contrib modules
+dependencies[] = admin_views
 dependencies[] = ckeditor
 dependencies[] = coder
 dependencies[] = coder_review
@@ -35,7 +36,6 @@ dependencies[] = devel
 dependencies[] = devel_generate
 dependencies[] = entity
 dependencies[] = field_sql_norevisions
-dependencies[] = find_content
 dependencies[] = forward
 dependencies[] = forward_services
 dependencies[] = general_services
@@ -60,5 +60,7 @@ dependencies[] = transliteration
 dependencies[] = variable
 dependencies[] = views
 dependencies[] = views_ui
+dependencies[] = views_autocomplete_filters
+dependencies[] = views_bulk_operations
 
 exclusive = TRUE

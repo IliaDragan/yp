@@ -22,6 +22,7 @@ body {
   font-smoothing: antialiased;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
   &.not-front {
     background: #f2f2f2;
   }
@@ -47,12 +48,77 @@ a {
 .yellow {
   color: $main-yellow;
 }
+.mobile-only {
+  display: none !important;
+}
 
+@media (min-width: 1990px) {
+  .not-front .container {
+    width: 1600px;
+  }
+}
 
 /* Header */
 
 header {
   background: #fff;
+  position: relative;
+  @include breakpoint ($mobile) {
+    padding-top: 7px;
+    padding-bottom: 7px;
+    .container {
+      > .navbar-header {
+        margin: 0;
+      }
+    }
+  }  
+  .block-search {
+    float: right;
+    width: 80%;
+    @include breakpoint ($desktoplgdown) {
+      width: 73%;
+    }
+    @include breakpoint ($tabletlgdown) {
+      width: 67%;
+    }
+    @include breakpoint ($mobile) {
+      padding-top: 4px;
+    }
+    @include breakpoint ($mobilesm) {
+      display: none;
+      padding-top: 0;
+    }
+  }
+  form.search-block-form {
+    padding-top: 0;
+    background: #fff;
+    .container-inline {
+      border-bottom: 1px solid $dark;
+    }
+    input[type="text"]::-webkit-input-placeholder { color: $dark; text-transform: uppercase; font-size: 12px; font-weight: bold;}
+    input[type="text"]:-moz-placeholder { color: $dark; text-transform: uppercase; font-size: 12px; font-weight: bold;}
+    input[type="text"]::-moz-placeholder { color: $dark; text-transform: uppercase; font-size: 12px; font-weight: bold;}
+    input[type="text"]:-ms-input-placeholder { color: $dark; text-transform: uppercase; font-size: 12px; font-weight: bold;}
+    .field-search_block_form-textfield {
+      color: $dark;
+    }
+    .form-actions {
+      &:before {
+        color: $dark;
+      }
+    }
+  }
+  .search-link-mobile {
+    float: right;
+    padding: 10px 15px;
+    font-size: 16px;
+    color: $dark;
+    display: none;
+    cursor: pointer;
+    @include breakpoint ($mobilesm) {
+      display: block;
+    }
+  }
 }
 .navbar-header {
   .menu-main-menu {
@@ -63,9 +129,30 @@ header {
     overflow: hidden;
     .block-locale {
       float: left;
+      margin-top: 3px;
     }
     .block-menu {
       float: right;
+    }
+  }
+  .logo  {
+    height: 84px;
+    img {
+      max-height: 100%;
+      width: auto;
+    }
+  }
+  @include breakpoint ($mobile) {
+    .logo {
+      height: 36px;
+      margin: 0px;
+    }
+    .region-header {
+      padding-top: 0px;
+    }
+    form.search-block-form,
+    form.search-block-form--2 {
+      padding: 0 20px;
     }
   }
 }
@@ -78,7 +165,7 @@ header {
 .menu-main-menu,
 .language-switcher-locale-url,
 .menu-user-menu,
-.menu-menu-category-menu {
+.menu-menu-product-menu {
   margin: 0;
   padding: 0px;
   overflow: hidden;
@@ -176,6 +263,9 @@ header {
     text-transform: uppercase;
     font-size: 12px;
   }
+  @include breakpoint ($mobile) {
+    margin-left: 20px;
+  }
 }
 
 .menu-user-menu {
@@ -210,33 +300,40 @@ header {
     }
   }
 }
-.menu-menu-category-menu {
+.menu-menu-product-menu {
   margin: 0 -30px;
   padding: 0 15px;
+  background: $main-yellow;
   li {
     width: 12.5%;
     a {
       display: block;
-      height: 70px;
+      height: 50px;
       border-right: 1px solid $border-color;
       text-align: center;
       font-size: 14px;
-      @include transform(skew(20deg));
       position: relative;
-      span {
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        @include transform(translate3d(-50%, -50%, 0) skew(-20deg));
+      @include breakpoint ($mobileup) {
+        height: 70px;
+        @include transform(skew(20deg));
+        span {
+          position: absolute;
+          top: 50%;
+          left: 50%;
+          @include transform(translate3d(-50%, -50%, 0));
+          @include transform(translate3d(-50%, -50%, 0) skew(-20deg));
+        }
       }
       &:after {
-        content: "";
-        display: block;
-        height: 3px;
-        width: 100%;
-        background: $main-yellow;
-        position: absolute;
-        bottom: 0;
+        @include breakpoint ($mobileup) {
+          content: "";
+          display: block;
+          height: 3px;
+          width: 100%;
+          background: $main-yellow;
+          position: absolute;
+          bottom: 0;
+        }
       }
       &:hover {
         background: $light-yellow;
@@ -246,6 +343,154 @@ header {
     &:first-child {
       a {
         border-left: 1px solid $border-color;
+      }
+    }
+  }
+  @include breakpoint ($tabletlgdown) {
+    li {
+      width: 25%;
+      &:nth-child(n+5) {
+        display: none;
+      }
+    }
+  }
+  @include breakpoint ($mobile) {
+    display: table;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    li {
+      display: table-cell;
+      vertical-align: middle;
+      float: none;
+      width: auto;
+      border-left: 1px solid $border-color;
+      &:first-child {
+        border-left: none;
+        a {
+          border: none;
+        }
+      }
+      a {
+        width: auto;
+        height: auto;
+        padding: 15px 10px;
+        border: none;
+        font-size: 12px;
+      }
+    }
+  }
+}
+.product-link {
+  display: none;
+}
+.inner-menu-wrapper {
+  float: right;
+  .menu-btn {
+    padding: 7px 15px;
+    font-size: 18px;
+    cursor: pointer;
+    @include breakpoint ($mobile) {
+      padding: 15px 15px 10px;
+      margin-top: -5px;
+    }
+  }
+  .menu-text {
+    display: none;
+  }
+}
+.extra-menu-overlay {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 100%;
+    width: 100%;
+    overflow: hidden;
+  &.is-opened {
+    left: 0;
+  }
+  .inner-menu-block {
+    position: absolute;
+    top: 0;
+    left: 100%;
+    padding-left: 100px;
+    z-index: 100;
+    @include breakpoint ($mobile) {
+      padding-left: 80px;
+    }
+  }
+  .inner-menu-overlay {
+    background: $main-yellow;
+    @include transform(skew(20deg));
+    z-index: 5;
+    ul {
+      width: 500px;
+      padding: 100px 0 0 0;
+      list-style-type: none;
+      overflow: hidden;
+      li {
+        margin-left: -15px;
+        margin-right: -15px;
+        border-top: 1px solid $border-color;
+        @include transform(skew(-20deg));
+        a {
+          display: block;
+          padding: 28px 40px 28px 52px;
+          text-transform: uppercase;
+          font-size: 12px;
+          font-weight: bold;
+          @include breakpoint ($mobile) {
+            padding: 25px 32px;
+          }
+          &:hover {
+            background: $light-yellow;
+            color: $dark;
+          }
+        }
+        &:first-child {
+          border-top: none;
+        }
+      }
+      @include breakpoint ($mobile) {
+        padding-top: 20px;
+      }
+    }
+    &:before,
+    &:after {
+      content: "";
+      display: block;
+      position: absolute;
+      width: 500px;
+      height: 1000px;
+      background-color: #ffdd00;
+    }
+    &:before {
+      left: 100%;
+    }
+    &:after {
+      top: 100%;
+    }
+    .menu-close {
+      width: 100%;
+      height: 60px;
+      padding: 20px 0 0 20px;
+      position: absolute;
+      top: 20px;
+      left: 10px;
+      font-size: 18px;
+      @include transform(skew(-20deg));
+      cursor: pointer;
+      @include breakpoint ($mobile) {
+        left: 210px;
+        top: 0;
+        width: 60px;
+        padding: 20px;
+      }
+    }
+    @include breakpoint ($tabletlgdown) {
+      @include box-shadow(0 0 10px 5px rgba(0,0,0,0.4));
+      &:after {
+        @include box-shadow(0 13px 10px 5px rgba(0,0,0,0.4));
       }
     }
   }
@@ -269,13 +514,15 @@ header {
     margin-bottom: 50px;
   }
   &:after {
-    content: "";
-    display: block;
-    position: absolute;
-    bottom: -70px;
-    width: 100%;
-    height: 70px;
-    background: $main-yellow;
+    @include breakpoint ($mobileup) { 
+      content: "";
+      display: block;
+      position: absolute;
+      bottom: -70px;
+      width: 100%;
+      height: 70px;
+      background: $main-yellow;
+    }
   }
   .activity-banner {
     background: rgba(0, 0, 0, 0.4);
@@ -308,6 +555,36 @@ header {
         font-size: 11px;
         margin-right: 5px;
       }
+    }
+  }
+  @include breakpoint ($desktoplgdown) {
+    .description {
+      margin-bottom: 39px;
+    }
+  }
+  @include breakpoint ($tabletlgdown) {
+    height: 300px;
+    .description,
+    .activity-banner,
+    .search-block-form {
+      display: none;
+    }
+    .slogan-header,
+    .slogan {
+      text-align: right;
+    }
+    + .container {
+      width: 100%;
+    }
+  }
+  @include breakpoint ($mobile) {
+    height: 200px;
+    .slogan-header,
+    .slogan {
+      font-size: 20px;
+    }
+    + .container {
+      padding: 0;
     }
   }
 }
@@ -446,6 +723,21 @@ input[type="checkbox"] {
 textarea {
   padding: 10px;
 }
+select {
+  background: #fff url('../images/icon-chevron.png') top 12px right 10px no-repeat;
+  background-size: 10px;
+  padding-right: 30px;
+  &.tabs-select {
+    width: 100%;
+    margin-top: 20px;
+    background: $main-yellow url('../images/icon-chevron.png') top 12px right 10px no-repeat;
+    background-size: 10px;
+    border-color: transparent;
+    font-weight: bold;
+    text-transform: uppercase;
+    font-size: 12px;
+  }
+}
 
 /* Chosen styles */
 
@@ -538,7 +830,8 @@ form {
     display: none;
   }
 }
-form.search-block-form {
+form.search-block-form,
+form.search-block-form--2 {
   background: rgba(0,0,0,0.4);
   padding: 20px 40px;
   .container-inline {
@@ -597,7 +890,8 @@ form.search-block-form {
 }
 
 @-moz-document url-prefix() {
-  form.search-block-form {
+  form.search-block-form,
+  form.search-block-form--2 {
     input[type='text'] {
       padding-top: 8px;
       padding-left: 0;
@@ -611,12 +905,15 @@ form.search-block-form {
     }
   }
 }
-.not-front {
-  .block-search {
-    float: right;
-    width: 80%;
+.front {
+  .inner-menu-wrapper {
+    display: none;
+    + .block-search {
+
+    }
   }
-  form.search-block-form {
+  form.search-block-form--2 {
+    display: none;
     padding-top: 0;
     background: #fff;
     .container-inline {
@@ -654,11 +951,14 @@ form.yellow-pages-feedback-ad-request {
     margin: 50px 0;
     text-align: center;
     text-transform: uppercase;
+    @include breakpoint ($mobile) {
+      font-size: 26px;
+    }
   }
 }
 /* Carousel main page */
 
-.view-news.view-id-news.view-display-id-panel_pane_1 {
+.pane-yp-news-carousel {
   @include breakpoint ($extralarge) {
     margin-left: -230px;
     margin-right: -230px;
@@ -823,12 +1123,24 @@ form.yellow-pages-feedback-ad-request {
       float: left;
       margin-right: 20px;
       img {
+        display: block;
         max-width: 150px;
+        height: auto;
+      }
+      @include breakpoint ($mobile) {
+        margin-right: 10px;
+        img {
+          max-width: 80px; 
+        }
       }
     }
     .right {
       margin-left: 150px;
       padding: 20px 20px 10px;
+      @include breakpoint ($mobile) {
+        margin-left: 80px;
+        padding: 10px;
+      }
     }
   }
   .node-title {
@@ -849,6 +1161,9 @@ form.yellow-pages-feedback-ad-request {
       font-size: 12px !important;
       color: $dark !important;
       font-family: "PT Sans", sans-serif !important;
+    }
+    @include breakpoint ($mobile) {
+      min-height: 0;
     }
   }
   .links {
@@ -895,18 +1210,27 @@ form.yellow-pages-feedback-ad-request {
     img {
       max-width: 150px;
       height: auto;
+      @include breakpoint ($mobile) {
+        max-width: 80px;
+      }
     }
   }
 }
 
 div.panel-pane div.node-teaser {
   margin-bottom: 30px;
+  @include breakpoint ($mobile) {
+    margin-bottom: 15px;
+  }
 }
 .node--company--teaser {
   .left {
     img {
       max-width: 150px;
       height: auto;
+      @include breakpoint ($mobile) {
+        max-width: 80px;
+      }
     }
   }
 }
@@ -916,11 +1240,18 @@ div.panel-pane div.node-teaser {
   .field-type-text {
     float: left;
     width: 80%;
+    margin-bottom: 0;
+    @include breakpoint ($mobilesm) {
+      width: 70%;
+    }
   }
   .social-links {
     float: right;
     width: 20%;
     text-align: right;
+    @include breakpoint ($mobilesm) {
+      width: 30%;
+    }
   }
 }
 .social-links {
@@ -1047,12 +1378,15 @@ div.panel-pane div.node-teaser {
     padding-left: 20px;
     padding-right: 20px;
     margin-top: -35px;
+    @include breakpoint ($mobile) {
+      margin-bottom: 20px;
+    }
   }
 }
 
 .node-type-article  .node--article--full .social-links,
 .node-type-news  .node--news--full .social-links {
-  width: 300px;
+  width: 150px;
   padding-left: 20px;
   position: relative;
   z-index: 2;
@@ -1061,6 +1395,10 @@ div.panel-pane div.node-teaser {
 .pane-yellow-pages-print-yp-print {
   padding: 20px 0;
   text-align: right;
+  display: none;
+}
+.no-touch .pane-yellow-pages-print-yp-print {
+  display: block;
 }
 .yp-print {
   text-transform: uppercase;
@@ -1072,11 +1410,16 @@ div.panel-pane div.node-teaser {
 }
 
 .group-tabbed-content {
+  @include breakpoint ($mobile) {
+    margin: 0 -20px -10px;
+  }
   .horizontal-tabs {
     border: none;
     ul.horizontal-tabs-list {
       background: $light-yellow;
       border-bottom: 3px solid $main-yellow;
+      border-right: none;
+      overflow: hidden;
       li {
         background: transparent;
         border: none;
@@ -1122,6 +1465,9 @@ div.panel-pane div.node-teaser {
     fieldset.horizontal-tabs-pane {
       margin: 0;
       padding: 15px 20px;
+      @include breakpoint ($mobile) {
+        padding: 15px;
+      }
     }
   }
 }
@@ -1206,41 +1552,69 @@ div.panel-pane div.node-teaser {
 .page-node.node-type-article {
   .main-container {
     padding-top: 30px;
+    @include breakpoint ($mobile) {
+      padding-top: 15px;
+    }
   }
 }
-
+.no-touch {
+  .node-company.node--company--full {
+    margin-top: 0;
+  }
+}
 .node-company.node--company--full {
+  margin-top: 30px;
   margin-bottom: 30px;
   background: #fff;
   overflow: hidden;
   position: relative;
+  @include breakpoint ($mobile) {
+    margin-bottom: 20px;
+    margin-top: 20px;
+  }
   .company-content {
-    .row {
-      margin: 0;
-      display: table;
-      width: 100%;
+    @include breakpoint ($mobileup) {
+      .row {
+        margin: 0;
+        display: table;
+        width: 100%;
+      }
+      .col-company {
+        display: table-cell;
+        float: none;
+        vertical-align: top;
+      }
+      .col-company-logo {
+        vertical-align: middle;
+      }
+      .col-company-geo {
+        padding-right: 0;
+      }
+      .social-links {
+        position: absolute;
+        top: 12px;
+        right: 20px;
+      }
     }
-    .col-company {
-      display: table-cell;
-      float: none;
-      vertical-align: top;
-    }
-    .col-company-logo {
-      vertical-align: middle;
-    }
-    .col-company-geo {
-      padding-right: 0;
-    }
-    .social-links {
-      position: absolute;
-      top: 22px;
-      right: 20px;
+    @include breakpoint ($mobile) {
+      padding-left: 20px;
+      padding-right: 20px;
+      .col-company-logo {
+        text-align: center;
+      }
     }
   }
   h2 {
-    padding-right: 80px;
     line-height: 1.2;
     margin-bottom: 13px;
+    @include breakpoint ($mobileup) {
+      padding-right: 80px;
+    }
+  }
+  .social-links {
+    a {
+      padding: 10px 5px;
+    }
   }
   .field-name-field-company-logo {
     img {
@@ -1335,11 +1709,27 @@ div.panel-pane div.node-teaser {
       width: 2000px;
       padding-bottom: 20px;
     }
+    @include breakpoint ($mobilesm) {
+      display: block;
+      .left,
+      .right {
+        display: block;
+      }
+      .right {
+        width: auto;
+        margin-left: 0;
+      }
+    }
   }
 }
 
 /* Article */
-
+.node--article--full {
+  img {
+    max-width: 100%;
+    height: auto! important;
+  }
+}
 article {
   h1, h2, h3 {
     text-transform: uppercase;
@@ -1349,6 +1739,9 @@ article {
   }
   h2 {  
     font-size: 18px;
+    @include breakpoint ($mobilesm) {
+      font-size: 16px;
+    }
   }
   h3 {  
     font-size: 16px;
@@ -1501,6 +1894,14 @@ article {
 .region-asides {
   background: #fff;
   padding: 50px 0;
+  @include breakpoint ($tablet) {
+    padding: 30px 0;
+  }
+  @include breakpoint ($mobile) {
+    display: none;
+    height: 0;
+    padding: 0;
+  }
 }
 .region-aside-a,
 .region-aside-b,
@@ -1670,6 +2071,26 @@ article {
       color: #fff;
     }
   } 
+  @include breakpoint ($mobile) {
+    padding: 10px 0;
+    .menu-main-menu {
+      float: none;
+      text-align: center;
+      li {
+        float: none;
+        display: inline-block;
+        padding-left: 7px;
+        padding-right: 7px;
+      }
+    }
+    .copyright {
+      margin: 10px -15px 0;
+      padding: 10px 0 0;
+      border-top: 1px solid $gray;
+      float: none;
+      text-align: center;
+    }
+  }
 }
 
 /* Error page */
@@ -1761,5 +2182,197 @@ article {
       font-size: 90px;
       line-height: 80px;
     }
+  }
+}
+
+@include breakpoint ($desktoplgdown) {
+  .menu-main-menu > li {
+    padding-left: 10px;
+    padding-right: 10px;
+  }
+}
+@include breakpoint ($desktopsm) {
+  .pane-menu-menu-product-menu {
+    padding-right: 20px;
+  }
+}
+@include breakpoint ($tabletlg) {
+  .pane-menu-menu-product-menu {
+    padding-right: 20px;
+  }
+}
+@include breakpoint ($tabletlgdown) {
+  .front {
+    background: #f2f2f2;
+    form.search-block-form--2 {
+      display: block;
+    }
+    .inner-menu-wrapper {
+      display: block;
+    }
+  }
+  .block-system.block-menu{
+    display: none;
+  }
+  .product-link {
+    clear: both;
+    display: block;
+    margin: 0 -30px;
+    line-height: 30px;
+    background: #c8c8c8;
+    text-align: center;
+    text-transform: uppercase;
+    font-size: 12px;
+    font-weight: bold;
+    &:hover {
+      color: $dark;
+    }
+    .link-icon {
+      display: inline-block;
+      vertical-align: 1px;
+      margin-right: 15px;
+      width: 6px;
+      height: 6px;
+      background: $dark;
+      @include box-shadow(-8px 0px 0 0 $dark, 8px 0 0 0 $dark);
+    }
+  }
+  .homepage-container .pane-title {
+    margin: 30px 0;
+  }
+  .node--news--slider_teaser {
+    margin-bottom: 30px !important;
+    background: #fff;
+    .node-read-more {
+      display: none;
+    }
+    &:hover {
+      @include box-shadow(0 0 20px 10px rgba(58, 58, 58, 0.05));
+    }
+    &.node-sticky {
+      border-bottom: 7px solid $main-yellow;
+    }
+    .content {
+      .left {
+        float: left;
+        margin-right: 20px;
+        img {
+          display: block;
+          max-width: 150px;
+          height: auto;        }
+      }
+      .right {
+        margin-left: 150px;
+        padding: 20px 20px 10px;
+      }
+    }
+    .node-title {
+      text-transform: uppercase;
+      font-weight: bold;
+      margin-bottom: 5px;
+    }
+    .node-created {
+      margin-bottom: 5px;
+    }
+    .field-name-body,
+    .node-created {
+      font-size: 12px;
+    }
+    .field-name-body {
+      min-height: 84px;
+      span {
+        font-size: 12px !important;
+        color: $dark !important;
+        font-family: "PT Sans", sans-serif !important;
+      }
+    }
+    .links {
+      list-style-type: none;
+      margin: 0;
+      padding: 0;
+    }
+  }
+  .col-sm-4 {
+    .region-aside-b,
+    .region-aside-c {
+      float: right;
+    }
+  }
+}
+@include breakpoint ($mobile) {
+  .mobile-only {
+    display: block !important;
+  }
+  .mobile-hidden {
+    display: none !important;
+  }
+  .pane-menu-menu-product-menu {
+    margin: 0 -15px;
+  }
+  .node--news--slider_teaser {
+    margin-bottom: 20px !important;
+    &.node-sticky {
+      border-bottom: 2px solid $main-yellow;
+    }
+    .content {
+      .left {
+        margin-right: 10px;
+        img {
+          max-width: 80px;
+        }
+      }
+      .right {
+        margin-left: 80px;
+        padding: 10px;
+      }
+    }
+    .node-title {
+      text-transform: uppercase;
+      font-weight: bold;
+      margin-bottom: 5px;
+      font-size: 12px;
+    }
+    .field-name-body,
+    .node-created {
+      font-size: 11px;
+    }
+    .field-name-body {
+      min-height: 0px;
+      span {
+        font-size: 11px !important;
+      }
+    }
+  }
+  .pane-node-field-categories.mobile-only  {
+    margin-bottom: 20px;
+    padding: 20px;
+    background: #fff;
+  }
+}
+
+@include breakpoint ($mobilesm) {
+  header {
+    .navbar-header {
+      .region-header {
+        .block-search {
+          float: none;
+          width: 100%;
+          position: absolute;
+          top: 54px;
+          left: 0;
+          z-index: 50;
+          background-color: #FFF195;
+          padding: 5px 10px 10px;
+          .search-block-form,
+          .search-block-form--2 {
+            background-color: transparent;
+          }
+        }
+      }
+    }
+  }
+  .homepage-container .pane-title {
+    margin: 15px 0;
+    font-size: 20px;
   }
 }

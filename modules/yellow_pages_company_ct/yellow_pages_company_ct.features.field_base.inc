@@ -55,6 +55,96 @@ function yellow_pages_company_ct_field_default_field_bases() {
     'type' => 'addressfield',
   );
 
+  // Exported field_base: 'field_advertisements'
+  $field_bases['field_advertisements'] = array(
+    'active' => 1,
+    'cardinality' => -1,
+    'deleted' => 0,
+    'entity_types' => array(),
+    'field_name' => 'field_advertisements',
+    'foreign keys' => array(
+      'node' => array(
+        'columns' => array(
+          'target_id' => 'nid',
+        ),
+        'table' => 'node',
+      ),
+    ),
+    'indexes' => array(
+      'target_id' => array(
+        0 => 'target_id',
+      ),
+    ),
+    'locked' => 0,
+    'module' => 'entityreference',
+    'settings' => array(
+      'handler' => 'base',
+      'handler_settings' => array(
+        'behaviors' => array(
+          'views-select-list' => array(
+            'status' => 0,
+          ),
+        ),
+        'sort' => array(
+          'direction' => 'ASC',
+          'property' => 'title',
+          'type' => 'property',
+        ),
+        'target_bundles' => array(
+          'advertisement' => 'advertisement',
+        ),
+      ),
+      'target_type' => 'node',
+    ),
+    'translatable' => 0,
+    'type' => 'entityreference',
+  );
+
+  // Exported field_base: 'field_articles'
+  $field_bases['field_articles'] = array(
+    'active' => 1,
+    'cardinality' => -1,
+    'deleted' => 0,
+    'entity_types' => array(),
+    'field_name' => 'field_articles',
+    'foreign keys' => array(
+      'node' => array(
+        'columns' => array(
+          'target_id' => 'nid',
+        ),
+        'table' => 'node',
+      ),
+    ),
+    'indexes' => array(
+      'target_id' => array(
+        0 => 'target_id',
+      ),
+    ),
+    'locked' => 0,
+    'module' => 'entityreference',
+    'settings' => array(
+      'handler' => 'base',
+      'handler_settings' => array(
+        'behaviors' => array(
+          'views-select-list' => array(
+            'status' => 0,
+          ),
+        ),
+        'sort' => array(
+          'direction' => 'ASC',
+          'property' => 'title',
+          'type' => 'property',
+        ),
+        'target_bundles' => array(
+          'article' => 'article',
+        ),
+      ),
+      'target_type' => 'node',
+    ),
+    'translatable' => 0,
+    'type' => 'entityreference',
+  );
+
   // Exported field_base: 'field_company_logo'
   $field_bases['field_company_logo'] = array(
     'active' => 1,
@@ -256,10 +346,10 @@ function yellow_pages_company_ct_field_default_field_bases() {
       'cache_enabled' => 0,
       'granularity' => array(
         'day' => 'day',
-        'hour' => 0,
-        'minute' => 0,
+        'hour' => 'hour',
+        'minute' => 'minute',
         'month' => 'month',
-        'second' => 0,
+        'second' => 'second',
         'year' => 'year',
       ),
       'timezone_db' => '',

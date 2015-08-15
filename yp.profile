@@ -7,7 +7,7 @@
 /**
  * Implements hook_profile_details().
  */
-// function yp_profile_details(){
+// function yp_profile_details() {
 //   $details['language'] = "ru";
 
 //   return $details;
@@ -45,18 +45,22 @@ function yp_install_tasks($install_state) {
  */
 function _yp_enable_modules() {
   $modules = array(
+    'yellow_pages_ads',
     'yellow_pages_article_ct',
     'yellow_pages_company_ct',
     'yellow_pages_contacts',
+    'yellow_pages_feedback',
     'yellow_pages_frontend',
+    'yellow_pages_lists',
     'yellow_pages_news_ct',
     'yellow_pages_permissions',
     'yellow_pages_print',
     'yellow_pages_rates',
+    'yellow_pages_rules_configuration',
     'yellow_pages_solr_configuration',
+    'yellow_pages_sync',
     'yellow_pages_taxonomy',
     'yellow_pages_weather',
-    'yellow_pages_feedback',
     //'yellow_pages_nodeviewcount', //@todo buggy on install
   );
 

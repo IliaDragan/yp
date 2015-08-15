@@ -19,8 +19,9 @@ function circle_form_alter(&$form, &$form_state, $form_id) {
 function circle_form_element($variables) {
 
   $element = &$variables['element'];
-
-  $attributes = isset($element['#attributes']) ? $element['#attributes'] : array();
+  $attr = isset($element['#attributes']) ? $element['#attributes'] : array();
+  if (isset($attr['id'])) unset($attr['id']);
+  $attributes = $attr;
 
   if (!empty($element['#type'])) {
     $attributes['class'][] = 'form-type-' . strtr($element['#type'], '_', '-');

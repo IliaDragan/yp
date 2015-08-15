@@ -94,15 +94,14 @@
         <a href="<?php print $node_url; ?>"><?php print $title; ?></a>
       </div>
       <div class="node-created">
-        <!-- @todo FORMAT DATE -->
-        <span><?php print $created; ?></span>
+        <span><?php print date('d.m.Y', $created); ?></span>
       </div>
       <?php if (isset($content['body'][0])): ?>
         <?php $content['body'][0]['#markup'] = '<p>' . truncate_utf8($content['body'][0]['#markup'], 500) . '</p>'; ?>
       <?php endif; ?>
       <p><?php print render($content['body']); ?>
       <div class="node-bottom">
-        <?php print render($content['field_categories']); ?>
+        <?php print render($content['field_products']); ?>
 
         <!-- Social links. -->
         <?php if (isset($service_links_rendered) && !empty($service_links_rendered)): ; ?>

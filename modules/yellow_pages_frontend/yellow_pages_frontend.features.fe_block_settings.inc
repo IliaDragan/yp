@@ -64,32 +64,6 @@ function yellow_pages_frontend_default_fe_block_settings() {
     'visibility' => 0,
   );
 
-  $export['simpleads-ad_groups_1'] = array(
-    'cache' => -1,
-    'custom' => 0,
-    'delta' => 'ad_groups_1',
-    'module' => 'simpleads',
-    'node_types' => array(),
-    'pages' => '',
-    'roles' => array(),
-    'themes' => array(
-      'seven' => array(
-        'region' => '',
-        'status' => 0,
-        'theme' => 'seven',
-        'weight' => 0,
-      ),
-      'yellow_pages' => array(
-        'region' => '',
-        'status' => 0,
-        'theme' => 'yellow_pages',
-        'weight' => 0,
-      ),
-    ),
-    'title' => '',
-    'visibility' => 0,
-  );
-
   $export['system-main'] = array(
     'cache' => -1,
     'custom' => 0,

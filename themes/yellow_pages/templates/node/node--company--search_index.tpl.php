@@ -97,7 +97,7 @@
         <?php $content['body'][0]['#markup'] = '<p>' . truncate_utf8($content['body'][0]['#markup'], 300) . '</p>'; ?>
       <?php endif; ?>
       <?php print render($content['body']); ?>
-      <?php print render($content['field_categories']); ?>
+      <?php print render($content['field_products']); ?>
       <div class="node-bottom">
         <?php print render($content['field_landline_phone']); ?>
 

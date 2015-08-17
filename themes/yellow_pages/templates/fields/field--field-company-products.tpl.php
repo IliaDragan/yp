@@ -12,7 +12,7 @@
 <?php
   $item['#prefix'] = '<li>';
   $item['#suffix'] = ';</li>';
-  $item['#href'] = url('search/companies', array('absolute' => TRUE)) . '?f[0]=field_company_products%253Aproduct%3A' . $item['#options']['entity']->tid;
+  $item['#href'] = url('search/companies', array('absolute' => TRUE)) . '?f[0]=field_company_products%253Aproduct%253Aparents_all%3A' . $item['#options']['entity']->tid;
 
   print render($item);
 ?>

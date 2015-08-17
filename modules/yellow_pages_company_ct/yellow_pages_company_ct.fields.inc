@@ -192,6 +192,10 @@ function yellow_pages_company_ct_field_formatter_info() {
       'label' => t('Default'),
       'field types' => array('yp_product'),
     ),
+    'yp_product_parent' => array(
+      'label' => t('Parent category'),
+      'field types' => array('yp_product'),
+    ),
   );
 }
 
@@ -199,11 +203,21 @@ function yellow_pages_company_ct_field_formatter_info() {
  * Implements hook_field_formatter_prepare_view().
  */
 function yellow_pages_company_ct_field_formatter_prepare_view($entity_type, $entities, $field, $instances, $langcode, &$items, $displays) {
+
   foreach ($entities as $id => $entity) {
+    $parents = array();
     foreach ($items[$id] as $delta => $item) {
-      $tid = $item['product'];
-      $term = taxonomy_term_load($tid);
-      $items[$id][$delta]['taxonomy_term'] = $term;
+      if (isset($item['product'])) {
+        $tid = $item['product'];
+
+        // @todo
+        // Refactor this with taxonomy_term_load_multiple().
+        $term = taxonomy_term_load($tid);
+        $items[$id][$delta]['taxonomy_term'] = $term;
+
+        $parents = taxonomy_get_parents_all($term->tid);
+        $items[$id][$delta]['top_most'] = end($parents);
+      }
     }
   }
 }
@@ -213,22 +227,36 @@ function yellow_pages_company_ct_field_formatter_prepare_view($entity_type, $ent
  */
 function yellow_pages_company_ct_field_formatter_view($entity_type, $entity, $field, $instance, $langcode, $items, $display) {
   $element = array();
+  $parents = array();
 
-  switch ($display['type']) {
-    case 'yp_product_default':
-      foreach ($items as $delta => $item) {
-        if (isset($item['product'])) {
-          $term = $item['taxonomy_term'];
-          $uri = entity_uri('taxonomy_term', $term);
-          $element[$delta] = array(
-            '#type' => 'link',
-            '#title' => $term->name,
-            '#href' => $uri['path'],
-            '#options' => $uri['options'],
-          );
-        }
+  foreach ($items as $delta => $item) {
+    if (isset($item['taxonomy_term'])) {
+      $term = $item['taxonomy_term'];
+      $top_most = $item['top_most'];
+
+      switch ($display['type']) {
+        case 'yp_product_default':
+
+          break;
+        case 'yp_product_parent':
+          // Do not display same parents more than once.
+          if (in_array($top_most->tid, $parents)) {
+            break(2);
+          }
+
+          $term = $top_most;
+          $parents[] = $top_most->tid;
+          break;
       }
-      break;
+
+      $uri = entity_uri('taxonomy_term', $term);
+      $element[$delta] = array(
+        '#type' => 'link',
+        '#title' => $term->name,
+        '#href' => $uri['path'],
+        '#options' => $uri['options'],
+      );
+    }
   }
 
   return $element;

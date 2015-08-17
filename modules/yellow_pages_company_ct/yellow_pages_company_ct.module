@@ -59,3 +59,40 @@ function yellow_pages_company_ct_form_company_node_form_alter(&$form, &$form_sta
   // Make sync date field readonly.
   $form['field_mdb_sync_date']['#disabled'] = TRUE;
 }
+
+/**
+ * Implements hook_entity_view().
+ */
+function yellow_pages_company_ct_entity_view($entity, $entity_type, $view_mode, $langcode) {
+  $is_company_page = $entity->type == 'company' && $entity_type == 'node' && $view_mode == 'full';
+
+  if (!$is_company_page) {
+    return;
+  }
+
+  $source_map = array(
+    YP_PRODUCT_BUY => 'group_we_buy',
+    YP_PRODUCT_SELL => 'group_we_sell',
+    YP_PRODUCT_MANUFACTURE => 'group_products',
+    YP_PRODUCT_SERVICES => 'group_services',
+  );
+
+  if (!empty($entity->field_company_products)) {
+    foreach ($entity->field_company_products[LANGUAGE_NONE] as $k => $item) {
+      $term = $item['taxonomy_term'];
+      $target_group = $source_map[$item['product_source']];
+      $target_group_field = $target_group . '_content';
+
+      $entity->content[$target_group_field][$k] = array(
+        '#type' => 'link',
+        '#title' => $term->name,
+        '#href' => url('search/companies', array('absolute' => TRUE)) . '?f[0]=field_company_products%253Aproduct%253Aparents_all%3A' . $term->tid,
+        '#group' => $target_group,
+      );
+
+      $entity->content['#fieldgroups'][$target_group]->children = array(
+        $target_group_field,
+      );
+    }
+  }
+}

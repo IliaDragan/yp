@@ -401,7 +401,7 @@ function yellow_pages_company_ct_field_default_field_instances() {
         'label' => 'hidden',
         'module' => 'yellow_pages_company_ct',
         'settings' => array(),
-        'type' => 'yp_product_default',
+        'type' => 'yp_product_parent',
         'weight' => 9,
       ),
       'search_index' => array(

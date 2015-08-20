@@ -95,4 +95,6 @@ function yellow_pages_company_ct_entity_view($entity, $entity_type, $view_mode, 
       );
     }
   }
+
+  drupal_add_js(drupal_get_path('module', 'yellow_pages_company_ct') . '/js/yellow_pages_company_ct.scripts.js');
 }

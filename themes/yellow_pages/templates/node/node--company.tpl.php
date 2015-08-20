@@ -53,6 +53,7 @@
 
     <!-- Tabbed content -->
     <?php print render($content['group_tabbed_content']); ?>
+    <?php print render($content['field_media_materials']); ?>
   </div>
 
   <?php if ($unpublished): ?>

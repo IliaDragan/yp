@@ -43,7 +43,7 @@ function getWindowWidth () {
           items: 4
       };
 
-      function owlInitialize(){
+      function owlInitialize() {
         if(getWindowWidth() > 991) {
           $owl.owlCarousel(carousel_Settings);
         } else {

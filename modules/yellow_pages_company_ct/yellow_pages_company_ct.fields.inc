@@ -12,7 +12,7 @@ function yellow_pages_company_ct_field_info() {
     'yp_product' => array(
       'label' => t('Products'),
       'description' => t('Products related to this company.'),
-      'default_widget' => 'yp_product_field',
+      'default_widget' => 'yp_product_field_products',
       'default_formatter' => 'yp_product_default',
       'property_type' => 'yp_product',
       'property_callbacks' => array('yellow_pages_company_ct_property_info_callback'),
@@ -84,6 +84,12 @@ function yp_product_data_property_info($name = NULL) {
   return $properties;
 }
 
+/**
+ * Provides possible values for product source (activity).
+ *
+ * @return array
+ *   Set of product sources.
+ */
 function _yp_product_activity_options_list($field = NULL, $instance = NULL) {
   return array(
     YP_PRODUCT_SELL => t('We sell'),
@@ -98,8 +104,12 @@ function _yp_product_activity_options_list($field = NULL, $instance = NULL) {
  */
 function yellow_pages_company_ct_field_widget_info() {
   return array(
-    'yp_product_field' => array(
-      'label' => t('Products field'),
+    'yp_product_field_products' => array(
+      'label' => t('Target products'),
+      'field types' => array('yp_product'),
+    ),
+    'yp_product_field_categories' => array(
+      'label' => t('Target categories'),
       'field types' => array('yp_product'),
     ),
   );
@@ -130,7 +140,7 @@ function yellow_pages_company_ct_field_instance_settings_form($field, $instance)
  */
 function yellow_pages_company_ct_field_widget_form(&$form, &$form_state, $field, $instance, $langcode, $items, $delta, $element) {
   switch ($instance['widget']['type']) {
-    case 'yp_product_field':
+    case 'yp_product_field_products':
       $element['product_source'] = array(
         '#type' => 'select',
         '#title' => t('Activity'),
@@ -146,7 +156,24 @@ function yellow_pages_company_ct_field_widget_form(&$form, &$form_state, $field,
         '#title' => t('Product'),
         '#default_value' => !empty($term) ? $term->name . ' [tid:' . $term->tid . ']' : '',
         '#required' => $element['#required'],
-        '#size' => 32,
+        '#size' => 64,
+        '#attributes' => array('maxlength' => 255),
+      );
+      break;
+    case 'yp_product_field_categories':
+      $element['product_source'] = array(
+        '#type' => 'hidden',
+        '#value' => 0,
+      );
+
+      $term = isset($items[$delta]['product']) ? taxonomy_term_load($items[$delta]['product']) : NULL;
+      $element['product'] = array(
+        '#type' => 'textfield',
+        '#autocomplete_path' => 'yp/autocomplete/category',
+        '#title' => t('Category'),
+        '#default_value' => !empty($term) ? $term->name . ' [tid:' . $term->tid . ']' : '',
+        '#required' => $element['#required'],
+        '#size' => 64,
         '#attributes' => array('maxlength' => 255),
       );
       break;

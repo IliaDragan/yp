@@ -148,7 +148,10 @@ function yellow_pages_lists_get_references(stdClass $context) {
 }
 
 /**
- * Creates frontpage carousel content, assembling news and ads.
+ * Creates frontpage carousel content.
+ *
+ * Assembles news and ads, spreading ads nodes evenly depending on news
+ * nodes count.
  *
  * @return string
  *   Nodes markup.

@@ -101,7 +101,7 @@ function yellow_pages_news_ct_strongarm() {
             'visible' => FALSE,
           ),
           'teaser' => array(
-            'weight' => '4',
+            'weight' => '5',
             'visible' => FALSE,
           ),
           'slider_teaser' => array(

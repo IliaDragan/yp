@@ -108,6 +108,13 @@ function yellow_pages_solr_configuration_views_default_views() {
   $handler->display->display_options['filters']['search_api_language']['value'] = array(
     'current' => 'current',
   );
+  /* Filter criterion: Indexed Node: Content type */
+  $handler->display->display_options['filters']['type']['id'] = 'type';
+  $handler->display->display_options['filters']['type']['table'] = 'search_api_index_company_nodes';
+  $handler->display->display_options['filters']['type']['field'] = 'type';
+  $handler->display->display_options['filters']['type']['value'] = array(
+    'company' => 'company',
+  );
   $handler->display->display_options['argument_input'] = array(
     'search_api_views_fulltext' => array(
       'type' => 'context',
@@ -152,6 +159,13 @@ function yellow_pages_solr_configuration_views_default_views() {
   $handler->display->display_options['filters']['search_api_language']['field'] = 'search_api_language';
   $handler->display->display_options['filters']['search_api_language']['value'] = array(
     'current' => 'current',
+  );
+  /* Filter criterion: Indexed Node: Content type */
+  $handler->display->display_options['filters']['type']['id'] = 'type';
+  $handler->display->display_options['filters']['type']['table'] = 'search_api_index_company_nodes';
+  $handler->display->display_options['filters']['type']['field'] = 'type';
+  $handler->display->display_options['filters']['type']['value'] = array(
+    'company' => 'company',
   );
   $handler->display->display_options['argument_input'] = array(
     'search_api_views_more_like_this' => array(
@@ -199,6 +213,13 @@ function yellow_pages_solr_configuration_views_default_views() {
   $handler->display->display_options['filters']['search_api_language']['field'] = 'search_api_language';
   $handler->display->display_options['filters']['search_api_language']['value'] = array(
     'current' => 'current',
+  );
+  /* Filter criterion: Indexed Node: Content type */
+  $handler->display->display_options['filters']['type']['id'] = 'type';
+  $handler->display->display_options['filters']['type']['table'] = 'search_api_index_company_nodes';
+  $handler->display->display_options['filters']['type']['field'] = 'type';
+  $handler->display->display_options['filters']['type']['value'] = array(
+    'article' => 'article',
   );
   $handler->display->display_options['argument_input'] = array(
     'search_api_views_fulltext' => array(

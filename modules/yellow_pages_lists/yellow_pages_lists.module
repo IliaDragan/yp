@@ -62,6 +62,7 @@ function yellow_pages_lists_related_articles(stdClass $context) {
 function yellow_pages_lists_related_companies(stdClass $context) {
   $relations = yellow_pages_lists_get_relations($context, 'company');
 
+
   return $relations;
 }
 
@@ -95,16 +96,31 @@ function yellow_pages_lists_get_relations(stdClass $context, $type) {
   $relations = array();
   $tids = array();
 
-  if (!empty($context->field_company_products)) {
-    foreach ($context->field_company_products[LANGUAGE_NONE] as $relation) {
+  if (!empty($context->field_products)) {
+    foreach ($context->field_products[LANGUAGE_NONE] as $relation) {
       $tids[] = $relation['product'];
 
-      // Include hierarchy as well.
+      // Include parents as well.
       $parents = taxonomy_get_parents($relation['product']);
+
       foreach ($parents as $parent) {
         $tids[] = $parent->tid;
       }
+
+      // Include tree as well.
+      $term = taxonomy_term_load($relation['product']);
+      $tree = taxonomy_get_tree($term->vid, $term->tid);
+
+      foreach ($tree as $item) {
+        $tids[] = $item->tid;
+      }
+
+      $tids = array_unique($tids);
     }
+  }
+
+  if (empty($tids)) {
+    return $relations;
   }
 
   global $language;
@@ -115,7 +131,9 @@ function yellow_pages_lists_get_relations(stdClass $context, $type) {
     ->entityCondition('bundle', $type)
     ->propertyCondition('status', NODE_PUBLISHED)
     ->propertyCondition('language', $language->language)
-    ->fieldCondition('field_products', 'tid', $tids, 'IN')
+    ->fieldCondition('field_products', 'product', $tids, 'IN')
+    ->propertyCondition('nid', array($context->nid), 'NOT IN')
+    ->propertyOrderBy('sticky', 'DESC')
     ->range(0, 100);
   $result = $query->execute();
 

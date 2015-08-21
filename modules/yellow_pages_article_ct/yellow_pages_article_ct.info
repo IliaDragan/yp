@@ -28,6 +28,7 @@ features[features_api][] = api:2
 features[field_instance][] = node-article-body
 features[field_instance][] = node-article-field_list_image
 features[field_instance][] = node-article-field_main_image
+features[field_instance][] = node-article-field_products
 features[field_instance][] = node-article-field_video
 features[node][] = article
 features[variable][] = comment_anonymous_article

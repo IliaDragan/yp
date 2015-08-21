@@ -1464,14 +1464,14 @@ div.panel-pane div.node-teaser {
 .node-bottom {
   overflow: hidden;
 }
-.node-bottom .field-name-field-company-products,
+.node-bottom .field-name-field-products,
 .node-bottom .field-type-text {
   float: left;
   width: 80%;
   margin-bottom: 0;
 }
 @media (min-width: 0px) and (max-width: 539px) {
-  .node-bottom .field-name-field-company-products,
+  .node-bottom .field-name-field-products,
   .node-bottom .field-type-text {
     width: 70%;
   }
@@ -1787,18 +1787,18 @@ div.panel-pane div.node-teaser {
   display: block;
 }
 
-.field-name-field-company-products {
+.field-name-field-products {
   margin: 0 0 10px 0;
   padding: 0;
   list-style-type: none;
 }
-.field-name-field-company-products li {
+.field-name-field-products li {
   display: inline;
   margin-left: 5px;
   font-size: 11px;
   text-decoration: underline;
 }
-.field-name-field-company-products li:first-child {
+.field-name-field-products li:first-child {
   margin-left: 0;
 }
 
@@ -2635,7 +2635,7 @@ article a {
     font-size: 11px !important;
   }
 
-  .pane-node-field-company-products.mobile-only {
+  .pane-node-field-products.mobile-only {
     margin-bottom: 20px;
     padding: 20px;
     background: #fff;

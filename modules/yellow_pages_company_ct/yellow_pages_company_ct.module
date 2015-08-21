@@ -86,8 +86,8 @@ function yellow_pages_company_ct_entity_view($entity, $entity_type, $view_mode, 
     YP_PRODUCT_SERVICES => 'group_services',
   );
 
-  if (!empty($entity->field_company_products)) {
-    foreach ($entity->field_company_products[LANGUAGE_NONE] as $k => $item) {
+  if (!empty($entity->field_products)) {
+    foreach ($entity->field_products[LANGUAGE_NONE] as $k => $item) {
       $term = $item['taxonomy_term'];
       $target_group = $source_map[$item['product_source']];
       $target_group_field = $target_group . '_content';
@@ -95,7 +95,7 @@ function yellow_pages_company_ct_entity_view($entity, $entity_type, $view_mode, 
       $entity->content[$target_group_field][$k] = array(
         '#type' => 'link',
         '#title' => $term->name,
-        '#href' => url('search/companies', array('absolute' => TRUE)) . '?f[0]=field_company_products%253Aproduct%253Aparents_all%3A' . $term->tid,
+        '#href' => url('search/companies', array('absolute' => TRUE)) . '?f[0]=field_products%253Aproduct%253Aparents_all%3A' . $term->tid,
         '#group' => $target_group,
       );
 

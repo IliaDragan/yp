@@ -175,13 +175,13 @@ function yellow_pages_company_ct_field_default_field_bases() {
     'type' => 'image',
   );
 
-  // Exported field_base: 'field_company_products'
-  $field_bases['field_company_products'] = array(
+  // Exported field_base: 'field_products'
+  $field_bases['field_products'] = array(
     'active' => 1,
     'cardinality' => -1,
     'deleted' => 0,
     'entity_types' => array(),
-    'field_name' => 'field_company_products',
+    'field_name' => 'field_products',
     'foreign keys' => array(),
     'indexes' => array(),
     'locked' => 0,

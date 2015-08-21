@@ -68,7 +68,7 @@ function yellow_pages_article_ct_field_default_field_instances() {
         'summary_rows' => 5,
       ),
       'type' => 'text_textarea_with_summary',
-      'weight' => -4,
+      'weight' => 1,
     ),
   );
 
@@ -256,7 +256,62 @@ function yellow_pages_article_ct_field_default_field_instances() {
         ),
       ),
       'type' => 'media_generic',
-      'weight' => 2,
+      'weight' => 3,
+    ),
+  );
+
+  // Exported field_instance: 'node-article-field_products'
+  $field_instances['node-article-field_products'] = array(
+    'bundle' => 'article',
+    'default_value' => NULL,
+    'deleted' => 0,
+    'description' => '',
+    'display' => array(
+      'default' => array(
+        'label' => 'above',
+        'module' => 'yellow_pages_company_ct',
+        'settings' => array(),
+        'type' => 'yp_product_default',
+        'weight' => 7,
+      ),
+      'full' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+      'search_index' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+      'slider_teaser' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+      'teaser' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+    ),
+    'entity_type' => 'node',
+    'field_name' => 'field_products',
+    'label' => 'Products',
+    'required' => 0,
+    'settings' => array(
+      'user_register_form' => FALSE,
+    ),
+    'widget' => array(
+      'active' => 0,
+      'module' => 'yellow_pages_company_ct',
+      'settings' => array(),
+      'type' => 'yp_product_field_categories',
+      'weight' => 6,
     ),
   );
 
@@ -331,7 +386,7 @@ function yellow_pages_article_ct_field_default_field_instances() {
         ),
       ),
       'type' => 'media_generic',
-      'weight' => 12,
+      'weight' => 5,
     ),
   );
 
@@ -340,6 +395,7 @@ function yellow_pages_article_ct_field_default_field_instances() {
   t('Body');
   t('List image');
   t('Main image');
+  t('Products');
   t('Video');
 
   return $field_instances;

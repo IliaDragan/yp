@@ -134,30 +134,6 @@ function yellow_pages_frontend_default_page_manager_handlers() {
     $display->content['new-c12eedaa-e768-463e-bc1b-b16326388fb9'] = $pane;
     $display->panels['beta_75'][0] = 'new-c12eedaa-e768-463e-bc1b-b16326388fb9';
     $pane = new stdClass();
-    $pane->pid = 'new-f7ca3b52-a42e-4b9f-91dc-32db59bd040f';
-    $pane->panel = 'beta_75';
-    $pane->type = 'yp_related_news';
-    $pane->subtype = 'yp_related_news';
-    $pane->shown = TRUE;
-    $pane->access = array();
-    $pane->configuration = array(
-      'context' => 'argument_entity_id:node_1',
-      'override_title' => 0,
-      'override_title_text' => '',
-      'override_title_heading' => 'h2',
-    );
-    $pane->cache = array();
-    $pane->style = array(
-      'settings' => NULL,
-    );
-    $pane->css = array();
-    $pane->extras = array();
-    $pane->position = 1;
-    $pane->locks = array();
-    $pane->uuid = 'f7ca3b52-a42e-4b9f-91dc-32db59bd040f';
-    $display->content['new-f7ca3b52-a42e-4b9f-91dc-32db59bd040f'] = $pane;
-    $display->panels['beta_75'][1] = 'new-f7ca3b52-a42e-4b9f-91dc-32db59bd040f';
-    $pane = new stdClass();
     $pane->pid = 'new-8441a050-a91a-41e9-8139-c9116999a425';
     $pane->panel = 'beta_75';
     $pane->type = 'yp_related_companies';
@@ -176,11 +152,11 @@ function yellow_pages_frontend_default_page_manager_handlers() {
     );
     $pane->css = array();
     $pane->extras = array();
-    $pane->position = 2;
+    $pane->position = 1;
     $pane->locks = array();
     $pane->uuid = '8441a050-a91a-41e9-8139-c9116999a425';
     $display->content['new-8441a050-a91a-41e9-8139-c9116999a425'] = $pane;
-    $display->panels['beta_75'][2] = 'new-8441a050-a91a-41e9-8139-c9116999a425';
+    $display->panels['beta_75'][1] = 'new-8441a050-a91a-41e9-8139-c9116999a425';
     $pane = new stdClass();
     $pane->pid = 'new-5fba3c28-ce44-48a4-af90-a4d1212be60f';
     $pane->panel = 'gamma_25';
@@ -312,7 +288,7 @@ function yellow_pages_frontend_default_page_manager_handlers() {
     $display->content['new-56561e6d-3858-413b-a822-bf93d7b73dec'] = $pane;
     $display->panels['alpha_75'][1] = 'new-56561e6d-3858-413b-a822-bf93d7b73dec';
     $pane = new stdClass();
-    $pane->pid = 'new-3d9778b1-7abf-433d-b291-0b9d07b04a20';
+    $pane->pid = 'new-df3ce228-1052-4986-87b0-1306c0487f5a';
     $pane->panel = 'beta_25';
     $pane->type = 'entity_field';
     $pane->subtype = 'node:field_products';
@@ -320,7 +296,7 @@ function yellow_pages_frontend_default_page_manager_handlers() {
     $pane->access = array();
     $pane->configuration = array(
       'label' => 'above',
-      'formatter' => 'taxonomy_term_reference_link',
+      'formatter' => 'yp_product_parent',
       'delta_limit' => '0',
       'delta_offset' => '0',
       'delta_reversed' => 0,
@@ -338,9 +314,9 @@ function yellow_pages_frontend_default_page_manager_handlers() {
     $pane->extras = array();
     $pane->position = 0;
     $pane->locks = array();
-    $pane->uuid = '3d9778b1-7abf-433d-b291-0b9d07b04a20';
-    $display->content['new-3d9778b1-7abf-433d-b291-0b9d07b04a20'] = $pane;
-    $display->panels['beta_25'][0] = 'new-3d9778b1-7abf-433d-b291-0b9d07b04a20';
+    $pane->uuid = 'df3ce228-1052-4986-87b0-1306c0487f5a';
+    $display->content['new-df3ce228-1052-4986-87b0-1306c0487f5a'] = $pane;
+    $display->panels['beta_25'][0] = 'new-df3ce228-1052-4986-87b0-1306c0487f5a';
     $pane = new stdClass();
     $pane->pid = 'new-d17e33bf-cffa-461a-bed5-848c6c2230cc';
     $pane->panel = 'beta_25';
@@ -416,7 +392,7 @@ function yellow_pages_frontend_default_page_manager_handlers() {
     $display->content['new-0893ccf0-3b6c-481d-8a4c-fd997f606b5c'] = $pane;
     $display->panels['tabs_75'][1] = 'new-0893ccf0-3b6c-481d-8a4c-fd997f606b5c';
   $display->hide_title = PANELS_TITLE_NONE;
-  $display->title_pane = 'new-3d9778b1-7abf-433d-b291-0b9d07b04a20';
+  $display->title_pane = '0';
   $handler->conf['display'] = $display;
   $export['node_view__news'] = $handler;
 
@@ -521,7 +497,7 @@ function yellow_pages_frontend_default_page_manager_handlers() {
     $display->content['new-07104128-fd54-47af-b116-fd2dc2fe25f4'] = $pane;
     $display->panels['alpha_75'][1] = 'new-07104128-fd54-47af-b116-fd2dc2fe25f4';
     $pane = new stdClass();
-    $pane->pid = 'new-f33d820c-cca1-4876-a2ad-add094193d1b';
+    $pane->pid = 'new-f39e116a-9647-4e30-9a6f-280924203205';
     $pane->panel = 'beta_25';
     $pane->type = 'entity_field';
     $pane->subtype = 'node:field_products';
@@ -529,7 +505,7 @@ function yellow_pages_frontend_default_page_manager_handlers() {
     $pane->access = array();
     $pane->configuration = array(
       'label' => 'above',
-      'formatter' => 'i18n_taxonomy_term_reference_link',
+      'formatter' => 'yp_product_parent',
       'delta_limit' => '0',
       'delta_offset' => '0',
       'delta_reversed' => 0,
@@ -547,9 +523,9 @@ function yellow_pages_frontend_default_page_manager_handlers() {
     $pane->extras = array();
     $pane->position = 0;
     $pane->locks = array();
-    $pane->uuid = 'f33d820c-cca1-4876-a2ad-add094193d1b';
-    $display->content['new-f33d820c-cca1-4876-a2ad-add094193d1b'] = $pane;
-    $display->panels['beta_25'][0] = 'new-f33d820c-cca1-4876-a2ad-add094193d1b';
+    $pane->uuid = 'f39e116a-9647-4e30-9a6f-280924203205';
+    $display->content['new-f39e116a-9647-4e30-9a6f-280924203205'] = $pane;
+    $display->panels['beta_25'][0] = 'new-f39e116a-9647-4e30-9a6f-280924203205';
     $pane = new stdClass();
     $pane->pid = 'new-fe7b5fcc-5481-490a-98a7-96e69a2dc374';
     $pane->panel = 'beta_25';

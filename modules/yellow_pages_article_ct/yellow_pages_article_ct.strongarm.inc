@@ -87,7 +87,10 @@ function yellow_pages_article_ct_strongarm() {
     'extra_fields' => array(
       'form' => array(
         'title' => array(
-          'weight' => '-5',
+          'weight' => '0',
+        ),
+        'language' => array(
+          'weight' => '2',
         ),
       ),
       'display' => array(

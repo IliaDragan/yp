@@ -27,8 +27,6 @@ function yellow_pages_company_ct_field_group_info() {
       1 => 'field_media_materials',
       2 => 'field_price_list',
       3 => 'field_social_links',
-      4 => 'field_we_buy',
-      5 => 'field_we_sell',
     ),
     'format_type' => 'tab',
     'format_settings' => array(
@@ -109,11 +107,11 @@ function yellow_pages_company_ct_field_group_info() {
     'label' => '',
     'weight' => '1',
     'children' => array(
-      0 => 'group_main_content',
-      1 => 'group_contacts',
-      2 => 'group_additional_information',
-      3 => 'group_advertisement',
-      4 => 'group_articles',
+      0 => 'group_additional_information',
+      1 => 'group_advertisement',
+      2 => 'group_articles',
+      3 => 'group_contacts',
+      4 => 'group_main_content',
     ),
     'format_type' => 'tabs',
     'format_settings' => array(
@@ -222,10 +220,10 @@ function yellow_pages_company_ct_field_group_info() {
     'weight' => '23',
     'children' => array(
       0 => 'field_company_logo',
-      1 => 'field_company_site',
-      2 => 'field_email',
-      3 => 'field_mdb_sync_date',
-      4 => 'field_products',
+      1 => 'field_products',
+      2 => 'field_company_site',
+      3 => 'field_email',
+      4 => 'field_mdb_sync_date',
       5 => 'title',
     ),
     'format_type' => 'tab',
@@ -386,9 +384,7 @@ function yellow_pages_company_ct_field_group_info() {
   $field_group->data = array(
     'label' => 'We buy',
     'weight' => '22',
-    'children' => array(
-      0 => 'field_we_buy',
-    ),
+    'children' => array(),
     'format_type' => 'htab',
     'format_settings' => array(
       'formatter' => 'closed',
@@ -413,9 +409,7 @@ function yellow_pages_company_ct_field_group_info() {
   $field_group->data = array(
     'label' => 'We sell',
     'weight' => '21',
-    'children' => array(
-      0 => 'field_we_sell',
-    ),
+    'children' => array(),
     'format_type' => 'htab',
     'format_settings' => array(
       'formatter' => 'closed',

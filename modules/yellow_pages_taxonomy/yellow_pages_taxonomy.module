@@ -4,6 +4,9 @@
  * Code for the Yellow Pages Taxonomy feature.
  */
 
+define('YP_TERM_TYPE_PRODUCT', 1);
+define('YP_TERM_TYPE_CATEGORY', 2);
+
 include_once 'yellow_pages_taxonomy.features.inc';
 
 /**

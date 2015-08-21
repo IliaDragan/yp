@@ -38,23 +38,17 @@ function yellow_pages_solr_configuration_default_search_api_index() {
     "server" : "yp",
     "item_type" : "node",
     "options" : {
-      "index_directly" : 1,
+      "index_directly" : 0,
       "cron_limit" : "50",
       "fields" : {
         "body:value" : { "type" : "text", "boost" : "3.0" },
-        "field_address:locality" : { "type" : "text" },
-        "field_address:premise" : { "type" : "text" },
-        "field_address:thoroughfare" : { "type" : "text" },
-        "field_fax" : { "type" : "list\\u003Ctext\\u003E" },
-        "field_landline_phone" : { "type" : "list\\u003Ctext\\u003E" },
-        "field_mobile_phone" : { "type" : "list\\u003Ctext\\u003E" },
-        "field_products" : { "type" : "list\\u003Cinteger\\u003E", "entity_type" : "taxonomy_term" },
-        "field_we_buy" : { "type" : "text" },
-        "field_we_sell" : { "type" : "text" },
+        "field_products:product" : { "type" : "list\\u003Cinteger\\u003E", "entity_type" : "taxonomy_term" },
+        "field_products:product:parents_all" : {
+          "type" : "list\\u003Clist\\u003Cinteger\\u003E\\u003E",
+          "entity_type" : "taxonomy_term"
+        },
         "nid" : { "type" : "integer" },
         "search_api_language" : { "type" : "string" },
-        "status" : { "type" : "integer" },
-        "sticky" : { "type" : "boolean" },
         "title" : { "type" : "text" },
         "type" : { "type" : "string" }
       },
@@ -71,49 +65,40 @@ function yellow_pages_solr_configuration_default_search_api_index() {
           "weight" : "0",
           "settings" : {
             "lang_field" : "language",
-            "languages" : { "und" : "und", "en" : "en", "ro" : "ro", "ru" : "ru" }
+            "languages" : { "en" : "en", "ro" : "ro", "ru" : "ru" }
           }
         },
         "search_api_alter_add_viewed_entity" : { "status" : 0, "weight" : "0", "settings" : { "mode" : "full" } },
         "search_api_alter_add_url" : { "status" : 0, "weight" : "0", "settings" : [] },
         "search_api_alter_add_aggregation" : { "status" : 0, "weight" : "0", "settings" : [] },
-        "search_api_alter_add_hierarchy" : {
-          "status" : 1,
-          "weight" : "0",
-          "settings" : { "fields" : {
-              "field_goods_and_services:parent" : "field_goods_and_services:parent",
-              "field_goods_and_services:parents_all" : "field_goods_and_services:parents_all",
-              "field_goods_and_services:field_related" : "field_goods_and_services:field_related"
-            }
-          }
-        }
+        "search_api_alter_add_hierarchy" : { "status" : 1, "weight" : "0", "settings" : { "fields" : [] } }
       },
       "processors" : {
         "search_api_case_ignore" : {
           "status" : 1,
           "weight" : "0",
-          "settings" : { "fields" : { "title" : true, "field_we_buy" : true, "field_we_sell" : true } }
+          "settings" : { "fields" : { "title" : true } }
         },
         "search_api_html_filter" : {
           "status" : 1,
           "weight" : "10",
           "settings" : {
-            "fields" : {
-              "title" : true,
-              "field_we_buy" : true,
-              "field_we_sell" : true,
-              "body:value" : true
-            },
+            "fields" : { "title" : true, "body:value" : true },
             "title" : 0,
             "alt" : 1,
             "tags" : "h1 = 5\\r\\nh2 = 3\\r\\nh3 = 2\\r\\nstrong = 2\\r\\nb = 2\\r\\nem = 1.5\\r\\nu = 1.5"
           }
         },
+        "search_api_transliteration" : {
+          "status" : 0,
+          "weight" : "15",
+          "settings" : { "fields" : { "title" : true, "body:value" : true } }
+        },
         "search_api_tokenizer" : {
           "status" : 0,
           "weight" : "20",
           "settings" : {
-            "fields" : { "title" : true, "field_we_buy" : true, "field_we_sell" : true },
+            "fields" : { "title" : true },
             "spaces" : "[^[:alnum:]]",
             "ignorable" : "[\\u0027]"
           }
@@ -122,7 +107,7 @@ function yellow_pages_solr_configuration_default_search_api_index() {
           "status" : 0,
           "weight" : "30",
           "settings" : {
-            "fields" : { "title" : true, "field_we_buy" : true, "field_we_sell" : true },
+            "fields" : { "title" : true },
             "file" : "",
             "stopwords" : "but\\r\\ndid\\r\\nthe this that those\\r\\netc"
           }
@@ -163,7 +148,7 @@ function yellow_pages_solr_configuration_default_search_api_server() {
       "site_hash" : true,
       "scheme" : "http",
       "host" : "localhost",
-      "port" : "8983",
+      "port" : "8080",
       "path" : "\\/solr",
       "http_user" : "",
       "http_pass" : "",

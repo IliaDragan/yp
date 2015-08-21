@@ -32,14 +32,21 @@ function yellow_pages_preprocess_yp_onecol_100(&$variables) {
 }
 
 /**
+ * Injects owl-carousel related files to page.
+ */
+function yellow_pages_inject_owl() {
+  $path = drupal_get_path('theme', 'yellow_pages');
+  drupal_add_js($path . '/js/owl.carousel.min.js');
+  drupal_add_css($path . '/css/owl.carousel.css');
+}
+
+/**
  * Implements hook_preprocess_panels_pane().
  */
 function yellow_pages_preprocess_panels_pane(&$vars) {
   // Add specific scripts and styles for news carousel.
   if ($vars['pane']->type == 'yp_news_carousel') {
-    $path = drupal_get_path('theme', 'yellow_pages');
-    drupal_add_js($path . '/js/owl.carousel.min.js');
-    drupal_add_css($path . '/css/owl.carousel.css');
+    yellow_pages_inject_owl();
   }
 }
 
@@ -47,6 +54,8 @@ function yellow_pages_preprocess_panels_pane(&$vars) {
  * Implements hook_preprocess_node().
  */
 function yellow_pages_preprocess_node(&$vars) {
+  yellow_pages_inject_owl();
+
   $vars['classes_array'][] = 'node--' . $vars['type'] . '--' . $vars['view_mode'];
   $vars['theme_hook_suggestions'][] = 'node__' . $vars['type'] . '__' . $vars['view_mode'];
 }

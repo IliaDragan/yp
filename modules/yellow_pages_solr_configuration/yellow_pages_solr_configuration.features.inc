@@ -54,9 +54,12 @@ function yellow_pages_solr_configuration_default_search_api_index() {
       },
       "data_alter_callbacks" : {
         "search_api_alter_bundle_filter" : {
-          "status" : 0,
+          "status" : 1,
           "weight" : "-10",
-          "settings" : { "default" : "1", "bundles" : { "company" : "company" } }
+          "settings" : {
+            "default" : "1",
+            "bundles" : { "article" : "article", "company" : "company", "news" : "news" }
+          }
         },
         "search_api_alter_node_access" : { "status" : 0, "weight" : "0", "settings" : [] },
         "search_api_alter_node_status" : { "status" : 0, "weight" : "0", "settings" : [] },
@@ -77,7 +80,7 @@ function yellow_pages_solr_configuration_default_search_api_index() {
         "search_api_case_ignore" : {
           "status" : 1,
           "weight" : "0",
-          "settings" : { "fields" : { "title" : true } }
+          "settings" : { "fields" : { "title" : true, "field_products:product:parents_all" : true } }
         },
         "search_api_html_filter" : {
           "status" : 1,

@@ -73,7 +73,7 @@ function yellow_pages_company_ct_form_company_node_form_alter(&$form, &$form_sta
  * Implements hook_entity_view().
  */
 function yellow_pages_company_ct_entity_view($entity, $entity_type, $view_mode, $langcode) {
-  $is_company_page = $entity->type == 'company' && $entity_type == 'node' && $view_mode == 'full';
+  $is_company_page = $entity_type == 'node' && $entity->type == 'company' && $view_mode == 'full';
 
   if (!$is_company_page) {
     return;

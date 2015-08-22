@@ -28,6 +28,9 @@ function yellow_pages_preprocess_yp_onecol_100(&$variables) {
     $form = drupal_get_form('search_block_form');
     $search_box = drupal_render($form);
     $variables['search_box'] = $search_box;
+    $variables['site_name'] = variable_get('site_name', '');
+    $variables['site_slogan'] = variable_get('site_slogan', '');
+    $variables['site_description'] = variable_get('site_description', '');
   }
 }
 

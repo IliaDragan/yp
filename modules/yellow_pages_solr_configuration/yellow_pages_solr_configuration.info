@@ -19,6 +19,7 @@ features[ctools][] = facetapi:facetapi_defaults:1
 features[ctools][] = page_manager:pages_default:1
 features[ctools][] = strongarm:strongarm:1
 features[ctools][] = views:views_default:3.0
+features[facetapi][] = search_api@company_nodes:block:field_address:locality
 features[facetapi][] = search_api@company_nodes:block:field_products:product:parents_all
 features[features_api][] = api:2
 features[page_manager_pages][] = search_content_with_solr

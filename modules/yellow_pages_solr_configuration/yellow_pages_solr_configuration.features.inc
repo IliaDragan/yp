@@ -42,6 +42,7 @@ function yellow_pages_solr_configuration_default_search_api_index() {
       "cron_limit" : "50",
       "fields" : {
         "body:value" : { "type" : "text", "boost" : "3.0" },
+        "field_address:locality" : { "type" : "text" },
         "field_products:product" : { "type" : "list\\u003Cinteger\\u003E", "entity_type" : "taxonomy_term" },
         "field_products:product:parents_all" : {
           "type" : "list\\u003Clist\\u003Cinteger\\u003E\\u003E",
@@ -56,10 +57,7 @@ function yellow_pages_solr_configuration_default_search_api_index() {
         "search_api_alter_bundle_filter" : {
           "status" : 1,
           "weight" : "-10",
-          "settings" : {
-            "default" : "1",
-            "bundles" : { "article" : "article", "company" : "company", "news" : "news" }
-          }
+          "settings" : { "default" : "1", "bundles" : { "advertisement" : "advertisement" } }
         },
         "search_api_alter_node_access" : { "status" : 0, "weight" : "0", "settings" : [] },
         "search_api_alter_node_status" : { "status" : 0, "weight" : "0", "settings" : [] },

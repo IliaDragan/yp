@@ -10,9 +10,15 @@
     <div class="activity container">
       <div class="row">
         <div class="col-md-8">
-          <h3 class="slogan-header"><?php print t('YELLOW PAGES OF MOLDOVA') ?></h3>
-          <p class="slogan"><?php print t('All <span class="yellow">Moldova</span> facilities at your demand'); ?></p>
-          <p class="description"><?php print t('Search companies by name, activity, take your own pick or make a tour through links'); ?></p>
+          <?php if ($site_name): ?>
+          <h3 class="slogan-header"><?php print t($site_name) ?></h3>
+          <?php endif; ?>
+          <?php if ($site_slogan): ?>
+          <p class="slogan"><?php print t($site_slogan); ?></p>
+          <?php endif; ?>
+          <?php if ($site_description): ?>
+          <p class="description"><?php print t($site_description); ?></p>
+          <?php endif; ?>
           <div class="search-block-form">
             <?php print $search_box; ?>
           </div>

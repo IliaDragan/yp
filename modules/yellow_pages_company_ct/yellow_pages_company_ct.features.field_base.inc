@@ -443,6 +443,22 @@ function yellow_pages_company_ct_field_default_field_bases() {
     'type' => 'media',
   );
 
+  // Exported field_base: 'field_products'
+  $field_bases['field_products'] = array(
+    'active' => 1,
+    'cardinality' => -1,
+    'deleted' => 0,
+    'entity_types' => array(),
+    'field_name' => 'field_products',
+    'foreign keys' => array(),
+    'indexes' => array(),
+    'locked' => 0,
+    'module' => 'yellow_pages_company_ct',
+    'settings' => array(),
+    'translatable' => 0,
+    'type' => 'yp_product',
+  );
+
   // Exported field_base: 'field_social_links'
   $field_bases['field_social_links'] = array(
     'active' => 1,
@@ -457,60 +473,6 @@ function yellow_pages_company_ct_field_default_field_bases() {
     'settings' => array(),
     'translatable' => 0,
     'type' => 'social_links_field',
-  );
-
-  // Exported field_base: 'field_we_buy'
-  $field_bases['field_we_buy'] = array(
-    'active' => 1,
-    'cardinality' => 1,
-    'deleted' => 0,
-    'entity_types' => array(),
-    'field_name' => 'field_we_buy',
-    'foreign keys' => array(
-      'format' => array(
-        'columns' => array(
-          'format' => 'format',
-        ),
-        'table' => 'filter_format',
-      ),
-    ),
-    'indexes' => array(
-      'format' => array(
-        0 => 'format',
-      ),
-    ),
-    'locked' => 0,
-    'module' => 'text',
-    'settings' => array(),
-    'translatable' => 0,
-    'type' => 'text_long',
-  );
-
-  // Exported field_base: 'field_we_sell'
-  $field_bases['field_we_sell'] = array(
-    'active' => 1,
-    'cardinality' => 1,
-    'deleted' => 0,
-    'entity_types' => array(),
-    'field_name' => 'field_we_sell',
-    'foreign keys' => array(
-      'format' => array(
-        'columns' => array(
-          'format' => 'format',
-        ),
-        'table' => 'filter_format',
-      ),
-    ),
-    'indexes' => array(
-      'format' => array(
-        0 => 'format',
-      ),
-    ),
-    'locked' => 0,
-    'module' => 'text',
-    'settings' => array(),
-    'translatable' => 0,
-    'type' => 'text_long',
   );
 
   return $field_bases;

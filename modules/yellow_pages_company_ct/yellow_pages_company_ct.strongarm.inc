@@ -100,15 +100,15 @@ function yellow_pages_company_ct_strongarm() {
             'visible' => FALSE,
           ),
           'full' => array(
-            'weight' => '13',
+            'weight' => '15',
             'visible' => FALSE,
           ),
           'teaser' => array(
-            'weight' => '6',
+            'weight' => '8',
             'visible' => FALSE,
           ),
           'search_index' => array(
-            'weight' => '7',
+            'weight' => '9',
             'visible' => FALSE,
           ),
         ),

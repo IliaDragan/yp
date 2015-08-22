@@ -27,8 +27,8 @@ function yellow_pages_taxonomy_field_default_field_bases() {
     'module' => 'list',
     'settings' => array(
       'allowed_values' => array(
-        'product' => 'Product',
-        'category' => 'Category',
+        YP_TERM_TYPE_PRODUCT => 'Product',
+        YP_TERM_TYPE_CATEGORY => 'Category',
       ),
       'allowed_values_function' => '',
     ),

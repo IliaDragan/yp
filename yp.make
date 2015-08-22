@@ -6,6 +6,9 @@ api = 2
 projects[addressfield][version] = "1.0"
 projects[addressfield][subdir] = "contrib"
 
+projects[admin_views][version] = "1.5"
+projects[admin_views][subdir] = "contrib"
+
 projects[ckeditor][version] = "1.16"
 projects[ckeditor][subdir] = "contrib"
 
@@ -47,9 +50,6 @@ projects[file_entity][subdir] = "contrib"
 
 projects[field_group][version] = "1.4"
 projects[field_group][subdir] = "contrib"
-
-projects[find_content][version] = "1.6"
-projects[find_content][subdir] = "contrib"
 
 projects[fontawesome][version] = "2.1"
 projects[fontawesome][subdir] = "contrib"
@@ -137,6 +137,12 @@ projects[variable][subdir] = "contrib"
 
 projects[views][version] = "3.10"
 projects[views][subdir] = "contrib"
+
+projects[views_autocomplete_filters][version] = "1.2"
+projects[views_autocomplete_filters][subdir] = "contrib"
+
+projects[views_bulk_operations][version] = "3.3"
+projects[views_bulk_operations][subdir] = "contrib"
 
 projects[nodeviewcount][version] = "2.3"
 projects[nodeviewcount][subdir] = "contrib"

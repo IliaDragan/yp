@@ -23,6 +23,10 @@ function yellow_pages_solr_configuration_ctools_plugin_directory($module, $plugi
  */
 function yellow_pages_solr_configuration_form_alter(&$form, &$form_state, $form_id) {
   if($form_id == 'search_block_form') {
+    $uri = arg();
+    if ($uri[0] === 'search' && isset($uri[2])) {
+      $form['search_block_form']['#default_value'] = $uri[2];
+    }
     $form['#submit'][] = 'yellow_pages_solr_configuration_form_submit';
   }
 }
@@ -56,6 +60,6 @@ function yellow_pages_solr_configuration_translated_menu_link_alter(&$item, $map
   if ($item['menu_name'] == 'menu-product-menu' && strpos($item['link_path'], 'taxonomy/term/') === 0) {
     $p = 'search/companies';
     $tid = arg(2, $item['link_path']);
-    $item['href'] = url($p, array('absolute' => TRUE)) . '?f[0]=field_products%3A' . $tid;
+    $item['href'] = url($p, array('absolute' => TRUE)) . '?f[0]=field_products%253Aproduct%253Aparents_all%3A' . $tid;
   }
 }

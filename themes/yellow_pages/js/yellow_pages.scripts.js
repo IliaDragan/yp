@@ -43,7 +43,7 @@ function getWindowWidth () {
           items: 4
       };
 
-      function owlInitialize(){
+      function owlInitialize() {
         if(getWindowWidth() > 991) {
           $owl.owlCarousel(carousel_Settings);
         } else {
@@ -237,5 +237,16 @@ function getWindowWidth () {
     }
   }
 
+  // Open service links in new window.
+  $(document).ready(function () {
+    $('a[class^="service-links"]').click(function(e) {
+      var $this = $(this);
+      if (!$this.hasClass('service-links-forward')) {
+        e.preventDefault();
+        var $url = $this.attr('href');
+        window.open($url, '', 'toolbar=0,status=0,width=626,height=436');
+      }
+    });
+  });
 
 }) (jQuery, Drupal);

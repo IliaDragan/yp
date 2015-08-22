@@ -24,12 +24,12 @@ function yellow_pages_ads_menu() {
     'weight' => 2,
   );
 
-  $menu['yellow_pages_ads/autocomplete'] = array(
-    'page callback' => 'yellow_pages_ads_autocomplete',
-    'access arguments' => array('access content'),
-    'type' => MENU_CALLBACK,
-    'file' => 'yellow_pages_ads.rules.inc',
-  );
+//   $menu['yellow_pages_ads/autocomplete'] = array(
+//     'page callback' => 'yellow_pages_ads_autocomplete',
+//     'access arguments' => array('access content'),
+//     'type' => MENU_CALLBACK,
+//     'file' => 'yellow_pages_ads.rules.inc',
+//   );
 
   return $menu;
 }
@@ -103,12 +103,14 @@ function yellow_pages_ads_theme() {
  */
 function yellow_pages_ads_get_ads($limit = YP_ADS_AMOUNT, $category = 'sidebar', $order = 'random') {
   $node = menu_get_object('node');
+  $path = current_path();
+
   $forced_hidden = array();
   $forced_shown = array();
-  if ($node) {
-    $forced_hidden = yellow_pages_ads_get_priority_ads($node->nid, 0);
-    $forced_shown = yellow_pages_ads_get_priority_ads($node->nid, 1);
-  }
+//   if ($node) {
+    $forced_hidden = yellow_pages_ads_get_priority_ads($path, 0);
+    $forced_shown = yellow_pages_ads_get_priority_ads($path, 1);
+//   }
 
   $forced_result = array();
   if (!empty($forced_shown)) {
@@ -157,21 +159,24 @@ function yellow_pages_ads_get_ads($limit = YP_ADS_AMOUNT, $category = 'sidebar',
 /**
  * Get prioritized ads.
  *
- * @param int $nid
- *   Node id, whose page is rendered at the moment.
+ * @param string $current_path
+ *   Path to compare with, usually current path user is located at.
  * @param int $state
  *   Forced hidden/shown (0/1) ads.
  *
  * @return array
  *   Set of ad node id's.
  */
-function yellow_pages_ads_get_priority_ads($nid, $state = 0) {
+function yellow_pages_ads_get_priority_ads($current_path = '', $state = 0) {
   $rules = variable_get('yellow_pages_ads_rules', array());
-
   $hide_ads = array();
+
   foreach ($rules as $ad_nid => $ad_rules) {
     foreach ($ad_rules as $rule) {
-      if (preg_match('/^.*\s\[nid:' . $nid . '\]$/', $rule['entity']) && $rule['rule'] == $state) {
+      $rule_path = str_replace(array('<', '>'), '', $rule['path']);
+      $path_alias = drupal_get_path_alias($current_path);
+      $paths = array_filter(array($current_path, $path_alias));
+      if (in_array($rule_path, $paths) && $rule['rule'] == $state) {
         $hide_ads[] = $ad_nid;
       }
     }

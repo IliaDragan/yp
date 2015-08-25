@@ -1464,14 +1464,14 @@ div.panel-pane div.node-teaser {
 .node-bottom {
   overflow: hidden;
 }
-.node-bottom .field-name-field-products,
+.node-bottom .field-name-field-categories,
 .node-bottom .field-type-text {
   float: left;
   width: 80%;
   margin-bottom: 0;
 }
 @media (min-width: 0px) and (max-width: 539px) {
-  .node-bottom .field-name-field-products,
+  .node-bottom .field-name-field-categories,
   .node-bottom .field-type-text {
     width: 70%;
   }
@@ -1787,18 +1787,18 @@ div.panel-pane div.node-teaser {
   display: block;
 }
 
-.field-name-field-products {
+.field-name-field-categories {
   margin: 0 0 10px 0;
   padding: 0;
   list-style-type: none;
 }
-.field-name-field-products li {
+.field-name-field-categories li {
   display: inline;
   margin-left: 5px;
   font-size: 11px;
   text-decoration: underline;
 }
-.field-name-field-products li:first-child {
+.field-name-field-categories li:first-child {
   margin-left: 0;
 }
 
@@ -2635,7 +2635,7 @@ article a {
     font-size: 11px !important;
   }
 
-  .pane-node-field-products.mobile-only {
+  .pane-node-field-categories.mobile-only {
     margin-bottom: 20px;
     padding: 20px;
     background: #fff;
@@ -2660,5 +2660,73 @@ article a {
   .homepage-container .pane-title {
     margin: 15px 0;
     font-size: 20px;
+  }
+}
+/* Print styles */
+@media print {
+  .container {
+    width: 100% !important;
+    margin: 0;
+    float: none;
+  }
+
+  a[href]:after {
+    content: "";
+    font-weight: normal;
+    font-size: 16px;
+  }
+
+  .navbar-header .region-header,
+  .no-touch .pane-yellow-pages-print-yp-print,
+  .horizontal-tabs ul.horizontal-tabs-list,
+  .region-asides,
+  .footer {
+    display: none;
+  }
+
+  .horizontal-tabs .horizontal-tab-hidden {
+    position: static;
+  }
+
+  .footer .copyright {
+    border: none;
+  }
+
+  .node-company.node--company--full .company-content .col-company-logo {
+    text-align: left;
+  }
+
+  .main-container {
+    min-height: 0 !important;
+  }
+
+  .node-type-news .pane-entity-view .field-name-field-main-image,
+  .node-type-article .pane-entity-view .field-name-field-main-image {
+    float: left;
+    max-width: 50%;
+    margin-right: 30px;
+  }
+  .node-type-news .pane-entity-view .node-main-image-block,
+  .node-type-article .pane-entity-view .node-main-image-block {
+    min-height: 0;
+  }
+  .node-type-news .pane-entity-view .node-main-image-block header,
+  .node-type-article .pane-entity-view .node-main-image-block header {
+    position: static;
+    padding: 10px 0;
+  }
+  .node-type-news .pane-entity-view .field-name-body,
+  .node-type-article .pane-entity-view .field-name-body {
+    padding-top: 0;
+  }
+
+  .node-type-news .yp-twocol-75-25-layout .col-sm-9,
+  .node-type-article .yp-twocol-75-25-layout .col-sm-9 {
+    float: none;
+    width: 100%;
+  }
+  .node-type-news .yp-twocol-75-25-layout .col-sm-3,
+  .node-type-article .yp-twocol-75-25-layout .col-sm-3 {
+    display: none;
   }
 }

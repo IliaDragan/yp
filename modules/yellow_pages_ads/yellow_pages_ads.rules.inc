@@ -69,7 +69,7 @@ function yellow_pages_ads_node_display_rules_form_submit($form, &$form_state) {
   $values = $form_state['values'];
 
   $rules = array_filter($values['rules'], function($v) {
-    return !empty($v['entity']);
+    return !empty($v['path']);
   });
 
   $nid = $values['node_nid'];
@@ -118,10 +118,10 @@ function _yellow_pages_ads_node_display_rules_form_chunk(array $default = array(
     '#default_value' => isset($default['rule']) ? $default['rule'] : 1,
   );
 
-  $form_chunk['entity'] = array(
+  $form_chunk['path'] = array(
     '#type' => 'textfield',
-    '#default_value' => isset($default['entity']) ? $default['entity'] : '',
-    '#autocomplete_path' => 'yellow_pages_ads/autocomplete',
+    '#default_value' => isset($default['path']) ? $default['path'] : '',
+//     '#autocomplete_path' => 'yellow_pages_ads/autocomplete',
   );
 
   return $form_chunk;
@@ -146,7 +146,7 @@ function theme_yellow_pages_ads_rules_form($elements) {
   foreach (element_children($elements['element']) as $k => $v) {
     $rows[] = array(
       drupal_render($elements['element'][$k]['rule']),
-      drupal_render($elements['element'][$k]['entity']),
+      drupal_render($elements['element'][$k]['path']),
     );
   }
 
@@ -163,21 +163,21 @@ function theme_yellow_pages_ads_rules_form($elements) {
  *
  * @see yellow_pages_ads_menu()
  */
-function yellow_pages_ads_autocomplete($s) {
-  $skip_types = array(
-    'advertisement',
-  );
+// function yellow_pages_ads_autocomplete($s) {
+//   $skip_types = array(
+//     'advertisement',
+//   );
 
-  $query = db_select('node', 'n');
-  $query->fields('n', array('nid', 'title'));
-  $query->condition('title', '%' . $s . '%', 'LIKE');
-  $query->condition('type', $skip_types, 'NOT IN');
-  $result = $query->execute()->fetchAll();
+//   $query = db_select('node', 'n');
+//   $query->fields('n', array('nid', 'title'));
+//   $query->condition('title', '%' . $s . '%', 'LIKE');
+//   $query->condition('type', $skip_types, 'NOT IN');
+//   $result = $query->execute()->fetchAll();
 
-  $response = array();
-  foreach ($result as $row) {
-    $response[$row->title . ' [nid:' . $row->nid . ']'] = $row->title;
-  }
+//   $response = array();
+//   foreach ($result as $row) {
+//     $response[$row->title . ' [nid:' . $row->nid . ']'] = $row->title;
+//   }
 
-  drupal_json_output($response);
-}
+//   drupal_json_output($response);
+// }

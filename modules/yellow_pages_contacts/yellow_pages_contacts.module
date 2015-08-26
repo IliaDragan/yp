@@ -11,8 +11,8 @@ function yellow_pages_contacts_menu() {
   $menu = array();
 
   $menu['admin/config/yp/contacts'] = array(
-    'title' => 'YellowPages contacts',
-    'description' => 'Manage contacts information',
+    'title' => 'Contacts',
+    'description' => 'Manage YP contacts information.',
     'page callback' => 'drupal_get_form',
     'page arguments' => array('yellow_pages_contacts_admin_form'),
     'access arguments' => array('administer yp contacts'),

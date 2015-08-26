@@ -21,3 +21,18 @@ function yellow_pages_core_menu() {
 
   return $items;
 }
+
+/**
+ * Implements hook_FORM_ID_alter().
+ *
+ * Enrich site settings with additional description field.
+ */
+function yellow_pages_core_form_system_site_information_settings_alter(&$form, &$form_state) {
+  $form['site_information']['site_description'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Site description'),
+    '#default_value' => variable_get('site_description'),
+  );
+
+  $form['site_information']['site_mail']['#weight'] = '99';
+}

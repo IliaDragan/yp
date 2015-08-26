@@ -15,7 +15,7 @@ function yellow_pages_sync_menu() {
 
   $items['admin/config/yp/sync'] = array(
     'title' => 'Synchronize',
-    'description' => 'Setup data sync from MDB source.',
+    'description' => 'Sync content from MDB source.',
     'page callback' => 'drupal_get_form',
     'page arguments' => array('yellow_pages_sync_admin_form'),
     'access arguments' => array('administer yellow pages sync'),
@@ -136,7 +136,10 @@ function yellow_pages_sync_node(SimpleXMLElement $list_item) {
   if (!empty($item['products']['ru'])) {
     unset($entity->field_products[LANGUAGE_NONE]);
     foreach ($item['products']['ru'] as $k => $tid) {
-      $entity->field_products[LANGUAGE_NONE][$k]['tid'] = $tid;
+      $entity->field_products[LANGUAGE_NONE][$k] = array(
+        'product_source' => YP_PRODUCT_SELL,
+        'product' => $tid,
+      );
     }
   }
   // Addresses.
@@ -479,7 +482,7 @@ function yellow_pages_sync_taxonomy(&$context) {
   // Sync categories.
   if (!$context['sandbox']['categories_synced']) {
     foreach ($context['sandbox']['categories'] as $source_id => $item) {
-      $term = yellow_pages_sync_create_term((string) $item['ru_field'], $context['sandbox']['vocabulary'], array(), 'category');
+      $term = yellow_pages_sync_create_term((string) $item['ru_field'], $context['sandbox']['vocabulary'], array(), YP_TERM_TYPE_CATEGORY);
       $context['sandbox']['categories'][$source_id]['tid'] = $term->tid;
 
       $new_parents = array();
@@ -490,12 +493,12 @@ function yellow_pages_sync_taxonomy(&$context) {
         }
 
         $parent_term_name = (string) $context['sandbox']['categories'][$parent_id]['ru_field'];
-        $parent_term = yellow_pages_sync_create_term($parent_term_name, $context['sandbox']['vocabulary'], array(), 'category');
+        $parent_term = yellow_pages_sync_create_term($parent_term_name, $context['sandbox']['vocabulary'], array(), YP_TERM_TYPE_CATEGORY);
         $new_parents[] = $parent_term->tid;
       }
 
       if (!empty($new_parents)) {
-        yellow_pages_sync_create_term((string) $item['ru_field'], $context['sandbox']['vocabulary'], $new_parents, 'category');
+        yellow_pages_sync_create_term((string) $item['ru_field'], $context['sandbox']['vocabulary'], $new_parents, YP_TERM_TYPE_CATEGORY);
       }
     }
 
@@ -511,7 +514,7 @@ function yellow_pages_sync_taxonomy(&$context) {
       $parents[] = (int) $context['sandbox']['categories'][$parent]['tid'];
     }
 
-    yellow_pages_sync_create_term($item['ru_field'], $context['sandbox']['vocabulary'], $parents, 'product');
+    yellow_pages_sync_create_term($item['ru_field'], $context['sandbox']['vocabulary'], $parents, YP_TERM_TYPE_PRODUCT);
 
     $context['sandbox']['progress']++;
   }
@@ -525,7 +528,7 @@ function yellow_pages_sync_taxonomy(&$context) {
   }
 }
 
-function yellow_pages_sync_create_term($name, $vid, array $parent = array(), $type = 'product') {
+function yellow_pages_sync_create_term($name, $vid, array $parent = array(), $type = YP_TERM_TYPE_PRODUCT) {
   $term = taxonomy_get_term_by_name($name);
   if (empty($term)) {
     $term = new stdClass();

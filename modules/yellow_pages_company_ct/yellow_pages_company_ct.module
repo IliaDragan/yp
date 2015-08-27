@@ -64,6 +64,14 @@ function _products_autocomplete($type, $input) {
 /**
  * Implements hook_form_FORM_ID_alter().
  */
+function yellow_pages_company_ct_form_forward_form_alter(&$form, &$form_state) {
+  $form['message']['email']['#default_value'] = '';
+  $form['message']['name']['#default_value'] = '';
+}
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ */
 function yellow_pages_company_ct_form_company_node_form_alter(&$form, &$form_state, $form_id) {
   // Make sync date field readonly.
   $form['field_mdb_sync_date']['#disabled'] = TRUE;

@@ -11,15 +11,26 @@ include_once 'yellow_pages_rules_configuration.features.inc';
  */
 function yellow_pages_rules_configuration_cron() {
   $tod = mktime(0, 0, 0);
-  $ten_days = 10 * 24 * 60 * 60;
 
   $result = db_query('SELECT n.nid FROM {node} n
       JOIN {node_expire} ne ON n.nid = ne.nid
       WHERE ne.expire = :ne_expire',
-      array(':ne_expire' => $tod + $ten_days));
+      array(':ne_expire' => strtotime('+10 day', $tod)));
 
   foreach ($result as $record) {
     $node = node_load($record->nid);
-    rules_invoke_event('node_expire_in_week', $node);
+    rules_invoke_event('node_expire_in_10_days', $node);
   }
+}
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ */
+function yellow_pages_rules_configuration_form_company_node_form_alter(&$form, &$form_state) {
+  // Show "Expiration date" if sticky is checked.
+  $form['options']['expire']['#states'] = array(
+    'visible' => array(   // action to take.
+      '#edit-sticky' => array('checked' => TRUE),
+    ),
+  );
 }

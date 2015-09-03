@@ -40,7 +40,7 @@ function yellow_pages_sync_single_node($eid) {
 
   // @todo
   // Change to URL.
-  $xml_file = drupal_get_path('module', 'yellow_pages_sync') . '/data/' . $eid . '.xml';
+  $xml_file = 'http://test.varoinform.md:8080/api/enterprises/' . $eid . '/';
   $xml_data = @file_get_contents($xml_file);
 
   try {
@@ -56,9 +56,12 @@ function yellow_pages_sync_single_node($eid) {
   yellow_pages_sync_node($xml);
 }
 
-function yellow_pages_sync_nodes($xml_data, &$context) {
+function yellow_pages_sync_nodes(&$context) {
+  $xml = NULL;
+
   if (!isset($context['sandbox']['progress'])) {
     try {
+      $xml_data = @file_get_contents('http://test.varoinform.md:8080/api/enterprises/?page=155');
       $xml = new SimpleXMLElement($xml_data);
     }
     catch (Exception $e) {
@@ -68,11 +71,29 @@ function yellow_pages_sync_nodes($xml_data, &$context) {
     $context['sandbox']['progress'] = 0;
     $context['sandbox']['max'] = (int) $xml->count;
   }
+  elseif (isset($context['sandbox']['next'])) {
+    try {
+      $xml_data = @file_get_contents($context['sandbox']['next']);
+      $xml = new SimpleXMLElement($xml_data);
+    }
+    catch (Exception $e) {
+      watchdog_exception('yp_sync', $e);
+      return;
+    }
+  }
 
-  foreach ($xml->results->{'list-item'} as $list_item) {
-    yellow_pages_sync_node($list_item);
-    // $context['message'] = t('Now processing %title', array('%title' => $source->title));
-    $context['sandbox']['progress']++;
+  if (is_object($xml)) {
+    unset($context['sandbox']['next']);
+    if (isset($xml->next)) {
+      $next = (string) $xml->next;
+      $context['sandbox']['next'] = $next;
+    }
+
+    foreach ($xml->results->{'list-item'} as $list_item) {
+      yellow_pages_sync_node($list_item);
+      $context['message'] = t('Now processing %title (%count)', array('%title' => $list_item->title, '%count' => $context['sandbox']['progress']));
+      $context['sandbox']['progress']++;
+    }
   }
 
 //   if ($context['sandbox']['progress'] != $context['sandbox']['max']) {
@@ -102,9 +123,9 @@ function yellow_pages_sync_node(SimpleXMLElement $list_item) {
   $results = $query->execute()->fetchAll();
   $result = reset($results);
 
-  if (isset($result->last_sync) && $result->last_sync == $item['last_change']) {
-    return;
-  }
+//   if (isset($result->last_sync) && $result->last_sync == $item['last_change']) {
+//     return;
+//   }
 
   // Basics.
   if (empty($result)) {
@@ -323,25 +344,36 @@ function yellow_pages_sync_process_source_element_url(SimpleXMLElement $source) 
 
 function yellow_pages_sync_process_source_element_products(SimpleXMLElement $source) {
   $source_products = $source->products;
-  $products = array();
-  $locales = array('ru', 'ro', 'en');
+  $products = array('ru' => array());
+//   $locales = array('ru', 'ro', 'en');
 
   if (isset($source_products->{'list-item'})) {
     foreach ($source_products->{'list-item'} as $item) {
-      $p = $item->product;
-      foreach ($locales as $locale) {
-        $products[$locale][] = $p->{$locale . '_field'};
+      $pid = (int) $item->product;
+
+      $query = db_select('yp_term_sync_state', 'tss')
+        ->fields('tss', array('tid'))
+        ->condition('pid', $pid);
+      $result = $query->execute()->fetchCol();
+
+      if (empty($result)) {
+        // @todo
+        // Maybe create new product.
+        watchdog('yp_sync', 'No match found for product with id: %id', array('%id' => $pid), WATCHDOG_NOTICE);
+      }
+      else {
+        $products['ru'][] = reset($result);
       }
     }
   }
 
   // @todo
   // Process all locales and create related terms.
-  array_walk($products['ru'], function(&$product) {
-    $vid = yellow_pages_sync_term_target_vocabulary();
-    $term = yellow_pages_sync_create_term($product, $vid);
-    $product = $term->tid;
-  });
+//   array_walk($products['ru'], function(&$product) {
+//     $vid = yellow_pages_sync_term_target_vocabulary();
+//     $term = yellow_pages_sync_create_term($product, $vid);
+//     $product = $term->tid;
+//   });
 
   return $products;
 }
@@ -428,8 +460,8 @@ function yellow_pages_sync_taxonomy(&$context) {
     $context['sandbox']['vocabulary'] = yellow_pages_sync_term_target_vocabulary();
 
     // Read and process categories.
-    $xml_nodes_file = drupal_get_path('module', 'yellow_pages_sync') . '/data/nodes.xml';
-    $xml_nodes_data = file_get_contents($xml_nodes_file);
+    $xml_nodes_file = 'http://test.varoinform.md:8080/api/nodes/';
+    $xml_nodes_data = @file_get_contents($xml_nodes_file);
     $xml_nodes = new SimpleXMLElement($xml_nodes_data);
 
     foreach ($xml_nodes->{'list-item'} as $item) {
@@ -455,8 +487,8 @@ function yellow_pages_sync_taxonomy(&$context) {
     $context['sandbox']['products'] = array();
 
     // Read and process products.
-    $xml_products_file = drupal_get_path('module', 'yellow_pages_sync') . '/data/products.xml';
-    $xml_products_data = file_get_contents($xml_products_file);
+    $xml_products_file = 'http://test.varoinform.md:8080/api/products/';
+    $xml_products_data = @file_get_contents($xml_products_file);
     $xml_products = new SimpleXMLElement($xml_products_data);
 
     foreach ($xml_products->{'list-item'} as $item) {
@@ -514,7 +546,7 @@ function yellow_pages_sync_taxonomy(&$context) {
       $parents[] = (int) $context['sandbox']['categories'][$parent]['tid'];
     }
 
-    yellow_pages_sync_create_term($item['ru_field'], $context['sandbox']['vocabulary'], $parents, YP_TERM_TYPE_PRODUCT);
+    yellow_pages_sync_create_term((string) $item['ru_field'], $context['sandbox']['vocabulary'], $parents, YP_TERM_TYPE_PRODUCT, (int) $item['id']);
 
     $context['sandbox']['progress']++;
   }
@@ -528,7 +560,7 @@ function yellow_pages_sync_taxonomy(&$context) {
   }
 }
 
-function yellow_pages_sync_create_term($name, $vid, array $parent = array(), $type = YP_TERM_TYPE_PRODUCT) {
+function yellow_pages_sync_create_term($name, $vid, array $parent = array(), $type = YP_TERM_TYPE_PRODUCT, $mdb_id = NULL) {
   $term = taxonomy_get_term_by_name($name);
   if (empty($term)) {
     $term = new stdClass();
@@ -540,11 +572,24 @@ function yellow_pages_sync_create_term($name, $vid, array $parent = array(), $ty
     $term = reset($term);
   }
 
+  $term->parent = 0;
   if (!empty($parent)) {
     $term->parent = $parent;
   }
 
   taxonomy_term_save($term);
+
+  if ($mdb_id) {
+    db_merge('yp_term_sync_state')
+      ->key(array(
+        'pid' => $mdb_id,
+      ))
+      ->fields(array(
+        'pid' => $mdb_id,
+        'tid' => $term->tid,
+      ))
+      ->execute();
+  }
 
   return $term;
 }

@@ -19,7 +19,11 @@ var Drupal = Drupal || {};
           touchDrag : true,
           mouseDrag : true,
           pagination: true,
-          items: 6
+          itemsDesktop: 6,
+          itemsDesktopSmall: 4,
+          itemsTablet: 3,
+          itemsTabletSmall: 2,
+          itemsMobile: 1
       };
       var $owl = $('.field-name-field-media-materials .field-items');
       $owl.owlCarousel(carousel_settings);

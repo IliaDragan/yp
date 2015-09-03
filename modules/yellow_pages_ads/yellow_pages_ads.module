@@ -306,10 +306,12 @@ function yellow_pages_ads_form_advertisement_node_form_alter(&$form, &$form_stat
  * Validate if place for advert on search page already in use.
  */
 function yellow_pages_ads_form_advertisement_node_form_validate(&$form, &$form_state) {
+  dump($form);
   $placement = $form_state['values']['field_ad_placement_in_search'][LANGUAGE_NONE][0]['value'];
   $query = new EntityFieldQuery();
   $query->entityCondition('entity_type', 'node');
   $query->entityCondition('bundle', 'advertisement');
+  $query->propertyCondition('nid', $form['nid']['#value'], '!=');
   $query->propertyCondition('status', NODE_PUBLISHED);
   $query->fieldCondition('field_ad_category', 'value', 'search', '=');
   $query->fieldCondition('field_ad_placement_in_search', 'value', $placement, '=');

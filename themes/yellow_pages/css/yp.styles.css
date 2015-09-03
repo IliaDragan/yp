@@ -377,6 +377,18 @@ header .search-link-mobile {
   margin: 0 -30px;
   padding: 0 15px;
   background: #ffdd00;
+  overflow: visible;
+}
+@media (min-width: 768px) {
+  .menu-menu-product-menu:before {
+    content: "";
+    display: block;
+    position: absolute;
+    left: -10000px;
+    right: -10000px;
+    height: 70px;
+    background-color: #ffdd00;
+  }
 }
 .menu-menu-product-menu li {
   width: 12.5%;
@@ -630,17 +642,6 @@ header .search-link-mobile {
   color: #fff;
   text-transform: uppercase;
   margin-bottom: 50px;
-}
-@media (min-width: 768px) {
-  .frontpage-header:after {
-    content: "";
-    display: block;
-    position: absolute;
-    bottom: -70px;
-    width: 100%;
-    height: 70px;
-    background: #ffdd00;
-  }
 }
 .frontpage-header .activity-banner {
   background: rgba(0, 0, 0, 0.4);
@@ -1280,6 +1281,81 @@ form.yellow-pages-feedback-ad-request .form-type-textarea textarea {
 
 .node-link {
   font-weight: bold;
+}
+
+/* Carousel one company */
+.company-content .field-type-media .field-label {
+  padding: 0 20px 20px;
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+.company-content .field-type-media .owl-dots {
+  position: absolute;
+  top: -40px;
+  left: 0;
+  right: 0;
+  text-align: center;
+}
+.company-content .field-type-media .owl-dots .owl-dot {
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  margin: 10px 3px;
+  background: #1d1d1d;
+}
+.company-content .field-type-media .owl-dots .owl-dot.active {
+  background: #ffdd00;
+}
+.company-content .field-type-media .owl-prev,
+.company-content .field-type-media .owl-next {
+  position: absolute;
+  top: 50%;
+  margin-top: -20px;
+  width: 30px;
+  height: 40px;
+  background: rgba(29, 29, 29, 0.8);
+  text-align: center;
+  line-height: 40px;
+  color: #ffdd00;
+  font-size: 30px;
+}
+.company-content .field-type-media .owl-prev {
+  left: 0;
+}
+.company-content .field-type-media .owl-next {
+  right: 0;
+}
+.company-content .field-type-media .owl-item .content a {
+  display: block;
+  position: relative;
+}
+.company-content .field-type-media .owl-item .content a:hover:before {
+  content: "";
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.6);
+  z-index: 2;
+}
+.company-content .field-type-media .owl-item .content a:hover:after {
+  content: "\f002";
+  display: block;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  margin-top: -15px;
+  margin-left: -10px;
+  font: normal normal normal 20px/30px FontAwesome;
+  text-rendering: auto;
+  color: #fff;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  transform: translate(0, 0);
+  z-index: 3;
 }
 
 /* Views block */
@@ -2059,6 +2135,17 @@ article a {
 .page-search .pane-block .pane-content {
   padding: 25px 30px 25px 40px;
 }
+@media (min-width: 768px) {
+  .page-search .pane-block .pane-content {
+    display: block !important;
+  }
+}
+@media (min-width: 0px) and (max-width: 767px) {
+  .page-search .pane-block .pane-content {
+    display: none;
+    padding: 15px 15px 15px 30px;
+  }
+}
 .page-search .pane-block .pane-title {
   margin: 0;
   padding: 25px 30px 25px 40px;
@@ -2067,6 +2154,25 @@ article a {
   font-weight: 400;
   color: #ffdd00;
   text-transform: uppercase;
+}
+@media (min-width: 0px) and (max-width: 767px) {
+  .page-search .pane-block .pane-title {
+    position: relative;
+    padding: 15px 40px 15px 15px;
+  }
+  .page-search .pane-block .pane-title:after {
+    content: "\f078";
+    display: inline-block;
+    position: absolute;
+    top: 14px;
+    right: 15px;
+    font: normal normal normal 14px/1 FontAwesome;
+    text-rendering: auto;
+    color: #ffdd00;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    transform: translate(0, 0);
+  }
 }
 .page-search .pane-block ul {
   margin: 0;
@@ -2333,7 +2439,7 @@ article a {
   display: block;
   float: left;
   margin-right: 100px;
-  line-height: 26px;
+  line-height: 30px;
   font-weight: bold;
 }
 .footer .menu-main-menu {
@@ -2740,6 +2846,10 @@ article a {
   }
   .node-type-news .yp-twocol-75-25-layout .col-sm-3,
   .node-type-article .yp-twocol-75-25-layout .col-sm-3 {
+    display: none;
+  }
+
+  .company-content .field-type-media .owl-controls {
     display: none;
   }
 }

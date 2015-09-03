@@ -288,3 +288,35 @@ function yellow_pages_ads_ctools_plugin_directory($module, $plugin) {
     return 'plugins/content_types';
   }
 }
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ */
+function yellow_pages_ads_form_advertisement_node_form_alter(&$form, &$form_state) {
+  $form['field_ad_placement_in_search']['#states'] = array(
+    'visible' => array(
+      '#edit-field-ad-category-und' => array('value' => 'search'),
+    ),
+  );
+
+  $form['#validate'][] = 'yellow_pages_ads_form_advertisement_node_form_validate';
+}
+
+/**
+ * Validate if place for advert on search page already in use.
+ */
+function yellow_pages_ads_form_advertisement_node_form_validate(&$form, &$form_state) {
+  $placement = $form_state['values']['field_ad_placement_in_search'][LANGUAGE_NONE][0]['value'];
+  $query = new EntityFieldQuery();
+  $query->entityCondition('entity_type', 'node');
+  $query->entityCondition('bundle', 'advertisement');
+  $query->propertyCondition('status', NODE_PUBLISHED);
+  $query->fieldCondition('field_ad_category', 'value', 'search', '=');
+  $query->fieldCondition('field_ad_placement_in_search', 'value', $placement, '=');
+
+  $result = $query->execute();
+
+  if (!empty($result)) {
+    form_set_error('field_ad_placement_in_search', t("Ad placement in search with parameter {$placement} already in use"));
+  }
+}

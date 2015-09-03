@@ -78,7 +78,7 @@ function yellow_pages_ads_strongarm() {
         'custom_settings' => FALSE,
       ),
       'search_index' => array(
-        'custom_settings' => FALSE,
+        'custom_settings' => TRUE,
       ),
       'search_result' => array(
         'custom_settings' => FALSE,
@@ -111,6 +111,10 @@ function yellow_pages_ads_strongarm() {
           ),
           'slider_teaser' => array(
             'weight' => '2',
+            'visible' => FALSE,
+          ),
+          'search_index' => array(
+            'weight' => '3',
             'visible' => FALSE,
           ),
         ),

@@ -86,3 +86,85 @@ function yellow_pages_solr_configuration_city_filter_callback($item) {
     }
   }
 }
+
+/**
+ * Implements hook_views_post_execute().
+ */
+function yellow_pages_solr_configuration_views_post_execute(&$view) {
+  if ($view->base_table !== 'search_api_index_company_nodes') {
+    return;
+  }
+
+  if (isset($_GET['page']) && is_numeric($_GET['page'])) {
+    return;
+  }
+
+  $query = new EntityFieldQuery();
+  $query->entityCondition('entity_type', 'node');
+  $query->entityCondition('bundle', 'advertisement');
+  $query->propertyCondition('status', NODE_PUBLISHED);
+  $query->fieldCondition('field_ad_category', 'value', 'search', '=');
+
+  $result = $query->execute();
+
+  if (empty($result)) {
+    return;
+  }
+
+  $search_adverts = array();
+  foreach ($result['node'] as $adv) {
+    $ad = array();
+    $advert = node_load($adv->nid);
+
+    $ad['advert'] = $advert;
+    $ad['nid'] = $adv->nid;
+    $search_adverts[$adv->nid] = $ad;
+  }
+
+  $_sty_adverts_promoted_nids = array_keys($search_adverts);
+  if (empty($_sty_adverts_promoted_nids)) {
+    $_sty_adverts_promoted_nids = array();
+  }
+
+  // Remove all promoted nodes from result (to evade duplicates).
+  $promoted_nodes_present = array();
+  foreach ($view->result as $index => $row) {
+    if (isset($row->entity)) {
+      if (is_int($row->entity)) {
+        $entity_id = $row->entity;
+      }
+      elseif (is_object($row->entity)) {
+        $entity_id = $row->entity->nid;
+      }
+    }
+    elseif (isset($row->nid)) {
+      $entity_id = $row->nid;
+    }
+
+    if (in_array($entity_id, $_sty_adverts_promoted_nids)) {
+      unset($view->result[$index]);
+      $promoted_nodes_present[] = $entity_id;
+    }
+  }
+
+  // We have to render nodes using the same display mode as the view uses.
+  foreach ($search_adverts as $ad) {
+
+    $rendered_ad = new stdClass();
+    $rendered_ad->entity = $ad['advert']->nid;
+
+    // Create a entity metadata wrapper
+    $entity_wrapper = entity_metadata_wrapper('node', $ad['advert']);
+
+    // Place the ads on the desired position.
+    $row = $entity_wrapper->field_ad_placement_in_search->value();
+    $position = $row - 1;
+    array_splice($view->result, $position, 0, array($rendered_ad));
+  }
+
+  // Insertions lead to more result items than initially set in pagination settings.
+  $limit = 10;
+  if (count($view->result) > $limit) {
+    $view->result = array_slice($view->result, 0, $limit);
+  }
+}

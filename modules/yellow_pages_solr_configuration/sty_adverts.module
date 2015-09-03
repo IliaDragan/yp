@@ -1,0 +1,439 @@
+<?php
+/**
+ * @file
+ * Main module file.
+ */
+
+/**
+ * Implements hook_init().
+ */
+function sty_adverts_init() {
+  global $language;
+  $cid = 'active_adverts:' . $language->language;
+  if (cache_get($cid)) {
+    return;
+  }
+  // Load all nodes that have active adverts into cache for quick lookup when
+  // nodes are requested from Solr that doesn't store information about adverts.
+  // Check if the view has any linked adverts referenced by published nodes.
+  $sql =
+    "SELECT a.entity_id, a.field_advert_target_id"
+    . " FROM field_data_field_advert AS a"
+    . " JOIN node n ON n.nid = a.field_advert_target_id AND n.language = :lang AND n.status = :status";
+  $advert_info = db_query(
+      $sql,
+      array(':lang' => $language->language, ':status' => 1),
+      array('target' => 'slave')
+    )->fetchAllKeyed();
+  cache_set($cid, $advert_info);
+}
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ * Here we preprocess the form to make it display actual views and contexts for
+ * the creative format overview page in Drupal admin interface.
+ */
+function sty_adverts_form_views_exposed_form_alter(&$form, $form_state, $form_id) {
+  if ($form['#id'] == 'views-exposed-form-creative-formats-page') {
+    $views_metadata = _sty_get_views_metadata();
+    $views_options = array('All' => t('- Any -'));
+    foreach ($views_metadata as $view_id => $view_data) {
+      $views_options[$view_id] = $view_data['title'];
+    }
+
+    // Populate views and contexts.
+    $form['field_target_view_value']['#options'] = $views_options;
+    $form['field_ad_context_value']['#options'] = _sty_get_shop_page_view_contexts();
+    unset($form['field_ad_context_value']['#options']['']);
+    $form['field_ad_context_value']['#options']['All'] = t('- Any -');
+  }
+}
+
+/**
+ * Implements hook_views_pre_render().
+ * Here we preprocess the advert view result to make it display actual view/context titles for
+ * the creative format overview page in Drupal admin interface.
+ */
+function sty_adverts_views_pre_render(&$view) {
+  if ($view->name == 'creative_formats') {
+    $views_metadata = _sty_get_views_metadata();
+    $views = array('All' => t('- Any -'));
+    foreach ($views_metadata as $view_id => $view_data) {
+      $views[$view_id] = $view_data['title'];
+    }
+    $contexts = _sty_get_shop_page_view_contexts();
+    foreach ($view->result as $row) {
+      if (!empty($row->field_field_target_view[0]['rendered']['#markup'])) {
+        $row->field_field_target_view[0]['rendered']['#markup'] = $views[$row->field_field_target_view[0]['rendered']['#markup']];
+      }
+      if (!empty($row->field_field_ad_context[0]['rendered']['#markup'])) {
+        $row->field_field_ad_context[0]['rendered']['#markup'] = $contexts[$row->field_field_ad_context[0]['rendered']['#markup']];
+      }
+    }
+  }
+}
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ */
+function sty_adverts_form_advert_node_form_alter(&$form, $form_state, $form_id) {
+  // We have to prepare the list of available views.
+  $views = views_get_views_as_options();
+  $views_metadata = _sty_get_views_metadata();
+
+  // Use view title if not empty (it may contain cols x rows info).
+  foreach ($views as $opt_value => $opt_text) {
+    if (isset($views_metadata[$opt_value])) {
+      $views[$opt_value] = $views_metadata[$opt_value]['title'];
+    }
+    else {
+      unset($views[$opt_value]);
+    }
+  }
+
+  // Populate with the saved value.
+  $lng = $form['field_target_view']['#language'];
+  $form['field_target_view'][$lng]['#options'] = array_merge($form['field_target_view'][$lng]['#options'], $views);
+  if (!empty($form['#node']->field_target_view)) {
+    $form['field_target_view'][$lng]['#default_value'] = $form['#node']->field_target_view[$lng][0]['value'];
+  }
+
+  // If shop view has context - show them.
+  $lng = $form['field_ad_context']['#language'];
+  $form['field_ad_context'][$lng]['#options'] = _sty_get_shop_page_view_contexts();
+  if (!empty($form['#node']->field_ad_context)) {
+    $form['field_ad_context'][$lng]['#default_value'] = $form['#node']->field_ad_context[$lng][0]['value'];
+  }
+  $form['field_ad_context'][$lng]['#states'] = array('visible' => array(':input[name=field_target_view\[' . $lng . '\]]' => array('value' => 'shop_page:block')));
+}
+
+/**
+ * Implements hook_views_post_execute().
+ * Perform necessary insertions for promoted content.
+ * @see sty_adverts_node_load().
+ * @see _sty_get_views_metadata().
+ */
+function sty_adverts_views_post_execute(&$view) {
+  global $_sty_adverts_view_offset;
+  global $_sty_adverts_promoted_nids;
+  global $language;
+  $ads = &drupal_static('sty_adverts', array());
+  $views_adverts = &drupal_static('sty_views_adverts', array());
+  $solr_view = ($view->base_table == 'search_api_index_node_index') ? TRUE : FALSE;
+
+  // We never show adverts on a page other than first.
+  if (isset($_GET['page']) && is_numeric($_GET['page'])) {
+    return;
+  }
+  // And for views that are not declared as supporting adverts.
+  $view_metadata = _sty_get_views_metadata();
+  if (!isset($view_metadata[$view->name . ':' . $view->current_display])) {
+    return;
+  }
+  else {
+    $view_metadata = $view_metadata[$view->name . ':' . $view->current_display];
+    $view_cols = isset($view_metadata['cols']) ? $view_metadata['cols'] : FALSE;
+  }
+
+  // Check if the view has any linked adverts referenced by published nodes.
+  $sql = "SELECT a.entity_id, tv.entity_id AS tv_entity_id
+    FROM field_data_field_target_view AS tv
+    JOIN field_data_field_advert AS a
+      ON tv.entity_id = a.field_advert_target_id
+    JOIN node n ON n.nid = a.entity_id AND n.language = :lang
+    WHERE tv.field_target_view_value = :view";
+  $advert_info = db_query(
+      $sql,
+      array(':view' => $view->name . ':'. $view->current_display, ':lang' => $language->language),
+      array('target' => 'slave')
+    )->fetchAll();
+
+  if (!count($advert_info)) {
+    return;
+  }
+  // Load adverts and linked nodes.
+  foreach ($advert_info as $details) {
+    // Load advert node at this stage. Other entities will be loaded in sty_adverts_node_load().
+    $ad = array();
+    $advert = node_load($details->tv_entity_id);
+
+    // If an advert is not published we skip it.
+    if ($advert->status != NODE_PUBLISHED) {
+      continue;
+    }
+    $ad['advert'] = $advert;
+    $ad['nid'] = $details->entity_id;
+    $views_adverts[$details->entity_id] = $ad;
+  }
+
+  // Check if an advert matches the context.
+  // At the moment we only use contexts for shop page to show adverts based on category.
+  if (!empty($view_metadata['context handler'])) {
+    $handler = $view_metadata['context handler'];
+    $handler($views_adverts);
+  }
+
+  $_sty_adverts_promoted_nids = array_keys($views_adverts);
+  if (empty($_sty_adverts_promoted_nids)) {
+    $_sty_adverts_promoted_nids = array();
+  }
+
+  // Remove all promoted nodes from result (to evade duplicates).
+  $promoted_nodes_present = array();
+  foreach ($view->result as $index => $row) {
+    if (isset($row->entity)) {
+      if (is_int($row->entity)) {
+        $entity_id = $row->entity;
+      }
+      elseif (is_object($row->entity)) {
+        $entity_id = $row->entity->nid;
+      }
+    }
+    elseif (isset($row->nid)) {
+      $entity_id = $row->nid;
+    }
+
+    if (in_array($entity_id, $_sty_adverts_promoted_nids)) {
+      unset($view->result[$index]);
+      $promoted_nodes_present[] = $entity_id;
+    }
+  }
+
+  // Load the missing nodes.
+  // @todo: we don't use the return value now (because it is possible) but we should.
+  $missing_nodes = array_diff($_sty_adverts_promoted_nids, $promoted_nodes_present);
+  if (count($missing_nodes) && !empty($view_metadata['missing nodes loader'])) {
+    $handler = $view_metadata['missing nodes loader'];
+    $handler($missing_nodes);
+  }
+
+  // We have to render nodes using the same display mode as the view uses.
+  foreach ($views_adverts as $ad) {
+    $nid_wrapper = $solr_view ? 'entity' : 'nid';
+    $rendered_ad = (object)(array($nid_wrapper => $ad['nid']));
+
+    // Create a entity metadata wrapper
+    $entity_wrapper = entity_metadata_wrapper('node', $ad['advert']);
+
+    // Place the ads on the desired position.
+    $col = $entity_wrapper->field_ad_column->value();
+    $row = $entity_wrapper->field_ad_row->value();
+    $position = ($row - 1) * $view_cols + $col - 1;
+    array_splice($view->result, $position, 0, array($rendered_ad));
+  }
+
+  // Insertions lead to more result items than initially set in pagination settings.
+  $limit = intval($view->query->pager->get_items_per_page());
+  if (count($view->result) > $limit) {
+    $_sty_adverts_view_offset = count($view->result) - $limit;
+    $view->result = array_slice($view->result, 0, $limit);
+  }
+  $ads += $views_adverts;
+  drupal_static_reset('sty_views_adverts');
+}
+
+/**
+ * Implements hook_search_api_query_alter().
+ * Alter the paginated view query if next page is requested, so that any result items
+ * are not shown if promoted ones are inserted.
+ */
+function sty_adverts_search_api_query_alter(SearchApiQueryInterface $query) {
+  global $_sty_adverts_view_offset;
+  // Alter when page=X is present and only if offset is supposed to be changed.
+  if (isset($_GET['page']) && isset($_sty_adverts_view_offset)) {
+    $query->setOption('offset', $query->getOption('offset') - $_sty_adverts_view_offset);
+    unset($_sty_adverts_view_offset);
+  }
+}
+
+/**
+ * Implements hook_entity_view().
+ * We use this hook to load advert details into node entity before it's rendered.
+ */
+function sty_adverts_entity_view($entity, $entity_type, $view_mode, $langcode) {
+  global $language;
+  $cid = 'active_adverts:' . $language->language;
+  $ads = drupal_static('sty_adverts', array());
+  // Note: we only supports nodes.
+  if ($entity_type == 'node') {
+    // if coming from a view, we have the static $ads available
+    if (isset($ads[$entity->nid])) {
+    $entity->advert = $ads[$entity->nid]['advert'];
+    // Load advert's sponsor details.
+    $sponsor_tid = $entity->advert->field_sponsor[LANGUAGE_NONE][0]['tid'];
+    $entity->advert_sponsor = taxonomy_term_load($sponsor_tid);
+    // if not (e.g. node page), we need to load the advert node and then the sponsor term to have it available for preprocessing
+    }
+    elseif (isset($entity->field_advert['und'][0]['target_id'])) {
+      $entity->advert = $entity->field_advert['und'][0]['target_id'];
+      $advert = node_load($entity->advert);
+      $entity->advert_sponsor = taxonomy_term_load($advert->field_sponsor[LANGUAGE_NONE][0]['tid']);
+    }
+    // Finally, we have to check if the node has an advert but we don't get this
+    // information in entitie's field because it comes from Solr that doesn't
+    // index advert field.
+    elseif ($adverts = cache_get($cid)) {
+      $adverts = $adverts->data;
+      if (isset($adverts[$entity->nid])) {
+        $entity->advert = $adverts[$entity->nid];
+        $advert = node_load($entity->advert);
+        $entity->advert_sponsor = taxonomy_term_load($advert->field_sponsor[LANGUAGE_NONE][0]['tid']);
+      }
+    }
+  }
+}
+
+/**
+ * Implements hook_preprocess_node().
+ */
+function sty_adverts_preprocess_node(&$vars) {
+  // Add a tagging class to adverts.
+  $vars['is_advert'] = FALSE;
+  if (!empty($vars['node']->advert)) {
+    $vars['is_advert'] = TRUE;
+    $vars['advert'] = $vars['node']->advert;
+    $vars['advert_sponsor'] = $vars['node']->advert_sponsor;
+    // add $advert_sponsor_logo tpl variable
+    if (isset($vars['node']->advert_sponsor) && isset($vars['node']->advert_sponsor->field_logo)) {
+      $vars['advert_sponsor_logo'] = sty_site_render_image_file($vars['node']->advert_sponsor->field_logo[LANGUAGE_NONE][0], 'sty_thumbnail_logo');
+    }
+  }
+}
+
+/**
+ * Returns those adverts that are specifically set to be shown on a shop category page.
+ */
+function _sty_adverts_shop_category_filter(&$adverts) {
+  $category_context = FALSE;
+  if (!empty($_GET['f'])) {
+    foreach ($_GET['f'] as $facet) {
+      $matches = array();
+      // Extract category from Solr facets.
+      if (preg_match('/field_product_category:(\d+)/', $facet, $matches)) {
+        $category_context = $matches[1];
+      }
+      // We are on blogger shop page, brand/color specific page - remove all adverts.
+      elseif (preg_match('/(blogger_liked|field_color|field_product_brand|field_price)/', $facet, $matches)) {
+        $adverts = array();
+        return;
+      }
+    }
+  }
+
+  if ($category_context) {
+    foreach ($adverts as $nid => $advert) {
+      if (!empty($advert['advert']->field_ad_context)) {
+        $entity_wrapper = entity_metadata_wrapper('node', $advert['advert']);
+        $value = $entity_wrapper->field_ad_context->value();
+        if ($value == $category_context) {
+          continue;
+        }
+        else {
+          unset($adverts[$nid]);
+        }
+      }
+      // Do not show variants that don't have context set or context is different from current.
+      else {
+        unset($adverts[$nid]);
+      }
+    }
+  }
+  // We are on the shop main page - remove context-dependent adverts.
+  else {
+    foreach ($adverts as $nid => $advert) {
+      if (!empty($advert['advert']->field_ad_context)) {
+        $entity_wrapper = entity_metadata_wrapper('node', $advert['advert']);
+        $value = $entity_wrapper->field_ad_context->value();
+        if (!empty($value)) {
+          unset($adverts[$nid]);
+        }
+      }
+    }
+  }
+}
+
+/**
+ * Returns the definitions of all of the views that are supposed to contain adverts.
+ * If a view is not defined here it will not be available for advert placement.
+ */
+function _sty_get_views_metadata($view_id = NULL) {
+  $metadata = array();
+
+  // METADATA DEFINITIONS.
+  // New views has to be added to $metadata array.
+  $metadata['shop_page:block'] = array(
+    'title' => 'Shop (5x4)',
+    'cols'  => 5,
+    'rows'  => 4,
+    'context handler' => '_sty_adverts_shop_category_filter',
+    'missing nodes loader' => '_sty_adverts_load_solr_products'
+  );
+
+  //Metadata of view for t&g left
+  $metadata['trends_and_guides:block_1'] = array(
+    'title' => 'Trends and guides left (1x4)',
+    'cols' => 1,
+    'rows' => 4,
+    'missing nodes loader' => 'sty_solr_load_nodes'
+  );
+
+  //Metadata of view for t&g right
+  $metadata['trends_and_guides:block_2'] = array(
+    'title' => 'Trends and guides right (1x10)',
+    'cols' => 1,
+    'rows' => 10,
+    'missing nodes loader' => 'sty_solr_load_nodes'
+  );
+
+  //Metadata of view for global view
+  $metadata['global_view:panel_pane_1'] = array(
+    'title' => 'Front page (4x2)',
+    'cols' => 4,
+    'rows' => 2,
+    'missing nodes loader' => 'sty_solr_load_nodes'
+  );
+
+  if ($view_id) {
+    return $metadata[$view_id];
+  }
+
+  return $metadata;
+}
+
+function _sty_get_shop_page_view_contexts() {
+  // Prepare product categories that can be used as contexts to filter adverts.
+  $shop_contexts = array('' => t('- None -'));
+  $terms = taxonomy_get_tree(STY_PRODUCT_CATEGORY_VID);
+  foreach ($terms as $term) {
+    if ($term->parents[0]) {
+      $shop_contexts[$term->tid] = $term->name;
+    }
+  }
+  return $shop_contexts;
+}
+
+/**
+ * Fetches nodes from solr by node ID.
+ * @param array $nids array of nids
+ * @return array of loaded nodes.
+ * @see sty_adverts_search_api_query_alter().
+ */
+function _sty_adverts_load_solr_products($nids) {
+  // The globals variables and facet static variable below are copied
+  // and then restored after node load view query is executed.
+  global $pager_page_array, $pager_total;
+  $sty_last_pager = $pager_total;
+  $sty_last_pager_page = $pager_page_array;
+  $sty_shop_search_facets = drupal_static('search_api_facetapi_active_facets');
+
+  // @todo: remove "products_solr_queries" view since not used.
+  sty_solr_load_nodes($nids);
+
+  // Restore previous search facets.
+  $facets = &drupal_static('search_api_facetapi_active_facets', array());
+  $facets = $sty_shop_search_facets;
+  $pager_total = $sty_last_pager;
+  $pager_page_array = $sty_last_pager_page;
+
+  return array();
+}

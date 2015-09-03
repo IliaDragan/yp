@@ -13,11 +13,11 @@ function yellow_pages_solr_configuration_facetapi_default_facet_settings() {
   $facet = new stdClass();
   $facet->disabled = FALSE; /* Edit this to true to make a default facet disabled initially */
   $facet->api_version = 1;
-  $facet->name = 'search_api@company_nodes:block:field_address:locality';
+  $facet->name = 'search_api@company_nodes:block:city_filter';
   $facet->searcher = 'search_api@company_nodes';
   $facet->realm = 'block';
-  $facet->facet = 'field_address:locality';
-  $facet->enabled = FALSE;
+  $facet->facet = 'city_filter';
+  $facet->enabled = TRUE;
   $facet->settings = array(
     'weight' => 0,
     'widget' => 'facetapi_links',
@@ -44,7 +44,7 @@ function yellow_pages_solr_configuration_facetapi_default_facet_settings() {
     'nofollow' => 1,
     'show_expanded' => 0,
   );
-  $export['search_api@company_nodes:block:field_address:locality'] = $facet;
+  $export['search_api@company_nodes:block:city_filter'] = $facet;
 
   $facet = new stdClass();
   $facet->disabled = FALSE; /* Edit this to true to make a default facet disabled initially */

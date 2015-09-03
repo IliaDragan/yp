@@ -96,6 +96,7 @@ function yellow_pages_solr_configuration_views_default_views() {
   $handler->display->display_options['arguments']['search_api_views_fulltext']['not'] = 0;
   $handler->display->display_options['arguments']['search_api_views_fulltext']['fields'] = array(
     'body:value' => 'body:value',
+    'field_address:locality' => 'field_address:locality',
     'title' => 'title',
   );
   $handler->display->display_options['arguments']['search_api_views_fulltext']['conjunction'] = 'OR';

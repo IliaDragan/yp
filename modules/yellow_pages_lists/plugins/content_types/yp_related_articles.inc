@@ -21,7 +21,7 @@ function yellow_pages_lists_related_articles_plugin_edit_form($form, &$form_stat
 function yellow_pages_lists_related_articles_plugin_render($subtype, $conf, $panel_args, $context) {
   $plugin_data = new stdClass();
   $plugin_data->title = t('Similar articles');
-  $plugin_data->content = yellow_pages_lists_similar_articles($context->data);
+  $plugin_data->content = yellow_pages_lists_related_content('articles', $context->data);
 
   return $plugin_data;
 }

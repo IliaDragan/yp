@@ -63,3 +63,26 @@ function yellow_pages_solr_configuration_translated_menu_link_alter(&$item, $map
     $item['href'] = url($p, array('absolute' => TRUE)) . '?f[0]=field_products%253Aproduct%253Aparents_all%3A' . $tid;
   }
 }
+
+/**
+ * Implements hook_entity_property_info_alter().
+ */
+function yellow_pages_solr_configuration_entity_property_info_alter(&$info) {
+  $info['node']['properties']['city_filter'] = array(
+    'type' => 'text',
+    'label' => t('Filter by city.'),
+    'getter callback' => 'yellow_pages_solr_configuration_city_filter_callback',
+  );
+}
+
+/**
+ * Return city name for filtration field on solr indexation.
+ */
+function yellow_pages_solr_configuration_city_filter_callback($item) {
+  if ($item->type == 'company') {
+    $city = field_get_items('node', $item, 'field_address');
+    if (isset($city[0]['locality']) && !empty($city[0]['locality'])) {
+      return $city[0]['locality'];
+    }
+  }
+}

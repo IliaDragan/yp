@@ -17,7 +17,7 @@ function yellow_pages_solr_configuration_facetapi_default_facet_settings() {
   $facet->searcher = 'search_api@company_nodes';
   $facet->realm = 'block';
   $facet->facet = 'field_address:locality';
-  $facet->enabled = TRUE;
+  $facet->enabled = FALSE;
   $facet->settings = array(
     'weight' => 0,
     'widget' => 'facetapi_links',

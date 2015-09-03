@@ -2385,7 +2385,7 @@ article {
     zoom: 100%;
   }
   .container {
-    width: 100% !important;
+    min-width: 90% !important;
     margin: 0;
     float: none;
   }

@@ -31,7 +31,6 @@ function yellow_pages_ads_field_default_field_bases() {
         'sidebar' => 'Sidebar',
         'content' => 'Content',
         'frontpage' => 'Frontpage',
-        'search' => 'Search',
       ),
       'allowed_values_function' => '',
     ),

@@ -1,0 +1,345 @@
+<?php
+/**
+ * @file
+ * Code for the Yellow Pages Ads feature.
+ */
+
+define('YP_ADS_AMOUNT', 3);
+
+include_once 'yellow_pages_ads.features.inc';
+
+/**
+ * Implements hook_menu().
+ */
+function yellow_pages_ads_menu() {
+  $menu = array();
+
+  $menu['node/%/ad_rules'] = array(
+    'title' => 'Display rules',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('yellow_pages_ads_node_display_rules_form', 1),
+    'access callback' => 'yellow_pages_ads_rules_access',
+    'type' => MENU_LOCAL_TASK,
+    'file' => 'yellow_pages_ads.rules.inc',
+    'weight' => 2,
+  );
+
+//   $menu['yellow_pages_ads/autocomplete'] = array(
+//     'page callback' => 'yellow_pages_ads_autocomplete',
+//     'access arguments' => array('access content'),
+//     'type' => MENU_CALLBACK,
+//     'file' => 'yellow_pages_ads.rules.inc',
+//   );
+
+  return $menu;
+}
+
+/**
+ * Implements hook_permission().
+ */
+function yellow_pages_ads_permission() {
+  $perm = array();
+
+  $perm['access rules config'] = array(
+    'title' => t('Advertisement display rules'),
+    'description' => t('Use this to allow roles manage ad display rules.'),
+  );
+
+  return $perm;
+}
+
+/**
+ * Implements hook_admin_paths().
+ */
+function yellow_pages_ads_admin_paths() {
+  $paths = array(
+    'node/*/ad_rules' => TRUE,
+  );
+
+  return $paths;
+}
+
+/**
+ * Forbids access to rules tab for any content type
+ * except advertisements.
+ *
+ * @return boolean
+ *   Access status.
+ */
+function yellow_pages_ads_rules_access() {
+  $nid = arg(1);
+  $node = node_load($nid);
+
+  if (is_object($node) && $node->type == 'advertisement' && user_access('access rules config')) {
+    return TRUE;
+  }
+
+  return FALSE;
+}
+
+/**
+ * Implements hook_theme().
+ */
+function yellow_pages_ads_theme() {
+  $hooks = array();
+
+  $hooks['yellow_pages_ads_rules_form'] = array(
+    'render element' => 'element',
+  );
+
+  return $hooks;
+}
+
+/**
+ * Retrieves ads nodes.
+ *
+ * @param int $limit
+ *   Number of nodes to fetch.
+ * @param string $order
+ *   Nodes ordering.
+ *
+ * @return array
+ *   Set of node objects.
+ */
+function yellow_pages_ads_get_ads($limit = YP_ADS_AMOUNT, $category = 'sidebar', $order = 'random') {
+  $node = menu_get_object('node');
+  $path = current_path();
+
+  $forced_hidden = array();
+  $forced_shown = array();
+//   if ($node) {
+    $forced_hidden = yellow_pages_ads_get_priority_ads($path, 0);
+    $forced_shown = yellow_pages_ads_get_priority_ads($path, 1);
+//   }
+
+  $forced_result = array();
+  if (!empty($forced_shown)) {
+    $query = db_select('node', 'n');
+    $query->join('field_data_field_ad_category', 'ad_cat', 'n.nid = ad_cat.entity_id');
+    $query->fields('n', array('nid'));
+    $query->condition('n.status', NODE_PUBLISHED, '=');
+    $query->condition('n.nid', $forced_shown, 'IN');
+    $query->condition('ad_cat.field_ad_category_value', $category, '=');
+    $forced_result = $query->execute()->fetchCol();
+  }
+
+  $result = array();
+  $forced_count = count($forced_result);
+  if ($forced_count < $limit) {
+    $query = db_select('node', 'n');
+    $query->join('field_data_field_ad_category', 'ad_cat', 'n.nid = ad_cat.entity_id');
+    $query->fields('n', array('nid'));
+    $query->condition('n.status', NODE_PUBLISHED, '=');
+    $query->condition('ad_cat.field_ad_category_value', $category, '=');
+    $query->range(0, $limit - $forced_count);
+
+    if ($order == 'asc' || $order == 'desc') {
+      $query->orderBy('n.title', $order);
+    }
+    else {
+      $query->orderRandom();
+    }
+
+    if (!empty($forced_hidden)) {
+      $query->condition('n.nid', $forced_hidden, 'NOT IN');
+    }
+
+    if (!empty($forced_shown)) {
+      $query->condition('n.nid', $forced_shown, 'NOT IN');
+    }
+
+    $result = $query->execute()->fetchCol();
+  }
+
+  $nodes = node_load_multiple(array_merge($forced_result, $result));
+
+  return $nodes;
+}
+
+/**
+ * Get prioritized ads.
+ *
+ * @param string $current_path
+ *   Path to compare with, usually current path user is located at.
+ * @param int $state
+ *   Forced hidden/shown (0/1) ads.
+ *
+ * @return array
+ *   Set of ad node id's.
+ */
+function yellow_pages_ads_get_priority_ads($current_path = '', $state = 0) {
+  $rules = variable_get('yellow_pages_ads_rules', array());
+  $hide_ads = array();
+
+  foreach ($rules as $ad_nid => $ad_rules) {
+    foreach ($ad_rules as $rule) {
+      $rule_path = str_replace(array('<', '>'), '', $rule['path']);
+      $path_alias = drupal_get_path_alias($current_path);
+      $paths = array_filter(array($current_path, $path_alias));
+      if (in_array($rule_path, $paths) && $rule['rule'] == $state) {
+        $hide_ads[] = $ad_nid;
+      }
+    }
+  }
+
+  return $hide_ads;
+}
+
+/**
+ * Assemble content to be displayed.
+ *
+ * @param array $nodes
+ *   Set of nodes that require render.
+ *
+ * @return string
+ *   Nodes markup.
+ */
+function yellow_pages_ads_create_content(array $nodes) {
+  $content = array();
+
+  foreach ($nodes as $node) {
+    $render = node_view($node);
+    $content[] = drupal_render($render);
+  }
+
+  return implode('', $content);
+}
+
+/**
+ * Implements hook_cron().
+ */
+function yellow_pages_ads_cron() {
+  $query = new EntityFieldQuery();
+  $query->entityCondition('entity_type', 'node');
+  $query->entityCondition('bundle', 'advertisement');
+  $result = $query->execute();
+
+  if (isset($result['node']) && is_array($result['node'])) {
+    $nids = array_keys($result['node']);
+    $nodes = node_load_multiple($nids);
+
+    foreach ($nodes as $node) {
+      if (yellow_pages_ads_scheduler($node)) {
+        node_save($node);
+      }
+    }
+  }
+}
+
+/**
+ * Implements hook_node_presave().
+ */
+function yellow_pages_ads_node_presave($node) {
+  if ($node->type == 'advertisement') {
+    yellow_pages_ads_scheduler($node);
+
+    if (isset($node->original)) {
+      // Check if advert type was changed from content to something else.
+      $field_ad_category_new = $node->field_ad_category[LANGUAGE_NONE][0]['value'] == 'content';
+      $field_ad_category_orig = $node->original->field_ad_category[LANGUAGE_NONE][0]['value'] == 'content';
+
+      // If changed remove advert placement in search.
+      if (!$field_ad_category_new && $field_ad_category_orig) {
+        $node->field_ad_placement_in_search[LANGUAGE_NONE][0]['value'] = NULL;
+      }
+    }
+  }
+}
+
+/**
+ * Publishes or unpublishes the node depending on it's scheduled
+ * settings.
+ *
+ * @param stdClass $node
+ *   Node object.
+ */
+function yellow_pages_ads_scheduler(stdClass $node) {
+  $ad_schedule = field_get_items('node', $node, 'field_ad_schedule');
+
+  if (!$ad_schedule) {
+    return FALSE;
+  }
+
+  $publish_date = strtotime($ad_schedule[0]['value']);
+  $unpublish_date = strtotime($ad_schedule[0]['value2']);
+
+  $new_status = $node->status;
+  if ($node->status == NODE_PUBLISHED && ($unpublish_date < REQUEST_TIME || $publish_date > REQUEST_TIME)) {
+    $new_status = NODE_NOT_PUBLISHED;
+  }
+  elseif ($node->status == NODE_NOT_PUBLISHED && $publish_date < REQUEST_TIME && $unpublish_date > REQUEST_TIME) {
+    $new_status = NODE_PUBLISHED;
+  }
+
+  if ($new_status != $node->status) {
+    $node->status = $new_status;
+    return TRUE;
+  }
+
+  return FALSE;
+}
+
+/**
+ * Implements hook_preprocess_html().
+ */
+function yellow_pages_ads_preprocess_html(&$variables) {
+  if (!path_is_admin(current_path())) {
+    $nodes = yellow_pages_ads_get_ads(1, 'topbar', 'random');
+    $content = yellow_pages_ads_create_content($nodes);
+
+    $variables['page']['page_top']['yp_ads'] = array('#markup' => $content);
+  }
+}
+
+/**
+ * Implements hook_ctools_plugin_directory().
+ */
+function yellow_pages_ads_ctools_plugin_directory($module, $plugin) {
+  if ($module == 'ctools' && $plugin == 'content_types') {
+    return 'plugins/content_types';
+  }
+}
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ */
+function yellow_pages_ads_form_advertisement_node_form_alter(&$form, &$form_state) {
+  $form['field_ad_placement_in_search']['#states'] = array(
+    'visible' => array(
+      '#edit-field-ad-category-und' => array('value' => 'content'),
+    ),
+  );
+
+  $form['#validate'][] = 'yellow_pages_ads_form_advertisement_node_form_validate';
+}
+
+/**
+ * Validate if place for advert on search page already in use.
+ */
+function yellow_pages_ads_form_advertisement_node_form_validate(&$form, &$form_state) {
+  $field_ad_category_was = $form['field_ad_category']['und']['#default_value'][0] == 'content';
+  $field_ad_category_now = $form_state['values']['field_ad_category'][LANGUAGE_NONE][0]['value'] == 'content';
+
+  if ($field_ad_category_was && !$field_ad_category_now) {
+    return;
+  }
+
+  if ($field_ad_category_now && $form_state['values']['field_ad_placement_in_search'][LANGUAGE_NONE][0]['value'] == NULL) {
+    form_set_error('field_ad_placement_in_search', t("Ad placement should be chosen."));
+  }
+
+  $placement = $form_state['values']['field_ad_placement_in_search'][LANGUAGE_NONE][0]['value'];
+  $query = new EntityFieldQuery();
+  $query->entityCondition('entity_type', 'node');
+  $query->entityCondition('bundle', 'advertisement');
+  $query->propertyCondition('nid', $form['nid']['#value'], '!=');
+  $query->propertyCondition('status', NODE_PUBLISHED);
+  $query->fieldCondition('field_ad_category', 'value', 'content', '=');
+  $query->fieldCondition('field_ad_placement_in_search', 'value', $placement, '=');
+
+  $result = $query->execute();
+
+  if (!empty($result)) {
+    form_set_error('field_ad_placement_in_search', t("Ad placement in search with parameter {$placement} already in use"));
+  }
+}

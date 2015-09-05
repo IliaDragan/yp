@@ -31,7 +31,7 @@ function yellow_pages_frontend_default_fe_block_settings() {
         'region' => 'header',
         'status' => 1,
         'theme' => 'yellow_pages',
-        'weight' => -14,
+        'weight' => -17,
       ),
     ),
     'title' => '<none>',
@@ -57,33 +57,7 @@ function yellow_pages_frontend_default_fe_block_settings() {
         'region' => 'header',
         'status' => 1,
         'theme' => 'yellow_pages',
-        'weight' => -15,
-      ),
-    ),
-    'title' => '',
-    'visibility' => 0,
-  );
-
-  $export['simpleads-ad_groups_1'] = array(
-    'cache' => -1,
-    'custom' => 0,
-    'delta' => 'ad_groups_1',
-    'module' => 'simpleads',
-    'node_types' => array(),
-    'pages' => '',
-    'roles' => array(),
-    'themes' => array(
-      'seven' => array(
-        'region' => '',
-        'status' => 0,
-        'theme' => 'seven',
-        'weight' => 0,
-      ),
-      'yellow_pages' => array(
-        'region' => '',
-        'status' => 0,
-        'theme' => 'yellow_pages',
-        'weight' => 0,
+        'weight' => -18,
       ),
     ),
     'title' => '',
@@ -116,6 +90,32 @@ function yellow_pages_frontend_default_fe_block_settings() {
     'visibility' => 0,
   );
 
+  $export['system-main-menu'] = array(
+    'cache' => -1,
+    'custom' => 0,
+    'delta' => 'main-menu',
+    'module' => 'system',
+    'node_types' => array(),
+    'pages' => '<front>',
+    'roles' => array(),
+    'themes' => array(
+      'seven' => array(
+        'region' => '',
+        'status' => 0,
+        'theme' => 'seven',
+        'weight' => 0,
+      ),
+      'yellow_pages' => array(
+        'region' => 'header',
+        'status' => 1,
+        'theme' => 'yellow_pages',
+        'weight' => -15,
+      ),
+    ),
+    'title' => '<none>',
+    'visibility' => 1,
+  );
+
   $export['system-user-menu'] = array(
     'cache' => -1,
     'custom' => 0,
@@ -135,7 +135,7 @@ function yellow_pages_frontend_default_fe_block_settings() {
         'region' => 'header',
         'status' => 1,
         'theme' => 'yellow_pages',
-        'weight' => -13,
+        'weight' => -16,
       ),
     ),
     'title' => '<none>',

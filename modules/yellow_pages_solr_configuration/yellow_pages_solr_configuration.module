@@ -7,10 +7,26 @@
 include_once 'yellow_pages_solr_configuration.features.inc';
 
 /**
+ * Implements hook_ctools_plugin_directory().
+ *
+ * It simply tells panels where to find the .inc files that define various
+ * args, contexts, content_types.
+ */
+function yellow_pages_solr_configuration_ctools_plugin_directory($module, $plugin) {
+  if ($module == 'ctools' && !empty($plugin)) {
+    return "plugins/$plugin";
+  }
+}
+
+/**
  * Implementation of hook_form_alter()
  */
 function yellow_pages_solr_configuration_form_alter(&$form, &$form_state, $form_id) {
   if($form_id == 'search_block_form') {
+    $uri = arg();
+    if ($uri[0] === 'search' && isset($uri[2])) {
+      $form['search_block_form']['#default_value'] = $uri[2];
+    }
     $form['#submit'][] = 'yellow_pages_solr_configuration_form_submit';
   }
 }
@@ -41,9 +57,118 @@ function yellow_pages_solr_configuration_form_submit($form, &$form_state) {
  * Implements hook_translated_menu_link_alter().
  */
 function yellow_pages_solr_configuration_translated_menu_link_alter(&$item, $map) {
-  if ($item['menu_name'] == 'menu-category-menu' && strpos($item['link_path'], 'taxonomy/term/') === 0) {
+  if ($item['menu_name'] == 'menu-product-menu' && strpos($item['link_path'], 'taxonomy/term/') === 0) {
     $p = 'search/companies';
     $tid = arg(2, $item['link_path']);
-    $item['href'] = url($p, array('absolute' => TRUE)) . '?f[0]=field_goods_and_services%3A' . $tid;
+    $item['href'] = url($p, array('absolute' => TRUE)) . '?f[0]=field_products%253Aproduct%253Aparents_all%3A' . $tid;
+  }
+}
+
+/**
+ * Implements hook_entity_property_info_alter().
+ */
+function yellow_pages_solr_configuration_entity_property_info_alter(&$info) {
+  $info['node']['properties']['city_filter'] = array(
+    'type' => 'text',
+    'label' => t('Filter by city.'),
+    'getter callback' => 'yellow_pages_solr_configuration_city_filter_callback',
+  );
+}
+
+/**
+ * Return city name for filtration field on solr indexation.
+ */
+function yellow_pages_solr_configuration_city_filter_callback($item) {
+  if ($item->type == 'company') {
+    $city = field_get_items('node', $item, 'field_address');
+    if (isset($city[0]['locality']) && !empty($city[0]['locality'])) {
+      return $city[0]['locality'];
+    }
+  }
+}
+
+/**
+ * Implements hook_views_post_execute().
+ */
+function yellow_pages_solr_configuration_views_post_execute(&$view) {
+  // Check if search views.
+  $content_serach_view = $view->base_table != 'search_api_index_company_nodes' && $view->current_display != 'panel_pane_2';
+  $company_serach_view = $view->base_table != 'search_api_index_company_nodes' && $view->current_display != 'solr_node_search';
+  if ($content_serach_view || $company_serach_view) {
+    return;
+  }
+
+  // Don't insert advert on pages other than first.
+  if (isset($_GET['page']) && is_numeric($_GET['page'])) {
+    return;
+  }
+
+  $query = new EntityFieldQuery();
+  $query->entityCondition('entity_type', 'node');
+  $query->entityCondition('bundle', 'advertisement');
+  $query->propertyCondition('status', NODE_PUBLISHED);
+  $query->fieldCondition('field_ad_category', 'value', 'content', '=');
+
+  $result = $query->execute();
+
+  if (empty($result)) {
+    return;
+  }
+
+  $search_adverts = array();
+  foreach ($result['node'] as $adv) {
+    $ad = array();
+    $advert = node_load($adv->nid);
+
+    $ad['advert'] = $advert;
+    $ad['nid'] = $adv->nid;
+    $search_adverts[$adv->nid] = $ad;
+  }
+
+  $_sty_adverts_promoted_nids = array_keys($search_adverts);
+  if (empty($_sty_adverts_promoted_nids)) {
+    $_sty_adverts_promoted_nids = array();
+  }
+
+  // Remove all promoted nodes from result (to evade duplicates).
+  $promoted_nodes_present = array();
+  foreach ($view->result as $index => $row) {
+    if (isset($row->entity)) {
+      if (is_int($row->entity)) {
+        $entity_id = $row->entity;
+      }
+      elseif (is_object($row->entity)) {
+        $entity_id = $row->entity->nid;
+      }
+    }
+    elseif (isset($row->nid)) {
+      $entity_id = $row->nid;
+    }
+
+    if (in_array($entity_id, $_sty_adverts_promoted_nids)) {
+      unset($view->result[$index]);
+      $promoted_nodes_present[] = $entity_id;
+    }
+  }
+
+  // We have to render nodes using the same display mode as the view uses.
+  foreach ($search_adverts as $ad) {
+
+    $rendered_ad = new stdClass();
+    $rendered_ad->entity = $ad['advert']->nid;
+
+    // Create a entity metadata wrapper
+    $entity_wrapper = entity_metadata_wrapper('node', $ad['advert']);
+
+    // Place the ads on the desired position.
+    $row = $entity_wrapper->field_ad_placement_in_search->value();
+    $position = $row - 1;
+    array_splice($view->result, $position, 0, array($rendered_ad));
+  }
+
+  // Insertions lead to more result items than initially set in pagination settings.
+  $limit = 10;
+  if (count($view->result) > $limit) {
+    $view->result = array_slice($view->result, 0, $limit);
   }
 }

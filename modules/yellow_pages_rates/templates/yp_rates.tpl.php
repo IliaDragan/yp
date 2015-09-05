@@ -5,26 +5,13 @@
  */
 ?>
 <div class="yp-widget yp-rates">
-  <h2 class="title">Currency rates <span class="info">(Banca Nationala)</span></h2>
+  <h2 class="title"><?php print t('Currency rates'); ?> <span class="info"><?php print t('(Banca Nationala)'); ?></span></h2>
+  <?php foreach($rates as $currency => $rate) : ?>
   <div class="entry">
-    <span class="usd currency info">USD</span>
-    <span class="amount">1</span>
-    <span class="rate">16.8675</span>
+    <span class="<?php print drupal_html_class($currency); ?> currency info"><?php print $currency; ?></span>
+    <span class="amount"><?php print $rate['nominal']; ?></span>
+    <span class="rate"><?php print $rate['value']; ?></span>
   </div>
-  <div class="entry">
-    <span class="eur currency info">EUR</span>
-    <span class="amount">1</span>
-    <span class="rate">19.5106</span>
-  </div>
-  <div class="entry">
-    <span class="ron currency info">RON</span>
-    <span class="amount">1</span>
-    <span class="rate">4.3331</span>
-  </div>
-  <div class="entry">
-    <span class="rub currency info">RUB</span>
-    <span class="amount">1</span>
-    <span class="rate">0.2583</span>
-  </div>
-  <p class="link"><a href="#">www.bnm.md</a></p>
+  <?php endforeach; ?>
+  <p class="link"><?php print l('bnm.md', 'http://bnm.md/', array('attributes' => array('target' => '_blank'))); ?></p>
 </div>

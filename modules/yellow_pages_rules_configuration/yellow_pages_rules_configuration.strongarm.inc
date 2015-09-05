@@ -21,7 +21,7 @@ function yellow_pages_rules_configuration_strongarm() {
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
   $strongarm->name = 'node_expire_date_entry_elements';
-  $strongarm->value = '0';
+  $strongarm->value = '1';
   $export['node_expire_date_entry_elements'] = $strongarm;
 
   $strongarm = new stdClass();

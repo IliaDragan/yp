@@ -35,6 +35,24 @@ function yellow_pages_feedback_block_view($delta = '') {
 }
 
 /**
+ * Implements hook_mail().
+ */
+function yellow_pages_feedback_mail($key, &$message, $params) {
+  switch ($key) {
+    case 'yp_feedback_ad':
+      $body_t = array(
+        '@name' => $params['name'],
+        '@phone' => $params['telephone'],
+      );
+      $message['to'] = $params['to'];
+      $message['subject'] = t('Advertisement request');
+      $message['body'][] = t('@name wants to post an advertisement!', $body_t);
+      $message['body'][] = t('@phone', $body_t);
+      break;
+  }
+}
+
+/**
  * Implements hook_theme().
  */
 function yellow_pages_feedback_theme($existing, $type, $theme, $path) {
@@ -47,26 +65,31 @@ function yellow_pages_feedback_ad_request($form, &$form_state) {
   $form['firstname'] = array(
     '#type' => 'textfield',
     '#title' => t('Firstname'),
+    '#required' => TRUE,
   );
 
   $form['middlename'] = array(
     '#type' => 'textfield',
     '#title' => t('Middlename'),
+    '#required' => TRUE,
   );
 
-  $form['familyname'] = array(
+  $form['lastname'] = array(
     '#type' => 'textfield',
-    '#title' => t('Familyname'),
+    '#title' => t('Lastname'),
+    '#required' => TRUE,
   );
 
   $form['email'] = array(
     '#type' => 'textfield',
     '#title' => t('Email'),
+    '#required' => TRUE,
   );
 
   $form['telephone'] = array(
     '#type' => 'textfield',
     '#title' => t('Telephone'),
+    '#required' => TRUE,
   );
 
   $form['submit'] = array(
@@ -78,11 +101,30 @@ function yellow_pages_feedback_ad_request($form, &$form_state) {
 }
 
 function yellow_pages_feedback_ad_request_submit($form, &$form_state) {
-  drupal_set_message(t('Thank you, we will contact you soon.'));
+  $input = $form_state['input'];
+  $from = $input['email'];
+
+  $user = user_load(1);
+  $to = $user->mail;
+
+  $params = array(
+    'name' => $input['firstname'] . ' ' . $input['middlename'] . ' ' . $input['lastname'],
+    'telephone' => $input['telephone'],
+    'to' => $to,
+  );
+  $dm = drupal_mail('yellow_pages_feedback', 'yp_feedback_ad', $to, language_default(), $params, $from, TRUE);
+
+  if ($dm['result']) {
+    drupal_set_message(t('Thank you, we will contact you soon.'));
+  }
 }
 
 function yellow_pages_feedback_ad_request_validate($form, &$form_state) {
+  $input = $form_state['input'];
 
+  if (!valid_email_address($input['email'])) {
+    form_set_error('email', t('The email address is not valid.'));
+  }
 }
 
 include_once 'yellow_pages_feedback.features.inc';

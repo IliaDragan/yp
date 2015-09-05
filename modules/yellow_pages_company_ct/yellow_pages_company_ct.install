@@ -1,0 +1,25 @@
+<?php
+/**
+ * @file
+ * Install/uninstall routine here.
+ */
+
+/**
+ * Implements hook_field_schema().
+ */
+function yellow_pages_company_ct_field_schema($field) {
+  return array(
+    'columns' => array(
+      'product_source' => array(
+        'type' => 'int',
+        'unsigned' => TRUE,
+        'not null' => FALSE,
+      ),
+      'product' => array(
+        'type' => 'int',
+        'unsigned' => TRUE,
+        'not null' => FALSE,
+      ),
+    ),
+  );
+}

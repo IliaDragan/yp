@@ -1,0 +1,47 @@
+<?php
+/**
+ * @file
+ * Install/uninstall routine.
+ */
+
+/**
+ * Implements hook_schema().
+ */
+function yellow_pages_sync_schema() {
+  $schema = array();
+
+  $schema['yp_sync_state'] = array(
+    'fields' => array(
+      'id' => array(
+        'type' => 'serial',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+      ),
+      'nid' => array(
+        'type' => 'int',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+        'description' => 'Drupal node id.',
+      ),
+      'eid' => array(
+        'type' => 'int',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+        'description' => 'Source enterprise id.',
+      ),
+      'last_sync' => array(
+        'type' => 'int',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+        'description' => 'Previous sync timestamp.',
+      ),
+    ),
+    'indexes' => array(
+      'node_nid' => array('nid'),
+      'node_eid' => array('eid'),
+    ),
+    'primary key' => array('id'),
+  );
+
+  return $schema;
+}

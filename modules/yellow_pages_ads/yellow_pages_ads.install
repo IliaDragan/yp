@@ -1,0 +1,9 @@
+<?php
+/**
+ * @file
+ * Install/uninstall routine.
+ */
+
+function yellow_pages_ads_uninstall() {
+  variable_del('yellow_pages_ads_rules');
+}

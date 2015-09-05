@@ -104,29 +104,6 @@ function yellow_pages_feedback_default_page_manager_pages() {
     $pane->uuid = '625490ed-4ebf-4ef5-87bc-eaa838fa41da';
     $display->content['new-625490ed-4ebf-4ef5-87bc-eaa838fa41da'] = $pane;
     $display->panels['alpha_75'][0] = 'new-625490ed-4ebf-4ef5-87bc-eaa838fa41da';
-    $pane = new stdClass();
-    $pane->pid = 'new-1f1735d1-7cd5-4b60-86bb-0889e2410780';
-    $pane->panel = 'beta_25';
-    $pane->type = 'block';
-    $pane->subtype = 'simpleads-ad_groups_1';
-    $pane->shown = TRUE;
-    $pane->access = array();
-    $pane->configuration = array(
-      'override_title' => 1,
-      'override_title_text' => '',
-      'override_title_heading' => 'h2',
-    );
-    $pane->cache = array();
-    $pane->style = array(
-      'settings' => NULL,
-    );
-    $pane->css = array();
-    $pane->extras = array();
-    $pane->position = 0;
-    $pane->locks = array();
-    $pane->uuid = '1f1735d1-7cd5-4b60-86bb-0889e2410780';
-    $display->content['new-1f1735d1-7cd5-4b60-86bb-0889e2410780'] = $pane;
-    $display->panels['beta_25'][0] = 'new-1f1735d1-7cd5-4b60-86bb-0889e2410780';
   $display->hide_title = PANELS_TITLE_FIXED;
   $display->title_pane = '0';
   $handler->conf['display'] = $display;

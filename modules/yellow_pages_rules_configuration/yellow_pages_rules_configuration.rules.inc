@@ -19,6 +19,16 @@ function yellow_pages_rules_configuration_rules_condition_info() {
         ),
       ),
     ),
+    'yellow_pages_rules_configuration_advert_publish' => array(
+      'label' => t('Check if advert should be published.'),
+      'module' => 'yellow_pages_rules_configuration',
+      'arguments' => array(
+        'node' => array(
+          'type' => 'node',
+          'label' => t('Content'),
+        ),
+      ),
+    ),
   );
 }
 
@@ -31,6 +41,10 @@ function yellow_pages_rules_configuration_check_node_10_days($node) {
   return $check;
 }
 
+function yellow_pages_rules_configuration_advert_publish($node) {
+  return TRUE;
+}
+
 /**
  * Implements hook_rules_event_info().
  */
@@ -38,6 +52,16 @@ function yellow_pages_rules_configuration_rules_event_info() {
   $event = array(
     'node_expire_in_10_days' => array(
       'label' => t('Content expire in 10 days'),
+      'group' => t('Node'),
+      'variables' => array(
+        'node' => array(
+          'type' => 'node',
+          'label' => t('Node'),
+        ),
+      ),
+    ),
+    'advert_publish' => array(
+      'label' => t('Publish advert'),
       'group' => t('Node'),
       'variables' => array(
         'node' => array(

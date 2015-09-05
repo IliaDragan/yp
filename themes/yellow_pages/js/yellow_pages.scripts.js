@@ -209,6 +209,20 @@ function getWindowWidth () {
     }
   }
 
+  Drupal.behaviors.toggle_mobile_menu = {
+    attach : function (context) {
+      var $filterBlock = $('.facet-block');
+       if ($filterBlock.length) {
+        for (var i = 0, len = $filterBlock.length; i < len; i++) {
+          var $filterOPenLink = $filterBlock.eq(i).find('.pane-title');
+          $filterOPenLink.click(function() {
+            $(this).next('.pane-content').slideToggle();
+          });
+        }
+      }
+    }
+  }
+
   Drupal.behaviors.horizontal_tabs_mobile = {
     attach : function (context) {
       var $horizontalTabs = $('div.horizontal-tabs');
@@ -248,5 +262,6 @@ function getWindowWidth () {
       }
     });
   });
+
 
 }) (jQuery, Drupal);

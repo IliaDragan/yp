@@ -62,6 +62,12 @@ function yellow_pages_sync_schema() {
         'not null' => TRUE,
         'description' => 'Drupal term id.',
       ),
+      'type' => array(
+        'type' => 'int',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+        'description' => 'Term type (category/product)',
+      ),
     ),
     'indexes' => array(
       'term_pid' => array('pid'),
@@ -96,6 +102,13 @@ function yellow_pages_sync_update_7000() {
         'not null' => TRUE,
         'description' => 'Drupal term id.',
       ),
+      'type' => array(
+        'type' => 'int',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+        'description' => 'Term type (category/product)',
+        'default' => 1,
+      ),
     ),
     'indexes' => array(
       'term_pid' => array('pid'),
@@ -105,4 +118,19 @@ function yellow_pages_sync_update_7000() {
   );
 
   db_create_table('yp_term_sync_state', $table);
+}
+
+/**
+ * Creates a field for affiliated enterprise relations.
+ */
+function yellow_pages_sync_update_7001() {
+  $def = array(
+    'type' => 'int',
+    'unsigned' => TRUE,
+    'not null' => TRUE,
+    'description' => 'Parent enterprise id.',
+    'default' => 0,
+  );
+
+  db_add_field('yp_sync_state', 'parent', $def);
 }

@@ -242,7 +242,6 @@ function yellow_pages_company_ct_field_formatter_prepare_view($entity_type, $ent
         $term = taxonomy_term_load($tid);
         $items[$id][$delta]['taxonomy_term'] = $term;
 
-//         var_dump($term->tid);die();
         $parents = taxonomy_get_parents_all($term->tid);
         $items[$id][$delta]['top_most'] = end($parents);
       }

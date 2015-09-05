@@ -35,6 +35,7 @@ function yellow_pages_sync_admin_form_submit($form, &$form_state) {
     'operations' => array(
 //       array('yellow_pages_sync_taxonomy', array()),
       array('yellow_pages_sync_nodes', array()),
+//       array('yellow_pages_sync_filials', array()),
     ),
     'title' => t('Synchronizing with MDB data...'),
     'finished' => 'yellow_pages_sync_batch_finish',

@@ -50,5 +50,17 @@ function yellow_pages_rules_configuration_default_rules_configuration() {
       ]
     }
   }');
+  $items['rules_publish_advert'] = entity_import('rules_config', '{ "rules_publish_advert" : {
+      "LABEL" : "Publish advert",
+      "PLUGIN" : "reaction rule",
+      "OWNER" : "rules",
+      "REQUIRES" : [ "yellow_pages_rules_configuration", "rules" ],
+      "ON" : { "advert_publish" : [] },
+      "IF" : [
+        { "yellow_pages_rules_configuration_advert_publish" : { "node" : [ "node" ] } }
+      ],
+      "DO" : [ { "node_publish" : { "node" : [ "node" ] } } ]
+    }
+  }');
   return $items;
 }

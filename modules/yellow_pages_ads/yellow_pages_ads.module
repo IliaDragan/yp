@@ -232,6 +232,15 @@ function yellow_pages_ads_cron() {
 function yellow_pages_ads_node_presave($node) {
   if ($node->type == 'advertisement') {
     yellow_pages_ads_scheduler($node);
+
+    // Check if advert type was changed from content to something else.
+    $field_ad_category_new = $node->field_ad_category[LANGUAGE_NONE][0]['value'] == 'content';
+    $field_ad_category_orig = $node->original->field_ad_category[LANGUAGE_NONE][0]['value'] == 'content';
+
+    // If changed remove advert placement in search.
+    if (!$field_ad_category_new && $field_ad_category_orig) {
+      $node->field_ad_placement_in_search[LANGUAGE_NONE][0]['value'] = NULL;
+    }
   }
 }
 
@@ -295,7 +304,7 @@ function yellow_pages_ads_ctools_plugin_directory($module, $plugin) {
 function yellow_pages_ads_form_advertisement_node_form_alter(&$form, &$form_state) {
   $form['field_ad_placement_in_search']['#states'] = array(
     'visible' => array(
-      '#edit-field-ad-category-und' => array('value' => 'search'),
+      '#edit-field-ad-category-und' => array('value' => 'content'),
     ),
   );
 
@@ -306,13 +315,24 @@ function yellow_pages_ads_form_advertisement_node_form_alter(&$form, &$form_stat
  * Validate if place for advert on search page already in use.
  */
 function yellow_pages_ads_form_advertisement_node_form_validate(&$form, &$form_state) {
+  $field_ad_category_was = $form['field_ad_category']['und']['#default_value'][0] == 'content';
+  $field_ad_category_now = $form_state['values']['field_ad_category'][LANGUAGE_NONE][0]['value'] == 'content';
+
+  if ($field_ad_category_was && !$field_ad_category_now) {
+    return;
+  }
+
+  if ($field_ad_category_now && $form_state['values']['field_ad_placement_in_search'][LANGUAGE_NONE][0]['value'] == NULL) {
+    form_set_error('field_ad_placement_in_search', t("Ad placement should be chosen."));
+  }
+
   $placement = $form_state['values']['field_ad_placement_in_search'][LANGUAGE_NONE][0]['value'];
   $query = new EntityFieldQuery();
   $query->entityCondition('entity_type', 'node');
   $query->entityCondition('bundle', 'advertisement');
   $query->propertyCondition('nid', $form['nid']['#value'], '!=');
   $query->propertyCondition('status', NODE_PUBLISHED);
-  $query->fieldCondition('field_ad_category', 'value', 'search', '=');
+  $query->fieldCondition('field_ad_category', 'value', 'content', '=');
   $query->fieldCondition('field_ad_placement_in_search', 'value', $placement, '=');
 
   $result = $query->execute();

@@ -233,13 +233,15 @@ function yellow_pages_ads_node_presave($node) {
   if ($node->type == 'advertisement') {
     yellow_pages_ads_scheduler($node);
 
-    // Check if advert type was changed from content to something else.
-    $field_ad_category_new = $node->field_ad_category[LANGUAGE_NONE][0]['value'] == 'content';
-    $field_ad_category_orig = $node->original->field_ad_category[LANGUAGE_NONE][0]['value'] == 'content';
+    if (isset($node->original)) {
+      // Check if advert type was changed from content to something else.
+      $field_ad_category_new = $node->field_ad_category[LANGUAGE_NONE][0]['value'] == 'content';
+      $field_ad_category_orig = $node->original->field_ad_category[LANGUAGE_NONE][0]['value'] == 'content';
 
-    // If changed remove advert placement in search.
-    if (!$field_ad_category_new && $field_ad_category_orig) {
-      $node->field_ad_placement_in_search[LANGUAGE_NONE][0]['value'] = NULL;
+      // If changed remove advert placement in search.
+      if (!$field_ad_category_new && $field_ad_category_orig) {
+        $node->field_ad_placement_in_search[LANGUAGE_NONE][0]['value'] = NULL;
+      }
     }
   }
 }

@@ -1,0 +1,4 @@
+name = Stylista Adverts (Creatiove formats)
+description = A module that allows publishing of certain promoted contents in a special manner.
+package = STYLISTA
+core = 7.x

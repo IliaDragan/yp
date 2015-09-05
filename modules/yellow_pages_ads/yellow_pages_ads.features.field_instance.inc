@@ -24,6 +24,13 @@ function yellow_pages_ads_field_default_field_instances() {
         'type' => 'text_default',
         'weight' => 1,
       ),
+      'search_index' => array(
+        'label' => 'hidden',
+        'module' => 'text',
+        'settings' => array(),
+        'type' => 'text_default',
+        'weight' => 1,
+      ),
       'slider_teaser' => array(
         'label' => 'above',
         'settings' => array(),
@@ -76,6 +83,13 @@ function yellow_pages_ads_field_default_field_instances() {
         'type' => 'list_default',
         'weight' => 6,
       ),
+      'search_index' => array(
+        'label' => 'above',
+        'module' => 'list',
+        'settings' => array(),
+        'type' => 'list_default',
+        'weight' => 6,
+      ),
       'slider_teaser' => array(
         'label' => 'above',
         'settings' => array(),
@@ -112,6 +126,16 @@ function yellow_pages_ads_field_default_field_instances() {
     'description' => '',
     'display' => array(
       'default' => array(
+        'label' => 'hidden',
+        'module' => 'image',
+        'settings' => array(
+          'image_link' => '',
+          'image_style' => '',
+        ),
+        'type' => 'image',
+        'weight' => 0,
+      ),
+      'search_index' => array(
         'label' => 'hidden',
         'module' => 'image',
         'settings' => array(
@@ -179,6 +203,56 @@ function yellow_pages_ads_field_default_field_instances() {
     ),
   );
 
+  // Exported field_instance: 'node-advertisement-field_ad_placement_in_search'
+  $field_instances['node-advertisement-field_ad_placement_in_search'] = array(
+    'bundle' => 'advertisement',
+    'default_value' => NULL,
+    'deleted' => 0,
+    'description' => '',
+    'display' => array(
+      'default' => array(
+        'label' => 'above',
+        'module' => 'list',
+        'settings' => array(),
+        'type' => 'list_default',
+        'weight' => 9,
+      ),
+      'search_index' => array(
+        'label' => 'above',
+        'module' => 'list',
+        'settings' => array(),
+        'type' => 'list_default',
+        'weight' => 9,
+      ),
+      'slider_teaser' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+      'teaser' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+    ),
+    'entity_type' => 'node',
+    'field_name' => 'field_ad_placement_in_search',
+    'label' => 'Ad placement in search',
+    'required' => 0,
+    'settings' => array(
+      'user_register_form' => FALSE,
+    ),
+    'widget' => array(
+      'active' => 1,
+      'module' => 'options',
+      'settings' => array(),
+      'type' => 'options_select',
+      'weight' => 4,
+    ),
+  );
+
   // Exported field_instance: 'node-advertisement-field_ad_schedule'
   $field_instances['node-advertisement-field_ad_schedule'] = array(
     'bundle' => 'advertisement',
@@ -186,6 +260,12 @@ function yellow_pages_ads_field_default_field_instances() {
     'description' => '',
     'display' => array(
       'default' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 5,
+      ),
+      'search_index' => array(
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
@@ -227,7 +307,7 @@ function yellow_pages_ads_field_default_field_instances() {
         'year_range' => '-0:+1',
       ),
       'type' => 'date_popup',
-      'weight' => 6,
+      'weight' => 8,
     ),
   );
 
@@ -243,6 +323,12 @@ function yellow_pages_ads_field_default_field_instances() {
     'description' => '',
     'display' => array(
       'default' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 4,
+      ),
+      'search_index' => array(
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
@@ -273,7 +359,7 @@ function yellow_pages_ads_field_default_field_instances() {
       'module' => 'options',
       'settings' => array(),
       'type' => 'options_buttons',
-      'weight' => 3,
+      'weight' => 5,
     ),
   );
 
@@ -285,6 +371,13 @@ function yellow_pages_ads_field_default_field_instances() {
     'description' => '',
     'display' => array(
       'default' => array(
+        'label' => 'hidden',
+        'module' => 'link',
+        'settings' => array(),
+        'type' => 'link_default',
+        'weight' => 2,
+      ),
+      'search_index' => array(
         'label' => 'hidden',
         'module' => 'link',
         'settings' => array(),
@@ -343,6 +436,7 @@ function yellow_pages_ads_field_default_field_instances() {
 
   // Translatables
   // Included for use with string extractors like potx.
+  t('Ad placement in search');
   t('Body');
   t('Category');
   t('Image');

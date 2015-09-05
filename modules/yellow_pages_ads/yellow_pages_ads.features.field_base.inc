@@ -31,6 +31,7 @@ function yellow_pages_ads_field_default_field_bases() {
         'sidebar' => 'Sidebar',
         'content' => 'Content',
         'frontpage' => 'Frontpage',
+        'search' => 'Search',
       ),
       'allowed_values_function' => '',
     ),
@@ -66,6 +67,40 @@ function yellow_pages_ads_field_default_field_bases() {
     ),
     'translatable' => 0,
     'type' => 'image',
+  );
+
+  // Exported field_base: 'field_ad_placement_in_search'
+  $field_bases['field_ad_placement_in_search'] = array(
+    'active' => 1,
+    'cardinality' => 1,
+    'deleted' => 0,
+    'entity_types' => array(),
+    'field_name' => 'field_ad_placement_in_search',
+    'foreign keys' => array(),
+    'indexes' => array(
+      'value' => array(
+        0 => 'value',
+      ),
+    ),
+    'locked' => 0,
+    'module' => 'list',
+    'settings' => array(
+      'allowed_values' => array(
+        1 => 1,
+        2 => 2,
+        3 => 3,
+        4 => 4,
+        5 => 5,
+        6 => 6,
+        7 => 7,
+        8 => 8,
+        9 => 9,
+        10 => 10,
+      ),
+      'allowed_values_function' => '',
+    ),
+    'translatable' => 0,
+    'type' => 'list_integer',
   );
 
   // Exported field_base: 'field_ad_schedule'

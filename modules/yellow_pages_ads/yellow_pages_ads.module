@@ -365,7 +365,7 @@ function yellow_pages_ads_views_post_execute(&$view) {
       return;
     }
 
-    $limit = (int)$view->query->limit;
+    $limit = (int)$view->query->pager->options['items_per_page'];
 
     $result = yellow_pages_ads_get_ads($limit, 'content', 'random');
 

@@ -29,6 +29,26 @@ function yellow_pages_rules_configuration_rules_condition_info() {
         ),
       ),
     ),
+    'yellow_pages_rules_configuration_advert_expire_week' => array(
+      'label' => t('Check if advert expire in week.'),
+      'module' => 'yellow_pages_rules_configuration',
+      'arguments' => array(
+        'node' => array(
+          'type' => 'node',
+          'label' => t('Content'),
+        ),
+      ),
+    ),
+    'yellow_pages_rules_configuration_advert_expire_day' => array(
+      'label' => t('Check if advert expire in day.'),
+      'module' => 'yellow_pages_rules_configuration',
+      'arguments' => array(
+        'node' => array(
+          'type' => 'node',
+          'label' => t('Content'),
+        ),
+      ),
+    ),
   );
 }
 
@@ -41,8 +61,46 @@ function yellow_pages_rules_configuration_check_node_10_days($node) {
   return $check;
 }
 
+/**
+ * Check if advert should be published.
+ *
+ * @param $node
+ * @return bool
+ */
 function yellow_pages_rules_configuration_advert_publish($node) {
-  return TRUE;
+  $ad_schedule = field_get_items('node', $node, 'field_ad_schedule');
+  $publish_date = strtotime($ad_schedule[0]['value']);
+  $tod = date('Y-m-d', mktime(0, 0, 0));
+  $check = (!empty($publish_date) && $publish_date == $tod);
+  return $check;
+}
+
+/**
+ * Check if advert expire in week.
+ *
+ * @param $node
+ * @return bool
+ */
+function yellow_pages_rules_configuration_advert_expire_week($node) {
+  $ad_schedule = field_get_items('node', $node, 'field_ad_schedule');
+  $unpublish_date = strtotime($ad_schedule[0]['value2']);
+  $tod_plus_week = date('Y-m-d', mktime(0, 0, 0) + (7 * 24 * 60 * 60));
+  $check = (!empty($unpublish_date) && $unpublish_date == $tod_plus_week);
+  return $check;
+}
+
+/**
+ * Check if advert expire in day.
+ *
+ * @param $node
+ * @return bool
+ */
+function yellow_pages_rules_configuration_advert_expire_day($node) {
+  $ad_schedule = field_get_items('node', $node, 'field_ad_schedule');
+  $unpublish_date = strtotime($ad_schedule[0]['value2']);
+  $tod_plus_day = date('Y-m-d', mktime(0, 0, 0) + (24 * 60 * 60));
+  $check = (!empty($unpublish_date) && $unpublish_date == $tod_plus_day);
+  return $check;
 }
 
 /**
@@ -62,6 +120,26 @@ function yellow_pages_rules_configuration_rules_event_info() {
     ),
     'advert_publish' => array(
       'label' => t('Publish advert'),
+      'group' => t('Node'),
+      'variables' => array(
+        'node' => array(
+          'type' => 'node',
+          'label' => t('Node'),
+        ),
+      ),
+    ),
+    'advert_expire_in_week' => array(
+      'label' => t('Advert expire in week'),
+      'group' => t('Node'),
+      'variables' => array(
+        'node' => array(
+          'type' => 'node',
+          'label' => t('Node'),
+        ),
+      ),
+    ),
+    'advert_expire_in_day'  => array(
+      'label' => t('Advert expire in day'),
       'group' => t('Node'),
       'variables' => array(
         'node' => array(

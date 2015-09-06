@@ -262,8 +262,8 @@ function yellow_pages_ads_scheduler(stdClass $node) {
 
   $publish_date = strtotime($ad_schedule[0]['value']);
   $unpublish_date = strtotime($ad_schedule[0]['value2']);
-  $tod_plus_week = date('Y-m-d', mktime(0, 0, 0) + (7 * 24 * 60 * 60));
-  $tod_plus_day = date('Y-m-d', mktime(0, 0, 0) + (24 * 60 * 60));
+  $tod_plus_week = mktime(0, 0, 0) + (7 * 24 * 60 * 60);
+  $tod_plus_day = mktime(0, 0, 0) + (24 * 60 * 60);
 
   $new_status = $node->status;
   if ($node->status == NODE_PUBLISHED && ($unpublish_date < REQUEST_TIME || $publish_date > REQUEST_TIME)) {

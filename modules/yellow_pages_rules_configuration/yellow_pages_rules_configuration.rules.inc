@@ -84,7 +84,7 @@ function yellow_pages_rules_configuration_advert_publish($node) {
 function yellow_pages_rules_configuration_advert_expire_week($node) {
   $ad_schedule = field_get_items('node', $node, 'field_ad_schedule');
   $unpublish_date = strtotime($ad_schedule[0]['value2']);
-  $tod_plus_week = date('Y-m-d', mktime(0, 0, 0) + (7 * 24 * 60 * 60));
+  $tod_plus_week = mktime(0, 0, 0) + (7 * 24 * 60 * 60);
   $check = (!empty($unpublish_date) && $unpublish_date == $tod_plus_week);
   return $check;
 }
@@ -98,7 +98,7 @@ function yellow_pages_rules_configuration_advert_expire_week($node) {
 function yellow_pages_rules_configuration_advert_expire_day($node) {
   $ad_schedule = field_get_items('node', $node, 'field_ad_schedule');
   $unpublish_date = strtotime($ad_schedule[0]['value2']);
-  $tod_plus_day = date('Y-m-d', mktime(0, 0, 0) + (24 * 60 * 60));
+  $tod_plus_day = mktime(0, 0, 0) + (24 * 60 * 60);
   $check = (!empty($unpublish_date) && $unpublish_date == $tod_plus_day);
   return $check;
 }

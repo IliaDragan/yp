@@ -203,6 +203,8 @@ function yellow_pages_sync_node(SimpleXMLElement $list_item) {
       $entity->field_fax[LANGUAGE_NONE][$k]['value'] = $number;
     }
   }
+  // Filials.
+  unset($entity->field_filials[LANGUAGE_NONE]);
   // Sync time.
   $sync_time = $item['last_change'];
   $entity->field_mdb_sync_date[LANGUAGE_NONE][0]['value'] = date('Y-m-d H:i:s', $sync_time);
@@ -214,7 +216,7 @@ function yellow_pages_sync_node(SimpleXMLElement $list_item) {
     'alias' => yellow_pages_sync_get_alias($item['id'], $entity->title),
     'language' => 'ru',
   );
-  path_save($url_alias);
+  //path_save($url_alias);
 
   db_merge('yp_sync_state')
     ->key(array(
@@ -268,7 +270,7 @@ function yellow_pages_sync_node(SimpleXMLElement $list_item) {
       'alias' => yellow_pages_sync_get_alias($item['id'], $translated_entity->title),
       'language' => $lang,
     );
-    path_save($url_alias);
+    //path_save($url_alias);
   }
 
   return $entity;
@@ -665,35 +667,63 @@ function yellow_pages_sync_filials(&$context) {
     $context['sandbox']['max'] = reset($result);
   }
 
-  $query = db_select('yp_sync_state', 'ysf')
-    ->fields('ysf', array('nid', 'eid', 'parent'))
+//   $query = db_query('SELECT DISTINCT parent FROM `yp_sync_state` where parent <> 0 ')->fetchCol();
+//   var_dump($query);
+
+  $query = db_select('yp_sync_state', 'yss')
+    ->distinct()
+    ->fields('yss', array('parent'))
     ->condition('parent', 0, '<>')
     ->range($context['sandbox']['progress'], SYNC_BATCH);
-  $results = $query->execute()->fetchAll();
+  $parents = $query->execute()->fetchCol();
 
-  foreach ($results as $result) {
-    $query = db_select('yp_sync_state', 'yst')
-      ->fields('yst', array('nid'))
-      ->condition('eid', $result->parent, '=');
-    $nid_result = $query->execute()->fetchCol();
-    $nid = reset($nid_result);
+  $query = db_select('yp_sync_state', 'yss')
+    ->fields('yss', array('eid'))
+    ->condition('eid', $parents, 'IN');
 
-    if (!$nid) {
-      $xml = yellow_pages_sync_fetch_remote_enterprise($result->parent);
-      if ($xml) {
-        $parent_node = yellow_pages_sync_node($xml);
-      }
+  $known_parents = $query->execute()->fetchCol();
+  $unknown_parents = array_diff($parents, $known_parents);
+
+  // Create missing enterprises.
+  foreach ($unknown_parents as $unk_parent_eid) {
+    $xml = yellow_pages_sync_fetch_remote_enterprise($unk_parent_eid);
+    if (!$xml) {
+      watchdog('yp_sync', 'Failed to sync parent enterprise with id: @id.', array('@id' => $unk_parent_eid));
+      continue;
     }
-    else {
-      $parent_node = node_load($nid);
-    }
-
-    $node = node_load($result->nid);
-
-    $context['sandbox']['progress']++;
   }
 
+  // SELECT DISTINCT a.nid FROM `yp_sync_state` a JOIN `yp_sync_state` b where b.parent = a.eid and b.parent = 7629
+
+//   foreach ($results as $result) {
+//     $query = db_select('yp_sync_state', 'yst')
+//       ->fields('yst', array('nid'))
+//       ->condition('eid', $result->parent, '=');
+//     $nid_result = $query->execute()->fetchCol();
+//     $parent_nid = reset($nid_result);
+
+//     if (!$parent_nid) {
+//       $xml = yellow_pages_sync_fetch_remote_enterprise($result->parent);
+//       if ($xml) {
+//         $parent_node = yellow_pages_sync_node($xml);
+//         $parent_nid = $parent_node->nid;
+//       }
+//     }
+
+//     // It happens that there is no more parent item with such id.
+//     if ($parent_nid) {
+//       // Update node reference.
+//       // @todo
+//       // This is too straightforward.
+//       $node = node_load($parent_nid);
+//       $node->field_filials[LANGUAGE_NONE][]['target_id'] = $result->nid;
+//       node_save($node);
+//     }
+
+//     $context['sandbox']['progress']++;
+//   }
+
   if ($context['sandbox']['progress'] != $context['sandbox']['max']) {
-    $context['finished'] = $context['sandbox']['progress'] / $context['sandbox']['max'];
+//     $context['finished'] = $context['sandbox']['progress'] / $context['sandbox']['max'];
   }
 }

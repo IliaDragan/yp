@@ -114,6 +114,7 @@ function yellow_pages_solr_configuration_views_default_views() {
   $handler->display->display_options['filters']['type']['table'] = 'search_api_index_company_nodes';
   $handler->display->display_options['filters']['type']['field'] = 'type';
   $handler->display->display_options['filters']['type']['value'] = array(
+    'advertisement' => 'advertisement',
     'company' => 'company',
   );
   $handler->display->display_options['argument_input'] = array(

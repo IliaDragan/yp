@@ -214,14 +214,14 @@ function yellow_pages_ads_cron() {
   $query->entityCondition('bundle', 'advertisement');
   $result = $query->execute();
 
+  // TODO: check if advert should be unpubliseh in week.
+
   if (isset($result['node']) && is_array($result['node'])) {
     $nids = array_keys($result['node']);
     $nodes = node_load_multiple($nids);
 
     foreach ($nodes as $node) {
-      if (yellow_pages_ads_scheduler($node)) {
-        node_save($node);
-      }
+      yellow_pages_ads_scheduler($node);
     }
   }
 }
@@ -232,6 +232,17 @@ function yellow_pages_ads_cron() {
 function yellow_pages_ads_node_presave($node) {
   if ($node->type == 'advertisement') {
     yellow_pages_ads_scheduler($node);
+
+    if (isset($node->original)) {
+      // Check if advert type was changed from content to something else.
+      $field_ad_category_new = $node->field_ad_category[LANGUAGE_NONE][0]['value'] == 'content';
+      $field_ad_category_orig = $node->original->field_ad_category[LANGUAGE_NONE][0]['value'] == 'content';
+
+      // If changed remove advert placement in search.
+      if (!$field_ad_category_new && $field_ad_category_orig) {
+        $node->field_ad_placement_in_search[LANGUAGE_NONE][0]['value'] = NULL;
+      }
+    }
   }
 }
 
@@ -251,6 +262,8 @@ function yellow_pages_ads_scheduler(stdClass $node) {
 
   $publish_date = strtotime($ad_schedule[0]['value']);
   $unpublish_date = strtotime($ad_schedule[0]['value2']);
+  $tod_plus_week = mktime(0, 0, 0) + (7 * 24 * 60 * 60);
+  $tod_plus_day = mktime(0, 0, 0) + (24 * 60 * 60);
 
   $new_status = $node->status;
   if ($node->status == NODE_PUBLISHED && ($unpublish_date < REQUEST_TIME || $publish_date > REQUEST_TIME)) {
@@ -262,10 +275,15 @@ function yellow_pages_ads_scheduler(stdClass $node) {
 
   if ($new_status != $node->status) {
     $node->status = $new_status;
-    return TRUE;
+    node_save($node);
   }
 
-  return FALSE;
+  if ($unpublish_date == $tod_plus_week) {
+    rules_invoke_event('advert_expire_in_week', $node);
+  }
+  elseif ($unpublish_date == $tod_plus_day) {
+    rules_invoke_event('advert_expire_in_day', $node);
+  }
 }
 
 /**
@@ -286,5 +304,147 @@ function yellow_pages_ads_preprocess_html(&$variables) {
 function yellow_pages_ads_ctools_plugin_directory($module, $plugin) {
   if ($module == 'ctools' && $plugin == 'content_types') {
     return 'plugins/content_types';
+  }
+}
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ */
+function yellow_pages_ads_form_advertisement_node_form_alter(&$form, &$form_state) {
+  $form['field_ad_placement_in_search']['#states'] = array(
+    'visible' => array(
+      '#edit-field-ad-category-und' => array('value' => 'content'),
+    ),
+  );
+
+  $form['#validate'][] = 'yellow_pages_ads_form_advertisement_node_form_validate';
+}
+
+/**
+ * Validate if place for advert on search page already in use.
+ */
+function yellow_pages_ads_form_advertisement_node_form_validate(&$form, &$form_state) {
+  $field_ad_category_was = $form['field_ad_category']['und']['#default_value'][0] == 'content';
+  $field_ad_category_now = $form_state['values']['field_ad_category'][LANGUAGE_NONE][0]['value'] == 'content';
+
+  if ($field_ad_category_was && !$field_ad_category_now) {
+    return;
+  }
+
+  if ($field_ad_category_now && $form_state['values']['field_ad_placement_in_search'][LANGUAGE_NONE][0]['value'] == NULL) {
+    form_set_error('field_ad_placement_in_search', t("Ad placement should be chosen."));
+  }
+
+  $placement = $form_state['values']['field_ad_placement_in_search'][LANGUAGE_NONE][0]['value'];
+  $query = new EntityFieldQuery();
+  $query->entityCondition('entity_type', 'node');
+  $query->entityCondition('bundle', 'advertisement');
+  $query->propertyCondition('nid', $form['nid']['#value'], '!=');
+  $query->propertyCondition('status', NODE_PUBLISHED);
+  $query->fieldCondition('field_ad_category', 'value', 'content', '=');
+  $query->fieldCondition('field_ad_placement_in_search', 'value', $placement, '=');
+
+  $result = $query->execute();
+
+  if (!empty($result)) {
+    form_set_error('field_ad_placement_in_search', t("Ad placement in search with parameter {$placement} already in use"));
+  }
+}
+
+/**
+ * Implements hook_views_post_execute().
+ */
+function yellow_pages_ads_views_post_execute(&$view) {
+  // Check if search views.
+  $content_search_view = $view->base_table == 'search_api_index_company_nodes'
+    && $view->current_display == 'panel_pane_2'
+    && $view->name == 'solr_views';
+
+  $company_search_view = $view->base_table == 'search_api_index_company_nodes'
+    && $view->current_display == 'solr_node_search'
+    && $view->name == 'solr_views';
+
+  $news_view = $view->base_table == 'node'
+    && $view->current_display == 'panel_pane_2'
+    && $view->name == 'news';
+
+  $articles_view = $view->base_table == 'node'
+    && $view->current_display == 'panel_pane_2'
+    && $view->name == 'articles';
+
+  if ($content_search_view || $company_search_view || $news_view || $articles_view) {
+    // Don't insert advert on pages other than first.
+    if (isset($_GET['page']) && is_numeric($_GET['page'])) {
+      return;
+    }
+
+    $limit = (int)$view->query->pager->options['items_per_page'];
+
+    $result = yellow_pages_ads_get_ads($limit, 'content', 'random');
+
+    if (empty($result)) {
+      return;
+    }
+
+    $search_adverts = array();
+    foreach ($result as $adv) {
+      $ad = array();
+      $advert = node_load($adv->nid);
+
+      $ad['advert'] = $advert;
+      $ad['nid'] = $adv->nid;
+      $search_adverts[$adv->nid] = $ad;
+    }
+
+    $_sty_adverts_promoted_nids = array_keys($search_adverts);
+    if (empty($_sty_adverts_promoted_nids)) {
+      $_sty_adverts_promoted_nids = array();
+    }
+
+    // Remove all promoted nodes from result (to evade duplicates).
+    $promoted_nodes_present = array();
+    foreach ($view->result as $index => $row) {
+      if (isset($row->entity)) {
+        if (is_int($row->entity)) {
+          $entity_id = $row->entity;
+        }
+        elseif (is_object($row->entity)) {
+          $entity_id = $row->entity->nid;
+        }
+      }
+      elseif (isset($row->nid)) {
+        $entity_id = $row->nid;
+      }
+
+      if (in_array($entity_id, $_sty_adverts_promoted_nids)) {
+        unset($view->result[$index]);
+        $promoted_nodes_present[] = $entity_id;
+      }
+    }
+
+    // We have to render nodes using the same display mode as the view uses.
+    foreach ($search_adverts as $ad) {
+      $rendered_ad = new stdClass();
+      if ($content_search_view || $company_search_view) {
+        $rendered_ad->entity = $ad['advert']->nid;
+      }
+      elseif ($news_view || $articles_view) {
+        $rendered_ad->nid = $ad['advert']->nid;
+      }
+
+      // Create a entity metadata wrapper
+      $entity_wrapper = entity_metadata_wrapper('node', $ad['advert']);
+
+      // Place the ads on the desired position.
+      $row = $entity_wrapper->field_ad_placement_in_search->value();
+      $position = $row - 1;
+
+      array_splice($view->result, $position, 0, array($rendered_ad));
+    }
+
+    // Insertions lead to more result items than initially set in pagination settings.
+    if (count($view->result) > $limit) {
+      $view->result = array_slice($view->result, 0, $limit);
+    }
   }
 }

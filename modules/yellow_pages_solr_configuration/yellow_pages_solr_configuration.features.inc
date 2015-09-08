@@ -58,7 +58,15 @@ function yellow_pages_solr_configuration_default_search_api_index() {
         "search_api_alter_bundle_filter" : {
           "status" : 1,
           "weight" : "-10",
-          "settings" : { "default" : "1", "bundles" : { "advertisement" : "advertisement" } }
+          "settings" : {
+            "default" : "0",
+            "bundles" : {
+              "advertisement" : "advertisement",
+              "article" : "article",
+              "company" : "company",
+              "news" : "news"
+            }
+          }
         },
         "search_api_alter_node_access" : { "status" : 0, "weight" : "0", "settings" : [] },
         "search_api_alter_node_status" : { "status" : 0, "weight" : "0", "settings" : [] },

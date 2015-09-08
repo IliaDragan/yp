@@ -135,6 +135,13 @@ function yellow_pages_lists_get_relations(stdClass $context, $type) {
     ->propertyCondition('nid', array($context->nid), 'NOT IN')
     ->propertyOrderBy('sticky', 'DESC')
     ->range(0, 100);
+
+  $items = field_get_items('node', $context, 'field_filials');
+//   var_dump($items);
+  if (!empty($filials)) {
+    $query->propertyCondition('nid', $filials, 'NOT IN');
+  }
+
   $result = $query->execute();
 
   if (isset($result['node'])) {

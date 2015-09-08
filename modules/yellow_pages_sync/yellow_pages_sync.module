@@ -60,71 +60,64 @@ function yellow_pages_sync_single_node($eid) {
   if (is_object($xml)) {
     $entity = yellow_pages_sync_node($xml);
 
-    $query = db_select('node', 'n')
-      ->fields('n', array('nid', 'language'))
-      ->condition('tnid', $entity->nid, '=');
-    $result = $query->execute()->fetchAll();
-
-    $translations = array();
-    foreach ($result as $r) {
-      $translations[$r->language] = $r->nid;
-    }
-
-    $query = db_select('yp_sync_state', 'yss')
-      ->fields('yss', array('nid'))
-      ->condition('parent', $entity->nid, '=');
-    $children = $query->execute()->fetchCol();
-
-    $languages = array_keys(locale_language_list('name'));
-    $filials = array();
-
-    foreach ($children as $child) {
-      foreach ($languages as $lang) {
-        $query = db_select('node', 'n')
-          ->fields('n', array('nid', 'language'))
-          ->condition('tnid', $child, '=')
-          ->condition('language', $lang, '=');
-        $result = $query->execute()->fetchAll();
-        $filial = reset($result);
-        foreach ($translations as $lang => $nid) {
-          if ($filial->language == $lang) {
-            $filials[$nid][] = $filial->nid;
-          }
-        }
-      }
-    }
-
-    var_dump($filials);
-
-
-//     $query = db_select('yp_sync_state', 'yss')
-//       ->fields('yss', array('nid'))
-//       ->condition('parent', $entity->nid, '=');
-//     $children = $query->execute()->fetchCol();
-
-//     foreach ($children as $child) {
-//       $query = db_select('node', 'n')
-//         ->fields('n', array('nid'))
-//         ->condition('tnid', $child, '=');
-//       $result = $query->execute()->fetchAll();
-
-//       var_dump($child, $result);
-//     }
-
-//     $query = db_select('node', 'n')
-//       ->fields('n', array('nid', 'language'))
-//       ->condition('tnid', $entity->nid, '=');
-//     $tnids = $query->execute()->fetchAll();
-
-//     var_dump($children, $tnids);
+    yellow_pages_sync_link_filials($entity->nid);
 
     if (isset($entity->nid)) {
       $message = 'OK';
     }
   }
 
-//   drupal_json_output($message);
+  drupal_json_output($message);
   drupal_exit(0);
+}
+
+function yellow_pages_sync_link_filials($nid) {
+  $query = db_select('node', 'n')
+    ->fields('n', array('nid', 'language'))
+    ->condition('tnid', $nid, '=');
+  $result = $query->execute()->fetchAll();
+
+  $translations = array();
+  foreach ($result as $r) {
+    $translations[$r->language] = $r->nid;
+  }
+
+  $query = db_select('yp_sync_state', 'yss')
+    ->fields('yss', array('nid'))
+    ->condition('parent', $nid, '=');
+  $children = $query->execute()->fetchCol();
+
+  $languages = array_keys(locale_language_list('name'));
+  $filials = array();
+
+  foreach ($children as $child) {
+    foreach ($languages as $lang) {
+      $query = db_select('node', 'n')
+        ->fields('n', array('nid', 'language'))
+        ->condition('tnid', $child, '=')
+        ->condition('language', $lang, '=');
+      $result = $query->execute()->fetchAll();
+      $filial = reset($result);
+      foreach ($translations as $lang => $nid) {
+        if ($filial->language == $lang) {
+          $filials[$nid][] = $filial->nid;
+        }
+      }
+    }
+  }
+
+  foreach ($filials as $parent => $filial) {
+    $parent_node = node_load($parent);
+
+    if ($parent_node) {
+      unset($parent_node->field_filials[LANGUAGE_NONE]);
+      foreach ($filial as $filial_nid) {
+        $parent_node->field_filials[LANGUAGE_NONE][]['target_id'] = $filial_nid;
+      }
+
+      node_save($parent_node);
+    }
+  }
 }
 
 function yellow_pages_sync_nodes(&$context) {
@@ -213,7 +206,7 @@ function yellow_pages_sync_node(SimpleXMLElement $list_item) {
   }
 
   // Title.
-  $entity->title = $item['title']['ru'];
+  $entity->title = !empty($item['title']['ru']) ? $item['title']['ru'] : '(FILIAL)';
   // Emails.
   if (!empty($item['email'])) {
     unset($entity->field_email[LANGUAGE_NONE]);
@@ -268,8 +261,6 @@ function yellow_pages_sync_node(SimpleXMLElement $list_item) {
       $entity->field_fax[LANGUAGE_NONE][$k]['value'] = $number;
     }
   }
-  // Filials.
-  unset($entity->field_filials[LANGUAGE_NONE]);
   // Sync time.
   $sync_time = $item['last_change'];
   $entity->field_mdb_sync_date[LANGUAGE_NONE][0]['value'] = date('Y-m-d H:i:s', $sync_time);
@@ -323,7 +314,7 @@ function yellow_pages_sync_node(SimpleXMLElement $list_item) {
     $translated_entity = clone($entity);
     unset($translated_entity->nid);
     unset($translated_entity->vid);
-    $translated_entity->title = $item['title'][$lang];
+    $translated_entity->title = !empty($item['title'][$lang]) ? $item['title'][$lang] : '(FILIAL)';
     $translated_entity->language = $lang;
 
     // Parent reference.
@@ -759,7 +750,7 @@ function yellow_pages_sync_taxonomy_term_delete($term) {
 function yellow_pages_sync_filials(&$context) {
   if (!isset($context['sandbox']['progress'])) {
     $query = db_select('yp_sync_state')
-      ->condition('parent', 0, '<>')
+      ->condition('parent', 0, '=')
       ->countQuery();
     $result = $query->execute()->fetchCol();
 
@@ -769,45 +760,14 @@ function yellow_pages_sync_filials(&$context) {
 
   $query = db_select('yp_sync_state', 'yss')
     ->distinct()
-    ->fields('yss', array('nid', 'parent'))
-    ->condition('parent', 0, '<>')
+    ->fields('yss', array('nid'))
+    ->condition('parent', 0, '=')
     ->range($context['sandbox']['progress'], SYNC_BATCH);
-  $synced = $query->execute()->fetchAll();
+  $synced = $query->execute()->fetchCol();
 
-  $relation = array();
-  foreach ($synced as $item) {
-    $parent = $item->parent;
-
-    if ($parent) {
-      foreach ($synced as $_item) {
-        if ($_item->parent == $parent) {
-          $relation[$parent][] = $_item->nid;
-        }
-      }
-    }
-
-    $relation[$parent] = array_unique($relation[$parent]);
-  }
-
-  foreach ($relation as $parent => $children) {
-    $p_node = NULL;
-    foreach ($children as $k => $child) {
-      $context['sandbox']['progress']++;
-      $p_node = &drupal_static('yp_sync_parent_node', FALSE);
-      if (!$p_node && $parent_node = node_load($parent)) {
-        $p_node = $parent_node;
-      }
-
-      if (is_object($p_node)) {
-        $p_node->field_filials[LANGUAGE_NONE][$k]['target_id'] = $child;
-      }
-    }
-
-    if (!empty($parent_node->field_filials[LANGUAGE_NONE])) {
-      node_save($p_node);
-    }
-
-    drupal_static_reset('yp_sync_parent_node');
+  foreach ($synced as $parent_nid) {
+    $context['sandbox']['progress']++;
+    yellow_pages_sync_link_filials($parent_nid);
   }
 
   if ($context['sandbox']['progress'] != $context['sandbox']['max']) {

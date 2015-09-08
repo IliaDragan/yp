@@ -21,7 +21,7 @@ function yellow_pages_ads_field_group_info() {
   $field_group->parent_name = '';
   $field_group->data = array(
     'label' => 'Image',
-    'weight' => '4',
+    'weight' => '6',
     'children' => array(
       0 => 'field_ad_image',
       1 => 'field_ad_url',
@@ -50,7 +50,7 @@ function yellow_pages_ads_field_group_info() {
   $field_group->parent_name = '';
   $field_group->data = array(
     'label' => 'WYSIWYG',
-    'weight' => '5',
+    'weight' => '7',
     'children' => array(
       0 => 'body',
     ),

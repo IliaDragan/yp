@@ -55,18 +55,83 @@ function yellow_pages_sync_fetch_remote_enterprise($eid) {
 
 function yellow_pages_sync_single_node($eid) {
   $xml = yellow_pages_sync_fetch_remote_enterprise($eid);
+  $message = 'NOT OK';
 
-  if ($xml) {
-    return yellow_pages_sync_node($xml);
+  if (is_object($xml)) {
+    $entity = yellow_pages_sync_node($xml);
+
+    $query = db_select('node', 'n')
+      ->fields('n', array('nid', 'language'))
+      ->condition('tnid', $entity->nid, '=');
+    $result = $query->execute()->fetchAll();
+
+    $translations = array();
+    foreach ($result as $r) {
+      $translations[$r->language] = $r->nid;
+    }
+
+    $query = db_select('yp_sync_state', 'yss')
+      ->fields('yss', array('nid'))
+      ->condition('parent', $entity->nid, '=');
+    $children = $query->execute()->fetchCol();
+
+    $languages = array_keys(locale_language_list('name'));
+    $filials = array();
+
+    foreach ($children as $child) {
+      foreach ($languages as $lang) {
+        $query = db_select('node', 'n')
+          ->fields('n', array('nid', 'language'))
+          ->condition('tnid', $child, '=')
+          ->condition('language', $lang, '=');
+        $result = $query->execute()->fetchAll();
+        $filial = reset($result);
+        foreach ($translations as $lang => $nid) {
+          if ($filial->language == $lang) {
+            $filials[$nid][] = $filial->nid;
+          }
+        }
+      }
+    }
+
+    var_dump($filials);
+
+
+//     $query = db_select('yp_sync_state', 'yss')
+//       ->fields('yss', array('nid'))
+//       ->condition('parent', $entity->nid, '=');
+//     $children = $query->execute()->fetchCol();
+
+//     foreach ($children as $child) {
+//       $query = db_select('node', 'n')
+//         ->fields('n', array('nid'))
+//         ->condition('tnid', $child, '=');
+//       $result = $query->execute()->fetchAll();
+
+//       var_dump($child, $result);
+//     }
+
+//     $query = db_select('node', 'n')
+//       ->fields('n', array('nid', 'language'))
+//       ->condition('tnid', $entity->nid, '=');
+//     $tnids = $query->execute()->fetchAll();
+
+//     var_dump($children, $tnids);
+
+    if (isset($entity->nid)) {
+      $message = 'OK';
+    }
   }
 
-  return FALSE;
+//   drupal_json_output($message);
+  drupal_exit(0);
 }
 
 function yellow_pages_sync_nodes(&$context) {
   $xml = NULL;
 
   if (!isset($context['sandbox']['progress'])) {
+    drupal_static_reset('synced_parents');
     try {
       $xml_data = @file_get_contents('http://test.varoinform.md:8080/api/enterprises/?page=156');
       $xml = new SimpleXMLElement($xml_data);
@@ -77,8 +142,6 @@ function yellow_pages_sync_nodes(&$context) {
     }
     $context['sandbox']['progress'] = 0;
     $context['sandbox']['max'] = (int) $xml->count;
-
-    db_delete('yp_sync_state')->execute();
   }
   elseif (isset($context['sandbox']['next'])) {
     try {
@@ -99,10 +162,14 @@ function yellow_pages_sync_nodes(&$context) {
     }
 
     foreach ($xml->results->{'list-item'} as $list_item) {
-      yellow_pages_sync_node($list_item);
-      $context['message'] = t('Now processing %title (%count)', array('%title' => $list_item->title, '%count' => $context['sandbox']['progress']));
-
       $context['sandbox']['progress']++;
+      $eid = (int) $list_item->id;
+      $synced_parents = drupal_static('synced_parents', array());
+
+      if (!in_array($eid, $synced_parents)) {
+        yellow_pages_sync_node($list_item);
+        $context['message'] = t('Now processing %title (%count)', array('%title' => $list_item->title, '%count' => $context['sandbox']['progress']));
+      }
     }
 
     if ($context['sandbox']['progress'] != $context['sandbox']['max']) {
@@ -112,7 +179,6 @@ function yellow_pages_sync_nodes(&$context) {
 }
 
 function yellow_pages_sync_node(SimpleXMLElement $list_item) {
-  $languages = array_keys(locale_language_list('name'));
   $node_defaults = array(
     'type' => 'company',
     'language' => 'ru',
@@ -143,8 +209,7 @@ function yellow_pages_sync_node(SimpleXMLElement $list_item) {
     $entity = entity_create('node', $node_defaults);
   }
   else {
-    $entities = entity_load('node', array($result->nid));
-    $entity = reset($entities);
+    $entity = node_load($result->nid);
   }
 
   // Title.
@@ -249,6 +314,7 @@ function yellow_pages_sync_node(SimpleXMLElement $list_item) {
   }
 
   // Translations.
+  $languages = array_keys(locale_language_list('name'));
   foreach ($languages as $lang) {
     if ($lang == 'ru') {
       continue;
@@ -283,7 +349,7 @@ function yellow_pages_sync_get_alias($nid, $title) {
 function yellow_page_sync_process_source_element(SimpleXMLElement $source) {
   $result = array();
   $result['id'] = (int) $source->id;
-  $result['parent_id'] = !empty((int) $source->parent_id) ? (int) $source->parent_id : 0;
+  $result['parent_id'] = yellow_pages_sync_process_source_element_parent($source);
   // Title.
   $result['title'] = yellow_pages_sync_process_source_element_title($source);
   // Email.
@@ -300,6 +366,40 @@ function yellow_page_sync_process_source_element(SimpleXMLElement $source) {
   $result['last_change'] = strtotime((string) $source->last_change);
 
   return $result;
+}
+
+function yellow_pages_sync_process_source_element_parent(SimpleXMLElement $source) {
+  $parent_id = (int) $source->parent_id;
+
+  if (!$parent_id) {
+    return 0;
+  }
+
+  $query = db_select('yp_sync_state', 'yss')
+    ->fields('yss', array('nid'))
+    ->condition('eid', $parent_id, '=');
+  $result = $query->execute()->fetchCol();
+  $nid = reset($result);
+
+  if (!$nid) {
+    $xml = yellow_pages_sync_fetch_remote_enterprise($parent_id);
+    if (!is_object($xml)) {
+      return 0;
+    }
+
+    $entity = yellow_pages_sync_node($xml);
+
+    if (isset($entity->nid)) {
+      $nid = $entity->nid;
+      $parents = &drupal_static('synced_parents', array());
+      $parents[] = $nid;
+    }
+    else {
+      $nid = 0;
+    }
+  }
+
+  return $nid;
 }
 
 function yellow_pages_sync_process_source_element_title(SimpleXMLElement $source) {
@@ -366,7 +466,7 @@ function yellow_pages_sync_process_source_element_products(SimpleXMLElement $sou
     'торговля' => YP_PRODUCT_SELL,
     'услуга' => YP_PRODUCT_SERVICES,
     'производство' => YP_PRODUCT_MANUFACTURE,
-    'покупка' => YP_PRODUCT_BUY,
+    'импорт' => YP_PRODUCT_BUY,
   );
 
   if (isset($source_products->{'list-item'})) {
@@ -667,63 +767,50 @@ function yellow_pages_sync_filials(&$context) {
     $context['sandbox']['max'] = reset($result);
   }
 
-//   $query = db_query('SELECT DISTINCT parent FROM `yp_sync_state` where parent <> 0 ')->fetchCol();
-//   var_dump($query);
-
   $query = db_select('yp_sync_state', 'yss')
     ->distinct()
-    ->fields('yss', array('parent'))
+    ->fields('yss', array('nid', 'parent'))
     ->condition('parent', 0, '<>')
     ->range($context['sandbox']['progress'], SYNC_BATCH);
-  $parents = $query->execute()->fetchCol();
+  $synced = $query->execute()->fetchAll();
 
-  $query = db_select('yp_sync_state', 'yss')
-    ->fields('yss', array('eid'))
-    ->condition('eid', $parents, 'IN');
+  $relation = array();
+  foreach ($synced as $item) {
+    $parent = $item->parent;
 
-  $known_parents = $query->execute()->fetchCol();
-  $unknown_parents = array_diff($parents, $known_parents);
-
-  // Create missing enterprises.
-  foreach ($unknown_parents as $unk_parent_eid) {
-    $xml = yellow_pages_sync_fetch_remote_enterprise($unk_parent_eid);
-    if (!$xml) {
-      watchdog('yp_sync', 'Failed to sync parent enterprise with id: @id.', array('@id' => $unk_parent_eid));
-      continue;
+    if ($parent) {
+      foreach ($synced as $_item) {
+        if ($_item->parent == $parent) {
+          $relation[$parent][] = $_item->nid;
+        }
+      }
     }
+
+    $relation[$parent] = array_unique($relation[$parent]);
   }
 
-  // SELECT DISTINCT a.nid FROM `yp_sync_state` a JOIN `yp_sync_state` b where b.parent = a.eid and b.parent = 7629
+  foreach ($relation as $parent => $children) {
+    $p_node = NULL;
+    foreach ($children as $k => $child) {
+      $context['sandbox']['progress']++;
+      $p_node = &drupal_static('yp_sync_parent_node', FALSE);
+      if (!$p_node && $parent_node = node_load($parent)) {
+        $p_node = $parent_node;
+      }
 
-//   foreach ($results as $result) {
-//     $query = db_select('yp_sync_state', 'yst')
-//       ->fields('yst', array('nid'))
-//       ->condition('eid', $result->parent, '=');
-//     $nid_result = $query->execute()->fetchCol();
-//     $parent_nid = reset($nid_result);
+      if (is_object($p_node)) {
+        $p_node->field_filials[LANGUAGE_NONE][$k]['target_id'] = $child;
+      }
+    }
 
-//     if (!$parent_nid) {
-//       $xml = yellow_pages_sync_fetch_remote_enterprise($result->parent);
-//       if ($xml) {
-//         $parent_node = yellow_pages_sync_node($xml);
-//         $parent_nid = $parent_node->nid;
-//       }
-//     }
+    if (!empty($parent_node->field_filials[LANGUAGE_NONE])) {
+      node_save($p_node);
+    }
 
-//     // It happens that there is no more parent item with such id.
-//     if ($parent_nid) {
-//       // Update node reference.
-//       // @todo
-//       // This is too straightforward.
-//       $node = node_load($parent_nid);
-//       $node->field_filials[LANGUAGE_NONE][]['target_id'] = $result->nid;
-//       node_save($node);
-//     }
-
-//     $context['sandbox']['progress']++;
-//   }
+    drupal_static_reset('yp_sync_parent_node');
+  }
 
   if ($context['sandbox']['progress'] != $context['sandbox']['max']) {
-//     $context['finished'] = $context['sandbox']['progress'] / $context['sandbox']['max'];
+    $context['finished'] = $context['sandbox']['progress'] / $context['sandbox']['max'];
   }
 }

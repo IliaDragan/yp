@@ -22,13 +22,27 @@ function yellow_pages_company_ct_menu() {
     'title' => 'Autocomplete for products',
     'page callback' => '_products_autocomplete',
     'page arguments' => array(2),
-    'access arguments' => array('use autocomplete'),
+    'access arguments' => array('use products autocomplete'),
     'type' => MENU_CALLBACK,
   );
 
   $menu['yp/autocomplete/category'] = array() + $menu['yp/autocomplete/product'];
 
   return $menu;
+}
+
+/**
+ * Implements hook_permission().
+ */
+function yellow_pages_company_ct_permission() {
+  $perm = array();
+
+  $perm['use products autocomplete'] = array(
+    'title' => t('Use autocomplete in products field'),
+    'description' => t('Allow roles to use autocomplete on products field.'),
+  );
+
+  return $perm;
 }
 
 /**
@@ -105,6 +119,7 @@ function yellow_pages_company_ct_entity_view($entity, $entity_type, $view_mode, 
         '#title' => $term->name,
         '#href' => url('search/companies', array('absolute' => TRUE)) . '?f[0]=field_products%253Aproduct%253Aparents_all%3A' . $term->tid,
         '#group' => $target_group,
+        '#suffix' => '&nbsp;&nbsp;&nbsp;',
       );
 
       $entity->content['#fieldgroups'][$target_group]->children = array(

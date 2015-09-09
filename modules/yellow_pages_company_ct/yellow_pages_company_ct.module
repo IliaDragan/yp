@@ -119,6 +119,7 @@ function yellow_pages_company_ct_entity_view($entity, $entity_type, $view_mode, 
         '#title' => $term->name,
         '#href' => url('search/companies', array('absolute' => TRUE)) . '?f[0]=field_products%253Aproduct%253Aparents_all%3A' . $term->tid,
         '#group' => $target_group,
+        '#suffix' => '&nbsp;&nbsp;&nbsp;',
       );
 
       $entity->content['#fieldgroups'][$target_group]->children = array(

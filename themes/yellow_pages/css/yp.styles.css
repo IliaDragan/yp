@@ -2575,6 +2575,16 @@ article a {
   line-height: 80px;
 }
 
+/* Advertisment images */
+.node-advertisement .advertisement a {
+  display: block;
+  margin-bottom: 20px;
+}
+.node-advertisement .advertisement a img {
+  max-width: 100%;
+  width: 100%;
+}
+
 @media (max-width: 1199px) {
   .menu-main-menu > li {
     padding-left: 10px;

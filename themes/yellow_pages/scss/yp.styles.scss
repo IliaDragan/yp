@@ -2302,6 +2302,21 @@ article {
   }
 }
 
+/* Advertisment images */
+
+.node-advertisement {
+  .advertisement {
+    a {
+      display: block;
+      margin-bottom: 20px;
+      img {
+        max-width: 100%;
+        width: 100%;
+      }
+    }
+  }
+}
+
 @include breakpoint ($desktoplgdown) {
   .menu-main-menu > li {
     padding-left: 10px;

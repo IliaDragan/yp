@@ -177,7 +177,7 @@ function yellow_pages_sync_node(SimpleXMLElement $list_item) {
     'type' => 'company',
     'language' => 'ru',
     'uid' => 1,
-    'status' => 0,
+    'status' => 1,
     'promote' => 0,
   );
 
@@ -834,4 +834,33 @@ function yellow_pages_sync_filials(&$context) {
   if ($context['sandbox']['progress'] != $context['sandbox']['max']) {
     $context['finished'] = $context['sandbox']['progress'] / $context['sandbox']['max'];
   }
+}
+
+function yellow_pages_sync_logos(&$context) {
+  if (!isset($context['sandbox']['progress'])) {
+    $query = db_select('yp_sync_state', 'yss')
+      ->countQuery();
+    $result = $query->execute()->fetchCol();
+
+    $context['sandbox']['progress'] = 0;
+    $context['sandbox']['max'] = $result;
+  }
+
+  $query = db_select('yp_sync_state', 'yss')
+    ->fields('yss', array('eid'))
+    ->range($context['sandbox']['progress'], SYNC_BATCH);
+  $synced = $query->execute()->fetchCol();
+
+  foreach ($synced as $item) {
+    yellow_pages_assign_logo($item);
+  }
+
+  if ($context['sandbox']['progress'] != $context['sandbox']['max']) {
+//     $context['finished'] = $context['sandbox']['progress'] / $context['sandbox']['max'];
+  }
+}
+
+function yellow_pages_sync_assign_logo($eid) {
+  $path = dirname(__FILE__) . '/logo/' . $eid . '-L1.gif';
+  $logo_content = yellow_pages_sync_read_logo($path);
 }

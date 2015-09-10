@@ -594,9 +594,13 @@ function yellow_pages_company_ct_field_default_field_instances() {
         'weight' => 24,
       ),
       'full' => array(
-        'label' => 'above',
-        'settings' => array(),
-        'type' => 'hidden',
+        'label' => 'hidden',
+        'module' => 'entityreference',
+        'settings' => array(
+          'links' => 0,
+          'view_mode' => 'teaser',
+        ),
+        'type' => 'entityreference_entity_view',
         'weight' => 0,
       ),
       'search_index' => array(

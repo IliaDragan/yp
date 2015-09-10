@@ -255,6 +255,7 @@ function yellow_pages_company_ct_field_formatter_prepare_view($entity_type, $ent
 function yellow_pages_company_ct_field_formatter_view($entity_type, $entity, $field, $instance, $langcode, $items, $display) {
   $element = array();
   $parents = array();
+  global $language;
 
   foreach ($items as $delta => $item) {
     if (isset($item['taxonomy_term'])) {
@@ -279,7 +280,7 @@ function yellow_pages_company_ct_field_formatter_view($entity_type, $entity, $fi
       $uri = entity_uri('taxonomy_term', $term);
       $element[$delta] = array(
         '#type' => 'link',
-        '#title' => $term->name,
+        '#title' => i18n_taxonomy_term_name($term, $language->language),
         '#href' => $uri['path'],
         '#options' => $uri['options'],
       );

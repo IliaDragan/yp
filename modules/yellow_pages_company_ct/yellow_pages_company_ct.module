@@ -119,7 +119,7 @@ function yellow_pages_company_ct_entity_view($entity, $entity_type, $view_mode, 
     YP_PRODUCT_MANUFACTURE => 'group_products',
     YP_PRODUCT_SERVICES => 'group_services',
   );
-
+  global $language;
   if (!empty($entity->field_products)) {
     foreach ($entity->field_products[LANGUAGE_NONE] as $k => $item) {
       $term = $item['taxonomy_term'];
@@ -128,7 +128,7 @@ function yellow_pages_company_ct_entity_view($entity, $entity_type, $view_mode, 
 
       $entity->content[$target_group_field][$k] = array(
         '#type' => 'link',
-        '#title' => $term->name,
+        '#title' => i18n_taxonomy_term_name($term, $language->language),
         '#href' => url('search/companies', array('absolute' => TRUE)) . '?f[0]=field_products%253Aproduct%253Aparents_all%3A' . $term->tid,
         '#group' => $target_group,
         '#suffix' => '&nbsp;&nbsp;&nbsp;',

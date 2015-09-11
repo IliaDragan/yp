@@ -1559,6 +1559,7 @@ div.panel-pane div.node-teaser {
     fieldset.horizontal-tabs-pane {
       margin: 0;
       padding: 15px 20px;
+      font-size: 12px;
       @include breakpoint ($mobile) {
         padding: 15px;
       }

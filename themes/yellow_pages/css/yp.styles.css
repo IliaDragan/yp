@@ -2584,6 +2584,11 @@ article a {
   max-width: 100%;
   width: 100%;
 }
+@media (min-width: 0px) and (max-width: 767px) {
+  .node-advertisement {
+    display: none;
+  }
+}
 
 @media (max-width: 1199px) {
   .menu-main-menu > li {
@@ -2790,7 +2795,6 @@ article a {
     float: none;
   }
 
-  div,
   img {
     page-break-inside: avoid;
   }
@@ -2805,7 +2809,9 @@ article a {
   .no-touch .pane-yellow-pages-print-yp-print,
   .horizontal-tabs ul.horizontal-tabs-list,
   .region-asides,
-  .footer {
+  .footer,
+  .node-advertisement,
+  #toolbar {
     display: none;
   }
 

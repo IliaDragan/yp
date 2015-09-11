@@ -2315,6 +2315,9 @@ article {
       }
     }
   }
+  @include breakpoint ($mobile) {
+    display: none;
+  }
 }
 
 @include breakpoint ($desktoplgdown) {
@@ -2521,9 +2524,8 @@ article {
     margin: 0;
     float: none;
   }
-  div,
   img {
-    page-break-inside:avoid;
+    page-break-inside: avoid;
   }
   a[href]:after {
     content: "";
@@ -2534,7 +2536,9 @@ article {
   .no-touch .pane-yellow-pages-print-yp-print,
   .horizontal-tabs ul.horizontal-tabs-list,
   .region-asides,
-  .footer {
+  .footer,
+  .node-advertisement,
+  #toolbar {
     display: none;
   }
   .horizontal-tabs .horizontal-tab-hidden {
@@ -2592,4 +2596,5 @@ article {
       display: none;
     }
   }
+
 }

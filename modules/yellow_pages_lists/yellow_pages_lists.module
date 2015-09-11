@@ -125,6 +125,19 @@ function yellow_pages_lists_get_relations(stdClass $context, $type) {
 
   global $language;
 
+  // Exclude affiliated content.
+  $query_left = db_select('field_data_field_filials', 'fdff')
+    ->fields('fdff', array('field_filials_target_id'))
+    ->condition('entity_id', $context->nid, '=');
+
+  $query_right = db_select('field_data_field_filials', 'fdff')
+    ->fields('fdff', array('entity_id'))
+    ->condition('field_filials_target_id', $context->nid, '=');
+
+  $query_left = $query_left->union($query_right, 'UNION ALL');
+  $result = $query_left->execute()->fetchCol();
+  $filials = $result;
+
   $query = new EntityFieldQuery();
   $query
     ->entityCondition('entity_type', 'node')
@@ -135,6 +148,12 @@ function yellow_pages_lists_get_relations(stdClass $context, $type) {
     ->propertyCondition('nid', array($context->nid), 'NOT IN')
     ->propertyOrderBy('sticky', 'DESC')
     ->range(0, 100);
+
+//   var_dump($items);
+  if (!empty($filials)) {
+    $query->propertyCondition('nid', $filials, 'NOT IN');
+  }
+
   $result = $query->execute();
 
   if (isset($result['node'])) {

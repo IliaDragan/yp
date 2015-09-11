@@ -22,13 +22,27 @@ function yellow_pages_company_ct_menu() {
     'title' => 'Autocomplete for products',
     'page callback' => '_products_autocomplete',
     'page arguments' => array(2),
-    'access arguments' => array('use autocomplete'),
+    'access arguments' => array('use products autocomplete'),
     'type' => MENU_CALLBACK,
   );
 
   $menu['yp/autocomplete/category'] = array() + $menu['yp/autocomplete/product'];
 
   return $menu;
+}
+
+/**
+ * Implements hook_permission().
+ */
+function yellow_pages_company_ct_permission() {
+  $perm = array();
+
+  $perm['use products autocomplete'] = array(
+    'title' => t('Use autocomplete in products field'),
+    'description' => t('Allow roles to use autocomplete on products field.'),
+  );
+
+  return $perm;
 }
 
 /**
@@ -75,6 +89,18 @@ function yellow_pages_company_ct_form_forward_form_alter(&$form, &$form_state) {
 function yellow_pages_company_ct_form_company_node_form_alter(&$form, &$form_state, $form_id) {
   // Make sync date field readonly.
   $form['field_mdb_sync_date']['#disabled'] = TRUE;
+  $hide = array(
+    'comment_settings',
+    'revision_information',
+    'translation',
+    'path',
+    'author',
+  );
+  foreach ($hide as $item) {
+    if (isset($form[$item])) {
+      hide($form[$item]);
+    }
+  }
 }
 
 /**
@@ -93,7 +119,7 @@ function yellow_pages_company_ct_entity_view($entity, $entity_type, $view_mode, 
     YP_PRODUCT_MANUFACTURE => 'group_products',
     YP_PRODUCT_SERVICES => 'group_services',
   );
-
+  global $language;
   if (!empty($entity->field_products)) {
     foreach ($entity->field_products[LANGUAGE_NONE] as $k => $item) {
       $term = $item['taxonomy_term'];
@@ -102,9 +128,10 @@ function yellow_pages_company_ct_entity_view($entity, $entity_type, $view_mode, 
 
       $entity->content[$target_group_field][$k] = array(
         '#type' => 'link',
-        '#title' => $term->name,
+        '#title' => i18n_taxonomy_term_name($term, $language->language),
         '#href' => url('search/companies', array('absolute' => TRUE)) . '?f[0]=field_products%253Aproduct%253Aparents_all%3A' . $term->tid,
         '#group' => $target_group,
+        '#suffix' => '&nbsp;&nbsp;&nbsp;',
       );
 
       $entity->content['#fieldgroups'][$target_group]->children = array(

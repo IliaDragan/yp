@@ -105,20 +105,19 @@ function yellow_pages_ads_get_ads($limit = YP_ADS_AMOUNT, $category = 'sidebar',
   $node = menu_get_object('node');
   $path = current_path();
 
-  $forced_hidden = array();
-  $forced_shown = array();
-//   if ($node) {
-    $forced_hidden = yellow_pages_ads_get_priority_ads($path, 0);
-    $forced_shown = yellow_pages_ads_get_priority_ads($path, 1);
-//   }
+  $forced_hidden = yellow_pages_ads_get_priority_ads($path, 0);
+  $forced_shown = yellow_pages_ads_get_priority_ads($path, 1);
 
+  global $language;
   $forced_result = array();
   if (!empty($forced_shown)) {
+
     $query = db_select('node', 'n');
     $query->join('field_data_field_ad_category', 'ad_cat', 'n.nid = ad_cat.entity_id');
     $query->fields('n', array('nid'));
     $query->condition('n.status', NODE_PUBLISHED, '=');
     $query->condition('n.nid', $forced_shown, 'IN');
+    $query->condition('n.language', $language->language, '=');
     $query->condition('ad_cat.field_ad_category_value', $category, '=');
     $forced_result = $query->execute()->fetchCol();
   }
@@ -130,6 +129,7 @@ function yellow_pages_ads_get_ads($limit = YP_ADS_AMOUNT, $category = 'sidebar',
     $query->join('field_data_field_ad_category', 'ad_cat', 'n.nid = ad_cat.entity_id');
     $query->fields('n', array('nid'));
     $query->condition('n.status', NODE_PUBLISHED, '=');
+    $query->condition('n.language', $language->language, '=');
     $query->condition('ad_cat.field_ad_category_value', $category, '=');
     $query->range(0, $limit - $forced_count);
 

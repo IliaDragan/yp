@@ -1786,6 +1786,7 @@ div.panel-pane div.node-teaser {
 .group-tabbed-content .horizontal-tabs fieldset.horizontal-tabs-pane {
   margin: 0;
   padding: 15px 20px;
+  font-size: 12px;
 }
 @media (min-width: 0px) and (max-width: 767px) {
   .group-tabbed-content .horizontal-tabs fieldset.horizontal-tabs-pane {

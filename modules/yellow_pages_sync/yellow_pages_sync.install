@@ -43,5 +43,94 @@ function yellow_pages_sync_schema() {
     'primary key' => array('id'),
   );
 
+  $schema['yp_term_sync_state'] = array(
+    'fields' => array(
+      'id' => array(
+        'type' => 'serial',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+      ),
+      'pid' => array(
+        'type' => 'int',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+        'description' => 'MDB product id.',
+      ),
+      'tid' => array(
+        'type' => 'int',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+        'description' => 'Drupal term id.',
+      ),
+      'type' => array(
+        'type' => 'int',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+        'description' => 'Term type (category/product)',
+      ),
+    ),
+    'indexes' => array(
+      'term_pid' => array('pid'),
+      'term_tid' => array('tid'),
+    ),
+    'primary key' => array('id'),
+  );
+
   return $schema;
+}
+
+/**
+ * Creates a storage for synced products relations with local terms.
+ */
+function yellow_pages_sync_update_7000() {
+  $table = array(
+    'fields' => array(
+      'id' => array(
+        'type' => 'serial',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+      ),
+      'pid' => array(
+        'type' => 'int',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+        'description' => 'MDB product id.',
+      ),
+      'tid' => array(
+        'type' => 'int',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+        'description' => 'Drupal term id.',
+      ),
+      'type' => array(
+        'type' => 'int',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+        'description' => 'Term type (category/product)',
+        'default' => 1,
+      ),
+    ),
+    'indexes' => array(
+      'term_pid' => array('pid'),
+      'term_tid' => array('tid'),
+    ),
+    'primary key' => array('id'),
+  );
+
+  db_create_table('yp_term_sync_state', $table);
+}
+
+/**
+ * Creates a field for affiliated enterprise relations.
+ */
+function yellow_pages_sync_update_7001() {
+  $def = array(
+    'type' => 'int',
+    'unsigned' => TRUE,
+    'not null' => TRUE,
+    'description' => 'Parent enterprise id.',
+    'default' => 0,
+  );
+
+  db_add_field('yp_sync_state', 'parent', $def);
 }

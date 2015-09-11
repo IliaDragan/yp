@@ -51,6 +51,7 @@ function yellow_pages_solr_configuration_default_search_api_index() {
         },
         "nid" : { "type" : "integer" },
         "search_api_language" : { "type" : "string" },
+        "sticky" : { "type" : "boolean" },
         "title" : { "type" : "text" },
         "type" : { "type" : "string" }
       },

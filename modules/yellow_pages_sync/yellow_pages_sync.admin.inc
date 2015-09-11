@@ -8,10 +8,28 @@
  * Admin form structure.
  */
 function yellow_pages_sync_admin_form($form, $form_state) {
-//   $node = node_load(1);
-//   dump($node);
-//   $term = taxonomy_term_load(89);
-//   dump($term);
+  $form['options_wrapper'] = array(
+    '#type' => 'fieldset',
+    '#title' => t('Sync options'),
+    '#collapsible' => FALSE,
+    '#collapsed' => FALSE,
+  );
+
+  $form['options_wrapper']['options'] = array(
+    '#type' => 'checkboxes',
+    '#options' => array(
+      'taxonomy' => t('Categories/Products'),
+      'nodes' => t('Enterprises'),
+      'filials' => t('Filials linkage'),
+      'logos' => t('Logos'),
+    ),
+    '#default_value' => array(
+      'taxonomy',
+      'nodes',
+      'filials',
+      'logos',
+    ),
+  );
 
   $form['submit'] = array(
     '#type' => 'submit',
@@ -28,17 +46,24 @@ function yellow_pages_sync_admin_form($form, $form_state) {
  * @param unknown $form_state
  */
 function yellow_pages_sync_admin_form_submit($form, &$form_state) {
-  $xml_file = drupal_get_path('module', 'yellow_pages_sync') . '/data/enterprises.xml';
-  $xml_data = file_get_contents($xml_file);
+  $input = $form_state['input'];
+  $options = array_filter($input['options']);
+
+  $operations = array();
+  foreach ($options as $option) {
+    $operations[] = array('yellow_pages_sync_' . $option, array());
+  }
 
   $batch = array(
-    'operations' => array(
-      array('yellow_pages_sync_taxonomy', array()),
-      array('yellow_pages_sync_nodes', array($xml_data)),
-    ),
+    'operations' => $operations,
     'title' => t('Synchronizing with MDB data...'),
     'finished' => 'yellow_pages_sync_batch_finish',
   );
 
-  batch_set($batch);
+  if (!empty($operations)) {
+    batch_set($batch);
+  }
+  else {
+    drupal_set_message(t('Nothing selected.'), 'error');
+  }
 }

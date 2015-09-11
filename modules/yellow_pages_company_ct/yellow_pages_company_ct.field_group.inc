@@ -141,6 +141,7 @@ function yellow_pages_company_ct_field_group_info() {
       2 => 'field_geocode',
       3 => 'field_landline_phone',
       4 => 'field_mobile_phone',
+      5 => 'field_filials',
     ),
     'format_type' => 'tab',
     'format_settings' => array(
@@ -193,7 +194,9 @@ function yellow_pages_company_ct_field_group_info() {
   $field_group->data = array(
     'label' => 'Filials',
     'weight' => '25',
-    'children' => array(),
+    'children' => array(
+      0 => 'field_filials',
+    ),
     'format_type' => 'htab',
     'format_settings' => array(
       'formatter' => 'closed',
@@ -220,10 +223,10 @@ function yellow_pages_company_ct_field_group_info() {
     'weight' => '23',
     'children' => array(
       0 => 'field_company_logo',
-      1 => 'field_products',
-      2 => 'field_company_site',
-      3 => 'field_email',
-      4 => 'field_mdb_sync_date',
+      1 => 'field_company_site',
+      2 => 'field_email',
+      3 => 'field_mdb_sync_date',
+      4 => 'field_products',
       5 => 'title',
     ),
     'format_type' => 'tab',

@@ -146,7 +146,7 @@ header .search-link-mobile {
 }
 .navbar-header .region-header .block-locale {
   float: left;
-  margin-top: 3px;
+  margin-top: 0px;
 }
 .navbar-header .region-header .block-menu {
   float: right;
@@ -2835,14 +2835,6 @@ article a {
     min-width: 90% !important;
     margin: 0;
     float: none;
-  }
-
-  div {
-    page-break-inside: auto;
-  }
-
-  img {
-    page-break-inside: avoid;
   }
 
   a[href]:after {

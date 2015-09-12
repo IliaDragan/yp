@@ -494,6 +494,7 @@ function yellow_pages_sync_process_source_element_products(SimpleXMLElement $sou
     'услуга' => YP_PRODUCT_SERVICES,
     'производство' => YP_PRODUCT_MANUFACTURE,
     'импорт' => YP_PRODUCT_BUY,
+    'экспорт' => YP_PRODUCT_EXPORT,
   );
 
   if (isset($source_products->{'list-item'})) {

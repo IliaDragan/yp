@@ -24,13 +24,6 @@ function yellow_pages_ads_menu() {
     'weight' => 2,
   );
 
-//   $menu['yellow_pages_ads/autocomplete'] = array(
-//     'page callback' => 'yellow_pages_ads_autocomplete',
-//     'access arguments' => array('access content'),
-//     'type' => MENU_CALLBACK,
-//     'file' => 'yellow_pages_ads.rules.inc',
-//   );
-
   return $menu;
 }
 
@@ -102,7 +95,6 @@ function yellow_pages_ads_theme() {
  *   Set of node objects.
  */
 function yellow_pages_ads_get_ads($limit = YP_ADS_AMOUNT, $category = 'sidebar', $order = 'random') {
-  $node = menu_get_object('node');
   $path = current_path();
 
   $forced_hidden = yellow_pages_ads_get_priority_ads($path, 0);
@@ -110,8 +102,18 @@ function yellow_pages_ads_get_ads($limit = YP_ADS_AMOUNT, $category = 'sidebar',
 
   global $language;
   $forced_result = array();
-  if (!empty($forced_shown)) {
 
+  // Get ads referenced by node itself.
+  if ($category == 'sidebar' && $menu_item = menu_get_object('node')) {
+    $assigned_ads = field_get_items('node', $menu_item, 'field_advertisements');
+    foreach ($assigned_ads as $ad) {
+      $forced_shown[] = $ad['target_id'];
+      array_unshift($forced_shown, $ad['target_id']);
+    }
+  }
+
+  // Get nodes from ad display rules.
+  if (!empty($forced_shown)) {
     $query = db_select('node', 'n');
     $query->join('field_data_field_ad_category', 'ad_cat', 'n.nid = ad_cat.entity_id');
     $query->fields('n', array('nid'));

@@ -380,7 +380,6 @@ header .search-link-mobile {
   margin: 0 -30px;
   padding: 0 15px;
   background: #ffdd00;
-  overflow: visible;
 }
 @media (min-width: 768px) {
   .menu-menu-product-menu:before {

@@ -129,7 +129,7 @@ header {
     overflow: hidden;
     .block-locale {
       float: left;
-      margin-top: 3px;
+      margin-top: 0px;
     }
     .block-menu {
       float: right;
@@ -1528,6 +1528,7 @@ div.panel-pane div.node-teaser {
           cursor: pointer;
           strong {
             display: block;
+            color: #1d1d1d;
             @include transform(skew(-20deg));
             font-weight: normal;
           }
@@ -1558,6 +1559,7 @@ div.panel-pane div.node-teaser {
     fieldset.horizontal-tabs-pane {
       margin: 0;
       padding: 15px 20px;
+      font-size: 12px;
       @include breakpoint ($mobile) {
         padding: 15px;
       }
@@ -1574,28 +1576,66 @@ div.panel-pane div.node-teaser {
   .pane-title,
   .field-label {
     float: left;
+    position: relative;
     margin: 0;
-    padding: 10px 20px 7px;
+    padding: 10px 20px 7px 15px;
     background: $light-yellow;
     line-height: 1em;
     font-size: 12px;
     text-transform: uppercase;
     font-weight: normal;
-    @include transform(skew(20deg));
+    // @include transform(translate3d(0,0,0) skew(20deg));
+    -webkit-backface-visibility: hidden;
     cursor: pointer;
+    @include breakpoint ($mobileup) {
+      padding-right: 100px;
+    }
+    &:before {
+      content: "";
+      display: block;
+      position: absolute;
+      top: 0px;
+      left: -5px;
+      height: 100%;
+      width: 20px;
+      background: $light-yellow;
+      @include transform(translate3d(0,0,0) skew(20deg));
+    }
     span {
       display: block;
-      @include transform(skew(-20deg));
+      // @include transform(translate3d(0,0,0) skew(-20deg));
+      -webkit-backface-visibility: hidden;
     }
     &:first-child {
-      margin-left: -10px;
+      margin-left: 0;
       padding-left: 30px;
+    }
+    &:last-child {
+      &.is-active {
+        @include breakpoint ($mobile) {
+          padding-right: 30px;
+        }
+        &:after {
+          content: "";
+          display: block;
+          position: absolute;
+          top: 0px;
+          right: -5px;
+          height: 100%;
+          width: 10px;
+          background: $light-yellow;
+          @include transform(translate3d(0,0,0) skew(20deg));
+        }
+      }
     }
     &.is-active {
       background: $main-yellow;
       border-right-color: transparent;
       font-weight: bold;
       cursor: default;
+      &:before {
+        background: $main-yellow;
+      }
     }
   }
   &:empty {
@@ -2315,6 +2355,9 @@ article {
       }
     }
   }
+  @include breakpoint ($mobile) {
+    display: none;
+  }
 }
 
 @include breakpoint ($desktoplgdown) {
@@ -2521,10 +2564,6 @@ article {
     margin: 0;
     float: none;
   }
-  div,
-  img {
-    page-break-inside:avoid;
-  }
   a[href]:after {
     content: "";
     font-weight: normal;
@@ -2534,7 +2573,9 @@ article {
   .no-touch .pane-yellow-pages-print-yp-print,
   .horizontal-tabs ul.horizontal-tabs-list,
   .region-asides,
-  .footer {
+  .footer,
+  .node-advertisement,
+  #toolbar {
     display: none;
   }
   .horizontal-tabs .horizontal-tab-hidden {
@@ -2592,4 +2633,5 @@ article {
       display: none;
     }
   }
+
 }

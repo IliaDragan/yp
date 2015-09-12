@@ -194,7 +194,9 @@ function yellow_pages_company_ct_field_group_info() {
   $field_group->data = array(
     'label' => 'Filials',
     'weight' => '25',
-    'children' => array(),
+    'children' => array(
+      0 => 'field_filials',
+    ),
     'format_type' => 'htab',
     'format_settings' => array(
       'formatter' => 'closed',

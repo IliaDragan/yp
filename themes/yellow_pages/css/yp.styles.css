@@ -146,7 +146,7 @@ header .search-link-mobile {
 }
 .navbar-header .region-header .block-locale {
   float: left;
-  margin-top: 3px;
+  margin-top: 0px;
 }
 .navbar-header .region-header .block-menu {
   float: right;
@@ -1759,6 +1759,7 @@ div.panel-pane div.node-teaser {
 }
 .group-tabbed-content .horizontal-tabs ul.horizontal-tabs-list li a strong {
   display: block;
+  color: #1d1d1d;
   -moz-transform: skew(-20deg);
   -ms-transform: skew(-20deg);
   -webkit-transform: skew(-20deg);
@@ -1785,6 +1786,7 @@ div.panel-pane div.node-teaser {
 .group-tabbed-content .horizontal-tabs fieldset.horizontal-tabs-pane {
   margin: 0;
   padding: 15px 20px;
+  font-size: 12px;
 }
 @media (min-width: 0px) and (max-width: 767px) {
   .group-tabbed-content .horizontal-tabs fieldset.horizontal-tabs-pane {
@@ -1804,31 +1806,68 @@ div.panel-pane div.node-teaser {
 .node-tabs-block-header .pane-title,
 .node-tabs-block-header .field-label {
   float: left;
+  position: relative;
   margin: 0;
-  padding: 10px 20px 7px;
+  padding: 10px 20px 7px 15px;
   background: #fff7c0;
   line-height: 1em;
   font-size: 12px;
   text-transform: uppercase;
   font-weight: normal;
-  -moz-transform: skew(20deg);
-  -ms-transform: skew(20deg);
-  -webkit-transform: skew(20deg);
-  transform: skew(20deg);
+  -webkit-backface-visibility: hidden;
   cursor: pointer;
+}
+@media (min-width: 768px) {
+  .node-tabs-block-header .pane-title,
+  .node-tabs-block-header .field-label {
+    padding-right: 100px;
+  }
+}
+.node-tabs-block-header .pane-title:before,
+.node-tabs-block-header .field-label:before {
+  content: "";
+  display: block;
+  position: absolute;
+  top: 0px;
+  left: -5px;
+  height: 100%;
+  width: 20px;
+  background: #fff7c0;
+  -moz-transform: translate3d(0, 0, 0) skew(20deg);
+  -ms-transform: translate3d(0, 0, 0) skew(20deg);
+  -webkit-transform: translate3d(0, 0, 0) skew(20deg);
+  transform: translate3d(0, 0, 0) skew(20deg);
 }
 .node-tabs-block-header .pane-title span,
 .node-tabs-block-header .field-label span {
   display: block;
-  -moz-transform: skew(-20deg);
-  -ms-transform: skew(-20deg);
-  -webkit-transform: skew(-20deg);
-  transform: skew(-20deg);
+  -webkit-backface-visibility: hidden;
 }
 .node-tabs-block-header .pane-title:first-child,
 .node-tabs-block-header .field-label:first-child {
-  margin-left: -10px;
+  margin-left: 0;
   padding-left: 30px;
+}
+@media (min-width: 0px) and (max-width: 767px) {
+  .node-tabs-block-header .pane-title:last-child.is-active,
+  .node-tabs-block-header .field-label:last-child.is-active {
+    padding-right: 30px;
+  }
+}
+.node-tabs-block-header .pane-title:last-child.is-active:after,
+.node-tabs-block-header .field-label:last-child.is-active:after {
+  content: "";
+  display: block;
+  position: absolute;
+  top: 0px;
+  right: -5px;
+  height: 100%;
+  width: 10px;
+  background: #fff7c0;
+  -moz-transform: translate3d(0, 0, 0) skew(20deg);
+  -ms-transform: translate3d(0, 0, 0) skew(20deg);
+  -webkit-transform: translate3d(0, 0, 0) skew(20deg);
+  transform: translate3d(0, 0, 0) skew(20deg);
 }
 .node-tabs-block-header .pane-title.is-active,
 .node-tabs-block-header .field-label.is-active {
@@ -1836,6 +1875,10 @@ div.panel-pane div.node-teaser {
   border-right-color: transparent;
   font-weight: bold;
   cursor: default;
+}
+.node-tabs-block-header .pane-title.is-active:before,
+.node-tabs-block-header .field-label.is-active:before {
+  background: #ffdd00;
 }
 .node-tabs-block-header:empty {
   border-bottom: none;
@@ -2584,6 +2627,11 @@ article a {
   max-width: 100%;
   width: 100%;
 }
+@media (min-width: 0px) and (max-width: 767px) {
+  .node-advertisement {
+    display: none;
+  }
+}
 
 @media (max-width: 1199px) {
   .menu-main-menu > li {
@@ -2790,11 +2838,6 @@ article a {
     float: none;
   }
 
-  div,
-  img {
-    page-break-inside: avoid;
-  }
-
   a[href]:after {
     content: "";
     font-weight: normal;
@@ -2805,7 +2848,9 @@ article a {
   .no-touch .pane-yellow-pages-print-yp-print,
   .horizontal-tabs ul.horizontal-tabs-list,
   .region-asides,
-  .footer {
+  .footer,
+  .node-advertisement,
+  #toolbar {
     display: none;
   }
 

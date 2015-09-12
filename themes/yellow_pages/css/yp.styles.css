@@ -19,6 +19,14 @@ body.not-front {
   background: #f2f2f2;
 }
 
+body.advert-request {
+  background: rgba(0, 0, 0, 0.2) url(../images/frontpage_header.jpg) center center no-repeat;
+}
+
+body.advert-request h2 {
+  color: #fff;
+}
+
 h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
   font-family: 'PT Sans', serif;
   font-weight: bold;

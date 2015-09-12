@@ -330,6 +330,9 @@ header .search-link-mobile {
     margin-left: 20px;
   }
 }
+.language-switcher-locale-url .en {
+  display: none;
+}
 
 .menu-user-menu {
   padding-left: 10px;

@@ -66,6 +66,10 @@ function yellow_pages_sync_admin_form_submit($form, &$form_state) {
   $operations = array();
   foreach ($options as $option) {
     $operations[] = array('yellow_pages_sync_' . $option, isset($arguments[$option]) ? $arguments[$option] : array());
+
+    if ($option == 'taxonomy') {
+      $operations[] = array('yellow_pages_sync_taxonomy_parents', array());
+    }
   }
 
   $batch = array(

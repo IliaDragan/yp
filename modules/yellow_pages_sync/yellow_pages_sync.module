@@ -639,9 +639,6 @@ function yellow_pages_sync_write_term_relation($id, $tid, $parent_id = 0, $type 
 
 function yellow_pages_sync_taxonomy(&$context) {
   if (!isset($context['sandbox']['progress'])) {
-    $context['sandbox']['categories'] = array();
-    $context['sandbox']['categories_synced'] = FALSE;
-
     // Read and process categories.
     $xml_nodes = yellow_pages_sync_read_xml('http://test.varoinform.md:8080/api/nodes/');
     if (!$xml_nodes) {
@@ -763,11 +760,57 @@ function yellow_pages_sync_taxonomy(&$context) {
     }
   }
 
-//   watchdog('yp_sync', "Syncing taxonomy. Progress: {$context['sandbox']['progress']}/{$context['sandbox']['max']}.", array(), WATCHDOG_INFO);
-
   drupal_get_messages();
 
   if ($context['sandbox']['progress'] != $context['sandbox']['max']) {
+    $context['finished'] = $context['sandbox']['progress'] / $context['sandbox']['max'];
+  }
+}
+
+function yellow_pages_sync_taxonomy_parents(&$context) {
+  if (!isset($context['sandbox']['progress'])) {
+    $query = db_select('yp_term_sync_state', 'ysst')
+      ->fields('ysst')
+      ->condition('parent', 0, '<>')
+      ->countQuery();
+    $result = $query->execute()->fetchCol();
+
+    $context['sandbox']['progress'] = 0;
+    $context['sandbox']['max'] = reset($result);
+  }
+
+  $query = db_select('yp_term_sync_state', 'ysst')
+    ->distinct()
+    ->condition('parent', 0, '<>')
+    ->fields('ysst', array('parent'))
+    ->range($context['sandbox']['progress'], SYNC_BATCH);
+  $parents = $query->execute()->fetchCol();
+
+  foreach ($parents as $parent_pid) {
+    $query = db_select('yp_term_sync_state', 'ysst')
+      ->fields('ysst', array('tid'))
+      ->condition('type', YP_TERM_TYPE_CATEGORY, '=')
+      ->condition('pid', $parent_pid, '=');
+    $parent_tid = $query->execute()->fetchField();
+
+    $query = db_select('yp_term_sync_state', 'ysst')
+      ->fields('ysst', array('tid'))
+      ->condition('parent', $parent_pid, '=');
+    $children = $query->execute()->fetchCol();
+
+    if (!empty($children)) {
+      db_update('taxonomy_term_hierarchy')
+        ->fields(array(
+          'parent' => $parent_tid,
+        ))
+        ->condition('tid', $children, 'IN')
+        ->execute();
+    }
+  }
+
+  $context['sandbox']['progress'] += SYNC_BATCH;
+
+  if ($context['sandbox']['progress'] < $context['sandbox']['max'] && $context['sandbox']['progress'] != $context['sandbox']['max']) {
     $context['finished'] = $context['sandbox']['progress'] / $context['sandbox']['max'];
   }
 }
@@ -777,7 +820,6 @@ function yellow_pages_sync_create_term($name, $type = YP_TERM_TYPE_PRODUCT) {
   $term->name = is_array($name) ? $name['ru'] : $name;
   $term->vid = yellow_pages_sync_term_target_vocabulary();
   $term->field_product_type[LANGUAGE_NONE][0]['value'] = $type;
-  $term->parent = 0;
 
   taxonomy_term_save($term);
 

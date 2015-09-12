@@ -25,8 +25,8 @@ function switch_search_content_type_render($subtype, $conf, $panel_args, $contex
 
 function switch_search_form($form, &$form_state, $search_query) {
   $search_query = (empty($search_query)) ? '' : $search_query[0];
-  $companies_url = l(t('Companies'), 'search/companies/' . $search_query);
-  $articles_url = l(t('Content'), 'search/content/' . $search_query);
+  $companies_url = l(t('Search companies'), 'search/companies/' . $search_query);
+  $articles_url = l(t('Search content'), 'search/content/' . $search_query);
   $search_pages = array(
     'companies' => $companies_url,
     'content' => $articles_url,

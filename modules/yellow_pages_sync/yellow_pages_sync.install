@@ -66,7 +66,14 @@ function yellow_pages_sync_schema() {
         'type' => 'int',
         'unsigned' => TRUE,
         'not null' => TRUE,
-        'description' => 'Term type (category/product)',
+        'description' => 'Term type (category/product).',
+      ),
+      'parent' => array(
+        'type' => 'int',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+        'description' => 'Parent category/term id.',
+        'default' => 0,
       ),
     ),
     'indexes' => array(
@@ -133,4 +140,19 @@ function yellow_pages_sync_update_7001() {
   );
 
   db_add_field('yp_sync_state', 'parent', $def);
+}
+
+/**
+ * Create a field for parent category-product terms.
+ */
+function yellow_pages_sync_update_7002() {
+  $def = array(
+    'type' => 'int',
+    'unsigned' => TRUE,
+    'not null' => TRUE,
+    'description' => 'Parent category/term id.',
+    'default' => 0,
+  );
+
+  db_add_field('yp_term_sync_state', 'parent', $def);
 }

@@ -39,16 +39,7 @@ function yellow_pages_sync_fetch_remote_enterprise($eid) {
   }
 
   $xml_file = 'http://test.varoinform.md:8080/api/enterprises/' . $eid . '/';
-  $xml_data = @file_get_contents($xml_file);
-
-  $xml = FALSE;
-  try {
-    $xml = new SimpleXMLElement($xml_data);
-  }
-  catch (Exception $e) {
-    $message = $e->getMessage() . '. Tried to import entity with id: ' . $eid . '.';
-    watchdog_exception('yp_sync', $e, $message);
-  }
+  $xml = yellow_pages_sync_read_xml($xml_file);
 
   return $xml;
 }
@@ -129,28 +120,30 @@ function yellow_pages_sync_read_xml($source) {
     $xml = new SimpleXMLElement($xml_data);
   }
   catch (Exception $e) {
-    watchdog('yp_sync', 'Tried to import enterprises from: %source. Exception: %exc.', array('%source' => $source, '%exc' => $e->getMessage()));
+    watchdog('yp_sync', 'Tried to import content from: %source. Exception: %exc.', array('%source' => $source, '%exc' => $e->getMessage()));
   }
 
   return $xml;
 }
 
-function yellow_pages_sync_nodes(&$context) {
+function yellow_pages_sync_nodes($settings, &$context) {
   $xml = NULL;
 
   if (!isset($context['sandbox']['progress'])) {
     drupal_static_reset('synced_parents');
-    $xml = yellow_pages_sync_read_xml('http://test.varoinform.md:8080/api/enterprises/?page=156');
+    $page = !empty($settings['page']) ? $settings['page'] : 1;
+    $xml_source = 'http://test.varoinform.md:8080/api/enterprises/?page=' . $page;
+    $xml = yellow_pages_sync_read_xml($xml_source);
 
     $context['sandbox']['progress'] = 0;
     $context['sandbox']['max'] = isset($xml->count) ? (int) $xml->count : 0;
   }
-  elseif (isset($context['sandbox']['next'])) {
+  elseif (!empty($context['sandbox']['next'])) {
     $xml = yellow_pages_sync_read_xml($context['sandbox']['next']);
+    unset($context['sandbox']['next']);
   }
 
   if (is_object($xml)) {
-    unset($context['sandbox']['next']);
     if (isset($xml->next)) {
       $next = (string) $xml->next;
       $context['sandbox']['next'] = $next;
@@ -627,12 +620,25 @@ function yellow_pages_sync_trim(array $input) {
   return $input;
 }
 
+function yellow_pages_sync_write_term_relation($id, $tid, $parent_id = 0, $type = YP_TERM_TYPE_PRODUCT) {
+  db_merge('yp_term_sync_state')
+    ->key(array(
+      'pid' => $id,
+      'tid' => $tid,
+      'type' => $type,
+      'parent' => $parent_id,
+    ))
+    ->fields(array(
+      'pid' => $id,
+      'tid' => $tid,
+      'type' => $type,
+      'parent' => $parent_id,
+    ))
+    ->execute();
+}
+
 function yellow_pages_sync_taxonomy(&$context) {
   if (!isset($context['sandbox']['progress'])) {
-    $context['sandbox']['categories'] = array();
-    $context['sandbox']['categories_synced'] = FALSE;
-    $context['sandbox']['vocabulary'] = yellow_pages_sync_term_target_vocabulary();
-
     // Read and process categories.
     $xml_nodes = yellow_pages_sync_read_xml('http://test.varoinform.md:8080/api/nodes/');
     if (!$xml_nodes) {
@@ -645,18 +651,40 @@ function yellow_pages_sync_taxonomy(&$context) {
         continue;
       }
 
+      $query = db_select('yp_term_sync_state', 'ytss')
+        ->fields('ytss', array('tid'))
+        ->condition('pid', $id, '=')
+        ->condition('type', YP_TERM_TYPE_CATEGORY, '=');
+      $result = $query->execute()->fetchCol();
+      $tid = reset($result);
+      if (!$term = taxonomy_term_load($tid)) {
+        $names = array(
+          'ru' => (string) $item->ru_field,
+          'ro' => (string) $item->ro_field,
+          'en' => (string) $item->en_field,
+        );
+        $term = yellow_pages_sync_create_term($names, YP_TERM_TYPE_CATEGORY);
+      }
+
       $parents = array();
       foreach ($item->parents->{'list-item'} as $parent) {
         $parents[] = (int) $parent;
       }
 
-      $context['sandbox']['categories'][(int) $item->id] = array(
-        'ru_field' => (string) $item->ru_field,
-        'ro_field' => (string) $item->ro_field,
-        'en_field' => (string) $item->en_field,
-        'id' => (int) $item->id,
-        'parents' => $parents,
-      );
+      db_delete('yp_term_sync_state')
+        ->condition('tid', $term->tid, '=')
+        ->execute();
+      if (empty($parents)) {
+        yellow_pages_sync_write_term_relation($id, $term->tid, 0, YP_TERM_TYPE_CATEGORY);
+      }
+      else {
+        foreach ($parents as $parent) {
+          if ($parent < 2) {
+            $parent = 0;
+          }
+          yellow_pages_sync_write_term_relation($id, $term->tid, $parent, YP_TERM_TYPE_CATEGORY);
+        }
+      }
     }
 
     $context['sandbox']['products'] = array();
@@ -674,61 +702,63 @@ function yellow_pages_sync_taxonomy(&$context) {
         $parents[] = (int) $parent;
       }
 
-      $context['sandbox']['products'][(int) $item->id] = array(
-        'ru_field' => (string) $item->ru_field,
-        'ro_field' => (string) $item->ro_field,
-        'en_field' => (string) $item->en_field,
+      $context['sandbox']['products'][] = array(
+        'ru' => (string) $item->ru_field,
+        'ro' => (string) $item->ro_field,
+        'en' => (string) $item->en_field,
         'id' => (int) $item->id,
         'parents' => $parents,
       );
     }
 
     $context['sandbox']['progress'] = 0;
-    $context['sandbox']['max'] = count($xml_products->{'list-item'});
-  }
-
-  // Sync categories.
-  if (!$context['sandbox']['categories_synced']) {
-    foreach ($context['sandbox']['categories'] as $source_id => $item) {
-      $term = yellow_pages_sync_create_term($item, $context['sandbox']['vocabulary'], array(), YP_TERM_TYPE_CATEGORY, (int) $item['id']);
-      $context['sandbox']['categories'][$source_id]['tid'] = $term->tid;
-
-      $new_parents = array();
-      foreach ($item['parents'] as $parent) {
-        $parent_id = $parent;
-        if ($parent_id < 2) {
-          continue;
-        }
-
-        $parent_term = $context['sandbox']['categories'][$parent_id];
-        $parent_term_id = $parent_term['id'];
-        $parent_term = yellow_pages_sync_create_term($parent_term, $context['sandbox']['vocabulary'], array(), YP_TERM_TYPE_CATEGORY, $parent_term_id);
-        $new_parents[] = $parent_term->tid;
-      }
-
-      if (!empty($new_parents)) {
-        yellow_pages_sync_create_term($item, $context['sandbox']['vocabulary'], $new_parents, YP_TERM_TYPE_CATEGORY, $item['id']);
-      }
-    }
-
-    $context['sandbox']['categories_synced'] = TRUE;
+    $context['sandbox']['max'] = count($context['sandbox']['products']);
   }
 
   // Sync products.
   $current = $context['sandbox']['progress'];
   $slice = array_slice($context['sandbox']['products'], $current, $current + SYNC_BATCH);
-  foreach ($slice as $source_id => $item) {
-    $parents = array();
-    foreach ($item['parents'] as $parent) {
-      $parents[] = (int) $context['sandbox']['categories'][$parent]['tid'];
+  foreach ($slice as $item) {
+    $query = db_select('yp_term_sync_state', 'ytss')
+      ->fields('ytss', array('tid'))
+      ->condition('pid', $item['id'], '=')
+      ->condition('type', YP_TERM_TYPE_PRODUCT, '=');
+    $result = $query->execute()->fetchCol();
+    $tid = reset($result);
+    if (!$term = taxonomy_term_load($tid)) {
+      $names = array(
+        'ru' => $item['ru'],
+        'ro' => $item['ro'],
+        'en' => $item['en'],
+      );
+      $term = yellow_pages_sync_create_term($names, YP_TERM_TYPE_PRODUCT);
     }
 
-    yellow_pages_sync_create_term($item, $context['sandbox']['vocabulary'], $parents, YP_TERM_TYPE_PRODUCT, $item['id']);
+    $parents = array();
+    foreach ($item['parents'] as $parent) {
+      $parents[] = $parent;
+    }
+
+    db_delete('yp_term_sync_state')
+      ->condition('tid', $term->tid, '=')
+      ->execute();
+    if (empty($parents)) {
+      yellow_pages_sync_write_term_relation($item['id'], $term->tid, 0, YP_TERM_TYPE_PRODUCT);
+    }
+    else {
+      foreach ($parents as $parent) {
+        if ($parent < 2) {
+          $parent = 0;
+        }
+        yellow_pages_sync_write_term_relation($item['id'], $term->tid, $parent, YP_TERM_TYPE_PRODUCT);
+      }
+    }
 
     $context['sandbox']['progress']++;
+    if ($context['sandbox']['progress'] == $context['sandbox']['max']) {
+      break;
+    }
   }
-
-  watchdog('yp_sync', "Syncing taxonomy. Progress: {$context['sandbox']['progress']}/{$context['sandbox']['max']}.", array(), WATCHDOG_INFO);
 
   drupal_get_messages();
 
@@ -737,49 +767,73 @@ function yellow_pages_sync_taxonomy(&$context) {
   }
 }
 
-function yellow_pages_sync_create_term($name, $vid, array $parent = array(), $type = YP_TERM_TYPE_PRODUCT, $mdb_id = 0) {
-  $tid = yellow_pages_sync_synced_term($mdb_id, $type);
-  $term = ($tid) ? taxonomy_term_load($tid) : FALSE;
+function yellow_pages_sync_taxonomy_parents(&$context) {
+  if (!isset($context['sandbox']['progress'])) {
+    $query = db_select('yp_term_sync_state', 'ysst')
+      ->fields('ysst')
+      ->condition('parent', 0, '<>')
+      ->countQuery();
+    $result = $query->execute()->fetchCol();
 
-  if (!$term) {
-    $term = new stdClass();
-    $term->vid = $vid;
-    $term->field_product_type[LANGUAGE_NONE][0]['value'] = $type;
+    $context['sandbox']['progress'] = 0;
+    $context['sandbox']['max'] = reset($result);
   }
 
-  $term->name = is_array($name) ? $name['ru_field'] : $name;
-  $term->parent = 0;
-  if (!empty($parent)) {
-    $term->parent = $parent;
-  }
+  $query = db_select('yp_term_sync_state', 'ysst')
+    ->distinct()
+    ->condition('parent', 0, '<>')
+    ->fields('ysst', array('parent'))
+    ->range($context['sandbox']['progress'], SYNC_BATCH);
+  $parents = $query->execute()->fetchCol();
 
-  taxonomy_term_save($term);
-  if (is_array($name)) {
-    $languages = array('en', 'ro');
-    foreach ($languages as $lang) {
-      if (!empty($name[$lang . '_field'])) {
-        i18n_string_translation_update(
-          array('taxonomy', 'term', $term->tid, 'name'),
-          $name[$lang . '_field'],
-          $lang,
-          $name['ru_field']
-        );
-      }
+  foreach ($parents as $parent_pid) {
+    $query = db_select('yp_term_sync_state', 'ysst')
+      ->fields('ysst', array('tid'))
+      ->condition('type', YP_TERM_TYPE_CATEGORY, '=')
+      ->condition('pid', $parent_pid, '=');
+    $parent_tid = $query->execute()->fetchField();
+
+    $query = db_select('yp_term_sync_state', 'ysst')
+      ->fields('ysst', array('tid'))
+      ->condition('parent', $parent_pid, '=');
+    $children = $query->execute()->fetchCol();
+
+    if (!empty($children)) {
+      db_update('taxonomy_term_hierarchy')
+        ->fields(array(
+          'parent' => $parent_tid,
+        ))
+        ->condition('tid', $children, 'IN')
+        ->execute();
     }
   }
 
-  if ($mdb_id) {
-    db_merge('yp_term_sync_state')
-    ->key(array(
-      'pid' => $mdb_id,
-      'type' => $type,
-    ))
-    ->fields(array(
-      'pid' => $mdb_id,
-      'tid' => $term->tid,
-      'type' => $type,
-    ))
-    ->execute();
+  $context['sandbox']['progress'] += SYNC_BATCH;
+
+  if ($context['sandbox']['progress'] < $context['sandbox']['max'] && $context['sandbox']['progress'] != $context['sandbox']['max']) {
+    $context['finished'] = $context['sandbox']['progress'] / $context['sandbox']['max'];
+  }
+}
+
+function yellow_pages_sync_create_term($name, $type = YP_TERM_TYPE_PRODUCT) {
+  $term = new stdClass();
+  $term->name = is_array($name) ? $name['ru'] : $name;
+  $term->vid = yellow_pages_sync_term_target_vocabulary();
+  $term->field_product_type[LANGUAGE_NONE][0]['value'] = $type;
+
+  taxonomy_term_save($term);
+
+  if (is_array($name)) {
+    $languages = array('en', 'ro');
+    foreach ($languages as $lang) {
+      if (!empty($name[$lang])) {
+        i18n_string_translation_update(
+          array('taxonomy', 'term', $term->tid, 'name'),
+          $name[$lang],
+          $lang
+        );
+      }
+    }
   }
 
   return $term;

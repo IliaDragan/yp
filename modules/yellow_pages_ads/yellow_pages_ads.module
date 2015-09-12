@@ -106,9 +106,11 @@ function yellow_pages_ads_get_ads($limit = YP_ADS_AMOUNT, $category = 'sidebar',
   // Get ads referenced by node itself.
   if ($category == 'sidebar' && $menu_item = menu_get_object('node')) {
     $assigned_ads = field_get_items('node', $menu_item, 'field_advertisements');
-    foreach ($assigned_ads as $ad) {
-      $forced_shown[] = $ad['target_id'];
-      array_unshift($forced_shown, $ad['target_id']);
+    if (is_array($assigned_ads)) {
+      foreach ($assigned_ads as $ad) {
+        $forced_shown[] = $ad['target_id'];
+        array_unshift($forced_shown, $ad['target_id']);
+      }
     }
   }
 

@@ -256,7 +256,6 @@ function yellow_pages_company_ct_field_formatter_view($entity_type, $entity, $fi
   $element = array();
   $parents = array();
   global $language;
-var_dump($display['type']);
 
   foreach ($items as $delta => $item) {
     if (isset($item['taxonomy_term'])) {

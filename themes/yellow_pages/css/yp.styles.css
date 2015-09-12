@@ -2912,3 +2912,24 @@ article a {
     display: none;
   }
 }
+
+ul.field-type-yp-product {
+  display: flex;
+  margin-bottom: 20px;
+  padding: 0px;
+  font-size: 12px;
+}
+
+ul.field-type-yp-product.field-name-field-products li a {
+  text-decoration: underline;
+}
+
+ul.field-type-yp-product li {
+  list-style-type: none;
+  float: left;
+  padding-right: 4px;
+}
+
+.company-content ul.field-type-yp-product li {
+  font-size: 11px;
+}

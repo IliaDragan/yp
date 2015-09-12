@@ -96,6 +96,7 @@ function _yp_product_activity_options_list($field = NULL, $instance = NULL) {
     YP_PRODUCT_BUY => t('We buy'),
     YP_PRODUCT_MANUFACTURE => t('Manufacture'),
     YP_PRODUCT_SERVICES => t('Service'),
+    YP_PRODUCT_EXPORT => t('We export'),
   );
 }
 
@@ -264,6 +265,7 @@ function yellow_pages_company_ct_field_formatter_view($entity_type, $entity, $fi
 
       switch ($display['type']) {
         case 'yp_product_default':
+
           break;
         case 'yp_product_parent':
           // Do not display same parents more than once.

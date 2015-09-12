@@ -193,7 +193,7 @@ function yellow_pages_company_ct_field_group_info() {
   $field_group->parent_name = 'group_tabbed_content';
   $field_group->data = array(
     'label' => 'Filials',
-    'weight' => '25',
+    'weight' => '26',
     'children' => array(
       0 => 'field_filials',
     ),
@@ -252,7 +252,7 @@ function yellow_pages_company_ct_field_group_info() {
   $field_group->parent_name = 'group_tabbed_content';
   $field_group->data = array(
     'label' => 'Price lists',
-    'weight' => '23',
+    'weight' => '24',
     'children' => array(
       0 => 'field_price_list',
     ),
@@ -339,6 +339,7 @@ function yellow_pages_company_ct_field_group_info() {
       5 => 'group_vouchers',
       6 => 'group_we_buy',
       7 => 'group_we_sell',
+      8 => 'group_we_export',
     ),
     'format_type' => 'htabs',
     'format_settings' => array(
@@ -361,7 +362,7 @@ function yellow_pages_company_ct_field_group_info() {
   $field_group->parent_name = 'group_tabbed_content';
   $field_group->data = array(
     'label' => 'Vouchers',
-    'weight' => '24',
+    'weight' => '25',
     'children' => array(),
     'format_type' => 'htab',
     'format_settings' => array(
@@ -399,6 +400,31 @@ function yellow_pages_company_ct_field_group_info() {
     ),
   );
   $export['group_we_buy|node|company|full'] = $field_group;
+
+  $field_group = new stdClass();
+  $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
+  $field_group->api_version = 1;
+  $field_group->identifier = 'group_we_export|node|company|full';
+  $field_group->group_name = 'group_we_export';
+  $field_group->entity_type = 'node';
+  $field_group->bundle = 'company';
+  $field_group->mode = 'full';
+  $field_group->parent_name = 'group_tabbed_content';
+  $field_group->data = array(
+    'label' => 'We export',
+    'weight' => '23',
+    'children' => array(),
+    'format_type' => 'htab',
+    'format_settings' => array(
+      'formatter' => 'closed',
+      'instance_settings' => array(
+        'description' => '',
+        'classes' => 'group-we-export field-group-htab',
+        'id' => '',
+      ),
+    ),
+  );
+  $export['group_we_export|node|company|full'] = $field_group;
 
   $field_group = new stdClass();
   $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */

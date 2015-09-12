@@ -650,6 +650,7 @@ header .search-link-mobile {
   background: rgba(0, 0, 0, 0.4);
   color: #fff;
   padding: 30px;
+  display: none;
 }
 .frontpage-header .activity-banner img,
 .frontpage-header .activity-banner h5,

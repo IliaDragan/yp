@@ -320,6 +320,20 @@ function yellow_pages_ads_form_advertisement_node_form_alter(&$form, &$form_stat
   );
 
   $form['#validate'][] = 'yellow_pages_ads_form_advertisement_node_form_validate';
+
+
+  $hide = array(
+    'comment_settings',
+    'revision_information',
+    'translation',
+    'path',
+    'author',
+  );
+  foreach ($hide as $item) {
+    if (isset($form[$item])) {
+      hide($form[$item]);
+    }
+  }
 }
 
 /**

@@ -323,7 +323,6 @@ function yellow_pages_ads_form_advertisement_node_form_alter(&$form, &$form_stat
 
   $form['#validate'][] = 'yellow_pages_ads_form_advertisement_node_form_validate';
 
-
   $hide = array(
     'comment_settings',
     'revision_information',
@@ -464,5 +463,25 @@ function yellow_pages_ads_views_post_execute(&$view) {
     if (count($view->result) > $limit) {
       $view->result = array_slice($view->result, 0, $limit);
     }
+  }
+}
+
+function yellow_pages_ads_preprocess(&$variables, $hook) {
+  if ($hook == 'views_view' && $variables['view']->current_display == 'solr_node_search') {
+//     dump('view');
+    $result = $variables['view']->result;
+    $view_result = &drupal_static('yp_advertisement_view_result', array());
+    $view_result = $result;
+  }
+
+  if ($hook == 'panels_pane' && $variables['pane']->type == 'yp_advertisement_search_result') {
+//     dump('pane');
+    $pane_content = &drupal_static('yp_advertisement_search_result', '');
+    $pane_content = $variables['content'];
+    $variables['content'] = '';
+  }
+
+  if ($hook == 'yp_twocol_25_75') {
+    $variables['content']['alpha_25'] .= drupal_static('yp_advertisement_search_result', '');
   }
 }

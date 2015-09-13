@@ -71,9 +71,22 @@ function yellow_pages_ads_search_result_plugin_render($subtype, $conf, $panel_ar
   $order = isset($conf['ads_order']) ? $conf['ads_order'] : 'random';
 
   $view_result = drupal_static('yp_advertisement_view_result', array());
-//   dump($view_result);
+  $view_nids = array();
+  foreach ($view_result as $result) {
+    $view_nids[] = $result->entity;
+  }
 
-  $nodes = yellow_pages_ads_get_ads($amount, $category, $order);
+  $preload = array();
+  if (!empty($view_nids)) {
+    $query = db_select('field_data_field_advertisements', 'fdfa')
+      ->fields('fdfa', array('field_advertisements_target_id'))
+      ->condition('entity_type', 'node', '=')
+      ->condition('bundle', 'company', '=')
+      ->condition('entity_id', $view_nids, 'IN');
+    $preload = $query->execute()->fetchCol();
+  }
+
+  $nodes = yellow_pages_ads_get_ads($amount, $category, $order, $preload);
   $content = yellow_pages_ads_create_content($nodes);
 
   $plugin_data = new stdClass();

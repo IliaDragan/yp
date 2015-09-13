@@ -70,19 +70,15 @@ function yellow_pages_ads_search_result_plugin_render($subtype, $conf, $panel_ar
   $category = isset($conf['ads_category']) ? $conf['ads_category'] : 'sidebar';
   $order = isset($conf['ads_order']) ? $conf['ads_order'] : 'random';
 
-  $view_result = drupal_static('yp_advertisement_view_result', array());
-  $view_nids = array();
-  foreach ($view_result as $result) {
-    $view_nids[] = $result->entity;
-  }
+  $solr_results = drupal_static('yp_solr_search_results', array());
 
   $preload = array();
-  if (!empty($view_nids)) {
+  if (!empty($solr_results)) {
     $query = db_select('field_data_field_advertisements', 'fdfa')
       ->fields('fdfa', array('field_advertisements_target_id'))
       ->condition('entity_type', 'node', '=')
       ->condition('bundle', 'company', '=')
-      ->condition('entity_id', $view_nids, 'IN');
+      ->condition('entity_id', $solr_results, 'IN');
     $preload = $query->execute()->fetchCol();
   }
 

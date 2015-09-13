@@ -159,7 +159,7 @@ function yellow_pages_solr_configuration_default_search_api_server() {
       "site_hash" : true,
       "scheme" : "http",
       "host" : "localhost",
-      "port" : "8983",
+      "port" : "8080",
       "path" : "\\/solr",
       "http_user" : "root",
       "http_pass" : "WLZQE5Jk6y",

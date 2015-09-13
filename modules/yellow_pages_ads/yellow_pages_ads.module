@@ -472,27 +472,3 @@ function yellow_pages_ads_views_post_execute(&$view) {
     }
   }
 }
-
-/**
- * Implements hook_preoprocess().
- */
-function yellow_pages_ads_preprocess(&$variables, $hook) {
-  if ($hook == 'views_view' && $variables['view']->current_display == 'solr_node_search') {
-    $result = $variables['view']->result;
-    $view_result = &drupal_static('yp_advertisement_view_result', array());
-    $view_result = $result;
-  }
-
-  if ($hook == 'panels_pane' && $variables['pane']->type == 'yp_advertisement_search_result') {
-    $pane_content = &drupal_static('yp_advertisement_search_result', '');
-    $pane_content = $variables['content'];
-    $variables['content'] = '';
-  }
-
-  if ($hook == 'yp_twocol_25_75') {
-    $pane_content = drupal_static('yp_advertisement_search_result', '');
-    if (!empty($pane_content)) {
-      $variables['content']['alpha_25'] .= $pane_content;
-    }
-  }
-}

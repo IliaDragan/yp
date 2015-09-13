@@ -94,7 +94,7 @@ function yellow_pages_ads_theme() {
  * @return array
  *   Set of node objects.
  */
-function yellow_pages_ads_get_ads($limit = YP_ADS_AMOUNT, $category = 'sidebar', $order = 'random') {
+function yellow_pages_ads_get_ads($limit = YP_ADS_AMOUNT, $category = 'sidebar', $order = 'random', array $preload = array()) {
   $path = current_path();
 
   $forced_hidden = yellow_pages_ads_get_priority_ads($path, 0);
@@ -111,6 +111,13 @@ function yellow_pages_ads_get_ads($limit = YP_ADS_AMOUNT, $category = 'sidebar',
         $forced_shown[] = $ad['target_id'];
         array_unshift($forced_shown, $ad['target_id']);
       }
+    }
+  }
+
+  if (!empty($preload)) {
+    $forced_shown = array_unique(array_merge($forced_shown, $preload));
+    if (!empty($forced_hidden)) {
+      $forced_shown = array_diff($forced_shown, $forced_hidden);
     }
   }
 
@@ -323,7 +330,6 @@ function yellow_pages_ads_form_advertisement_node_form_alter(&$form, &$form_stat
 
   $form['#validate'][] = 'yellow_pages_ads_form_advertisement_node_form_validate';
 
-
   $hide = array(
     'comment_settings',
     'revision_information',
@@ -463,6 +469,30 @@ function yellow_pages_ads_views_post_execute(&$view) {
     // Insertions lead to more result items than initially set in pagination settings.
     if (count($view->result) > $limit) {
       $view->result = array_slice($view->result, 0, $limit);
+    }
+  }
+}
+
+/**
+ * Implements hook_preoprocess().
+ */
+function yellow_pages_ads_preprocess(&$variables, $hook) {
+  if ($hook == 'views_view' && $variables['view']->current_display == 'solr_node_search') {
+    $result = $variables['view']->result;
+    $view_result = &drupal_static('yp_advertisement_view_result', array());
+    $view_result = $result;
+  }
+
+  if ($hook == 'panels_pane' && $variables['pane']->type == 'yp_advertisement_search_result') {
+    $pane_content = &drupal_static('yp_advertisement_search_result', '');
+    $pane_content = $variables['content'];
+    $variables['content'] = '';
+  }
+
+  if ($hook == 'yp_twocol_25_75') {
+    $pane_content = drupal_static('yp_advertisement_search_result', '');
+    if (!empty($pane_content)) {
+      $variables['content']['alpha_25'] .= $pane_content;
     }
   }
 }

@@ -86,3 +86,13 @@ function yellow_pages_solr_configuration_city_filter_callback($item) {
     }
   }
 }
+
+/**
+ * Implements hook_search_api_solr_search_results_alter().
+ */
+function yellow_pages_solr_configuration_search_api_solr_search_results_alter(array &$results, SearchApiQueryInterface $query, $response) {
+  // Make search results visible across modules.
+  $solr_search_nids = array_keys($results['results']);
+  $solr_results = &drupal_static('yp_solr_search_results', array());
+  $solr_results = $solr_search_nids;
+}

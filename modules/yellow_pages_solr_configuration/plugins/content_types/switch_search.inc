@@ -8,7 +8,7 @@ $plugin = array(
   'title' => t('Yellow pages switch search.'),
   'description' => t("Display block fot search switch."),
   'single' => TRUE,
-  'category' => t('Yellow pages'),
+  'category' => t('YellowPages'),
   'render callback' => 'switch_search_content_type_render',
   'edit form' => 'switch_search_edit_form',
 );

@@ -116,7 +116,18 @@ function yellow_pages_sync_read_xml($source) {
   $xml = FALSE;
 
   try {
-    $xml_data = @file_get_contents($source);
+    $cid = md5($source);
+    $cache = cache_get($cid);
+    $xml_data = NULL;
+    if (!$cache) {
+      $xml_data = @file_get_contents($source);
+      if (!empty($xml_data)) {
+        cache_set($cid, $xml_data, 'cache', REQUEST_TIME + 3600);
+      }
+    }
+    else {
+      $xml_data = $cache->data;
+    }
     $xml = new SimpleXMLElement($xml_data);
   }
   catch (Exception $e) {
@@ -137,6 +148,11 @@ function yellow_pages_sync_nodes($settings, &$context) {
 
     $context['sandbox']['progress'] = 0;
     $context['sandbox']['max'] = isset($xml->count) ? (int) $xml->count : 0;
+
+    $single = $settings['single'];
+    if ($single) {
+      $context['sandbox']['max'] = 100;
+    }
   }
   elseif (!empty($context['sandbox']['next'])) {
     $xml = yellow_pages_sync_read_xml($context['sandbox']['next']);
@@ -158,6 +174,10 @@ function yellow_pages_sync_nodes($settings, &$context) {
         yellow_pages_sync_node($list_item);
         $title = yellow_pages_sync_process_source_element_title($list_item);
         $context['message'] = t('Processed: %title (%count/%max)', array('%title' => reset($title), '%count' => $context['sandbox']['progress'], '%max' => $context['sandbox']['max']));
+      }
+
+      if ($context['sandbox']['progress'] % SYNC_BATCH == 0) {
+        watchdog('yp_sync', 'Synced %num enterprises.', array('%num' => $context['sandbox']['progress']), WATCHDOG_INFO);
       }
 
       if ($context['sandbox']['progress'] == $context['sandbox']['max']) {
@@ -627,7 +647,6 @@ function yellow_pages_sync_write_term_relation($id, $tid, $parent_id = 0, $type 
       'pid' => $id,
       'tid' => $tid,
       'type' => $type,
-      'parent' => $parent_id,
     ))
     ->fields(array(
       'pid' => $id,
@@ -658,13 +677,13 @@ function yellow_pages_sync_taxonomy(&$context) {
         ->condition('type', YP_TERM_TYPE_CATEGORY, '=');
       $result = $query->execute()->fetchCol();
       $tid = reset($result);
-      if (!$term = taxonomy_term_load($tid)) {
-        $names = array(
+      if (!$category_term = taxonomy_term_load($tid)) {
+        $category_names = array(
           'ru' => (string) $item->ru_field,
           'ro' => (string) $item->ro_field,
           'en' => (string) $item->en_field,
         );
-        $term = yellow_pages_sync_create_term($names, YP_TERM_TYPE_CATEGORY);
+        $category_term = yellow_pages_sync_create_term($category_names, YP_TERM_TYPE_CATEGORY);
       }
 
       $parents = array();
@@ -672,18 +691,15 @@ function yellow_pages_sync_taxonomy(&$context) {
         $parents[] = (int) $parent;
       }
 
-      db_delete('yp_term_sync_state')
-        ->condition('tid', $term->tid, '=')
-        ->execute();
       if (empty($parents)) {
-        yellow_pages_sync_write_term_relation($id, $term->tid, 0, YP_TERM_TYPE_CATEGORY);
+        yellow_pages_sync_write_term_relation($id, $category_term->tid, 0, YP_TERM_TYPE_CATEGORY);
       }
       else {
         foreach ($parents as $parent) {
           if ($parent < 2) {
             $parent = 0;
           }
-          yellow_pages_sync_write_term_relation($id, $term->tid, $parent, YP_TERM_TYPE_CATEGORY);
+          yellow_pages_sync_write_term_relation($id, $category_term->tid, $parent, YP_TERM_TYPE_CATEGORY);
         }
       }
     }
@@ -726,13 +742,13 @@ function yellow_pages_sync_taxonomy(&$context) {
       ->condition('type', YP_TERM_TYPE_PRODUCT, '=');
     $result = $query->execute()->fetchCol();
     $tid = reset($result);
-    if (!$term = taxonomy_term_load($tid)) {
-      $names = array(
+    if (!$product_term = taxonomy_term_load($tid)) {
+      $product_names = array(
         'ru' => $item['ru'],
         'ro' => $item['ro'],
         'en' => $item['en'],
       );
-      $term = yellow_pages_sync_create_term($names, YP_TERM_TYPE_PRODUCT);
+      $product_term = yellow_pages_sync_create_term($product_names, YP_TERM_TYPE_PRODUCT);
     }
 
     $parents = array();
@@ -740,18 +756,15 @@ function yellow_pages_sync_taxonomy(&$context) {
       $parents[] = $parent;
     }
 
-    db_delete('yp_term_sync_state')
-      ->condition('tid', $term->tid, '=')
-      ->execute();
     if (empty($parents)) {
-      yellow_pages_sync_write_term_relation($item['id'], $term->tid, 0, YP_TERM_TYPE_PRODUCT);
+      yellow_pages_sync_write_term_relation($item['id'], $product_term->tid, 0, YP_TERM_TYPE_PRODUCT);
     }
     else {
       foreach ($parents as $parent) {
         if ($parent < 2) {
           $parent = 0;
         }
-        yellow_pages_sync_write_term_relation($item['id'], $term->tid, $parent, YP_TERM_TYPE_PRODUCT);
+        yellow_pages_sync_write_term_relation($item['id'], $product_term->tid, $parent, YP_TERM_TYPE_PRODUCT);
       }
     }
 
@@ -826,14 +839,17 @@ function yellow_pages_sync_create_term($name, $type = YP_TERM_TYPE_PRODUCT) {
 
   if (is_array($name)) {
     $languages = array('en', 'ro');
+
+    if ($type == YP_TERM_TYPE_CATEGORY && $name['ru'] == 'Бизнес' && $name['ro'] == 'Piloţi pentru fundaţii') {
+      var_dump($name);die();
+    }
+
     foreach ($languages as $lang) {
-      if (!empty($name[$lang])) {
-        i18n_string_translation_update(
-          array('taxonomy', 'term', $term->tid, 'name'),
-          $name[$lang],
-          $lang
-        );
-      }
+      i18n_string_translation_update(
+        array('taxonomy', 'term', $term->tid, 'name'),
+        !empty($name[$lang]) ? $name[$lang] : '',
+        $lang
+      );
     }
   }
 
@@ -959,8 +975,6 @@ function yellow_pages_sync_attach_logo($eid) {
       }
     }
   }
-
-
 }
 
 function yellow_pages_sync_create_logo($eid) {

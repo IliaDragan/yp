@@ -143,15 +143,16 @@ function yellow_pages_sync_nodes($settings, &$context) {
   if (!isset($context['sandbox']['progress'])) {
     drupal_static_reset('synced_parents');
     $page = !empty($settings['page']) ? $settings['page'] : 1;
-    $xml_source = 'http://test.varoinform.md:8080/api/enterprises/?page=' . $page;
+    $xml_source = 'http://test.varoinform.md:8080/api/enterprises/?page=' . $page . '&paginate_by=' . SYNC_BATCH;
     $xml = yellow_pages_sync_read_xml($xml_source);
 
-    $context['sandbox']['progress'] = 0;
+    $context['sandbox']['progress'] = ($page - 1) * SYNC_BATCH;
     $context['sandbox']['max'] = isset($xml->count) ? (int) $xml->count : 0;
 
     $single = $settings['single'];
     if ($single) {
-      $context['sandbox']['max'] = 100;
+      $context['sandbox']['progress'] = 0;
+      $context['sandbox']['max'] = SYNC_BATCH;
     }
   }
   elseif (!empty($context['sandbox']['next'])) {
@@ -460,7 +461,7 @@ function yellow_pages_sync_process_source_element_title(SimpleXMLElement $source
     }
     elseif ((string) $item->title_type == 'DE FACTO') {
       foreach ($locales as $locale) {
-        if (!empty(trim($titles[$locale]))) {
+        if (isset($titles[$locale]) && !empty(trim($titles[$locale]))) {
           $titles[$locale] .= ' / ' . (string) $item->title . ' ' . (string) $item->appendix->{$locale . '_field'};
         }
         else {
@@ -935,7 +936,7 @@ function yellow_pages_sync_logos(&$context) {
     $result = $query->execute()->fetchCol();
 
     $context['sandbox']['progress'] = 0;
-    $context['sandbox']['max'] = $result;
+    $context['sandbox']['max'] = reset($result);
   }
 
   $query = db_select('yp_sync_state', 'yss')
@@ -944,34 +945,28 @@ function yellow_pages_sync_logos(&$context) {
   $synced = $query->execute()->fetchAll();
 
   foreach ($synced as $item) {
-    yellow_pages_sync_attach_logo($item->eid);
+    yellow_pages_sync_attach_logo($item->eid, $item->nid);
+    $context['sandbox']['progress']++;
   }
 
   if ($context['sandbox']['progress'] != $context['sandbox']['max']) {
-//     $context['finished'] = $context['sandbox']['progress'] / $context['sandbox']['max'];
+    $context['finished'] = $context['sandbox']['progress'] / $context['sandbox']['max'];
   }
 }
 
-function yellow_pages_sync_attach_logo($eid) {
-  $query = db_select('yp_sync_state', 'yss')
-    ->fields('yss', array('nid'))
-    ->condition('eid', $eid, '=');
-  $main_nids = $query->execute()->fetchCol();
+function yellow_pages_sync_attach_logo($eid, $nid) {
+  $query = db_select('node', 'n')
+    ->fields('n', array('nid'))
+    ->condition('tnid', $nid, '=');
+  $tnids = $query->execute()->fetchCol();
 
-  if (!empty($main_nids)) {
-    $query = db_select('node', 'n')
-      ->fields('n', array('nid'))
-      ->condition('tnid', $main_nids, 'IN');
-    $tnids = $query->execute()->fetchCol();
-
-    $nodes = node_load_multiple($tnids);
-    if (!empty($nodes)) {
-      $logo = yellow_pages_sync_create_logo($eid);
-      if (isset($logo->fid)) {
-        foreach ($nodes as $node) {
-          $node->field_company_logo[LANGUAGE_NONE][0] = (array) $logo;
-          node_save($node);
-        }
+  $nodes = node_load_multiple($tnids);
+  if (!empty($nodes)) {
+    $logo = yellow_pages_sync_create_logo($eid);
+    if (isset($logo->fid)) {
+      foreach ($nodes as $node) {
+        $node->field_company_logo[LANGUAGE_NONE][0] = (array) $logo;
+        node_save($node);
       }
     }
   }
@@ -982,7 +977,7 @@ function yellow_pages_sync_create_logo($eid) {
   $logo_content = yellow_pages_sync_read_logo($path);
   $dest = 'public://logo/';
 
-  if ($logo_content && file_prepare_directory($dest)) {
+  if ($logo_content && file_prepare_directory($dest, FILE_CREATE_DIRECTORY | FILE_MODIFY_PERMISSIONS)) {
     $file = file_save_data($logo_content, $dest . $eid . '.gif', FILE_EXISTS_REPLACE);
 
     return $file;

@@ -1793,6 +1793,9 @@ div.panel-pane div.node-teaser {
     padding: 15px;
   }
 }
+.group-tabbed-content .horizontal-tabs .horizontal-tab-title {
+  display: none;
+}
 
 .node-tabs-block {
   margin-bottom: 30px;
@@ -2850,7 +2853,10 @@ article a {
   .region-asides,
   .footer,
   .node-advertisement,
-  #toolbar {
+  #toolbar,
+  .node-tabs-block,
+  .node-type-article .node--article--full .social-links,
+  .node-type-news .node--news--full .social-links {
     display: none;
   }
 
@@ -2906,5 +2912,12 @@ article a {
 
   .company-content .field-type-media .owl-controls {
     display: none;
+  }
+
+  .group-tabbed-content .fieldset-wrapper .horizontal-tab-title {
+    display: block;
+    margin-bottom: 15px;
+    font-weight: bold;
+    text-transform: uppercase;
   }
 }

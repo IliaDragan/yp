@@ -121,7 +121,6 @@ function _yellow_pages_ads_node_display_rules_form_chunk(array $default = array(
   $form_chunk['path'] = array(
     '#type' => 'textfield',
     '#default_value' => isset($default['path']) ? $default['path'] : '',
-//     '#autocomplete_path' => 'yellow_pages_ads/autocomplete',
   );
 
   return $form_chunk;
@@ -154,30 +153,3 @@ function theme_yellow_pages_ads_rules_form($elements) {
 
   return $output;
 }
-
-/**
- * Defines autocomplete handler.
- *
- * @param string $s
- *   User input string.
- *
- * @see yellow_pages_ads_menu()
- */
-// function yellow_pages_ads_autocomplete($s) {
-//   $skip_types = array(
-//     'advertisement',
-//   );
-
-//   $query = db_select('node', 'n');
-//   $query->fields('n', array('nid', 'title'));
-//   $query->condition('title', '%' . $s . '%', 'LIKE');
-//   $query->condition('type', $skip_types, 'NOT IN');
-//   $result = $query->execute()->fetchAll();
-
-//   $response = array();
-//   foreach ($result as $row) {
-//     $response[$row->title . ' [nid:' . $row->nid . ']'] = $row->title;
-//   }
-
-//   drupal_json_output($response);
-// }

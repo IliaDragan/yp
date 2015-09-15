@@ -42,11 +42,12 @@ function yellow_pages_feedback_mail($key, &$message, $params) {
     case 'yp_feedback_ad':
       $body_t = array(
         '@name' => $params['name'],
+        '@company' => $params['company'],
         '@phone' => $params['telephone'],
       );
       $message['to'] = $params['to'];
       $message['subject'] = t('Advertisement request');
-      $message['body'][] = t('@name wants to post an advertisement!', $body_t);
+      $message['body'][] = t('@name from @company wants to post an advertisement!', $body_t);
       $message['body'][] = t('@phone', $body_t);
       break;
   }
@@ -62,33 +63,27 @@ function yellow_pages_feedback_theme($existing, $type, $theme, $path) {
 }
 
 function yellow_pages_feedback_ad_request($form, &$form_state) {
-  $form['firstname'] = array(
+  $form['company_name'] = array(
     '#type' => 'textfield',
-    '#title' => t('Firstname'),
-    '#required' => TRUE,
-  );
-
-  $form['middlename'] = array(
-    '#type' => 'textfield',
-    '#title' => t('Middlename'),
-    '#required' => TRUE,
-  );
-
-  $form['lastname'] = array(
-    '#type' => 'textfield',
-    '#title' => t('Lastname'),
+    '#title' => t('Company name'),
     '#required' => TRUE,
   );
 
   $form['email'] = array(
     '#type' => 'textfield',
     '#title' => t('Email'),
-    '#required' => TRUE,
+    '#required' => FALSE,
   );
 
   $form['telephone'] = array(
     '#type' => 'textfield',
     '#title' => t('Telephone'),
+    '#required' => TRUE,
+  );
+
+  $form['contact_person'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Contact person'),
     '#required' => TRUE,
   );
 
@@ -104,11 +99,25 @@ function yellow_pages_feedback_ad_request_submit($form, &$form_state) {
   $input = $form_state['input'];
   $from = $input['email'];
 
-  $user = user_load(1);
-  $to = $user->mail;
+  $role = user_role_load_by_name('global editor');
+
+  $query = 'SELECT DISTINCT(ur.uid)
+  FROM {users_roles} AS ur
+  WHERE ur.rid IN (:rids)';
+  $result = db_query($query, array(':rids' => $role->rid));
+
+  $uids = $result->fetchCol();
+
+  $users = user_load_multiple($uids);
+
+  $to = '';
+  foreach ($users as $user) {
+    $to .= ', ' . $user->mail;
+  }
 
   $params = array(
-    'name' => $input['firstname'] . ' ' . $input['middlename'] . ' ' . $input['lastname'],
+    'name' => $input['contact_person'],
+    'company' => $input['company_name'],
     'telephone' => $input['telephone'],
     'to' => $to,
   );

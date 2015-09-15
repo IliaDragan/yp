@@ -70,6 +70,7 @@ features[field_group][] = group_services|node|company|full
 features[field_group][] = group_tabbed_content|node|company|full
 features[field_group][] = group_vouchers|node|company|full
 features[field_group][] = group_we_buy|node|company|full
+features[field_group][] = group_we_export|node|company|full
 features[field_group][] = group_we_sell|node|company|full
 features[field_instance][] = node-company-body
 features[field_instance][] = node-company-field_address

@@ -242,9 +242,10 @@ function yellow_pages_lists_get_latest_news($limit = 50, $sort = 'DESC') {
   $query = new EntityFieldQuery();
   $query
     ->entityCondition('entity_type', 'node')
-    ->entityCondition('bundle', 'news')
+    ->entityCondition('bundle', 'article')
     ->propertyCondition('status', NODE_PUBLISHED)
     ->propertyCondition('language', $language->language)
+    ->propertyCondition('promote', 1)
     ->propertyOrderBy('created', $sort)
     ->range(0, $limit);
   $result = $query->execute();

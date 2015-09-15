@@ -767,7 +767,7 @@ function yellow_pages_company_ct_field_default_field_instances() {
       'settings' => array(
         'delta_handling' => 'default',
         'geocoder_field' => 'field_address',
-        'geocoder_handler' => 'yandex',
+        'geocoder_handler' => 'google',
         'handler_settings' => array(
           'google' => array(
             'all_results' => 0,

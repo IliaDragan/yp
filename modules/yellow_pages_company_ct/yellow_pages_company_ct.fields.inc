@@ -96,6 +96,7 @@ function _yp_product_activity_options_list($field = NULL, $instance = NULL) {
     YP_PRODUCT_BUY => t('We buy'),
     YP_PRODUCT_MANUFACTURE => t('Manufacture'),
     YP_PRODUCT_SERVICES => t('Service'),
+    YP_PRODUCT_EXPORT => t('We export'),
   );
 }
 
@@ -242,7 +243,7 @@ function yellow_pages_company_ct_field_formatter_prepare_view($entity_type, $ent
         $term = taxonomy_term_load($tid);
         $items[$id][$delta]['taxonomy_term'] = $term;
 
-        $parents = taxonomy_get_parents_all($term->tid);
+        $parents = taxonomy_get_parents($term->tid);
         $items[$id][$delta]['top_most'] = end($parents);
       }
     }

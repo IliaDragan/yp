@@ -95,4 +95,31 @@ function yellow_pages_solr_configuration_search_api_solr_search_results_alter(ar
   $solr_search_nids = array_keys($results['results']);
   $solr_results = &drupal_static('yp_solr_search_results', array());
   $solr_results = $solr_search_nids;
+
+  $solr_result_count = $results['result count'];
+  $result_count = &drupal_static('yp_solr_hits', 0);
+  $result_count = $solr_result_count;
+}
+
+/**
+ * Implements hook_preoprocess().
+ */
+function yellow_pages_solr_configuration_preprocess(&$variables, $hook) {
+  $search_page = arg(0) == 'search' && arg(1) == 'companies';
+  if (!$search_page) {
+    return;
+  }
+
+  if ($hook == 'panels_pane' && $variables['pane']->type == 'switch_search') {
+    $pane_content = &drupal_static('yp_switch_search', '');
+    $pane_content = $variables['content'];
+    $variables['content'] = '';
+  }
+
+  if ($hook == 'yp_twocol_25_75') {
+    $pane_content = drupal_static('yp_switch_search', '');
+    if (!empty($pane_content)) {
+      $variables['content']['beta_75'] = drupal_render($pane_content) . $variables['content']['beta_75'];
+    }
+  }
 }

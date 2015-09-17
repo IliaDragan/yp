@@ -40,6 +40,13 @@ function yellow_pages_sync_admin_form($form, $form_state) {
     '#size' => 5,
   );
 
+  $form['page_only'] = array(
+    '#type' => 'checkbox',
+    '#title' => t('This page only'),
+    '#description' => t('Sync enterprises from selected page only.'),
+    '#default_value' => FALSE,
+  );
+
   $form['submit'] = array(
     '#type' => 'submit',
     '#prefix' => '<p>' . t('Import companies and products from MDB source.') . '</p>',
@@ -55,18 +62,19 @@ function yellow_pages_sync_admin_form($form, $form_state) {
  * @param unknown $form_state
  */
 function yellow_pages_sync_admin_form_submit($form, &$form_state) {
-  $input = $form_state['input'];
+  $input = $form_state['values'];
   $options = array_filter($input['options']);
 
   $arguments = array(
     'nodes' => array(
-      array('page' => $input['page']),
+      array('page' => $input['page'], 'single' => $input['page_only']),
     ),
   );
   $operations = array();
   foreach ($options as $option) {
     $operations[] = array('yellow_pages_sync_' . $option, isset($arguments[$option]) ? $arguments[$option] : array());
 
+    // Add a step when syncing taxonomy, to link with parents.
     if ($option == 'taxonomy') {
       $operations[] = array('yellow_pages_sync_taxonomy_parents', array());
     }

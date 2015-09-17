@@ -2345,6 +2345,26 @@ article {
   }
 }
 
+.notfound-search {
+  margin: 0 auto;
+  text-align: center;
+  .logo {
+    display: inline-block;
+    width: 180px;
+    height: 120px;
+    margin-bottom: 30px;
+    background: url('../images/yp-logo-gray.png') center center no-repeat;
+    background-size: 180px;
+    @include breakpoint ($mobile) {
+      width: 90px;
+      height: 60px;
+      margin-bottom: 15px;
+      background: url('../images/yp-logo-gray.png') center center no-repeat;
+      background-size: 60px;
+    }
+  }
+}
+
 /* Advertisment images */
 
 .node-advertisement {

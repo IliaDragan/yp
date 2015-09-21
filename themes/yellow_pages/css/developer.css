@@ -97,3 +97,7 @@
     overflow: hidden;
   }
 }
+
+.frontpage-header .activity-banner {
+  display: none;
+}

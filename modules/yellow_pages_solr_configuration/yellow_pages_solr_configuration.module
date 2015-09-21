@@ -73,7 +73,26 @@ function yellow_pages_solr_configuration_entity_property_info_alter(&$info) {
     'label' => t('Filter by city.'),
     'getter callback' => 'yellow_pages_solr_configuration_city_filter_callback',
   );
+
+  $info['node']['properties']['title_sort'] = array(
+    'type' => 'text',
+    'label' => t('Sort by title.'),
+    'getter callback' => 'yellow_pages_solr_configuration_title_sort_callback',
+  );
+
 }
+
+/**
+ * Return title for sort in solr views.
+ */
+function yellow_pages_solr_configuration_title_sort_callback($item) {
+  if ($item->type == 'company') {
+    if (isset($item->title) && !empty($item->title)) {
+      return $item->title;
+    }
+  }
+}
+
 
 /**
  * Return city name for filtration field on solr indexation.

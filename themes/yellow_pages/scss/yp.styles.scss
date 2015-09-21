@@ -162,6 +162,17 @@ header {
   list-style-type: none;
 }
 
+.pane-menu-menu-product-menu {
+  &:before,
+  &:after {
+    content: "";
+    display: table;
+  }
+  &:after {
+    clear: both;
+  }
+}
+
 .menu-main-menu,
 .language-switcher-locale-url,
 .menu-user-menu,
@@ -1011,7 +1022,8 @@ form.yellow-pages-feedback-ad-request {
     }
   }
 }
-.owl-carousel .node--news--slider_teaser {
+.owl-carousel .node--news--slider_teaser,
+.owl-carousel .node--article--slider_teaser {
   img {
     display: block;
     width: 100%;
@@ -2381,6 +2393,10 @@ article {
   @include breakpoint ($mobile) {
     display: none;
   }
+}
+
+.front .node-advertisement .advertisement a {
+  margin-bottom: 0;
 }
 
 @include breakpoint ($desktoplgdown) {

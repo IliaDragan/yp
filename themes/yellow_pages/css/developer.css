@@ -107,3 +107,7 @@
   list-style-type: none;
   text-align: left;
 }
+
+.node--company--search_index .field-name-field-address .street-block {
+  display: block !important;
+}

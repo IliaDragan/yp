@@ -162,6 +162,17 @@ header {
   list-style-type: none;
 }
 
+.pane-menu-menu-product-menu {
+  &:before,
+  &:after {
+    content: "";
+    display: table;
+  }
+  &:after {
+    clear: both;
+  }
+}
+
 .menu-main-menu,
 .language-switcher-locale-url,
 .menu-user-menu,
@@ -1011,7 +1022,8 @@ form.yellow-pages-feedback-ad-request {
     }
   }
 }
-.owl-carousel .node--news--slider_teaser {
+.owl-carousel .node--news--slider_teaser,
+.owl-carousel .node--article--slider_teaser {
   img {
     display: block;
     width: 100%;
@@ -1563,6 +1575,9 @@ div.panel-pane div.node-teaser {
       @include breakpoint ($mobile) {
         padding: 15px;
       }
+    }
+    .horizontal-tab-title {
+      display: none;
     }
   }
 }
@@ -2342,6 +2357,26 @@ article {
   }
 }
 
+.notfound-search {
+  margin: 0 auto;
+  text-align: center;
+  .logo {
+    display: inline-block;
+    width: 180px;
+    height: 120px;
+    margin-bottom: 30px;
+    background: url('../images/yp-logo-gray.png') center center no-repeat;
+    background-size: 180px;
+    @include breakpoint ($mobile) {
+      width: 90px;
+      height: 60px;
+      margin-bottom: 15px;
+      background: url('../images/yp-logo-gray.png') center center no-repeat;
+      background-size: 60px;
+    }
+  }
+}
+
 /* Advertisment images */
 
 .node-advertisement {
@@ -2358,6 +2393,10 @@ article {
   @include breakpoint ($mobile) {
     display: none;
   }
+}
+
+.front .node-advertisement .advertisement a {
+  margin-bottom: 0;
 }
 
 @include breakpoint ($desktoplgdown) {
@@ -2575,7 +2614,10 @@ article {
   .region-asides,
   .footer,
   .node-advertisement,
-  #toolbar {
+  #toolbar,
+  .node-tabs-block,
+  .node-type-article .node--article--full .social-links, 
+  .node-type-news .node--news--full .social-links {
     display: none;
   }
   .horizontal-tabs .horizontal-tab-hidden {
@@ -2632,6 +2674,12 @@ article {
     .owl-controls {
       display: none;
     }
+  }
+  .group-tabbed-content .fieldset-wrapper .horizontal-tab-title {
+    display: block;
+    margin-bottom: 15px;
+    font-weight: bold;
+    text-transform: uppercase;
   }
 
 }

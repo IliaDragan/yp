@@ -223,6 +223,18 @@ function getWindowWidth () {
     }
   }
 
+  Drupal.behaviors.tabs_for_print = {
+    attach : function (context) {
+      var $horizontalTabs = $('.horizontal-tabs');
+       if ($horizontalTabs.length) {
+        for (var i = 0, len = $('.horizontal-tab-button').length; i < len; i++) {
+          var Tabtitle = $('.horizontal-tab-button').eq(i).find('strong').text();
+          $('.field-group-htab').eq(i).find('.fieldset-wrapper').prepend('<span class="horizontal-tab-title">' + Tabtitle + '</span>')
+        }
+      }
+    }
+  }
+
   Drupal.behaviors.horizontal_tabs_mobile = {
     attach : function (context) {
       var $horizontalTabs = $('div.horizontal-tabs');
@@ -262,6 +274,7 @@ function getWindowWidth () {
       }
     });
   });
+
 
 
 }) (jQuery, Drupal);

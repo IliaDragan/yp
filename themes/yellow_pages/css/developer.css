@@ -1,5 +1,5 @@
-.language-switcher-locale-url .en {		
-  display: none;		
+.language-switcher-locale-url .en {
+  display: none;
 }
 
 .owl-carousel .node--article--slider_teaser img {
@@ -96,4 +96,11 @@
     max-height: 110px;
     overflow: hidden;
   }
+}
+
+.page-search .pane-block ul {
+  margin: 0;
+  padding: 0 0 0 8px !important;
+  list-style-type: none;
+  text-align: left;
 }

@@ -276,6 +276,7 @@ header {
   }
   @include breakpoint ($mobile) {
     margin-left: 20px;
+    padding-top: 4px;
   }
 }
 
@@ -2054,6 +2055,12 @@ article {
         background: $main-yellow;
       }
     }
+    @include breakpoint ($mobile) {
+      width: 100%;
+      label {
+        width: 100%;
+      }
+    }
   }
 }
 
@@ -2380,10 +2387,10 @@ article {
 /* Advertisment images */
 
 .node-advertisement {
+  margin-bottom: 20px;
   .advertisement {
     a {
       display: block;
-      margin-bottom: 20px;
       img {
         max-width: 100%;
         width: 100%;
@@ -2393,6 +2400,9 @@ article {
   @include breakpoint ($mobile) {
     display: none;
   }
+}
+body > .node-advertisement {
+  margin-bottom: 0;
 }
 
 .front .node-advertisement .advertisement a {
@@ -2454,7 +2464,8 @@ article {
   .homepage-container .pane-title {
     margin: 30px 0;
   }
-  .node--news--slider_teaser {
+  .node--news--slider_teaser,
+  .node--article--slider_teaser {
     margin-bottom: 30px !important;
     background: #fff;
     .node-read-more {
@@ -2523,7 +2534,8 @@ article {
   .pane-menu-menu-product-menu {
     margin: 0 -15px;
   }
-  .node--news--slider_teaser {
+  .node--news--slider_teaser,
+  .node--article--slider_teaser {
     margin-bottom: 20px !important;
     &.node-sticky {
       border-bottom: 2px solid $main-yellow;

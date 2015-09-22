@@ -211,7 +211,7 @@ function getWindowWidth () {
 
   Drupal.behaviors.toggle_mobile_menu = {
     attach : function (context) {
-      var $filterBlock = $('.facet-block');
+      var $filterBlock = $('.filter-block');
        if ($filterBlock.length) {
         for (var i = 0, len = $filterBlock.length; i < len; i++) {
           var $filterOPenLink = $filterBlock.eq(i).find('.pane-title');

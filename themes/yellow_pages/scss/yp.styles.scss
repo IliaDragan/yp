@@ -1320,6 +1320,9 @@ form.yellow-pages-feedback-ad-request {
         max-width: 80px;
       }
     }
+    > img {
+      margin: 10px;
+    }
   }
 }
 
@@ -1343,6 +1346,7 @@ div.panel-pane div.node-teaser {
 .node-bottom {
   overflow: hidden;
   .field-name-field-categories,
+  .field-type-yp-product
   .field-type-text {
     float: left;
     width: 80%;
@@ -1681,7 +1685,8 @@ div.panel-pane div.node-teaser {
   }
 }
 
-.field-name-field-categories {
+.field-name-field-categories,
+.field-type-yp-product {
   margin: 0 0 10px 0;
   padding: 0;
   list-style-type: none;
@@ -1853,6 +1858,10 @@ div.panel-pane div.node-teaser {
           max-width: 100%;
         }
       }
+      > img {
+        max-width: 130px;
+        margin: 10px;
+      }
     }
     .right {
       width: 2000px;
@@ -1937,26 +1946,54 @@ article {
     background: #393939;
     color: #fff;
     .pane-content {
-      padding: 25px 30px 25px 40px;
+      padding: 25px 0;
+      // padding: 25px 30px 25px 40px;
       @include breakpoint ($mobileup) {
         display: block !important;
       }
       @include breakpoint ($mobile) {
         display: none;
-        padding: 15px 15px 15px 30px;
+        // padding: 15px 15px 15px 30px;
+      }
+      > .item-list {
+        .item-list {
+          margin: 10px 0 10px -40px;
+          padding: 10px 0;
+          background: #494949;
+          .item-list {
+            background: #595959;
+            .item-list {
+              background: #696969;
+              .item-list {
+                background: #797979;
+                .item-list {
+                  background: #898989;
+                  .item-list {
+                    background: #999;
+                  }
+                }
+              }
+            }
+          }
+          @include breakpoint ($tabletlgdown) {
+            margin-left: -20px;
+          }
+        }
       }
     }
     .pane-title {
       margin: 0;
       padding: 25px 30px 25px 40px;
-      background: $dark;
+      background: #292929;
       font-size: 14px;
       font-weight: 400;
       color: $main-yellow;
       text-transform: uppercase;
+      @include breakpoint ($tabletlgdown) {
+        padding: 15px 20px 15px 15px;
+      }
       @include breakpoint ($mobile) {
         position: relative;
-        padding: 15px 40px 15px 15px;
         &:after {
           content: "\f078";
           display: inline-block;
@@ -1978,10 +2015,11 @@ article {
       list-style-type: none;
       text-align: left;
       li {
+        margin-left: 40px;
         position: relative;
         a {
           display: block;
-          padding: 3px 0;
+          padding: 3px 10px 3px 0;
         }
         .facetapi-active {
           color: #393939;
@@ -2004,6 +2042,12 @@ article {
           color: $gray;
           &:hover {
             color: #fff;
+          }
+        }
+        @include breakpoint ($tabletlgdown) {
+          margin-left: 20px;
+          .facetapi-active {
+            left: -15px;
           }
         }
       }

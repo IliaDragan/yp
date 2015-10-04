@@ -71,7 +71,7 @@ function yellow_pages_sync_admin_form($form, $form_state) {
  */
 function yellow_pages_sync_admin_form_submit($form, &$form_state) {
   $input = $form_state['values'];
-  variable_set('yp_sync_source', $input['source']);
+  variable_set('yp_sync_source', trim($input['source']));
   $options = array_filter($input['options']);
 
   $arguments = array(

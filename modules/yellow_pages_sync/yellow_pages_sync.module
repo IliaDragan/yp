@@ -219,9 +219,11 @@ function yellow_pages_sync_node(SimpleXMLElement $list_item) {
 //   }
 
   // Basics.
+  $is_new = FALSE;
   if (empty($result)) {
     $node_defaults['language'] = 'ru';
     $entity = entity_create('node', $node_defaults);
+    $is_new = TRUE;
   }
   else {
     $entity = node_load($result->nid);
@@ -263,6 +265,7 @@ function yellow_pages_sync_node(SimpleXMLElement $list_item) {
         'postal_code' => $address['pcode'],
         'thoroughfare' => $address['address'],
         'premise' => $address['premise'],
+        'administrative_area' => $address['administrative_area'],
       );
     }
   }
@@ -321,16 +324,6 @@ function yellow_pages_sync_node(SimpleXMLElement $list_item) {
     ->condition('nid', $entity->nid, '=')
     ->execute();
 
-  // Delete node translations.
-  $query = db_select('node', 'n')
-    ->fields('n', array('nid'))
-    ->condition('tnid', $tnid, '=')
-    ->condition('nid', $tnid, '<>');
-  $result = $query->execute()->fetchCol();
-  if (!empty($result)) {
-    node_delete_multiple($result);
-  }
-
   // Translations.
   $languages = array_keys(locale_language_list('name'));
   foreach ($languages as $lang) {
@@ -338,14 +331,32 @@ function yellow_pages_sync_node(SimpleXMLElement $list_item) {
       continue;
     }
 
-    $translated_entity = clone($entity);
-    unset($translated_entity->nid);
-    unset($translated_entity->vid);
-    $translated_entity->title = !empty($item['title'][$lang]) ? $item['title'][$lang] : 'Без титула';
-    $translated_entity->language = $lang;
+    if ($is_new) {
+      $translated_entity = clone($entity);
+      unset($translated_entity->nid);
+      unset($translated_entity->vid);
 
-    // Parent reference.
-    $translated_entity->tnid = $tnid;
+      $translated_entity->language = $lang;
+      $translated_entity->tnid = $tnid;
+    }
+    else {
+      $query = db_select('node', 'n')
+        ->fields('n', array('nid'))
+        ->condition('tnid', $tnid, '=')
+        ->condition('language', $lang, '=')
+        ->condition('nid', $tnid, '<>');
+      $result = $query->execute()->fetchCol();
+
+      if (!empty($result)) {
+        $translated_entity = node_load(reset($result));
+      }
+      else {
+        $t = array('@nid' => $tnid, '@lang' => $lang);
+        watchdog('yp_sync', 'Failed to load translated entity for node "@nid", language "@lang"', $t, WATCHDOG_NOTICE);
+      }
+    }
+
+    $translated_entity->title = !empty($item['title'][$lang]) ? $item['title'][$lang] : 'Без титула';
 
     node_save($translated_entity);
 
@@ -555,6 +566,7 @@ function yellow_pages_sync_process_source_element_address(SimpleXMLElement $sour
           'city' => str_replace(array('mun.', 'or.', 's.', 'г.'), '', trim((string) $item->town->{$locale . '_field'})),
           'pcode' => (int) $item->pcode->{'list-item'},
           'address' => $thoroughfare,
+          'administrative_area' => trim((string) $item->region->{$locale . '_field'})
         );
       }
     }

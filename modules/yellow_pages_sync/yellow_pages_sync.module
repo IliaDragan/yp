@@ -6,6 +6,7 @@
 
  define('SYNC_VOCABULARY', 'products');
  define('SYNC_BATCH', 50);
+ define('SYNC_SOURCE', 'http://test.varoinform.md:8080/api');
 
 /**
  * Implements hook_menu().
@@ -38,7 +39,7 @@ function yellow_pages_sync_fetch_remote_enterprise($eid) {
     return FALSE;
   }
 
-  $xml_file = 'http://test.varoinform.md:8080/api/enterprises/' . $eid . '/';
+  $xml_file = variable_get('yp_sync_source', SYNC_SOURCE) . '/enterprises/' . $eid . '/';
   $xml = yellow_pages_sync_read_xml($xml_file);
 
   return $xml;
@@ -52,7 +53,7 @@ function yellow_pages_sync_single_node($eid) {
     $entity = yellow_pages_sync_node($xml);
 
     yellow_pages_sync_link_filials($entity->nid);
-    yellow_pages_sync_attach_logo((int) $xml->id);
+    yellow_pages_sync_attach_logo((int) $xml->id, $entity->nid);
 
     if (isset($entity->nid)) {
       $message = 'OK';
@@ -143,7 +144,7 @@ function yellow_pages_sync_nodes($settings, &$context) {
   if (!isset($context['sandbox']['progress'])) {
     drupal_static_reset('synced_parents');
     $page = !empty($settings['page']) ? $settings['page'] : 1;
-    $xml_source = 'http://test.varoinform.md:8080/api/enterprises/?page=' . $page . '&paginate_by=' . SYNC_BATCH;
+    $xml_source = variable_get('yp_sync_source', SYNC_SOURCE) . '/enterprises/?page=' . $page . '&paginate_by=' . SYNC_BATCH;
     $xml = yellow_pages_sync_read_xml($xml_source);
 
     $context['sandbox']['progress'] = ($page - 1) * SYNC_BATCH;
@@ -411,19 +412,18 @@ function yellow_pages_sync_process_source_element_parent(SimpleXMLElement $sourc
   $source_address = yellow_pages_sync_process_source_element_address($source);
   $parent_title = yellow_pages_sync_process_source_element_title($xml);
 
-  if (empty($source_title)) {
-    $title = $source->titles->addChild('list-item');
+  if (empty(array_filter($source_title))) {
+    $title = $source->titles;
 
     $locales = array('ru', 'ro', 'en');
-    $appendix = $title->addChild('appendix');
     foreach ($locales as $locale) {
       $_title = $parent_title[$locale];
+
       if (!empty($source_address[$locale]) && isset($source_address[$locale][0]['city'])) {
         $_title .= ' | ' . $source_address[$locale][0]['city'];
+        $title->{$locale . '_field'} = $_title;
       }
-      $appendix->addChild($locale . '_field', $_title);
     }
-    $title->addChild('title_type', 'DE JURE');
   }
 
   $entity = yellow_pages_sync_node($xml);
@@ -445,30 +445,8 @@ function yellow_pages_sync_process_source_element_title(SimpleXMLElement $source
   $titles = array();
   $locales = array('ru', 'ro', 'en');
 
-  foreach ($source_title->{'list-item'} as $item) {
-    if ((string) $item->title_type == 'DE JURE') {
-      foreach ($locales as $locale) {
-        $titles[$locale] = (string) $item->title . ' ' . (string) $source->enterprise_type->{$locale . '_field'};
-        if (!empty((string) $item->appendix->{$locale . '_field'})) {
-          if (!empty(trim($titles[$locale]))) {
-            $titles[$locale] .= ', ' . (string) $item->appendix->{$locale . '_field'};
-          }
-          else {
-            $titles[$locale] = (string) $item->appendix->{$locale . '_field'};
-          }
-        }
-      }
-    }
-    elseif ((string) $item->title_type == 'DE FACTO') {
-      foreach ($locales as $locale) {
-        if (isset($titles[$locale]) && !empty(trim($titles[$locale]))) {
-          $titles[$locale] .= ' / ' . (string) $item->title . ' ' . (string) $item->appendix->{$locale . '_field'};
-        }
-        else {
-          $titles[$locale] = (string) $item->title . ' ' . (string) $item->appendix->{$locale . '_field'};
-        }
-      }
-    }
+  foreach ($locales as $locale) {
+    $titles[$locale] = (string) $source_title->{$locale . '_field'};
   }
 
   $titles = yellow_pages_sync_trim($titles);
@@ -569,11 +547,14 @@ function yellow_pages_sync_process_source_element_address(SimpleXMLElement $sour
           $thoroughfare .= ', ' . $house;
         }
 
+        if (!empty($office)) {
+          $thoroughfare .= ', ' . $office;
+        }
+
         $addresses[$locale][] = array(
           'city' => str_replace(array('mun.', 'or.', 's.', 'г.'), '', trim((string) $item->town->{$locale . '_field'})),
           'pcode' => (int) $item->pcode->{'list-item'},
           'address' => $thoroughfare,
-          'premise' => $office,
         );
       }
     }
@@ -661,7 +642,7 @@ function yellow_pages_sync_write_term_relation($id, $tid, $parent_id = 0, $type 
 function yellow_pages_sync_taxonomy(&$context) {
   if (!isset($context['sandbox']['progress'])) {
     // Read and process categories.
-    $xml_nodes = yellow_pages_sync_read_xml('http://test.varoinform.md:8080/api/nodes/');
+    $xml_nodes = yellow_pages_sync_read_xml(variable_get('yp_sync_source', SYNC_SOURCE) . '/nodes/');
     if (!$xml_nodes) {
       return;
     }
@@ -708,7 +689,7 @@ function yellow_pages_sync_taxonomy(&$context) {
     $context['sandbox']['products'] = array();
 
     // Read and process products.
-    $xml_products = yellow_pages_sync_read_xml('http://test.varoinform.md:8080/api/products/');
+    $xml_products = yellow_pages_sync_read_xml(variable_get('yp_sync_source', SYNC_SOURCE) . '/products/');
     if (!$xml_products) {
       return;
     }

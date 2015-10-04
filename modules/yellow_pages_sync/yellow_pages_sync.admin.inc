@@ -8,6 +8,14 @@
  * Admin form structure.
  */
 function yellow_pages_sync_admin_form($form, $form_state) {
+  $form['source'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Service URL'),
+    '#required' => TRUE,
+    '#default_value' => variable_get('yp_sync_source', SYNC_SOURCE),
+    '#description' => t('NO trailing slash.'),
+  );
+
   $form['options_wrapper'] = array(
     '#type' => 'fieldset',
     '#title' => t('Sync options'),
@@ -63,6 +71,7 @@ function yellow_pages_sync_admin_form($form, $form_state) {
  */
 function yellow_pages_sync_admin_form_submit($form, &$form_state) {
   $input = $form_state['values'];
+  variable_set('yp_sync_source', $input['source']);
   $options = array_filter($input['options']);
 
   $arguments = array(

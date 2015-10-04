@@ -144,7 +144,7 @@ function yellow_pages_sync_nodes($settings, &$context) {
   if (!isset($context['sandbox']['progress'])) {
     drupal_static_reset('synced_parents');
     $page = !empty($settings['page']) ? $settings['page'] : 1;
-    $xml_source = variable_get('yp_sync_source', SYNC_SOURCE) . '/enterprises/?page=' . $page . '&paginate_by=' . SYNC_BATCH;
+    $xml_source = variable_get('yp_sync_source', SYNC_SOURCE) . '/enterprises?page=' . $page . '&paginate_by=' . SYNC_BATCH;
     $xml = yellow_pages_sync_read_xml($xml_source);
 
     $context['sandbox']['progress'] = ($page - 1) * SYNC_BATCH;

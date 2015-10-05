@@ -86,6 +86,8 @@
     <?php if(isset($field_company_logo) && !empty($field_company_logo)): ?>
       <?php $uri = $field_company_logo[0]['uri']; ?>
       <img src="<?php print image_style_url('medium', $uri); ?>">
+    <?php else: ?>
+      <span class="img-placeholder"></span>
     <?php endif; ?>
     </div>
     <div class="right">

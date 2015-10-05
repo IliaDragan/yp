@@ -1311,6 +1311,7 @@ form.yellow-pages-feedback-ad-request {
     }
   }
 }
+.node--company--teaser,
 .node--company--search_index {
   .left {
     img {
@@ -1325,6 +1326,7 @@ form.yellow-pages-feedback-ad-request {
     }
   }
 }
+
 
 div.panel-pane div.node-teaser {
   margin-bottom: 30px;
@@ -1859,8 +1861,8 @@ div.panel-pane div.node-teaser {
         }
       }
       > img {
-        max-width: 130px;
-        margin: 10px;
+        max-width: 110px;
+        margin: 20px 0 20px 20px;
       }
     }
     .right {
@@ -1877,6 +1879,73 @@ div.panel-pane div.node-teaser {
         width: auto;
         margin-left: 0;
       }
+    }
+  }
+  .field-name-field-address {
+    margin-bottom: 10px;
+    div {
+      display: inline-block !important;
+      font-size: 14px;
+    }
+    .street-block {
+      &:after {
+        content: ",";
+        display: inline-block;
+        margin-right: 5px;
+      }
+    }
+    .street-block {
+      font-size: 14px;
+      div:before {
+        content: "\f041";
+        display: inline-block;
+        margin-right: 7px;
+        font: normal normal normal 14px/1 FontAwesome;
+        font-size: inherit;
+        text-rendering: auto;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+        transform: translate(0, 0);
+      }
+    }
+  }
+  .field-type-yp-product {
+    margin: 0 0 10px 0;
+    padding: 0;
+    list-style-type: none;
+    li {
+      display: inline;
+      margin-left: 0;
+      margin-right: 5px;
+      font-size: 14px;
+      color: #a4a4a4;
+      text-decoration: underline;
+      &:first-child {
+        margin-right: 0;
+      }
+      a {
+        color: #a4a4a4;
+        &:hover {
+          color: #525252;
+        }
+      }
+    }
+  }
+  .img-placeholder {
+    display: block;
+    width: 130px;
+    height: 150px;
+    position: relative;
+    &:before {
+      content: "";
+      display: block;
+      position: absolute;
+      top: 20px;
+      left: 20px;
+      right: 0px;
+      bottom: 20px;
+      background: #f2f2f2 url('../images/yp-logo-gray.png') center center no-repeat;
+      background-size: 88px;
     }
   }
 }
@@ -1925,7 +1994,6 @@ article {
     text-decoration: underline;
   }
 }
-
 /* Search page */
 
 .page-search {

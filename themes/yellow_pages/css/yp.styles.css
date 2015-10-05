@@ -1536,15 +1536,18 @@ form.yellow-pages-feedback-ad-request .form-type-textarea textarea {
   content: ";";
 }
 
+.node--company--teaser .left img,
 .node--company--search_index .left img {
   max-width: 150px;
   height: auto;
 }
 @media (min-width: 0px) and (max-width: 767px) {
+  .node--company--teaser .left img,
   .node--company--search_index .left img {
     max-width: 80px;
   }
 }
+.node--company--teaser .left > img,
 .node--company--search_index .left > img {
   margin: 10px;
 }
@@ -2133,8 +2136,8 @@ div.panel-pane div.node-teaser {
 }
 .node--company--teaser .content .left > img,
 .node--company--search_index .content .left > img {
-  max-width: 130px;
-  margin: 10px;
+  max-width: 110px;
+  margin: 20px 0 20px 20px;
 }
 .node--company--teaser .content .right,
 .node--company--search_index .content .right {
@@ -2157,6 +2160,83 @@ div.panel-pane div.node-teaser {
     width: auto;
     margin-left: 0;
   }
+}
+.node--company--teaser .field-name-field-address,
+.node--company--search_index .field-name-field-address {
+  margin-bottom: 10px;
+}
+.node--company--teaser .field-name-field-address div,
+.node--company--search_index .field-name-field-address div {
+  display: inline-block !important;
+  font-size: 14px;
+}
+.node--company--teaser .field-name-field-address .street-block:after,
+.node--company--search_index .field-name-field-address .street-block:after {
+  content: ",";
+  display: inline-block;
+  margin-right: 5px;
+}
+.node--company--teaser .field-name-field-address .street-block,
+.node--company--search_index .field-name-field-address .street-block {
+  font-size: 14px;
+}
+.node--company--teaser .field-name-field-address .street-block div:before,
+.node--company--search_index .field-name-field-address .street-block div:before {
+  content: "\f041";
+  display: inline-block;
+  margin-right: 7px;
+  font: normal normal normal 14px/1 FontAwesome;
+  font-size: inherit;
+  text-rendering: auto;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  transform: translate(0, 0);
+}
+.node--company--teaser .field-type-yp-product,
+.node--company--search_index .field-type-yp-product {
+  margin: 0 0 10px 0;
+  padding: 0;
+  list-style-type: none;
+}
+.node--company--teaser .field-type-yp-product li,
+.node--company--search_index .field-type-yp-product li {
+  display: inline;
+  margin-left: 0;
+  margin-right: 5px;
+  font-size: 14px;
+  color: #a4a4a4;
+  text-decoration: underline;
+}
+.node--company--teaser .field-type-yp-product li:first-child,
+.node--company--search_index .field-type-yp-product li:first-child {
+  margin-right: 0;
+}
+.node--company--teaser .field-type-yp-product li a,
+.node--company--search_index .field-type-yp-product li a {
+  color: #a4a4a4;
+}
+.node--company--teaser .field-type-yp-product li a:hover,
+.node--company--search_index .field-type-yp-product li a:hover {
+  color: #525252;
+}
+.node--company--teaser .img-placeholder,
+.node--company--search_index .img-placeholder {
+  display: block;
+  width: 130px;
+  height: 150px;
+  position: relative;
+}
+.node--company--teaser .img-placeholder:before,
+.node--company--search_index .img-placeholder:before {
+  content: "";
+  display: block;
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  right: 0px;
+  bottom: 20px;
+  background: #f2f2f2 url("../images/yp-logo-gray.png") center center no-repeat;
+  background-size: 88px;
 }
 
 /* Article */

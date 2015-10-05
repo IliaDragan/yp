@@ -43,6 +43,7 @@ function yellow_pages_solr_configuration_default_search_api_index() {
       "fields" : {
         "body:value" : { "type" : "text", "boost" : "3.0" },
         "city_filter" : { "type" : "string" },
+        "field_address:administrative_area" : { "type" : "string" },
         "field_address:locality" : { "type" : "text" },
         "field_products:product" : { "type" : "list\\u003Cinteger\\u003E", "entity_type" : "taxonomy_term" },
         "field_products:product:parents_all" : {

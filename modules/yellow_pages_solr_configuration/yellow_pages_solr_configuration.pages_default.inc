@@ -241,14 +241,83 @@ function yellow_pages_solr_configuration_default_page_manager_pages() {
     $display->content['new-60b6990d-4e03-435b-bcf2-0b40f397b1c4'] = $pane;
     $display->panels['alpha_25'][0] = 'new-60b6990d-4e03-435b-bcf2-0b40f397b1c4';
     $pane = new stdClass();
-    $pane->pid = 'new-88bdbd78-5636-44c3-80aa-33fda414b07e';
+    $pane->pid = 'new-c00f6c1e-5dd5-45e8-bffe-c6318c0f475b';
     $pane->panel = 'alpha_25';
     $pane->type = 'block';
-    $pane->subtype = 'facetapi-YcxQTNSAE4cDFyGpfRKk1rHqIS15YCMt';
+    $pane->subtype = 'facetapi-Evl1IvUKKa4pFm0VgC8QpKJm61ePFjIs';
     $pane->shown = TRUE;
     $pane->access = array();
     $pane->configuration = array(
-      'override_title' => 0,
+      'override_title' => 1,
+      'override_title_text' => 'Filter by region:',
+      'override_title_heading' => 'h2',
+    );
+    $pane->cache = array();
+    $pane->style = array(
+      'settings' => NULL,
+    );
+    $pane->css = array();
+    $pane->extras = array();
+    $pane->position = 1;
+    $pane->locks = array();
+    $pane->uuid = 'c00f6c1e-5dd5-45e8-bffe-c6318c0f475b';
+    $display->content['new-c00f6c1e-5dd5-45e8-bffe-c6318c0f475b'] = $pane;
+    $display->panels['alpha_25'][1] = 'new-c00f6c1e-5dd5-45e8-bffe-c6318c0f475b';
+    $pane = new stdClass();
+    $pane->pid = 'new-4cf63a67-5471-47dc-9416-cb3d19a2b120';
+    $pane->panel = 'alpha_25';
+    $pane->type = 'block';
+    $pane->subtype = 'facetapi-Wskhe2gYSJ0r021XTq5uM5rCH6gFA2pC';
+    $pane->shown = TRUE;
+    $pane->access = array();
+    $pane->configuration = array(
+      'override_title' => 1,
+      'override_title_text' => 'Filter by locality:',
+      'override_title_heading' => 'h2',
+    );
+    $pane->cache = array();
+    $pane->style = array(
+      'settings' => NULL,
+    );
+    $pane->css = array();
+    $pane->extras = array();
+    $pane->position = 2;
+    $pane->locks = array();
+    $pane->uuid = '4cf63a67-5471-47dc-9416-cb3d19a2b120';
+    $display->content['new-4cf63a67-5471-47dc-9416-cb3d19a2b120'] = $pane;
+    $display->panels['alpha_25'][2] = 'new-4cf63a67-5471-47dc-9416-cb3d19a2b120';
+    $pane = new stdClass();
+    $pane->pid = 'new-0bf856a0-0654-4c71-9987-801c17cb37a7';
+    $pane->panel = 'beta_75';
+    $pane->type = 'views_panes';
+    $pane->subtype = 'solr_views-solr_node_search';
+    $pane->shown = TRUE;
+    $pane->access = array();
+    $pane->configuration = array(
+      'context' => array(
+        0 => 'argument_string_1',
+      ),
+    );
+    $pane->cache = array();
+    $pane->style = array(
+      'settings' => NULL,
+    );
+    $pane->css = array();
+    $pane->extras = array();
+    $pane->position = 0;
+    $pane->locks = array();
+    $pane->uuid = '0bf856a0-0654-4c71-9987-801c17cb37a7';
+    $display->content['new-0bf856a0-0654-4c71-9987-801c17cb37a7'] = $pane;
+    $display->panels['beta_75'][0] = 'new-0bf856a0-0654-4c71-9987-801c17cb37a7';
+    $pane = new stdClass();
+    $pane->pid = 'new-f6de7a52-dac3-444b-9875-9341fda95d30';
+    $pane->panel = 'beta_75';
+    $pane->type = 'switch_search';
+    $pane->subtype = 'switch_search';
+    $pane->shown = TRUE;
+    $pane->access = array();
+    $pane->configuration = array(
+      'override_title' => 1,
       'override_title_text' => '',
       'override_title_heading' => 'h2',
     );
@@ -260,12 +329,12 @@ function yellow_pages_solr_configuration_default_page_manager_pages() {
     $pane->extras = array();
     $pane->position = 1;
     $pane->locks = array();
-    $pane->uuid = '88bdbd78-5636-44c3-80aa-33fda414b07e';
-    $display->content['new-88bdbd78-5636-44c3-80aa-33fda414b07e'] = $pane;
-    $display->panels['alpha_25'][1] = 'new-88bdbd78-5636-44c3-80aa-33fda414b07e';
+    $pane->uuid = 'f6de7a52-dac3-444b-9875-9341fda95d30';
+    $display->content['new-f6de7a52-dac3-444b-9875-9341fda95d30'] = $pane;
+    $display->panels['beta_75'][1] = 'new-f6de7a52-dac3-444b-9875-9341fda95d30';
     $pane = new stdClass();
     $pane->pid = 'new-87bcc6a2-7e08-4744-8424-829e1693f0aa';
-    $pane->panel = 'alpha_25';
+    $pane->panel = 'beta_75';
     $pane->type = 'yp_advertisement_search_result';
     $pane->subtype = 'yp_advertisement_search_result';
     $pane->shown = TRUE;
@@ -288,53 +357,7 @@ function yellow_pages_solr_configuration_default_page_manager_pages() {
     $pane->locks = array();
     $pane->uuid = '87bcc6a2-7e08-4744-8424-829e1693f0aa';
     $display->content['new-87bcc6a2-7e08-4744-8424-829e1693f0aa'] = $pane;
-    $display->panels['alpha_25'][2] = 'new-87bcc6a2-7e08-4744-8424-829e1693f0aa';
-    $pane = new stdClass();
-    $pane->pid = 'new-f6de7a52-dac3-444b-9875-9341fda95d30';
-    $pane->panel = 'beta_75';
-    $pane->type = 'switch_search';
-    $pane->subtype = 'switch_search';
-    $pane->shown = TRUE;
-    $pane->access = array();
-    $pane->configuration = array(
-      'override_title' => 1,
-      'override_title_text' => '',
-      'override_title_heading' => 'h2',
-    );
-    $pane->cache = array();
-    $pane->style = array(
-      'settings' => NULL,
-    );
-    $pane->css = array();
-    $pane->extras = array();
-    $pane->position = 0;
-    $pane->locks = array();
-    $pane->uuid = 'f6de7a52-dac3-444b-9875-9341fda95d30';
-    $display->content['new-f6de7a52-dac3-444b-9875-9341fda95d30'] = $pane;
-    $display->panels['beta_75'][0] = 'new-f6de7a52-dac3-444b-9875-9341fda95d30';
-    $pane = new stdClass();
-    $pane->pid = 'new-0bf856a0-0654-4c71-9987-801c17cb37a7';
-    $pane->panel = 'beta_75';
-    $pane->type = 'views_panes';
-    $pane->subtype = 'solr_views-solr_node_search';
-    $pane->shown = TRUE;
-    $pane->access = array();
-    $pane->configuration = array(
-      'context' => array(
-        0 => 'argument_string_1',
-      ),
-    );
-    $pane->cache = array();
-    $pane->style = array(
-      'settings' => NULL,
-    );
-    $pane->css = array();
-    $pane->extras = array();
-    $pane->position = 1;
-    $pane->locks = array();
-    $pane->uuid = '0bf856a0-0654-4c71-9987-801c17cb37a7';
-    $display->content['new-0bf856a0-0654-4c71-9987-801c17cb37a7'] = $pane;
-    $display->panels['beta_75'][1] = 'new-0bf856a0-0654-4c71-9987-801c17cb37a7';
+    $display->panels['beta_75'][2] = 'new-87bcc6a2-7e08-4744-8424-829e1693f0aa';
   $display->hide_title = PANELS_TITLE_FIXED;
   $display->title_pane = '0';
   $handler->conf['display'] = $display;

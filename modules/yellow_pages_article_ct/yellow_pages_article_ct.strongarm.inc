@@ -90,7 +90,7 @@ function yellow_pages_article_ct_strongarm() {
           'weight' => '0',
         ),
         'language' => array(
-          'weight' => '2',
+          'weight' => '1',
         ),
       ),
       'display' => array(
@@ -109,6 +109,10 @@ function yellow_pages_article_ct_strongarm() {
           ),
           'search_index' => array(
             'weight' => '3',
+            'visible' => TRUE,
+          ),
+          'slider_teaser' => array(
+            'weight' => '0',
             'visible' => TRUE,
           ),
         ),

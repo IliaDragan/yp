@@ -39,10 +39,11 @@ function yellow_pages_article_ct_field_default_field_instances() {
         'weight' => 2,
       ),
       'slider_teaser' => array(
-        'label' => 'above',
+        'label' => 'hidden',
+        'module' => 'text',
         'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 0,
+        'type' => 'text_plain',
+        'weight' => 3,
       ),
       'teaser' => array(
         'label' => 'hidden',
@@ -68,7 +69,7 @@ function yellow_pages_article_ct_field_default_field_instances() {
         'summary_rows' => 5,
       ),
       'type' => 'text_textarea_with_summary',
-      'weight' => 1,
+      'weight' => 2,
     ),
   );
 
@@ -105,10 +106,14 @@ function yellow_pages_article_ct_field_default_field_instances() {
         'weight' => 1,
       ),
       'slider_teaser' => array(
-        'label' => 'above',
-        'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 0,
+        'label' => 'hidden',
+        'module' => 'image',
+        'settings' => array(
+          'image_link' => 'content',
+          'image_style' => 'news_carousel',
+        ),
+        'type' => 'image',
+        'weight' => 2,
       ),
       'teaser' => array(
         'label' => 'hidden',
@@ -201,13 +206,17 @@ function yellow_pages_article_ct_field_default_field_instances() {
         'weight' => 0,
       ),
       'slider_teaser' => array(
-        'label' => 'above',
-        'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 0,
+        'label' => 'hidden',
+        'module' => 'image',
+        'settings' => array(
+          'image_link' => 'content',
+          'image_style' => 'news_carousel',
+        ),
+        'type' => 'image',
+        'weight' => 1,
       ),
       'teaser' => array(
-        'label' => 'above',
+        'label' => 'hidden',
         'module' => 'image',
         'settings' => array(
           'image_link' => 'content',
@@ -290,7 +299,7 @@ function yellow_pages_article_ct_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 0,
+        'weight' => 9,
       ),
       'teaser' => array(
         'label' => 'hidden',
@@ -347,7 +356,7 @@ function yellow_pages_article_ct_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 0,
+        'weight' => 8,
       ),
       'teaser' => array(
         'label' => 'above',

@@ -72,6 +72,15 @@ function yellow_pages_permissions_user_default_permissions() {
     'module' => 'media_internet',
   );
 
+  // Exported permission: 'add related companies to user'.
+  $permissions['add related companies to user'] = array(
+    'name' => 'add related companies to user',
+    'roles' => array(
+      'administrator' => 'administrator',
+    ),
+    'module' => 'yellow_pages_company_edit',
+  );
+
   // Exported permission: 'administer comments'.
   $permissions['administer comments'] = array(
     'name' => 'administer comments',
@@ -285,6 +294,15 @@ function yellow_pages_permissions_user_default_permissions() {
       'global editor' => 'global editor',
     ),
     'module' => 'file_entity',
+  );
+
+  // Exported permission: 'edit related companies'.
+  $permissions['edit related companies'] = array(
+    'name' => 'edit related companies',
+    'roles' => array(
+      'enterprise editor' => 'enterprise editor',
+    ),
+    'module' => 'yellow_pages_company_edit',
   );
 
   // Exported permission: 'post comments'.

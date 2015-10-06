@@ -124,7 +124,6 @@ function yellow_pages_permissions_user_default_permissions() {
     'name' => 'bypass node access',
     'roles' => array(
       'administrator' => 'administrator',
-      'global editor' => 'global editor',
     ),
     'module' => 'node',
   );

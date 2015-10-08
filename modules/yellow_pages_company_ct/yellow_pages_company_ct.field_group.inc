@@ -338,8 +338,8 @@ function yellow_pages_company_ct_field_group_info() {
       4 => 'group_services',
       5 => 'group_vouchers',
       6 => 'group_we_buy',
-      7 => 'group_we_sell',
-      8 => 'group_we_export',
+      7 => 'group_we_export',
+      8 => 'group_we_sell',
     ),
     'format_type' => 'htabs',
     'format_settings' => array(

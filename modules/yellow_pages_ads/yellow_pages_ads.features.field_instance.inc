@@ -304,7 +304,7 @@ function yellow_pages_ads_field_default_field_instances() {
         'input_format_custom' => '',
         'label_position' => 'above',
         'text_parts' => array(),
-        'year_range' => '-0:+1',
+        'year_range' => '-0:+2',
       ),
       'type' => 'date_popup',
       'weight' => 8,

@@ -192,7 +192,7 @@ function yellow_pages_company_ct_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 8,
+        'weight' => 10,
       ),
       'slider_teaser' => array(
         'label' => 'above',
@@ -253,7 +253,7 @@ function yellow_pages_company_ct_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 7,
+        'weight' => 9,
       ),
       'slider_teaser' => array(
         'label' => 'above',
@@ -408,7 +408,7 @@ function yellow_pages_company_ct_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 13,
+        'weight' => 15,
       ),
       'slider_teaser' => array(
         'label' => 'above',
@@ -459,6 +459,74 @@ function yellow_pages_company_ct_field_default_field_instances() {
     ),
   );
 
+  // Exported field_instance: 'node-company-field_company_views'
+  $field_instances['node-company-field_company_views'] = array(
+    'bundle' => 'company',
+    'default_value' => array(
+      0 => array(
+        'value' => 0,
+      ),
+    ),
+    'deleted' => 0,
+    'description' => '',
+    'display' => array(
+      'default' => array(
+        'label' => 'above',
+        'module' => 'number',
+        'settings' => array(
+          'decimal_separator' => '.',
+          'prefix_suffix' => TRUE,
+          'scale' => 0,
+          'thousand_separator' => ' ',
+        ),
+        'type' => 'number_integer',
+        'weight' => 25,
+      ),
+      'full' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+      'search_index' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 8,
+      ),
+      'slider_teaser' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+      'teaser' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+    ),
+    'entity_type' => 'node',
+    'field_name' => 'field_company_views',
+    'label' => 'Views',
+    'required' => 0,
+    'settings' => array(
+      'max' => '',
+      'min' => '',
+      'prefix' => '',
+      'suffix' => '',
+      'user_register_form' => FALSE,
+    ),
+    'widget' => array(
+      'active' => 0,
+      'module' => 'number',
+      'settings' => array(),
+      'type' => 'number',
+      'weight' => 2,
+    ),
+  );
+
   // Exported field_instance: 'node-company-field_email'
   $field_instances['node-company-field_email'] = array(
     'bundle' => 'company',
@@ -485,7 +553,7 @@ function yellow_pages_company_ct_field_default_field_instances() {
         'module' => 'email',
         'settings' => array(),
         'type' => 'email_default',
-        'weight' => 5,
+        'weight' => 4,
       ),
       'slider_teaser' => array(
         'label' => 'above',
@@ -543,7 +611,7 @@ function yellow_pages_company_ct_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 12,
+        'weight' => 14,
       ),
       'slider_teaser' => array(
         'label' => 'above',
@@ -607,7 +675,7 @@ function yellow_pages_company_ct_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 0,
+        'weight' => 7,
       ),
       'slider_teaser' => array(
         'label' => 'above',
@@ -739,7 +807,7 @@ function yellow_pages_company_ct_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 10,
+        'weight' => 12,
       ),
       'slider_teaser' => array(
         'label' => 'above',
@@ -809,10 +877,9 @@ function yellow_pages_company_ct_field_default_field_instances() {
       ),
       'search_index' => array(
         'label' => 'hidden',
-        'module' => 'text',
         'settings' => array(),
-        'type' => 'text_default',
-        'weight' => 3,
+        'type' => 'hidden',
+        'weight' => 6,
       ),
       'slider_teaser' => array(
         'label' => 'above',
@@ -876,7 +943,7 @@ function yellow_pages_company_ct_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 16,
+        'weight' => 18,
       ),
       'slider_teaser' => array(
         'label' => 'above',
@@ -946,7 +1013,7 @@ function yellow_pages_company_ct_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 14,
+        'weight' => 16,
       ),
       'slider_teaser' => array(
         'label' => 'above',
@@ -1020,7 +1087,7 @@ function yellow_pages_company_ct_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 11,
+        'weight' => 13,
       ),
       'slider_teaser' => array(
         'label' => 'above',
@@ -1082,7 +1149,7 @@ function yellow_pages_company_ct_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 15,
+        'weight' => 17,
       ),
       'slider_teaser' => array(
         'label' => 'above',
@@ -1157,8 +1224,8 @@ function yellow_pages_company_ct_field_default_field_instances() {
         'label' => 'hidden',
         'module' => 'yellow_pages_company_ct',
         'settings' => array(),
-        'type' => 'yp_product_default',
-        'weight' => 6,
+        'type' => 'yp_product_parent',
+        'weight' => 5,
       ),
       'slider_teaser' => array(
         'label' => 'above',
@@ -1222,7 +1289,7 @@ function yellow_pages_company_ct_field_default_field_instances() {
           'link_text' => FALSE,
         ),
         'type' => 'socialfield_formatter',
-        'weight' => 4,
+        'weight' => 3,
       ),
       'slider_teaser' => array(
         'label' => 'above',
@@ -1283,6 +1350,7 @@ function yellow_pages_company_ct_field_default_field_instances() {
   t('Products');
   t('Site URL');
   t('Social links');
+  t('Views');
 
   return $field_instances;
 }

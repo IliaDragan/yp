@@ -1311,29 +1311,42 @@ form.yellow-pages-feedback-ad-request .form-type-textarea textarea {
   font-weight: bold;
 }
 
-/* Carousel one company */
+/* Company node page */
+.node-type-company .pane-node article {
+  margin-bottom: 0;
+}
+.node-type-company .col-sm-12 {
+  margin-bottom: 30px;
+}
+.node-type-company .view-media-field {
+  background-color: white;
+}
+.node-type-company .view-media-field .owl-wrapper-outer {
+  padding-top: 30px;
+}
 .node-type-company .view-media-field .field-label {
   padding: 0 20px 20px;
   font-size: 12px;
   font-weight: 700;
   text-transform: uppercase;
 }
-.node-type-company .view-media-field .owl-dots {
+.node-type-company .view-media-field .owl-theme .owl-controls .owl-pagination {
   position: absolute;
-  top: -40px;
-  left: 0;
-  right: 0;
+  top: 0;
   text-align: center;
+  width: 100%;
 }
-.node-type-company .view-media-field .owl-dots .owl-dot {
-  display: inline-block;
+.node-type-company .view-media-field .owl-theme .owl-controls .owl-pagination .owl-page {
   width: 6px;
   height: 6px;
   margin: 10px 3px;
   background: #1d1d1d;
 }
-.node-type-company .view-media-field .owl-dots .owl-dot.active {
+.node-type-company .view-media-field .owl-theme .owl-controls .owl-pagination .owl-page.active {
   background: #ffdd00;
+}
+.node-type-company .view-media-field .owl-theme .owl-controls .owl-pagination .owl-page span {
+  background: none;
 }
 .node-type-company .view-media-field .owl-theme .owl-controls .owl-buttons .owl-prev,
 .node-type-company .view-media-field .owl-theme .owl-controls .owl-buttons .owl-next {
@@ -1343,7 +1356,7 @@ form.yellow-pages-feedback-ad-request .form-type-textarea textarea {
   font-size: 30px;
   height: 40px;
   line-height: 40px;
-  margin: -20px 0 0;
+  margin: -5px 0 0;
   opacity: 1;
   padding: 0;
   position: absolute;

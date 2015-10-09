@@ -30,7 +30,7 @@ function getWindowWidth () {
         return;
       }
 
-      var $owl = $('.pane-yp-news-carousel .pane-content');
+      var $owl = $('.pane-yp-news-carousel .pane-content', context);
       var carousel_Settings = {
         nav : true,
           navText : [
@@ -63,13 +63,13 @@ function getWindowWidth () {
 
   Drupal.behaviors.search_form = {
     attach : function (context) {
-      $('.search-block-form input.form-text, .search-block-form--2 input.form-text').attr('placeholder', Drupal.t('Facility search'));
+      $('.search-block-form input.form-text, .search-block-form--2 input.form-text', context).attr('placeholder', Drupal.t('Facility search'));
     }
   }
 
   Drupal.behaviors.custom_select = {
     attach : function (context) {
-      var $select = $('.no-touch select');
+      var $select = $('.no-touch select', context);
        if ($select.length) {
            for (var i = 0, len = $select.length; i < len; i++) {
                var $this = $select.eq(i);
@@ -92,7 +92,7 @@ function getWindowWidth () {
 
   Drupal.behaviors.node_tabs = {
     attach : function (context) {
-      var $nodeTabsBlock = $('.node-tabs-block');
+      var $nodeTabsBlock = $('.node-tabs-block', context);
       if ($nodeTabsBlock.length) {
         $nodeTabsBlock.each(function() {
           var $this = $(this);
@@ -120,7 +120,7 @@ function getWindowWidth () {
 
   Drupal.behaviors.sticky_footer = {
     attach : function (context) {
-      var $stickyFooter = $('.footer');
+      var $stickyFooter = $('.footer', context);
       if ($stickyFooter.length) {
 
         var vwptHeight = $(window).height();
@@ -143,7 +143,7 @@ function getWindowWidth () {
 
   Drupal.behaviors.inner_menu = {
     attach : function (context) {
-      var $innerMenuWrapper = $('.inner-menu-wrapper');
+      var $innerMenuWrapper = $('.inner-menu-wrapper', context);
       if ($innerMenuWrapper.length) {
         var $extraMenuOverlay = $('.extra-menu-overlay'),
             $innerMenuBlock =  $extraMenuOverlay.find('.inner-menu-block'),
@@ -195,7 +195,7 @@ function getWindowWidth () {
 
   Drupal.behaviors.search_mobile = {
     attach : function (context) {
-      var $searchLink = $('header .search-link-mobile');
+      var $searchLink = $('header .search-link-mobile', context);
        if ($searchLink.length) {
         $searchLink.click(function() {
           var $this = $(this),
@@ -211,7 +211,7 @@ function getWindowWidth () {
 
   Drupal.behaviors.toggle_mobile_menu = {
     attach : function (context) {
-      var $filterBlock = $('.filter-block');
+      var $filterBlock = $('.filter-block', context);
        if ($filterBlock.length) {
         for (var i = 0, len = $filterBlock.length; i < len; i++) {
           var $filterOPenLink = $filterBlock.eq(i).find('.pane-title');
@@ -225,7 +225,7 @@ function getWindowWidth () {
 
   Drupal.behaviors.tabs_for_print = {
     attach : function (context) {
-      var $horizontalTabs = $('.horizontal-tabs');
+      var $horizontalTabs = $('.horizontal-tabs', context);
        if ($horizontalTabs.length) {
         for (var i = 0, len = $('.horizontal-tab-button').length; i < len; i++) {
           var Tabtitle = $('.horizontal-tab-button').eq(i).find('strong').text();
@@ -237,7 +237,7 @@ function getWindowWidth () {
 
   Drupal.behaviors.horizontal_tabs_mobile = {
     attach : function (context) {
-      var $horizontalTabs = $('div.horizontal-tabs');
+      var $horizontalTabs = $('div.horizontal-tabs', context);
        if ($horizontalTabs.length) {
         var $tab = $horizontalTabs.find('.horizontal-tab-button'),
             $tabsList = $horizontalTabs.find('.horizontal-tabs-list'),

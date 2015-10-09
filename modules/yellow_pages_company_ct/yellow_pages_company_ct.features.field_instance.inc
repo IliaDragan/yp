@@ -375,7 +375,6 @@ function yellow_pages_company_ct_field_default_field_instances() {
           'media_default--media_browser_my_files' => 'media_default--media_browser_my_files',
           'media_internet' => 0,
           'upload' => 'upload',
-          'youtube' => 0,
         ),
       ),
       'type' => 'media_generic',
@@ -929,6 +928,7 @@ function yellow_pages_company_ct_field_default_field_instances() {
           'multiple_from' => '',
           'multiple_number' => '',
           'multiple_to' => '',
+          'show_remaining_days' => FALSE,
         ),
         'type' => 'date_default',
         'weight' => 14,
@@ -1002,11 +1002,8 @@ function yellow_pages_company_ct_field_default_field_instances() {
       ),
       'full' => array(
         'label' => 'above',
-        'module' => 'mediafield',
-        'settings' => array(
-          'file_view_mode' => 'default',
-        ),
-        'type' => 'media',
+        'settings' => array(),
+        'type' => 'hidden',
         'weight' => 13,
       ),
       'search_index' => array(

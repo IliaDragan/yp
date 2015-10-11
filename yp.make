@@ -6,6 +6,9 @@ api = 2
 projects[addressfield][version] = "1.0"
 projects[addressfield][subdir] = "contrib"
 
+projects[admin_views][version] = "1.5"
+projects[admin_views][subdir] = "contrib"
+
 projects[ckeditor][version] = "1.16"
 projects[ckeditor][subdir] = "contrib"
 
@@ -33,6 +36,9 @@ projects[entityreference][subdir] = "contrib"
 projects[facetapi][version] = "1.5"
 projects[facetapi][subdir] = "contrib"
 
+projects[field_sql_norevisions][version] = "2.1"
+projects[field_sql_norevisions][subdir] = "contrib"
+
 projects[features][version] = "2.3"
 projects[features][subdir] = "contrib"
 
@@ -42,8 +48,14 @@ projects[features_extra][subdir] = "contrib"
 projects[file_entity][version] = "2.0-beta1"
 projects[file_entity][subdir] = "contrib"
 
+projects[field_group][version] = "1.4"
+projects[field_group][subdir] = "contrib"
+
 projects[fontawesome][version] = "2.1"
 projects[fontawesome][subdir] = "contrib"
+
+projects[forward][version] = "2.0"
+projects[forward][subdir] = "contrib"
 
 projects[geocoder][version] = "1.2"
 projects[geocoder][subdir] = "contrib"
@@ -81,7 +93,7 @@ projects[media][download][type] = "git"
 projects[media][download][url] = "http://git.drupal.org/project/media.git"
 projects[media][download][revision] = "199e5013dc9915a3d67d73d681a1db6ba56b63e6"
 
-projects[media_youtube][version] = "2.0-rc4"
+projects[media_youtube][version] = "3.0"
 projects[media_youtube][subdir] = "contrib"
 
 projects[module_filter][version] = "2.0"
@@ -102,8 +114,8 @@ projects[search_api][subdir] = "contrib"
 projects[search_api_solr][version] = "1.6"
 projects[search_api_solr][subdir] = "contrib"
 
-projects[simpleads][version] = "1.9"
-projects[simpleads][subdir] = "contrib"
+projects[service_links][version] = "2.3"
+projects[service_links][subdir] = "contrib"
 
 projects[socialfield][version] = "1.4"
 projects[socialfield][subdir] = "contrib"
@@ -114,11 +126,23 @@ projects[strongarm][subdir] = "contrib"
 projects[taxonomy_menu][version] = "1.5"
 projects[taxonomy_menu][subdir] = "contrib"
 
+projects[token][version] = "1.6"
+projects[token][subdir] = "contrib"
+
+projects[transliteration][version] = "3.2"
+projects[transliteration][subdir] = "contrib"
+
 projects[variable][version] = "2.5"
 projects[variable][subdir] = "contrib"
 
 projects[views][version] = "3.10"
 projects[views][subdir] = "contrib"
+
+projects[views_autocomplete_filters][version] = "1.2"
+projects[views_autocomplete_filters][subdir] = "contrib"
+
+projects[views_bulk_operations][version] = "3.3"
+projects[views_bulk_operations][subdir] = "contrib"
 
 projects[nodeviewcount][version] = "2.3"
 projects[nodeviewcount][subdir] = "contrib"
@@ -129,9 +153,9 @@ projects[bootstrap][version] = "3.0"
 libraries[fontawesome][destination]    = "libraries"
 libraries[fontawesome][directory_name] = "fontawesome"
 libraries[fontawesome][download][type] = "get"
-libraries[fontawesome][download][url]  = "http://fortawesome.github.io/Font-Awesome/assets/font-awesome-4.3.0.zip"
+libraries[fontawesome][download][url]  = "http://fortawesome.github.io/Font-Awesome/assets/font-awesome-4.4.0.zip"
 
 libraries[leaflet][destination]    = "libraries"
 libraries[leaflet][directory_name] = "leaflet"
 libraries[leaflet][download][type] = "get"
-libraries[leaflet][download][url]  = "http://leaflet-cdn.s3.amazonaws.com/build/leaflet-0.7.3.zip"
+libraries[leaflet][download][url]  = "http://cdn.leafletjs.com/downloads/leaflet-0.7.3.zip"

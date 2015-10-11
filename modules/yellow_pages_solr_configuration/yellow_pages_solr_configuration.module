@@ -7,10 +7,26 @@
 include_once 'yellow_pages_solr_configuration.features.inc';
 
 /**
+ * Implements hook_ctools_plugin_directory().
+ *
+ * It simply tells panels where to find the .inc files that define various
+ * args, contexts, content_types.
+ */
+function yellow_pages_solr_configuration_ctools_plugin_directory($module, $plugin) {
+  if ($module == 'ctools' && !empty($plugin)) {
+    return "plugins/$plugin";
+  }
+}
+
+/**
  * Implementation of hook_form_alter()
  */
 function yellow_pages_solr_configuration_form_alter(&$form, &$form_state, $form_id) {
   if($form_id == 'search_block_form') {
+    $uri = arg();
+    if ($uri[0] === 'search' && isset($uri[2])) {
+      $form['search_block_form']['#default_value'] = $uri[2];
+    }
     $form['#submit'][] = 'yellow_pages_solr_configuration_form_submit';
   }
 }
@@ -41,9 +57,88 @@ function yellow_pages_solr_configuration_form_submit($form, &$form_state) {
  * Implements hook_translated_menu_link_alter().
  */
 function yellow_pages_solr_configuration_translated_menu_link_alter(&$item, $map) {
-  if ($item['menu_name'] == 'menu-category-menu' && strpos($item['link_path'], 'taxonomy/term/') === 0) {
+  if ($item['menu_name'] == 'menu-product-menu' && strpos($item['link_path'], 'taxonomy/term/') === 0) {
     $p = 'search/companies';
     $tid = arg(2, $item['link_path']);
-    $item['href'] = url($p, array('absolute' => TRUE)) . '?f[0]=field_goods_and_services%3A' . $tid;
+    $item['href'] = url($p, array('absolute' => TRUE)) . '?f[0]=field_products%253Aproduct%253Aparents_all%3A' . $tid;
+  }
+}
+
+/**
+ * Implements hook_entity_property_info_alter().
+ */
+function yellow_pages_solr_configuration_entity_property_info_alter(&$info) {
+  $info['node']['properties']['city_filter'] = array(
+    'type' => 'text',
+    'label' => t('Filter by city.'),
+    'getter callback' => 'yellow_pages_solr_configuration_city_filter_callback',
+  );
+
+  $info['node']['properties']['title_sort'] = array(
+    'type' => 'text',
+    'label' => t('Sort by title.'),
+    'getter callback' => 'yellow_pages_solr_configuration_title_sort_callback',
+  );
+
+}
+
+/**
+ * Return title for sort in solr views.
+ */
+function yellow_pages_solr_configuration_title_sort_callback($item) {
+  if ($item->type == 'company') {
+    if (isset($item->title) && !empty($item->title)) {
+      return $item->title;
+    }
+  }
+}
+
+
+/**
+ * Return city name for filtration field on solr indexation.
+ */
+function yellow_pages_solr_configuration_city_filter_callback($item) {
+  if ($item->type == 'company') {
+    $city = field_get_items('node', $item, 'field_address');
+    if (isset($city[0]['locality']) && !empty($city[0]['locality'])) {
+      return $city[0]['locality'];
+    }
+  }
+}
+
+/**
+ * Implements hook_search_api_solr_search_results_alter().
+ */
+function yellow_pages_solr_configuration_search_api_solr_search_results_alter(array &$results, SearchApiQueryInterface $query, $response) {
+  // Make search results visible across modules.
+  $solr_search_nids = array_keys($results['results']);
+  $solr_results = &drupal_static('yp_solr_search_results', array());
+  $solr_results = $solr_search_nids;
+
+  $solr_result_count = $results['result count'];
+  $result_count = &drupal_static('yp_solr_hits', 0);
+  $result_count = $solr_result_count;
+}
+
+/**
+ * Implements hook_preoprocess().
+ */
+function yellow_pages_solr_configuration_preprocess(&$variables, $hook) {
+  $search_page = arg(0) == 'search' && arg(1) == 'companies';
+  if (!$search_page) {
+    return;
+  }
+
+  if ($hook == 'panels_pane' && $variables['pane']->type == 'switch_search') {
+    $pane_content = &drupal_static('yp_switch_search', '');
+    $pane_content = $variables['content'];
+    $variables['content'] = '';
+  }
+
+  if ($hook == 'yp_twocol_25_75') {
+    $pane_content = drupal_static('yp_switch_search', '');
+    if (!empty($pane_content)) {
+      $variables['content']['beta_75'] = drupal_render($pane_content) . $variables['content']['beta_75'];
+    }
   }
 }

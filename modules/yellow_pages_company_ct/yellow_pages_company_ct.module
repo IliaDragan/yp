@@ -4,4 +4,153 @@
  * Code for the Yellow pages company CT feature.
  */
 
+ define('YP_PRODUCT_SELL', 1);
+ define('YP_PRODUCT_BUY', 2);
+ define('YP_PRODUCT_MANUFACTURE', 4);
+ define('YP_PRODUCT_SERVICES', 8);
+ define('YP_PRODUCT_EXPORT', 16);
+
 include_once 'yellow_pages_company_ct.features.inc';
+require_once 'yellow_pages_company_ct.fields.inc';
+
+/**
+ * Implements hook_menu().
+ */
+function yellow_pages_company_ct_menu() {
+  $menu = array();
+
+  $menu['yp/autocomplete/product'] = array(
+    'title' => 'Autocomplete for products',
+    'page callback' => '_products_autocomplete',
+    'page arguments' => array(2),
+    'access arguments' => array('use products autocomplete'),
+    'type' => MENU_CALLBACK,
+  );
+
+  $menu['yp/autocomplete/category'] = array() + $menu['yp/autocomplete/product'];
+
+  return $menu;
+}
+
+/**
+ * Implements hook_permission().
+ */
+function yellow_pages_company_ct_permission() {
+  $perm = array();
+
+  $perm['use products autocomplete'] = array(
+    'title' => t('Use autocomplete in products field'),
+    'description' => t('Allow roles to use autocomplete on products field.'),
+  );
+
+  return $perm;
+}
+
+/**
+ * Provides product terms suggestons.
+ *
+ * @param string $input
+ *   String to search related terms on.
+ */
+function _products_autocomplete($type, $input) {
+  $product_type = YP_TERM_TYPE_PRODUCT;
+  if ($type == 'category') {
+    $product_type = YP_TERM_TYPE_CATEGORY;
+  }
+
+  $query = db_select('taxonomy_term_data', 't')
+    ->fields('t', array('tid', 'name'));
+  $query->join('field_data_field_product_type', 'fpt', 't.tid = fpt.entity_id');
+  $query->condition('fpt.field_product_type_value', $product_type, '=');
+  $query->condition('t.name', '%' . db_like($input) . '%', 'LIKE');
+  $query->range(0, 10);
+  $result = $query->execute()->fetchAll();
+
+  $response = array();
+
+  foreach ($result as $r) {
+    $response[$r->name . ' [tid:' . $r->tid . ']'] = $r->name;
+  }
+
+  echo drupal_json_output($response);
+  drupal_exit(0);
+}
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ */
+function yellow_pages_company_ct_form_forward_form_alter(&$form, &$form_state) {
+  $form['message']['email']['#default_value'] = '';
+  $form['message']['name']['#default_value'] = '';
+}
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ */
+function yellow_pages_company_ct_form_company_node_form_alter(&$form, &$form_state, $form_id) {
+  // Make sync date field readonly.
+  $form['field_mdb_sync_date']['#disabled'] = TRUE;
+  $hide = array(
+    'comment_settings',
+    'revision_information',
+    'translation',
+    'path',
+    'author',
+  );
+  foreach ($hide as $item) {
+    if (isset($form[$item])) {
+      hide($form[$item]);
+    }
+  }
+}
+
+/**
+ * Implements hook_entity_view().
+ */
+function yellow_pages_company_ct_entity_view($entity, $entity_type, $view_mode, $langcode) {
+  $is_company_page = $entity_type == 'node' && $entity->type == 'company' && $view_mode == 'full';
+
+  if (!$is_company_page) {
+    return;
+  }
+
+  $source_map = array(
+    YP_PRODUCT_BUY => 'group_we_buy',
+    YP_PRODUCT_SELL => 'group_we_sell',
+    YP_PRODUCT_MANUFACTURE => 'group_products',
+    YP_PRODUCT_SERVICES => 'group_services',
+    YP_PRODUCT_EXPORT => 'group_we_export',
+  );
+  global $language;
+  if (!empty($entity->field_products)) {
+    foreach ($entity->field_products[LANGUAGE_NONE] as $k => $item) {
+      $term = $item['taxonomy_term'];
+      $target_group = $source_map[$item['product_source']];
+      $target_group_field = $target_group . '_content';
+
+      $entity->content[$target_group_field][$k] = array(
+        '#type' => 'link',
+        '#title' => i18n_taxonomy_term_name($term, $language->language),
+        '#href' => url('search/companies', array('absolute' => TRUE)) . '?f[0]=field_products%253Aproduct%253Aparents_all%3A' . $term->tid,
+        '#group' => $target_group,
+        '#suffix' => '. ',
+      );
+
+      $entity->content['#fieldgroups'][$target_group]->children = array(
+        $target_group_field,
+      );
+    }
+  }
+
+  drupal_add_js(drupal_get_path('module', 'yellow_pages_company_ct') . '/js/yellow_pages_company_ct.scripts.js');
+}
+
+/**
+ * Implements hook_node_view().
+ */
+function yellow_pages_company_ct_node_view($node, $view_mode, $langcode) {
+  if ($node->type == 'company') {
+    (int) $node->field_company_views[LANGUAGE_NONE][0]['value'] += 0.5;
+    field_attach_update('node', $node);
+  }
+}

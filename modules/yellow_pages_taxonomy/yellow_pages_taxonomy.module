@@ -4,20 +4,19 @@
  * Code for the Yellow Pages Taxonomy feature.
  */
 
+define('YP_TERM_TYPE_PRODUCT', 1);
+define('YP_TERM_TYPE_CATEGORY', 2);
+
 include_once 'yellow_pages_taxonomy.features.inc';
 
 /**
  * Implements hook_form_FORM_ID_alter().
  */
 function yellow_pages_taxonomy_form_taxonomy_form_term_alter(&$form, &$form_state) {
-  // Hide standard 'description' field.
-  $form['description']['#access'] = FALSE;
-
-  // Unfold related items.
-  $form['relations']['#type'] = 'container';
-  $form['relations']['#collapsible'] = FALSE;
+  // Change 'parent term' field title.
+  $form['relations']['parent']['#title'] = t('Parents');
   $form['relations']['#collapsed'] = FALSE;
 
-  // Change 'parent term' field title.
-  $form['relations']['parent']['#title'] = t('Parent category');
+  // Fold the path alias fieldset.
+  $form['path']['#collapsed'] = TRUE;
 }

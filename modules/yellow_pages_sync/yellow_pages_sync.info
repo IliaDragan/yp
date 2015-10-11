@@ -1,0 +1,9 @@
+name = Yellow Pages Sync
+description = Synchronize content with original database (MDB).
+version = 7.x-0.1
+core = 7.x
+configure = admin/config/yp/sync
+dependencies[] = yellow_pages_company_ct
+dependencies[] = yellow_pages_core
+dependencies[] = yellow_pages_taxonomy
+package = Yellow Pages

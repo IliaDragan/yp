@@ -4,6 +4,8 @@
  * YellowPages currency rates module stub.
  */
 
+ define('RATES_UPDATE_AT', 86400);
+
 /**
  * Implements hook_block_info().
  */
@@ -49,4 +51,60 @@ function yellow_pages_rates_theme($existing, $type, $theme, $path) {
   );
 
   return $hooks;
+}
+
+/**
+ * Implements hook_preprocess_THEME().
+ */
+function yellow_pages_rates_preprocess_yp_rates(&$variables) {
+  $rates = yellow_pages_rates_fetch_rates();
+
+  $variables['rates'] = $rates;
+}
+
+/**
+ * Fetch today currency rates.
+ *
+ * @return array
+ *   Set of currencies, keyed by currency type.
+ */
+function yellow_pages_rates_fetch_rates() {
+
+  $url = 'http://bnm.md/ru/official_exchange_rates?get_xml=1&date=' . date('d.m.Y');
+
+  $cid = md5('yp_rates');
+  $cache = cache_get($cid);
+  $rates = array();
+
+  if (!$cache || REQUEST_TIME > $cache->expire) {
+    try {
+      $xml = new SimpleXMLElement(file_get_contents($url));
+
+      if (isset($xml->Valute)) {
+        foreach ($xml->Valute as $valute) {
+          $rates[(string) $valute->CharCode] = array(
+            'code' => (string) $valute->NumCode,
+            'nominal' => (string) $valute->Nominal,
+            'value' => (float) $valute->Value,
+          );
+        }
+
+        cache_set($cid, $rates, 'cache', REQUEST_TIME + RATES_UPDATE_AT);
+      }
+    }
+    catch (Exception $e) {
+      watchdog_exception('yp_rates', $e);
+    }
+  }
+  else {
+    $rates = $cache->data;
+  }
+
+  $required = array('USD', 'EUR', 'RON', 'RUB');
+  $filtered_rates = array();
+  foreach ($required as $currency) {
+    $filtered_rates[$currency] = $rates[$currency];
+  }
+
+  return $filtered_rates;
 }

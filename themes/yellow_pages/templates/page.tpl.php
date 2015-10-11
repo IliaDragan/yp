@@ -73,7 +73,7 @@
  * @ingroup themeable
  */
 ?>
-<header id="navbar" role="banner" class="<?php print $navbar_classes; ?>">
+<header id="navbar" role="banner">
   <div class="container">
     <div class="navbar-header">
       <?php if ($logo): ?>
@@ -81,17 +81,18 @@
         <img src="<?php print $logo; ?>" alt="<?php print t('Home'); ?>" />
       </a>
       <?php endif; ?>
+      <?php
+      print render($page['header']);
+      ?>
     </div>
-    <?php
-    if ($is_front) {
-      print render($page['main_menu']);
-    }
-    print render($page['header']);
-    ?>
   </div>
 </header>
 
+<?php if($is_front): ?>
+<div class="main-container homepage-container">
+<?php else: ?>
 <div class="main-container container">
+<?php endif; ?>
   <div class="row">
     <div class="col-sm-12">
       <?php
@@ -107,37 +108,63 @@
       <?php print render($page['content']); ?>
     </div>
   </div>
-  <div class="row">
-    <div class="col-sm-4">
-      <?php
-      if (!empty($page['aside_a'])) {
-        print render($page['aside_a']);
-      }
-      ?>
-    </div>
-    <div class="col-sm-4">
-      <?php
-      if (!empty($page['aside_b'])) {
-        print render($page['aside_b']);
-      }
-      ?>
-    </div>
-    <div class="col-sm-4">
-      <?php
-      if (!empty($page['aside_c'])) {
-        print render($page['aside_c']);
-      }
-      ?>
+</div>
+<div class="region-asides">
+  <div class="container">
+    <div class="row">
+      <div class="col-sm-4 col-md-5">
+        <?php
+        if (!empty($page['aside_a'])) {
+          print render($page['aside_a']);
+        }
+        ?>
+      </div>
+      <div class="col-sm-4 col-md-5">
+        <?php
+        if (!empty($page['aside_b'])) {
+          print render($page['aside_b']);
+        }
+        ?>
+      </div>
+      <div class="col-sm-4 col-md-2">
+        <?php
+        if (!empty($page['aside_c'])) {
+          print render($page['aside_c']);
+        }
+        ?>
+      </div>
     </div>
   </div>
 </div>
 
-<footer id="footer" class="footer container">
-  <div class="footer-wrapper">
-    <span class="copyright">
+<footer id="footer" class="footer">
+  <div class="footer-wrapper container">
+    <span class="copyright mobile-hidden">
       <?php print '&copy; ' . date('Y');?>
     </span>
     <?php print render($page['main_menu']); ?>
+    <span class="copyright mobile-only">
+      <?php print '&copy; ' . date('Y');?>
+    </span>
     <?php print render($page['footer']); ?>
   </div>
 </footer>
+
+<?php $usermenu = theme('links_clear', array('links' => menu_navigation_links('user-menu'), 'attributes' => array('class'=> array('user-menu')) )); ?>
+<?php $userclass = $usermenu ? 'has-user-menu' : 'no-user-menu'; ?>
+<?php $mainmenu = theme('links_clear', array('links' => menu_navigation_links('main-menu'))); ?>
+<div class="extra-menu-overlay">
+  <div class="inner-menu-block">
+    <div class="inner-menu-overlay <?php print $userclass; ?>">
+      <ul class="nav-list-menu">
+      <?php print $mainmenu; ?>
+      <?php if ($usermenu): ?>
+        <?php print $usermenu; ?>
+      <?php else: ?>
+        <li><?php global $base_url; print l('Log in', $base_url . '/user/login'); ?></li>
+      <?php endif; ?>
+      </ul>
+      <span class="menu-close fa fa-close"></span>
+    </div>
+  </div>
+</div>

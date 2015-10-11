@@ -10,31 +10,30 @@
 function yellow_pages_taxonomy_field_default_field_bases() {
   $field_bases = array();
 
-  // Exported field_base: 'field_description'
-  $field_bases['field_description'] = array(
+  // Exported field_base: 'field_product_type'
+  $field_bases['field_product_type'] = array(
     'active' => 1,
     'cardinality' => 1,
     'deleted' => 0,
     'entity_types' => array(),
-    'field_name' => 'field_description',
-    'foreign keys' => array(
-      'format' => array(
-        'columns' => array(
-          'format' => 'format',
-        ),
-        'table' => 'filter_format',
-      ),
-    ),
+    'field_name' => 'field_product_type',
+    'foreign keys' => array(),
     'indexes' => array(
-      'format' => array(
-        0 => 'format',
+      'value' => array(
+        0 => 'value',
       ),
     ),
     'locked' => 0,
-    'module' => 'text',
-    'settings' => array(),
+    'module' => 'list',
+    'settings' => array(
+      'allowed_values' => array(
+        YP_TERM_TYPE_PRODUCT => 'Product',
+        YP_TERM_TYPE_CATEGORY => 'Category',
+      ),
+      'allowed_values_function' => '',
+    ),
     'translatable' => 0,
-    'type' => 'text_long',
+    'type' => 'list_text',
   );
 
   // Exported field_base: 'field_related'
@@ -62,7 +61,7 @@ function yellow_pages_taxonomy_field_default_field_bases() {
     'settings' => array(
       'allowed_values' => array(
         0 => array(
-          'vocabulary' => 'categories',
+          'vocabulary' => 'products',
           'parent' => 0,
         ),
       ),

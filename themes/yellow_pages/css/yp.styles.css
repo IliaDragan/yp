@@ -1290,7 +1290,7 @@ form.yellow-pages-feedback-ad-request .form-type-textarea textarea {
 @media (max-width: 1659px) {
   .owl-carousel .node--news--slider_teaser .field-name-body,
   .owl-carousel .node--article--slider_teaser .field-name-body {
-    max-height: 110px;
+    max-height: 115px;
     overflow: hidden;
   }
 }

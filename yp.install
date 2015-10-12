@@ -150,7 +150,7 @@ function yp_install() {
   // Set explicit 'en' locale prefix.
   db_update('languages')
     ->fields(array(
-      'prefix' => 'en',
+      'prefix' => 'eng',
       'native' => 'En',
     ))
     ->condition('language', 'en', '=')
@@ -158,7 +158,7 @@ function yp_install() {
 
   db_update('languages')
     ->fields(array(
-      'prefix' => 'ru',
+      'prefix' => 'rus',
       'native' => 'Ру',
     ))
     ->condition('language', 'ru', '=')
@@ -166,7 +166,7 @@ function yp_install() {
 
   db_update('languages')
     ->fields(array(
-      'prefix' => 'ro',
+      'prefix' => 'rom',
       'native' => 'Ro',
     ))
     ->condition('language', 'ro', '=')
@@ -178,4 +178,30 @@ function yp_install() {
  */
 function yp_update_7001() {
   _yp_create_ad_categories();
+}
+
+/**
+ * Change url locale prefix.
+ */
+function yp_update_7002() {
+  db_update('languages')
+  ->fields(array(
+    'prefix' => 'eng',
+  ))
+  ->condition('language', 'en', '=')
+  ->execute();
+
+  db_update('languages')
+  ->fields(array(
+    'prefix' => 'rus',
+  ))
+  ->condition('language', 'ru', '=')
+  ->execute();
+
+  db_update('languages')
+  ->fields(array(
+    'prefix' => 'rom',
+  ))
+  ->condition('language', 'ro', '=')
+  ->execute();
 }

@@ -1740,7 +1740,6 @@ div.panel-pane div.node-teaser {
   list-style-type: none;
   li {
     display: inline;
-    margin-left: 5px;
     font-size: 11px;
     text-decoration: underline;
     &:first-child {
@@ -1959,12 +1958,12 @@ div.panel-pane div.node-teaser {
     margin: 0 0 10px 0;
     padding: 0;
     list-style-type: none;
+    color: #a4a4a4;
     li {
       display: inline;
       margin-left: 0;
       margin-right: 5px;
       font-size: 14px;
-      color: #a4a4a4;
       text-decoration: underline;
       &:first-child {
         margin-right: 0;

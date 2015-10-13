@@ -1330,6 +1330,20 @@ form.yellow-pages-feedback-ad-request .form-type-textarea textarea {
   font-weight: 700;
   text-transform: uppercase;
 }
+.node-type-company .view-media-field .owl-theme .video-icon-wrapper {
+  height: 50px;
+  left: 50%;
+  margin-left: -25px;
+  margin-top: -25px;
+  position: absolute;
+  top: 50%;
+  width: 50px;
+}
+.node-type-company .view-media-field .owl-theme .video-icon-wrapper .video-icon {
+  background: url(../images/video-icon.png) transparent no-repeat;
+  height: 50px;
+  width: 50px;
+}
 .node-type-company .view-media-field .owl-theme .owl-controls .owl-pagination {
   position: absolute;
   top: 0;

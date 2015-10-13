@@ -263,6 +263,18 @@ function getWindowWidth () {
     }
   }
 
+  Drupal.behaviors.owlGalleryVideo = {
+    attach : function (context) {
+      var $owlVideoItems = $('.view-media-field .file-video .content img', context);
+      if ($owlVideoItems.length) {
+        $owlVideoItems.each(function() {
+          var $this = $(this);
+          $this.after('<div class="video-icon-wrapper"><div class="video-icon"></div></div>');
+        });
+      }
+    }
+  }
+
   // Open service links in new window.
   $(document).ready(function () {
     $('a[class^="service-links"]').click(function(e) {

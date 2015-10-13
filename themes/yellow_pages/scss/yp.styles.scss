@@ -1152,50 +1152,67 @@ form.yellow-pages-feedback-ad-request {
       font-weight: 700;
       text-transform: uppercase;
     }
-    .owl-theme .owl-controls {
-      .owl-pagination {
+    .owl-theme {
+      .video-icon-wrapper {
+        height: 50px;
+        left: 50%;
+        margin-left: -25px;
+        margin-top: -25px;
         position: absolute;
-        top: 0;
-        text-align: center;
-        width: 100%;
-        .owl-page {
-          width: 6px;
-          height: 6px;
-          margin: 10px 3px;
-          background: $dark;
-          &.active {
-            background: $main-yellow;
-          }
-          span {
-            background: none;
-          }
+        top: 50%;
+        width: 50px;
+        .video-icon {
+          background: url(../images/video-icon.png) transparent no-repeat;
+          height: 50px;
+          width: 50px;
         }
       }
-      .owl-buttons {
-        .owl-prev,
-        .owl-next {
-          background: rgba(29, 29, 29, 0.8);
-          border-radius: 0;
-          color: #ffdd00;
-          font-size: 30px;
-          height: 40px;
-          line-height: 40px;
-          margin: -5px 0 0;
-          opacity: 1;
-          padding: 0;
+      .owl-controls {
+        .owl-pagination {
           position: absolute;
+          top: 0;
           text-align: center;
-          top: 50%;
-          width: 30px;
+          width: 100%;
+          .owl-page {
+            width: 6px;
+            height: 6px;
+            margin: 10px 3px;
+            background: $dark;
+            &.active {
+              background: $main-yellow;
+            }
+            span {
+              background: none;
+            }
+          }
         }
-        .owl-prev {
-          left: 0;
-        }
-        .owl-next {
-          right: 0;
+        .owl-buttons {
+          .owl-prev,
+          .owl-next {
+            background: rgba(29, 29, 29, 0.8);
+            border-radius: 0;
+            color: #ffdd00;
+            font-size: 30px;
+            height: 40px;
+            line-height: 40px;
+            margin: -5px 0 0;
+            opacity: 1;
+            padding: 0;
+            position: absolute;
+            text-align: center;
+            top: 50%;
+            width: 30px;
+          }
+          .owl-prev {
+            left: 0;
+          }
+          .owl-next {
+            right: 0;
+          }
         }
       }
     }
+
 
 
     .owl-item .content {

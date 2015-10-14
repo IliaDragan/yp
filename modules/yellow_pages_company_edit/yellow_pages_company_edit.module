@@ -63,14 +63,77 @@ function _yellow_pages_company_edit_grant_company_node_access($nid, $account = N
   $related_companies = array();
   if (!empty($account->field_related_company['und'])) {
     foreach ($account->field_related_company['und'] as $company) {
-      $node = node_load($company['target_id']);
-      $node->tnid;
-      $translations = translation_node_get_translations($node->tnid);
-      foreach ($translations as $related_company) {
-        $related_companies[] = $related_company->nid;
-      }
+      $related_companies[] = _yellow_pages_company_edit_get_translations_nids($company['target_id']);
     }
   }
 
   return in_array($nid, $related_companies);
+}
+
+/**
+ * Get node translations nids by node nid..
+ */
+function _yellow_pages_company_edit_get_translations_nids($nid) {
+  $nids = array();
+
+  $node = node_load($nid);
+  $translations = translation_node_get_translations($node->tnid);
+  foreach ($translations as $related_company) {
+    $nids[] = $related_company->nid;
+  }
+
+  return $nids;
+}
+
+/**
+ * Implements hook_token_info().
+ *
+ * This hook will register new token contains company editors emails.
+ */
+function yellow_pages_company_edit_token_info() {
+  $info['tokens']['node']['company-editors-emails'] = array(
+    'name' => t('Company editors emails'),
+    'description' => t('Email addresses of Enterprise Editors which has current company node as related company.'),
+    'type' => 'node',
+  );
+
+  return $info;
+}
+
+/**
+ * Implements hook_tokens().
+ */
+function yellow_pages_company_edit_tokens($type, $tokens, array $data = array(), array $options = array()) {
+  $replacements = array();
+  if ($type == 'node' && !empty($data['node'])) {
+    $node = $data['node'];
+    if (!empty($tokens['company-editors-emails'])) {
+      $original = $tokens['company-editors-emails'];
+      $replacements[$original] = _get_company_editors_emails($node->nid);
+    }
+  }
+
+  return $replacements;
+}
+
+/**
+ * Gets company node related editors emails.
+ */
+function _get_company_editors_emails($nid) {
+  $nids = _yellow_pages_company_edit_get_translations_nids($nid);
+
+  $query = db_select('field_data_field_related_company', 'rc')
+    ->condition('field_related_company_target_id', $nids, 'IN');
+  $query->innerJoin('users', 'u', 'u.uid = rc.entity_id');
+  $query->fields('u', array('mail'))
+    ->distinct();
+  $result = $query->execute();
+
+  $mails = array();
+  while ($mail = $result->fetchField()) {
+    $mails[] = $mail;
+  }
+  $mails_list = implode(', ', $mails);
+
+  return $mails_list;
 }

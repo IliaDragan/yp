@@ -47,6 +47,27 @@ function yellow_pages_rules_configuration_default_rules_configuration() {
       ]
     }
   }');
+  $items['rules_company_update_notification'] = entity_import('rules_config', '{ "rules_company_update_notification" : {
+      "LABEL" : "Company update notification",
+      "PLUGIN" : "reaction rule",
+      "OWNER" : "rules",
+      "TAGS" : [ "company", "editor", "update" ],
+      "REQUIRES" : [ "yellow_pages_company_edit", "rules" ],
+      "ON" : { "node_update--company" : { "bundle" : "company" } },
+      "IF" : [
+        { "yellow_pages_company_editors_not_empty" : { "company_node_nid" : [ "node:nid" ] } }
+      ],
+      "DO" : [
+        { "mail" : {
+            "to" : "[node:company-editors-emails]",
+            "subject" : "Company [node:title] modified",
+            "message" : "Company [node:title] was modified. You can access new data following this link [node:url].",
+            "language" : [ "" ]
+          }
+        }
+      ]
+    }
+  }');
   $items['rules_node_expire'] = entity_import('rules_config', '{ "rules_node_expire" : {
       "LABEL" : "Node sticky on top expire in 10 days",
       "PLUGIN" : "reaction rule",

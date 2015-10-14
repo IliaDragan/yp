@@ -63,7 +63,8 @@ function _yellow_pages_company_edit_grant_company_node_access($nid, $account = N
   $related_companies = array();
   if (!empty($account->field_related_company['und'])) {
     foreach ($account->field_related_company['und'] as $company) {
-      $related_companies[] = _yellow_pages_company_edit_get_translations_nids($company['target_id']);
+      $nids = _yellow_pages_company_edit_get_translations_nids($company['target_id']);
+      $related_companies = array_merge($related_companies, $nids);
     }
   }
 

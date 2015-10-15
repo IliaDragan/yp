@@ -1,0 +1,97 @@
+# $Id$
+#
+# Russian translation of Drupal (general)
+# Copyright YEAR NAME <EMAIL@ADDRESS>
+# Generated from files:
+#  yellow_pages_lists.info: n/a
+#  plugins/content_types/yp_news_carousel.inc: n/a
+#  plugins/content_types/yp_related_articles.inc: n/a
+#  plugins/content_types/yp_related_companies.inc: n/a
+#  plugins/content_types/yp_related_news.inc: n/a
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PROJECT VERSION\n"
+"POT-Creation-Date: 2015-10-15 10:37+0300\n"
+"PO-Revision-Date: 2015-10-15 15:45+0300\n"
+"Last-Translator: NAME <EMAIL@ADDRESS>\n"
+"Language-Team: Russian <EMAIL@ADDRESS>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=((((n%10)==1)&&((n%100)!=11))?(0):(((((n"
+"%10)>=2)&&((n%10)<=4))&&(((n%100)<10)||((n%100)>=20)))?(1):2));\n"
+"X-Generator: Poedit 1.5.4\n"
+
+#: yellow_pages_lists.info:0
+msgid "Yellow Pages Lists"
+msgstr ""
+
+#: yellow_pages_lists.info:0
+msgid "Various content lists."
+msgstr "Разные списки содержимого"
+
+#: yellow_pages_lists.info:0
+msgid "Yellow Pages"
+msgstr ""
+
+#: plugins/content_types/yp_news_carousel.inc:8
+msgid "News carousel"
+msgstr "Карусель новостей"
+
+#: plugins/content_types/yp_news_carousel.inc:9
+#: plugins/content_types/yp_related_articles.inc:9
+#: plugins/content_types/yp_related_companies.inc:9
+#: plugins/content_types/yp_related_news.inc:9
+msgid "YellowPages"
+msgstr ""
+
+#: plugins/content_types/yp_news_carousel.inc:10
+msgid "Display latest news in carousel"
+msgstr "Отображение последних новостей в парусели"
+
+#: plugins/content_types/yp_news_carousel.inc:22
+msgid "News"
+msgstr "Новости"
+
+#: plugins/content_types/yp_related_articles.inc:8
+msgid "Related articles"
+msgstr "Связанные статьи"
+
+#: plugins/content_types/yp_related_articles.inc:10
+msgid "Displays related articles"
+msgstr "Отображать связанные статьи"
+
+#: plugins/content_types/yp_related_articles.inc:14
+#: plugins/content_types/yp_related_companies.inc:14
+#: plugins/content_types/yp_related_news.inc:14
+msgid "Node"
+msgstr "Материал"
+
+#: plugins/content_types/yp_related_articles.inc:23
+msgid "Similar articles"
+msgstr "Похожие новости"
+
+#: plugins/content_types/yp_related_companies.inc:8
+msgid "Related companies"
+msgstr "Связанные компании"
+
+#: plugins/content_types/yp_related_companies.inc:10
+msgid "Displays related companies"
+msgstr "Отображать связанные компании"
+
+#: plugins/content_types/yp_related_companies.inc:23
+msgid "Similar companies"
+msgstr "Похожие предприятия"
+
+#: plugins/content_types/yp_related_news.inc:8
+msgid "Related news"
+msgstr "Связанные новости"
+
+#: plugins/content_types/yp_related_news.inc:10
+msgid "Displays related news"
+msgstr "Отображать связанные новости"
+
+#: plugins/content_types/yp_related_news.inc:23
+msgid "Similar news"
+msgstr "Похожие новости"

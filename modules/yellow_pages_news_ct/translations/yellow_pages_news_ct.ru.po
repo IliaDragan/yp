@@ -1,0 +1,154 @@
+# $Id$
+#
+# Russian translation of Drupal (general)
+# Copyright YEAR NAME <EMAIL@ADDRESS>
+# Generated from files:
+#  yellow_pages_news_ct.features.field_instance.inc: n/a
+#  yellow_pages_news_ct.features.inc: n/a
+#  yellow_pages_news_ct.features.menu_links.inc: n/a
+#  yellow_pages_news_ct.views_default.inc: n/a
+#  yellow_pages_news_ct.info: n/a
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PROJECT VERSION\n"
+"POT-Creation-Date: 2015-10-15 10:38+0300\n"
+"PO-Revision-Date: 2015-10-15 15:52+0300\n"
+"Last-Translator: NAME <EMAIL@ADDRESS>\n"
+"Language-Team: Russian <EMAIL@ADDRESS>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=((((n%10)==1)&&((n%100)!=11))?(0):(((((n"
+"%10)>=2)&&((n%10)<=4))&&(((n%100)<10)||((n%100)>=20)))?(1):2));\n"
+"X-Generator: Poedit 1.5.4\n"
+
+#: yellow_pages_news_ct.features.field_instance.inc:416
+msgid "Body"
+msgstr "Содержимое"
+
+#: yellow_pages_news_ct.features.field_instance.inc:417
+msgid "Companies"
+msgstr "Компании"
+
+#: yellow_pages_news_ct.features.field_instance.inc:418
+msgid "List Image"
+msgstr "Изображение для списков"
+
+#: yellow_pages_news_ct.features.field_instance.inc:419
+msgid "Main Image"
+msgstr "Основное изображение"
+
+#: yellow_pages_news_ct.features.field_instance.inc:420
+msgid "Products"
+msgstr "Производим"
+
+#: yellow_pages_news_ct.features.field_instance.inc:421
+msgid "Video"
+msgstr "Видео"
+
+#: yellow_pages_news_ct.features.inc:61
+#: yellow_pages_news_ct.features.menu_links.inc:35
+#: yellow_pages_news_ct.views_default.inc:240
+msgid "News"
+msgstr "Новости"
+
+#: yellow_pages_news_ct.features.inc:63
+msgid "Create and publish news."
+msgstr "Создавайте и публикуйте новости."
+
+#: yellow_pages_news_ct.features.inc:65
+msgid "Title"
+msgstr "Заголовок"
+
+#: yellow_pages_news_ct.views_default.inc:239
+msgid "Master"
+msgstr "Основной"
+
+#: yellow_pages_news_ct.views_default.inc:241
+msgid "more"
+msgstr "ещё"
+
+#: yellow_pages_news_ct.views_default.inc:242
+msgid "Apply"
+msgstr "Применить"
+
+#: yellow_pages_news_ct.views_default.inc:243
+msgid "Reset"
+msgstr "Сбросить"
+
+#: yellow_pages_news_ct.views_default.inc:244
+msgid "Sort by"
+msgstr "Сортировать по:"
+
+#: yellow_pages_news_ct.views_default.inc:245
+msgid "Asc"
+msgstr "По возрастанию"
+
+#: yellow_pages_news_ct.views_default.inc:246
+msgid "Desc"
+msgstr "По убыванию"
+
+#: yellow_pages_news_ct.views_default.inc:247
+msgid "Read more &gt;"
+msgstr "Читайте далее &gt;"
+
+#: yellow_pages_news_ct.views_default.inc:248
+msgid "All"
+msgstr "Все"
+
+#: yellow_pages_news_ct.views_default.inc:249
+msgid "Carousel"
+msgstr "Карусель"
+
+#: yellow_pages_news_ct.views_default.inc:250
+msgid "View panes"
+msgstr "Представления-Фрагменты"
+
+#: yellow_pages_news_ct.views_default.inc:251
+msgid "List"
+msgstr "Список"
+
+#: yellow_pages_news_ct.views_default.inc:252
+msgid "Items per page"
+msgstr "Элементов на страницу"
+
+#: yellow_pages_news_ct.views_default.inc:253
+msgid "- All -"
+msgstr "- Все -"
+
+#: yellow_pages_news_ct.views_default.inc:254
+msgid "Offset"
+msgstr "Пропустить"
+
+#: yellow_pages_news_ct.views_default.inc:255
+msgid "« first"
+msgstr "« первая"
+
+#: yellow_pages_news_ct.views_default.inc:256
+msgid "‹ previous"
+msgstr "‹ предыдущая"
+
+#: yellow_pages_news_ct.views_default.inc:257
+msgid "next ›"
+msgstr "следующая ›"
+
+#: yellow_pages_news_ct.views_default.inc:258
+msgid "last »"
+msgstr "последняя »"
+
+#: yellow_pages_news_ct.views_default.inc:259
+msgid "Contextual"
+msgstr "Контекстный"
+
+#: yellow_pages_news_ct.views_default.inc:260
+msgid "Similar news"
+msgstr "Похожие новости"
+
+#: yellow_pages_news_ct.info:0
+msgid "Yellow Pages News CT"
+msgstr ""
+
+#: yellow_pages_news_ct.info:0
+msgid "Yellow Pages"
+msgstr ""

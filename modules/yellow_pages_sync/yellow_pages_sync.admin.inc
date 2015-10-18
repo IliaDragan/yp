@@ -86,6 +86,7 @@ function yellow_pages_sync_admin_form_submit($form, &$form_state) {
     // Add a step when syncing taxonomy, to link with parents.
     if ($option == 'taxonomy') {
       $operations[] = array('yellow_pages_sync_taxonomy_parents', array());
+      $operations[] = array('yellow_pages_sync_taxonomy_force_parents', array());
     }
   }
 

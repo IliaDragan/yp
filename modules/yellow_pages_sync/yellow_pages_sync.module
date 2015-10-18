@@ -778,7 +778,7 @@ function yellow_pages_sync_taxonomy(&$context) {
 function yellow_pages_sync_taxonomy_parents(&$context) {
   if (!isset($context['sandbox']['progress'])) {
     $query = db_select('yp_term_sync_state', 'ysst')
-      ->fields('ysst')
+      ->fields(NULL, array('tid'))
       ->condition('parent', 0, '<>')
       ->countQuery();
     $result = $query->execute()->fetchCol();
@@ -821,6 +821,65 @@ function yellow_pages_sync_taxonomy_parents(&$context) {
   if ($context['sandbox']['progress'] < $context['sandbox']['max'] && $context['sandbox']['progress'] != $context['sandbox']['max']) {
     $context['finished'] = $context['sandbox']['progress'] / $context['sandbox']['max'];
   }
+}
+
+function yellow_pages_sync_taxonomy_force_parents(&$context) {
+  if (!isset($context['sandbox']['progress'])) {
+    $query = db_select('yp_term_sync_state', 'ysst')
+      ->fields(NULL, array('tid'))
+      ->condition('parent', 0, '=')
+      ->condition('type', YP_TERM_TYPE_PRODUCT)
+      ->countQuery();
+    $result = $query->execute()->fetchCol();
+
+    $context['sandbox']['progress'] = 0;
+    $context['sandbox']['max'] = reset($result);
+    $context['sandbox']['default_parent_tid'] = yellow_pages_sync_default_parent();
+  }
+
+  $query = db_select('yp_term_sync_state', 'ysst')
+    ->fields('ysst', array('tid'))
+    ->condition('parent', 0, '=')
+    ->condition('type', YP_TERM_TYPE_PRODUCT)
+    ->range($context['sandbox']['progress'], SYNC_BATCH);
+  $result = $query->execute()->fetchCol();
+
+  db_update('taxonomy_term_hierarchy')
+    ->fields(array(
+      'parent' => $context['sandbox']['default_parent_tid'],
+    ))
+    ->condition('tid', $result, 'IN')
+    ->execute();
+
+  $context['sandbox']['progress'] += SYNC_BATCH;
+
+  if ($context['sandbox']['progress'] < $context['sandbox']['max'] && $context['sandbox']['progress'] != $context['sandbox']['max']) {
+    $context['finished'] = $context['sandbox']['progress'] / $context['sandbox']['max'];
+  }
+}
+
+function yellow_pages_sync_default_parent() {
+  $name = array(
+    'ru' => 'Другое',
+    'en' => 'Other',
+    'ro' => 'Diverse',
+  );
+  $terms = taxonomy_get_term_by_name($name['ru'], SYNC_VOCABULARY);
+
+  if (empty($terms)) {
+    $term = yellow_pages_sync_create_term($name, YP_TERM_TYPE_PRODUCT);
+  }
+  else {
+    $term = reset($terms);
+  }
+
+  $languages = array('en', 'ro');
+
+  foreach ($languages as $lang) {
+    i18n_string_translation_update(array('taxonomy', 'term', $term->tid, 'name'), $name[$lang], $lang);
+  }
+
+  return $term->tid;
 }
 
 function yellow_pages_sync_create_term($name, $type = YP_TERM_TYPE_PRODUCT) {

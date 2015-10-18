@@ -135,10 +135,10 @@ function yellow_pages_solr_configuration_preprocess(&$variables, $hook) {
     $variables['content'] = '';
   }
 
-  if ($hook == 'yp_twocol_25_75') {
+  if ($hook == 'yp_threecol_25_50_25') {
     $pane_content = drupal_static('yp_switch_search', '');
     if (!empty($pane_content)) {
-      $variables['content']['beta_75'] = drupal_render($pane_content) . $variables['content']['beta_75'];
+      $variables['content']['beta_50'] = drupal_render($pane_content) . $variables['content']['beta_50'];
     }
   }
 }

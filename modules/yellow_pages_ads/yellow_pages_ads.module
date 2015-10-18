@@ -481,17 +481,4 @@ function yellow_pages_ads_preprocess(&$variables, $hook) {
   if (!$search_page) {
     return;
   }
-
-  if ($hook == 'panels_pane' && $variables['pane']->type == 'yp_advertisement_search_result') {
-    $pane_content = &drupal_static('yp_advertisement_search_result', '');
-    $pane_content = $variables['content'];
-    $variables['content'] = '';
-  }
-
-  if ($hook == 'yp_twocol_25_75') {
-    $pane_content = drupal_static('yp_advertisement_search_result', '');
-    if (!empty($pane_content)) {
-      $variables['content']['alpha_25'] .= $pane_content;
-    }
-  }
 }

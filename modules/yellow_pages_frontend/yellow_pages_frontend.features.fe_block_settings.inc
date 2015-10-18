@@ -44,7 +44,7 @@ function yellow_pages_frontend_default_fe_block_settings() {
     'delta' => 'form',
     'module' => 'search',
     'node_types' => array(),
-    'pages' => '<front>',
+    'pages' => '',
     'roles' => array(),
     'themes' => array(
       'seven' => array(

@@ -505,7 +505,7 @@ function yellow_pages_frontend_default_page_manager_handlers() {
     $pane->access = array();
     $pane->configuration = array(
       'label' => 'above',
-      'formatter' => 'yp_product_parent',
+      'formatter' => 'yp_product_default',
       'delta_limit' => '0',
       'delta_offset' => '0',
       'delta_reversed' => 0,
@@ -655,6 +655,8 @@ function yellow_pages_frontend_default_page_manager_pages() {
       'alpha_75' => NULL,
       'beta_25' => NULL,
       'tabs_75' => NULL,
+      'alpha_25' => NULL,
+      'beta_75' => NULL,
     ),
   );
   $display->cache = array();

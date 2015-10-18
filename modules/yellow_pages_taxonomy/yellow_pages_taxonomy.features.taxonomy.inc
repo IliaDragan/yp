@@ -13,7 +13,7 @@ function yellow_pages_taxonomy_taxonomy_default_vocabularies() {
       'name' => 'Products',
       'machine_name' => 'products',
       'description' => '',
-      'hierarchy' => 1,
+      'hierarchy' => 2,
       'module' => 'taxonomy',
       'weight' => 0,
       'language' => 'und',

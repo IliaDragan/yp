@@ -1,7 +1,7 @@
 name = Yellow Pages Permissions
 core = 7.x
 package = Yellow Pages
-version = 7.x-0.1
+version = 7.x-0.2
 project = yellow_pages_permissions
 dependencies[] = comment
 dependencies[] = features

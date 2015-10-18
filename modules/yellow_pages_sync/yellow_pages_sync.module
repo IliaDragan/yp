@@ -834,10 +834,6 @@ function yellow_pages_sync_create_term($name, $type = YP_TERM_TYPE_PRODUCT) {
   if (is_array($name)) {
     $languages = array('en', 'ro');
 
-    if ($type == YP_TERM_TYPE_CATEGORY && $name['ru'] == 'Бизнес' && $name['ro'] == 'Piloţi pentru fundaţii') {
-      var_dump($name);die();
-    }
-
     foreach ($languages as $lang) {
       i18n_string_translation_update(
         array('taxonomy', 'term', $term->tid, 'name'),

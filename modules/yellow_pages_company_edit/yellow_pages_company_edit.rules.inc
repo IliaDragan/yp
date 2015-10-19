@@ -15,7 +15,7 @@ function yellow_pages_company_edit_rules_condition_info() {
     'parameter' => array(
       'company_node_nid' => array(
         'type' => 'integer',
-        'label' => t('View and display'),
+        'label' => t('Company node nid'),
         'description' => t('Select the nid of company node'),
       ),
     ),

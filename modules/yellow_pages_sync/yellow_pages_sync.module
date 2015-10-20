@@ -23,6 +23,15 @@ function yellow_pages_sync_menu() {
     'file' => 'yellow_pages_sync.admin.inc',
   );
 
+  $items['admin/config/yp/rebuild'] = array(
+    'title' => 'Rebuild nodes',
+    'description' => 'Re-save nodes to update node cache.',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('yellow_pages_sync_rebuild_form'),
+    'access arguments' => array('administer yellow pages sync'),
+    'file' => 'yellow_pages_sync.admin.inc',
+  );
+
   $items['yp/sync/%'] = array(
     'title' => 'Sync single entry',
     'page callback' => 'yellow_pages_sync_single_node',
@@ -1251,4 +1260,36 @@ function yellow_pages_sync_read_logo($path) {
   }
 
   return @file_get_contents($path);
+}
+
+function yellow_pages_sync_node_rebuild($nid) {
+  $node = node_load($nid);
+  module_load_include('inc', 'node', 'node.pages');
+  $test_state = array(
+    'values' => array(
+      'op' => t('Save'),
+    ),
+  );
+  drupal_form_submit('company_node_form', $test_state, $node);
+  drupal_get_messages();
+
+  if (!isset($node->field_geocode[LANGUAGE_NONE])) {
+    return;
+  }
+
+  $lat = $node->field_geocode[LANGUAGE_NONE][0]['lat'];
+  $lon = $node->field_geocode[LANGUAGE_NONE][0]['lon'];
+
+  $query = db_select('node', 'n')
+    ->fields('n', array('nid'))
+    ->condition('tnid', $nid, '=')
+    ->condition('nid', $nid, '<>');
+  $result = $query->execute()->fetchCol();
+
+  foreach ($result as $_nid) {
+    $_n = node_load($_nid);
+    $_n->field_geocode = $node->field_geocode;
+    $_n->field_geocode[LANGUAGE_NONE][0]['geom'] = "POINT ($lon $lat)";
+    field_attach_update('node', $_n);
+  }
 }

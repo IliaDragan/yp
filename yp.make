@@ -90,6 +90,9 @@ projects[libraries][subdir] = "contrib"
 projects[link][version] = "1.3"
 projects[link][subdir] = "contrib"
 
+projects[mailsystem][version] = "2.34"
+projects[mailsystem][subdir] = "contrib"
+
 projects[media][type] = "module"
 projects[media][subdir] = "contrib"
 projects[media][download][type] = "git"
@@ -98,6 +101,9 @@ projects[media][download][revision] = "199e5013dc9915a3d67d73d681a1db6ba56b63e6"
 
 projects[media_youtube][version] = "3.0"
 projects[media_youtube][subdir] = "contrib"
+
+projects[mimemail][version] = "1.0-beta4"
+projects[mimemail][subdir] = "contrib"
 
 projects[module_filter][version] = "2.0"
 projects[module_filter][subdir] = "contrib"

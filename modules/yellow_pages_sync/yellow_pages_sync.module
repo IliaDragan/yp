@@ -264,7 +264,6 @@ function yellow_pages_sync_node(SimpleXMLElement $list_item) {
         'locality' => $address['city'],
         'postal_code' => $address['pcode'],
         'thoroughfare' => $address['address'],
-        'premise' => $address['premise'],
         'administrative_area' => $address['administrative_area'],
       );
     }

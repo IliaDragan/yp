@@ -34,6 +34,15 @@ function yellow_pages_sync_menu() {
   return $items;
 }
 
+/**
+ * Fetches the remote XML for a single enterprise.
+ *
+ * @param int $eid
+ *   Enterprise id.
+ *
+ * @return SimpleXMLElement
+ *   Enterprise XML data.
+ */
 function yellow_pages_sync_fetch_remote_enterprise($eid) {
   if (empty($eid)) {
     return FALSE;
@@ -45,6 +54,12 @@ function yellow_pages_sync_fetch_remote_enterprise($eid) {
   return $xml;
 }
 
+/**
+ * Menu callback for syncing single enterprise by it's id.
+ *
+ * @param int $eid
+ *   Enterprise id.
+ */
 function yellow_pages_sync_single_node($eid) {
   $xml = yellow_pages_sync_fetch_remote_enterprise($eid);
   $message = 'NOT OK';
@@ -64,6 +79,12 @@ function yellow_pages_sync_single_node($eid) {
   drupal_exit(0);
 }
 
+/**
+ * Creates relations between affiliated nodes to a certain 'main' node.
+ *
+ * @param int $nid
+ *   'Main' node id.
+ */
 function yellow_pages_sync_link_filials($nid) {
   $query = db_select('node', 'n')
     ->fields('n', array('nid', 'language'))
@@ -113,6 +134,12 @@ function yellow_pages_sync_link_filials($nid) {
   }
 }
 
+/**
+ * Reads and caches all raw XML data.
+ *
+ * @param string $source
+ *   Url to the xml content.
+ */
 function yellow_pages_sync_read_xml($source) {
   $xml = FALSE;
 
@@ -138,6 +165,9 @@ function yellow_pages_sync_read_xml($source) {
   return $xml;
 }
 
+/**
+ * Creates a batch to process multiple enterprise syncing.
+ */
 function yellow_pages_sync_nodes($settings, &$context) {
   $xml = NULL;
 
@@ -193,6 +223,12 @@ function yellow_pages_sync_nodes($settings, &$context) {
   }
 }
 
+/**
+ * Creates a drupal node from a XML input.
+ *
+ * @param SimpleXMLElement $list_item
+ *   Enterprise XML data.
+ */
 function yellow_pages_sync_node(SimpleXMLElement $list_item) {
   $node_defaults = array(
     'type' => 'company',
@@ -372,10 +408,15 @@ function yellow_pages_sync_node(SimpleXMLElement $list_item) {
   return $entity;
 }
 
-function yellow_pages_sync_get_alias($nid, $title) {
-  return 'info/companies/' . $nid . '-' . drupal_html_class(transliteration_get($title));
-}
-
+/**
+ * Parses enteprise related data to be usable in fields of the resulting node.
+ *
+ * @param SimpleXMLElement $source
+ *   Enterprise XML data.
+ *
+ * @return array
+ *   An array keyed by main enterprise information.
+ */
 function yellow_page_sync_process_source_element(SimpleXMLElement $source) {
   $result = array();
   $result['id'] = (int) $source->id;
@@ -400,6 +441,12 @@ function yellow_page_sync_process_source_element(SimpleXMLElement $source) {
   return $result;
 }
 
+/**
+ * Creates the parent enterprise if current is an affiliated one.
+ *
+ * @param SimpleXMLElement $source
+ *   Enterprise XML data.
+ */
 function yellow_pages_sync_process_source_element_parent(SimpleXMLElement $source) {
   $parent_id = (int) $source->parent_id;
 
@@ -422,6 +469,7 @@ function yellow_pages_sync_process_source_element_parent(SimpleXMLElement $sourc
   $source_address = yellow_pages_sync_process_source_element_address($source);
   $parent_title = yellow_pages_sync_process_source_element_title($xml);
 
+  // The affiliated enterprise gets the main enterprise title, thus locality.
   if (empty(array_filter($source_title))) {
     $title = $source->titles;
 
@@ -438,6 +486,7 @@ function yellow_pages_sync_process_source_element_parent(SimpleXMLElement $sourc
 
   $entity = yellow_pages_sync_node($xml);
 
+  // Store the parent enterprise so it's not parsed again.
   if (isset($entity->nid)) {
     $nid = $entity->nid;
     $parents = &drupal_static('synced_parents', array());
@@ -450,6 +499,15 @@ function yellow_pages_sync_process_source_element_parent(SimpleXMLElement $sourc
   return $nid;
 }
 
+/**
+ * Processes enterprise title.
+ *
+ * @param SimpleXMLElement $source
+ *   Enterprise XML data.
+ *
+ * @return array
+ *   A set of titles, for each locale.
+ */
 function yellow_pages_sync_process_source_element_title(SimpleXMLElement $source) {
   $source_title = $source->titles;
   $titles = array();
@@ -464,6 +522,15 @@ function yellow_pages_sync_process_source_element_title(SimpleXMLElement $source
   return $titles;
 }
 
+/**
+ * Processes enterprise email address.
+ *
+ * @param SimpleXMLElement $source
+ *   Enterprise XML data.
+ *
+ * @return array
+ *   A set of emails.
+ */
 function yellow_pages_sync_process_source_element_email(SimpleXMLElement $source) {
   $source_email = $source->emails;
   $emails = array();
@@ -479,6 +546,15 @@ function yellow_pages_sync_process_source_element_email(SimpleXMLElement $source
   return $emails;
 }
 
+/**
+ * Processess enterprise web-site URL.
+ *
+ * @param SimpleXMLElement $source
+ *   Enterprise XML data.
+ *
+ * @return array
+ *   Set of URL's.
+ */
 function yellow_pages_sync_process_source_element_url(SimpleXMLElement $source) {
   $source_url = $source->www_set;
   $urls = array();
@@ -494,6 +570,15 @@ function yellow_pages_sync_process_source_element_url(SimpleXMLElement $source) 
   return $urls;
 }
 
+/**
+ * Processes enterpise products activities.
+ *
+ * @param SimpleXMLElement $source
+ *   Enterprise XML data.
+ *
+ * @return array
+ *   Set of activities.
+ */
 function yellow_pages_sync_process_source_element_products(SimpleXMLElement $source) {
   $source_products = $source->products;
   $products = array();

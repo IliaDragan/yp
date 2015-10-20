@@ -625,6 +625,15 @@ function yellow_pages_sync_process_source_element_products(SimpleXMLElement $sou
   return $products;
 }
 
+/**
+ * Processes enterprise address.
+ *
+ * @param SimpleXMLElement $source
+ *   Enterprise XML data.
+ *
+ * @return array
+ *   Set of addresses for each locale.
+ */
 function yellow_pages_sync_process_source_element_address(SimpleXMLElement $source) {
   $source_address = $source->locations;
   $addresses = array();
@@ -659,6 +668,15 @@ function yellow_pages_sync_process_source_element_address(SimpleXMLElement $sour
   return $addresses;
 }
 
+/**
+ * Processes enterprise phone numbers.
+ *
+ * @param SimpleXMLElement $source
+ *   Enterprise XML data.
+ *
+ * @return array
+ *   Set of phone numbers.
+ */
 function yellow_pages_sync_process_source_element_contacts(SimpleXMLElement $source) {
   $source_contacts = $source->contacts;
   $contacts = array(
@@ -688,6 +706,15 @@ function yellow_pages_sync_process_source_element_contacts(SimpleXMLElement $sou
   return $contacts;
 }
 
+/**
+ * Processes enterprises url aliases.
+ *
+ * @param SimpleXMLElement $source
+ *   Enterprise XML data.
+ *
+ * @return array
+ *   Set of aliases for each locale.
+ */
 function yellow_pages_sync_process_source_element_aliases(SimpleXMLElement $source) {
   $source_aliases = $source->yp_old_url;
   $languages = array('ru', 'ro', 'en');
@@ -700,6 +727,12 @@ function yellow_pages_sync_process_source_element_aliases(SimpleXMLElement $sour
   return $aliases;
 }
 
+/**
+ * Provides target vocabulary id for products terms.
+ *
+ * @return int
+ *   Taxonomy vocabulary id.
+ */
 function yellow_pages_sync_term_target_vocabulary() {
   $vid = &drupal_static(__FUNCTION__, NULL);
 
@@ -711,6 +744,15 @@ function yellow_pages_sync_term_target_vocabulary() {
   return $vid;
 }
 
+/**
+ * Provides whitespace cleanup for multiple values.
+ *
+ * @param array $input
+ *   A set of data to trim.
+ *
+ * @return array
+ *   Set of data with whitespaces trimmed.
+ */
 function yellow_pages_sync_trim(array $input) {
   array_walk($input, function (&$v) {
     $v = trim($v);
@@ -719,6 +761,18 @@ function yellow_pages_sync_trim(array $input) {
   return $input;
 }
 
+/**
+ * Stores synced term information.
+ *
+ * @param int $id
+ *   Product original id.
+ * @param int $tid
+ *   Analogic term id.
+ * @param int $parent_id
+ *   Parent category/product original id.
+ * @param int $type
+ *   Whether it's a category or product term.
+ */
 function yellow_pages_sync_write_term_relation($id, $tid, $parent_id = 0, $type = YP_TERM_TYPE_PRODUCT) {
   db_merge('yp_term_sync_state')
     ->key(array(
@@ -735,6 +789,9 @@ function yellow_pages_sync_write_term_relation($id, $tid, $parent_id = 0, $type 
     ->execute();
 }
 
+/**
+ * Creates a batch for syncing products into taxonomies.
+ */
 function yellow_pages_sync_taxonomy(&$context) {
   if (!isset($context['sandbox']['progress'])) {
     // Read and process categories.
@@ -859,6 +916,9 @@ function yellow_pages_sync_taxonomy(&$context) {
   }
 }
 
+/**
+ * Creates a batch for linking term hirerachy based on products relations.
+ */
 function yellow_pages_sync_taxonomy_parents(&$context) {
   if (!isset($context['sandbox']['progress'])) {
     $query = db_select('yp_term_sync_state', 'ysst')
@@ -907,6 +967,9 @@ function yellow_pages_sync_taxonomy_parents(&$context) {
   }
 }
 
+/**
+ * Creates a batch for assigning orphan products to a defaul category.
+ */
 function yellow_pages_sync_taxonomy_force_parents(&$context) {
   if (!isset($context['sandbox']['progress'])) {
     $query = db_select('yp_term_sync_state', 'ysst')
@@ -942,6 +1005,12 @@ function yellow_pages_sync_taxonomy_force_parents(&$context) {
   }
 }
 
+/**
+ * Fetches default parent category for orphaned product terms.
+ *
+ * @return int
+ *   Term id.
+ */
 function yellow_pages_sync_default_parent() {
   $name = array(
     'ru' => 'Другое',
@@ -966,6 +1035,17 @@ function yellow_pages_sync_default_parent() {
   return $term->tid;
 }
 
+/**
+ * Provides a wrapper for creating product/category terms.
+ *
+ * @param mixed $name
+ *   Single or a set of names.
+ * @param int $type
+ *   Term type (product/category).
+ *
+ * @return stdClass
+ *   Altered term object.
+ */
 function yellow_pages_sync_create_term($name, $type = YP_TERM_TYPE_PRODUCT) {
   $term = new stdClass();
   $term->name = is_array($name) ? $name['ru'] : $name;
@@ -989,6 +1069,17 @@ function yellow_pages_sync_create_term($name, $type = YP_TERM_TYPE_PRODUCT) {
   return $term;
 }
 
+/**
+ * Fetched the term id for a previously synced product/category.
+ *
+ * @param int $pid
+ *   Original product/category id.
+ * @param int $type
+ *   Entry type.
+ *
+ * @return int
+ *   Term id, if any.
+ */
 function yellow_pages_sync_synced_term($pid, $type = YP_TERM_TYPE_PRODUCT) {
   $query = db_select('yp_term_sync_state', 'yts')
     ->fields('yts', array('tid'))
@@ -999,6 +1090,9 @@ function yellow_pages_sync_synced_term($pid, $type = YP_TERM_TYPE_PRODUCT) {
   return reset($result);
 }
 
+/**
+ * Final callback for the overall sync batch.
+ */
 function yellow_pages_sync_batch_finish($success, $results, $operations) {
   drupal_get_messages();
   if ($success) {
@@ -1033,6 +1127,9 @@ function yellow_pages_sync_taxonomy_term_delete($term) {
   }
 }
 
+/**
+ * Creates a batch for linking nodes together based on affiliated context.
+ */
 function yellow_pages_sync_filials(&$context) {
   if (!isset($context['sandbox']['progress'])) {
     $query = db_select('yp_sync_state')
@@ -1061,6 +1158,9 @@ function yellow_pages_sync_filials(&$context) {
   }
 }
 
+/**
+ * Creates a batch for attaching existing logos to synced enterprises.
+ */
 function yellow_pages_sync_logos(&$context) {
   if (!isset($context['sandbox']['progress'])) {
     $query = db_select('yp_sync_state', 'yss')
@@ -1086,6 +1186,14 @@ function yellow_pages_sync_logos(&$context) {
   }
 }
 
+/**
+ * Attaches the logo file to a certain node.
+ *
+ * @param int $eid
+ *   Original enterprise id.
+ * @param int $nid
+ *   Synced node id.
+ */
 function yellow_pages_sync_attach_logo($eid, $nid) {
   $query = db_select('node', 'n')
     ->fields('n', array('nid'))
@@ -1104,6 +1212,16 @@ function yellow_pages_sync_attach_logo($eid, $nid) {
   }
 }
 
+/**
+ * Creates an entry in the file system for a certain logo attached
+ * to an enterprise.
+ *
+ * @param int $eid
+ *   Original enterprise id.
+ *
+ * @return mixed
+ *   File object on success, FALSE otherwise.
+ */
 function yellow_pages_sync_create_logo($eid) {
   $path = dirname(__FILE__) . '/logo/' . $eid . '-L1.gif';
   $logo_content = yellow_pages_sync_read_logo($path);
@@ -1118,8 +1236,17 @@ function yellow_pages_sync_create_logo($eid) {
   return FALSE;
 }
 
+/**
+ * Reads the content of the logo.
+ *
+ * @param string $path
+ *   File path uri.
+ *
+ * @return string
+ *   File contents if file exists and is readable, FALSE otherwise.
+ */
 function yellow_pages_sync_read_logo($path) {
-  if (!file_exists($path)) {
+  if (!is_readable($path)) {
     return FALSE;
   }
 

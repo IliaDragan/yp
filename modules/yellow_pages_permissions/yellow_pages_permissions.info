@@ -16,7 +16,6 @@ dependencies[] = path
 dependencies[] = search
 dependencies[] = system
 dependencies[] = toolbar
-dependencies[] = yellow_pages_company_edit
 dependencies[] = yellow_pages_core
 features[features_api][] = api:2
 features[field_base][] = field_related_company

@@ -2,13 +2,13 @@
 
 /**
  * @file
- * Yellow pages company edit conditions for Rules.
+ * Yellow pages company content type conditions for Rules.
  */
 
 /**
  * Implements hook_rules_condition_info().
  */
-function yellow_pages_company_edit_rules_condition_info() {
+function yellow_pages_company_ct_rules_condition_info() {
   $conditions = array();
   $conditions['yellow_pages_company_editors_not_empty'] = array(
     'label' => t('Check if company has related users.'),

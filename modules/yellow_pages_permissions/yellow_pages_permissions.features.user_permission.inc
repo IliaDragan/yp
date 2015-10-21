@@ -78,7 +78,7 @@ function yellow_pages_permissions_user_default_permissions() {
     'roles' => array(
       'administrator' => 'administrator',
     ),
-    'module' => 'yellow_pages_company_edit',
+    'module' => 'yellow_pages_company_ct',
   );
 
   // Exported permission: 'administer comments'.
@@ -302,7 +302,7 @@ function yellow_pages_permissions_user_default_permissions() {
     'roles' => array(
       'enterprise editor' => 'enterprise editor',
     ),
-    'module' => 'yellow_pages_company_edit',
+    'module' => 'yellow_pages_company_ct',
   );
 
   // Exported permission: 'post comments'.

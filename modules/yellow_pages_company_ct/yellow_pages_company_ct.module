@@ -43,6 +43,16 @@ function yellow_pages_company_ct_permission() {
     'description' => t('Allow roles to use autocomplete on products field.'),
   );
 
+  $perm['edit related companies'] = array(
+    'title' => t('Edit related companies'),
+    'description' => t('Allow users to edit only related companies.'),
+  );
+
+  $perm['add related companies to user'] =  array(
+    'title' => t('Add related companies to user'),
+    'description' => t('Allow users to add related companies to another users (works only if role has permission "Administer users").'),
+  );
+
   return $perm;
 }
 
@@ -153,4 +163,121 @@ function yellow_pages_company_ct_node_view($node, $view_mode, $langcode) {
     (int) $node->field_company_views[LANGUAGE_NONE][0]['value'] += 0.5;
     field_attach_update('node', $node);
   }
+}
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ *
+ * Hide field related company for users that haven't permission
+ *   "Edit related companies".
+ */
+function yellow_pages_company_ct_form_user_profile_form_alter(&$form, &$form_state) {
+  $account = $form['#user'];
+  $access = user_access('edit related companies', $account) && user_access('add related companies to user');
+  $form['field_related_company']['#access'] = $access;
+}
+
+/**
+ * Implements hook_node_access().
+ */
+function yellow_pages_company_ct_node_access($node, $op, $account) {
+  $access = NODE_ACCESS_IGNORE;
+
+  if ($op == 'update' && user_access('edit related companies', $account)) {
+    $node_is_company = !empty($node->type) && $node->type == 'company';
+    if ($node_is_company) {
+      $grant = _yellow_pages_company_ct_grant_company_node_access($node->nid, $account);
+      $access = $grant ? NODE_ACCESS_ALLOW : NODE_ACCESS_DENY;
+    }
+  }
+
+  return $access;
+}
+
+/**
+ * Verify if company node nid is related to indicated account or current user.
+ */
+function _yellow_pages_company_ct_grant_company_node_access($nid, $account = NULL) {
+  if (empty($account->uid)) {
+    $account = $GLOBALS['user'];
+  }
+
+  $account = user_load($account->uid);
+  $related_companies = array();
+  if (!empty($account->field_related_company['und'])) {
+    foreach ($account->field_related_company['und'] as $company) {
+      $nids = _yellow_pages_company_ct_get_translations_nids($company['target_id']);
+      $related_companies = array_merge($related_companies, $nids);
+    }
+  }
+
+  return in_array($nid, $related_companies);
+}
+
+/**
+ * Get node translations nids by node nid..
+ */
+function _yellow_pages_company_ct_get_translations_nids($nid) {
+  $nids = array();
+
+  $node = node_load($nid);
+  $translations = translation_node_get_translations($node->tnid);
+  foreach ($translations as $related_company) {
+    $nids[] = $related_company->nid;
+  }
+
+  return $nids;
+}
+
+/**
+ * Implements hook_token_info().
+ *
+ * This hook will register new token contains company editors emails.
+ */
+function yellow_pages_company_ct_token_info() {
+  $info['tokens']['node']['company-editors-emails'] = array(
+    'name' => t('Company editors emails'),
+    'description' => t('Email addresses of Enterprise Editors which has current company node as related company.'),
+    'type' => 'node',
+  );
+
+  return $info;
+}
+
+/**
+ * Implements hook_tokens().
+ */
+function yellow_pages_company_ct_tokens($type, $tokens, array $data = array(), array $options = array()) {
+  $replacements = array();
+  if ($type == 'node' && !empty($data['node'])) {
+    $node = $data['node'];
+    if (!empty($tokens['company-editors-emails'])) {
+      $original = $tokens['company-editors-emails'];
+      $replacements[$original] = _get_company_editors_emails($node->nid);
+    }
+  }
+
+  return $replacements;
+}
+
+/**
+ * Gets company node related editors emails.
+ */
+function _get_company_editors_emails($nid) {
+  $nids = _yellow_pages_company_ct_get_translations_nids($nid);
+
+  $query = db_select('field_data_field_related_company', 'rc')
+    ->condition('field_related_company_target_id', $nids, 'IN');
+  $query->innerJoin('users', 'u', 'u.uid = rc.entity_id');
+  $query->fields('u', array('mail'))
+    ->distinct();
+  $result = $query->execute();
+
+  $mails = array();
+  while ($mail = $result->fetchField()) {
+    $mails[] = $mail;
+  }
+  $mails_list = implode(', ', $mails);
+
+  return $mails_list;
 }

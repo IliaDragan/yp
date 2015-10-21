@@ -52,7 +52,7 @@ function yellow_pages_rules_configuration_default_rules_configuration() {
       "PLUGIN" : "reaction rule",
       "OWNER" : "rules",
       "TAGS" : [ "company", "editor", "update" ],
-      "REQUIRES" : [ "yellow_pages_company_edit", "rules" ],
+      "REQUIRES" : [ "yellow_pages_company_ct", "rules" ],
       "ON" : { "node_update--company" : { "bundle" : "company" } },
       "IF" : [
         { "yellow_pages_company_editors_not_empty" : { "company_node_nid" : [ "node:nid" ] } }

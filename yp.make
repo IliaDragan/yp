@@ -108,6 +108,9 @@ projects[panels][subdir] = "contrib"
 projects[rules][version] = "2.9"
 projects[rules][subdir] = "contrib"
 
+projects[rules_onceperday][version] = "1.2"
+projects[rules_onceperday][subdir] = "contrib"
+
 projects[search_api][version] = "1.14"
 projects[search_api][subdir] = "contrib"
 

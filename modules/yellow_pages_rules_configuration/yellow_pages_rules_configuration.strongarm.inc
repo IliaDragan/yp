@@ -73,5 +73,12 @@ function yellow_pages_rules_configuration_strongarm() {
   $strongarm->value = 0;
   $export['node_expire_required_company'] = $strongarm;
 
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'rules_onceperday_hour';
+  $strongarm->value = '10';
+  $export['rules_onceperday_hour'] = $strongarm;
+
   return $export;
 }

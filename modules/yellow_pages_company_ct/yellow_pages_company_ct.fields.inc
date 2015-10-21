@@ -273,21 +273,20 @@ function yellow_pages_company_ct_field_formatter_view($entity_type, $entity, $fi
           }
           // Do not display same parents more than once.
           if (in_array($top_most->tid, $parents)) {
-            break(2);
+            break;
           }
 
           $term = $top_most;
           $parents[] = $top_most->tid;
+          $uri = entity_uri('taxonomy_term', $term);
+          $element[$delta] = array(
+            '#type' => 'link',
+            '#title' => i18n_taxonomy_term_name($term, $language->language),
+            '#href' => $uri['path'],
+            '#options' => $uri['options'],
+          );
           break;
       }
-
-      $uri = entity_uri('taxonomy_term', $term);
-      $element[$delta] = array(
-        '#type' => 'link',
-        '#title' => i18n_taxonomy_term_name($term, $language->language),
-        '#href' => $uri['path'],
-        '#options' => $uri['options'],
-      );
     }
   }
 

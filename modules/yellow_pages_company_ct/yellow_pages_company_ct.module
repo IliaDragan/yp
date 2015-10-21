@@ -112,6 +112,32 @@ function yellow_pages_company_ct_form_company_node_form_alter(&$form, &$form_sta
       hide($form[$item]);
     }
   }
+
+  // Add button "Create editor" for company email if no editors.
+
+  if (!empty($form['field_email']['und'][0]['email']['#default_value'])) {
+    $form['field_email']['create_user'] = array(
+      '#type' => 'submit',
+      '#value' => t('Create company editor'),
+      '#submit' => array('company_create_editor_user'),
+      '#prefix' => '<div id="company-mail-create-user-button-wrapper">',
+      '#suffix' => '</div>',
+      '#ajax' => array(
+        'wrapper' => 'company-mail-create-user-button-wrapper',
+        'callback' => 'company_node_form_create_user_ajax_callback',
+        'method' => 'replace',
+      ),
+    );
+  }
+  dpm($form);
+}
+
+function company_create_editor_user (&$form, &$form_state) {
+  //create enterprise editor user using form values - add node as related to user
+}
+function company_node_form_create_user_ajax_callback($form, $form_state) {
+  //get message from form after submit and set message instead of button.
+  return '<div class="messages status">User created successfully!</div>';
 }
 
 /**

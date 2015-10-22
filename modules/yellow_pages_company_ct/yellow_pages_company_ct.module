@@ -4,11 +4,11 @@
  * Code for the Yellow pages company CT feature.
  */
 
- define('YP_PRODUCT_SELL', 1);
- define('YP_PRODUCT_BUY', 2);
- define('YP_PRODUCT_MANUFACTURE', 4);
- define('YP_PRODUCT_SERVICES', 8);
- define('YP_PRODUCT_EXPORT', 16);
+define('YP_PRODUCT_SELL', 1);
+define('YP_PRODUCT_BUY', 2);
+define('YP_PRODUCT_MANUFACTURE', 4);
+define('YP_PRODUCT_SERVICES', 8);
+define('YP_PRODUCT_EXPORT', 16);
 
 include_once 'yellow_pages_company_ct.features.inc';
 require_once 'yellow_pages_company_ct.fields.inc';
@@ -114,30 +114,72 @@ function yellow_pages_company_ct_form_company_node_form_alter(&$form, &$form_sta
   }
 
   // Add button "Create editor" for company email if no editors.
+  $isset_mail = !empty($form['field_email']['und'][0]['email']['#default_value']);
+  $is_edit_form = !empty($form['nid']['#value']);
+  if ($isset_mail && $is_edit_form) {
+    $has_editors = _check_company_has_editors($form['nid']['#value']);
+    if (!$has_editors) {
+      $mail = $form['field_email']['und'][0]['email']['#default_value'];
+      $val = t('Create company editor for mail @mail', array('@mail' => $mail));
+      $form['create_user'] = array(
+        '#type' => 'submit',
+        '#value' => $val,
+        '#submit' => array('company_create_editor_user_submit'),
+        '#prefix' => '<div id="company-mail-create-user-button-wrapper">',
+        '#suffix' => '</div>',
+        '#ajax' => array(
+          'wrapper' => 'company-mail-create-user-button-wrapper',
+          'callback' => 'company_node_form_create_user_ajax_callback',
+          'method' => 'replace',
+        ),
+      );
+    }
 
-  if (!empty($form['field_email']['und'][0]['email']['#default_value'])) {
-    $form['field_email']['create_user'] = array(
-      '#type' => 'submit',
-      '#value' => t('Create company editor'),
-      '#submit' => array('company_create_editor_user'),
-      '#prefix' => '<div id="company-mail-create-user-button-wrapper">',
-      '#suffix' => '</div>',
-      '#ajax' => array(
-        'wrapper' => 'company-mail-create-user-button-wrapper',
-        'callback' => 'company_node_form_create_user_ajax_callback',
-        'method' => 'replace',
-      ),
-    );
   }
-  dpm($form);
 }
 
-function company_create_editor_user (&$form, &$form_state) {
-  //create enterprise editor user using form values - add node as related to user
+/**
+ * Submit function for "Create editor" button in company edit node form.
+ */
+function company_create_editor_user_submit(&$form, &$form_state) {
+  $nid = $form_state['values']['nid'];
+  $email = $form_state['values']['field_email']['und'][0]['email'];
+  $password = user_password(8);
+  $fields = array(
+    'name' => $email,
+    'mail' => $email,
+    'pass' => $password,
+    'status' => 1,
+    'init' => $email,
+    'roles' => array(
+      DRUPAL_AUTHENTICATED_RID => 'authenticated user',
+      5 => 'enterprise editor',
+    ),
+    'field_related_company' => array(
+      LANGUAGE_NONE => array(
+        0 => array('target_id' => $nid),
+      ),
+    ),
+  );
+  try {
+    $account = user_save('', $fields);
+    _user_mail_notify('register_admin_created', $account);
+    $msg = t('User created successfully. You will receive confirmation e-mail message at your emai.');
+    $form_state['storage']['add_editor_message'] = '<div class="messages status">' . $msg . '</div>';
+  }
+  catch (Exception $e) {
+    watchdog_exception('company_editor', $e);
+    $msg = t('Something went wrong. Please contact site administrator.');
+    $form_state['storage']['add_editor_message'] = '<div class="messages warning">' . $msg . '</div>';
+  }
 }
+
+/**
+ * Ajax callback function for "Create editor" button in company edit node form.
+ */
 function company_node_form_create_user_ajax_callback($form, $form_state) {
-  //get message from form after submit and set message instead of button.
-  return '<div class="messages status">User created successfully!</div>';
+  // Return message instead of create user button.
+  return $form_state['storage']['add_editor_message'];
 }
 
 /**
@@ -306,4 +348,26 @@ function _get_company_editors_emails($nid) {
   $mails_list = implode(', ', $mails);
 
   return $mails_list;
+}
+
+/**
+ * Checks if company has editors.
+ *
+ * @param $nid
+ *   Company node id.
+ *
+ * @return bool
+ *   TRUE if company has editors, FALSE otherwise.
+ */
+function _check_company_has_editors($nid) {
+  $nids = _yellow_pages_company_ct_get_translations_nids($nid);
+
+  $query = db_select('field_data_field_related_company', 'rc')
+    ->fields('rc', array('entity_id'))
+    ->condition('rc.entity_type', 'user')
+    ->condition('rc.field_related_company_target_id', $nids, 'IN')
+    ->distinct();
+  $num_rows = $query->countQuery()->execute()->fetchField();
+
+  return !empty($num_rows);
 }

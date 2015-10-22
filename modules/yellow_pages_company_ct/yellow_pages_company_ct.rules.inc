@@ -35,7 +35,5 @@ function yellow_pages_company_ct_rules_condition_info() {
  *   TRUE if company node has related editors, FALSE otherwise.
  */
 function yellow_pages_company_editors_not_empty($company_node_nid) {
-  $emails = _get_company_editors_emails($company_node_nid);
-
-  return !empty($emails);
+  return _check_company_has_editors($company_node_nid);
 }

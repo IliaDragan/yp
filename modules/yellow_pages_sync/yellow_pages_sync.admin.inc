@@ -5,7 +5,7 @@
  */
 
 /**
- * Admin form structure.
+ * For builder for the synchronisation routine.
  */
 function yellow_pages_sync_admin_form($form, $form_state) {
   $form['source'] = array(
@@ -65,9 +65,9 @@ function yellow_pages_sync_admin_form($form, $form_state) {
 }
 
 /**
+ * Custom submit handler for the synchronisation routine.
  *
- * @param unknown $form
- * @param unknown $form_state
+ * @see yellow_pages_sync_admin_form()
  */
 function yellow_pages_sync_admin_form_submit($form, &$form_state) {
   $input = $form_state['values'];
@@ -101,5 +101,68 @@ function yellow_pages_sync_admin_form_submit($form, &$form_state) {
   }
   else {
     drupal_set_message(t('Nothing selected.'), 'error');
+  }
+}
+
+/**
+ * Form builder for the rebuild interface.
+ */
+function yellow_pages_sync_rebuild_form($form, $form_state) {
+  $query = db_select('yp_sync_state')
+    ->countQuery();
+  $result = $query->execute()->fetchCol();
+  $current = variable_get('yp_rebuild_current', 0);
+  $count = reset($result);
+  $last_rebuild = variable_get('yp_last_rebuild', 0);
+
+  $form['status'] = array(
+    '#type' => 'item',
+    '#markup' => t('Status: @current/@count', array('@current' => $current, '@count' => $count)),
+  );
+
+  $form['last_rebuild'] = array(
+    '#type' => 'item',
+    '#markup' => t('Last rebuild: @last', array('@last' => $last_rebuild > 0 ? date('d-m-Y H:i:s', $last_rebuild) : t('Never'))),
+  );
+
+  $last_rebuild = variable_get('yp_last_rebuild', 0);
+  $form['rebuild'] = array(
+    '#type' => 'submit',
+    '#value' => $current > 0 ? t('Continue rebuilding') : t('Rebuild'),
+    '#disabled' => $last_rebuild && REQUEST_TIME - $last_rebuild < 86400,
+  );
+
+  $form['reset'] = array(
+    '#type' => 'submit',
+    '#value' => t('Reset counters'),
+    '#disabled' => $current == 0,
+  );
+
+  return $form;
+}
+
+/**
+ * Custom submit callback for node rebulding form.
+ *
+ * @see yellow_pages_sync_rebuild_form()
+ */
+function yellow_pages_sync_rebuild_form_submit($form, &$form_state) {
+  $values = $form_state['values'];
+
+  if ($values['op'] == $values['reset']) {
+    variable_set('yp_rebuild_current', 0);
+    drupal_set_message(t('Rebuild counter resetted.'));
+  }
+  else {
+    variable_set('yp_last_rebuild', REQUEST_TIME);
+    $batch = array(
+      'operations' => array(
+        array('yellow_pages_sync_node_batch_rebuild', array()),
+      ),
+      'title' => t('Rebuilding nodes...'),
+      'finished' => 'yellow_pages_sync_node_batch_rebuild_finish',
+    );
+
+    batch_set($batch);
   }
 }

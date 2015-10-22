@@ -109,7 +109,6 @@ function yellow_pages_sync_admin_form_submit($form, &$form_state) {
  */
 function yellow_pages_sync_rebuild_form($form, $form_state) {
   $query = db_select('yp_sync_state')
-    ->condition('parent', 0, '=')
     ->countQuery();
   $result = $query->execute()->fetchCol();
   $current = variable_get('yp_rebuild_current', 0);
@@ -126,15 +125,17 @@ function yellow_pages_sync_rebuild_form($form, $form_state) {
     '#markup' => t('Last rebuild: @last', array('@last' => $last_rebuild > 0 ? date('d-m-Y H:i:s', $last_rebuild) : t('Never'))),
   );
 
+  $last_rebuild = variable_get('yp_last_rebuild', 0);
   $form['rebuild'] = array(
     '#type' => 'submit',
     '#value' => $current > 0 ? t('Continue rebuilding') : t('Rebuild'),
+    '#disabled' => $last_rebuild && REQUEST_TIME - $last_rebuild < 86400,
   );
 
   $form['reset'] = array(
     '#type' => 'submit',
     '#value' => t('Reset counters'),
-//     '#disabled' => $current == 0,
+    '#disabled' => $current == 0,
   );
 
   return $form;
@@ -154,6 +155,14 @@ function yellow_pages_sync_rebuild_form_submit($form, &$form_state) {
   }
   else {
     variable_set('yp_last_rebuild', REQUEST_TIME);
-    yellow_pages_sync_node_rebuild(104794);
+    $batch = array(
+      'operations' => array(
+        array('yellow_pages_sync_node_batch_rebuild', array()),
+      ),
+      'title' => t('Rebuilding nodes...'),
+      'finished' => 'yellow_pages_sync_node_batch_rebuild_finish',
+    );
+
+    batch_set($batch);
   }
 }

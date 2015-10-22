@@ -1263,6 +1263,55 @@ function yellow_pages_sync_read_logo($path) {
 }
 
 /**
+ * Creates a batch operation for bulk updating the nodes.
+ *
+ * Mainly used to update geocoder maps.
+ */
+function yellow_pages_sync_node_batch_rebuild(&$context) {
+  if (!isset($context['sandbox']['progress'])) {
+    $context['sandbox']['progress'] = 0;
+    $context['sandbox']['max'] = 2500;
+    $context['sandbox']['rebuilt'] = variable_get('yp_rebuild_current', 0);
+  }
+
+  $query = db_select('yp_sync_state', 'yss')
+    ->fields('yss', array('nid'))
+    ->range($context['sandbox']['rebuilt'] + $context['sandbox']['progress'], SYNC_BATCH);
+  $result = $query->execute()->fetchCol();
+
+  if (!empty($result)) {
+    foreach ($result as $nid) {
+      yellow_pages_sync_node_rebuild($nid);
+      $context['sandbox']['rebuilt']++;
+      $context['results'][] = $nid;
+    }
+
+    $context['sandbox']['progress'] += count($result);
+    variable_set('yp_rebuild_current', $context['sandbox']['rebuilt']);
+
+    if ($context['sandbox']['progress'] != $context['sandbox']['max']) {
+      $context['finished'] = $context['sandbox']['progress'] / $context['sandbox']['max'];
+    }
+  }
+}
+
+/**
+ * Finish callback for bulk node update batch.
+ *
+ * @see yellow_pages_sync_node_batch_rebuild()
+ */
+function yellow_pages_sync_node_batch_rebuild_finish($success, $results, $operations) {
+  drupal_get_messages();
+
+  if ($success) {
+    drupal_set_message(t('@count nodes updated.', array('@count' => count($results))));
+  }
+  else {
+    drupal_set_message(t('Failed to rebuild nodes.'), 'error');
+  }
+}
+
+/**
  * Forces the node to be re-saved.
  *
  * @param int $nid

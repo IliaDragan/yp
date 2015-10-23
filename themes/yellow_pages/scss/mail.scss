@@ -1,0 +1,47 @@
+@import "init";
+@import "compass/css3/box-sizing";
+
+* {
+  color: $bg-color;
+}
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+a {
+  font-weight: bold;
+  text-decoration: none;
+}
+#mimemail-body {
+  text-align: center;
+  #main {
+    display: inline-block;
+    width: 600px;
+    .mail-header {
+      display: block;
+      height: 424px;
+      width: 600px;
+    }
+    .mail-text {
+      background-color: $light-gray;
+      margin-top: -190px;
+      padding: 10px 20px;
+      text-align: left;
+      width: 600px;
+    }
+    .mail-social {
+      padding: 10px 20px;
+      .social-link {
+        display: inline-block;
+        height: 25px;
+        width: 50px;
+      }
+    }
+    .mail-footer {
+      background-color: $bg-color;
+      padding: 10px 20px;
+      p {
+        color: white;
+      }
+    }
+  }
+}

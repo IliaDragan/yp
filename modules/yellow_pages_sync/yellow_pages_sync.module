@@ -303,14 +303,18 @@ function yellow_pages_sync_node(SimpleXMLElement $list_item) {
   // Addresses.
   if (!empty($item['addresses']['en'])) {
     unset($entity->field_address[LANGUAGE_NONE]);
+    unset($entity->field_region[LANGUAGE_NONE]);
+
     foreach ($item['addresses']['en'] as $k => $address) {
       $entity->field_address[LANGUAGE_NONE][$k] = array(
         'country' => 'MD',
         'locality' => $address['city'],
         'postal_code' => $address['pcode'],
         'thoroughfare' => $address['address'],
-        'administrative_area' => $address['administrative_area'],
+        'premise' => $address['premise'],
       );
+
+      $entity->field_region[LANGUAGE_NONE][$k]['value'] = $address['region'];
     }
   }
   // Contacts.
@@ -375,15 +379,13 @@ function yellow_pages_sync_node(SimpleXMLElement $list_item) {
       continue;
     }
 
-    if ($is_new) {
-      $translated_entity = clone($entity);
-      unset($translated_entity->nid);
-      unset($translated_entity->vid);
+    $translated_entity = clone($entity);
+    unset($translated_entity->nid);
+    unset($translated_entity->vid);
+    $translated_entity->language = $lang;
+    $translated_entity->tnid = $tnid;
 
-      $translated_entity->language = $lang;
-      $translated_entity->tnid = $tnid;
-    }
-    else {
+    if (!$is_new) {
       $query = db_select('node', 'n')
         ->fields('n', array('nid'))
         ->condition('tnid', $tnid, '=')
@@ -392,15 +394,13 @@ function yellow_pages_sync_node(SimpleXMLElement $list_item) {
       $result = $query->execute()->fetchCol();
 
       if (!empty($result)) {
-        $translated_entity = node_load(reset($result));
+        $translated_entity->nid = $translated_entity->vid = reset($result);
       }
       else {
         $t = array('@nid' => $tnid, '@lang' => $lang);
         watchdog('yp_sync', 'Failed to load translated entity for node "@nid", language "@lang"', $t, WATCHDOG_NOTICE);
       }
     }
-
-    $translated_entity->title = !empty($item['title'][$lang]) ? $item['title'][$lang] : 'Без титула';
 
     node_save($translated_entity);
 
@@ -651,24 +651,24 @@ function yellow_pages_sync_process_source_element_address(SimpleXMLElement $sour
     $locales = array('ru', 'ro', 'en');
     foreach ($locales as $locale) {
       foreach ($source_address->{'list-item'} as $item) {
+        $city   = trim((string) $item->town->{$locale . '_field'});
         $street = trim((string) $item->street->{$locale . '_field'});
-        $house = trim((string) $item->house->{$locale . '_field'});
+        $house  = trim((string) $item->house->{$locale . '_field'});
+        $region = trim((string) $item->region->{$locale . '_field'});
         $office = trim((string) $item->office);
+        $postal_code = (int) $item->pcode->{'list-item'};
 
         $thoroughfare = str_replace(array('bd.', 'str.', 'ул.'), '', $street);
         if (!empty($house)) {
-          $thoroughfare .= ', ' . $house;
-        }
-
-        if (!empty($office)) {
-          $thoroughfare .= ', ' . $office;
+          $thoroughfare .= ' ' . $house;
         }
 
         $addresses[$locale][] = array(
-          'city' => str_replace(array('mun.', 'or.', 's.', 'г.'), '', trim((string) $item->town->{$locale . '_field'})),
-          'pcode' => (int) $item->pcode->{'list-item'},
+          'city' => str_replace(array('mun.', 'or.', 's.', 'г.'), '', $city),
+          'pcode' => $postal_code,
           'address' => $thoroughfare,
-          'administrative_area' => trim((string) $item->region->{$locale . '_field'})
+          'region' => $region,
+          'premise' => $office,
         );
       }
     }

@@ -43,17 +43,19 @@ function yellow_pages_solr_configuration_default_search_api_index() {
       "fields" : {
         "body:value" : { "type" : "text", "boost" : "3.0" },
         "city_filter" : { "type" : "string" },
-        "field_address:administrative_area" : { "type" : "string" },
         "field_address:locality" : { "type" : "text" },
         "field_products:product" : { "type" : "list\\u003Cinteger\\u003E", "entity_type" : "taxonomy_term" },
+        "field_products:product:name" : { "type" : "list\\u003Ctext\\u003E", "boost" : "13.0" },
         "field_products:product:parents_all" : {
           "type" : "list\\u003Clist\\u003Cinteger\\u003E\\u003E",
           "entity_type" : "taxonomy_term"
         },
+        "field_region" : { "type" : "string" },
+        "language" : { "type" : "string" },
         "nid" : { "type" : "integer" },
         "search_api_language" : { "type" : "string" },
         "sticky" : { "type" : "boolean" },
-        "title" : { "type" : "text" },
+        "title" : { "type" : "text", "boost" : "3.0" },
         "type" : { "type" : "string" }
       },
       "data_alter_callbacks" : {
@@ -62,12 +64,7 @@ function yellow_pages_solr_configuration_default_search_api_index() {
           "weight" : "-10",
           "settings" : {
             "default" : "0",
-            "bundles" : {
-              "advertisement" : "advertisement",
-              "article" : "article",
-              "company" : "company",
-              "news" : "news"
-            }
+            "bundles" : { "article" : "article", "company" : "company", "news" : "news" }
           }
         },
         "search_api_alter_node_access" : { "status" : 0, "weight" : "0", "settings" : [] },
@@ -89,7 +86,14 @@ function yellow_pages_solr_configuration_default_search_api_index() {
         "search_api_case_ignore" : {
           "status" : 1,
           "weight" : "0",
-          "settings" : { "fields" : { "title" : true, "field_products:product:parents_all" : true } }
+          "settings" : { "fields" : {
+              "title" : true,
+              "body:value" : true,
+              "field_products:product" : true,
+              "field_products:product:name" : true,
+              "field_products:product:parents_all" : true
+            }
+          }
         },
         "search_api_html_filter" : {
           "status" : 1,

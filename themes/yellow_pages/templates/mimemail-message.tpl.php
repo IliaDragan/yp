@@ -18,6 +18,7 @@
  *
  * @see template_preprocess_mimemail_message()
  */
+$theme_path = realpath(drupal_get_path('theme', 'yellow_pages'));
 ?>
 <html>
   <head>
@@ -32,22 +33,22 @@
     <div id="center">
       <div id="main">
         <div class="mail-header">
-          <img src="profiles/yp/themes/yellow_pages/images/mail-header.png" />
+          <img src="<?php print $theme_path; ?>/images/mail-header.png" />
         </div>
         <div class="mail-text">
           <?php print $body ?>
         </div>
-        <div class="mail-social">
+        <div class="mail-social" style="padding: 10px 20px;">
           <p><?php print t('Social links:'); ?></p>
           <p>
-            <a href="#" class="social-link google-plus"><img src="profiles/yp/themes/yellow_pages/images/google.png" /></a>
-            <a href="#" class="social-link facebook"><img src="profiles/yp/themes/yellow_pages/images/facebook2.png" /></a>
-            <a href="#" class="social-link twitter"><img src="profiles/yp/themes/yellow_pages/images/twitter.png" /></a>
-            <a href="#" class="social-link linkedin"><img src="profiles/yp/themes/yellow_pages/images/linkedin.png" /></a>
-            <a href="#" class="social-link vkontakte"><img src="profiles/yp/themes/yellow_pages/images/vkontakte.png" /></a>
+            <a href="#" class="social-link google-plus" style="display: inline-block; height: 25px; width: 50px;"><img src="profiles/yp/themes/yellow_pages/images/google.png" /></a>
+            <a href="#" class="social-link facebook" style="display: inline-block; height: 25px; width: 50px;"><img src="profiles/yp/themes/yellow_pages/images/facebook2.png" /></a>
+            <a href="#" class="social-link twitter" style="display: inline-block; height: 25px; width: 50px;"><img src="profiles/yp/themes/yellow_pages/images/twitter.png" /></a>
+            <a href="#" class="social-link linkedin" style="display: inline-block; height: 25px; width: 50px;"><img src="profiles/yp/themes/yellow_pages/images/linkedin.png" /></a>
+            <a href="#" class="social-link vkontakte" style="display: inline-block; height: 25px; width: 50px;"><img src="profiles/yp/themes/yellow_pages/images/vkontakte.png" /></a>
           </p>
         </div>
-        <div class="mail-footer">
+        <div class="mail-footer" style="background-color: #2e2e2e; padding: 10px 20px;">
           <p><?php print t('123 Stefan cel Mare str., Chisinau, Republic of Moldova'); ?></p>
           <p>2015 &copy; Yellow Pages of Moldova</p>
         </div>

@@ -402,6 +402,8 @@ function yellow_pages_sync_node(SimpleXMLElement $list_item) {
       }
     }
 
+    $translated_entity->title = !empty($item['title'][$lang]) ? $item['title'][$lang] : 'Без титула';
+
     node_save($translated_entity);
 
     if (!empty($path_alias[$lang])) {

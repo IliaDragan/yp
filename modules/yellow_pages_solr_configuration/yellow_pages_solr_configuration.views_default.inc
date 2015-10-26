@@ -120,6 +120,7 @@ Type another search phrase or check your spelling.';
   $handler->display->display_options['arguments']['search_api_views_fulltext']['fields'] = array(
     'body:value' => 'body:value',
     'field_address:locality' => 'field_address:locality',
+    'field_products:product:name' => 'field_products:product:name',
     'title' => 'title',
   );
   $handler->display->display_options['arguments']['search_api_views_fulltext']['conjunction'] = 'OR';
@@ -137,7 +138,6 @@ Type another search phrase or check your spelling.';
   $handler->display->display_options['filters']['type']['table'] = 'search_api_index_company_nodes';
   $handler->display->display_options['filters']['type']['field'] = 'type';
   $handler->display->display_options['filters']['type']['value'] = array(
-    'advertisement' => 'advertisement',
     'company' => 'company',
   );
   $handler->display->display_options['argument_input'] = array(

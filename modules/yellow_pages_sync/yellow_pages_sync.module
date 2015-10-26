@@ -23,6 +23,15 @@ function yellow_pages_sync_menu() {
     'file' => 'yellow_pages_sync.admin.inc',
   );
 
+  $items['admin/config/yp/rebuild'] = array(
+    'title' => 'Rebuild nodes',
+    'description' => 'Re-save nodes to update node cache.',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('yellow_pages_sync_rebuild_form'),
+    'access arguments' => array('administer yellow pages sync'),
+    'file' => 'yellow_pages_sync.admin.inc',
+  );
+
   $items['yp/sync/%'] = array(
     'title' => 'Sync single entry',
     'page callback' => 'yellow_pages_sync_single_node',
@@ -294,14 +303,18 @@ function yellow_pages_sync_node(SimpleXMLElement $list_item) {
   // Addresses.
   if (!empty($item['addresses']['en'])) {
     unset($entity->field_address[LANGUAGE_NONE]);
+    unset($entity->field_region[LANGUAGE_NONE]);
+
     foreach ($item['addresses']['en'] as $k => $address) {
       $entity->field_address[LANGUAGE_NONE][$k] = array(
         'country' => 'MD',
         'locality' => $address['city'],
         'postal_code' => $address['pcode'],
         'thoroughfare' => $address['address'],
-        'administrative_area' => $address['administrative_area'],
+        'premise' => $address['premise'],
       );
+
+      $entity->field_region[LANGUAGE_NONE][$k]['value'] = $address['region'];
     }
   }
   // Contacts.
@@ -366,15 +379,13 @@ function yellow_pages_sync_node(SimpleXMLElement $list_item) {
       continue;
     }
 
-    if ($is_new) {
-      $translated_entity = clone($entity);
-      unset($translated_entity->nid);
-      unset($translated_entity->vid);
+    $translated_entity = clone($entity);
+    unset($translated_entity->nid);
+    unset($translated_entity->vid);
+    $translated_entity->language = $lang;
+    $translated_entity->tnid = $tnid;
 
-      $translated_entity->language = $lang;
-      $translated_entity->tnid = $tnid;
-    }
-    else {
+    if (!$is_new) {
       $query = db_select('node', 'n')
         ->fields('n', array('nid'))
         ->condition('tnid', $tnid, '=')
@@ -383,15 +394,13 @@ function yellow_pages_sync_node(SimpleXMLElement $list_item) {
       $result = $query->execute()->fetchCol();
 
       if (!empty($result)) {
-        $translated_entity = node_load(reset($result));
+        $translated_entity->nid = $translated_entity->vid = reset($result);
       }
       else {
         $t = array('@nid' => $tnid, '@lang' => $lang);
         watchdog('yp_sync', 'Failed to load translated entity for node "@nid", language "@lang"', $t, WATCHDOG_NOTICE);
       }
     }
-
-    $translated_entity->title = !empty($item['title'][$lang]) ? $item['title'][$lang] : 'Без титула';
 
     node_save($translated_entity);
 
@@ -642,24 +651,24 @@ function yellow_pages_sync_process_source_element_address(SimpleXMLElement $sour
     $locales = array('ru', 'ro', 'en');
     foreach ($locales as $locale) {
       foreach ($source_address->{'list-item'} as $item) {
+        $city   = trim((string) $item->town->{$locale . '_field'});
         $street = trim((string) $item->street->{$locale . '_field'});
-        $house = trim((string) $item->house->{$locale . '_field'});
+        $house  = trim((string) $item->house->{$locale . '_field'});
+        $region = trim((string) $item->region->{$locale . '_field'});
         $office = trim((string) $item->office);
+        $postal_code = (int) $item->pcode->{'list-item'};
 
         $thoroughfare = str_replace(array('bd.', 'str.', 'ул.'), '', $street);
         if (!empty($house)) {
-          $thoroughfare .= ', ' . $house;
-        }
-
-        if (!empty($office)) {
-          $thoroughfare .= ', ' . $office;
+          $thoroughfare .= ' ' . $house;
         }
 
         $addresses[$locale][] = array(
-          'city' => str_replace(array('mun.', 'or.', 's.', 'г.'), '', trim((string) $item->town->{$locale . '_field'})),
-          'pcode' => (int) $item->pcode->{'list-item'},
+          'city' => str_replace(array('mun.', 'or.', 's.', 'г.'), '', $city),
+          'pcode' => $postal_code,
           'address' => $thoroughfare,
-          'administrative_area' => trim((string) $item->region->{$locale . '_field'})
+          'region' => $region,
+          'premise' => $office,
         );
       }
     }
@@ -1251,4 +1260,101 @@ function yellow_pages_sync_read_logo($path) {
   }
 
   return @file_get_contents($path);
+}
+
+/**
+ * Creates a batch operation for bulk updating the nodes.
+ *
+ * Mainly used to update geocoder maps.
+ */
+function yellow_pages_sync_node_batch_rebuild(&$context) {
+  if (!isset($context['sandbox']['progress'])) {
+    $context['sandbox']['progress'] = 0;
+    $context['sandbox']['max'] = 2500;
+    $context['sandbox']['rebuilt'] = variable_get('yp_rebuild_current', 0);
+  }
+
+  $query = db_select('yp_sync_state', 'yss')
+    ->fields('yss', array('nid'))
+    ->range($context['sandbox']['rebuilt'] + $context['sandbox']['progress'], SYNC_BATCH);
+  $result = $query->execute()->fetchCol();
+
+  if (!empty($result)) {
+    foreach ($result as $nid) {
+      yellow_pages_sync_node_rebuild($nid);
+      $context['sandbox']['rebuilt']++;
+      $context['results'][] = $nid;
+    }
+
+    $context['sandbox']['progress'] += count($result);
+    variable_set('yp_rebuild_current', $context['sandbox']['rebuilt']);
+
+    if ($context['sandbox']['progress'] != $context['sandbox']['max']) {
+      $context['finished'] = $context['sandbox']['progress'] / $context['sandbox']['max'];
+    }
+  }
+}
+
+/**
+ * Finish callback for bulk node update batch.
+ *
+ * @see yellow_pages_sync_node_batch_rebuild()
+ */
+function yellow_pages_sync_node_batch_rebuild_finish($success, $results, $operations) {
+  drupal_get_messages();
+
+  if ($success) {
+    drupal_set_message(t('@count nodes updated.', array('@count' => count($results))));
+  }
+  else {
+    drupal_set_message(t('Failed to rebuild nodes.'), 'error');
+  }
+}
+
+/**
+ * Forces the node to be re-saved.
+ *
+ * @param int $nid
+ *   Node id.
+ */
+function yellow_pages_sync_node_rebuild($nid) {
+  $node = node_load($nid);
+  module_load_include('inc', 'node', 'node.pages');
+  $test_state = array(
+    'values' => array(
+      'op' => t('Save'),
+    ),
+  );
+  drupal_form_submit('company_node_form', $test_state, $node);
+  drupal_get_messages();
+
+  yellow_pages_sync_update_geocode($node);
+}
+
+/**
+ * Updates geocode field data for translations of a given node.
+ *
+ * @param stdClass $node
+ *   Main node, whose translations should be updated.
+ */
+function yellow_pages_sync_update_geocode(stdClass $node) {
+  if (!isset($node->field_geocode[LANGUAGE_NONE])) {
+    return;
+  }
+
+  $lat = $node->field_geocode[LANGUAGE_NONE][0]['lat'];
+  $lon = $node->field_geocode[LANGUAGE_NONE][0]['lon'];
+
+  $query = db_select('node', 'n')
+    ->fields('n', array('nid'))
+    ->condition('tnid', $node->nid, '=')
+    ->condition('nid', $node->nid, '<>');
+  $result = $query->execute()->fetchCol();
+
+  foreach ($result as $_nid) {
+    $_n = node_load($_nid);
+    $_n->field_geocode = $node->field_geocode;
+    $_n->field_geocode[LANGUAGE_NONE][0]['geom'] = "POINT ($lon $lat)";
+    field_attach_update('node', $_n);
+  }
 }

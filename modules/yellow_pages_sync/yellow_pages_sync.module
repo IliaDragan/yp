@@ -24,8 +24,8 @@ function yellow_pages_sync_menu() {
   );
 
   $items['admin/config/yp/rebuild'] = array(
-    'title' => 'Rebuild nodes',
-    'description' => 'Re-save nodes to update node cache.',
+    'title' => 'Rebuild geodata',
+    'description' => 'Update enterprises geodata.',
     'page callback' => 'drupal_get_form',
     'page arguments' => array('yellow_pages_sync_rebuild_form'),
     'access arguments' => array('administer yellow pages sync'),
@@ -1274,30 +1274,62 @@ function yellow_pages_sync_read_logo($path) {
  */
 function yellow_pages_sync_node_batch_rebuild(&$context) {
   if (!isset($context['sandbox']['progress'])) {
+    $context['sandbox']['synced'] = 0;
     $context['sandbox']['progress'] = 0;
     $context['sandbox']['max'] = 2500;
-    $context['sandbox']['rebuilt'] = variable_get('yp_rebuild_current', 0);
   }
 
   $query = db_select('yp_sync_state', 'yss')
     ->fields('yss', array('nid'))
-    ->range($context['sandbox']['rebuilt'] + $context['sandbox']['progress'], SYNC_BATCH);
+    ->isNull('fdfg.entity_id');
+  $query
+    ->leftJoin('field_data_field_geocode', 'fdfg', 'yss.nid=fdfg.entity_id');
+  $query
+    ->range($context['sandbox']['progress'], SYNC_BATCH);
+
+  $skip = variable_get('yp_rebuild_skip', array());
+  if (!empty($skip)) {
+    $query->condition('nid', $skip, 'NOT IN');
+  }
+
   $result = $query->execute()->fetchCol();
 
   if (!empty($result)) {
     foreach ($result as $nid) {
-      yellow_pages_sync_node_rebuild($nid);
-      $context['sandbox']['rebuilt']++;
-      $context['results'][] = $nid;
+      if (/*yellow_pages_sync_node_rebuild($nid)*/FALSE) {
+        $context['results'][] = $nid;
+        $context['sandbox']['synced']++;
+
+        if ($context['sandbox']['synced'] == $context['sandbox']['max']) {
+          break;
+        }
+      }
+      else {
+        $skip[] = $nid;
+      }
     }
 
-    $context['sandbox']['progress'] += count($result);
-    variable_set('yp_rebuild_current', $context['sandbox']['rebuilt']);
+    $t = array(
+      '@count' => $context['sandbox']['synced'],
+      '@total' => $context['sandbox']['max'],
+    );
+    $context['message'] = t('Processed: @count/@total', $t);
 
-    if ($context['sandbox']['progress'] != $context['sandbox']['max']) {
+    $context['sandbox']['progress'] += count($result);
+    variable_set('yp_last_rebuild', REQUEST_TIME);
+
+    if ($context['sandbox']['synced'] == $context['sandbox']['max']) {
+      $context['finished'] = 1;
+    }
+    else {
       $context['finished'] = $context['sandbox']['progress'] / $context['sandbox']['max'];
     }
   }
+  else {
+    $context['finished'] = 1;
+  }
+
+  variable_set('yp_rebuild_skip', $skip);
 }
 
 /**
@@ -1324,6 +1356,14 @@ function yellow_pages_sync_node_batch_rebuild_finish($success, $results, $operat
  */
 function yellow_pages_sync_node_rebuild($nid) {
   $node = node_load($nid);
+  $address = field_get_items('node', $node, 'field_address');
+
+  // Do not fetch geodata if no address is present
+  // or premise (office) is defined.
+  if (!$address || !empty($address[0]['premise'])) {
+    return FALSE;
+  }
+
   module_load_include('inc', 'node', 'node.pages');
   $test_state = array(
     'values' => array(
@@ -1333,7 +1373,14 @@ function yellow_pages_sync_node_rebuild($nid) {
   drupal_form_submit('company_node_form', $test_state, $node);
   drupal_get_messages();
 
+  $geocode = field_get_items('node', $node, 'field_geocode');
+  if (!$geocode) {
+    return FALSE;
+  }
+
   yellow_pages_sync_update_geocode($node);
+
+  return TRUE;
 }
 
 /**

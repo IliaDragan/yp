@@ -111,8 +111,15 @@ function yellow_pages_sync_rebuild_form($form, $form_state) {
   $query = db_select('yp_sync_state')
     ->countQuery();
   $result = $query->execute()->fetchCol();
-  $current = variable_get('yp_rebuild_current', 0);
   $count = reset($result);
+
+  $query = db_select('yp_sync_state', 'yss')
+    ->fields('yss', array('nid'))
+    ->isNull('fdfg.entity_id');
+  $query->leftJoin('field_data_field_geocode', 'fdfg', 'yss.nid=fdfg.entity_id');
+  $result = $query->countQuery()->execute()->fetchCol();
+  $current = $count - reset($result);
+
   $last_rebuild = variable_get('yp_last_rebuild', 0);
 
   $form['status'] = array(
@@ -129,13 +136,6 @@ function yellow_pages_sync_rebuild_form($form, $form_state) {
   $form['rebuild'] = array(
     '#type' => 'submit',
     '#value' => $current > 0 ? t('Continue rebuilding') : t('Rebuild'),
-    '#disabled' => $last_rebuild && REQUEST_TIME - $last_rebuild < 86400,
-  );
-
-  $form['reset'] = array(
-    '#type' => 'submit',
-    '#value' => t('Reset counters'),
-    '#disabled' => $current == 0,
   );
 
   return $form;
@@ -147,22 +147,14 @@ function yellow_pages_sync_rebuild_form($form, $form_state) {
  * @see yellow_pages_sync_rebuild_form()
  */
 function yellow_pages_sync_rebuild_form_submit($form, &$form_state) {
-  $values = $form_state['values'];
+  $batch = array(
+    'operations' => array(
+      array('yellow_pages_sync_node_batch_rebuild', array()),
+    ),
+    'title' => t('Rebuilding nodes...'),
+    'finished' => 'yellow_pages_sync_node_batch_rebuild_finish',
+  );
 
-  if ($values['op'] == $values['reset']) {
-    variable_set('yp_rebuild_current', 0);
-    drupal_set_message(t('Rebuild counter resetted.'));
-  }
-  else {
-    variable_set('yp_last_rebuild', REQUEST_TIME);
-    $batch = array(
-      'operations' => array(
-        array('yellow_pages_sync_node_batch_rebuild', array()),
-      ),
-      'title' => t('Rebuilding nodes...'),
-      'finished' => 'yellow_pages_sync_node_batch_rebuild_finish',
-    );
+  batch_set($batch);
 
-    batch_set($batch);
-  }
 }

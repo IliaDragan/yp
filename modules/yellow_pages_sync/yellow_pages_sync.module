@@ -1296,7 +1296,7 @@ function yellow_pages_sync_node_batch_rebuild(&$context) {
 
   if (!empty($result)) {
     foreach ($result as $nid) {
-      if (/*yellow_pages_sync_node_rebuild($nid)*/FALSE) {
+      if (yellow_pages_sync_node_rebuild($nid)) {
         $context['results'][] = $nid;
         $context['sandbox']['synced']++;
 

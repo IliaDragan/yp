@@ -402,6 +402,9 @@ function yellow_pages_sync_node(SimpleXMLElement $list_item) {
       }
     }
 
+    // Do not overwrite selected advertisements.
+    unset($translated_entity->field_advertisements);
+
     $translated_entity->title = !empty($item['title'][$lang]) ? $item['title'][$lang] : 'Без титула';
 
     node_save($translated_entity);

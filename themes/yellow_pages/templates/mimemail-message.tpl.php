@@ -29,7 +29,7 @@ $theme_path = realpath(drupal_get_path('theme', 'yellow_pages'));
       <div style="display: block; max-height: 234px; width: 600px;">
         <img src="<?php print $theme_path; ?>/images/mail-header.png" />
       </div>
-      <div style="background-color: #f4f4f4; padding: 10px 20px; text-align: left; width: 560px; color: #2e2e2e;">
+      <div style="background-color: #f4f4f4; padding: 10px 20px; text-align: left; width: 560px; color: #2e2e2e; min-height: 170px;">
         <?php print $body ?>
       </div>
       <div style="padding: 10px 20px; color: #2e2e2e; width: 560px;">

@@ -965,13 +965,22 @@ function yellow_pages_sync_taxonomy_parents(&$context) {
       ->condition('parent', $parent_pid, '=');
     $children = $query->execute()->fetchCol();
 
-    if (!empty($children)) {
-      db_update('taxonomy_term_hierarchy')
-        ->fields(array(
-          'parent' => $parent_tid,
-        ))
-        ->condition('tid', $children, 'IN')
+    if (!empty($children) && is_array($children)) {
+      db_delete('taxonomy_term_hierarchy')
+        ->condition('parent', $parent_pid, '=')
         ->execute();
+      foreach ($children as $child) {
+        db_merge('taxonomy_term_hierarchy')
+          ->key(array(
+            'tid' => $child,
+            'parent' => $parent_tid,
+          ))
+          ->fields(array(
+            'tid' => $child,
+            'parent' => $parent_tid,
+          ))
+          ->execute();
+      }
     }
   }
 

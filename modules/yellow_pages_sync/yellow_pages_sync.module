@@ -793,6 +793,7 @@ function yellow_pages_sync_write_term_relation($id, $tid, $parent_id = 0, $type 
       'pid' => $id,
       'tid' => $tid,
       'type' => $type,
+      'parent' => $parent_id,
     ))
     ->fields(array(
       'pid' => $id,

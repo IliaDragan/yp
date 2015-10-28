@@ -83,6 +83,9 @@ function yellow_pages_company_ct_strongarm() {
       'slider_teaser' => array(
         'custom_settings' => TRUE,
       ),
+      'token' => array(
+        'custom_settings' => FALSE,
+      ),
     ),
     'extra_fields' => array(
       'form' => array(
@@ -104,7 +107,7 @@ function yellow_pages_company_ct_strongarm() {
             'visible' => FALSE,
           ),
           'teaser' => array(
-            'weight' => '8',
+            'weight' => '11',
             'visible' => FALSE,
           ),
           'search_index' => array(

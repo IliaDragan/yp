@@ -2169,8 +2169,8 @@ div.panel-pane div.node-teaser {
   display: inline-block !important;
   font-size: 14px;
 }
-.node--company--teaser .field-name-field-address .street-block:after,
-.node--company--search_index .field-name-field-address .street-block:after {
+.node--company--teaser .field-name-field-address .street-block div:after,
+.node--company--search_index .field-name-field-address .street-block div:after {
   content: ",";
   display: inline-block;
   margin-right: 5px;
@@ -2179,8 +2179,8 @@ div.panel-pane div.node-teaser {
 .node--company--search_index .field-name-field-address .street-block {
   font-size: 14px;
 }
-.node--company--teaser .field-name-field-address .street-block div:before,
-.node--company--search_index .field-name-field-address .street-block div:before {
+.node--company--teaser .field-name-field-address .street-block:before,
+.node--company--search_index .field-name-field-address .street-block:before {
   content: "\f041";
   display: inline-block;
   margin-right: 7px;

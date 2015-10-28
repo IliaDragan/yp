@@ -127,6 +127,11 @@ function yellow_pages_sync_rebuild_form($form, $form_state) {
     '#markup' => t('Status: @current/@count', array('@current' => $current, '@count' => $count)),
   );
 
+  $form['skipped'] = array(
+    '#type' => 'item',
+    '#markup' => t('Skipped: @skipped', array('@skipped' => count(variable_get('yp_rebuild_skip', array())))),
+  );
+
   $form['last_rebuild'] = array(
     '#type' => 'item',
     '#markup' => t('Last rebuild: @last', array('@last' => $last_rebuild > 0 ? date('d-m-Y H:i:s', $last_rebuild) : t('Never'))),

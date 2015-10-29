@@ -113,29 +113,114 @@ function yellow_pages_company_ct_form_company_node_form_alter(&$form, &$form_sta
     }
   }
 
-  // Add button "Create editor" for company email if no editors.
-  $isset_mail = !empty($form['field_email']['und'][0]['email']['#default_value']);
-  $is_edit_form = !empty($form['nid']['#value']);
-  if ($isset_mail && $is_edit_form) {
-    $has_editors = _check_company_has_editors($form['nid']['#value']);
-    if (!$has_editors) {
-      $mail = $form['field_email']['und'][0]['email']['#default_value'];
-      $val = t('Create company editor for mail @mail', array('@mail' => $mail));
-      $form['create_user'] = array(
-        '#type' => 'submit',
-        '#value' => $val,
-        '#submit' => array('company_create_editor_user_submit'),
-        '#prefix' => '<div id="company-mail-create-user-button-wrapper">',
-        '#suffix' => '</div>',
-        '#ajax' => array(
-          'wrapper' => 'company-mail-create-user-button-wrapper',
-          'callback' => 'company_node_form_create_user_ajax_callback',
-          'method' => 'replace',
-        ),
-      );
-    }
 
+  if (!empty($form['nid']['#value'])) {
+    // Add button "Create editor" for company email if no editors.
+    // todo: add verifications if current user can create another users.
+    $isset_mail = !empty($form['field_email']['und'][0]['email']['#default_value']);
+    if ($isset_mail) {
+      $has_editors = _check_company_has_editors($form['nid']['#value']);
+      if (!$has_editors) {
+        $mail = $form['field_email']['und'][0]['email']['#default_value'];
+        $val = t('Create company editor for mail @mail', array('@mail' => $mail));
+        $form['create_user'] = array(
+          '#type' => 'submit',
+          '#value' => $val,
+          '#submit' => array('company_create_editor_user_submit'),
+          '#prefix' => '<div id="company-mail-create-user-button-wrapper">',
+          '#suffix' => '</div>',
+          '#ajax' => array(
+            'wrapper' => 'company-mail-create-user-button-wrapper',
+            'callback' => 'company_node_form_create_user_ajax_callback',
+            'method' => 'replace',
+          ),
+        );
+      }
+    }
+    // Override form submit function.
+    // todo: add permissions verifications, add flag if not synchronized
+    $form['actions']['submit']['#submit'] = array('yellow_pages_company_ct_company_edit_submit');
   }
+
+
+
+}
+function yellow_pages_company_ct_company_edit_submit(&$form, &$form_state) {
+  // todo: add date of node changing
+  //$node->field_last_update_time[LANGUAGE_NONE][0]['value'] = 'some value';
+  //field_attach_update('node', $node);
+  $old_node = $form['#node'];
+  $new_node = node_form_submit_build_node($form, $form_state);
+
+  $fields_instances = field_info_instances('node', 'company');
+  $diffs = array();
+  foreach($fields_instances as $field_name => $field) {
+    $field_diffs = array();
+    $old = field_get_items('node', $old_node, $field_name);
+    $new = field_get_items('node', $new_node, $field_name);
+
+
+    if (!empty($old) || !empty($new)) {
+
+      $val_count = max(count($old), count($new));
+      for ($i = 0; $i < $val_count; $i++) {
+        $field_diffs[$i] = array();
+
+        if (!empty($new[$i])) {
+          if (!empty($old[$i])) {
+            // Changed.
+            $diff = array_diff_assoc($new[$i], $old[$i]);
+
+            foreach ($diff as $key => $value) {
+              if (!empty($value)) {
+                $field_diffs[$i][$key] = array('new' => $value);
+                if (!empty($old[$i][$key])) {
+                  $field_diffs[$i][$key]['op'] = 'Changed';
+                  $field_diffs[$i][$key]['old'] = $old[$i][$key];
+                }
+                else {
+                  $field_diffs[$i][$key]['op'] = 'Added';
+                }
+              }
+            }
+          }
+          else {
+            // Added.
+            foreach ($new[$i] as $key => $value) {
+              if (!empty($value)) {
+                $field_diffs[$i][$key] = array(
+                  'op' => 'Added',
+                  'old' => $value,
+                );
+              }
+            }
+          }
+        }
+        else {
+          // Removed.
+          foreach ($old[$i] as $key => $value) {
+            if (!empty($value)) {
+              $field_diffs[$i][$key] = array(
+                'op' => 'Removed',
+                'old' => $value,
+              );
+            }
+          }
+        }
+
+        if (empty($field_diffs[$i])) {
+          unset($field_diffs[$i]);
+        }
+      }
+    }
+    if (!empty($field_diffs)) {
+      $field_diffs['label'] = $field['label'];
+      $diffs[$field_name] = $field_diffs;
+    }
+  }
+  $new_node->company_diff = theme('yellow_pages_company_ct_node_diff', array('diff' => $diffs));
+  rules_invoke_event('node_presave--company', $new_node);
+  rules_invoke_event('node_presave', $new_node);
 }
 
 /**
@@ -308,6 +393,11 @@ function yellow_pages_company_ct_token_info() {
     'description' => t('Email addresses of Enterprise Editors which has current company node as related company.'),
     'type' => 'node',
   );
+  $info['tokens']['node']['company-diff'] = array(
+    'name' => t('Company node modified fields'),
+    'description' => t('Fields modified in company node on edit.'),
+    'type' => 'node',
+  );
 
   return $info;
 }
@@ -322,6 +412,10 @@ function yellow_pages_company_ct_tokens($type, $tokens, array $data = array(), a
     if (!empty($tokens['company-editors-emails'])) {
       $original = $tokens['company-editors-emails'];
       $replacements[$original] = _get_company_editors_emails($node->nid);
+    }
+    if (!empty($tokens['company-diff']) && !empty($node->company_diff)) {
+      $original = $tokens['company-diff'];
+      $replacements[$original] = $node->company_diff;
     }
   }
 
@@ -370,4 +464,18 @@ function _check_company_has_editors($nid) {
   $num_rows = $query->countQuery()->execute()->fetchField();
 
   return !empty($num_rows);
+}
+
+/**
+ * Implements hook_theme().
+ */
+function yellow_pages_company_ct_theme($existing, $type, $theme, $path) {
+  $path = drupal_get_path('module', 'yellow_pages_company_ct') . '/templates';
+  return array(
+    'yellow_pages_company_ct_node_diff' => array(
+      'variables' => array('diff' => array()),
+      'template' => 'yellow-pages-company-ct-node-diff',
+      'path' => $path,
+    ),
+  );
 }

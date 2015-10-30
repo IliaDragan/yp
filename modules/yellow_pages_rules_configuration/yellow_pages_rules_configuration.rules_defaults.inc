@@ -52,18 +52,14 @@ function yellow_pages_rules_configuration_default_rules_configuration() {
       "PLUGIN" : "reaction rule",
       "OWNER" : "rules",
       "TAGS" : [ "company", "editor", "update" ],
-      "REQUIRES" : [ "yellow_pages_company_ct", "rules" ],
-      "ON" : { "node_update--company" : { "bundle" : "company" } },
-      "IF" : [
-        { "yellow_pages_company_editors_not_empty" : { "company_node_nid" : [ "node:nid" ] } }
-      ],
+      "REQUIRES" : [ "rules" ],
+      "ON" : { "node_presave--company" : { "bundle" : "company" } },
       "DO" : [
-        { "mail" : {
-            "to" : "[node:company-editors-emails]",
-            "subject" : "Company [node:title] modified",
-            "message" : "Company [node:title] was modified. You can access new data following this link [node:url].",
-            "language" : [ "" ]
-                      }
+        { "mail_to_users_of_role" : {
+            "roles" : { "value" : { "4" : "4" } },
+            "subject" : "\\u0414\\u0430\\u043d\\u043d\\u044b\\u0435 \\u043f\\u0440\\u0435\\u0434\\u043f\\u0440\\u0438\\u044f\\u0442\\u0438\\u044f [node:title] \\u0431\\u044b\\u043b\\u0438 \\u0438\\u0437\\u043c\\u0435\\u043d\\u0435\\u043d\\u044b",
+            "message" : "\\u0414\\u0430\\u043d\\u043d\\u044b\\u0435 \\u043f\\u0440\\u0435\\u0434\\u043f\\u0440\\u0438\\u044f\\u0442\\u0438\\u044f [node:title] \\u0431\\u044b\\u043b\\u0438 \\u0438\\u0437\\u043c\\u0435\\u043d\\u0435\\u043d\\u044b.\\r\\n\\u0418\\u0437\\u043c\\u0435\\u043d\\u0435\\u043d\\u043d\\u044b\\u0435 \\u0437\\u043d\\u0430\\u0447\\u0435\\u043d\\u0438\\u044f:\\r\\n[node:company-diff]"
+          }
         }
       ]
     }

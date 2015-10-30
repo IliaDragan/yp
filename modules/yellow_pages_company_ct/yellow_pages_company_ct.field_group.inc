@@ -21,7 +21,7 @@ function yellow_pages_company_ct_field_group_info() {
   $field_group->parent_name = 'group_company_info';
   $field_group->data = array(
     'label' => 'Additional information',
-    'weight' => '25',
+    'weight' => '26',
     'children' => array(
       0 => 'body',
       1 => 'field_media_materials',
@@ -51,7 +51,7 @@ function yellow_pages_company_ct_field_group_info() {
   $field_group->parent_name = 'group_company_info';
   $field_group->data = array(
     'label' => 'Advertisements',
-    'weight' => '26',
+    'weight' => '27',
     'children' => array(
       0 => 'field_advertisements',
     ),
@@ -78,7 +78,7 @@ function yellow_pages_company_ct_field_group_info() {
   $field_group->parent_name = 'group_company_info';
   $field_group->data = array(
     'label' => 'Articles',
-    'weight' => '27',
+    'weight' => '28',
     'children' => array(
       0 => 'field_articles',
     ),
@@ -134,7 +134,7 @@ function yellow_pages_company_ct_field_group_info() {
   $field_group->parent_name = 'group_company_info';
   $field_group->data = array(
     'label' => 'Contacts',
-    'weight' => '24',
+    'weight' => '25',
     'children' => array(
       0 => 'field_address',
       1 => 'field_fax',
@@ -229,7 +229,8 @@ function yellow_pages_company_ct_field_group_info() {
       3 => 'field_mdb_sync_date',
       4 => 'field_products',
       5 => 'field_logo_expiration_date',
-      6 => 'title',
+      6 => 'field_changed_by_editor_date',
+      7 => 'title',
     ),
     'format_type' => 'tab',
     'format_settings' => array(

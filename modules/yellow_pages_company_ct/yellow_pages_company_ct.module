@@ -100,6 +100,7 @@ function yellow_pages_company_ct_form_forward_form_alter(&$form, &$form_state) {
 function yellow_pages_company_ct_form_company_node_form_alter(&$form, &$form_state, $form_id) {
   // Make sync date field readonly.
   $form['field_mdb_sync_date']['#disabled'] = TRUE;
+  $form['field_changed_by_editor_date']['#disabled'] = TRUE;
   $hide = array(
     'comment_settings',
     'revision_information',
@@ -116,7 +117,6 @@ function yellow_pages_company_ct_form_company_node_form_alter(&$form, &$form_sta
 
   if (!empty($form['nid']['#value'])) {
     // Add button "Create editor" for company email if no editors.
-    // todo: add verifications if current user can create another users.
     $isset_mail = !empty($form['field_email']['und'][0]['email']['#default_value']);
     if ($isset_mail) {
       $has_editors = _check_company_has_editors($form['nid']['#value']);
@@ -137,24 +137,51 @@ function yellow_pages_company_ct_form_company_node_form_alter(&$form, &$form_sta
         );
       }
     }
-    // Override form submit function.
-    // todo: add permissions verifications, add flag if not synchronized
-    $form['actions']['submit']['#submit'] = array('yellow_pages_company_ct_company_edit_submit');
+
+    // Override form submit function for enterprise editor.
+    if (user_access('edit related companies')) {
+      $form['actions']['submit']['#submit'] = array('yellow_pages_company_ct_company_edit_submit');
+    }
+
+    // Add sticker to node if not syncronized.
+    if (!empty($form['#node']->field_mdb_sync_date[LANGUAGE_NONE][0]['value'])) {
+      $sync = strtotime($form['#node']->field_mdb_sync_date[LANGUAGE_NONE][0]['value']);
+    }
+    else {
+      $sync = 0;
+    }
+
+    if (!empty($form['#node']->field_changed_by_editor_date[LANGUAGE_NONE][0]['value'])) {
+      $changed = strtotime($form['#node']->field_changed_by_editor_date[LANGUAGE_NONE][0]['value']);
+    }
+    else {
+      $changed = 0;
+    }
+
+    if ($changed > $sync) {
+      $form['update_sticker'] = array(
+        '#prefix' => '<div class="messages status">',
+        '#markup' => t('Your changes being validated.'),
+        '#suffix' => '</div>',
+      );
+    }
   }
-
-
-
 }
+
+/**
+ * Alternative submit for company edit form for enterprise editor roles.
+ */
 function yellow_pages_company_ct_company_edit_submit(&$form, &$form_state) {
-  // todo: add date of node changing
-  //$node->field_last_update_time[LANGUAGE_NONE][0]['value'] = 'some value';
-  //field_attach_update('node', $node);
   $old_node = $form['#node'];
   $new_node = node_form_submit_build_node($form, $form_state);
 
+  // Set date of node changing.
+  $old_node->field_changed_by_editor_date[LANGUAGE_NONE][0]['value'] = date('Y-m-d H:i:s');
+  field_attach_update('node', $old_node);
+
   $fields_instances = field_info_instances('node', 'company');
   $diffs = array();
-  foreach($fields_instances as $field_name => $field) {
+  foreach ($fields_instances as $field_name => $field) {
     $field_diffs = array();
     $old = field_get_items('node', $old_node, $field_name);
     $new = field_get_items('node', $new_node, $field_name);
@@ -312,10 +339,10 @@ function yellow_pages_company_ct_entity_view($entity, $entity_type, $view_mode, 
  * Implements hook_node_view().
  */
 function yellow_pages_company_ct_node_view($node, $view_mode, $langcode) {
-   if ($node->type == 'company') {
-     (int) $node->field_company_views[LANGUAGE_NONE][0]['value'] += 0.5;
-     field_attach_update('node', $node);
-   }
+  if ($node->type == 'company') {
+    (int) $node->field_company_views[LANGUAGE_NONE][0]['value'] += 0.5;
+    field_attach_update('node', $node);
+  }
 }
 
 /**

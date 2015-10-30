@@ -119,6 +119,15 @@ function yellow_pages_permissions_user_default_permissions() {
     'module' => 'node',
   );
 
+  // Exported permission: 'administer opening hours configuration'.
+  $permissions['administer opening hours configuration'] = array(
+    'name' => 'administer opening hours configuration',
+    'roles' => array(
+      'administrator' => 'administrator',
+    ),
+    'module' => 'opening_hours',
+  );
+
   // Exported permission: 'bypass node access'.
   $permissions['bypass node access'] = array(
     'name' => 'bypass node access',
@@ -236,6 +245,17 @@ function yellow_pages_permissions_user_default_permissions() {
       'global editor' => 'global editor',
     ),
     'module' => 'file_entity',
+  );
+
+  // Exported permission: 'edit opening hours for content'.
+  $permissions['edit opening hours for content'] = array(
+    'name' => 'edit opening hours for content',
+    'roles' => array(
+      'administrator' => 'administrator',
+      'enterprise editor' => 'enterprise editor',
+      'global editor' => 'global editor',
+    ),
+    'module' => 'opening_hours',
   );
 
   // Exported permission: 'edit own audio files'.

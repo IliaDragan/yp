@@ -108,6 +108,9 @@ projects[module_filter][subdir] = "contrib"
 projects[node_expire][version] = "1.8"
 projects[node_expire][subdir] = "contrib"
 
+projects[opening_hours][version] = "1.5"
+projects[opening_hours][subdir] = "contrib"
+
 projects[owlcarousel][version] = "1.5"
 projects[owlcarousel][subdir] = "contrib"
 projects[owlcarousel][patch][] = "http://am.storage.dev.inlead.dk/owlcarousel-fixed_libraries_owlcarousel_path.patch"
@@ -135,6 +138,9 @@ projects[strongarm][subdir] = "contrib"
 
 projects[taxonomy_menu][version] = "1.5"
 projects[taxonomy_menu][subdir] = "contrib"
+
+projects[tipsy][version] = "1.0-rc1"
+projects[tipsy][subdir] = "contrib"
 
 projects[token][version] = "1.6"
 projects[token][subdir] = "contrib"

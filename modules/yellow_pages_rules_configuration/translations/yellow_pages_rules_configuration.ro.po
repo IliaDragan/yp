@@ -1,0 +1,73 @@
+# $Id$
+#
+# Romanian translation of Drupal (general)
+# Copyright YEAR NAME <EMAIL@ADDRESS>
+# Generated from files:
+#  yellow_pages_rules_configuration.rules.inc: n/a
+#  yellow_pages_rules_configuration.info: n/a
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PROJECT VERSION\n"
+"POT-Creation-Date: 2015-10-15 10:43+0300\n"
+"PO-Revision-Date: 2015-10-15 16:27+0300\n"
+"Last-Translator: NAME <EMAIL@ADDRESS>\n"
+"Language-Team: Romanian <EMAIL@ADDRESS>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=((((n%10)==1)&&((n%100)!=11))?(0):(((((n"
+"%10)>=2)&&((n%10)<=4))&&(((n%100)<10)||((n%100)>=20)))?(1):2));\n"
+"X-Generator: Poedit 1.5.4\n"
+
+#: yellow_pages_rules_configuration.rules.inc:13
+msgid "Check if node expire in 10 days."
+msgstr "Verifică dacă noda expiră in 10 zile."
+
+#: yellow_pages_rules_configuration.rules.inc:18;28;38;48
+msgid "Content"
+msgstr "Conţinut"
+
+#: yellow_pages_rules_configuration.rules.inc:23
+msgid "Check if advert should be published."
+msgstr "Verifică dacă publicitatea trebuie publicată"
+
+#: yellow_pages_rules_configuration.rules.inc:33
+msgid "Check if advert expire in week."
+msgstr "Verifică dacă publicitatea expiră într-o săptămâna."
+
+#: yellow_pages_rules_configuration.rules.inc:43
+msgid "Check if advert expire in day."
+msgstr "Verifică dacă publicitatea expiră într-o zi."
+
+#: yellow_pages_rules_configuration.rules.inc:112
+msgid "Content expire in 10 days"
+msgstr "Conținutul expiră în 10 zile."
+
+#: yellow_pages_rules_configuration.rules.inc:113;117;123;127;133;137;143;147
+msgid "Node"
+msgstr "Nod"
+
+#: yellow_pages_rules_configuration.rules.inc:122
+msgid "Publish advert"
+msgstr "Publicarea publicității"
+
+#: yellow_pages_rules_configuration.rules.inc:132
+msgid "Advert expire in week"
+msgstr "Publicitatea expiră într-o săptămâna."
+
+#: yellow_pages_rules_configuration.rules.inc:142
+msgid "Advert expire in day"
+msgstr "Publicitatea expiră într-o zi."
+
+#: yellow_pages_rules_configuration.info:0
+msgid "Yellow pages rules configuration"
+msgstr ""
+
+#: yellow_pages_rules_configuration.info:0
+msgid "Rules configuration for YP"
+msgstr "Configurarea regulilor pentru YP"
+
+#: yellow_pages_rules_configuration.info:0
+msgid "Yellow Pages"
+msgstr ""

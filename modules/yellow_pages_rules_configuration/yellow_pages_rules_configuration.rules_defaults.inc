@@ -47,6 +47,23 @@ function yellow_pages_rules_configuration_default_rules_configuration() {
       ]
     }
   }');
+  $items['rules_company_update_notification'] = entity_import('rules_config', '{ "rules_company_update_notification" : {
+      "LABEL" : "Company update notification",
+      "PLUGIN" : "reaction rule",
+      "OWNER" : "rules",
+      "TAGS" : [ "company", "editor", "update" ],
+      "REQUIRES" : [ "rules" ],
+      "ON" : { "node_presave--company" : { "bundle" : "company" } },
+      "DO" : [
+        { "mail_to_users_of_role" : {
+            "roles" : { "value" : { "4" : "4" } },
+            "subject" : "\\u0414\\u0430\\u043d\\u043d\\u044b\\u0435 \\u043f\\u0440\\u0435\\u0434\\u043f\\u0440\\u0438\\u044f\\u0442\\u0438\\u044f [node:title] \\u0431\\u044b\\u043b\\u0438 \\u0438\\u0437\\u043c\\u0435\\u043d\\u0435\\u043d\\u044b",
+            "message" : "\\u0414\\u0430\\u043d\\u043d\\u044b\\u0435 \\u043f\\u0440\\u0435\\u0434\\u043f\\u0440\\u0438\\u044f\\u0442\\u0438\\u044f [node:title] \\u0431\\u044b\\u043b\\u0438 \\u0438\\u0437\\u043c\\u0435\\u043d\\u0435\\u043d\\u044b.\\r\\n\\u0418\\u0437\\u043c\\u0435\\u043d\\u0435\\u043d\\u043d\\u044b\\u0435 \\u0437\\u043d\\u0430\\u0447\\u0435\\u043d\\u0438\\u044f:\\r\\n[node:company-diff]"
+          }
+        }
+      ]
+    }
+  }');
   $items['rules_logo_expire_in_a_day'] = entity_import('rules_config', '{ "rules_logo_expire_in_a_day" : {
       "LABEL" : "Logo expire in a day",
       "PLUGIN" : "reaction rule",

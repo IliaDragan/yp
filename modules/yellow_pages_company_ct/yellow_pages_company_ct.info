@@ -1,7 +1,7 @@
 name = Yellow pages Company CT
 core = 7.x
 package = Yellow Pages
-version = 7.x-0.8
+version = 7.x-0.9
 project = yellow_pages_company_ct
 dependencies[] = addressfield
 dependencies[] = ckeditor
@@ -38,7 +38,7 @@ dependencies[] = yellow_pages_company_ct
 dependencies[] = yellow_pages_core
 dependencies[] = yellow_pages_news_ct
 dependencies[] = yellow_pages_taxonomy
-explanation = Field type(s) in use - see <a href="/eng/admin/reports/fields">Field list</a>
+explanation = Field type(s) in use - see <a href="/rus/admin/reports/fields">Field list</a>
 features[ckeditor_profile][] = Full
 features[ctools][] = field_group:field_group:1
 features[ctools][] = strongarm:strongarm:1
@@ -48,6 +48,7 @@ features[field_base][] = body
 features[field_base][] = field_address
 features[field_base][] = field_advertisements
 features[field_base][] = field_articles
+features[field_base][] = field_changed_by_editor_date
 features[field_base][] = field_company_logo
 features[field_base][] = field_company_site
 features[field_base][] = field_company_views
@@ -84,6 +85,7 @@ features[field_instance][] = node-company-body
 features[field_instance][] = node-company-field_address
 features[field_instance][] = node-company-field_advertisements
 features[field_instance][] = node-company-field_articles
+features[field_instance][] = node-company-field_changed_by_editor_date
 features[field_instance][] = node-company-field_company_logo
 features[field_instance][] = node-company-field_company_site
 features[field_instance][] = node-company-field_company_views

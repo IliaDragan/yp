@@ -4,11 +4,11 @@
  * Code for the Yellow pages company CT feature.
  */
 
- define('YP_PRODUCT_SELL', 1);
- define('YP_PRODUCT_BUY', 2);
- define('YP_PRODUCT_MANUFACTURE', 4);
- define('YP_PRODUCT_SERVICES', 8);
- define('YP_PRODUCT_EXPORT', 16);
+define('YP_PRODUCT_SELL', 1);
+define('YP_PRODUCT_BUY', 2);
+define('YP_PRODUCT_MANUFACTURE', 4);
+define('YP_PRODUCT_SERVICES', 8);
+define('YP_PRODUCT_EXPORT', 16);
 
 include_once 'yellow_pages_company_ct.features.inc';
 require_once 'yellow_pages_company_ct.fields.inc';
@@ -41,6 +41,16 @@ function yellow_pages_company_ct_permission() {
   $perm['use products autocomplete'] = array(
     'title' => t('Use autocomplete in products field'),
     'description' => t('Allow roles to use autocomplete on products field.'),
+  );
+
+  $perm['edit related companies'] = array(
+    'title' => t('Edit related companies'),
+    'description' => t('Allow users to edit only related companies.'),
+  );
+
+  $perm['add related companies to user'] =  array(
+    'title' => t('Add related companies to user'),
+    'description' => t('Allow users to add related companies to another users (works only if role has permission "Administer users").'),
   );
 
   return $perm;
@@ -90,6 +100,7 @@ function yellow_pages_company_ct_form_forward_form_alter(&$form, &$form_state) {
 function yellow_pages_company_ct_form_company_node_form_alter(&$form, &$form_state, $form_id) {
   // Make sync date field readonly.
   $form['field_mdb_sync_date']['#disabled'] = TRUE;
+  $form['field_changed_by_editor_date']['#disabled'] = TRUE;
   $hide = array(
     'comment_settings',
     'revision_information',
@@ -102,6 +113,185 @@ function yellow_pages_company_ct_form_company_node_form_alter(&$form, &$form_sta
       hide($form[$item]);
     }
   }
+
+
+  if (!empty($form['nid']['#value'])) {
+    // Add button "Create editor" for company email if no editors.
+    $isset_mail = !empty($form['field_email']['und'][0]['email']['#default_value']);
+    if ($isset_mail) {
+      $has_editors = _check_company_has_editors($form['nid']['#value']);
+      if (!$has_editors) {
+        $mail = $form['field_email']['und'][0]['email']['#default_value'];
+        $val = t('Create company editor for mail @mail', array('@mail' => $mail));
+        $form['create_user'] = array(
+          '#type' => 'submit',
+          '#value' => $val,
+          '#submit' => array('company_create_editor_user_submit'),
+          '#prefix' => '<div id="company-mail-create-user-button-wrapper">',
+          '#suffix' => '</div>',
+          '#ajax' => array(
+            'wrapper' => 'company-mail-create-user-button-wrapper',
+            'callback' => 'company_node_form_create_user_ajax_callback',
+            'method' => 'replace',
+          ),
+        );
+      }
+    }
+
+    // Override form submit function for enterprise editor.
+    if (user_access('edit related companies')) {
+      $form['actions']['submit']['#submit'] = array('yellow_pages_company_ct_company_edit_submit');
+    }
+
+    // Add sticker to node if not syncronized.
+    if (!empty($form['#node']->field_mdb_sync_date[LANGUAGE_NONE][0]['value'])) {
+      $sync = strtotime($form['#node']->field_mdb_sync_date[LANGUAGE_NONE][0]['value']);
+    }
+    else {
+      $sync = 0;
+    }
+
+    if (!empty($form['#node']->field_changed_by_editor_date[LANGUAGE_NONE][0]['value'])) {
+      $changed = strtotime($form['#node']->field_changed_by_editor_date[LANGUAGE_NONE][0]['value']);
+    }
+    else {
+      $changed = 0;
+    }
+
+    if ($changed > $sync) {
+      $form['update_sticker'] = array(
+        '#prefix' => '<div class="messages status">',
+        '#markup' => t('Your changes being validated.'),
+        '#suffix' => '</div>',
+      );
+    }
+  }
+}
+
+/**
+ * Alternative submit for company edit form for enterprise editor roles.
+ */
+function yellow_pages_company_ct_company_edit_submit(&$form, &$form_state) {
+  $old_node = $form['#node'];
+  $new_node = node_form_submit_build_node($form, $form_state);
+
+  // Set date of node changing.
+  $old_node->field_changed_by_editor_date[LANGUAGE_NONE][0]['value'] = date('Y-m-d H:i:s');
+  field_attach_update('node', $old_node);
+
+  $fields_instances = field_info_instances('node', 'company');
+  $diffs = array();
+  foreach ($fields_instances as $field_name => $field) {
+    $field_diffs = array();
+    $old = field_get_items('node', $old_node, $field_name);
+    $new = field_get_items('node', $new_node, $field_name);
+
+
+    if (!empty($old) || !empty($new)) {
+
+      $val_count = max(count($old), count($new));
+      for ($i = 0; $i < $val_count; $i++) {
+        $field_diffs[$i] = array();
+
+        if (!empty($new[$i])) {
+          if (!empty($old[$i])) {
+            // Changed.
+            $diff = array_diff_assoc($new[$i], $old[$i]);
+
+            foreach ($diff as $key => $value) {
+              if (!empty($value)) {
+                $field_diffs[$i][$key] = array('new' => $value);
+                if (!empty($old[$i][$key])) {
+                  $field_diffs[$i][$key]['op'] = 'Changed';
+                  $field_diffs[$i][$key]['old'] = $old[$i][$key];
+                }
+                else {
+                  $field_diffs[$i][$key]['op'] = 'Added';
+                }
+              }
+            }
+          }
+          else {
+            // Added.
+            foreach ($new[$i] as $key => $value) {
+              if (!empty($value)) {
+                $field_diffs[$i][$key] = array(
+                  'op' => 'Added',
+                  'old' => $value,
+                );
+              }
+            }
+          }
+        }
+        else {
+          // Removed.
+          foreach ($old[$i] as $key => $value) {
+            if (!empty($value)) {
+              $field_diffs[$i][$key] = array(
+                'op' => 'Removed',
+                'old' => $value,
+              );
+            }
+          }
+        }
+
+        if (empty($field_diffs[$i])) {
+          unset($field_diffs[$i]);
+        }
+      }
+    }
+    if (!empty($field_diffs)) {
+      $field_diffs['label'] = $field['label'];
+      $diffs[$field_name] = $field_diffs;
+    }
+  }
+  $new_node->company_diff = theme('yellow_pages_company_ct_node_diff', array('diff' => $diffs));
+  rules_invoke_event('node_presave--company', $new_node);
+  rules_invoke_event('node_presave', $new_node);
+}
+
+/**
+ * Submit function for "Create editor" button in company edit node form.
+ */
+function company_create_editor_user_submit(&$form, &$form_state) {
+  $nid = $form_state['values']['nid'];
+  $email = $form_state['values']['field_email']['und'][0]['email'];
+  $password = user_password(8);
+  $fields = array(
+    'name' => $email,
+    'mail' => $email,
+    'pass' => $password,
+    'status' => 1,
+    'init' => $email,
+    'roles' => array(
+      DRUPAL_AUTHENTICATED_RID => 'authenticated user',
+      5 => 'enterprise editor',
+    ),
+    'field_related_company' => array(
+      LANGUAGE_NONE => array(
+        0 => array('target_id' => $nid),
+      ),
+    ),
+  );
+  try {
+    $account = user_save('', $fields);
+    _user_mail_notify('register_admin_created', $account);
+    $msg = t('User created successfully. You will receive confirmation e-mail message at your emai.');
+    $form_state['storage']['add_editor_message'] = '<div class="messages status">' . $msg . '</div>';
+  }
+  catch (Exception $e) {
+    watchdog_exception('company_editor', $e);
+    $msg = t('Something went wrong. Please contact site administrator.');
+    $form_state['storage']['add_editor_message'] = '<div class="messages warning">' . $msg . '</div>';
+  }
+}
+
+/**
+ * Ajax callback function for "Create editor" button in company edit node form.
+ */
+function company_node_form_create_user_ajax_callback($form, $form_state) {
+  // Return message instead of create user button.
+  return $form_state['storage']['add_editor_message'];
 }
 
 /**
@@ -147,8 +337,170 @@ function yellow_pages_company_ct_entity_view($entity, $entity_type, $view_mode, 
  * Implements hook_node_view().
  */
 function yellow_pages_company_ct_node_view($node, $view_mode, $langcode) {
-   if ($node->type == 'company') {
-     (int) $node->field_company_views[LANGUAGE_NONE][0]['value'] += 0.5;
-     field_attach_update('node', $node);
-   }
+  if ($node->type == 'company') {
+    (int) $node->field_company_views[LANGUAGE_NONE][0]['value'] += 0.5;
+    field_attach_update('node', $node);
+  }
+}
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ *
+ * Hide field related company for users that haven't permission
+ *   "Edit related companies".
+ */
+function yellow_pages_company_ct_form_user_profile_form_alter(&$form, &$form_state) {
+  $account = $form['#user'];
+  $access = user_access('edit related companies', $account) && user_access('add related companies to user');
+  $form['field_related_company']['#access'] = $access;
+}
+
+/**
+ * Implements hook_node_access().
+ */
+function yellow_pages_company_ct_node_access($node, $op, $account) {
+  $access = NODE_ACCESS_IGNORE;
+
+  if ($op == 'update' && user_access('edit related companies', $account)) {
+    $node_is_company = !empty($node->type) && $node->type == 'company';
+    if ($node_is_company) {
+      $grant = _yellow_pages_company_ct_grant_company_node_access($node->nid, $account);
+      $access = $grant ? NODE_ACCESS_ALLOW : NODE_ACCESS_DENY;
+    }
+  }
+
+  return $access;
+}
+
+/**
+ * Verify if company node nid is related to indicated account or current user.
+ */
+function _yellow_pages_company_ct_grant_company_node_access($nid, $account = NULL) {
+  if (empty($account->uid)) {
+    $account = $GLOBALS['user'];
+  }
+
+  $account = user_load($account->uid);
+  $related_companies = array();
+  if (!empty($account->field_related_company['und'])) {
+    foreach ($account->field_related_company['und'] as $company) {
+      $nids = _yellow_pages_company_ct_get_translations_nids($company['target_id']);
+      $related_companies = array_merge($related_companies, $nids);
+    }
+  }
+
+  return in_array($nid, $related_companies);
+}
+
+/**
+ * Get node translations nids by node nid..
+ */
+function _yellow_pages_company_ct_get_translations_nids($nid) {
+  $nids = array();
+
+  $node = node_load($nid);
+  $translations = translation_node_get_translations($node->tnid);
+  foreach ($translations as $related_company) {
+    $nids[] = $related_company->nid;
+  }
+
+  return $nids;
+}
+
+/**
+ * Implements hook_token_info().
+ *
+ * This hook will register new token contains company editors emails.
+ */
+function yellow_pages_company_ct_token_info() {
+  $info['tokens']['node']['company-editors-emails'] = array(
+    'name' => t('Company editors emails'),
+    'description' => t('Email addresses of Enterprise Editors which has current company node as related company.'),
+    'type' => 'node',
+  );
+  $info['tokens']['node']['company-diff'] = array(
+    'name' => t('Company node modified fields'),
+    'description' => t('Fields modified in company node on edit.'),
+    'type' => 'node',
+  );
+
+  return $info;
+}
+
+/**
+ * Implements hook_tokens().
+ */
+function yellow_pages_company_ct_tokens($type, $tokens, array $data = array(), array $options = array()) {
+  $replacements = array();
+  if ($type == 'node' && !empty($data['node'])) {
+    $node = $data['node'];
+    if (!empty($tokens['company-editors-emails'])) {
+      $original = $tokens['company-editors-emails'];
+      $replacements[$original] = _get_company_editors_emails($node->nid);
+    }
+    if (!empty($tokens['company-diff']) && !empty($node->company_diff)) {
+      $original = $tokens['company-diff'];
+      $replacements[$original] = $node->company_diff;
+    }
+  }
+
+  return $replacements;
+}
+
+/**
+ * Gets company node related editors emails.
+ */
+function _get_company_editors_emails($nid) {
+  $nids = _yellow_pages_company_ct_get_translations_nids($nid);
+
+  $query = db_select('field_data_field_related_company', 'rc')
+    ->condition('field_related_company_target_id', $nids, 'IN');
+  $query->innerJoin('users', 'u', 'u.uid = rc.entity_id');
+  $query->fields('u', array('mail'))
+    ->distinct();
+  $result = $query->execute();
+
+  $mails = array();
+  while ($mail = $result->fetchField()) {
+    $mails[] = $mail;
+  }
+  $mails_list = implode(', ', $mails);
+
+  return $mails_list;
+}
+
+/**
+ * Checks if company has editors.
+ *
+ * @param $nid
+ *   Company node id.
+ *
+ * @return bool
+ *   TRUE if company has editors, FALSE otherwise.
+ */
+function _check_company_has_editors($nid) {
+  $nids = _yellow_pages_company_ct_get_translations_nids($nid);
+
+  $query = db_select('field_data_field_related_company', 'rc')
+    ->fields('rc', array('entity_id'))
+    ->condition('rc.entity_type', 'user')
+    ->condition('rc.field_related_company_target_id', $nids, 'IN')
+    ->distinct();
+  $num_rows = $query->countQuery()->execute()->fetchField();
+
+  return !empty($num_rows);
+}
+
+/**
+ * Implements hook_theme().
+ */
+function yellow_pages_company_ct_theme($existing, $type, $theme, $path) {
+  $path = drupal_get_path('module', 'yellow_pages_company_ct') . '/templates';
+  return array(
+    'yellow_pages_company_ct_node_diff' => array(
+      'variables' => array('diff' => array()),
+      'template' => 'yellow-pages-company-ct-node-diff',
+      'path' => $path,
+    ),
+  );
 }

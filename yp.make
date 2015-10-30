@@ -3,7 +3,7 @@ core = 7.x
 api = 2
 
 ; Contrib modules
-projects[addressfield][version] = "1.0"
+projects[addressfield][version] = "1.1"
 projects[addressfield][subdir] = "contrib"
 
 projects[admin_views][version] = "1.5"
@@ -12,7 +12,7 @@ projects[admin_views][subdir] = "contrib"
 projects[ckeditor][version] = "1.16"
 projects[ckeditor][subdir] = "contrib"
 
-projects[coder][version] = "1.2"
+projects[coder][version] = "2.5"
 projects[coder][subdir] = "contrib"
 
 projects[colorbox][version] = "2.10"
@@ -21,7 +21,7 @@ projects[colorbox][subdir] = "contrib"
 projects[ctools][version] = "1.9"
 projects[ctools][subdir] = "contrib"
 
-projects[date][version] = "2.8"
+projects[date][version] = "2.9"
 projects[date][subdir] = "contrib"
 
 projects[devel][version] = "1.5"
@@ -42,17 +42,20 @@ projects[facetapi][subdir] = "contrib"
 projects[field_sql_norevisions][version] = "2.1"
 projects[field_sql_norevisions][subdir] = "contrib"
 
-projects[features][version] = "2.3"
+projects[features][version] = "2.6"
 projects[features][subdir] = "contrib"
 
-projects[features_extra][version] = "1.0-beta1"
+projects[features_extra][version] = "1.0"
 projects[features_extra][subdir] = "contrib"
 
-projects[file_entity][version] = "2.0-beta1"
+projects[file_entity][version] = "2.0-beta2"
 projects[file_entity][subdir] = "contrib"
 
 projects[field_group][version] = "1.4"
 projects[field_group][subdir] = "contrib"
+
+projects[field_permissions][version] = "1.0-beta2"
+projects[field_permissions][subdir] = "contrib"
 
 projects[fontawesome][version] = "2.1"
 projects[fontawesome][subdir] = "contrib"
@@ -69,7 +72,7 @@ projects[geofield][subdir] = "contrib"
 projects[geophp][version] = "1.7"
 projects[geophp][subdir] = "contrib"
 
-projects[i18n][version] = "1.12"
+projects[i18n][version] = "1.13"
 projects[i18n][subdir] = "contrib"
 
 projects[l10n_update][version] = "2.0"
@@ -78,10 +81,10 @@ projects[l10n_update][subdir] = "contrib"
 projects[libraries][version] = "2.2"
 projects[libraries][subdir] = "contrib"
 
-projects[jquery_update][version] = "2.5"
+projects[jquery_update][version] = "2.6"
 projects[jquery_update][subdir] = "contrib"
 
-projects[leaflet][version] = "1.1"
+projects[leaflet][version] = "1.2"
 projects[leaflet][subdir] = "contrib"
 
 projects[libraries][version] = "2.2"
@@ -89,6 +92,9 @@ projects[libraries][subdir] = "contrib"
 
 projects[link][version] = "1.3"
 projects[link][subdir] = "contrib"
+
+projects[mailsystem][version] = "2.34"
+projects[mailsystem][subdir] = "contrib"
 
 projects[media][type] = "module"
 projects[media][subdir] = "contrib"
@@ -101,6 +107,9 @@ projects[media_colorbox][subdir] = "contrib"
 
 projects[media_youtube][version] = "3.0"
 projects[media_youtube][subdir] = "contrib"
+
+projects[mimemail][version] = "1.0-beta4"
+projects[mimemail][subdir] = "contrib"
 
 projects[module_filter][version] = "2.0"
 projects[module_filter][subdir] = "contrib"
@@ -121,10 +130,10 @@ projects[panels][subdir] = "contrib"
 projects[rules][version] = "2.9"
 projects[rules][subdir] = "contrib"
 
-projects[search_api][version] = "1.14"
+projects[search_api][version] = "1.16"
 projects[search_api][subdir] = "contrib"
 
-projects[search_api_solr][version] = "1.6"
+projects[search_api_solr][version] = "1.9"
 projects[search_api_solr][subdir] = "contrib"
 
 projects[service_links][version] = "2.3"
@@ -151,7 +160,7 @@ projects[transliteration][subdir] = "contrib"
 projects[variable][version] = "2.5"
 projects[variable][subdir] = "contrib"
 
-projects[views][version] = "3.10"
+projects[views][version] = "3.11"
 projects[views][subdir] = "contrib"
 
 projects[views_autocomplete_filters][version] = "1.2"

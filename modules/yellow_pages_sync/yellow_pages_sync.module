@@ -647,7 +647,7 @@ function yellow_pages_sync_process_source_element_products(SimpleXMLElement $sou
         else {
           $products[] = array(
             'product' => $tid,
-            'source' => YP_PRODUCT_SERVICES,
+            'source' => YP_PRODUCT_SELL,
           );
         }
       }

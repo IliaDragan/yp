@@ -152,3 +152,15 @@ function yellow_pages_solr_configuration_search_api_solr_query_alter(array &$cal
     $call_args['query'] = str_replace('"' , '*', $call_args['query']);
   }
 }
+
+/**
+ * Implements hook_language_switch_links_alter().
+ */
+function yellow_pages_solr_configuration_language_switch_links_alter(&$links) {
+  $query = drupal_get_query_parameters();
+
+  // Preserve query strings in language switcher links.
+  foreach ($links as &$link) {
+    $link['query'] = $query;
+  }
+}

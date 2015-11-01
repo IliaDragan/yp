@@ -301,11 +301,11 @@ function yellow_pages_sync_node(SimpleXMLElement $list_item) {
     }
   }
   // Addresses.
-  if (!empty($item['addresses']['en'])) {
+  if (!empty($item['addresses']['ru'])) {
     unset($entity->field_address[LANGUAGE_NONE]);
     unset($entity->field_region[LANGUAGE_NONE]);
 
-    foreach ($item['addresses']['en'] as $k => $address) {
+    foreach ($item['addresses']['ru'] as $k => $address) {
       $entity->field_address[LANGUAGE_NONE][$k] = array(
         'country' => 'MD',
         'locality' => $address['city'],
@@ -406,6 +406,24 @@ function yellow_pages_sync_node(SimpleXMLElement $list_item) {
     unset($translated_entity->field_advertisements);
 
     $translated_entity->title = !empty($item['title'][$lang]) ? $item['title'][$lang] : 'Без титула';
+
+    // Addresses.
+    if (!empty($item['addresses'][$lang])) {
+      unset($translated_entity->field_address[LANGUAGE_NONE]);
+      unset($translated_entity->field_region[LANGUAGE_NONE]);
+
+      foreach ($item['addresses'][$lang] as $k => $address) {
+        $translated_entity->field_address[LANGUAGE_NONE][$k] = array(
+          'country' => 'MD',
+          'locality' => $address['city'],
+          'postal_code' => $address['pcode'],
+          'thoroughfare' => $address['address'],
+          'premise' => $address['premise'],
+        );
+
+        $translated_entity->field_region[LANGUAGE_NONE][$k]['value'] = $address['region'];
+      }
+    }
 
     node_save($translated_entity);
 
@@ -663,13 +681,13 @@ function yellow_pages_sync_process_source_element_address(SimpleXMLElement $sour
         $office = trim((string) $item->office);
         $postal_code = (int) $item->pcode->{'list-item'};
 
-        $thoroughfare = str_replace(array('bd.', 'str.', 'ул.'), '', $street);
+        $thoroughfare = $street;
         if (!empty($house)) {
           $thoroughfare .= ' ' . $house;
         }
 
         $addresses[$locale][] = array(
-          'city' => str_replace(array('mun.', 'or.', 's.', 'г.'), '', $city),
+          'city' => $city,
           'pcode' => $postal_code,
           'address' => $thoroughfare,
           'region' => $region,

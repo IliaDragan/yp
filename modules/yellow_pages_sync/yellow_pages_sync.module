@@ -985,14 +985,12 @@ function yellow_pages_sync_taxonomy_parents(&$context) {
 
     if (!empty($children) && is_array($children)) {
       db_delete('taxonomy_term_hierarchy')
-        ->condition('parent', $parent_pid, '=')
+        ->condition('tid', $children, 'IN')
+        ->condition('parent', array(0, $parent_tid), 'IN')
         ->execute();
+
       foreach ($children as $child) {
-        db_merge('taxonomy_term_hierarchy')
-          ->key(array(
-            'tid' => $child,
-            'parent' => $parent_tid,
-          ))
+        db_insert('taxonomy_term_hierarchy')
           ->fields(array(
             'tid' => $child,
             'parent' => $parent_tid,

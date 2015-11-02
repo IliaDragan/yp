@@ -1954,7 +1954,6 @@ div.panel-pane div.node-teaser {
 .field-name-field-categories li,
 .field-type-yp-product li {
   display: inline;
-  margin-left: 5px;
   font-size: 11px;
   text-decoration: underline;
 }
@@ -2203,13 +2202,9 @@ div.panel-pane div.node-teaser {
 .node--company--search_index .field-type-yp-product li {
   display: inline;
   margin-left: 0;
+  margin-right: 5px;
   font-size: 14px;
-  color: #a4a4a4;
   text-decoration: underline;
-}
-.node--company--teaser .field-type-yp-product li:first-child,
-.node--company--search_index .field-type-yp-product li:first-child {
-  margin-right: 0;
 }
 .node--company--teaser .field-type-yp-product li a,
 .node--company--search_index .field-type-yp-product li a {

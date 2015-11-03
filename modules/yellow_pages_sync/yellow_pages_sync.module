@@ -1,0 +1,1440 @@
+<?php
+/**
+ * @file
+ * Synchronize data with MDB.
+ */
+
+ define('SYNC_VOCABULARY', 'products');
+ define('SYNC_BATCH', 50);
+ define('SYNC_SOURCE', 'http://test.varoinform.md:8080/api');
+
+/**
+ * Implements hook_menu().
+ */
+function yellow_pages_sync_menu() {
+  $items = array();
+
+  $items['admin/config/yp/sync'] = array(
+    'title' => 'Synchronize',
+    'description' => 'Sync content from MDB source.',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('yellow_pages_sync_admin_form'),
+    'access arguments' => array('administer yellow pages sync'),
+    'file' => 'yellow_pages_sync.admin.inc',
+  );
+
+  $items['admin/config/yp/rebuild'] = array(
+    'title' => 'Rebuild geodata',
+    'description' => 'Update enterprises geodata.',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('yellow_pages_sync_rebuild_form'),
+    'access arguments' => array('administer yellow pages sync'),
+    'file' => 'yellow_pages_sync.admin.inc',
+  );
+
+  $items['yp/sync/%'] = array(
+    'title' => 'Sync single entry',
+    'page callback' => 'yellow_pages_sync_single_node',
+    'page arguments' => array(2),
+    'access arguments' => array('access content'),
+    'type' => MENU_CALLBACK,
+  );
+
+  return $items;
+}
+
+/**
+ * Fetches the remote XML for a single enterprise.
+ *
+ * @param int $eid
+ *   Enterprise id.
+ *
+ * @return SimpleXMLElement
+ *   Enterprise XML data.
+ */
+function yellow_pages_sync_fetch_remote_enterprise($eid) {
+  if (empty($eid)) {
+    return FALSE;
+  }
+
+  $xml_file = variable_get('yp_sync_source', SYNC_SOURCE) . '/enterprises/' . $eid . '/';
+  $xml = yellow_pages_sync_read_xml($xml_file);
+
+  return $xml;
+}
+
+/**
+ * Menu callback for syncing single enterprise by it's id.
+ *
+ * @param int $eid
+ *   Enterprise id.
+ */
+function yellow_pages_sync_single_node($eid) {
+  $xml = yellow_pages_sync_fetch_remote_enterprise($eid);
+  $message = 'NOT OK';
+
+  if (is_object($xml)) {
+    $entity = yellow_pages_sync_node($xml);
+
+    yellow_pages_sync_link_filials($entity->nid);
+    yellow_pages_sync_attach_logo((int) $xml->id, $entity->nid);
+
+    if (isset($entity->nid)) {
+      $message = 'OK';
+    }
+  }
+
+  drupal_json_output($message);
+  drupal_exit(0);
+}
+
+/**
+ * Creates relations between affiliated nodes to a certain 'main' node.
+ *
+ * @param int $nid
+ *   'Main' node id.
+ */
+function yellow_pages_sync_link_filials($nid) {
+  $query = db_select('node', 'n')
+    ->fields('n', array('nid', 'language'))
+    ->condition('tnid', $nid, '=');
+  $result = $query->execute()->fetchAll();
+
+  $translations = array();
+  foreach ($result as $r) {
+    $translations[$r->language] = $r->nid;
+  }
+
+  $query = db_select('yp_sync_state', 'yss')
+    ->fields('yss', array('nid'))
+    ->condition('parent', $nid, '=');
+  $children = $query->execute()->fetchCol();
+
+  $languages = array_keys(locale_language_list('name'));
+  $filials = array();
+
+  foreach ($children as $child) {
+    foreach ($languages as $lang) {
+      $query = db_select('node', 'n')
+        ->fields('n', array('nid', 'language'))
+        ->condition('tnid', $child, '=')
+        ->condition('language', $lang, '=');
+      $result = $query->execute()->fetchAll();
+      $filial = reset($result);
+      foreach ($translations as $lang => $nid) {
+        if ($filial->language == $lang) {
+          $filials[$nid][] = $filial->nid;
+        }
+      }
+    }
+  }
+
+  foreach ($filials as $parent => $filial) {
+    $parent_node = node_load($parent);
+
+    if ($parent_node) {
+      unset($parent_node->field_filials[LANGUAGE_NONE]);
+      foreach ($filial as $filial_nid) {
+        $parent_node->field_filials[LANGUAGE_NONE][]['target_id'] = $filial_nid;
+      }
+
+      node_save($parent_node);
+    }
+  }
+}
+
+/**
+ * Reads and caches all raw XML data.
+ *
+ * @param string $source
+ *   Url to the xml content.
+ */
+function yellow_pages_sync_read_xml($source) {
+  $xml = FALSE;
+
+  try {
+    $cid = md5($source);
+    $cache = cache_get($cid);
+    $xml_data = NULL;
+    if (!$cache) {
+      $xml_data = @file_get_contents($source);
+      if (!empty($xml_data)) {
+        cache_set($cid, $xml_data, 'cache', REQUEST_TIME + 3600);
+      }
+    }
+    else {
+      $xml_data = $cache->data;
+    }
+    $xml = new SimpleXMLElement($xml_data);
+  }
+  catch (Exception $e) {
+    watchdog('yp_sync', 'Tried to import content from: %source. Exception: %exc.', array('%source' => $source, '%exc' => $e->getMessage()));
+  }
+
+  return $xml;
+}
+
+/**
+ * Creates a batch to process multiple enterprise syncing.
+ */
+function yellow_pages_sync_nodes($settings, &$context) {
+  $xml = NULL;
+
+  if (!isset($context['sandbox']['progress'])) {
+    drupal_static_reset('synced_parents');
+    $page = !empty($settings['page']) ? $settings['page'] : 1;
+    $xml_source = variable_get('yp_sync_source', SYNC_SOURCE) . '/enterprises?page=' . $page . '&paginate_by=' . SYNC_BATCH;
+    $xml = yellow_pages_sync_read_xml($xml_source);
+
+    $context['sandbox']['progress'] = ($page - 1) * SYNC_BATCH;
+    $context['sandbox']['max'] = isset($xml->count) ? (int) $xml->count : 0;
+
+    $single = $settings['single'];
+    if ($single) {
+      $context['sandbox']['progress'] = 0;
+      $context['sandbox']['max'] = SYNC_BATCH;
+    }
+  }
+  elseif (!empty($context['sandbox']['next'])) {
+    $xml = yellow_pages_sync_read_xml($context['sandbox']['next']);
+    unset($context['sandbox']['next']);
+  }
+
+  if (is_object($xml)) {
+    if (isset($xml->next)) {
+      $next = (string) $xml->next;
+      $context['sandbox']['next'] = $next;
+    }
+
+    foreach ($xml->results->{'list-item'} as $list_item) {
+      $context['sandbox']['progress']++;
+      $eid = (int) $list_item->id;
+      $synced_parents = drupal_static('synced_parents', array());
+
+      if (!in_array($eid, $synced_parents)) {
+        yellow_pages_sync_node($list_item);
+        $title = yellow_pages_sync_process_source_element_title($list_item);
+        $context['message'] = t('Processed: %title (%count/%max)', array('%title' => reset($title), '%count' => $context['sandbox']['progress'], '%max' => $context['sandbox']['max']));
+      }
+
+      if ($context['sandbox']['progress'] % SYNC_BATCH == 0) {
+        watchdog('yp_sync', 'Synced %num enterprises.', array('%num' => $context['sandbox']['progress']), WATCHDOG_INFO);
+      }
+
+      if ($context['sandbox']['progress'] == $context['sandbox']['max']) {
+        break;
+      }
+    }
+
+    if ($context['sandbox']['progress'] != $context['sandbox']['max']) {
+      $context['finished'] = $context['sandbox']['progress'] / $context['sandbox']['max'];
+    }
+  }
+}
+
+/**
+ * Creates a drupal node from a XML input.
+ *
+ * @param SimpleXMLElement $list_item
+ *   Enterprise XML data.
+ */
+function yellow_pages_sync_node(SimpleXMLElement $list_item) {
+  $node_defaults = array(
+    'type' => 'company',
+    'language' => 'ru',
+    'uid' => 1,
+    'status' => 1,
+    'promote' => 0,
+  );
+
+  $item = yellow_page_sync_process_source_element($list_item);
+  $tnid = NULL;
+
+  $query = db_select('yp_sync_state', 'yp_sync')
+    ->fields('yp_sync', array(
+      'nid',
+      'last_sync'
+    ))
+    ->condition('eid', $item['id'], '=');
+  $results = $query->execute()->fetchAll();
+  $result = reset($results);
+
+//   if (isset($result->last_sync) && $result->last_sync == $item['last_change']) {
+//     return;
+//   }
+
+  // Basics.
+  $is_new = FALSE;
+  if (empty($result)) {
+    $node_defaults['language'] = 'ru';
+    $entity = entity_create('node', $node_defaults);
+    $is_new = TRUE;
+  }
+  else {
+    $entity = node_load($result->nid);
+  }
+
+  // Title.
+  $entity->title = !empty($item['title']['ru']) ? $item['title']['ru'] : 'Без титула';
+  // Emails.
+  if (!empty($item['email'])) {
+    unset($entity->field_email[LANGUAGE_NONE]);
+    foreach ($item['email'] as $k => $email) {
+      $entity->field_email[LANGUAGE_NONE][$k]['email'] = $email;
+    }
+  }
+  // URL's.
+  if (!empty($item['url'])) {
+    unset($entity->field_company_site[LANGUAGE_NONE]);
+    foreach ($item['url'] as $k => $url) {
+      $entity->field_company_site[LANGUAGE_NONE][$k]['url'] = $url;
+    }
+  }
+  // Products.
+  if (!empty($item['products'])) {
+    unset($entity->field_products[LANGUAGE_NONE]);
+    foreach ($item['products'] as $k => $product) {
+      $entity->field_products[LANGUAGE_NONE][$k] = array(
+        'product_source' => $product['source'],
+        'product' => $product['product'],
+      );
+    }
+  }
+  // Addresses.
+  if (!empty($item['addresses']['ru'])) {
+    unset($entity->field_address[LANGUAGE_NONE]);
+    unset($entity->field_region[LANGUAGE_NONE]);
+
+    foreach ($item['addresses']['ru'] as $k => $address) {
+      $entity->field_address[LANGUAGE_NONE][$k] = array(
+        'country' => 'MD',
+        'locality' => $address['city'],
+        'postal_code' => $address['pcode'],
+        'thoroughfare' => $address['address'],
+        'premise' => $address['premise'],
+      );
+
+      $entity->field_region[LANGUAGE_NONE][$k]['value'] = $address['region'];
+    }
+  }
+  // Contacts.
+  if (!empty($item['contacts'])) {
+    unset($entity->field_landline_phone[LANGUAGE_NONE]);
+    foreach ($item['contacts']['landline'] as $k => $number) {
+      $entity->field_landline_phone[LANGUAGE_NONE][$k]['value'] = $number;
+    }
+
+    unset($entity->field_mobile_phone[LANGUAGE_NONE]);
+    foreach ($item['contacts']['mobile'] as $k => $number) {
+      $entity->field_mobile_phone[LANGUAGE_NONE][$k]['value'] = $number;
+    }
+
+    unset($entity->field_fax[LANGUAGE_NONE]);
+    foreach ($item['contacts']['fax'] as $k => $number) {
+      $entity->field_fax[LANGUAGE_NONE][$k]['value'] = $number;
+    }
+  }
+  // Sync time.
+  $sync_time = $item['last_change'];
+  $entity->field_mdb_sync_date[LANGUAGE_NONE][0]['value'] = date('Y-m-d H:i:s', $sync_time);
+  // Path aliases.
+  $path_alias = $item['path_alias'];
+
+  // Save new node.
+  node_save($entity);
+
+  if (!empty($path_alias['ru'])) {
+    $url_alias = array(
+      'source' => 'node/' . $entity->nid,
+      'alias' => 'companies/info/' . $path_alias['ru'],
+      'language' => 'ru',
+    );
+    path_save($url_alias);
+  }
+
+  db_merge('yp_sync_state')
+    ->key(array(
+      'nid' => $entity->nid,
+      'eid' => $item['id'],
+    ))
+    ->fields(array(
+      'nid' => $entity->nid,
+      'eid' => $item['id'],
+      'last_sync' => $sync_time,
+      'parent' => $item['parent_id']
+    ))
+    ->execute();
+
+  // Update node parent.
+  $tnid = $entity->nid;
+  db_update('node')
+    ->fields(array('tnid' => $tnid))
+    ->condition('nid', $entity->nid, '=')
+    ->execute();
+
+  // Translations.
+  $languages = array_keys(locale_language_list('name'));
+  foreach ($languages as $lang) {
+    if ($lang == 'ru') {
+      continue;
+    }
+
+    $translated_entity = clone($entity);
+    unset($translated_entity->nid);
+    unset($translated_entity->vid);
+    $translated_entity->language = $lang;
+    $translated_entity->tnid = $tnid;
+
+    if (!$is_new) {
+      $query = db_select('node', 'n')
+        ->fields('n', array('nid'))
+        ->condition('tnid', $tnid, '=')
+        ->condition('language', $lang, '=')
+        ->condition('nid', $tnid, '<>');
+      $result = $query->execute()->fetchCol();
+
+      if (!empty($result)) {
+        $translated_entity->nid = $translated_entity->vid = reset($result);
+      }
+      else {
+        $t = array('@nid' => $tnid, '@lang' => $lang);
+        watchdog('yp_sync', 'Failed to load translated entity for node "@nid", language "@lang"', $t, WATCHDOG_NOTICE);
+      }
+    }
+
+    // Do not overwrite selected advertisements.
+    unset($translated_entity->field_advertisements);
+
+    $translated_entity->title = !empty($item['title'][$lang]) ? $item['title'][$lang] : 'Без титула';
+
+    // Addresses.
+    if (!empty($item['addresses'][$lang])) {
+      unset($translated_entity->field_address[LANGUAGE_NONE]);
+      unset($translated_entity->field_region[LANGUAGE_NONE]);
+
+      foreach ($item['addresses'][$lang] as $k => $address) {
+        $translated_entity->field_address[LANGUAGE_NONE][$k] = array(
+          'country' => 'MD',
+          'locality' => $address['city'],
+          'postal_code' => $address['pcode'],
+          'thoroughfare' => $address['address'],
+          'premise' => $address['premise'],
+        );
+
+        $translated_entity->field_region[LANGUAGE_NONE][$k]['value'] = $address['region'];
+      }
+    }
+
+    node_save($translated_entity);
+
+    if (!empty($path_alias[$lang])) {
+      $url_alias = array(
+        'source' => 'node/' . $translated_entity->nid,
+        'alias' => 'companies/info/' . $path_alias[$lang],
+        'language' => $lang,
+      );
+      path_save($url_alias);
+    }
+  }
+
+  return $entity;
+}
+
+/**
+ * Parses enteprise related data to be usable in fields of the resulting node.
+ *
+ * @param SimpleXMLElement $source
+ *   Enterprise XML data.
+ *
+ * @return array
+ *   An array keyed by main enterprise information.
+ */
+function yellow_page_sync_process_source_element(SimpleXMLElement $source) {
+  $result = array();
+  $result['id'] = (int) $source->id;
+  $result['parent_id'] = yellow_pages_sync_process_source_element_parent($source);
+  // Title.
+  $result['title'] = yellow_pages_sync_process_source_element_title($source);
+  // Email.
+  $result['email'] = yellow_pages_sync_process_source_element_email($source);
+  // URL.
+  $result['url']   = yellow_pages_sync_process_source_element_url($source);
+  // Products.
+  $result['products'] = yellow_pages_sync_process_source_element_products($source);
+  // Addresses.
+  $result['addresses'] = yellow_pages_sync_process_source_element_address($source);
+  // Contacts.
+  $result['contacts'] = yellow_pages_sync_process_source_element_contacts($source);
+  // Last change.
+  $result['last_change'] = strtotime((string) $source->last_change);
+  // Old aliases.
+  $result['path_alias'] = yellow_pages_sync_process_source_element_aliases($source);
+
+  return $result;
+}
+
+/**
+ * Creates the parent enterprise if current is an affiliated one.
+ *
+ * @param SimpleXMLElement $source
+ *   Enterprise XML data.
+ */
+function yellow_pages_sync_process_source_element_parent(SimpleXMLElement $source) {
+  $parent_id = (int) $source->parent_id;
+
+  if (!$parent_id) {
+    return 0;
+  }
+
+  $query = db_select('yp_sync_state', 'yss')
+    ->fields('yss', array('nid'))
+    ->condition('eid', $parent_id, '=');
+  $result = $query->execute()->fetchCol();
+  $nid = reset($result);
+
+  $xml = yellow_pages_sync_fetch_remote_enterprise($parent_id);
+  if (!is_object($xml)) {
+    return 0;
+  }
+
+  $source_title = yellow_pages_sync_process_source_element_title($source);
+  $source_address = yellow_pages_sync_process_source_element_address($source);
+  $parent_title = yellow_pages_sync_process_source_element_title($xml);
+
+  // The affiliated enterprise gets the main enterprise title, thus locality.
+  if (empty(array_filter($source_title))) {
+    $title = $source->titles;
+
+    $locales = array('ru', 'ro', 'en');
+    foreach ($locales as $locale) {
+      $_title = $parent_title[$locale];
+
+      if (!empty($source_address[$locale]) && isset($source_address[$locale][0]['city'])) {
+        $_title .= ' | ' . $source_address[$locale][0]['city'];
+        $title->{$locale . '_field'} = $_title;
+      }
+    }
+  }
+
+  $entity = yellow_pages_sync_node($xml);
+
+  // Store the parent enterprise so it's not parsed again.
+  if (isset($entity->nid)) {
+    $nid = $entity->nid;
+    $parents = &drupal_static('synced_parents', array());
+    $parents[] = $nid;
+  }
+  else {
+    $nid = 0;
+  }
+
+  return $nid;
+}
+
+/**
+ * Processes enterprise title.
+ *
+ * @param SimpleXMLElement $source
+ *   Enterprise XML data.
+ *
+ * @return array
+ *   A set of titles, for each locale.
+ */
+function yellow_pages_sync_process_source_element_title(SimpleXMLElement $source) {
+  $source_title = $source->titles;
+  $titles = array();
+  $locales = array('ru', 'ro', 'en');
+
+  foreach ($locales as $locale) {
+    $titles[$locale] = (string) $source_title->{$locale . '_field'};
+  }
+
+  $titles = yellow_pages_sync_trim($titles);
+
+  return $titles;
+}
+
+/**
+ * Processes enterprise email address.
+ *
+ * @param SimpleXMLElement $source
+ *   Enterprise XML data.
+ *
+ * @return array
+ *   A set of emails.
+ */
+function yellow_pages_sync_process_source_element_email(SimpleXMLElement $source) {
+  $source_email = $source->emails;
+  $emails = array();
+
+  if (isset($source_email->{'list-item'})) {
+    foreach ($source_email->{'list-item'} as $item) {
+      $emails[] = (string) $item;
+    }
+  }
+
+  yellow_pages_sync_trim($emails);
+
+  return $emails;
+}
+
+/**
+ * Processess enterprise web-site URL.
+ *
+ * @param SimpleXMLElement $source
+ *   Enterprise XML data.
+ *
+ * @return array
+ *   Set of URL's.
+ */
+function yellow_pages_sync_process_source_element_url(SimpleXMLElement $source) {
+  $source_url = $source->www_set;
+  $urls = array();
+
+  if (isset($source_url->{'list-item'})) {
+    foreach ($source_url->{'list-item'} as $item) {
+      $urls[] = (string) $item;
+    }
+  }
+
+  yellow_pages_sync_trim($urls);
+
+  return $urls;
+}
+
+/**
+ * Processes enterpise products activities.
+ *
+ * @param SimpleXMLElement $source
+ *   Enterprise XML data.
+ *
+ * @return array
+ *   Set of activities.
+ */
+function yellow_pages_sync_process_source_element_products(SimpleXMLElement $source) {
+  $source_products = $source->products;
+  $products = array();
+
+  $map = array(
+    'торговля' => YP_PRODUCT_SELL,
+    'услуга' => YP_PRODUCT_SERVICES,
+    'производство' => YP_PRODUCT_MANUFACTURE,
+    'импорт' => YP_PRODUCT_BUY,
+    'экспорт' => YP_PRODUCT_EXPORT,
+  );
+
+  if (isset($source_products->{'list-item'})) {
+    foreach ($source_products->{'list-item'} as $item) {
+      $pid = (int) $item->product;
+      $tid = yellow_pages_sync_synced_term($pid);
+
+      if (!$tid) {
+        // @todo
+        // Maybe create new product.
+        watchdog('yp_sync', 'No match found for product with id: %id', array('%id' => $pid), WATCHDOG_NOTICE);
+      }
+      else {
+        if (isset($item->type->{'list-item'})) {
+          foreach ($item->type->{'list-item'} as $item) {
+            $source = mb_strtolower((string) $item->ru_field);
+
+            $products[] = array(
+              'product' => $tid,
+              'source' => $map[$source],
+            );
+          }
+        }
+        else {
+          $products[] = array(
+            'product' => $tid,
+            'source' => YP_PRODUCT_SELL,
+          );
+        }
+      }
+    }
+  }
+
+  return $products;
+}
+
+/**
+ * Processes enterprise address.
+ *
+ * @param SimpleXMLElement $source
+ *   Enterprise XML data.
+ *
+ * @return array
+ *   Set of addresses for each locale.
+ */
+function yellow_pages_sync_process_source_element_address(SimpleXMLElement $source) {
+  $source_address = $source->locations;
+  $addresses = array();
+
+  if (isset($source_address->{'list-item'})) {
+    $locales = array('ru', 'ro', 'en');
+    foreach ($locales as $locale) {
+      foreach ($source_address->{'list-item'} as $item) {
+        $city   = trim((string) $item->town->{$locale . '_field'});
+        $street = trim((string) $item->street->{$locale . '_field'});
+        $house  = trim((string) $item->house->{$locale . '_field'});
+        $region = trim((string) $item->region->{$locale . '_field'});
+        $office = trim((string) $item->office);
+        $postal_code = (int) $item->pcode->{'list-item'};
+
+        $thoroughfare = $street;
+        if (!empty($house)) {
+          $thoroughfare .= ' ' . $house;
+        }
+
+        $addresses[$locale][] = array(
+          'city' => $city,
+          'pcode' => $postal_code,
+          'address' => $thoroughfare,
+          'region' => $region,
+          'premise' => $office,
+        );
+      }
+    }
+  }
+
+  return $addresses;
+}
+
+/**
+ * Processes enterprise phone numbers.
+ *
+ * @param SimpleXMLElement $source
+ *   Enterprise XML data.
+ *
+ * @return array
+ *   Set of phone numbers.
+ */
+function yellow_pages_sync_process_source_element_contacts(SimpleXMLElement $source) {
+  $source_contacts = $source->contacts;
+  $contacts = array(
+    'landline' => array(),
+    'mobile' => array(),
+    'fax' => array(),
+  );
+
+  foreach ($source_contacts->{'list-item'} as $item) {
+    $phone_type = (string) $item->phone->phone_type;
+
+    $number = trim((string) $item->phone->phone);
+    switch ($phone_type) {
+      case 'TEL':
+        $contacts['landline'][] = $number;
+        break;
+      case 'MOB':
+        $contacts['mobile'][] = $number;
+        break;
+      case 'T/F':
+        $contacts['landline'][] = $number;
+        $contacts['fax'][] = $number;
+        break;
+    }
+  }
+
+  return $contacts;
+}
+
+/**
+ * Processes enterprises url aliases.
+ *
+ * @param SimpleXMLElement $source
+ *   Enterprise XML data.
+ *
+ * @return array
+ *   Set of aliases for each locale.
+ */
+function yellow_pages_sync_process_source_element_aliases(SimpleXMLElement $source) {
+  $source_aliases = $source->yp_old_url;
+  $languages = array('ru', 'ro', 'en');
+
+  $aliases = array();
+  foreach ($languages as $language) {
+    $aliases[$language] = (string) $source_aliases->{$language};
+  }
+
+  return $aliases;
+}
+
+/**
+ * Provides target vocabulary id for products terms.
+ *
+ * @return int
+ *   Taxonomy vocabulary id.
+ */
+function yellow_pages_sync_term_target_vocabulary() {
+  $vid = &drupal_static(__FUNCTION__, NULL);
+
+  if (!$vid) {
+    $voc = taxonomy_vocabulary_machine_name_load(SYNC_VOCABULARY);
+    $vid = $voc->vid;
+  }
+
+  return $vid;
+}
+
+/**
+ * Provides whitespace cleanup for multiple values.
+ *
+ * @param array $input
+ *   A set of data to trim.
+ *
+ * @return array
+ *   Set of data with whitespaces trimmed.
+ */
+function yellow_pages_sync_trim(array $input) {
+  array_walk($input, function (&$v) {
+    $v = trim($v);
+  });
+
+  return $input;
+}
+
+/**
+ * Stores synced term information.
+ *
+ * @param int $id
+ *   Product original id.
+ * @param int $tid
+ *   Analogic term id.
+ * @param int $parent_id
+ *   Parent category/product original id.
+ * @param int $type
+ *   Whether it's a category or product term.
+ */
+function yellow_pages_sync_write_term_relation($id, $tid, $parent_id = 0, $type = YP_TERM_TYPE_PRODUCT) {
+  db_merge('yp_term_sync_state')
+    ->key(array(
+      'pid' => $id,
+      'tid' => $tid,
+      'type' => $type,
+      'parent' => $parent_id,
+    ))
+    ->fields(array(
+      'pid' => $id,
+      'tid' => $tid,
+      'type' => $type,
+      'parent' => $parent_id,
+    ))
+    ->execute();
+}
+
+/**
+ * Creates a batch for syncing products into taxonomies.
+ */
+function yellow_pages_sync_taxonomy(&$context) {
+  if (!isset($context['sandbox']['progress'])) {
+    // Read and process categories.
+    $xml_nodes = yellow_pages_sync_read_xml(variable_get('yp_sync_source', SYNC_SOURCE) . '/nodes/');
+    if (!$xml_nodes) {
+      return;
+    }
+
+    foreach ($xml_nodes->{'list-item'} as $item) {
+      $id = (int) $item->id;
+      if ($id < 3) {
+        continue;
+      }
+
+      $query = db_select('yp_term_sync_state', 'ytss')
+        ->fields('ytss', array('tid'))
+        ->condition('pid', $id, '=')
+        ->condition('type', YP_TERM_TYPE_CATEGORY, '=');
+      $result = $query->execute()->fetchCol();
+      $tid = reset($result);
+
+      $category_names = array(
+        'ru' => (string) $item->ru_field,
+        'ro' => (string) $item->ro_field,
+        'en' => (string) $item->en_field,
+      );
+
+      $category_term = yellow_pages_sync_create_term($category_names, YP_TERM_TYPE_CATEGORY, $tid);
+
+      $parents = array();
+      foreach ($item->parents->{'list-item'} as $parent) {
+        $parents[] = (int) $parent;
+      }
+
+      if (empty($parents)) {
+        yellow_pages_sync_write_term_relation($id, $category_term->tid, 0, YP_TERM_TYPE_CATEGORY);
+      }
+      else {
+        foreach ($parents as $parent) {
+          if ($parent < 2) {
+            $parent = 0;
+          }
+          yellow_pages_sync_write_term_relation($id, $category_term->tid, $parent, YP_TERM_TYPE_CATEGORY);
+        }
+      }
+    }
+
+    $context['sandbox']['products'] = array();
+
+    // Read and process products.
+    $xml_products = yellow_pages_sync_read_xml(variable_get('yp_sync_source', SYNC_SOURCE) . '/products/');
+    if (!$xml_products) {
+      return;
+    }
+
+    foreach ($xml_products->{'list-item'} as $item) {
+      $parents = array();
+
+      foreach ($item->nodes->{'list-item'} as $parent) {
+        $parents[] = (int) $parent;
+      }
+
+      $context['sandbox']['products'][] = array(
+        'ru' => (string) $item->ru_field,
+        'ro' => (string) $item->ro_field,
+        'en' => (string) $item->en_field,
+        'id' => (int) $item->id,
+        'parents' => $parents,
+      );
+    }
+
+    $context['sandbox']['progress'] = 0;
+    $context['sandbox']['max'] = count($context['sandbox']['products']);
+  }
+
+  // Sync products.
+  $current = $context['sandbox']['progress'];
+  $slice = array_slice($context['sandbox']['products'], $current, $current + SYNC_BATCH);
+  foreach ($slice as $item) {
+    $query = db_select('yp_term_sync_state', 'ytss')
+      ->fields('ytss', array('tid'))
+      ->condition('pid', $item['id'], '=')
+      ->condition('type', YP_TERM_TYPE_PRODUCT, '=');
+    $result = $query->execute()->fetchCol();
+    $tid = reset($result);
+
+    $product_names = array(
+      'ru' => $item['ru'],
+      'ro' => $item['ro'],
+      'en' => $item['en'],
+    );
+
+    $product_term = yellow_pages_sync_create_term($product_names, YP_TERM_TYPE_PRODUCT, $tid);
+
+    $parents = array();
+    foreach ($item['parents'] as $parent) {
+      $parents[] = $parent;
+    }
+
+    if (empty($parents)) {
+      yellow_pages_sync_write_term_relation($item['id'], $product_term->tid, 0, YP_TERM_TYPE_PRODUCT);
+    }
+    else {
+      foreach ($parents as $parent) {
+        if ($parent < 2) {
+          $parent = 0;
+        }
+        yellow_pages_sync_write_term_relation($item['id'], $product_term->tid, $parent, YP_TERM_TYPE_PRODUCT);
+      }
+    }
+
+    $context['sandbox']['progress']++;
+    if ($context['sandbox']['progress'] == $context['sandbox']['max']) {
+      break;
+    }
+  }
+
+  drupal_get_messages();
+
+  if ($context['sandbox']['progress'] != $context['sandbox']['max']) {
+    $context['finished'] = $context['sandbox']['progress'] / $context['sandbox']['max'];
+  }
+}
+
+/**
+ * Creates a batch for linking term hirerachy based on products relations.
+ */
+function yellow_pages_sync_taxonomy_parents(&$context) {
+  if (!isset($context['sandbox']['progress'])) {
+    $query = db_select('yp_term_sync_state', 'ysst')
+      ->fields(NULL, array('tid'))
+      ->condition('parent', 0, '<>')
+      ->countQuery();
+    $result = $query->execute()->fetchCol();
+
+    $context['sandbox']['progress'] = 0;
+    $context['sandbox']['max'] = reset($result);
+  }
+
+  $query = db_select('yp_term_sync_state', 'ysst')
+    ->distinct()
+    ->condition('parent', 0, '<>')
+    ->fields('ysst', array('parent'))
+    ->range($context['sandbox']['progress'], SYNC_BATCH);
+  $parents = $query->execute()->fetchCol();
+
+  foreach ($parents as $parent_pid) {
+    $query = db_select('yp_term_sync_state', 'ysst')
+      ->fields('ysst', array('tid'))
+      ->condition('type', YP_TERM_TYPE_CATEGORY, '=')
+      ->condition('pid', $parent_pid, '=');
+    $parent_tid = $query->execute()->fetchField();
+
+    $query = db_select('yp_term_sync_state', 'ysst')
+      ->fields('ysst', array('tid'))
+      ->condition('parent', $parent_pid, '=');
+    $children = $query->execute()->fetchCol();
+
+    if (!empty($children) && is_array($children)) {
+      db_delete('taxonomy_term_hierarchy')
+        ->condition('tid', $children, 'IN')
+        ->condition('parent', array(0, $parent_tid), 'IN')
+        ->execute();
+
+      foreach ($children as $child) {
+        db_insert('taxonomy_term_hierarchy')
+          ->fields(array(
+            'tid' => $child,
+            'parent' => $parent_tid,
+          ))
+          ->execute();
+      }
+    }
+  }
+
+  $context['sandbox']['progress'] += SYNC_BATCH;
+
+  if ($context['sandbox']['progress'] < $context['sandbox']['max'] && $context['sandbox']['progress'] != $context['sandbox']['max']) {
+    $context['finished'] = $context['sandbox']['progress'] / $context['sandbox']['max'];
+  }
+}
+
+/**
+ * Creates a batch for assigning orphan products to a defaul category.
+ */
+function yellow_pages_sync_taxonomy_force_parents(&$context) {
+  if (!isset($context['sandbox']['progress'])) {
+    $query = db_select('yp_term_sync_state', 'ysst')
+      ->fields(NULL, array('tid'))
+      ->condition('parent', 0, '=')
+      ->condition('type', YP_TERM_TYPE_PRODUCT)
+      ->countQuery();
+    $result = $query->execute()->fetchCol();
+
+    $context['sandbox']['progress'] = 0;
+    $context['sandbox']['max'] = reset($result);
+    $context['sandbox']['default_parent_tid'] = yellow_pages_sync_default_parent();
+  }
+
+  $query = db_select('yp_term_sync_state', 'ysst')
+    ->fields('ysst', array('tid'))
+    ->condition('parent', 0, '=')
+    ->condition('type', YP_TERM_TYPE_PRODUCT)
+    ->range($context['sandbox']['progress'], SYNC_BATCH);
+  $result = $query->execute()->fetchCol();
+
+  db_update('taxonomy_term_hierarchy')
+    ->fields(array(
+      'parent' => $context['sandbox']['default_parent_tid'],
+    ))
+    ->condition('tid', $result, 'IN')
+    ->execute();
+
+  $context['sandbox']['progress'] += SYNC_BATCH;
+
+  if ($context['sandbox']['progress'] < $context['sandbox']['max'] && $context['sandbox']['progress'] != $context['sandbox']['max']) {
+    $context['finished'] = $context['sandbox']['progress'] / $context['sandbox']['max'];
+  }
+}
+
+/**
+ * Fetches default parent category for orphaned product terms.
+ *
+ * @return int
+ *   Term id.
+ */
+function yellow_pages_sync_default_parent() {
+  $name = array(
+    'ru' => 'Другое',
+    'en' => 'Other',
+    'ro' => 'Diverse',
+  );
+  $terms = taxonomy_get_term_by_name($name['ru'], SYNC_VOCABULARY);
+
+  if (empty($terms)) {
+    $term = yellow_pages_sync_create_term($name, YP_TERM_TYPE_CATEGORY);
+  }
+  else {
+    $term = reset($terms);
+  }
+
+  return $term->tid;
+}
+
+/**
+ * Provides a wrapper for creating product/category terms.
+ *
+ * @param mixed $name
+ *   Single or a set of names.
+ * @param int $type
+ *   Term type (product/category).
+ * @param int $tid
+ *   Term tid, if set a term with this id will be updated.
+ *
+ * @return stdClass
+ *   Altered term object.
+ */
+function yellow_pages_sync_create_term($name, $type = YP_TERM_TYPE_PRODUCT, $tid = NULL) {
+  if ($tid) {
+    $term = taxonomy_term_load($tid);
+  }
+  else {
+    $term = new stdClass();
+    $term->vid = yellow_pages_sync_term_target_vocabulary();
+    $term->field_product_type[LANGUAGE_NONE][0]['value'] = $type;
+  }
+
+  $term->name = is_array($name) ? $name['ru'] : $name;
+
+  taxonomy_term_save($term);
+
+  if (is_array($name)) {
+    $languages = array('en', 'ro');
+
+    foreach ($languages as $lang) {
+      i18n_string_translation_update(
+        array('taxonomy', 'term', $term->tid, 'name'),
+        !empty($name[$lang]) ? $name[$lang] : '',
+        $lang
+      );
+    }
+  }
+
+  return $term;
+}
+
+/**
+ * Fetched the term id for a previously synced product/category.
+ *
+ * @param int $pid
+ *   Original product/category id.
+ * @param int $type
+ *   Entry type.
+ *
+ * @return int
+ *   Term id, if any.
+ */
+function yellow_pages_sync_synced_term($pid, $type = YP_TERM_TYPE_PRODUCT) {
+  $query = db_select('yp_term_sync_state', 'yts')
+    ->fields('yts', array('tid'))
+    ->condition('pid', $pid, '=')
+    ->condition('type', $type, '=');
+  $result = $query->execute()->fetchCol();
+
+  return reset($result);
+}
+
+/**
+ * Final callback for the overall sync batch.
+ */
+function yellow_pages_sync_batch_finish($success, $results, $operations) {
+  drupal_get_messages();
+  if ($success) {
+    drupal_set_message(t('Synchronisation process complete.'));
+  }
+  else {
+    drupal_set_message(t('Synchronisation process failed.'), 'error');
+  }
+}
+
+/**
+ * Implements hook_node_delete().
+ */
+function yellow_pages_sync_node_delete($node) {
+  if ($node->type == 'company') {
+    db_delete('yp_sync_state')
+      ->condition('nid', $node->nid, '=')
+      ->execute();
+  }
+}
+
+/**
+ * Implements hook_taxonomy_term_delete().
+ */
+function yellow_pages_sync_taxonomy_term_delete($term) {
+  $vid = yellow_pages_sync_term_target_vocabulary();
+
+  if ($term->vid == $vid) {
+    db_delete('yp_term_sync_state')
+      ->condition('tid', $term->tid, '=')
+      ->execute();
+  }
+}
+
+/**
+ * Creates a batch for linking nodes together based on affiliated context.
+ */
+function yellow_pages_sync_filials(&$context) {
+  if (!isset($context['sandbox']['progress'])) {
+    $query = db_select('yp_sync_state')
+      ->condition('parent', 0, '=')
+      ->countQuery();
+    $result = $query->execute()->fetchCol();
+
+    $context['sandbox']['progress'] = 0;
+    $context['sandbox']['max'] = reset($result);
+  }
+
+  $query = db_select('yp_sync_state', 'yss')
+    ->distinct()
+    ->fields('yss', array('nid'))
+    ->condition('parent', 0, '=')
+    ->range($context['sandbox']['progress'], SYNC_BATCH);
+  $synced = $query->execute()->fetchCol();
+
+  foreach ($synced as $parent_nid) {
+    $context['sandbox']['progress']++;
+    yellow_pages_sync_link_filials($parent_nid);
+  }
+
+  if ($context['sandbox']['progress'] != $context['sandbox']['max']) {
+    $context['finished'] = $context['sandbox']['progress'] / $context['sandbox']['max'];
+  }
+}
+
+/**
+ * Creates a batch for attaching existing logos to synced enterprises.
+ */
+function yellow_pages_sync_logos(&$context) {
+  if (!isset($context['sandbox']['progress'])) {
+    $query = db_select('yp_sync_state', 'yss')
+      ->countQuery();
+    $result = $query->execute()->fetchCol();
+
+    $context['sandbox']['progress'] = 0;
+    $context['sandbox']['max'] = reset($result);
+  }
+
+  $query = db_select('yp_sync_state', 'yss')
+    ->fields('yss', array('eid', 'nid'))
+    ->range($context['sandbox']['progress'], SYNC_BATCH);
+  $synced = $query->execute()->fetchAll();
+
+  foreach ($synced as $item) {
+    yellow_pages_sync_attach_logo($item->eid, $item->nid);
+    $context['sandbox']['progress']++;
+  }
+
+  if ($context['sandbox']['progress'] != $context['sandbox']['max']) {
+    $context['finished'] = $context['sandbox']['progress'] / $context['sandbox']['max'];
+  }
+}
+
+/**
+ * Attaches the logo file to a certain node.
+ *
+ * @param int $eid
+ *   Original enterprise id.
+ * @param int $nid
+ *   Synced node id.
+ */
+function yellow_pages_sync_attach_logo($eid, $nid) {
+  $query = db_select('node', 'n')
+    ->fields('n', array('nid'))
+    ->condition('tnid', $nid, '=');
+  $tnids = $query->execute()->fetchCol();
+
+  $nodes = node_load_multiple($tnids);
+  if (!empty($nodes)) {
+    $logo = yellow_pages_sync_create_logo($eid);
+    if (isset($logo->fid)) {
+      foreach ($nodes as $node) {
+        $node->field_company_logo[LANGUAGE_NONE][0] = (array) $logo;
+        node_save($node);
+      }
+    }
+  }
+}
+
+/**
+ * Creates an entry in the file system for a certain logo attached
+ * to an enterprise.
+ *
+ * @param int $eid
+ *   Original enterprise id.
+ *
+ * @return mixed
+ *   File object on success, FALSE otherwise.
+ */
+function yellow_pages_sync_create_logo($eid) {
+  $path = dirname(__FILE__) . '/logo/' . $eid . '-L1.gif';
+  $logo_content = yellow_pages_sync_read_logo($path);
+  $dest = 'public://logo/';
+
+  if ($logo_content && file_prepare_directory($dest, FILE_CREATE_DIRECTORY | FILE_MODIFY_PERMISSIONS)) {
+    $file = file_save_data($logo_content, $dest . $eid . '.gif', FILE_EXISTS_REPLACE);
+
+    return $file;
+  }
+
+  return FALSE;
+}
+
+/**
+ * Reads the content of the logo.
+ *
+ * @param string $path
+ *   File path uri.
+ *
+ * @return string
+ *   File contents if file exists and is readable, FALSE otherwise.
+ */
+function yellow_pages_sync_read_logo($path) {
+  if (!is_readable($path)) {
+    return FALSE;
+  }
+
+  return @file_get_contents($path);
+}
+
+/**
+ * Creates a batch operation for bulk updating the nodes.
+ *
+ * Mainly used to update geocoder maps.
+ */
+function yellow_pages_sync_node_batch_rebuild(&$context) {
+  if (!isset($context['sandbox']['progress'])) {
+    $context['sandbox']['synced'] = 0;
+    $context['sandbox']['progress'] = 0;
+    $context['sandbox']['max'] = 2500;
+  }
+
+  $query = db_select('yp_sync_state', 'yss')
+    ->fields('yss', array('nid'))
+    ->isNull('fdfg.entity_id');
+  $query
+    ->leftJoin('field_data_field_geocode', 'fdfg', 'yss.nid=fdfg.entity_id');
+  $query
+    ->range($context['sandbox']['progress'], SYNC_BATCH);
+
+  $skip = variable_get('yp_rebuild_skip', array());
+  if (!empty($skip)) {
+    $query->condition('nid', $skip, 'NOT IN');
+  }
+
+  $result = $query->execute()->fetchCol();
+
+  if (!empty($result)) {
+    foreach ($result as $nid) {
+      if (yellow_pages_sync_node_rebuild($nid)) {
+        $context['results'][] = $nid;
+        $context['sandbox']['synced']++;
+
+        if ($context['sandbox']['synced'] == $context['sandbox']['max']) {
+          break;
+        }
+      }
+      else {
+        $skip[] = $nid;
+      }
+    }
+
+    $t = array(
+      '@count' => $context['sandbox']['synced'],
+      '@total' => $context['sandbox']['max'],
+    );
+    $context['message'] = t('Processed: @count/@total', $t);
+
+    $context['sandbox']['progress'] += count($result);
+    variable_set('yp_last_rebuild', REQUEST_TIME);
+
+    if ($context['sandbox']['synced'] == $context['sandbox']['max']) {
+      $context['finished'] = 1;
+    }
+    else {
+      $context['finished'] = $context['sandbox']['progress'] / $context['sandbox']['max'];
+    }
+  }
+  else {
+    $context['finished'] = 1;
+  }
+
+  variable_set('yp_rebuild_skip', $skip);
+}
+
+/**
+ * Finish callback for bulk node update batch.
+ *
+ * @see yellow_pages_sync_node_batch_rebuild()
+ */
+function yellow_pages_sync_node_batch_rebuild_finish($success, $results, $operations) {
+  drupal_get_messages();
+
+  if ($success) {
+    drupal_set_message(t('@count nodes updated.', array('@count' => count($results))));
+  }
+  else {
+    drupal_set_message(t('Failed to rebuild nodes.'), 'error');
+  }
+}
+
+/**
+ * Forces the node to be re-saved.
+ *
+ * @param int $nid
+ *   Node id.
+ */
+function yellow_pages_sync_node_rebuild($nid) {
+  $node = node_load($nid);
+  $address = field_get_items('node', $node, 'field_address');
+
+  // Do not fetch geodata if no address is present
+  // or premise (office) is defined.
+  if (!$address || !empty($address[0]['premise'])) {
+    return FALSE;
+  }
+
+  module_load_include('inc', 'node', 'node.pages');
+  $test_state = array(
+    'values' => array(
+      'op' => t('Save'),
+    ),
+  );
+  drupal_form_submit('company_node_form', $test_state, $node);
+  drupal_get_messages();
+
+  $geocode = field_get_items('node', $node, 'field_geocode');
+  if (!$geocode) {
+    return FALSE;
+  }
+
+  yellow_pages_sync_update_geocode($node);
+
+  return TRUE;
+}
+
+/**
+ * Updates geocode field data for translations of a given node.
+ *
+ * @param stdClass $node
+ *   Main node, whose translations should be updated.
+ */
+function yellow_pages_sync_update_geocode(stdClass $node) {
+  if (!isset($node->field_geocode[LANGUAGE_NONE])) {
+    return;
+  }
+
+  $lat = $node->field_geocode[LANGUAGE_NONE][0]['lat'];
+  $lon = $node->field_geocode[LANGUAGE_NONE][0]['lon'];
+
+  $query = db_select('node', 'n')
+    ->fields('n', array('nid'))
+    ->condition('tnid', $node->nid, '=')
+    ->condition('nid', $node->nid, '<>');
+  $result = $query->execute()->fetchCol();
+
+  foreach ($result as $_nid) {
+    $_n = node_load($_nid);
+    $_n->field_geocode = $node->field_geocode;
+    $_n->field_geocode[LANGUAGE_NONE][0]['geom'] = "POINT ($lon $lat)";
+    field_attach_update('node', $_n);
+  }
+}

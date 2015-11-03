@@ -1,0 +1,17 @@
+<?php
+/**
+ * @file
+ * Code for the Yellow Pages Frontend feature.
+ */
+
+include_once 'yellow_pages_frontend.features.inc';
+
+/**
+ * Implements hook_entity_info_alter().
+ */
+function yellow_pages_frontend_entity_info_alter(&$entity_info) {
+  $entity_info['node']['view modes']['slider_teaser'] = array(
+    'label' => t('Slider teaser'),
+    'custom settings' => TRUE,
+  );
+}

@@ -1,0 +1,38 @@
+<?php
+/**
+ * @file
+ * Core functionality, not suitable to be specifically placed anywhere else.
+ */
+
+/**
+ * Implements hook_menu().
+ */
+function yellow_pages_core_menu() {
+  $items = array();
+
+  $items['admin/config/yp'] = array(
+    'title' => 'Yellow Pages',
+    'description' => 'Yellow Pages related settings',
+    'page callback' => 'system_admin_menu_block_page',
+    'access arguments' => array('access administration pages'),
+    'file' => 'system.admin.inc',
+    'file path' => drupal_get_path('module', 'system'),
+  );
+
+  return $items;
+}
+
+/**
+ * Implements hook_FORM_ID_alter().
+ *
+ * Enrich site settings with additional description field.
+ */
+function yellow_pages_core_form_system_site_information_settings_alter(&$form, &$form_state) {
+  $form['site_information']['site_description'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Site description'),
+    '#default_value' => variable_get('site_description'),
+  );
+
+  $form['site_information']['site_mail']['#weight'] = '99';
+}

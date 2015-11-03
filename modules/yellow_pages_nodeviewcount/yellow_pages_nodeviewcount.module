@@ -1,0 +1,7 @@
+<?php
+/**
+ * @file
+ * Code for the Yellow pages nodeviewcount feature.
+ */
+
+include_once 'yellow_pages_nodeviewcount.features.inc';

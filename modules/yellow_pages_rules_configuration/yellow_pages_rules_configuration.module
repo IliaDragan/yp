@@ -1,0 +1,61 @@
+<?php
+/**
+ * @file
+ * Code for the Yellow pages rules configuration feature.
+ */
+
+include_once 'yellow_pages_rules_configuration.features.inc';
+
+/**
+ * Implements hook_cron().
+ */
+function yellow_pages_rules_configuration_cron() {
+  $tod = mktime(0, 0, 0);
+
+  $result = db_query('SELECT n.nid FROM {node} n
+      JOIN {node_expire} ne ON n.nid = ne.nid
+      WHERE ne.expire = :ne_expire',
+      array(':ne_expire' => strtotime('+10 day', $tod)));
+
+  foreach ($result as $record) {
+    $node = node_load($record->nid);
+    rules_invoke_event('node_expire_in_10_days', $node);
+  }
+
+  // Check companies logos expiration.
+  $tod_plus_week = date('Y-m-d', strtotime('+1 week')) . ' 00:00:00';
+  $logos_week = db_select('field_data_field_logo_expiration_date', 'd')
+    ->fields('d', array('entity_id'))
+    ->condition('d.entity_type', 'node')
+    ->condition('d.field_logo_expiration_date_value', $tod_plus_week)
+    ->execute();
+
+  foreach ($logos_week as $record) {
+    $node = node_load($record->entity_id);
+    rules_invoke_event('logo_expire_in_week', $node);
+  }
+
+  $tod_plus_day = date('Y-m-d', strtotime('+1 day')) . ' 00:00:00';
+  $logos_day = db_select('field_data_field_logo_expiration_date', 'd')
+    ->fields('d', array('entity_id'))
+    ->condition('d.entity_type', 'node')
+    ->condition('d.field_logo_expiration_date_value', $tod_plus_day)
+    ->execute();
+
+  foreach ($logos_day as $record) {
+    $node = node_load($record->entity_id);
+    rules_invoke_event('logo_expire_in_day', $node);
+  }
+}
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ */
+function yellow_pages_rules_configuration_form_company_node_form_alter(&$form, &$form_state) {
+  // Show "Expiration date" if sticky is checked.
+  $form['options']['expire']['#states'] = array(
+    'visible' => array(   // action to take.
+      '#edit-sticky' => array('checked' => TRUE),
+    ),
+  );
+}

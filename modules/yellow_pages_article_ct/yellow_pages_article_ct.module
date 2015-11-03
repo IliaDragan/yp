@@ -1,0 +1,26 @@
+<?php
+/**
+ * @file
+ * Code for the Yellow pages Article CT feature.
+ */
+
+include_once 'yellow_pages_article_ct.features.inc';
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ */
+function yellow_pages_article_ct_form_article_node_form_alter(&$form, &$form_state, $form_id) {
+  $hide = array(
+    'comment_settings',
+    'revision_information',
+    'translation',
+    'path',
+    'author',
+  );
+  foreach ($hide as $item) {
+    if (isset($form[$item])) {
+      hide($form[$item]);
+    }
+  }
+}
+

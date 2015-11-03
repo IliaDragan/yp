@@ -101,6 +101,9 @@ projects[media_youtube][subdir] = "contrib"
 projects[module_filter][version] = "2.0"
 projects[module_filter][subdir] = "contrib"
 
+projects[navigation404][version] = "1.0"
+projects[navigation404][subdir] = "contrib"
+
 projects[node_expire][version] = "1.8"
 projects[node_expire][subdir] = "contrib"
 

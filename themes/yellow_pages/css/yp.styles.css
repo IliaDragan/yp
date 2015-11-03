@@ -490,10 +490,6 @@ header .search-link-mobile {
   }
 }
 
-.product-link {
-  display: none;
-}
-
 .inner-menu-wrapper {
   float: right;
 }
@@ -2858,32 +2854,6 @@ body > .node-advertisement {
 
   .block-system.block-menu {
     display: none;
-  }
-
-  .product-link {
-    clear: both;
-    display: block;
-    margin: 0 -30px;
-    line-height: 30px;
-    background: #c8c8c8;
-    text-align: center;
-    text-transform: uppercase;
-    font-size: 12px;
-    font-weight: bold;
-  }
-  .product-link:hover {
-    color: #1d1d1d;
-  }
-  .product-link .link-icon {
-    display: inline-block;
-    vertical-align: 1px;
-    margin-right: 15px;
-    width: 6px;
-    height: 6px;
-    background: #1d1d1d;
-    -moz-box-shadow: -8px 0px 0 0 #1d1d1d, 8px 0 0 0 #1d1d1d;
-    -webkit-box-shadow: -8px 0px 0 0 #1d1d1d, 8px 0 0 0 #1d1d1d;
-    box-shadow: -8px 0px 0 0 #1d1d1d, 8px 0 0 0 #1d1d1d;
   }
 
   .homepage-container .pane-title {

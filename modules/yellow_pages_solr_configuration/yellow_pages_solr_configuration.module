@@ -170,19 +170,23 @@ function yellow_pages_solr_configuration_language_switch_links_alter(&$links) {
  */
 function yellow_pages_solr_configuration_search_api_solr_documents_alter(array &$documents, SearchApiIndex $index, array $items) {
   foreach ($documents as $document) {
-    $language = $document->getField('ss_language');
     $content_type = $document->getField('ss_type');
 
-    if ($content_type['value'] === 'company' && $language['value'] === 'ro') {
+    if ($content_type['value'] === 'company') {
       $term_ids = $document->getField('im_field_products$product');
 
       if (isset($term_ids['value']) && is_array($term_ids['value'])) {
+        $locales = array('en', 'ro');
+
         foreach ($term_ids['value'] as $key => $term_id) {
           $term = i18n_get_object('taxonomy_term', $term_id);
-          $translated_term = $term->localize('ro');
-          $translated_term_name = $translated_term->name;
-
-          $document->addField('tm_field_products$product$name', $translated_term_name);
+          foreach ($locales as $locale) {
+            $translated_term = $term->localize($locale);
+            if (isset($translated_term->name) && !empty($translated_term->name)) {
+              $translated_term_name = $translated_term->name;
+              $document->addField('tm_field_products$product$name', $translated_term_name);
+            }
+          }
         }
       }
     }

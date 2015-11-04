@@ -174,7 +174,29 @@ function yellow_pages_company_ct_form_company_node_form_alter(&$form, &$form_sta
 function yellow_pages_company_ct_company_edit_submit(&$form, &$form_state) {
   $new_node = node_form_submit_build_node($form, $form_state);
   diff_node_form_build_preview_changes($form, $form_state);
-  $new_node->company_diff = $form_state['node_preview'];
+
+  // Add styles.
+  $search = array(
+    '<em class="placeholder">',
+    '<span class="diffchange">',
+    'class="diff-context diff-deletedline"',
+    'class="diff-context diff-addedline"',
+    'class="diff-context"',
+    'class="diff-marker"',
+    'class="diff-section-title"',
+  );
+  $replace = array(
+    '<em style="font-style: italic;">',
+    '<span style="color: #f00; font-weight: bold;">',
+    'style="background-color: #ffa; padding: 2px 5px; display: inline-block;"',
+    'style="background-color: #afa; padding: 2px 5px; display: inline-block;"',
+    'style="background-color: #fafafa; padding: 2px 5px; display: inline-block;"',
+    'style="width: 20px; padding: 2px 5px;"',
+    'style="font-size: 10px; font-weight: bold; padding: 2px 10px;"',
+  );
+  $changes = str_replace ($search , $replace , $form_state['node_preview']);
+
+  $new_node->company_diff = $changes;
   unset($form_state['node_preview']);
 
   rules_invoke_event('node_presave--company', $new_node);

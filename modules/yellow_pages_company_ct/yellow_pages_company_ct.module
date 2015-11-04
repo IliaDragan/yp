@@ -172,80 +172,11 @@ function yellow_pages_company_ct_form_company_node_form_alter(&$form, &$form_sta
  * Alternative submit for company edit form for enterprise editor roles.
  */
 function yellow_pages_company_ct_company_edit_submit(&$form, &$form_state) {
-  $old_node = $form['#node'];
   $new_node = node_form_submit_build_node($form, $form_state);
+  diff_node_form_build_preview_changes($form, $form_state);
+  $new_node->company_diff = $form_state['node_preview'];
+  unset($form_state['node_preview']);
 
-  // Set date of node changing.
-  $old_node->field_changed_by_editor_date[LANGUAGE_NONE][0]['value'] = date('Y-m-d H:i:s');
-  field_attach_update('node', $old_node);
-
-  $fields_instances = field_info_instances('node', 'company');
-  $diffs = array();
-  foreach ($fields_instances as $field_name => $field) {
-    $field_diffs = array();
-    $old = field_get_items('node', $old_node, $field_name);
-    $new = field_get_items('node', $new_node, $field_name);
-
-
-    if (!empty($old) || !empty($new)) {
-
-      $val_count = max(count($old), count($new));
-      for ($i = 0; $i < $val_count; $i++) {
-        $field_diffs[$i] = array();
-
-        if (!empty($new[$i])) {
-          if (!empty($old[$i])) {
-            // Changed.
-            $diff = array_diff_assoc($new[$i], $old[$i]);
-
-            foreach ($diff as $key => $value) {
-              if (!empty($value)) {
-                $field_diffs[$i][$key] = array('new' => $value);
-                if (!empty($old[$i][$key])) {
-                  $field_diffs[$i][$key]['op'] = 'Changed';
-                  $field_diffs[$i][$key]['old'] = $old[$i][$key];
-                }
-                else {
-                  $field_diffs[$i][$key]['op'] = 'Added';
-                }
-              }
-            }
-          }
-          else {
-            // Added.
-            foreach ($new[$i] as $key => $value) {
-              if (!empty($value)) {
-                $field_diffs[$i][$key] = array(
-                  'op' => 'Added',
-                  'old' => $value,
-                );
-              }
-            }
-          }
-        }
-        else {
-          // Removed.
-          foreach ($old[$i] as $key => $value) {
-            if (!empty($value)) {
-              $field_diffs[$i][$key] = array(
-                'op' => 'Removed',
-                'old' => $value,
-              );
-            }
-          }
-        }
-
-        if (empty($field_diffs[$i])) {
-          unset($field_diffs[$i]);
-        }
-      }
-    }
-    if (!empty($field_diffs)) {
-      $field_diffs['label'] = $field['label'];
-      $diffs[$field_name] = $field_diffs;
-    }
-  }
-  $new_node->company_diff = theme('yellow_pages_company_ct_node_diff', array('diff' => $diffs));
   rules_invoke_event('node_presave--company', $new_node);
   rules_invoke_event('node_presave', $new_node);
 }
@@ -491,18 +422,4 @@ function _check_company_has_editors($nid) {
   $num_rows = $query->countQuery()->execute()->fetchField();
 
   return !empty($num_rows);
-}
-
-/**
- * Implements hook_theme().
- */
-function yellow_pages_company_ct_theme($existing, $type, $theme, $path) {
-  $path = drupal_get_path('module', 'yellow_pages_company_ct') . '/templates';
-  return array(
-    'yellow_pages_company_ct_node_diff' => array(
-      'variables' => array('diff' => array()),
-      'template' => 'yellow-pages-company-ct-node-diff',
-      'path' => $path,
-    ),
-  );
 }

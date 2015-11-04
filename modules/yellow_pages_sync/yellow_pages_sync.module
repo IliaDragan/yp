@@ -301,11 +301,11 @@ function yellow_pages_sync_node(SimpleXMLElement $list_item) {
     }
   }
   // Addresses.
-  if (!empty($item['addresses']['en'])) {
+  if (!empty($item['addresses']['ru'])) {
     unset($entity->field_address[LANGUAGE_NONE]);
     unset($entity->field_region[LANGUAGE_NONE]);
 
-    foreach ($item['addresses']['en'] as $k => $address) {
+    foreach ($item['addresses']['ru'] as $k => $address) {
       $entity->field_address[LANGUAGE_NONE][$k] = array(
         'country' => 'MD',
         'locality' => $address['city'],
@@ -406,6 +406,24 @@ function yellow_pages_sync_node(SimpleXMLElement $list_item) {
     unset($translated_entity->field_advertisements);
 
     $translated_entity->title = !empty($item['title'][$lang]) ? $item['title'][$lang] : 'Без титула';
+
+    // Addresses.
+    if (!empty($item['addresses'][$lang])) {
+      unset($translated_entity->field_address[LANGUAGE_NONE]);
+      unset($translated_entity->field_region[LANGUAGE_NONE]);
+
+      foreach ($item['addresses'][$lang] as $k => $address) {
+        $translated_entity->field_address[LANGUAGE_NONE][$k] = array(
+          'country' => 'MD',
+          'locality' => $address['city'],
+          'postal_code' => $address['pcode'],
+          'thoroughfare' => $address['address'],
+          'premise' => $address['premise'],
+        );
+
+        $translated_entity->field_region[LANGUAGE_NONE][$k]['value'] = $address['region'];
+      }
+    }
 
     node_save($translated_entity);
 
@@ -629,7 +647,7 @@ function yellow_pages_sync_process_source_element_products(SimpleXMLElement $sou
         else {
           $products[] = array(
             'product' => $tid,
-            'source' => YP_PRODUCT_SERVICES,
+            'source' => YP_PRODUCT_SELL,
           );
         }
       }
@@ -663,13 +681,13 @@ function yellow_pages_sync_process_source_element_address(SimpleXMLElement $sour
         $office = trim((string) $item->office);
         $postal_code = (int) $item->pcode->{'list-item'};
 
-        $thoroughfare = str_replace(array('bd.', 'str.', 'ул.'), '', $street);
+        $thoroughfare = $street;
         if (!empty($house)) {
           $thoroughfare .= ' ' . $house;
         }
 
         $addresses[$locale][] = array(
-          'city' => str_replace(array('mun.', 'or.', 's.', 'г.'), '', $city),
+          'city' => $city,
           'pcode' => $postal_code,
           'address' => $thoroughfare,
           'region' => $region,
@@ -793,6 +811,7 @@ function yellow_pages_sync_write_term_relation($id, $tid, $parent_id = 0, $type 
       'pid' => $id,
       'tid' => $tid,
       'type' => $type,
+      'parent' => $parent_id,
     ))
     ->fields(array(
       'pid' => $id,
@@ -826,14 +845,14 @@ function yellow_pages_sync_taxonomy(&$context) {
         ->condition('type', YP_TERM_TYPE_CATEGORY, '=');
       $result = $query->execute()->fetchCol();
       $tid = reset($result);
-      if (!$category_term = taxonomy_term_load($tid)) {
-        $category_names = array(
-          'ru' => (string) $item->ru_field,
-          'ro' => (string) $item->ro_field,
-          'en' => (string) $item->en_field,
-        );
-        $category_term = yellow_pages_sync_create_term($category_names, YP_TERM_TYPE_CATEGORY);
-      }
+
+      $category_names = array(
+        'ru' => (string) $item->ru_field,
+        'ro' => (string) $item->ro_field,
+        'en' => (string) $item->en_field,
+      );
+
+      $category_term = yellow_pages_sync_create_term($category_names, YP_TERM_TYPE_CATEGORY, $tid);
 
       $parents = array();
       foreach ($item->parents->{'list-item'} as $parent) {
@@ -891,14 +910,14 @@ function yellow_pages_sync_taxonomy(&$context) {
       ->condition('type', YP_TERM_TYPE_PRODUCT, '=');
     $result = $query->execute()->fetchCol();
     $tid = reset($result);
-    if (!$product_term = taxonomy_term_load($tid)) {
-      $product_names = array(
-        'ru' => $item['ru'],
-        'ro' => $item['ro'],
-        'en' => $item['en'],
-      );
-      $product_term = yellow_pages_sync_create_term($product_names, YP_TERM_TYPE_PRODUCT);
-    }
+
+    $product_names = array(
+      'ru' => $item['ru'],
+      'ro' => $item['ro'],
+      'en' => $item['en'],
+    );
+
+    $product_term = yellow_pages_sync_create_term($product_names, YP_TERM_TYPE_PRODUCT, $tid);
 
     $parents = array();
     foreach ($item['parents'] as $parent) {
@@ -964,13 +983,20 @@ function yellow_pages_sync_taxonomy_parents(&$context) {
       ->condition('parent', $parent_pid, '=');
     $children = $query->execute()->fetchCol();
 
-    if (!empty($children)) {
-      db_update('taxonomy_term_hierarchy')
-        ->fields(array(
-          'parent' => $parent_tid,
-        ))
+    if (!empty($children) && is_array($children)) {
+      db_delete('taxonomy_term_hierarchy')
         ->condition('tid', $children, 'IN')
+        ->condition('parent', array(0, $parent_tid), 'IN')
         ->execute();
+
+      foreach ($children as $child) {
+        db_insert('taxonomy_term_hierarchy')
+          ->fields(array(
+            'tid' => $child,
+            'parent' => $parent_tid,
+          ))
+          ->execute();
+      }
     }
   }
 
@@ -1034,16 +1060,10 @@ function yellow_pages_sync_default_parent() {
   $terms = taxonomy_get_term_by_name($name['ru'], SYNC_VOCABULARY);
 
   if (empty($terms)) {
-    $term = yellow_pages_sync_create_term($name, YP_TERM_TYPE_PRODUCT);
+    $term = yellow_pages_sync_create_term($name, YP_TERM_TYPE_CATEGORY);
   }
   else {
     $term = reset($terms);
-  }
-
-  $languages = array('en', 'ro');
-
-  foreach ($languages as $lang) {
-    i18n_string_translation_update(array('taxonomy', 'term', $term->tid, 'name'), $name[$lang], $lang);
   }
 
   return $term->tid;
@@ -1056,15 +1076,23 @@ function yellow_pages_sync_default_parent() {
  *   Single or a set of names.
  * @param int $type
  *   Term type (product/category).
+ * @param int $tid
+ *   Term tid, if set a term with this id will be updated.
  *
  * @return stdClass
  *   Altered term object.
  */
-function yellow_pages_sync_create_term($name, $type = YP_TERM_TYPE_PRODUCT) {
-  $term = new stdClass();
+function yellow_pages_sync_create_term($name, $type = YP_TERM_TYPE_PRODUCT, $tid = NULL) {
+  if ($tid) {
+    $term = taxonomy_term_load($tid);
+  }
+  else {
+    $term = new stdClass();
+    $term->vid = yellow_pages_sync_term_target_vocabulary();
+    $term->field_product_type[LANGUAGE_NONE][0]['value'] = $type;
+  }
+
   $term->name = is_array($name) ? $name['ru'] : $name;
-  $term->vid = yellow_pages_sync_term_target_vocabulary();
-  $term->field_product_type[LANGUAGE_NONE][0]['value'] = $type;
 
   taxonomy_term_save($term);
 

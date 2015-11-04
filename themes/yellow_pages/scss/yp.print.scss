@@ -1,0 +1,100 @@
+@import "init";
+@import "mixins";
+@import "settings";
+@import "breakpoint";
+
+.messages {
+  display: none;
+}
+.logo {
+  display: block;
+  float: none !important;
+  text-align: center;
+  width: 100% !important;
+  img {
+    height: 84px !important;
+    display: inline-block !important;
+    position: relative !important;
+    width: 187px !important;
+  }
+}
+.social-links {
+  display: none;
+}
+.node-type-company {
+  .node-advertisement {
+    display: none;
+  }
+  .company-content {
+    font-size: 30px;
+    .col-company {
+     /* display: block !important;*/
+
+      &.col-company-logo {
+        display: none !important;
+      }
+      &.col-company-geo {
+        /*display: block !important;*/
+        padding-top: 30px;
+        width: 700px;
+        .field-name-field-geocode {
+          display: inline-block;
+          height: 450px;
+          width: 500px;
+        }
+      }
+      h2 {
+        font-size: 40px !important;
+        font-weight: bold;
+      }
+      .field-name-field-address,
+      .field-name-field-landline-phone,
+      .field-name-field-fax,
+      .field-name-field-mobile-phone,
+      .field-name-field-company-site,
+      .field-name-field-email {
+        padding-left: 35px;
+        &::before {
+          font: 30px/1 FontAwesome !important;
+        }
+      }
+      .field-row-tags a {
+        font-size: 25px !important;
+      }
+    }
+    .horizontal-tabs {
+      .horizontal-tabs-panes span {
+        font-size: 35px !important;
+      }
+      .horizontal-tabs-panes a {
+        font-size: 30px !important;
+      }
+      .field-name-field-filials {
+        .content {
+          .left {
+            display: none !important;
+          }
+          .right {
+            display: block;
+            margin-left: 0 !important;
+          }
+        }
+
+        .field-name-field-address {
+          &::before {
+            font: 35px/1 FontAwesome !important;
+          }
+          .street-block {
+            .thoroughfare {
+              font-size: 35px !important;
+            }
+            &::before {
+              content: "" !important;
+            }
+          }
+        }
+
+      }
+    }
+  }
+}

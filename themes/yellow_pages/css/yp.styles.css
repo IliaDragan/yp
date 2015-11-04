@@ -2206,10 +2206,6 @@ div.panel-pane div.node-teaser {
   font-size: 14px;
   text-decoration: underline;
 }
-.node--company--teaser .field-type-yp-product li:first-child,
-.node--company--search_index .field-type-yp-product li:first-child {
-  margin-right: 0;
-}
 .node--company--teaser .field-type-yp-product li a,
 .node--company--search_index .field-type-yp-product li a {
   color: #a4a4a4;

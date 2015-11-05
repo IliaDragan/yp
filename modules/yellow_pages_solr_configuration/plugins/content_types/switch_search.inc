@@ -31,7 +31,9 @@ function switch_search_form($form, &$form_state, $search_query) {
   $search_query = (empty($search_query)) ? '' : $search_query[0];
   $companies_link_text = t('Search companies');
   $content_link_text = t('Search content');
-  ${$search_type . "_link_text"} .= " ($result_count)";
+  if (!empty($result_count)) {
+    ${$search_type . "_link_text"} .= " ($result_count)";
+  }
 
   $companies_url = l($companies_link_text , 'search/companies/' . $search_query);
   $articles_url = l($content_link_text, 'search/content/' . $search_query);

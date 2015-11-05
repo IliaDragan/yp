@@ -20,6 +20,7 @@ regions[footer]  = 'Footer'
 ;;;;;;;;;;;;;;;;;;;;;
 
 stylesheets[all][] = css/chosen.css
+stylesheets[all][] = css/developer.css
 stylesheets[all][] = css/yp.styles.css
 stylesheets[print][] = css/yp.print.css
 

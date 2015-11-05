@@ -128,16 +128,6 @@ function yellow_pages_theme() {
   );
 }
 
-/**
- * Implements hook_preprocess_menu_tree().
- */
-function yellow_pages_preprocess_menu_tree(&$variables) {
-  if ($variables['menu_name'] == 'menu-product-menu') {
-    global $base_url;
-    $variables['#suffix'] = '<a href="' . $base_url . '/search' . '" class="product-link"><span class="link-icon"></span>' . t('Список всех ссылок') . '</a>';
-  }
-}
-
 function yellow_pages_html_head_alter(&$elements) {
   // Optimize the mobile viewport.
   if(isset($elements['circle_viewport'])) unset($elements['circle_viewport']);

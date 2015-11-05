@@ -148,4 +148,47 @@ function yellow_pages_solr_configuration_preprocess(&$variables, $hook) {
  */
 function yellow_pages_solr_configuration_search_api_solr_query_alter(array &$call_args, SearchApiQueryInterface $query) {
   $call_args['params']['qf'][] = 'precise_text^50.0';
+  if ($call_args['query']) {
+    $call_args['query'] = str_replace('"' , '*', $call_args['query']);
+  }
+}
+
+/**
+ * Implements hook_language_switch_links_alter().
+ */
+function yellow_pages_solr_configuration_language_switch_links_alter(&$links) {
+  $query = drupal_get_query_parameters();
+
+  // Preserve query strings in language switcher links.
+  foreach ($links as &$link) {
+    $link['query'] = $query;
+  }
+}
+
+/**
+ * Implements hook_search_api_solr_documents_alter().
+ */
+function yellow_pages_solr_configuration_search_api_solr_documents_alter(array &$documents, SearchApiIndex $index, array $items) {
+  foreach ($documents as $document) {
+    $content_type = $document->getField('ss_type');
+
+    if ($content_type['value'] === 'company') {
+      $term_ids = $document->getField('im_field_products$product');
+
+      if (isset($term_ids['value']) && is_array($term_ids['value'])) {
+        $locales = array('en', 'ro');
+
+        foreach ($term_ids['value'] as $key => $term_id) {
+          $term = i18n_get_object('taxonomy_term', $term_id);
+          foreach ($locales as $locale) {
+            $translated_term = $term->localize($locale);
+            if (isset($translated_term->name) && !empty($translated_term->name)) {
+              $translated_term_name = $translated_term->name;
+              $document->addField('tm_field_products$product$name', $translated_term_name);
+            }
+          }
+        }
+      }
+    }
+  }
 }

@@ -405,9 +405,6 @@ header {
     }
   }
 }
-.product-link {
-  display: none;
-}
 .inner-menu-wrapper {
   float: right;
   .menu-btn {
@@ -2545,29 +2542,6 @@ body > .node-advertisement {
   }
   .block-system.block-menu{
     display: none;
-  }
-  .product-link {
-    clear: both;
-    display: block;
-    margin: 0 -30px;
-    line-height: 30px;
-    background: #c8c8c8;
-    text-align: center;
-    text-transform: uppercase;
-    font-size: 12px;
-    font-weight: bold;
-    &:hover {
-      color: $dark;
-    }
-    .link-icon {
-      display: inline-block;
-      vertical-align: 1px;
-      margin-right: 15px;
-      width: 6px;
-      height: 6px;
-      background: $dark;
-      @include box-shadow(-8px 0px 0 0 $dark, 8px 0 0 0 $dark);
-    }
   }
   .homepage-container .pane-title {
     margin: 30px 0;

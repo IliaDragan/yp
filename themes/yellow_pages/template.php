@@ -206,3 +206,30 @@ function yellow_pages_links_clear($variables) {
 
   return $output;
 }
+
+/**
+ * Overrides theme_addressfield_container().
+ *
+ * Render a container for a set of address fields.
+ */
+function yellow_pages_addressfield_container($variables) {
+  $element = $variables['element'];
+  $element['#children'] = trim($element['#children']);
+  if (strlen($element['#children']) > 0) {
+    $attr = $element['#attributes'];
+    $prefix = '';
+    if (isset($attr['autocomplete'])) {
+      if ($attr['autocomplete'] == 'postal-code') {
+        $prefix = 'MD-';
+      }
+      unset($attr['autocomplete']);
+    }
+    $output = '<' . $element['#tag'] . drupal_attributes($attr) . '>';
+    $output .= $prefix . $element['#children'];
+    $output .= '</' . $element['#tag'] . ">";
+    return $output;
+  }
+  else {
+    return '';
+  }
+}

@@ -10,7 +10,9 @@
   font-size: 11px;
 }
 
-.node--company--teaser .field-type-yp-product li, .node--company--search_index .field-type-yp-product li {
+.node--company--full .field-type-yp-product li,
+.node--company--teaser .field-type-yp-product li,
+.node--company--search_index .field-type-yp-product li {
   display: inline-block !important;
   margin-right: 4px;
 }

@@ -78,6 +78,10 @@ function yellow_pages_preprocess_menu_link(&$variables) {
     $variables['prefix'] = '<span>';
     $variables['suffix'] = '</span>';
   }
+  elseif ($variables['theme_hook_original'] == 'menu_link__main_menu') {
+    $alias_href = drupal_get_path_alias($variables['element']['#href'], 'ru');
+    $variables['element']['#href'] = $alias_href;
+  }
 }
 
 /**
@@ -85,7 +89,7 @@ function yellow_pages_preprocess_menu_link(&$variables) {
  */
 function yellow_pages_menu_link(array $variables) {
   $element = $variables ['element'];
-  $sub_menu =  $element['#below'] ? drupal_render($element ['#below']) : '';
+  $sub_menu = $element['#below'] ? drupal_render($element ['#below']) : '';
   $prefix = isset($variables['prefix']) ? $variables['prefix'] : '';
   $suffix = isset($variables['suffix']) ? $variables['suffix'] : '';
   if ($suffix || $prefix) {

@@ -40,6 +40,14 @@ function yellow_pages_sync_menu() {
     'type' => MENU_CALLBACK,
   );
 
+  $items['yp/delete/%'] = array(
+    'title' => 'Delete single entry',
+    'page callback' => 'yellow_pages_sync_delete_node',
+    'page arguments' => array(2),
+    'access arguments' => array('access content'),
+    'type' => MENU_CALLBACK,
+  );
+
   return $items;
 }
 
@@ -1437,4 +1445,89 @@ function yellow_pages_sync_update_geocode(stdClass $node) {
     $_n->field_geocode[LANGUAGE_NONE][0]['geom'] = "POINT ($lon $lat)";
     field_attach_update('node', $_n);
   }
+}
+
+/**
+ * Removes single enterprise.
+ *
+ * This removes localized versions of the enterprise
+ * and filials attache to it.
+ *
+ * @param int $eid
+ *   Enterprise id.
+ */
+function yellow_pages_sync_delete_node($eid) {
+  $query = db_select('yp_sync_state', 'yss')
+    ->fields('yss', array('nid'))
+    ->condition('eid', $eid, '=');
+  $result = $query
+    ->execute()
+    ->fetchCol();
+
+  $message = 'OK';
+  $nid = reset($result);
+  $t = array(
+    '@id' => $eid,
+  );
+  if ($nid) {
+    $artifacts = yellow_pages_sync_enterprise_artifacts($nid);
+    if (!empty($artifacts)) {
+      node_delete_multiple($artifacts);
+    }
+
+    watchdog('yp_sync', 'Deleted enterprise with id: @id.', $t, WATCHDOG_NOTICE);
+  }
+  else {
+    $message = 'NOT OK';
+    watchdog('yp_sync', 'Failed to delete enterprise with id: @id.', $t, WATCHDOG_ERROR);
+  }
+
+  drupal_json_output($message);
+  drupal_exit(0);
+}
+
+/**
+ * Fetches all artifacts attached to a single node nid.
+ *
+ * Artifacts are considered node translations and filials attached to it.
+ * This method will make recursive traversal within all nested
+ * filials found.
+ *
+ * @param int $nid
+ *   Node id.
+ * @param array $artifacts
+ *   Artifacts collection.
+ *
+ * @return array
+ *   A set of node id's.
+ */
+function yellow_pages_sync_enterprise_artifacts($nid, array &$artifacts = array()) {
+  $node = node_load($nid);
+  // Main artifacts - translations.
+  $db_or = db_or()
+    ->condition('nid', $nid, '=')
+    ->condition('tnid', $nid, '=');
+  $query = db_select('node', 'n')
+    ->fields('n', array('nid'))
+    ->condition($db_or);
+  $results = $query
+    ->execute()
+    ->fetchCol();
+
+  if (!empty($results)) {
+    foreach ($results as $result) {
+      $artifacts[] = $result;
+    }
+  }
+
+  // Additional artifacts - filials.
+  $filials = field_get_items('node', $node, 'field_filials');
+  if (!empty($filials)) {
+    foreach ($filials as $filial) {
+      $fid = $filial['target_id'];
+      yellow_pages_sync_enterprise_artifacts($fid, $artifacts);
+    }
+  }
+
+  return $artifacts;
 }

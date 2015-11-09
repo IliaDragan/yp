@@ -239,3 +239,10 @@ function yellow_pages_addressfield_container($variables) {
     return '';
   }
 }
+
+/**
+ * Overrides theme_facetapi_deactivate_widget().
+ */
+function yellow_pages_facetapi_deactivate_widget($variables) {
+  return '&#xf00d;';
+}

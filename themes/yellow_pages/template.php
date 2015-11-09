@@ -190,6 +190,8 @@ function yellow_pages_links_clear($variables) {
       $output .= '<li' . drupal_attributes(array('class' => $class)) . '>';
 
       if (isset($link ['href'])) {
+        // Use path alias instead of drupal path.
+        $link['href'] = drupal_get_path_alias($link['href'], 'ru');
         // Pass in $link as $options, they share the same keys.
         $output .= l($link ['title'], $link ['href'], $link);
       }

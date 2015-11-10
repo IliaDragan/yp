@@ -510,7 +510,8 @@ function yellow_pages_sync_process_source_element_parent(SimpleXMLElement $sourc
   $parent_title = yellow_pages_sync_process_source_element_title($xml);
 
   // The affiliated enterprise gets the main enterprise title, thus locality.
-  if (empty(array_filter($source_title))) {
+  $source_title = array_filter($source_title);
+  if (empty($source_title)) {
     $title = $source->titles;
 
     $locales = array('ru', 'ro', 'en');

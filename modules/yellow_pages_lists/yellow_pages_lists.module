@@ -213,7 +213,7 @@ function yellow_pages_lists_news_carousel() {
     }
 
     if (!empty($nodes)) {
-      $render = node_view(array_pop($nodes), 'slider_teaser');
+      $render = node_view(array_shift($nodes), 'slider_teaser');
       $content[] = drupal_render($render);
     }
 

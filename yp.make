@@ -38,6 +38,8 @@ projects[entityreference][subdir] = "contrib"
 
 projects[facetapi][version] = "1.5"
 projects[facetapi][subdir] = "contrib"
+projects[facetapi][patch][] = "https://www.drupal.org/files/issues/2311585-3-facetapi-7.x-2.x-translate_more_link.patch"
+projects[facetapi][patch][] = "http://am.storage.dev.inlead.dk/facetapi_accents-sort.patch"
 
 projects[field_sql_norevisions][version] = "2.1"
 projects[field_sql_norevisions][subdir] = "contrib"
@@ -104,6 +106,9 @@ projects[media_youtube][subdir] = "contrib"
 
 projects[module_filter][version] = "2.0"
 projects[module_filter][subdir] = "contrib"
+
+projects[navigation404][version] = "1.0"
+projects[navigation404][subdir] = "contrib"
 
 projects[node_expire][version] = "1.8"
 projects[node_expire][subdir] = "contrib"

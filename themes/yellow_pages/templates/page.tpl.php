@@ -160,8 +160,6 @@
       <?php print $mainmenu; ?>
       <?php if ($usermenu): ?>
         <?php print $usermenu; ?>
-      <?php else: ?>
-        <li><?php global $base_url; print l('Log in', $base_url . '/user/login'); ?></li>
       <?php endif; ?>
       </ul>
       <span class="menu-close fa fa-close"></span>

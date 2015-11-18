@@ -16,6 +16,6 @@
   </div>
   <div class="entry contact-social">
     <i class="fa fa-facebook"></i>
-    <span class="item"><?php print $url; ?></span>
+    <span class="item"><?php print !empty($url) ? l($link_title, $url, array('attributes' => array('target' => '_blank'))) : ''; ?></span>
   </div>
 </div>

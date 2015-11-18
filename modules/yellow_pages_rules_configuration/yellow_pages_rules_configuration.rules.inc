@@ -49,6 +49,26 @@ function yellow_pages_rules_configuration_rules_condition_info() {
         ),
       ),
     ),
+    'yellow_pages_rules_configuration_logo_expire_week' => array(
+      'label' => t('Check if logo expire in week.'),
+      'module' => 'yellow_pages_rules_configuration',
+      'arguments' => array(
+        'node' => array(
+          'type' => 'node',
+          'label' => t('Content'),
+        ),
+      ),
+    ),
+    'yellow_pages_rules_configuration_logo_expire_day' => array(
+      'label' => t('Check if logo expire in day.'),
+      'module' => 'yellow_pages_rules_configuration',
+      'arguments' => array(
+        'node' => array(
+          'type' => 'node',
+          'label' => t('Content'),
+        ),
+      ),
+    ),
   );
 }
 
@@ -104,6 +124,40 @@ function yellow_pages_rules_configuration_advert_expire_day($node) {
 }
 
 /**
+ * Check if logo expire in week.
+ *
+ * @param $node
+ * @return bool
+ */
+function yellow_pages_rules_configuration_logo_expire_week($node) {
+  $logo_expiration_date = field_get_items('node', $node, 'field_logo_expiration_date');
+  if (!empty($logo_expiration_date[0]['value'])) {
+    $exp_date = $logo_expiration_date[0]['value'];
+  }
+  $tod_plus_week = date('Y-m-d', strtotime('+1 week')) . ' 00:00:00';
+  $check = (!empty($exp_date) && $exp_date == $tod_plus_week);
+
+  return $check;
+}
+
+/**
+ * Check if logo expire in day.
+ *
+ * @param $node
+ * @return bool
+ */
+function yellow_pages_rules_configuration_logo_expire_day($node) {
+  $logo_expiration_date = field_get_items('node', $node, 'field_logo_expiration_date');
+  if (!empty($logo_expiration_date[0]['value'])) {
+    $exp_date = $logo_expiration_date[0]['value'];
+  }
+  $tod_plus_day = date('Y-m-d', strtotime('+1 day')) . ' 00:00:00';
+  $check = (!empty($exp_date) && $exp_date == $tod_plus_day);
+
+  return $check;
+}
+
+/**
  * Implements hook_rules_event_info().
  */
 function yellow_pages_rules_configuration_rules_event_info() {
@@ -140,6 +194,26 @@ function yellow_pages_rules_configuration_rules_event_info() {
     ),
     'advert_expire_in_day'  => array(
       'label' => t('Advert expire in day'),
+      'group' => t('Node'),
+      'variables' => array(
+        'node' => array(
+          'type' => 'node',
+          'label' => t('Node'),
+        ),
+      ),
+    ),
+    'logo_expire_in_week' => array(
+      'label' => t('Logo expire in week'),
+      'group' => t('Node'),
+      'variables' => array(
+        'node' => array(
+          'type' => 'node',
+          'label' => t('Node'),
+        ),
+      ),
+    ),
+    'logo_expire_in_day'  => array(
+      'label' => t('Logo expire in day'),
       'group' => t('Node'),
       'variables' => array(
         'node' => array(

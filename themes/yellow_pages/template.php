@@ -41,7 +41,6 @@ function yellow_pages_inject_owl() {
   $path = drupal_get_path('theme', 'yellow_pages');
   drupal_add_js($path . '/js/owl.carousel.min.js');
   drupal_add_css($path . '/css/owl.carousel.css');
-  drupal_add_css($path . '/css/developer.css');
 }
 
 /**
@@ -77,6 +76,10 @@ function yellow_pages_preprocess_menu_link(&$variables) {
     $variables['prefix'] = '<span>';
     $variables['suffix'] = '</span>';
   }
+  elseif ($variables['theme_hook_original'] == 'menu_link__main_menu') {
+    $alias_href = drupal_get_path_alias($variables['element']['#href'], 'ru');
+    $variables['element']['#href'] = $alias_href;
+  }
 }
 
 /**
@@ -84,7 +87,7 @@ function yellow_pages_preprocess_menu_link(&$variables) {
  */
 function yellow_pages_menu_link(array $variables) {
   $element = $variables ['element'];
-  $sub_menu =  $element['#below'] ? drupal_render($element ['#below']) : '';
+  $sub_menu = $element['#below'] ? drupal_render($element ['#below']) : '';
   $prefix = isset($variables['prefix']) ? $variables['prefix'] : '';
   $suffix = isset($variables['suffix']) ? $variables['suffix'] : '';
   if ($suffix || $prefix) {
@@ -126,16 +129,6 @@ function yellow_pages_theme() {
       'function' => 'yellow_pages_links_clear',
     ),
   );
-}
-
-/**
- * Implements hook_preprocess_menu_tree().
- */
-function yellow_pages_preprocess_menu_tree(&$variables) {
-  if ($variables['menu_name'] == 'menu-product-menu') {
-    global $base_url;
-    $variables['#suffix'] = '<a href="' . $base_url . '/search' . '" class="product-link"><span class="link-icon"></span>' . t('Список всех ссылок') . '</a>';
-  }
 }
 
 function yellow_pages_html_head_alter(&$elements) {
@@ -195,6 +188,8 @@ function yellow_pages_links_clear($variables) {
       $output .= '<li' . drupal_attributes(array('class' => $class)) . '>';
 
       if (isset($link ['href'])) {
+        // Use path alias instead of drupal path.
+        $link['href'] = drupal_get_path_alias($link['href'], 'ru');
         // Pass in $link as $options, they share the same keys.
         $output .= l($link ['title'], $link ['href'], $link);
       }
@@ -216,4 +211,31 @@ function yellow_pages_links_clear($variables) {
   }
 
   return $output;
+}
+
+/**
+ * Overrides theme_addressfield_container().
+ *
+ * Render a container for a set of address fields.
+ */
+function yellow_pages_addressfield_container($variables) {
+  $element = $variables['element'];
+  $element['#children'] = trim($element['#children']);
+  if (strlen($element['#children']) > 0) {
+    $attr = $element['#attributes'];
+    $prefix = '';
+    if (isset($attr['autocomplete'])) {
+      if ($attr['autocomplete'] == 'postal-code') {
+        $prefix = 'MD-';
+      }
+      unset($attr['autocomplete']);
+    }
+    $output = '<' . $element['#tag'] . drupal_attributes($attr) . '>';
+    $output .= $prefix . $element['#children'];
+    $output .= '</' . $element['#tag'] . ">";
+    return $output;
+  }
+  else {
+    return '';
+  }
 }

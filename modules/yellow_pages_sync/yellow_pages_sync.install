@@ -35,6 +35,13 @@ function yellow_pages_sync_schema() {
         'not null' => TRUE,
         'description' => 'Previous sync timestamp.',
       ),
+      'parent' => array(
+        'type' => 'int',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+        'description' => 'Parent enterprise id.',
+        'default' => 0,
+      ),
     ),
     'indexes' => array(
       'node_nid' => array('nid'),

@@ -113,12 +113,6 @@
           </div>
         </div>
         <h1><?php print t('Запрашиваемая вами страница не найдена.'); ?></h1>
-        <ul class="menu menu-notfound-menu">
-          <li class="first leaf depth-1 item-notfound-menu"><a href="/ru" title="" class="link-notfound-menu">На главную</a></li>
-          <li class="leaf leaf depth-1 item-notfound-menu"><a href="/ru/news" title="" class="link-notfound-menu">Новости</a></li>
-          <li class="leaf leaf depth-1 item-notfound-menu"><a href="/ru/articles" title="" class="link-notfound-menu">Статьи</a></li>
-          <li class="last leaf depth-1 item-notfound-menu"><a href="/ru/node/10" title="" class="link-notfound-menu">Рубрики</a></li>
-        </ul>
       </div>
     </div>
   </div>
@@ -160,3 +154,20 @@
     <?php print render($page['footer']); ?>
   </div>
 </footer>
+
+  <?php $usermenu = theme('links_clear', array('links' => menu_navigation_links('user-menu'), 'attributes' => array('class'=> array('user-menu')) )); ?>
+  <?php $userclass = $usermenu ? 'has-user-menu' : 'no-user-menu'; ?>
+  <?php $mainmenu = theme('links_clear', array('links' => menu_navigation_links('main-menu'))); ?>
+  <div class="extra-menu-overlay">
+    <div class="inner-menu-block">
+      <div class="inner-menu-overlay <?php print $userclass; ?>">
+        <ul class="nav-list-menu">
+          <?php print $mainmenu; ?>
+          <?php if ($usermenu): ?>
+            <?php print $usermenu; ?>
+          <?php endif; ?>
+        </ul>
+        <span class="menu-close fa fa-close"></span>
+      </div>
+    </div>
+  </div>

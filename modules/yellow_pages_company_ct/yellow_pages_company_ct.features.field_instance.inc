@@ -1066,11 +1066,8 @@ function yellow_pages_company_ct_field_default_field_instances() {
       ),
       'full' => array(
         'label' => 'above',
-        'module' => 'mediafield',
-        'settings' => array(
-          'file_view_mode' => 'default',
-        ),
-        'type' => 'media',
+        'settings' => array(),
+        'type' => 'hidden',
         'weight' => 13,
       ),
       'search_index' => array(

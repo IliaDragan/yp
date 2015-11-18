@@ -15,7 +15,10 @@ projects[ckeditor][subdir] = "contrib"
 projects[coder][version] = "1.2"
 projects[coder][subdir] = "contrib"
 
-projects[ctools][version] = "1.6"
+projects[colorbox][version] = "2.10"
+projects[colorbox][subdir] = "contrib"
+
+projects[ctools][version] = "1.9"
 projects[ctools][subdir] = "contrib"
 
 projects[date][version] = "2.8"
@@ -95,6 +98,9 @@ projects[media][download][type] = "git"
 projects[media][download][url] = "http://git.drupal.org/project/media.git"
 projects[media][download][revision] = "199e5013dc9915a3d67d73d681a1db6ba56b63e6"
 
+projects[media_colorbox][version] = "1.0-rc4"
+projects[media_colorbox][subdir] = "contrib"
+
 projects[media_youtube][version] = "3.0"
 projects[media_youtube][subdir] = "contrib"
 
@@ -106,6 +112,10 @@ projects[navigation404][subdir] = "contrib"
 
 projects[node_expire][version] = "1.8"
 projects[node_expire][subdir] = "contrib"
+
+projects[owlcarousel][version] = "1.5"
+projects[owlcarousel][subdir] = "contrib"
+projects[owlcarousel][patch][] = "http://am.storage.dev.inlead.dk/owlcarousel-fixed_libraries_owlcarousel_path.patch"
 
 projects[panels][version] = "3.5"
 projects[panels][subdir] = "contrib"
@@ -164,3 +174,8 @@ libraries[leaflet][destination]    = "libraries"
 libraries[leaflet][directory_name] = "leaflet"
 libraries[leaflet][download][type] = "get"
 libraries[leaflet][download][url]  = "http://cdn.leafletjs.com/downloads/leaflet-0.7.3.zip"
+
+libraries[owl-carousel][destination]    = "libraries"
+libraries[owl-carousel][directory_name] = "owl-carousel"
+libraries[owl-carousel][download][type] = "get"
+libraries[owl-carousel][download][url]  = "http://owlgraphic.com/owlcarousel/owl.carousel.zip"

@@ -30,6 +30,7 @@ features[fe_block_settings][] = yellow_pages_rates-yp_rates
 features[fe_block_settings][] = yellow_pages_weather-yp_weather
 features[features_api][] = api:2
 features[image][] = node_list_image
+features[image][] = og_medium
 features[menu_custom][] = main-menu
 features[menu_links][] = main-menu_news:news
 features[page_manager_handlers][] = node_view__companies

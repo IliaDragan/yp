@@ -44,11 +44,13 @@ function yellow_pages_feedback_mail($key, &$message, $params) {
         '@name' => $params['name'],
         '@company' => $params['company'],
         '@phone' => $params['telephone'],
+        '@email' => $params['email'],
       );
       $message['to'] = $params['to'];
       $message['subject'] = t('Advertisement request');
       $message['body'][] = t('@name from @company wants to post an advertisement!', $body_t);
-      $message['body'][] = t('@phone', $body_t);
+      $message['body'][] = t('Contact phone: @phone', $body_t);
+      $message['body'][] = t('Contact email: @email', $body_t);
       break;
   }
 }
@@ -97,8 +99,6 @@ function yellow_pages_feedback_ad_request($form, &$form_state) {
 
 function yellow_pages_feedback_ad_request_submit($form, &$form_state) {
   $input = $form_state['input'];
-  $from = $input['email'];
-
   $role = user_role_load_by_name('global editor');
 
   $query = 'SELECT DISTINCT(ur.uid)
@@ -119,9 +119,10 @@ function yellow_pages_feedback_ad_request_submit($form, &$form_state) {
     'name' => $input['contact_person'],
     'company' => $input['company_name'],
     'telephone' => $input['telephone'],
+    'email' => $input['email'],
     'to' => $to,
   );
-  $dm = drupal_mail('yellow_pages_feedback', 'yp_feedback_ad', $to, language_default(), $params, $from, TRUE);
+  $dm = drupal_mail('yellow_pages_feedback', 'yp_feedback_ad', $to, language_default(), $params, NULL, TRUE);
 
   if ($dm['result']) {
     drupal_set_message(t('Thank you, we will contact you soon.'));

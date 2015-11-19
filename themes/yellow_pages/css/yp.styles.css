@@ -24,6 +24,11 @@ h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
   font-weight: bold;
 }
 
+h5.block-title {
+  font-size: 14px;
+  margin-bottom: 20px;
+}
+
 a {
   color: #1d1d1d;
 }
@@ -2045,6 +2050,9 @@ div.panel-pane div.node-teaser {
     top: 12px;
     right: 20px;
   }
+  .node-company.node--company--full .company-content .company-contact-title {
+    display: none !important;
+  }
 }
 @media (min-width: 0px) and (max-width: 767px) {
   .node-company.node--company--full .company-content {
@@ -2409,21 +2417,10 @@ article a {
   padding: 3px 10px 3px 0;
 }
 .page-search .pane-block ul li .facetapi-active {
-  color: #393939;
+  color: #ffdd00;
+  font: normal normal normal 14px/1 FontAwesome;
   position: absolute;
   left: -20px;
-}
-.page-search .pane-block ul li .facetapi-active:before {
-  content: "\f00d";
-  display: inline-block;
-  position: absolute;
-  top: 0;
-  font: normal normal normal 14px/1 FontAwesome;
-  text-rendering: auto;
-  color: #ffdd00;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  transform: translate(0, 0);
 }
 .page-search .pane-block ul li .facetapi-inactive {
   color: #a4a4a4;

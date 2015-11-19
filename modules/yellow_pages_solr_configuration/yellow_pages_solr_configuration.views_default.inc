@@ -47,7 +47,7 @@ function yellow_pages_solr_configuration_views_default_views() {
   $handler->display->display_options['pager']['options']['tags']['last'] = 'последняя »';
   $handler->display->display_options['style_plugin'] = 'default';
   $handler->display->display_options['row_plugin'] = 'fields';
-  /* Поведение при отсутствии результатов: Глобальный: Текстовая область */
+  /* No results behavior: Global: Text area */
   $handler->display->display_options['empty']['area']['id'] = 'area';
   $handler->display->display_options['empty']['area']['table'] = 'views';
   $handler->display->display_options['empty']['area']['field'] = 'area';
@@ -56,7 +56,7 @@ function yellow_pages_solr_configuration_views_default_views() {
 Type another search phrase or check your spelling.';
   $handler->display->display_options['empty']['area']['format'] = 'plain_text';
   $handler->display->display_options['empty']['area']['tokenize'] = TRUE;
-  /* Поле: Indexed Материал: ID материала */
+  /* Field: Indexed Node: Node ID */
   $handler->display->display_options['fields']['nid']['id'] = 'nid';
   $handler->display->display_options['fields']['nid']['table'] = 'search_api_index_company_nodes';
   $handler->display->display_options['fields']['nid']['field'] = 'nid';
@@ -89,27 +89,24 @@ Type another search phrase or check your spelling.';
   $handler->display->display_options['defaults']['row_options'] = FALSE;
   $handler->display->display_options['exposed_block'] = TRUE;
   $handler->display->display_options['defaults']['empty'] = FALSE;
-  /* Поведение при отсутствии результатов: Глобальный: Текстовая область */
+  /* No results behavior: Global: Text area */
   $handler->display->display_options['empty']['area']['id'] = 'area';
   $handler->display->display_options['empty']['area']['table'] = 'views';
   $handler->display->display_options['empty']['area']['field'] = 'area';
   $handler->display->display_options['empty']['area']['empty'] = TRUE;
-  $handler->display->display_options['empty']['area']['content'] = '<div class="notfound-search">
-<div class="logo"></div>
-<p>No results found for (!1).</p>
-<p>Type another search phrase or check your spelling.</p>
-</div>';
+  $handler->display->display_options['empty']['area']['content'] = '<p>No results found for (!1).</p>
+<p>Type another search phrase or check your spelling.</p>';
   $handler->display->display_options['empty']['area']['format'] = 'full_html';
   $handler->display->display_options['empty']['area']['tokenize'] = TRUE;
   $handler->display->display_options['defaults']['fields'] = FALSE;
-  /* Поле: Indexed Материал: Заголовок */
+  /* Field: Indexed Node: Title */
   $handler->display->display_options['fields']['title']['id'] = 'title';
   $handler->display->display_options['fields']['title']['table'] = 'search_api_index_company_nodes';
   $handler->display->display_options['fields']['title']['field'] = 'title';
   $handler->display->display_options['fields']['title']['label'] = '';
   $handler->display->display_options['fields']['title']['element_label_colon'] = FALSE;
   $handler->display->display_options['fields']['title']['link_to_entity'] = 0;
-  /* Поле: Текст основного поля body: Текст (indexed) */
+  /* Field: The main body text: Text (indexed) */
   $handler->display->display_options['fields']['body_value']['id'] = 'body_value';
   $handler->display->display_options['fields']['body_value']['table'] = 'search_api_index_company_nodes';
   $handler->display->display_options['fields']['body_value']['field'] = 'body_value';
@@ -117,18 +114,18 @@ Type another search phrase or check your spelling.';
   $handler->display->display_options['fields']['body_value']['element_label_colon'] = FALSE;
   $handler->display->display_options['fields']['body_value']['link_to_entity'] = 0;
   $handler->display->display_options['defaults']['sorts'] = FALSE;
-  /* Критерий сортировки: Indexed Материал: Закреплено в списке */
+  /* Sort criterion: Indexed Node: Sticky in lists */
   $handler->display->display_options['sorts']['sticky']['id'] = 'sticky';
   $handler->display->display_options['sorts']['sticky']['table'] = 'search_api_index_company_nodes';
   $handler->display->display_options['sorts']['sticky']['field'] = 'sticky';
   $handler->display->display_options['sorts']['sticky']['order'] = 'DESC';
-  /* Критерий сортировки: Поиск: Релевантность */
+  /* Sort criterion: Search: Relevance */
   $handler->display->display_options['sorts']['search_api_relevance']['id'] = 'search_api_relevance';
   $handler->display->display_options['sorts']['search_api_relevance']['table'] = 'search_api_index_company_nodes';
   $handler->display->display_options['sorts']['search_api_relevance']['field'] = 'search_api_relevance';
   $handler->display->display_options['sorts']['search_api_relevance']['order'] = 'DESC';
   $handler->display->display_options['defaults']['arguments'] = FALSE;
-  /* Контекстный фильтр: Поиск: Поиск по тексту */
+  /* Contextual filter: Search: Fulltext search */
   $handler->display->display_options['arguments']['search_api_views_fulltext']['id'] = 'search_api_views_fulltext';
   $handler->display->display_options['arguments']['search_api_views_fulltext']['table'] = 'search_api_index_company_nodes';
   $handler->display->display_options['arguments']['search_api_views_fulltext']['field'] = 'search_api_views_fulltext';
@@ -148,14 +145,14 @@ Type another search phrase or check your spelling.';
   );
   $handler->display->display_options['defaults']['filter_groups'] = FALSE;
   $handler->display->display_options['defaults']['filters'] = FALSE;
-  /* Критерий фильтра: Indexed Материал: Item language */
+  /* Filter criterion: Indexed Node: Item language */
   $handler->display->display_options['filters']['search_api_language']['id'] = 'search_api_language';
   $handler->display->display_options['filters']['search_api_language']['table'] = 'search_api_index_company_nodes';
   $handler->display->display_options['filters']['search_api_language']['field'] = 'search_api_language';
   $handler->display->display_options['filters']['search_api_language']['value'] = array(
     'current' => 'current',
   );
-  /* Критерий фильтра: Indexed Материал: Тип материала */
+  /* Filter criterion: Indexed Node: Content type */
   $handler->display->display_options['filters']['type']['id'] = 'type';
   $handler->display->display_options['filters']['type']['table'] = 'search_api_index_company_nodes';
   $handler->display->display_options['filters']['type']['field'] = 'type';
@@ -189,7 +186,7 @@ Type another search phrase or check your spelling.';
   $handler->display->display_options['row_options']['view_mode'] = 'search_index';
   $handler->display->display_options['defaults']['row_options'] = FALSE;
   $handler->display->display_options['defaults']['arguments'] = FALSE;
-  /* Контекстный фильтр: Поиск: More like this */
+  /* Contextual filter: Search: More like this */
   $handler->display->display_options['arguments']['search_api_views_more_like_this']['id'] = 'search_api_views_more_like_this';
   $handler->display->display_options['arguments']['search_api_views_more_like_this']['table'] = 'search_api_index_company_nodes';
   $handler->display->display_options['arguments']['search_api_views_more_like_this']['field'] = 'search_api_views_more_like_this';
@@ -202,14 +199,14 @@ Type another search phrase or check your spelling.';
   );
   $handler->display->display_options['defaults']['filter_groups'] = FALSE;
   $handler->display->display_options['defaults']['filters'] = FALSE;
-  /* Критерий фильтра: Indexed Материал: Item language */
+  /* Filter criterion: Indexed Node: Item language */
   $handler->display->display_options['filters']['search_api_language']['id'] = 'search_api_language';
   $handler->display->display_options['filters']['search_api_language']['table'] = 'search_api_index_company_nodes';
   $handler->display->display_options['filters']['search_api_language']['field'] = 'search_api_language';
   $handler->display->display_options['filters']['search_api_language']['value'] = array(
     'current' => 'current',
   );
-  /* Критерий фильтра: Indexed Материал: Тип материала */
+  /* Filter criterion: Indexed Node: Content type */
   $handler->display->display_options['filters']['type']['id'] = 'type';
   $handler->display->display_options['filters']['type']['table'] = 'search_api_index_company_nodes';
   $handler->display->display_options['filters']['type']['field'] = 'type';
@@ -238,31 +235,28 @@ Type another search phrase or check your spelling.';
   $handler->display->display_options['row_options']['view_mode'] = 'search_index';
   $handler->display->display_options['defaults']['row_options'] = FALSE;
   $handler->display->display_options['defaults']['empty'] = FALSE;
-  /* Поведение при отсутствии результатов: Глобальный: Текстовая область */
+  /* No results behavior: Global: Text area */
   $handler->display->display_options['empty']['area']['id'] = 'area';
   $handler->display->display_options['empty']['area']['table'] = 'views';
   $handler->display->display_options['empty']['area']['field'] = 'area';
   $handler->display->display_options['empty']['area']['empty'] = TRUE;
-  $handler->display->display_options['empty']['area']['content'] = '<div class="notfound-search">
-<div class="logo"></div>
-<p>No results found for (!1).</p>
-<p>Type another search phrase or check your spelling.</p>
-</div>';
+  $handler->display->display_options['empty']['area']['content'] = '<p>No results found for (!1).</p>
+<p>Type another search phrase or check your spelling.</p>';
   $handler->display->display_options['empty']['area']['format'] = 'full_html';
   $handler->display->display_options['empty']['area']['tokenize'] = TRUE;
   $handler->display->display_options['defaults']['sorts'] = FALSE;
-  /* Критерий сортировки: Indexed Материал: Закреплено в списке */
+  /* Sort criterion: Indexed Node: Sticky in lists */
   $handler->display->display_options['sorts']['sticky']['id'] = 'sticky';
   $handler->display->display_options['sorts']['sticky']['table'] = 'search_api_index_company_nodes';
   $handler->display->display_options['sorts']['sticky']['field'] = 'sticky';
   $handler->display->display_options['sorts']['sticky']['order'] = 'DESC';
-  /* Критерий сортировки: Поиск: Релевантность */
+  /* Sort criterion: Search: Relevance */
   $handler->display->display_options['sorts']['search_api_relevance']['id'] = 'search_api_relevance';
   $handler->display->display_options['sorts']['search_api_relevance']['table'] = 'search_api_index_company_nodes';
   $handler->display->display_options['sorts']['search_api_relevance']['field'] = 'search_api_relevance';
   $handler->display->display_options['sorts']['search_api_relevance']['order'] = 'DESC';
   $handler->display->display_options['defaults']['arguments'] = FALSE;
-  /* Контекстный фильтр: Поиск: Поиск по тексту */
+  /* Contextual filter: Search: Fulltext search */
   $handler->display->display_options['arguments']['search_api_views_fulltext']['id'] = 'search_api_views_fulltext';
   $handler->display->display_options['arguments']['search_api_views_fulltext']['table'] = 'search_api_index_company_nodes';
   $handler->display->display_options['arguments']['search_api_views_fulltext']['field'] = 'search_api_views_fulltext';
@@ -277,14 +271,14 @@ Type another search phrase or check your spelling.';
   );
   $handler->display->display_options['defaults']['filter_groups'] = FALSE;
   $handler->display->display_options['defaults']['filters'] = FALSE;
-  /* Критерий фильтра: Indexed Материал: Item language */
+  /* Filter criterion: Indexed Node: Item language */
   $handler->display->display_options['filters']['search_api_language']['id'] = 'search_api_language';
   $handler->display->display_options['filters']['search_api_language']['table'] = 'search_api_index_company_nodes';
   $handler->display->display_options['filters']['search_api_language']['field'] = 'search_api_language';
   $handler->display->display_options['filters']['search_api_language']['value'] = array(
     'current' => 'current',
   );
-  /* Критерий фильтра: Indexed Материал: Тип материала */
+  /* Filter criterion: Indexed Node: Content type */
   $handler->display->display_options['filters']['type']['id'] = 'type';
   $handler->display->display_options['filters']['type']['table'] = 'search_api_index_company_nodes';
   $handler->display->display_options['filters']['type']['field'] = 'type';
@@ -319,19 +313,17 @@ Type another search phrase or check your spelling.';
     t('последняя »'),
     t('No results found for (!1).
 Type another search phrase or check your spelling.'),
-    t('ID материала'),
+    t('Node ID'),
     t('.'),
     t(','),
     t('Search companies'),
     t('Поиск'),
-    t('<div class="notfound-search">
-<div class="logo"></div>
-<p>No results found for (!1).</p>
-<p>Type another search phrase or check your spelling.</p>
-</div>'),
+    t('<p>No results found for (!1).</p>
+<p>Type another search phrase or check your spelling.</p>'),
     t('Все'),
     t('Представления-Фрагменты'),
     t('Similar companies'),
+    t('more'),
     t('Search articles'),
   );
   $export['solr_views'] = $view;

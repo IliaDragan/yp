@@ -15,8 +15,53 @@ function yellow_pages_preprocess_page(&$variables) {
   if($status == "404 Not Found") {
     $variables['theme_hook_suggestions'][] = 'page__404';
   }
-    if($status == "403 Forbidden") {
+  if($status == "403 Forbidden") {
     $variables['theme_hook_suggestions'][] = 'page__403';
+  }
+
+  // Add open graph meta for facebook share button.
+  if (!empty($variables['node'])) {
+    $meta = array(
+      'title' => array(
+        '#type' => 'html_tag',
+        '#tag' => 'meta',
+        '#attributes' => array(
+          'property' => 'og:title',
+          'content' => $variables['node']->title,
+        ),
+      ),
+      'image' => array(
+        '#type' => 'html_tag',
+        '#tag' => 'meta',
+        '#attributes' => array(
+          'property' => 'og:image',
+          'content' => '',
+        ),
+      ),
+    );
+
+    switch ($variables['node']->type) {
+      case 'company':
+        if (!empty($variables['node']->field_company_logo[LANGUAGE_NONE][0]['uri'])) {
+          $uri = $variables['node']->field_company_logo[LANGUAGE_NONE][0]['uri'];
+          $url = image_style_url('medium', $uri);
+          $meta['image']['#attributes']['content'] = $url;
+        }
+      break;
+
+      case 'article':
+      case 'news':
+        if (!empty($variables['node']->field_main_image[LANGUAGE_NONE][0]['uri'])) {
+          $uri = $variables['node']->field_main_image[LANGUAGE_NONE][0]['uri'];
+          $url = image_style_url('medium', $uri);
+          $meta['image']['#attributes']['content'] = $url;
+        }
+      break;
+    }
+
+    foreach ($meta as $key => $val) {
+      drupal_add_html_head($val, 'meta_og_' . $key);
+    }
   }
 }
 
@@ -238,4 +283,11 @@ function yellow_pages_addressfield_container($variables) {
   else {
     return '';
   }
+}
+
+/**
+ * Overrides theme_facetapi_deactivate_widget().
+ */
+function yellow_pages_facetapi_deactivate_widget($variables) {
+  return '&#xf00d;';
 }

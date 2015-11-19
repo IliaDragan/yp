@@ -194,35 +194,18 @@ function yellow_pages_lists_get_references(stdClass $context) {
  *   Nodes markup.
  */
 function yellow_pages_lists_news_carousel() {
-  $nids = yellow_pages_lists_get_latest_news();
-  $nodes = node_load_multiple($nids);
+  $news_nids = yellow_pages_lists_get_latest_news();
+  $news_nodes = node_load_multiple($news_nids);
 
   $ads_nids = yellow_pages_lists_get_ads();
   $ads_nodes = node_load_multiple($ads_nids);
+
+  $nodes = array_merge($ads_nodes, $news_nodes);
   $content = array();
 
-  $entropy = 0;
-  if (!empty($ads_nodes)) {
-    $entropy = round(count($nodes) / count($ads_nodes));
-  }
-
-  $i = 0;
-  while (TRUE) {
-    if (empty($nodes) && empty($ads_nodes)) {
-      break;
-    }
-
-    if (!empty($nodes)) {
-      $render = node_view(array_shift($nodes), 'slider_teaser');
-      $content[] = drupal_render($render);
-    }
-
-    if (!empty($ads_nodes) && ($entropy == 0 || $i % $entropy == 0)) {
-      $render = node_view(array_pop($ads_nodes), 'slider_teaser');
-      $content[] = drupal_render($render);
-    }
-
-    $i++;
+  foreach($nodes as $node) {
+    $render = node_view($node, 'slider_teaser');
+    $content[] = drupal_render($render);
   }
 
   return implode('', $content);

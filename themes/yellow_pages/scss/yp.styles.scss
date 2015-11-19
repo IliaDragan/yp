@@ -33,6 +33,10 @@ h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
   font-weight: bold;
 }
 
+h5.block-title {
+  font-size: 14px;
+  margin-bottom: 20px;
+}
 
 a {
   color: $dark;
@@ -1793,6 +1797,9 @@ div.panel-pane div.node-teaser {
         top: 12px;
         right: 20px;
       }
+      .company-contact-title {
+        display: none !important;
+      }
     }
     @include breakpoint ($mobile) {
       padding-left: 20px;
@@ -2129,21 +2136,10 @@ article {
           padding: 3px 10px 3px 0;
         }
         .facetapi-active {
-          color: #393939;
+          color: $main-yellow;
+          font: normal normal normal 14px/1 FontAwesome;
           position: absolute;
           left: -20px;
-          &:before {
-            content: "\f00d";
-            display: inline-block;
-            position: absolute;
-            top: 0;
-            font: normal normal normal 14px/1 FontAwesome;
-            text-rendering: auto;
-            color: $main-yellow;
-            -webkit-font-smoothing: antialiased;
-            -moz-osx-font-smoothing: grayscale;
-            transform: translate(0, 0);
-          }
         }
         .facetapi-inactive {
           color: $gray;

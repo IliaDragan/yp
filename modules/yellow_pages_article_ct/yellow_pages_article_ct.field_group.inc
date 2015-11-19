@@ -82,6 +82,7 @@ function yellow_pages_article_ct_field_group_info() {
       0 => 'field_list_image',
       1 => 'field_main_image',
       2 => 'field_video',
+      3 => 'field_front_image',
     ),
     'format_type' => 'tab',
     'format_settings' => array(

@@ -44,7 +44,7 @@ function yellow_pages_preprocess_page(&$variables) {
       case 'company':
         if (!empty($variables['node']->field_company_logo[LANGUAGE_NONE][0]['uri'])) {
           $uri = $variables['node']->field_company_logo[LANGUAGE_NONE][0]['uri'];
-          $url = image_style_url('medium', $uri);
+          $url = image_style_url('og_medium', $uri);
           $meta['image']['#attributes']['content'] = $url;
         }
       break;
@@ -53,7 +53,7 @@ function yellow_pages_preprocess_page(&$variables) {
       case 'news':
         if (!empty($variables['node']->field_main_image[LANGUAGE_NONE][0]['uri'])) {
           $uri = $variables['node']->field_main_image[LANGUAGE_NONE][0]['uri'];
-          $url = image_style_url('medium', $uri);
+          $url = image_style_url('og_medium', $uri);
           $meta['image']['#attributes']['content'] = $url;
         }
       break;

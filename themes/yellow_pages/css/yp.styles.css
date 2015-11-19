@@ -2383,21 +2383,10 @@ article a {
   padding: 3px 10px 3px 0;
 }
 .page-search .pane-block ul li .facetapi-active {
-  color: #393939;
+  color: #ffdd00;
+  font: normal normal normal 14px/1 FontAwesome;
   position: absolute;
   left: -20px;
-}
-.page-search .pane-block ul li .facetapi-active:before {
-  content: "\f00d";
-  display: inline-block;
-  position: absolute;
-  top: 0;
-  font: normal normal normal 14px/1 FontAwesome;
-  text-rendering: auto;
-  color: #ffdd00;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  transform: translate(0, 0);
 }
 .page-search .pane-block ul li .facetapi-inactive {
   color: #a4a4a4;

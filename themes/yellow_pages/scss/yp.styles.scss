@@ -2083,21 +2083,10 @@ article {
           padding: 3px 10px 3px 0;
         }
         .facetapi-active {
-          color: #393939;
+          color: $main-yellow;
+          font: normal normal normal 14px/1 FontAwesome;
           position: absolute;
           left: -20px;
-          &:before {
-            content: "\f00d";
-            display: inline-block;
-            position: absolute;
-            top: 0;
-            font: normal normal normal 14px/1 FontAwesome;
-            text-rendering: auto;
-            color: $main-yellow;
-            -webkit-font-smoothing: antialiased;
-            -moz-osx-font-smoothing: grayscale;
-            transform: translate(0, 0);
-          }
         }
         .facetapi-inactive {
           color: $gray;

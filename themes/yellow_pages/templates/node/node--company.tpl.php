@@ -23,6 +23,7 @@
         <div class="field-date-update">
           <strong><?php print t('Date of update: '); ?></strong><?php print $date; ?>
         </div>
+        <h2 class="title contact company-contact-title"><?php print t('Contacts'); ?></h2>
         <?php print render($content['field_address']); ?>
         <div class="field-row-custom">
           <?php print render($content['field_landline_phone']); ?>

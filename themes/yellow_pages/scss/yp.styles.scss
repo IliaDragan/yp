@@ -33,6 +33,10 @@ h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
   font-weight: bold;
 }
 
+h5.block-title {
+  font-size: 14px;
+  margin-bottom: 20px;
+}
 
 a {
   color: $dark;
@@ -1746,6 +1750,9 @@ div.panel-pane div.node-teaser {
         position: absolute;
         top: 12px;
         right: 20px;
+      }
+      .company-contact-title {
+        display: none !important;
       }
     }
     @include breakpoint ($mobile) {

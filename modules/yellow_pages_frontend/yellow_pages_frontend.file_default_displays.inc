@@ -467,7 +467,7 @@ function yellow_pages_frontend_file_default_displays() {
   $file_display = new stdClass();
   $file_display->api_version = 1;
   $file_display->name = 'video__teaser__file_field_file_default';
-  $file_display->weight = 0;
+  $file_display->weight = -49;
   $file_display->status = FALSE;
   $file_display->settings = '';
   $export['video__teaser__file_field_file_default'] = $file_display;
@@ -475,7 +475,7 @@ function yellow_pages_frontend_file_default_displays() {
   $file_display = new stdClass();
   $file_display->api_version = 1;
   $file_display->name = 'video__teaser__file_field_file_download_link';
-  $file_display->weight = 0;
+  $file_display->weight = -48;
   $file_display->status = FALSE;
   $file_display->settings = array(
     'text' => 'Download [file:name]',
@@ -485,7 +485,7 @@ function yellow_pages_frontend_file_default_displays() {
   $file_display = new stdClass();
   $file_display->api_version = 1;
   $file_display->name = 'video__teaser__file_field_file_table';
-  $file_display->weight = 0;
+  $file_display->weight = -43;
   $file_display->status = FALSE;
   $file_display->settings = '';
   $export['video__teaser__file_field_file_table'] = $file_display;
@@ -493,7 +493,7 @@ function yellow_pages_frontend_file_default_displays() {
   $file_display = new stdClass();
   $file_display->api_version = 1;
   $file_display->name = 'video__teaser__file_field_file_url_plain';
-  $file_display->weight = 0;
+  $file_display->weight = -44;
   $file_display->status = FALSE;
   $file_display->settings = '';
   $export['video__teaser__file_field_file_url_plain'] = $file_display;
@@ -501,7 +501,7 @@ function yellow_pages_frontend_file_default_displays() {
   $file_display = new stdClass();
   $file_display->api_version = 1;
   $file_display->name = 'video__teaser__file_field_media_colorbox';
-  $file_display->weight = 0;
+  $file_display->weight = -46;
   $file_display->status = TRUE;
   $file_display->settings = array(
     'file_view_mode' => 'preview',
@@ -518,7 +518,7 @@ function yellow_pages_frontend_file_default_displays() {
   $file_display = new stdClass();
   $file_display->api_version = 1;
   $file_display->name = 'video__teaser__file_field_media_large_icon';
-  $file_display->weight = 0;
+  $file_display->weight = -47;
   $file_display->status = FALSE;
   $file_display->settings = '';
   $export['video__teaser__file_field_media_large_icon'] = $file_display;
@@ -526,7 +526,7 @@ function yellow_pages_frontend_file_default_displays() {
   $file_display = new stdClass();
   $file_display->api_version = 1;
   $file_display->name = 'video__teaser__media_youtube_image';
-  $file_display->weight = 0;
+  $file_display->weight = -50;
   $file_display->status = FALSE;
   $file_display->settings = array(
     'image_style' => 'company_gallery',

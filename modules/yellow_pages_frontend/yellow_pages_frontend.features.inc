@@ -55,5 +55,28 @@ function yellow_pages_frontend_image_default_styles() {
     ),
   );
 
+  // Exported image style: og_medium.
+  $styles['og_medium'] = array(
+    'name' => 'og_medium',
+    'label' => 'OpenGraph Medium',
+    'effects' => array(
+      4 => array(
+        'label' => 'Фон',
+        'help' => 'Background will make images an exact set of dimensions, placing scaled image in the center of bacground.',
+        'effect callback' => 'yellow_pages_frontend_image_background_effect',
+        'dimensions callback' => 'yellow_pages_frontend_image_background_dimensions',
+        'form callback' => 'yellow_pages_frontend_image_background_form',
+        'summary theme' => 'yellow_pages_frontend_image_background_summary',
+        'module' => 'yellow_pages_frontend',
+        'name' => 'yellow_pages_frontend_image_background',
+        'data' => array(
+          'width' => 220,
+          'height' => 220,
+        ),
+        'weight' => 1,
+      ),
+    ),
+  );
+
   return $styles;
 }

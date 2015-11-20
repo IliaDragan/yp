@@ -192,3 +192,75 @@ function yellow_pages_solr_configuration_search_api_solr_documents_alter(array &
     }
   }
 }
+
+/**
+ * Implements hook_facetapi_facet_info_alter().
+ */
+function yellow_pages_solr_configuration_facetapi_facet_info_alter(array &$facet_info, array $searcher_info) {
+  $facet_info['field_products:product:parents_all']['map options']['value callback'] = '_field_products_label_override';
+}
+
+/**
+ * Custom callback for field label value.
+ *
+ * @see yellow_pages_solr_configuration_facetapi_facet_info_alter()
+ */
+function _field_products_label_override(array $values, array $options) {
+  $labels = _field_products_labels($values);
+  return $labels;
+}
+
+/**
+ * Fetches labels for certain term ids.
+ *
+ * This function is language aware, so it will return labels
+ * for the current site used locale.
+ *
+ * @param array $ids
+ *   Term id's whose labels are t obe fetched.
+ *
+ * @return array
+ *   An set of labels keyed by term id.
+ */
+function _field_products_labels(array $ids) {
+  global $language;
+  $static = &drupal_static(__FUNCTION__, array());
+
+  if (empty($static)) {
+    $cache = cache_get('yp_products_labels');
+
+    if (!$cache) {
+      sort($ids, SORT_ASC);
+      $locales = array_keys(locale_language_list('name'));
+
+      foreach ($locales as $locale) {
+        $rows = array();
+
+        if ($locale == 'ru') {
+          $result = db_query("SELECT tid, name FROM taxonomy_term_data WHERE tid IN (:tid) ORDER by tid", array(':tid' => $ids));
+          $rows = $result->fetchAllKeyed();
+        }
+        else {
+          $context_map = array_map(function ($v) {
+            return 'term:' . $v . ':name';
+          }, $ids);
+
+          $result = db_query("SELECT context, translation FROM locales_source s INNER JOIN locales_target t ON s.lid = t.lid WHERE s.context IN (:context) AND t.language = :lang", array(':context' => $context_map, ':lang' => $locale));
+          $_rows = $result->fetchAllKeyed();
+          foreach ($ids as $id) {
+            $rows[$id] = $_rows['term:' . $id . ':name'];
+          }
+        }
+
+        $static[$locale] = $rows;
+      }
+
+      cache_set('yp_products_labels', $static, 'cache', CACHE_PERMANENT);
+    }
+    else {
+      $static = $cache->data;
+    }
+  }
+
+  return isset($static[$language->language]) ? $static[$language->language] : array();
+}

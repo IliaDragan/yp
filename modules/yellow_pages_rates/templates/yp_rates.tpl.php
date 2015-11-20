@@ -5,7 +5,7 @@
  */
 ?>
 <div class="yp-widget yp-rates">
-  <h5 class="block-title"><?php print t('Currency rates'); ?> <span class="info"><?php print t('(Banca Nationala)'); ?></span></h5>
+  <h2 class="title"><?php print t('Currency rates'); ?> <span class="info"><?php print t('(Banca Nationala)'); ?></span></h2>
   <?php foreach($rates as $currency => $rate) : ?>
   <div class="entry">
     <span class="<?php print drupal_html_class($currency); ?> currency info"><?php print $currency; ?></span>

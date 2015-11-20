@@ -106,8 +106,6 @@ function yellow_pages_preprocess_panels_pane(&$vars) {
  * Implements hook_preprocess_node().
  */
 function yellow_pages_preprocess_node(&$vars) {
-  yellow_pages_inject_owl();
-
   $vars['classes_array'][] = 'node--' . $vars['type'] . '--' . $vars['view_mode'];
   $vars['theme_hook_suggestions'][] = 'node__' . $vars['type'] . '__' . $vars['view_mode'];
 }

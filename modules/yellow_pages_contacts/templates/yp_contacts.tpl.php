@@ -5,7 +5,7 @@
  */
 ?>
 <div class="yp-widget yp-contacts">
-  <h5 class="block-title"><?php print $title; ?></h5>
+  <strong class="block-title"><?php print $title; ?></strong>
   <?php if (!empty($mail)): ?>
   <div class="entry contact-mail">
     <i class="fa fa-envelope-o"></i>

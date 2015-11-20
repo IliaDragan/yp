@@ -49,6 +49,12 @@ a:hover, a:active, a:focus {
   display: none !important;
 }
 
+#cboxLoadedContent iframe {
+  border: 0 none;
+  display: block;
+  overflow: hidden;
+}
+
 @media (min-width: 1990px) {
   .not-front .container {
     width: 1600px;

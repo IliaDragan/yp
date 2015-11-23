@@ -227,7 +227,7 @@ function _field_products_labels(array $ids) {
   $static = &drupal_static(__FUNCTION__, array());
 
   if (empty($static)) {
-    $cache = cache_get('yp_products_labels', 'cache_yp');
+    $cache = cache_get('yp_products_labels');
 
     if (!$cache) {
       sort($ids, SORT_ASC);
@@ -255,7 +255,7 @@ function _field_products_labels(array $ids) {
         $static[$locale] = $rows;
       }
 
-      cache_set('yp_products_labels', $static, 'cache_yp', CACHE_PERMANENT);
+      cache_set('yp_products_labels', $static, 'cache', CACHE_PERMANENT);
     }
     else {
       $static = $cache->data;

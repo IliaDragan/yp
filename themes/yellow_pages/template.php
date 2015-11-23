@@ -115,6 +115,23 @@ function yellow_pages_preprocess_node(&$vars) {
  */
 function yellow_pages_preprocess_field(&$vars) {
   $vars['theme_hook_suggestions'][] = 'field__' . $vars['element']['#field_name'] . '__' . $vars['element']['#view_mode'];
+
+  $phone_fields = array(
+    'field_fax',
+    'field_landline_phone',
+    'field_mobile_phone',
+  );
+  $field_is_phone = in_array($vars['element']['#field_name'], $phone_fields);
+  if ($field_is_phone && yellow_pages_device_is_mobile()) {
+    foreach ($vars['items'] as &$item) {
+      $phone = str_replace(" \t\n\r\0\x0B", '', $item['#markup']);
+      $phone = ltrim($phone, '0');
+      if (strpos($phone, '+') !== 0) {
+        $phone = '+373' . $phone;
+      }
+      $item['#markup'] = l($item['#markup'], 'tel:' . $phone);
+    }
+  }
 }
 
 /**

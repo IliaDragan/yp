@@ -113,7 +113,7 @@ function yellow_pages_preprocess_node(&$vars) {
   $vars['classes_array'][] = 'node--' . $vars['type'] . '--' . $vars['view_mode'];
   $vars['theme_hook_suggestions'][] = 'node__' . $vars['type'] . '__' . $vars['view_mode'];
   if ($vars['type'] == 'advertisement' && $vars['view_mode'] == 'slider_teaser') {
-    $vars['href'] = !empty($content['field_ad_url'][0]['#element']['url']) ? $content['field_ad_url'][0]['#element']['url'] : drupal_get_path_alias('node/' . $node->nid);
+    $vars['href'] = !empty($content['field_ad_url'][0]['#element']['url']) ? $content['field_ad_url'][0]['#element']['url'] : drupal_get_path_alias('node/' . $vars['node']->nid);
   }
 }
 

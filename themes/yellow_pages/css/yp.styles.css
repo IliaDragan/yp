@@ -1428,6 +1428,9 @@ form.yellow-pages-feedback-ad-request .form-type-textarea textarea {
   transform: translate(0, 0);
   z-index: 3;
 }
+.node-type-company .field-name-field-filials .field-item .node-company {
+  position: relative;
+}
 
 /* Views block */
 .node-teaser,

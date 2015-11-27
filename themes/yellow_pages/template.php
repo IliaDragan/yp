@@ -100,6 +100,10 @@ function yellow_pages_preprocess_panels_pane(&$vars) {
   if ($vars['pane']->type == 'yp_news_carousel') {
     yellow_pages_inject_owl();
   }
+  // Translate pene title.
+  if (isset($vars['title']) && !empty($vars['title'])) {
+    $vars['title'] = t($vars['title']);
+  }
 }
 
 /**

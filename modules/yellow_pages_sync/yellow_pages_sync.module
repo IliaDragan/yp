@@ -118,22 +118,17 @@ function yellow_pages_sync_link_filials($nid) {
     ->condition('parent', $nid, '=');
   $children = $query->execute()->fetchCol();
 
-  $languages = array_keys(locale_language_list('name'));
   $filials = array();
 
   foreach ($children as $child) {
-    foreach ($languages as $lang) {
+    foreach ($translations as $lang => $parent) {
       $query = db_select('node', 'n')
         ->fields('n', array('nid', 'language'))
         ->condition('tnid', $child, '=')
         ->condition('language', $lang, '=');
       $result = $query->execute()->fetchAll();
       $filial = reset($result);
-      foreach ($translations as $lang => $nid) {
-        if ($filial->language == $lang) {
-          $filials[$nid][] = $filial->nid;
-        }
-      }
+      $filials[$parent][] = $filial->nid;
     }
   }
 

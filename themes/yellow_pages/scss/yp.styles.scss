@@ -1263,6 +1263,12 @@ form.yellow-pages-feedback-ad-request {
   }
   .field-name-field-filials {
     .field-item .node-company {
+      .field-name-field-address .street-block{
+        &:before {
+          content: '';
+          margin: 0;
+        }
+      }
       position: relative;
     }
   }

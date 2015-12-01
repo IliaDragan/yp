@@ -1,0 +1,95 @@
+<?php
+/**
+ * @file
+ * Code for the Yellow Pages Frontend feature.
+ */
+
+include_once 'yellow_pages_frontend.features.inc';
+
+/**
+ * Implements hook_entity_info_alter().
+ */
+function yellow_pages_frontend_entity_info_alter(&$entity_info) {
+  $entity_info['node']['view modes']['slider_teaser'] = array(
+    'label' => t('Slider teaser'),
+    'custom settings' => TRUE,
+  );
+}
+
+/**
+ * Implements hook_theme().
+ */
+function yellow_pages_frontend_theme() {
+  return array(
+    'yellow_pages_frontend_image_background_summary' => array(
+      'variables' => array('data' => NULL),
+    ),
+  );
+}
+
+/**
+ * Returns HTML for a summary of an image background effect.
+ */
+function theme_yellow_pages_frontend_image_background_summary($variables) {
+  $data = $variables['data'];
+  return theme('image_resize_summary', array('data' => $data));
+}
+
+/**
+ * Form structure for the image background form.
+ */
+function yellow_pages_frontend_image_background_form($data) {
+  $form = image_resize_form($data);
+  return $form;
+}
+
+/**
+ * Implements hook_image_effect_info().
+ */
+function yellow_pages_frontend_image_effect_info() {
+  return array(
+    'yellow_pages_frontend_image_background' => array(
+      'label' => t('Background'),
+      'help' => t('Background will make images an exact set of dimensions, placing scaled image in the center of bacground.'),
+      'effect callback' => 'yellow_pages_frontend_image_background_effect',
+      'dimensions callback' => 'yellow_pages_frontend_image_background_dimensions',
+      'form callback' => 'yellow_pages_frontend_image_background_form',
+      'summary theme' => 'yellow_pages_frontend_image_background_summary',
+    ),
+  );
+}
+
+/**
+ * Image effect callback; Background an image resource.
+ */
+function yellow_pages_frontend_image_background_effect(&$image, $data) {
+  // Scale initial image.
+  image_scale($image, $data['width'], $data['height'], FALSE);
+
+  // Create white rectangle image.
+  $img = imagecreatetruecolor($data['width'], $data['height']);
+  $bg = imagecolorallocate ($img, 255, 255, 255);
+  imagefill($img, 0, 0, $bg);
+
+  // Calculate position of initial image.
+  $dst_x = ceil(($data['width'] - $image->info['width']) / 2);
+  $dst_y = ceil(($data['height'] - $image->info['height']) / 2);
+
+  // Copy initial image to white background image.
+  imagecopy($img, $image->resource, $dst_x, $dst_y, 0, 0, $image->info['width'], $image->info['height']);
+
+  // Change initial image data with new created image.
+  $image->resource = $img;
+  $image->info['width'] = $data['width'];
+  $image->info['height'] = $data['height'];
+
+  return TRUE;
+}
+
+/**
+ * Image dimensions callback; Background.
+ */
+function yellow_pages_frontend_image_background_dimensions(array &$dimensions, array $data) {
+  $dimensions['width'] = $data['width'];
+  $dimensions['height'] = $data['height'];
+}

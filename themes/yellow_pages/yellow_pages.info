@@ -1,0 +1,39 @@
+name = Yellow Pages
+description = Yellow Pages theme
+core = 7.x
+base theme = circle
+
+;;;;;;;;;;;;;;;;;;;;;
+;; Regions
+;;;;;;;;;;;;;;;;;;;;;
+
+regions[header]  = 'Header'
+regions[help]    = 'Help'
+regions[content] = 'Content'
+regions[aside_a] = 'Aside Alpha'
+regions[aside_b] = 'Aside Beta'
+regions[aside_c] = 'Aside Gamma'
+regions[footer]  = 'Footer'
+
+;;;;;;;;;;;;;;;;;;;;;
+;; Stylesheets
+;;;;;;;;;;;;;;;;;;;;;
+
+stylesheets[all][] = css/chosen.css
+stylesheets[all][] = css/developer.css
+stylesheets[all][] = css/yp.styles.css
+stylesheets[print][] = css/yp.print.css
+
+;;;;;;;;;;;;;;;;;;;;;
+;; Scripts
+;;;;;;;;;;;;;;;;;;;;;
+
+scripts[] = js/chosen.jquery.min.js
+scripts[] = js/yellow_pages.scripts.js
+scripts[] = js/xgemius.js
+
+;;;;;;;;;;;;;;;;;;;;;
+;; Layouts
+;;;;;;;;;;;;;;;;;;;;;
+
+plugins[panels][layouts] = layouts

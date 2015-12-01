@@ -1,0 +1,5 @@
+name = Yellow Pages Core
+description = Yellow Pages core functionality
+version = 7.x-0.1
+core = 7.x
+package = Yellow Pages

@@ -1,7 +1,7 @@
 <?php
 /**
  * @file
- * Install, update and uninstall functions for the standard installation profile.
+ * Install, update and uninstall functions for the yellow pages installation profile.
  */
 
 /**
@@ -12,14 +12,13 @@
  * @see system_install()
  */
 function yp_install() {
-
   // Enable user picture support and set the default to a square thumbnail option.
   variable_set('user_pictures', '1');
   variable_set('user_picture_dimensions', '256x256');
   variable_set('user_picture_file_size', '800');
   variable_set('user_picture_style', 'thumbnail');
 
-  // Allow visitor account creation with administrative approval.
+  // Allow visitor account creation.
   variable_set('user_register', USER_REGISTER_VISITORS);
 
   // Enable default permissions for system roles.
@@ -62,21 +61,31 @@ function yp_install() {
   // Update the menu router information.
   menu_rebuild();
 
-  // Enable the admin theme.
-  db_update('system')
-    ->fields(array('status' => 1))
-    ->condition('type', 'theme')
-    ->condition('name', 'seven')
-    ->execute();
+  // Enable the themes.
+  $enable = array(
+    'theme_default' => 'yellow_pages',
+    'admin_theme' => 'seven',
+  );
+  theme_enable($enable);
 
-  variable_set('admin_theme', 'seven');
+  foreach ($enable as $var => $theme) {
+    if (!is_numeric($var)) {
+      variable_set($var, $theme);
+    }
+  }
+
+  // Disable the default Bartik theme.
+  theme_disable(array('bartik'));
   variable_set('node_admin_theme', '1');
 
   // Add default locales.
-  locale_add_language('ru');
   locale_add_language('ro');
+  locale_add_language('ru');
 
   // Set default language detection.
+  require_once DRUPAL_ROOT . '/includes/language.inc';
+  require_once DRUPAL_ROOT . '/includes/locale.inc';
+  require_once DRUPAL_ROOT . '/modules/locale/locale.module';
   $negotation = array(
     LOCALE_LANGUAGE_NEGOTIATION_URL => array(
       'types' => array(
@@ -91,7 +100,7 @@ function yp_install() {
       ),
       'file' => 'includes/locale.inc',
       'weight' => '-8',
-      'name' => 'URL',
+      'name' => st('URL'),
       'description' => st('Determine the language from the URL (Path prefix or domain).'),
       'config' => 'admin/config/regional/language/configure/url',
     ),
@@ -101,7 +110,7 @@ function yp_install() {
       ),
       'file' => 'includes/locale.inc',
       'weight' => '-4',
-      'name' => 'User',
+      'name' => st('User'),
       'description' => st('Follow the user\'s language preference.'),
     ),
     LANGUAGE_NEGOTIATION_DEFAULT => array(
@@ -109,9 +118,90 @@ function yp_install() {
         'language' => 'language_from_default',
       ),
       'weight' => '10',
-      'name' => 'Default',
+      'name' => st('Default'),
       'description' => st('Use the default site language (English).'),
     ),
   );
   language_negotiation_set(LANGUAGE_TYPE_INTERFACE, $negotation);
+
+  // Full HTML format.
+  $full_html_format = array(
+    'format' => 'full_html',
+    'name' => 'Full HTML',
+    'weight' => 1,
+    'filters' => array(
+      'filter_url' => array(
+        'weight' => 0,
+        'status' => 1,
+      ),
+      'filter_autop' => array(
+        'weight' => 1,
+        'status' => 1,
+      ),
+      'filter_htmlcorrector' => array(
+        'weight' => 10,
+        'status' => 1,
+      ),
+    ),
+  );
+  $full_html_format = (object) $full_html_format;
+  filter_format_save($full_html_format);
+
+  // Set explicit 'en' locale prefix.
+  db_update('languages')
+    ->fields(array(
+      'prefix' => 'eng',
+      'native' => 'En',
+    ))
+    ->condition('language', 'en', '=')
+    ->execute();
+
+  db_update('languages')
+    ->fields(array(
+      'prefix' => 'rus',
+      'native' => 'Ру',
+    ))
+    ->condition('language', 'ru', '=')
+    ->execute();
+
+  db_update('languages')
+    ->fields(array(
+      'prefix' => 'rom',
+      'native' => 'Ro',
+    ))
+    ->condition('language', 'ro', '=')
+    ->execute();
+}
+
+/**
+ * Adds frontpage ad type.
+ */
+function yp_update_7001() {
+  _yp_create_ad_categories();
+}
+
+/**
+ * Change url locale prefix.
+ */
+function yp_update_7002() {
+  db_update('languages')
+  ->fields(array(
+    'prefix' => 'eng',
+  ))
+  ->condition('language', 'en', '=')
+  ->execute();
+
+  db_update('languages')
+  ->fields(array(
+    'prefix' => 'rus',
+  ))
+  ->condition('language', 'ru', '=')
+  ->execute();
+
+  db_update('languages')
+  ->fields(array(
+    'prefix' => 'rom',
+  ))
+  ->condition('language', 'ro', '=')
+  ->execute();
 }

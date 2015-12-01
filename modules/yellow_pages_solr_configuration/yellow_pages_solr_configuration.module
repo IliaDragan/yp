@@ -1,0 +1,266 @@
+<?php
+/**
+ * @file
+ * Code for the Yellow Pages Solr configuration feature.
+ */
+
+include_once 'yellow_pages_solr_configuration.features.inc';
+
+/**
+ * Implements hook_ctools_plugin_directory().
+ *
+ * It simply tells panels where to find the .inc files that define various
+ * args, contexts, content_types.
+ */
+function yellow_pages_solr_configuration_ctools_plugin_directory($module, $plugin) {
+  if ($module == 'ctools' && !empty($plugin)) {
+    return "plugins/$plugin";
+  }
+}
+
+/**
+ * Implementation of hook_form_alter()
+ */
+function yellow_pages_solr_configuration_form_alter(&$form, &$form_state, $form_id) {
+  if($form_id == 'search_block_form') {
+    $uri = arg();
+    if ($uri[0] === 'search' && isset($uri[2])) {
+      $form['search_block_form']['#default_value'] = $uri[2];
+    }
+    $form['#submit'][] = 'yellow_pages_solr_configuration_form_submit';
+  }
+}
+
+/**
+ * Process a block search form submission.
+ */
+function yellow_pages_solr_configuration_form_submit($form, &$form_state) {
+  // The search form relies on control of the redirect destination for its
+  // functionality, so we override any static destination set in the request,
+  // for example by drupal_access_denied() or drupal_not_found()
+  // (see http://drupal.org/node/292565).
+  if (isset($_GET['destination'])) {
+    unset($_GET['destination']);
+  }
+
+  $form_id = $form['form_id']['#value'];
+  $form_state['redirect'] = 'search/companies/'. trim($form_state['values'][$form_id]);
+}
+
+/**
+ * Implements hook_translated_menu_link_alter().
+ *
+ * IMPORTANT: this code assumes taxonomy_menu is used and it already marked shop
+ * category items as altered.
+ */
+/**
+ * Implements hook_translated_menu_link_alter().
+ */
+function yellow_pages_solr_configuration_translated_menu_link_alter(&$item, $map) {
+  if ($item['menu_name'] == 'menu-product-menu' && strpos($item['link_path'], 'taxonomy/term/') === 0) {
+    $p = 'search/companies';
+    $tid = arg(2, $item['link_path']);
+    $item['href'] = url($p, array('absolute' => TRUE)) . '?f[0]=field_products%253Aproduct%253Aparents_all%3A' . $tid;
+  }
+}
+
+/**
+ * Implements hook_entity_property_info_alter().
+ */
+function yellow_pages_solr_configuration_entity_property_info_alter(&$info) {
+  $info['node']['properties']['city_filter'] = array(
+    'type' => 'text',
+    'label' => t('Filter by city.'),
+    'getter callback' => 'yellow_pages_solr_configuration_city_filter_callback',
+  );
+
+  $info['node']['properties']['title_sort'] = array(
+    'type' => 'text',
+    'label' => t('Sort by title.'),
+    'getter callback' => 'yellow_pages_solr_configuration_title_sort_callback',
+  );
+
+}
+
+/**
+ * Return title for sort in solr views.
+ */
+function yellow_pages_solr_configuration_title_sort_callback($item) {
+  if ($item->type == 'company') {
+    if (isset($item->title) && !empty($item->title)) {
+      return $item->title;
+    }
+  }
+}
+
+
+/**
+ * Return city name for filtration field on solr indexation.
+ */
+function yellow_pages_solr_configuration_city_filter_callback($item) {
+  if ($item->type == 'company') {
+    $city = field_get_items('node', $item, 'field_address');
+    if (isset($city[0]['locality']) && !empty($city[0]['locality'])) {
+      return $city[0]['locality'];
+    }
+  }
+}
+
+/**
+ * Implements hook_search_api_solr_search_results_alter().
+ */
+function yellow_pages_solr_configuration_search_api_solr_search_results_alter(array &$results, SearchApiQueryInterface $query, $response) {
+  // Make search results visible across modules.
+  $solr_search_nids = array_keys($results['results']);
+  $solr_results = &drupal_static('yp_solr_search_results', array());
+  $solr_results = $solr_search_nids;
+
+  $solr_result_count = $results['result count'];
+  $result_count = &drupal_static('yp_solr_hits', 0);
+  $result_count = $solr_result_count;
+}
+
+/**
+ * Implements hook_preoprocess().
+ */
+function yellow_pages_solr_configuration_preprocess(&$variables, $hook) {
+  $search_page = arg(0) == 'search' && arg(1) == 'companies';
+  if (!$search_page) {
+    return;
+  }
+
+  if ($hook == 'panels_pane' && $variables['pane']->type == 'switch_search') {
+    $pane_content = &drupal_static('yp_switch_search', '');
+    $pane_content = $variables['content'];
+    $variables['content'] = '';
+  }
+
+  if ($hook == 'yp_threecol_25_50_25') {
+    $pane_content = drupal_static('yp_switch_search', '');
+    if (!empty($pane_content)) {
+      $variables['content']['beta_50'] = drupal_render($pane_content) . $variables['content']['beta_50'];
+    }
+  }
+}
+
+/**
+ * Implements hook_search_api_solr_query_alter().
+ */
+function yellow_pages_solr_configuration_search_api_solr_query_alter(array &$call_args, SearchApiQueryInterface $query) {
+  $call_args['params']['qf'][] = 'precise_text^50.0';
+  if ($call_args['query']) {
+    $call_args['query'] = str_replace('"' , '*', $call_args['query']);
+  }
+}
+
+/**
+ * Implements hook_language_switch_links_alter().
+ */
+function yellow_pages_solr_configuration_language_switch_links_alter(&$links) {
+  $query = drupal_get_query_parameters();
+
+  // Preserve query strings in language switcher links.
+  foreach ($links as &$link) {
+    $link['query'] = $query;
+  }
+}
+
+/**
+ * Implements hook_search_api_solr_documents_alter().
+ */
+function yellow_pages_solr_configuration_search_api_solr_documents_alter(array &$documents, SearchApiIndex $index, array $items) {
+  foreach ($documents as $document) {
+    $content_type = $document->getField('ss_type');
+
+    if ($content_type['value'] === 'company') {
+      $term_ids = $document->getField('im_field_products$product');
+
+      if (isset($term_ids['value']) && is_array($term_ids['value'])) {
+        $locales = array('en', 'ro');
+
+        foreach ($term_ids['value'] as $key => $term_id) {
+          $term = i18n_get_object('taxonomy_term', $term_id);
+          foreach ($locales as $locale) {
+            $translated_term = $term->localize($locale);
+            if (isset($translated_term->name) && !empty($translated_term->name)) {
+              $translated_term_name = $translated_term->name;
+              $document->addField('tm_field_products$product$name', $translated_term_name);
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+/**
+ * Implements hook_facetapi_facet_info_alter().
+ */
+function yellow_pages_solr_configuration_facetapi_facet_info_alter(array &$facet_info, array $searcher_info) {
+  $facet_info['field_products:product:parents_all']['map options']['value callback'] = '_field_products_label_override';
+}
+
+/**
+ * Custom callback for field label value.
+ *
+ * @see yellow_pages_solr_configuration_facetapi_facet_info_alter()
+ */
+function _field_products_label_override(array $values, array $options) {
+  $labels = _field_products_labels($values);
+  return $labels;
+}
+
+/**
+ * Fetches labels for certain term ids.
+ *
+ * This function is language aware, so it will return labels
+ * for the current site used locale.
+ *
+ * @param array $ids
+ *   Term id's whose labels are t obe fetched.
+ *
+ * @return array
+ *   An set of labels keyed by term id.
+ */
+function _field_products_labels(array $ids) {
+  global $language;
+  $static = &drupal_static(__FUNCTION__, array());
+
+  if (empty($static)) {
+    $cache = cache_get('yp_products_labels', 'cache_yp');
+
+    if (!$cache) {
+      sort($ids, SORT_ASC);
+      $locales = array_keys(locale_language_list('name'));
+
+      foreach ($locales as $locale) {
+        $rows = array();
+
+        if ($locale == 'ru') {
+          $result = db_query("SELECT tid, name FROM taxonomy_term_data WHERE tid IN (:tid) ORDER by tid", array(':tid' => $ids));
+          $rows = $result->fetchAllKeyed();
+        }
+        else {
+          $context_map = array_map(function ($v) {
+            return 'term:' . $v . ':name';
+          }, $ids);
+
+          $result = db_query("SELECT context, translation FROM locales_source s INNER JOIN locales_target t ON s.lid = t.lid WHERE s.context IN (:context) AND t.language = :lang", array(':context' => $context_map, ':lang' => $locale));
+          $_rows = $result->fetchAllKeyed();
+          foreach ($ids as $id) {
+            $rows[$id] = $_rows['term:' . $id . ':name'];
+          }
+        }
+
+        $static[$locale] = $rows;
+      }
+
+      cache_set('yp_products_labels', $static, 'cache_yp', CACHE_PERMANENT);
+    }
+    else {
+      $static = $cache->data;
+    }
+  }
+
+  return isset($static[$language->language]) ? $static[$language->language] : array();
+}

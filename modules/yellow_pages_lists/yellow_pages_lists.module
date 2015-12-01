@@ -1,0 +1,270 @@
+<?php
+/**
+ * @file
+ * Provides various content lists.
+ */
+
+/**
+ * Implements hook_ctools_plugin_directory().
+ */
+function yellow_pages_lists_ctools_plugin_directory($module, $plugin) {
+  if ($module == 'ctools' && $plugin == 'content_types') {
+    return 'plugins/content_types';
+  }
+}
+
+function yellow_pages_lists_related_content($type, stdClass $context, $limit = 3, $offset = 0) {
+  $content = '';
+
+  $function = 'yellow_pages_lists_related_' . $type;
+
+  if (function_exists($function)) {
+    $nids = $function($context);
+
+    if (!empty($nids)) {
+      $nids = array_slice($nids, $offset, $limit);
+      $nodes = node_load_multiple($nids);
+
+      $content = array();
+      foreach ($nodes as $node) {
+        $render = node_view($node, 'teaser');
+        $content[] = drupal_render($render);
+      }
+
+      $content = implode('', $content);
+    }
+  }
+
+  return $content;
+}
+
+/**
+ *
+ * @param stdClass $context
+ * @return string
+ */
+function yellow_pages_lists_related_articles(stdClass $context) {
+  $references = yellow_pages_lists_get_references($context);
+  $relations = yellow_pages_lists_get_relations($context, 'article');
+
+  return array_merge($references, $relations);
+}
+
+/**
+ * Fetches nodes in relation with current viewed node.
+ *
+ * @param stdClass $context
+ *   Node object whose relations are to be extracted.
+ *
+ * @return array
+ *   Node id's.
+ */
+function yellow_pages_lists_related_companies(stdClass $context) {
+  $relations = yellow_pages_lists_get_relations($context, 'company');
+
+
+  return $relations;
+}
+
+/**
+ * Fetches nodes in relation with current viewed node.
+ *
+ * @param stdClass $context
+ *   Node object whose relations are to be extracted.
+ *
+ * @return array
+ *   Node id's.
+ */
+function yellow_pages_lists_related_news(stdClass $context) {
+  $relations = yellow_pages_lists_get_relations($context, 'news');
+
+  return $relations;
+}
+
+/**
+ * Fetches node relations, based on products fields.
+ *
+ * @param stdClass $context
+ *   Node object whose relations are to be extracted.
+ * @param string $type
+ *   Target node type, linked with same relation.
+ *
+ * @return array
+ *   Set of node id's.
+ */
+function yellow_pages_lists_get_relations(stdClass $context, $type) {
+  $relations = array();
+  $tids = array();
+
+  if (!empty($context->field_products)) {
+    foreach ($context->field_products[LANGUAGE_NONE] as $relation) {
+      $tids[] = $relation['product'];
+
+      // Include parents as well.
+      $parents = taxonomy_get_parents($relation['product']);
+
+      foreach ($parents as $parent) {
+        $tids[] = $parent->tid;
+      }
+
+      // Include tree as well.
+      $term = taxonomy_term_load($relation['product']);
+      $tree = taxonomy_get_tree($term->vid, $term->tid);
+
+      foreach ($tree as $item) {
+        $tids[] = $item->tid;
+      }
+
+      $tids = array_unique($tids);
+    }
+  }
+
+  if (empty($tids)) {
+    return $relations;
+  }
+
+  global $language;
+
+  // Exclude affiliated content.
+  $query_left = db_select('field_data_field_filials', 'fdff')
+    ->fields('fdff', array('field_filials_target_id'))
+    ->condition('entity_id', $context->nid, '=');
+
+  $query_right = db_select('field_data_field_filials', 'fdff')
+    ->fields('fdff', array('entity_id'))
+    ->condition('field_filials_target_id', $context->nid, '=');
+
+  $query_left = $query_left->union($query_right, 'UNION ALL');
+  $result = $query_left->execute()->fetchCol();
+  $filials = $result;
+
+  $query = new EntityFieldQuery();
+  $query
+    ->entityCondition('entity_type', 'node')
+    ->entityCondition('bundle', $type)
+    ->propertyCondition('status', NODE_PUBLISHED)
+    ->propertyCondition('language', $language->language)
+    ->fieldCondition('field_products', 'product', $tids, 'IN')
+    ->propertyCondition('nid', array($context->nid), 'NOT IN')
+    ->propertyOrderBy('sticky', 'DESC')
+    ->range(0, 100);
+
+//   var_dump($items);
+  if (!empty($filials)) {
+    $query->propertyCondition('nid', $filials, 'NOT IN');
+  }
+
+  $result = $query->execute();
+
+  if (isset($result['node'])) {
+    $relations = array_keys($result['node']);
+  }
+
+  return $relations;
+}
+
+/**
+ * Fetches article references, if any.
+ *
+ * @param stdClass $context
+ *   Node object whose references are to be extracted.
+ *
+ * @return array
+ *   Set of node id's.
+ */
+function yellow_pages_lists_get_references(stdClass $context) {
+  $references = array();
+
+  if (isset($context->field_articles) && !empty($context->field_articles)) {
+    foreach ($context->field_articles[LANGUAGE_NONE] as $reference) {
+      $references[] = $reference['target_id'];
+    }
+  }
+
+  return $references;
+}
+
+/**
+ * Creates frontpage carousel content.
+ *
+ * Assembles news and ads, spreading ads nodes evenly depending on news
+ * nodes count.
+ *
+ * @return string
+ *   Nodes markup.
+ */
+function yellow_pages_lists_news_carousel() {
+  $news_nids = yellow_pages_lists_get_latest_news();
+  $news_nodes = node_load_multiple($news_nids);
+
+  $ads_nids = yellow_pages_lists_get_ads();
+  $ads_nodes = node_load_multiple($ads_nids);
+
+  $nodes = array_merge($ads_nodes, $news_nodes);
+  $content = array();
+
+  foreach($nodes as $node) {
+    $render = node_view($node, 'slider_teaser');
+    $content[] = drupal_render($render);
+  }
+
+  return implode('', $content);
+}
+
+/**
+ * Fetches nodes of news type.
+ *
+ * @return array
+ *   Set of node id's.
+ */
+function yellow_pages_lists_get_latest_news($limit = 50, $sort = 'DESC') {
+  global $language;
+
+  $news = array();
+
+  $query = new EntityFieldQuery();
+  $query
+    ->entityCondition('entity_type', 'node')
+    ->entityCondition('bundle', 'article')
+    ->propertyCondition('status', NODE_PUBLISHED)
+    ->propertyCondition('language', $language->language)
+    ->propertyCondition('promote', 1)
+    ->propertyOrderBy('created', $sort)
+    ->range(0, $limit);
+  $result = $query->execute();
+
+  if (isset($result['node'])) {
+    $news = array_keys($result['node']);
+  }
+
+  return $news;
+}
+
+/**
+ * Fetches nodes of advertisement type.
+ *
+ * @return array
+ *   Set of node id's shuffled.
+ */
+function yellow_pages_lists_get_ads() {
+  global $language;
+
+  $ads = array();
+
+  $query = new EntityFieldQuery();
+  $query
+    ->entityCondition('entity_type', 'node')
+    ->entityCondition('bundle', 'advertisement')
+    ->propertyCondition('status', NODE_PUBLISHED)
+    ->propertyCondition('language', $language->language)
+    ->fieldCondition('field_ad_category', 'value', 'frontpage', '=');
+  $result = $query->execute();
+
+  if (isset($result['node'])) {
+    $ads = array_keys($result['node']);
+  }
+
+  shuffle($ads);
+
+  return $ads;
+}

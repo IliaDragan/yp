@@ -1,0 +1,6 @@
+name = Yellow Pages Print
+description = Provides print button for various pages
+core = 7.x
+version = 7.x-0.1
+package = Yellow Pages
+dependencies[] = yellow_pages_core

@@ -1,0 +1,10 @@
+name = Yellow Pages Lists
+description = Various content lists.
+version = 7.x-0.1
+core = 7.x
+dependencies[] = ctools
+dependencies[] = yellow_pages_ads
+dependencies[] = yellow_pages_article_ct
+dependencies[] = yellow_pages_company_ct
+dependencies[] = yellow_pages_news_ct
+package = Yellow Pages

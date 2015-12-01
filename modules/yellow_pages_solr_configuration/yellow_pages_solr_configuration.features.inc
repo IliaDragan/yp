@@ -38,12 +38,13 @@ function yellow_pages_solr_configuration_default_search_api_index() {
     "server" : "yp",
     "item_type" : "node",
     "options" : {
-      "index_directly" : 0,
-      "cron_limit" : "50",
+      "index_directly" : 1,
+      "cron_limit" : "500",
       "fields" : {
         "body:value" : { "type" : "text", "boost" : "3.0" },
         "city_filter" : { "type" : "string" },
         "field_address:locality" : { "type" : "text" },
+        "field_address:thoroughfare" : { "type" : "text" },
         "field_products:product" : { "type" : "list\\u003Cinteger\\u003E", "entity_type" : "taxonomy_term" },
         "field_products:product:name" : { "type" : "list\\u003Ctext\\u003E", "boost" : "13.0" },
         "field_products:product:parents_all" : {

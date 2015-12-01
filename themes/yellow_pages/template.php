@@ -15,8 +15,57 @@ function yellow_pages_preprocess_page(&$variables) {
   if($status == "404 Not Found") {
     $variables['theme_hook_suggestions'][] = 'page__404';
   }
-    if($status == "403 Forbidden") {
+  if($status == "403 Forbidden") {
     $variables['theme_hook_suggestions'][] = 'page__403';
+  }
+
+  // Add open graph meta for facebook share button.
+  if (!empty($variables['node'])) {
+    $meta = array(
+      'title' => array(
+        '#type' => 'html_tag',
+        '#tag' => 'meta',
+        '#attributes' => array(
+          'property' => 'og:title',
+          'content' => $variables['node']->title,
+        ),
+      ),
+      'image' => array(
+        '#type' => 'html_tag',
+        '#tag' => 'meta',
+        '#attributes' => array(
+          'property' => 'og:image',
+          'content' => '',
+        ),
+      ),
+    );
+
+    switch ($variables['node']->type) {
+      case 'company':
+        if (!empty($variables['node']->field_company_logo[LANGUAGE_NONE][0]['uri'])) {
+          $uri = $variables['node']->field_company_logo[LANGUAGE_NONE][0]['uri'];
+        }
+      break;
+
+      case 'article':
+      case 'news':
+        if (!empty($variables['node']->field_main_image[LANGUAGE_NONE][0]['uri'])) {
+          $uri = $variables['node']->field_main_image[LANGUAGE_NONE][0]['uri'];
+        }
+      break;
+    }
+
+    if (!empty($uri)) {
+      $path = image_style_path('og_medium', $uri);
+      $style = image_style_load('og_medium');
+      image_style_create_derivative($style, $uri, $path);
+      $url = image_style_url('og_medium', $uri);
+      $meta['image']['#attributes']['content'] = $url;
+    }
+
+    foreach ($meta as $key => $val) {
+      drupal_add_html_head($val, 'meta_og_' . $key);
+    }
   }
 }
 
@@ -41,7 +90,6 @@ function yellow_pages_inject_owl() {
   $path = drupal_get_path('theme', 'yellow_pages');
   drupal_add_js($path . '/js/owl.carousel.min.js');
   drupal_add_css($path . '/css/owl.carousel.css');
-  drupal_add_css($path . '/css/developer.css');
 }
 
 /**
@@ -52,16 +100,22 @@ function yellow_pages_preprocess_panels_pane(&$vars) {
   if ($vars['pane']->type == 'yp_news_carousel') {
     yellow_pages_inject_owl();
   }
+  // Translate pene title.
+  if (isset($vars['title']) && !empty($vars['title'])) {
+    $vars['title'] = t($vars['title']);
+  }
 }
 
 /**
  * Implements hook_preprocess_node().
  */
 function yellow_pages_preprocess_node(&$vars) {
-  yellow_pages_inject_owl();
-
   $vars['classes_array'][] = 'node--' . $vars['type'] . '--' . $vars['view_mode'];
   $vars['theme_hook_suggestions'][] = 'node__' . $vars['type'] . '__' . $vars['view_mode'];
+  if ($vars['type'] == 'advertisement' && $vars['view_mode'] == 'slider_teaser') {
+    $vars['link_href'] = !empty($vars['content']['field_ad_url'][0]['#element']['url']) ? $vars['content']['field_ad_url'][0]['#element']['url'] : drupal_get_path_alias('node/' . $vars['node']->nid);
+    $vars['link_attributes'] = !empty($vars['content']['field_ad_url'][0]['#element']['attributes']) ? drupal_attributes($vars['content']['field_ad_url'][0]['#element']['attributes']) : '';
+  }
 }
 
 /**
@@ -79,6 +133,10 @@ function yellow_pages_preprocess_menu_link(&$variables) {
     $variables['prefix'] = '<span>';
     $variables['suffix'] = '</span>';
   }
+  elseif ($variables['theme_hook_original'] == 'menu_link__main_menu') {
+    $alias_href = drupal_get_path_alias($variables['element']['#href'], 'ru');
+    $variables['element']['#href'] = $alias_href;
+  }
 }
 
 /**
@@ -86,7 +144,7 @@ function yellow_pages_preprocess_menu_link(&$variables) {
  */
 function yellow_pages_menu_link(array $variables) {
   $element = $variables ['element'];
-  $sub_menu =  $element['#below'] ? drupal_render($element ['#below']) : '';
+  $sub_menu = $element['#below'] ? drupal_render($element ['#below']) : '';
   $prefix = isset($variables['prefix']) ? $variables['prefix'] : '';
   $suffix = isset($variables['suffix']) ? $variables['suffix'] : '';
   if ($suffix || $prefix) {
@@ -128,16 +186,6 @@ function yellow_pages_theme() {
       'function' => 'yellow_pages_links_clear',
     ),
   );
-}
-
-/**
- * Implements hook_preprocess_menu_tree().
- */
-function yellow_pages_preprocess_menu_tree(&$variables) {
-  if ($variables['menu_name'] == 'menu-product-menu') {
-    global $base_url;
-    $variables['#suffix'] = '<a href="' . $base_url . '/search' . '" class="product-link"><span class="link-icon"></span>' . t('Список всех ссылок') . '</a>';
-  }
 }
 
 function yellow_pages_html_head_alter(&$elements) {
@@ -197,6 +245,8 @@ function yellow_pages_links_clear($variables) {
       $output .= '<li' . drupal_attributes(array('class' => $class)) . '>';
 
       if (isset($link ['href'])) {
+        // Use path alias instead of drupal path.
+        $link['href'] = drupal_get_path_alias($link['href'], 'ru');
         // Pass in $link as $options, they share the same keys.
         $output .= l($link ['title'], $link ['href'], $link);
       }
@@ -218,4 +268,38 @@ function yellow_pages_links_clear($variables) {
   }
 
   return $output;
+}
+
+/**
+ * Overrides theme_addressfield_container().
+ *
+ * Render a container for a set of address fields.
+ */
+function yellow_pages_addressfield_container($variables) {
+  $element = $variables['element'];
+  $element['#children'] = trim($element['#children']);
+  if (strlen($element['#children']) > 0) {
+    $attr = $element['#attributes'];
+    $prefix = '';
+    if (isset($attr['autocomplete'])) {
+      if ($attr['autocomplete'] == 'postal-code') {
+        $prefix = 'MD-';
+      }
+      unset($attr['autocomplete']);
+    }
+    $output = '<' . $element['#tag'] . drupal_attributes($attr) . '>';
+    $output .= $prefix . $element['#children'];
+    $output .= '</' . $element['#tag'] . ">";
+    return $output;
+  }
+  else {
+    return '';
+  }
+}
+
+/**
+ * Overrides theme_facetapi_deactivate_widget().
+ */
+function yellow_pages_facetapi_deactivate_widget($variables) {
+  return '&#xf00d;';
 }

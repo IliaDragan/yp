@@ -231,7 +231,6 @@ function yellow_pages_company_ct_field_formatter_info() {
  * Implements hook_field_formatter_prepare_view().
  */
 function yellow_pages_company_ct_field_formatter_prepare_view($entity_type, $entities, $field, $instances, $langcode, &$items, $displays) {
-
   foreach ($entities as $id => $entity) {
     $parents = array();
     foreach ($items[$id] as $delta => $item) {

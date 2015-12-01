@@ -147,7 +147,7 @@ function yellow_pages_solr_configuration_preprocess(&$variables, $hook) {
  * Implements hook_search_api_solr_query_alter().
  */
 function yellow_pages_solr_configuration_search_api_solr_query_alter(array &$call_args, SearchApiQueryInterface $query) {
-  $call_args['params']['qf'][] = 'precise_text^50.0';
+  $call_args['params']['qf'][] = 'precise_text^150.0';
   if ($call_args['query']) {
     $call_args['query'] = str_replace('"' , '*', $call_args['query']);
   }

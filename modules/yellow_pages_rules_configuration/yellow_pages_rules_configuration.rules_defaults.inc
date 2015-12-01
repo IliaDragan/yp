@@ -47,15 +47,23 @@ function yellow_pages_rules_configuration_default_rules_configuration() {
       ]
     }
   }');
+  $items['rules_everyday_verify_logo_expiration_dates'] = entity_import('rules_config', '{ "rules_everyday_verify_logo_expiration_dates" : {
+      "LABEL" : "Everyday verify logo expiration dates",
+      "PLUGIN" : "reaction rule",
+      "OWNER" : "rules",
+      "REQUIRES" : [ "yellow_pages_rules_configuration", "rules_onceperday" ],
+      "ON" : { "once_per_day" : [] },
+      "DO" : [
+        { "yellow_pages_rules_configuration_verify_logo_expiration_date" : [] }
+      ]
+    }
+  }');
   $items['rules_logo_expire_in_a_day'] = entity_import('rules_config', '{ "rules_logo_expire_in_a_day" : {
       "LABEL" : "Logo expire in a day",
       "PLUGIN" : "reaction rule",
       "OWNER" : "rules",
       "REQUIRES" : [ "yellow_pages_rules_configuration", "rules" ],
       "ON" : { "logo_expire_in_day" : [] },
-      "IF" : [
-        { "yellow_pages_rules_configuration_logo_expire_day" : { "node" : [ "node" ] } }
-      ],
       "DO" : [
         { "mail_to_users_of_role" : {
             "roles" : { "value" : { "4" : "4" } },
@@ -73,9 +81,6 @@ function yellow_pages_rules_configuration_default_rules_configuration() {
       "TAGS" : [ "expiration", "logo", "mail" ],
       "REQUIRES" : [ "yellow_pages_rules_configuration", "rules" ],
       "ON" : { "logo_expire_in_week" : [] },
-      "IF" : [
-        { "yellow_pages_rules_configuration_logo_expire_week" : { "node" : [ "node" ] } }
-      ],
       "DO" : [
         { "mail_to_users_of_role" : {
             "roles" : { "value" : { "4" : "4" } },

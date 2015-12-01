@@ -49,26 +49,6 @@ function yellow_pages_rules_configuration_rules_condition_info() {
         ),
       ),
     ),
-    'yellow_pages_rules_configuration_logo_expire_week' => array(
-      'label' => t('Check if logo expire in week.'),
-      'module' => 'yellow_pages_rules_configuration',
-      'arguments' => array(
-        'node' => array(
-          'type' => 'node',
-          'label' => t('Content'),
-        ),
-      ),
-    ),
-    'yellow_pages_rules_configuration_logo_expire_day' => array(
-      'label' => t('Check if logo expire in day.'),
-      'module' => 'yellow_pages_rules_configuration',
-      'arguments' => array(
-        'node' => array(
-          'type' => 'node',
-          'label' => t('Content'),
-        ),
-      ),
-    ),
   );
 }
 
@@ -120,40 +100,6 @@ function yellow_pages_rules_configuration_advert_expire_day($node) {
   $unpublish_date = strtotime($ad_schedule[0]['value2']);
   $tod_plus_day = mktime(0, 0, 0) + (24 * 60 * 60);
   $check = (!empty($unpublish_date) && $unpublish_date == $tod_plus_day);
-  return $check;
-}
-
-/**
- * Check if logo expire in week.
- *
- * @param $node
- * @return bool
- */
-function yellow_pages_rules_configuration_logo_expire_week($node) {
-  $logo_expiration_date = field_get_items('node', $node, 'field_logo_expiration_date');
-  if (!empty($logo_expiration_date[0]['value'])) {
-    $exp_date = $logo_expiration_date[0]['value'];
-  }
-  $tod_plus_week = date('Y-m-d', strtotime('+1 week')) . ' 00:00:00';
-  $check = (!empty($exp_date) && $exp_date == $tod_plus_week);
-
-  return $check;
-}
-
-/**
- * Check if logo expire in day.
- *
- * @param $node
- * @return bool
- */
-function yellow_pages_rules_configuration_logo_expire_day($node) {
-  $logo_expiration_date = field_get_items('node', $node, 'field_logo_expiration_date');
-  if (!empty($logo_expiration_date[0]['value'])) {
-    $exp_date = $logo_expiration_date[0]['value'];
-  }
-  $tod_plus_day = date('Y-m-d', strtotime('+1 day')) . ' 00:00:00';
-  $check = (!empty($exp_date) && $exp_date == $tod_plus_day);
-
   return $check;
 }
 
@@ -225,4 +171,50 @@ function yellow_pages_rules_configuration_rules_event_info() {
   );
 
   return $event;
+}
+
+/**
+ * Implement hook_rules_action_info().
+ */
+function yellow_pages_rules_configuration_rules_action_info() {
+  return array(
+    'yellow_pages_rules_configuration_verify_logo_expiration_date' => array(
+      'label' => t('Verify logo expiration date'),
+      'group' => t('Node'),
+    ),
+  );
+}
+
+/**
+ * Rules action callback.
+ *
+ * This function verify logo expiration dates and invokes corresponding event.
+ */
+function yellow_pages_rules_configuration_verify_logo_expiration_date() {
+  $tod_plus_week = date('Y-m-d', strtotime('+1 week')) . ' 00:00:00';
+  $tod_plus_day = date('Y-m-d', strtotime('+1 day')) . ' 00:00:00';
+
+  // Verify nodes whose logo expire in a week.
+  $query_week = db_select('field_data_field_logo_expiration_date', 'd')
+    ->fields('d', array('entity_id'))
+    ->condition('d.entity_type', 'node')
+    ->condition('d.field_logo_expiration_date_value', $tod_plus_week);
+  $result = $query_week->execute();
+
+  foreach ($result as $record) {
+    $node = node_load($record->entity_id);
+    rules_invoke_event('logo_expire_in_week', $node);
+  }
+
+  // Verify nodes whose logo expire in a day.
+  $query_day = db_select('field_data_field_logo_expiration_date', 'd')
+    ->fields('d', array('entity_id'))
+    ->condition('d.entity_type', 'node')
+    ->condition('d.field_logo_expiration_date_value', $tod_plus_day);
+  $result = $query_day->execute();
+
+  foreach ($result as $record) {
+    $node = node_load($record->entity_id);
+    rules_invoke_event('logo_expire_in_day', $node);
+  }
 }

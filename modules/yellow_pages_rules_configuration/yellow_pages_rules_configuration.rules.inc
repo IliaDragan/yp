@@ -9,16 +9,6 @@
  */
 function yellow_pages_rules_configuration_rules_condition_info() {
   return array(
-    'yellow_pages_rules_configuration_check_node_10_days' => array(
-      'label' => t('Check if node expire in 10 days.'),
-      'module' => 'yellow_pages_rules_configuration',
-      'arguments' => array(
-        'node' => array(
-          'type' => 'node',
-          'label' => t('Content'),
-        ),
-      ),
-    ),
     'yellow_pages_rules_configuration_advert_publish' => array(
       'label' => t('Check if advert should be published.'),
       'module' => 'yellow_pages_rules_configuration',
@@ -50,15 +40,6 @@ function yellow_pages_rules_configuration_rules_condition_info() {
       ),
     ),
   );
-}
-
-/**
- * Check if node will expire in 10 days.
- */
-function yellow_pages_rules_configuration_check_node_10_days($node) {
-  $tod_plus_10_days = date('Y-m-d', mktime(0, 0, 0) + (10 * 24 * 60 * 60));
-  $check = (!empty($node->expire) && $node->expire == $tod_plus_10_days);
-  return $check;
 }
 
 /**
@@ -182,6 +163,10 @@ function yellow_pages_rules_configuration_rules_action_info() {
       'label' => t('Verify logo expiration date'),
       'group' => t('Node'),
     ),
+    'yellow_pages_rules_configuration_verify_node_expire_10_days' => array(
+      'label' => t('Verify node expire in 10 days'),
+      'group' => t('Node'),
+    ),
   );
 }
 
@@ -216,5 +201,25 @@ function yellow_pages_rules_configuration_verify_logo_expiration_date() {
   foreach ($result as $record) {
     $node = node_load($record->entity_id);
     rules_invoke_event('logo_expire_in_day', $node);
+  }
+}
+
+/**
+ * Rules action callback.
+ *
+ * This function verify nodes expiration dates and invokes corresponding event.
+ */
+function yellow_pages_rules_configuration_verify_node_expire_10_days() {
+  $tod = mktime(0, 0, 0);
+
+  $query = db_select('node', 'n')
+    ->fields('n', array('nid'));
+  $query->innerJoin('node_expire', 'ne', 'ne.nid = n.nid');
+  $query->condition('ne.expire', strtotime('+10 day', $tod));
+  $result = $query->execute();
+
+  foreach ($result as $record) {
+    $node = node_load($record->nid);
+    rules_invoke_event('node_expire_in_10_days', $node);
   }
 }

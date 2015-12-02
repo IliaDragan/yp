@@ -47,14 +47,15 @@ function yellow_pages_rules_configuration_default_rules_configuration() {
       ]
     }
   }');
-  $items['rules_everyday_verify_logo_expiration_dates'] = entity_import('rules_config', '{ "rules_everyday_verify_logo_expiration_dates" : {
-      "LABEL" : "Everyday verify logo expiration dates",
+  $items['rules_every_day_expirations_check'] = entity_import('rules_config', '{ "rules_every_day_expirations_check" : {
+      "LABEL" : "Every day expirations check",
       "PLUGIN" : "reaction rule",
       "OWNER" : "rules",
       "REQUIRES" : [ "yellow_pages_rules_configuration", "rules_onceperday" ],
       "ON" : { "once_per_day" : [] },
       "DO" : [
-        { "yellow_pages_rules_configuration_verify_logo_expiration_date" : [] }
+        { "yellow_pages_rules_configuration_verify_logo_expiration_date" : [] },
+        { "yellow_pages_rules_configuration_verify_node_expire_10_days" : [] }
       ]
     }
   }');
@@ -62,7 +63,7 @@ function yellow_pages_rules_configuration_default_rules_configuration() {
       "LABEL" : "Logo expire in a day",
       "PLUGIN" : "reaction rule",
       "OWNER" : "rules",
-      "REQUIRES" : [ "yellow_pages_rules_configuration", "rules" ],
+      "REQUIRES" : [ "rules", "yellow_pages_rules_configuration" ],
       "ON" : { "logo_expire_in_day" : [] },
       "DO" : [
         { "mail_to_users_of_role" : {
@@ -79,7 +80,7 @@ function yellow_pages_rules_configuration_default_rules_configuration() {
       "PLUGIN" : "reaction rule",
       "OWNER" : "rules",
       "TAGS" : [ "expiration", "logo", "mail" ],
-      "REQUIRES" : [ "yellow_pages_rules_configuration", "rules" ],
+      "REQUIRES" : [ "rules", "yellow_pages_rules_configuration" ],
       "ON" : { "logo_expire_in_week" : [] },
       "DO" : [
         { "mail_to_users_of_role" : {
@@ -95,11 +96,8 @@ function yellow_pages_rules_configuration_default_rules_configuration() {
       "LABEL" : "Node sticky on top expire in 10 days",
       "PLUGIN" : "reaction rule",
       "OWNER" : "rules",
-      "REQUIRES" : [ "yellow_pages_rules_configuration", "rules" ],
+      "REQUIRES" : [ "rules", "yellow_pages_rules_configuration" ],
       "ON" : { "node_expire_in_10_days" : [] },
-      "IF" : [
-        { "yellow_pages_rules_configuration_check_node_10_days" : { "node" : [ "node" ] } }
-      ],
       "DO" : [
         { "mail_to_users_of_role" : {
             "roles" : { "value" : { "4" : "4" } },

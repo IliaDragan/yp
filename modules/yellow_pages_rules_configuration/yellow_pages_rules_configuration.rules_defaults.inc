@@ -13,11 +13,8 @@ function yellow_pages_rules_configuration_default_rules_configuration() {
       "LABEL" : "Advert expire in day",
       "PLUGIN" : "reaction rule",
       "OWNER" : "rules",
-      "REQUIRES" : [ "yellow_pages_rules_configuration", "rules" ],
+      "REQUIRES" : [ "rules", "yellow_pages_rules_configuration" ],
       "ON" : { "advert_expire_in_day" : [] },
-      "IF" : [
-        { "yellow_pages_rules_configuration_advert_expire_day" : { "node" : [ "node" ] } }
-      ],
       "DO" : [
         { "mail_to_users_of_role" : {
             "roles" : { "value" : { "4" : "4" } },
@@ -32,11 +29,8 @@ function yellow_pages_rules_configuration_default_rules_configuration() {
       "LABEL" : "Advert expire in week",
       "PLUGIN" : "reaction rule",
       "OWNER" : "rules",
-      "REQUIRES" : [ "yellow_pages_rules_configuration", "rules" ],
+      "REQUIRES" : [ "rules", "yellow_pages_rules_configuration" ],
       "ON" : { "advert_expire_in_week" : [] },
-      "IF" : [
-        { "yellow_pages_rules_configuration_advert_expire_week" : { "node" : [ "node" ] } }
-      ],
       "DO" : [
         { "mail_to_users_of_role" : {
             "roles" : { "value" : { "4" : "4" } },
@@ -55,7 +49,8 @@ function yellow_pages_rules_configuration_default_rules_configuration() {
       "ON" : { "once_per_day" : [] },
       "DO" : [
         { "yellow_pages_rules_configuration_verify_logo_expiration_date" : [] },
-        { "yellow_pages_rules_configuration_verify_node_expire_10_days" : [] }
+        { "yellow_pages_rules_configuration_verify_node_expire_10_days" : [] },
+        { "yellow_pages_rules_configuration_verify_advert_expiration_date" : [] }
       ]
     }
   }');

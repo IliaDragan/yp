@@ -388,6 +388,7 @@
 
     <field name="textChunk" type="text_part" indexed="true" stored="true" multiValued="true"/>
     <copyField source="tm_title" dest="textChunk"/>
+    <copyField source="tm_field_products*" dest="textChunk"/>
 
     <field name="textUri" type="text_uri" indexed="true" stored="true" multiValued="true"/>
     <copyField source="tm_field_email" dest="textUri"/>

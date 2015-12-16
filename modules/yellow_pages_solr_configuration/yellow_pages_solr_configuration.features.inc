@@ -38,15 +38,22 @@ function yellow_pages_solr_configuration_default_search_api_index() {
     "server" : "yp",
     "item_type" : "node",
     "options" : {
-      "index_directly" : 1,
-      "cron_limit" : "500",
+      "index_directly" : 0,
+      "cron_limit" : "50",
       "fields" : {
-        "body:value" : { "type" : "text", "boost" : "3.0" },
+        "body:value" : { "type" : "text", "boost" : "2.0" },
         "city_filter" : { "type" : "string" },
         "field_address:locality" : { "type" : "text" },
         "field_address:thoroughfare" : { "type" : "text" },
+        "field_email" : { "type" : "list\\u003Ctext\\u003E" },
+        "field_landline_phone" : { "type" : "list\\u003Ctext\\u003E" },
+        "field_mobile_phone" : { "type" : "list\\u003Ctext\\u003E" },
         "field_products:product" : { "type" : "list\\u003Cinteger\\u003E", "entity_type" : "taxonomy_term" },
-        "field_products:product:name" : { "type" : "list\\u003Ctext\\u003E", "boost" : "13.0" },
+        "field_products:product:name" : { "type" : "list\\u003Ctext\\u003E", "boost" : "3.0" },
+        "field_products:product:parent" : {
+          "type" : "list\\u003Clist\\u003Cinteger\\u003E\\u003E",
+          "entity_type" : "taxonomy_term"
+        },
         "field_products:product:parents_all" : {
           "type" : "list\\u003Clist\\u003Cinteger\\u003E\\u003E",
           "entity_type" : "taxonomy_term"
@@ -56,7 +63,8 @@ function yellow_pages_solr_configuration_default_search_api_index() {
         "nid" : { "type" : "integer" },
         "search_api_language" : { "type" : "string" },
         "sticky" : { "type" : "boolean" },
-        "title" : { "type" : "text", "boost" : "3.0" },
+        "title" : { "type" : "text", "boost" : "5.0" },
+        "title_sort" : { "type" : "string" },
         "type" : { "type" : "string" }
       },
       "data_alter_callbacks" : {
@@ -165,7 +173,7 @@ function yellow_pages_solr_configuration_default_search_api_server() {
       "site_hash" : true,
       "scheme" : "http",
       "host" : "localhost",
-      "port" : "8983",
+      "port" : "8080",
       "path" : "\\/solr",
       "http_user" : "root",
       "http_pass" : "WLZQE5Jk6y",

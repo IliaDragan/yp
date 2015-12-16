@@ -363,7 +363,10 @@ function yellow_pages_ads_form_advertisement_node_form_validate(&$form, &$form_s
   $query = new EntityFieldQuery();
   $query->entityCondition('entity_type', 'node');
   $query->entityCondition('bundle', 'advertisement');
-  $query->propertyCondition('nid', $form['nid']['#value'], '!=');
+  if (!empty($form['nid']['#value'])) {
+    $query->propertyCondition('nid', $form['nid']['#value'], '!=');
+  }
+  $query->propertyCondition('language', $form['language']['#value'], '=');
   $query->propertyCondition('status', NODE_PUBLISHED);
   $query->fieldCondition('field_ad_category', 'value', 'content', '=');
   $query->fieldCondition('field_ad_placement_in_search', 'value', $placement, '=');
@@ -378,6 +381,7 @@ function yellow_pages_ads_form_advertisement_node_form_validate(&$form, &$form_s
 /**
  * Implements hook_views_post_execute().
  */
+
 function yellow_pages_ads_views_post_execute(&$view) {
   // Check if search views.
   $content_search_view = $view->base_table == 'search_api_index_company_nodes'
@@ -388,21 +392,17 @@ function yellow_pages_ads_views_post_execute(&$view) {
     && $view->current_display == 'solr_node_search'
     && $view->name == 'solr_views';
 
-  $news_view = $view->base_table == 'node'
-    && $view->current_display == 'panel_pane_2'
-    && $view->name == 'news';
-
-  $articles_view = $view->base_table == 'node'
-    && $view->current_display == 'panel_pane_2'
-    && $view->name == 'articles';
-
-  if ($content_search_view || $company_search_view || $news_view || $articles_view) {
+  if ($content_search_view || $company_search_view) {
     // Don't insert advert on pages other than first.
     if (isset($_GET['page']) && is_numeric($_GET['page'])) {
       return;
     }
 
-    $limit = (int)$view->query->pager->options['items_per_page'];
+    // Limit selected adverts to the count of elements in current page.
+    $limit = count($view->result);
+    if (empty($limit)) {
+      return;
+    }
 
     $result = yellow_pages_ads_get_ads($limit, 'content', 'random');
 
@@ -446,15 +446,13 @@ function yellow_pages_ads_views_post_execute(&$view) {
       }
     }
 
+    // Sort ads by placement before place them into result array.
+    usort($search_adverts, 'yellow_pages_ads_content_compare_by_placement');
+
     // We have to render nodes using the same display mode as the view uses.
     foreach ($search_adverts as $ad) {
       $rendered_ad = new stdClass();
-      if ($content_search_view || $company_search_view) {
-        $rendered_ad->entity = $ad['advert']->nid;
-      }
-      elseif ($news_view || $articles_view) {
-        $rendered_ad->nid = $ad['advert']->nid;
-      }
+      $rendered_ad->entity = $ad['advert']->nid;
 
       // Create a entity metadata wrapper
       $entity_wrapper = entity_metadata_wrapper('node', $ad['advert']);
@@ -464,11 +462,6 @@ function yellow_pages_ads_views_post_execute(&$view) {
       $position = $row - 1;
 
       array_splice($view->result, $position, 0, array($rendered_ad));
-    }
-
-    // Insertions lead to more result items than initially set in pagination settings.
-    if (count($view->result) > $limit) {
-      $view->result = array_slice($view->result, 0, $limit);
     }
   }
 }
@@ -481,4 +474,15 @@ function yellow_pages_ads_preprocess(&$variables, $hook) {
   if (!$search_page) {
     return;
   }
+}
+
+/**
+ * Callback function for usort().
+ *
+ * Compare two content ads by their placement field value.
+ */
+function yellow_pages_ads_content_compare_by_placement($ad1, $ad2) {
+  $pos1 = $ad1['advert']->field_ad_placement_in_search['und'][0]['value'];
+  $pos2 = $ad2['advert']->field_ad_placement_in_search['und'][0]['value'];
+  return ($pos1 < $pos2) ? -1 : 1;
 }

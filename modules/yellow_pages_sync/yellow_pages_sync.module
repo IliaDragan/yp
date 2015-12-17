@@ -9,6 +9,17 @@
  define('SYNC_SOURCE', 'http://test.varoinform.md:8080/api');
 
 /**
+ * Implements hook_permission()
+ */
+function yellow_pages_sync_permission() {
+  return array(
+    'administer yellow pages sync' => array(
+      'title' => t('Administer yellow pages synchronization'),
+    ),
+  );
+}
+
+/**
  * Implements hook_menu().
  */
 function yellow_pages_sync_menu() {
@@ -44,6 +55,14 @@ function yellow_pages_sync_menu() {
     'title' => 'Delete single entry',
     'page callback' => 'yellow_pages_sync_delete_node',
     'page arguments' => array(2),
+    'access arguments' => array('access content'),
+    'type' => MENU_CALLBACK,
+  );
+
+  $items['yp/sync/categories-products'] = array(
+    'title' => 'Sync categories and products',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('yellow_pages_sync_categories_and_products_form'),
     'access arguments' => array('access content'),
     'type' => MENU_CALLBACK,
   );
@@ -1525,4 +1544,35 @@ function yellow_pages_sync_enterprise_artifacts($nid, array &$artifacts = array(
   }
 
   return $artifacts;
+}
+
+/**
+ * Callback function for synchronize categories and products.
+ */
+function yellow_pages_sync_categories_and_products_form($form, &$form_state) {
+  $form['submit'] = array(
+    '#type' => 'submit',
+    '#value' => t('Import Categories and products'),
+  );
+
+  return $form;
+}
+
+/**
+ * Callback function for synchronize categories and products.
+ */
+function yellow_pages_sync_categories_and_products_form_submit($form, &$form_state) {
+  $operations = array(
+    array('yellow_pages_sync_taxonomy', array()),
+    array('yellow_pages_sync_taxonomy_parents', array()),
+    array('yellow_pages_sync_taxonomy_force_parents', array()),
+  );
+
+  $batch = array(
+    'operations' => $operations,
+    'title' => t('Synchronizing Categories and Products with MDB data...'),
+    'finished' => 'yellow_pages_sync_batch_finish',
+  );
+
+  batch_set($batch);
 }

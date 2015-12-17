@@ -1547,7 +1547,7 @@ function yellow_pages_sync_enterprise_artifacts($nid, array &$artifacts = array(
 }
 
 /**
- * Callback function for synchronize categories and products.
+ * Form for synchronize categories and products.
  */
 function yellow_pages_sync_categories_and_products_form($form, &$form_state) {
   $form['submit'] = array(
@@ -1559,7 +1559,7 @@ function yellow_pages_sync_categories_and_products_form($form, &$form_state) {
 }
 
 /**
- * Callback function for synchronize categories and products.
+ * Submit function for yellow_pages_sync_categories_and_products_form().
  */
 function yellow_pages_sync_categories_and_products_form_submit($form, &$form_state) {
   $operations = array(

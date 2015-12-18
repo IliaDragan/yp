@@ -16,6 +16,9 @@ function yellow_pages_sync_permission() {
     'administer yellow pages sync' => array(
       'title' => t('Administer yellow pages synchronization'),
     ),
+    'access yellow pages sync' => array(
+      'title' => t('Access yellow pages synchronization'),
+    ),
   );
 }
 
@@ -63,7 +66,7 @@ function yellow_pages_sync_menu() {
     'title' => 'Sync categories and products',
     'page callback' => 'drupal_get_form',
     'page arguments' => array('yellow_pages_sync_categories_and_products_form'),
-    'access arguments' => array('access content'),
+    'access arguments' => array('access yellow pages sync'),
     'type' => MENU_CALLBACK,
   );
 

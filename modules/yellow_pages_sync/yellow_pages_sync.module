@@ -62,12 +62,12 @@ function yellow_pages_sync_menu() {
     'type' => MENU_CALLBACK,
   );
 
-  $items['yp/sync/categories-products'] = array(
+  $items['admin/sync-categories-products'] = array(
     'title' => 'Sync categories and products',
     'page callback' => 'drupal_get_form',
     'page arguments' => array('yellow_pages_sync_categories_and_products_form'),
     'access arguments' => array('access yellow pages sync'),
-    'type' => MENU_CALLBACK,
+    'weight' => 10
   );
 
   return $items;

@@ -884,6 +884,11 @@ function yellow_pages_sync_taxonomy(&$context) {
         $parents[] = (int) $parent;
       }
 
+      db_delete('yp_term_sync_state')
+        ->condition('pid', $id, '=')
+        ->condition('type', YP_TERM_TYPE_CATEGORY, '=')
+        ->execute();
+
       if (empty($parents)) {
         yellow_pages_sync_write_term_relation($id, $category_term->tid, 0, YP_TERM_TYPE_CATEGORY);
       }
@@ -949,6 +954,11 @@ function yellow_pages_sync_taxonomy(&$context) {
       $parents[] = $parent;
     }
 
+    db_delete('yp_term_sync_state')
+        ->condition('pid', $item['id'], '=')
+        ->condition('type', YP_TERM_TYPE_PRODUCT, '=')
+        ->execute();
+
     if (empty($parents)) {
       yellow_pages_sync_write_term_relation($item['id'], $product_term->tid, 0, YP_TERM_TYPE_PRODUCT);
     }
@@ -987,6 +997,9 @@ function yellow_pages_sync_taxonomy_parents(&$context) {
 
     $context['sandbox']['progress'] = 0;
     $context['sandbox']['max'] = reset($result);
+
+    db_query('TRUNCATE {taxonomy_term_hierarchy}');
+    db_query('INSERT INTO {taxonomy_term_hierarchy} SELECT tid, 0 from {taxonomy_term_data}');
   }
 
   $query = db_select('yp_term_sync_state', 'ysst')

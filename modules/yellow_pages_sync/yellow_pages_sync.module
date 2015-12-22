@@ -9,6 +9,20 @@
  define('SYNC_SOURCE', 'http://test.varoinform.md:8080/api');
 
 /**
+ * Implements hook_permission()
+ */
+function yellow_pages_sync_permission() {
+  return array(
+    'administer yellow pages sync' => array(
+      'title' => t('Administer yellow pages synchronization'),
+    ),
+    'access yellow pages sync' => array(
+      'title' => t('Access yellow pages synchronization'),
+    ),
+  );
+}
+
+/**
  * Implements hook_menu().
  */
 function yellow_pages_sync_menu() {
@@ -46,6 +60,16 @@ function yellow_pages_sync_menu() {
     'page arguments' => array(2),
     'access arguments' => array('access content'),
     'type' => MENU_CALLBACK,
+  );
+
+  $items['admin/sync-categories-products'] = array(
+    'title' => 'Sync categories and products',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('yellow_pages_sync_categories_and_products_form'),
+    'access arguments' => array('access yellow pages sync'),
+    'theme callback' => 'variable_get',
+    'theme arguments' => array('theme_default', ''),
+    'weight' => 10
   );
 
   return $items;
@@ -862,6 +886,11 @@ function yellow_pages_sync_taxonomy(&$context) {
         $parents[] = (int) $parent;
       }
 
+      db_delete('yp_term_sync_state')
+        ->condition('pid', $id, '=')
+        ->condition('type', YP_TERM_TYPE_CATEGORY, '=')
+        ->execute();
+
       if (empty($parents)) {
         yellow_pages_sync_write_term_relation($id, $category_term->tid, 0, YP_TERM_TYPE_CATEGORY);
       }
@@ -927,6 +956,11 @@ function yellow_pages_sync_taxonomy(&$context) {
       $parents[] = $parent;
     }
 
+    db_delete('yp_term_sync_state')
+        ->condition('pid', $item['id'], '=')
+        ->condition('type', YP_TERM_TYPE_PRODUCT, '=')
+        ->execute();
+
     if (empty($parents)) {
       yellow_pages_sync_write_term_relation($item['id'], $product_term->tid, 0, YP_TERM_TYPE_PRODUCT);
     }
@@ -965,6 +999,9 @@ function yellow_pages_sync_taxonomy_parents(&$context) {
 
     $context['sandbox']['progress'] = 0;
     $context['sandbox']['max'] = reset($result);
+
+    db_query('TRUNCATE {taxonomy_term_hierarchy}');
+    db_query('INSERT INTO {taxonomy_term_hierarchy} SELECT tid, 0 from {taxonomy_term_data}');
   }
 
   $query = db_select('yp_term_sync_state', 'ysst')
@@ -1146,6 +1183,7 @@ function yellow_pages_sync_batch_finish($success, $results, $operations) {
   else {
     drupal_set_message(t('Synchronisation process failed.'), 'error');
   }
+  variable_set('i18n_string_source_language', 'en');
 }
 
 /**
@@ -1525,4 +1563,37 @@ function yellow_pages_sync_enterprise_artifacts($nid, array &$artifacts = array(
   }
 
   return $artifacts;
+}
+
+/**
+ * Form for synchronize categories and products.
+ */
+function yellow_pages_sync_categories_and_products_form($form, &$form_state) {
+  $form['submit'] = array(
+    '#type' => 'submit',
+    '#value' => t('Import Categories and products'),
+  );
+
+  return $form;
+}
+
+/**
+ * Submit function for yellow_pages_sync_categories_and_products_form().
+ */
+function yellow_pages_sync_categories_and_products_form_submit($form, &$form_state) {
+  variable_set('i18n_string_source_language', 'ru');
+
+  $operations = array(
+    array('yellow_pages_sync_taxonomy', array()),
+    array('yellow_pages_sync_taxonomy_parents', array()),
+    array('yellow_pages_sync_taxonomy_force_parents', array()),
+  );
+
+  $batch = array(
+    'operations' => $operations,
+    'title' => t('Synchronizing Categories and Products with MDB data...'),
+    'finished' => 'yellow_pages_sync_batch_finish',
+  );
+
+  batch_set($batch);
 }

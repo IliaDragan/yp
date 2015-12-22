@@ -1680,7 +1680,7 @@ div.panel-pane div.node-teaser {
       display: block;
       position: absolute;
       top: 0px;
-      left: -5px;
+      left: -10px;
       height: 100%;
       width: 20px;
       background: $light-yellow;
@@ -2740,5 +2740,25 @@ body > .node-advertisement {
   .homepage-container .pane-title {
     margin: 15px 0;
     font-size: 20px;
+  }
+}
+
+.page-batch {
+  h2.title {
+    font-size: 20px;
+  }
+  .progress {
+    border-radius: 0;
+    height: auto;
+    .filled {
+      background-color: $main-yellow;
+    }
+  }
+}
+
+#yellow-pages-sync-categories-and-products-form {
+  background-color: transparent;
+  input[type="submit"] {
+    padding: 0 10px;
   }
 }

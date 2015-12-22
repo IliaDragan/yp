@@ -1918,7 +1918,7 @@ div.panel-pane div.node-teaser {
   display: block;
   position: absolute;
   top: 0px;
-  left: -5px;
+  left: -10px;
   height: 100%;
   width: 20px;
   background: #fff7c0;
@@ -3061,4 +3061,21 @@ body > .node-advertisement {
     margin: 15px 0;
     font-size: 20px;
   }
+}
+.page-batch h2.title {
+  font-size: 20px;
+}
+.page-batch .progress {
+  border-radius: 0;
+  height: auto;
+}
+.page-batch .progress .filled {
+  background-color: #ffdd00;
+}
+
+#yellow-pages-sync-categories-and-products-form {
+  background-color: transparent;
+}
+#yellow-pages-sync-categories-and-products-form input[type="submit"] {
+  padding: 0 10px;
 }

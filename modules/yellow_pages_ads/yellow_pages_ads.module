@@ -225,8 +225,6 @@ function yellow_pages_ads_cron() {
   $query->entityCondition('bundle', 'advertisement');
   $result = $query->execute();
 
-  // TODO: check if advert should be unpubliseh in week.
-
   if (isset($result['node']) && is_array($result['node'])) {
     $nids = array_keys($result['node']);
     $nodes = node_load_multiple($nids);
@@ -273,8 +271,6 @@ function yellow_pages_ads_scheduler(stdClass $node) {
 
   $publish_date = strtotime($ad_schedule[0]['value']);
   $unpublish_date = strtotime($ad_schedule[0]['value2']);
-  $tod_plus_week = mktime(0, 0, 0) + (7 * 24 * 60 * 60);
-  $tod_plus_day = mktime(0, 0, 0) + (24 * 60 * 60);
 
   $new_status = $node->status;
   if ($node->status == NODE_PUBLISHED && ($unpublish_date < REQUEST_TIME || $publish_date > REQUEST_TIME)) {
@@ -287,13 +283,6 @@ function yellow_pages_ads_scheduler(stdClass $node) {
   if ($new_status != $node->status) {
     $node->status = $new_status;
     node_save($node);
-  }
-
-  if ($unpublish_date == $tod_plus_week) {
-    rules_invoke_event('advert_expire_in_week', $node);
-  }
-  elseif ($unpublish_date == $tod_plus_day) {
-    rules_invoke_event('advert_expire_in_day', $node);
   }
 }
 

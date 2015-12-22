@@ -113,6 +113,9 @@ projects[navigation404][subdir] = "contrib"
 projects[node_expire][version] = "1.8"
 projects[node_expire][subdir] = "contrib"
 
+projects[rules_onceperday][version] = "1.2"
+projects[rules_onceperday][subdir] = "contrib"
+
 projects[owlcarousel][version] = "1.5"
 projects[owlcarousel][subdir] = "contrib"
 projects[owlcarousel][patch][] = "http://am.storage.dev.inlead.dk/owlcarousel-fixed_libraries_owlcarousel_path.patch"
@@ -168,7 +171,7 @@ projects[bootstrap][version] = "3.0"
 libraries[fontawesome][destination]    = "libraries"
 libraries[fontawesome][directory_name] = "fontawesome"
 libraries[fontawesome][download][type] = "get"
-libraries[fontawesome][download][url]  = "http://fortawesome.github.io/Font-Awesome/assets/font-awesome-4.4.0.zip"
+libraries[fontawesome][download][url]  = "http://fortawesome.github.io/Font-Awesome/assets/font-awesome-4.5.0.zip"
 
 libraries[leaflet][destination]    = "libraries"
 libraries[leaflet][directory_name] = "leaflet"

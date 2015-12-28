@@ -116,6 +116,13 @@ function yellow_pages_preprocess_node(&$vars) {
     $vars['link_href'] = !empty($vars['content']['field_ad_url'][0]['#element']['url']) ? $vars['content']['field_ad_url'][0]['#element']['url'] : drupal_get_path_alias('node/' . $vars['node']->nid);
     $vars['link_attributes'] = !empty($vars['content']['field_ad_url'][0]['#element']['attributes']) ? drupal_attributes($vars['content']['field_ad_url'][0]['#element']['attributes']) : '';
   }
+  elseif ($vars['type'] == 'company' && in_array($vars['view_mode'], array('search_index', 'teaser'))) {
+    if (!empty($vars['field_company_logo'][0]['uri'])) {
+      $uri = $vars['field_company_logo'][0]['uri'];
+      $img = theme('image_style', array('style_name' => 'medium', 'path' => $uri));
+      $vars['logo_link'] = l($img, 'node/' . $vars['node']->nid, array('html' => TRUE));
+    }
+  }
 }
 
 /**

@@ -1590,16 +1590,13 @@ form.yellow-pages-feedback-ad-request .form-type-textarea textarea {
 .node--company--search_index .left img {
   max-width: 150px;
   height: auto;
+  margin: 10px;
 }
 @media (min-width: 0px) and (max-width: 767px) {
   .node--company--teaser .left img,
   .node--company--search_index .left img {
     max-width: 80px;
   }
-}
-.node--company--teaser .left > img,
-.node--company--search_index .left > img {
-  margin: 10px;
 }
 
 div.panel-pane div.node-teaser {

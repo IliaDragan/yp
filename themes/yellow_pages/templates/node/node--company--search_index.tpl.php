@@ -83,9 +83,8 @@
 <div id="node-<?php print $node->nid; ?>" class="<?php print $classes; ?> clearfix"<?php print $attributes; ?>>
   <div class="content"<?php print $content_attributes; ?>>
     <div class="left">
-    <?php if(isset($field_company_logo) && !empty($field_company_logo)): ?>
-      <?php $uri = $field_company_logo[0]['uri']; ?>
-      <img src="<?php print image_style_url('medium', $uri); ?>">
+    <?php if(!empty($logo_link)): ?>
+      <?php print $logo_link; ?>
     <?php else: ?>
       <span class="img-placeholder"></span>
     <?php endif; ?>

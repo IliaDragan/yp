@@ -1383,13 +1383,10 @@ form.yellow-pages-feedback-ad-request {
       @include breakpoint ($mobile) {
         max-width: 80px;
       }
-    }
-    > img {
       margin: 10px;
     }
   }
 }
-
 
 div.panel-pane div.node-teaser {
   margin-bottom: 30px;

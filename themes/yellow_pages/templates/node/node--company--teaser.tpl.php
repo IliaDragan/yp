@@ -83,8 +83,8 @@
 <div id="node-<?php print $node->nid; ?>" class="<?php print $classes; ?> clearfix"<?php print $attributes; ?>>
   <div class="content"<?php print $content_attributes; ?>>
     <div class="left">
-    <?php if(!empty($logo_link)): ?>
-        <?php print $logo_link; ?>
+    <?php if(!empty($content['field_company_logo'])): ?>
+      <?php print render($content['field_company_logo']); ?>
     <?php else: ?>
       <span class="img-placeholder"></span>
     <?php endif; ?>

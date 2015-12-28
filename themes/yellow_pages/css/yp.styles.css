@@ -2163,6 +2163,12 @@ div.panel-pane div.node-teaser {
     color: #00a500;
     line-height: 24px;
   }
+  .node-company.node--company--full .field-name-field-fax {
+    line-height: 24px;
+  }
+  .node-company.node--company--full .field-name-field-fax:before {
+    line-height: 24px;
+  }
 }
 
 .node--company--teaser .field-name-body,

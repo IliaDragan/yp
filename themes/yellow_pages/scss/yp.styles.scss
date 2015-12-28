@@ -1899,6 +1899,16 @@ div.panel-pane div.node-teaser {
   a {
     text-decoration: none;
   }
+  @include breakpoint ($mobilesm) {
+    .field-name-field-landline-phone,
+    .field-name-field-mobile-phone {
+      &:before {
+        color: $green-phone;
+        line-height: 24px;
+      }
+      line-height: 24px;
+    }
+  }
 }
 .node--company--teaser,
 .node--company--search_index {

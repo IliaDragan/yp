@@ -2153,6 +2153,17 @@ div.panel-pane div.node-teaser {
 .node-company.node--company--full a {
   text-decoration: none;
 }
+@media (min-width: 0px) and (max-width: 539px) {
+  .node-company.node--company--full .field-name-field-landline-phone,
+  .node-company.node--company--full .field-name-field-mobile-phone {
+    line-height: 24px;
+  }
+  .node-company.node--company--full .field-name-field-landline-phone:before,
+  .node-company.node--company--full .field-name-field-mobile-phone:before {
+    color: #00a500;
+    line-height: 24px;
+  }
+}
 
 .node--company--teaser .field-name-body,
 .node--company--search_index .field-name-body {

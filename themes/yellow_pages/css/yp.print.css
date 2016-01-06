@@ -1,22 +1,20 @@
 /* Print styles */
 html,
 body,
+body.not-front,
 header,
 .main-container,
 .row {
-  float: none !important;
-  margin: 0 !important;
-  min-height: 0 !important;
+  float: none;
+  margin: 0;
+  min-height: 0;
   padding: 0;
-  width: 100% !important;
-  background: white !important;
+  width: 100%;
+  background: white;
 }
 
-@page {
-  margin: 0 !important;
-}
 .container {
-  min-width: 90% !important;
+  min-width: 90%;
   margin: 0;
   float: none;
 }
@@ -32,6 +30,7 @@ a[href]:after {
 .social-links,
 .no-touch .pane-yellow-pages-print-yp-print,
 .horizontal-tabs ul.horizontal-tabs-list,
+.pane-media-field-panel-pane-company-media-field,
 .region-asides,
 #footer,
 .node-advertisement,
@@ -41,107 +40,100 @@ a[href]:after {
 .node-type-news .node--news--full .social-links,
 .gmnoprint,
 .gmnoscreen {
-  display: none !important;
+  display: none;
 }
 
 #navbar {
-  width: 100% !important;
+  width: 100%;
 }
 #navbar .container {
   margin: 0;
-  width: 100% !important;
+  width: 100%;
 }
 #navbar .container .navbar-header {
-  width: 100% !important;
+  width: 100%;
   height: 84px;
   margin: 0;
 }
 #navbar .container .navbar-header .logo {
   display: block;
-  float: none !important;
+  float: none;
   margin: 0;
   position: absolute;
   text-align: center;
-  width: 100% !important;
+  width: 100%;
 }
 #navbar .container .navbar-header .logo img {
-  height: 84px !important;
-  display: inline-block !important;
-  max-height: none !important;
-  position: relative !important;
+  height: 84px;
+  display: inline-block;
+  max-height: none;
+  position: relative;
   vertical-align: baseline;
-  width: 187px !important;
+  width: 187px;
 }
 
 .node-type-company .node-advertisement {
   display: none;
 }
-.node-type-company .company-content {
-  font-size: 30pt;
-  width: 100% !important;
+.node-type-company .node-company.node--company--full .company-content {
+  font-size: 20pt;
+  width: 100%;
 }
-.node-type-company .company-content .field-type-media .owl-controls {
+.node-type-company .node-company.node--company--full .company-content .field-type-media .owl-controls {
   display: none;
 }
-.node-type-company .company-content .col-company {
-  display: table-cell;
-  float: none;
+.node-type-company .node-company.node--company--full .company-content .col-company {
+  display: block;
   text-align: left;
-  vertical-align: top;
-  width: auto !important;
+  width: 100%;
 }
-.node-type-company .company-content .col-company.col-company-logo {
-  display: none !important;
+.node-type-company .node-company.node--company--full .company-content .col-company.col-company-logo {
+  display: none;
 }
-.node-type-company .company-content .col-company.col-company-geo {
-  padding-top: 30px;
-  padding-left: 30px;
-  width: 330px !important;
-}
-.node-type-company .company-content .col-company h2 {
-  font-size: 40pt !important;
+.node-type-company .node-company.node--company--full .company-content .col-company h2 {
+  font-size: 25pt;
   font-weight: bold;
 }
-.node-type-company .company-content .col-company .field-name-field-address,
-.node-type-company .company-content .col-company .field-name-field-landline-phone,
-.node-type-company .company-content .col-company .field-name-field-fax,
-.node-type-company .company-content .col-company .field-name-field-mobile-phone,
-.node-type-company .company-content .col-company .field-name-field-company-site,
-.node-type-company .company-content .col-company .field-name-field-email {
+.node-type-company .node-company.node--company--full .company-content .col-company .field-name-field-address,
+.node-type-company .node-company.node--company--full .company-content .col-company .field-name-field-landline-phone,
+.node-type-company .node-company.node--company--full .company-content .col-company .field-name-field-fax,
+.node-type-company .node-company.node--company--full .company-content .col-company .field-name-field-mobile-phone,
+.node-type-company .node-company.node--company--full .company-content .col-company .field-name-field-company-site,
+.node-type-company .node-company.node--company--full .company-content .col-company .field-name-field-email {
   padding-left: 35px;
 }
-.node-type-company .company-content .col-company .field-name-field-address::before,
-.node-type-company .company-content .col-company .field-name-field-landline-phone::before,
-.node-type-company .company-content .col-company .field-name-field-fax::before,
-.node-type-company .company-content .col-company .field-name-field-mobile-phone::before,
-.node-type-company .company-content .col-company .field-name-field-company-site::before,
-.node-type-company .company-content .col-company .field-name-field-email::before {
-  font: 30px/1 FontAwesome !important;
+.node-type-company .node-company.node--company--full .company-content .col-company .field-name-field-address::before,
+.node-type-company .node-company.node--company--full .company-content .col-company .field-name-field-landline-phone::before,
+.node-type-company .node-company.node--company--full .company-content .col-company .field-name-field-fax::before,
+.node-type-company .node-company.node--company--full .company-content .col-company .field-name-field-mobile-phone::before,
+.node-type-company .node-company.node--company--full .company-content .col-company .field-name-field-company-site::before,
+.node-type-company .node-company.node--company--full .company-content .col-company .field-name-field-email::before {
+  font: 20px/1 FontAwesome;
 }
-.node-type-company .company-content .col-company .field-row-tags a {
-  font-size: 25pt !important;
+.node-type-company .node-company.node--company--full .company-content .col-company .field-row-tags a {
+  font-size: 20pt;
 }
-.node-type-company .company-content .horizontal-tabs .horizontal-tabs-panes span {
-  font-size: 35pt !important;
+.node-type-company .node-company.node--company--full .company-content .horizontal-tabs .horizontal-tabs-panes span {
+  font-size: 20pt;
 }
-.node-type-company .company-content .horizontal-tabs .horizontal-tabs-panes a {
-  font-size: 30pt !important;
+.node-type-company .node-company.node--company--full .company-content .horizontal-tabs .horizontal-tabs-panes a {
+  font-size: 20pt;
 }
-.node-type-company .company-content .horizontal-tabs .field-name-field-filials .content .left {
-  display: none !important;
+.node-type-company .node-company.node--company--full .company-content .horizontal-tabs .field-name-field-filials .content .left {
+  display: none;
 }
-.node-type-company .company-content .horizontal-tabs .field-name-field-filials .content .right {
+.node-type-company .node-company.node--company--full .company-content .horizontal-tabs .field-name-field-filials .content .right {
   display: block;
-  margin-left: 0 !important;
+  margin-left: 0;
 }
-.node-type-company .company-content .horizontal-tabs .field-name-field-filials .field-name-field-address::before {
-  font: 35pt/1 FontAwesome !important;
+.node-type-company .node-company.node--company--full .company-content .horizontal-tabs .field-name-field-filials .field-name-field-address::before {
+  font: 20pt/1 FontAwesome;
 }
-.node-type-company .company-content .horizontal-tabs .field-name-field-filials .field-name-field-address .street-block .thoroughfare {
-  font-size: 35pt !important;
+.node-type-company .node-company.node--company--full .company-content .horizontal-tabs .field-name-field-filials .field-name-field-address .street-block .thoroughfare {
+  font-size: 20pt;
 }
-.node-type-company .company-content .horizontal-tabs .field-name-field-filials .field-name-field-address .street-block::before {
-  content: "" !important;
+.node-type-company .node-company.node--company--full .company-content .horizontal-tabs .field-name-field-filials .field-name-field-address .street-block::before {
+  content: "";
 }
 
 .horizontal-tabs .horizontal-tab-hidden {

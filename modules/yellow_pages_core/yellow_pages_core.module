@@ -1,3 +1,4 @@
+
 <?php
 /**
  * @file
@@ -50,4 +51,27 @@ function yellow_pages_core_user_logout($account) {
       setrawcookie($name, '', REQUEST_TIME - 3600, '/');
     }
   }
+}
+
+/**
+ * Callback function that finds node translations.
+ * @param int $tnid
+ *   Translation node id.
+ *
+ * @return array
+ *   Array of translation node nids with language as array-keys.
+ */
+function yellow_pages_core_node_get_translation_nids($tnid) {
+  $translations = array();
+  $result = db_select('node', 'n')
+    ->fields('n', array('nid', 'language'))
+    ->condition('n.tnid', $tnid)
+    ->execute();
+
+  foreach ($result as $node) {
+    $langcode = $node->language;
+    $translations[$langcode] = $node->nid;
+  }
+
+  return $translations;
 }

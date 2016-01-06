@@ -162,7 +162,7 @@ projects[views_autocomplete_filters][subdir] = "contrib"
 projects[views_bulk_operations][version] = "3.3"
 projects[views_bulk_operations][subdir] = "contrib"
 
-projects[nodeviewcount][version] = "2.3"
+projects[nodeviewcount][version] = "2.4"
 projects[nodeviewcount][subdir] = "contrib"
 
 projects[bootstrap][version] = "3.0"

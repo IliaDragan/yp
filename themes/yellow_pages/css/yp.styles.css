@@ -1590,16 +1590,13 @@ form.yellow-pages-feedback-ad-request .form-type-textarea textarea {
 .node--company--search_index .left img {
   max-width: 150px;
   height: auto;
+  margin: 10px;
 }
 @media (min-width: 0px) and (max-width: 767px) {
   .node--company--teaser .left img,
   .node--company--search_index .left img {
     max-width: 80px;
   }
-}
-.node--company--teaser .left > img,
-.node--company--search_index .left > img {
-  margin: 10px;
 }
 
 div.panel-pane div.node-teaser {
@@ -2155,6 +2152,23 @@ div.panel-pane div.node-teaser {
 }
 .node-company.node--company--full a {
   text-decoration: none;
+}
+@media (min-width: 0px) and (max-width: 539px) {
+  .node-company.node--company--full .field-name-field-landline-phone,
+  .node-company.node--company--full .field-name-field-mobile-phone {
+    line-height: 24px;
+  }
+  .node-company.node--company--full .field-name-field-landline-phone:before,
+  .node-company.node--company--full .field-name-field-mobile-phone:before {
+    color: #00a500;
+    line-height: 24px;
+  }
+  .node-company.node--company--full .field-name-field-fax {
+    line-height: 24px;
+  }
+  .node-company.node--company--full .field-name-field-fax:before {
+    line-height: 24px;
+  }
 }
 
 .node--company--teaser .field-name-body,

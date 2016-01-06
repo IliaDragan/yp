@@ -34,11 +34,12 @@ function yellow_pages_nodeviewcount_strongarm() {
   $strongarm->api_version = 1;
   $strongarm->name = 'nodeviewcount_node_view_modes';
   $strongarm->value = array(
-    'full' => 0,
+    'full' => 'full',
     'teaser' => 0,
     'rss' => 0,
     'search_index' => 0,
     'search_result' => 0,
+    'diff_standard' => 0,
     'token' => 0,
     'slider_teaser' => 0,
   );

@@ -231,16 +231,20 @@ function yellow_pages_company_ct_field_formatter_info() {
  * Implements hook_field_formatter_prepare_view().
  */
 function yellow_pages_company_ct_field_formatter_prepare_view($entity_type, $entities, $field, $instances, $langcode, &$items, $displays) {
-
   foreach ($entities as $id => $entity) {
     $parents = array();
+    $tids = array();
     foreach ($items[$id] as $delta => $item) {
       if (isset($item['product'])) {
-        $tid = $item['product'];
+        $tids[] = $item['product'];
+      }
+    }
 
-        // @todo
-        // Refactor this with taxonomy_term_load_multiple().
-        $term = taxonomy_term_load($tid);
+    $terms = taxonomy_term_load_multiple($tids);
+
+    foreach ($items[$id] as $delta => $item) {
+      if (isset($item['product']) && isset($terms[$item['product']])) {
+        $term = $terms[$item['product']];
         $items[$id][$delta]['taxonomy_term'] = $term;
 
         $parents = taxonomy_get_parents($term->tid);
@@ -273,21 +277,20 @@ function yellow_pages_company_ct_field_formatter_view($entity_type, $entity, $fi
           }
           // Do not display same parents more than once.
           if (in_array($top_most->tid, $parents)) {
-            break(2);
+            break;
           }
 
           $term = $top_most;
           $parents[] = $top_most->tid;
+          $uri = entity_uri('taxonomy_term', $term);
+          $element[$delta] = array(
+            '#type' => 'link',
+            '#title' => i18n_taxonomy_term_name($term, $language->language),
+            '#href' => $uri['path'],
+            '#options' => $uri['options'],
+          );
           break;
       }
-
-      $uri = entity_uri('taxonomy_term', $term);
-      $element[$delta] = array(
-        '#type' => 'link',
-        '#title' => i18n_taxonomy_term_name($term, $language->language),
-        '#href' => $uri['path'],
-        '#options' => $uri['options'],
-      );
     }
   }
 

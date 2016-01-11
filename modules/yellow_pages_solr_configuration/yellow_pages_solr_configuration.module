@@ -4,6 +4,9 @@
  * Code for the Yellow Pages Solr configuration feature.
  */
 
+define('YP_PRODUCTS_HIERARACHY_CACHE', 'yp_product_hierarchy');
+define('YP_PRODUCTS_LABEL_CACHE', 'yp_products_labels');
+
 include_once 'yellow_pages_solr_configuration.features.inc';
 
 /**
@@ -16,6 +19,24 @@ function yellow_pages_solr_configuration_ctools_plugin_directory($module, $plugi
   if ($module == 'ctools' && !empty($plugin)) {
     return "plugins/$plugin";
   }
+}
+
+/**
+ * Implements hook_menu().
+ */
+function yellow_pages_solr_configuration_menu() {
+  $menu = array();
+
+  $menu['admin/config/yp/products'] = array(
+    'title' => 'Rebuild products facet',
+    'description' => 'Rebuild products translations and hierarchy',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('yellow_pages_solr_configuration_admin_rebuild_form'),
+    'access arguments' => array('administer yellow pages facet rebuild'),
+    'file' => 'yellow_pages_solr_configuration.admin.inc',
+  );
+
+  return $menu;
 }
 
 /**
@@ -141,4 +162,122 @@ function yellow_pages_solr_configuration_preprocess(&$variables, $hook) {
       $variables['content']['beta_50'] = drupal_render($pane_content) . $variables['content']['beta_50'];
     }
   }
+}
+
+/**
+ * Implements hook_search_api_solr_query_alter().
+ */
+function yellow_pages_solr_configuration_search_api_solr_query_alter(array &$call_args, SearchApiQueryInterface $query) {
+  $call_args['params']['qf'][] = 'textWord^5.0';
+  $call_args['params']['qf'][] = 'textExact^3.0';
+
+  if ($call_args['query']) {
+    $call_args['query'] = '"' . str_replace(array('"', 'AND ', 'OR ') , '', $call_args['query']) . '"';
+  }
+}
+
+/**
+ * Implements hook_language_switch_links_alter().
+ */
+function yellow_pages_solr_configuration_language_switch_links_alter(&$links) {
+  $query = drupal_get_query_parameters();
+
+  // Preserve query strings in language switcher links.
+  foreach ($links as &$link) {
+    $link['query'] = $query;
+  }
+}
+
+/**
+ * Implements hook_search_api_solr_documents_alter().
+ */
+function yellow_pages_solr_configuration_search_api_solr_documents_alter(array &$documents, SearchApiIndex $index, array $items) {
+  foreach ($documents as $document) {
+    $content_type = $document->getField('ss_type');
+
+    if ($content_type['value'] === 'company') {
+      $term_ids = $document->getField('im_field_products$product');
+
+      if (isset($term_ids['value']) && is_array($term_ids['value'])) {
+        $locales = array('en', 'ro');
+
+        foreach ($term_ids['value'] as $key => $term_id) {
+          $term = i18n_get_object('taxonomy_term', $term_id);
+          foreach ($locales as $locale) {
+            $translated_term = $term->localize($locale);
+            if (isset($translated_term->name) && !empty($translated_term->name)) {
+              $translated_term_name = $translated_term->name;
+              $document->addField('tm_field_products$product$name', $translated_term_name);
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+/**
+ * Implements hook_facetapi_facet_info_alter().
+ */
+function yellow_pages_solr_configuration_facetapi_facet_info_alter(array &$facet_info, array $searcher_info) {
+  $facet_info['field_products:product:parents_all']['hierarchy callback'] = '_field_products_hierarchy_override';
+  $facet_info['field_products:product:parents_all']['map options']['value callback'] = '_field_products_label_override';
+}
+
+/**
+ * Custom callback for products term hierarchy.
+ *
+ * @see yellow_pages_solr_configuration_facetapi_facet_info_alter()
+ */
+function _field_products_hierarchy_override(array $values) {
+  $hierarchy = &drupal_static(__FUNCTION__, array());
+
+  if (empty($hierarchy) && !empty($values)) {
+    $cid = YP_PRODUCTS_HIERARACHY_CACHE;
+    $cache = cache_get($cid, 'cache_yp');
+
+    if ($cache) {
+      $hierarchy = $cache->data;
+    }
+  }
+
+  return $hierarchy;
+}
+
+/**
+ * Custom callback for field label value.
+ *
+ * @see yellow_pages_solr_configuration_facetapi_facet_info_alter()
+ */
+function _field_products_label_override(array $values, array $options) {
+  $labels = _field_products_labels($values);
+  return $labels;
+}
+
+/**
+ * Fetches labels for certain term ids.
+ *
+ * This function is language aware, so it will return labels
+ * for the current site used locale.
+ *
+ * @param array $ids
+ *   Term id's whose labels are to be fetched.
+ *
+ * @return array
+ *   An set of labels keyed by term id.
+ */
+function _field_products_labels(array $ids) {
+  global $language;
+  $static = &drupal_static(__FUNCTION__, array());
+
+  if (empty($static)) {
+    $cid = YP_PRODUCTS_LABEL_CACHE;
+    $cache = cache_get($cid, 'cache_yp');
+
+    if ($cache) {
+      $static = $cache->data;
+    }
+  }
+
+  return isset($static[$language->language]) ? $static[$language->language] : array();
 }

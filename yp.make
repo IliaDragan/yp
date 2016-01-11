@@ -15,7 +15,10 @@ projects[ckeditor][subdir] = "contrib"
 projects[coder][version] = "1.2"
 projects[coder][subdir] = "contrib"
 
-projects[ctools][version] = "1.6"
+projects[colorbox][version] = "2.10"
+projects[colorbox][subdir] = "contrib"
+
+projects[ctools][version] = "1.9"
 projects[ctools][subdir] = "contrib"
 
 projects[date][version] = "2.8"
@@ -35,6 +38,8 @@ projects[entityreference][subdir] = "contrib"
 
 projects[facetapi][version] = "1.5"
 projects[facetapi][subdir] = "contrib"
+projects[facetapi][patch][] = "https://www.drupal.org/files/issues/2311585-3-facetapi-7.x-2.x-translate_more_link.patch"
+projects[facetapi][patch][] = "http://am.storage.dev.inlead.dk/facetapi_accents-sort.patch"
 
 projects[field_sql_norevisions][version] = "2.1"
 projects[field_sql_norevisions][subdir] = "contrib"
@@ -93,11 +98,17 @@ projects[media][download][type] = "git"
 projects[media][download][url] = "http://git.drupal.org/project/media.git"
 projects[media][download][revision] = "199e5013dc9915a3d67d73d681a1db6ba56b63e6"
 
+projects[media_colorbox][version] = "1.0-rc4"
+projects[media_colorbox][subdir] = "contrib"
+
 projects[media_youtube][version] = "3.0"
 projects[media_youtube][subdir] = "contrib"
 
 projects[module_filter][version] = "2.0"
 projects[module_filter][subdir] = "contrib"
+
+projects[navigation404][version] = "1.0"
+projects[navigation404][subdir] = "contrib"
 
 projects[node_expire][version] = "1.8"
 projects[node_expire][subdir] = "contrib"
@@ -105,11 +116,18 @@ projects[node_expire][subdir] = "contrib"
 projects[opening_hours][version] = "1.5"
 projects[opening_hours][subdir] = "contrib"
 
+projects[owlcarousel][version] = "1.5"
+projects[owlcarousel][subdir] = "contrib"
+projects[owlcarousel][patch][] = "http://am.storage.dev.inlead.dk/owlcarousel-fixed_libraries_owlcarousel_path.patch"
+
 projects[panels][version] = "3.5"
 projects[panels][subdir] = "contrib"
 
 projects[rules][version] = "2.9"
 projects[rules][subdir] = "contrib"
+
+projects[rules_onceperday][version] = "1.2"
+projects[rules_onceperday][subdir] = "contrib"
 
 projects[search_api][version] = "1.14"
 projects[search_api][subdir] = "contrib"
@@ -150,7 +168,7 @@ projects[views_autocomplete_filters][subdir] = "contrib"
 projects[views_bulk_operations][version] = "3.3"
 projects[views_bulk_operations][subdir] = "contrib"
 
-projects[nodeviewcount][version] = "2.3"
+projects[nodeviewcount][version] = "2.4"
 projects[nodeviewcount][subdir] = "contrib"
 
 projects[bootstrap][version] = "3.0"
@@ -159,9 +177,14 @@ projects[bootstrap][version] = "3.0"
 libraries[fontawesome][destination]    = "libraries"
 libraries[fontawesome][directory_name] = "fontawesome"
 libraries[fontawesome][download][type] = "get"
-libraries[fontawesome][download][url]  = "http://fortawesome.github.io/Font-Awesome/assets/font-awesome-4.4.0.zip"
+libraries[fontawesome][download][url]  = "http://fortawesome.github.io/Font-Awesome/assets/font-awesome-4.5.0.zip"
 
 libraries[leaflet][destination]    = "libraries"
 libraries[leaflet][directory_name] = "leaflet"
 libraries[leaflet][download][type] = "get"
 libraries[leaflet][download][url]  = "http://cdn.leafletjs.com/downloads/leaflet-0.7.3.zip"
+
+libraries[owl-carousel][destination]    = "libraries"
+libraries[owl-carousel][directory_name] = "owl-carousel"
+libraries[owl-carousel][download][type] = "get"
+libraries[owl-carousel][download][url]  = "http://owlgraphic.com/owlcarousel/owl.carousel.zip"

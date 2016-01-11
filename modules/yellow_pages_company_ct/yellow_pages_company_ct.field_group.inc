@@ -142,6 +142,7 @@ function yellow_pages_company_ct_field_group_info() {
       3 => 'field_landline_phone',
       4 => 'field_mobile_phone',
       5 => 'field_filials',
+      6 => 'field_region',
     ),
     'format_type' => 'tab',
     'format_settings' => array(
@@ -227,7 +228,8 @@ function yellow_pages_company_ct_field_group_info() {
       2 => 'field_email',
       3 => 'field_mdb_sync_date',
       4 => 'field_products',
-      5 => 'title',
+      5 => 'field_logo_expiration_date',
+      6 => 'title',
     ),
     'format_type' => 'tab',
     'format_settings' => array(

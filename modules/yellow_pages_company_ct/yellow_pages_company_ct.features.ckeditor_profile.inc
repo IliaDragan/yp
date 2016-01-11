@@ -34,7 +34,7 @@ function yellow_pages_company_ct_ckeditor_profile_defaults() {
         'lang' => 'en',
         'auto_lang' => 't',
         'language_direction' => 'default',
-        'allowed_content' => 't',
+        'allowed_content' => 'f',
         'extraAllowedContent' => '',
         'enter_mode' => 'p',
         'shift_enter_mode' => 'br',

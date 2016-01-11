@@ -62,6 +62,16 @@ function yellow_pages_permissions_user_default_permissions() {
     'module' => 'toolbar',
   );
 
+  // Exported permission: 'access yellow pages sync'.
+  $permissions['access yellow pages sync'] = array(
+    'name' => 'access yellow pages sync',
+    'roles' => array(
+      'administrator' => 'administrator',
+      'global editor' => 'global editor',
+    ),
+    'module' => 'yellow_pages_sync',
+  );
+
   // Exported permission: 'add media from remote sources'.
   $permissions['add media from remote sources'] = array(
     'name' => 'add media from remote sources',
@@ -126,6 +136,13 @@ function yellow_pages_permissions_user_default_permissions() {
       'administrator' => 'administrator',
     ),
     'module' => 'opening_hours',
+  );
+
+  // Exported permission: 'administer yellow pages sync'.
+  $permissions['administer yellow pages sync'] = array(
+    'name' => 'administer yellow pages sync',
+    'roles' => array(),
+    'module' => 'yellow_pages_sync',
   );
 
   // Exported permission: 'bypass node access'.

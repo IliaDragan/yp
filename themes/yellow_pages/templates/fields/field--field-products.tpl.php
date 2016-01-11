@@ -11,7 +11,7 @@
 <?php foreach ($items as $delta => $item): ?>
 <?php
   $item['#prefix'] = '<li>';
-  $item['#suffix'] = '</li>;&nbsp;';
+  $item['#suffix'] = ';</li>';
   $item['#href'] = url('search/companies', array('absolute' => TRUE)) . '?f[0]=field_products%253Aproduct%253Aparents_all%3A' . $item['#options']['entity']->tid;
 
   print render($item);

@@ -114,6 +114,8 @@ function yellow_pages_company_ct_entity_view($entity, $entity_type, $view_mode, 
     return;
   }
 
+  global $language;
+
   $source_map = array(
     YP_PRODUCT_BUY => 'group_we_buy',
     YP_PRODUCT_SELL => 'group_we_sell',
@@ -121,7 +123,7 @@ function yellow_pages_company_ct_entity_view($entity, $entity_type, $view_mode, 
     YP_PRODUCT_SERVICES => 'group_services',
     YP_PRODUCT_EXPORT => 'group_we_export',
   );
-  global $language;
+
   if (!empty($entity->field_products)) {
     foreach ($entity->field_products[LANGUAGE_NONE] as $k => $item) {
       $term = $item['taxonomy_term'];
@@ -136,9 +138,7 @@ function yellow_pages_company_ct_entity_view($entity, $entity_type, $view_mode, 
         '#suffix' => '. ',
       );
 
-      $entity->content['#fieldgroups'][$target_group]->children = array(
-        $target_group_field,
-      );
+      $entity->content['#group_children'][$target_group_field] = $target_group;
     }
   }
 
@@ -149,8 +149,8 @@ function yellow_pages_company_ct_entity_view($entity, $entity_type, $view_mode, 
  * Implements hook_node_view().
  */
 function yellow_pages_company_ct_node_view($node, $view_mode, $langcode) {
-//   if ($node->type == 'company') {
-//     (int) $node->field_company_views[LANGUAGE_NONE][0]['value'] += 0.5;
-//     field_attach_update('node', $node);
-//   }
+   if ($node->type == 'company') {
+     (int) $node->field_company_views[LANGUAGE_NONE][0]['value'] += 0.5;
+     //field_attach_update('node', $node);
+   }
 }

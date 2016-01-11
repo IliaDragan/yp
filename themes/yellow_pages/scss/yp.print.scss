@@ -14,12 +14,16 @@ header,
   background: white;
 }
 .container {
-  min-width: 90%;
   margin: 0;
   float: none;
+  &::after, &::before {
+    content: none;
+    display: none;
+    clear: none;
+  }
 }
 a[href]:after {
-  content: "";
+  content: none;
   font-weight: normal;
   font-size: 16pt;
 }
@@ -72,69 +76,72 @@ a[href]:after {
   .node-advertisement {
     display: none;
   }
-  .node-company.node--company--full {
-    .company-content {
-      font-size: 20pt;
-      width: 100%;
-      .field-type-media {
-        .owl-controls {
-          display: none;
-        }
-      }
-      .col-company {
-        display: block;
-        text-align: left;
+  .main-container {
+    display: block;
+    .node-company.node--company--full {
+      .company-content {
+        font-size: 20pt;
         width: 100%;
-        &.col-company-logo {
-          display: none;
-        }
-        h2 {
-          font-size: 25pt;
-          font-weight: bold;
-        }
-        .field-name-field-address,
-        .field-name-field-landline-phone,
-        .field-name-field-fax,
-        .field-name-field-mobile-phone,
-        .field-name-field-company-site,
-        .field-name-field-email {
-          padding-left: 35px;
-          &::before {
-            font: 20px/1 FontAwesome;
+        .field-type-media {
+          .owl-controls {
+            display: none;
           }
         }
-        .field-row-tags a {
-          font-size: 20pt;
-        }
-      }
-      .horizontal-tabs {
-        .horizontal-tabs-panes span {
-          font-size: 20pt;
-        }
-        .horizontal-tabs-panes a {
-          font-size: 20pt;
-        }
-        .field-name-field-filials {
-          .content {
-            .left {
-              display: none;
-            }
-            .right {
-              display: block;
-              margin-left: 0;
-            }
+        .col-company {
+          display: block;
+          text-align: left;
+          width: 100%;
+          &.col-company-logo {
+            display: none;
           }
-
-          .field-name-field-address {
+          h2 {
+            font-size: 25pt;
+            font-weight: bold;
+          }
+          .field-name-field-address,
+          .field-name-field-landline-phone,
+          .field-name-field-fax,
+          .field-name-field-mobile-phone,
+          .field-name-field-company-site,
+          .field-name-field-email {
+            padding-left: 35px;
             &::before {
-              font: 20pt/1 FontAwesome;
+              font: 20px/1 FontAwesome;
             }
-            .street-block {
-              .thoroughfare {
-                font-size: 20pt;
+          }
+          .field-row-tags a {
+            font-size: 20pt;
+          }
+        }
+        .horizontal-tabs {
+          .horizontal-tabs-panes span {
+            font-size: 20pt;
+          }
+          .horizontal-tabs-panes a {
+            font-size: 20pt;
+          }
+          .field-name-field-filials {
+            .content {
+              .left {
+                display: none;
               }
+              .right {
+                display: block;
+                margin-left: 0;
+              }
+            }
+
+            .field-name-field-address {
               &::before {
-                content: "";
+                font: 20pt/1 FontAwesome;
+              }
+              .street-block {
+                .thoroughfare {
+                  font-size: 20pt;
+                }
+                &::before {
+                  content: "";
+                }
               }
             }
           }
@@ -142,7 +149,6 @@ a[href]:after {
       }
     }
   }
-
 }
 
 .horizontal-tabs .horizontal-tab-hidden {

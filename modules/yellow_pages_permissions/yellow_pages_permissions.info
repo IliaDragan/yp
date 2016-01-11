@@ -11,7 +11,6 @@ dependencies[] = media
 dependencies[] = media_internet
 dependencies[] = media_wysiwyg_view_mode
 dependencies[] = node
-dependencies[] = opening_hours
 dependencies[] = path
 dependencies[] = search
 dependencies[] = system

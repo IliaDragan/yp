@@ -113,9 +113,6 @@ projects[navigation404][subdir] = "contrib"
 projects[node_expire][version] = "1.8"
 projects[node_expire][subdir] = "contrib"
 
-projects[opening_hours][version] = "1.5"
-projects[opening_hours][subdir] = "contrib"
-
 projects[owlcarousel][version] = "1.5"
 projects[owlcarousel][subdir] = "contrib"
 projects[owlcarousel][patch][] = "http://am.storage.dev.inlead.dk/owlcarousel-fixed_libraries_owlcarousel_path.patch"

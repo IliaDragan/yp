@@ -144,9 +144,6 @@ projects[strongarm][subdir] = "contrib"
 projects[taxonomy_menu][version] = "1.5"
 projects[taxonomy_menu][subdir] = "contrib"
 
-projects[tipsy][version] = "1.0-rc1"
-projects[tipsy][subdir] = "contrib"
-
 projects[token][version] = "1.6"
 projects[token][subdir] = "contrib"
 

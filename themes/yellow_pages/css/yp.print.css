@@ -143,6 +143,9 @@ a[href]:after {
 .node-type-company .company-content .horizontal-tabs .field-name-field-filials .field-name-field-address .street-block::before {
   content: "" !important;
 }
+.node-type-company .company-content .horizontal-tabs .field-name-field-business-hours td {
+  font-size: 30pt;
+}
 
 .horizontal-tabs .horizontal-tab-hidden {
   position: static;

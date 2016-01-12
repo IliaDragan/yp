@@ -102,7 +102,7 @@ function yellow_pages_company_ct_form_company_node_form_alter(&$form, &$form_sta
       hide($form[$item]);
     }
   }
-  dpm($form);
+
   if (!empty($form['field_business_hours']['und'][0]['value']['#default_value'])) {
     $hours = $form['field_business_hours']['und'][0]['value']['#default_value'];
     $form['field_business_hours']['#access'] = FALSE;

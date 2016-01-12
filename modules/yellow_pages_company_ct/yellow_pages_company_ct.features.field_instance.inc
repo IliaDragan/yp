@@ -288,6 +288,64 @@ function yellow_pages_company_ct_field_default_field_instances() {
     ),
   );
 
+  // Exported field_instance: 'node-company-field_business_hours'
+  $field_instances['node-company-field_business_hours'] = array(
+    'bundle' => 'company',
+    'default_value' => NULL,
+    'deleted' => 0,
+    'description' => '',
+    'display' => array(
+      'default' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 29,
+      ),
+      'full' => array(
+        'label' => 'hidden',
+        'module' => 'text',
+        'settings' => array(),
+        'type' => 'text_default',
+        'weight' => 27,
+      ),
+      'search_index' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+      'slider_teaser' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+      'teaser' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+    ),
+    'entity_type' => 'node',
+    'field_name' => 'field_business_hours',
+    'label' => 'Business hours',
+    'required' => 0,
+    'settings' => array(
+      'text_processing' => 0,
+      'user_register_form' => FALSE,
+    ),
+    'widget' => array(
+      'active' => 1,
+      'module' => 'text',
+      'settings' => array(
+        'rows' => 5,
+      ),
+      'type' => 'text_textarea',
+      'weight' => 30,
+    ),
+  );
+
   // Exported field_instance: 'node-company-field_company_logo'
   $field_instances['node-company-field_company_logo'] = array(
     'bundle' => 'company',
@@ -1455,6 +1513,7 @@ function yellow_pages_company_ct_field_default_field_instances() {
   t('Address');
   t('Advertisements');
   t('Articles');
+  t('Business hours');
   t('Description of activity');
   t('Email');
   t('Fax');

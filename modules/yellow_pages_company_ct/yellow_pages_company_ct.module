@@ -102,6 +102,20 @@ function yellow_pages_company_ct_form_company_node_form_alter(&$form, &$form_sta
       hide($form[$item]);
     }
   }
+
+  if (!empty($form['field_business_hours']['und'][0]['value']['#default_value'])) {
+    $hours = $form['field_business_hours']['und'][0]['value']['#default_value'];
+    $form['field_business_hours']['#access'] = FALSE;
+    $vars = array(
+      'hours' => unserialize($hours),
+      'weekday' => date('l'),
+    );
+    $title = t('Business hours');
+    $form['field_business_hours_info'] = array(
+      '#markup' => '<h3>' . $title . '</h3>' . theme('business_hours', $vars),
+      '#weight' => 50,
+    );
+  }
 }
 
 /**
@@ -141,8 +155,6 @@ function yellow_pages_company_ct_entity_view($entity, $entity_type, $view_mode, 
       $entity->content['#group_children'][$target_group_field] = $target_group;
     }
   }
-
-  drupal_add_js(drupal_get_path('module', 'yellow_pages_company_ct') . '/js/yellow_pages_company_ct.scripts.js');
 }
 
 /**
@@ -153,4 +165,16 @@ function yellow_pages_company_ct_node_view($node, $view_mode, $langcode) {
      (int) $node->field_company_views[LANGUAGE_NONE][0]['value'] += 0.5;
      //field_attach_update('node', $node);
    }
+}
+
+/**
+ * Implements hook_theme().
+ */
+function yellow_pages_company_ct_theme($existing, $type, $theme, $path) {
+  return array(
+    'business_hours' => array(
+      'variables' => array('hours' => NULL, 'weekday' => NULL),
+      'file' => 'yellow_pages_company_ct.theme.inc',
+    ),
+  );
 }

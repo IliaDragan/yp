@@ -1639,6 +1639,25 @@ div.panel-pane div.node-teaser {
       margin: 0;
       padding: 15px 20px;
       font-size: 12px;
+
+      .field-name-field-business-hours {
+        .business-hours {
+          tr {
+            &.today {
+              background-color: $bg-lingth-green;
+            }
+            td {
+              padding: 5px 15px;
+              &.time {
+                text-align: center;
+              }
+              &.weekday {
+                text-transform: capitalize;
+              }
+            }
+          }
+        }
+      }
       @include breakpoint ($mobile) {
         padding: 15px;
       }

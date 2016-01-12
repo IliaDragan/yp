@@ -158,16 +158,6 @@ function yellow_pages_company_ct_entity_view($entity, $entity_type, $view_mode, 
 }
 
 /**
- * Implements hook_node_view().
- */
-function yellow_pages_company_ct_node_view($node, $view_mode, $langcode) {
-   if ($node->type == 'company') {
-     (int) $node->field_company_views[LANGUAGE_NONE][0]['value'] += 0.5;
-     //field_attach_update('node', $node);
-   }
-}
-
-/**
  * Implements hook_theme().
  */
 function yellow_pages_company_ct_theme($existing, $type, $theme, $path) {

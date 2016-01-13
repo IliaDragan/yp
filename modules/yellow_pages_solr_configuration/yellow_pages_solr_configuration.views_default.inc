@@ -140,6 +140,7 @@ Type another search phrase or check your spelling.';
     'body:value' => 'body:value',
     'field_address:locality' => 'field_address:locality',
     'field_address:thoroughfare' => 'field_address:thoroughfare',
+    'field_invisible_field' => 'field_invisible_field',
     'field_products:product:name' => 'field_products:product:name',
     'title' => 'title',
   );

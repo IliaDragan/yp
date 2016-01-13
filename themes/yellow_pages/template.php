@@ -123,6 +123,15 @@ function yellow_pages_preprocess_node(&$vars) {
  */
 function yellow_pages_preprocess_field(&$vars) {
   $vars['theme_hook_suggestions'][] = 'field__' . $vars['element']['#field_name'] . '__' . $vars['element']['#view_mode'];
+  if ($vars['element']['#field_name'] == 'field_business_hours') {
+    foreach($vars['element']['#items'] as $key => $item) {
+      $variables = array(
+        'hours' => unserialize($item['value']),
+        'weekday' => date('l'),
+      );
+      $vars['items'][$key]['#markup'] = theme('business_hours', $variables);
+    }
+  }
 }
 
 /**

@@ -43,11 +43,11 @@ function yellow_pages_solr_configuration_default_search_api_index() {
       "fields" : {
         "body:value" : { "type" : "text", "boost" : "3.0" },
         "city_filter" : { "type" : "string" },
-        "field_address:locality" : { "type" : "text" },
-        "field_address:thoroughfare" : { "type" : "text" },
-        "field_invisible_field" : { "type" : "text" },
+        "field_address:locality" : { "type" : "text", "boost" : "0.8" },
+        "field_address:thoroughfare" : { "type" : "text", "boost" : "0.8" },
+        "field_invisible_field" : { "type" : "text", "boost" : "8.0" },
         "field_products:product" : { "type" : "list\\u003Cinteger\\u003E", "entity_type" : "taxonomy_term" },
-        "field_products:product:name" : { "type" : "list\\u003Ctext\\u003E", "boost" : "13.0" },
+        "field_products:product:name" : { "type" : "list\\u003Ctext\\u003E" },
         "field_products:product:parents_all" : {
           "type" : "list\\u003Clist\\u003Cinteger\\u003E\\u003E",
           "entity_type" : "taxonomy_term"
@@ -57,7 +57,7 @@ function yellow_pages_solr_configuration_default_search_api_index() {
         "nid" : { "type" : "integer" },
         "search_api_language" : { "type" : "string" },
         "sticky" : { "type" : "boolean" },
-        "title" : { "type" : "text", "boost" : "3.0" },
+        "title" : { "type" : "text", "boost" : "5.0" },
         "type" : { "type" : "string" }
       },
       "data_alter_callbacks" : {

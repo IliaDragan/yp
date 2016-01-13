@@ -288,6 +288,64 @@ function yellow_pages_company_ct_field_default_field_instances() {
     ),
   );
 
+  // Exported field_instance: 'node-company-field_business_hours'
+  $field_instances['node-company-field_business_hours'] = array(
+    'bundle' => 'company',
+    'default_value' => NULL,
+    'deleted' => 0,
+    'description' => '',
+    'display' => array(
+      'default' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 29,
+      ),
+      'full' => array(
+        'label' => 'hidden',
+        'module' => 'text',
+        'settings' => array(),
+        'type' => 'text_default',
+        'weight' => 27,
+      ),
+      'search_index' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+      'slider_teaser' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+      'teaser' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+    ),
+    'entity_type' => 'node',
+    'field_name' => 'field_business_hours',
+    'label' => 'Business hours',
+    'required' => 0,
+    'settings' => array(
+      'text_processing' => 0,
+      'user_register_form' => FALSE,
+    ),
+    'widget' => array(
+      'active' => 1,
+      'module' => 'text',
+      'settings' => array(
+        'rows' => 5,
+      ),
+      'type' => 'text_textarea',
+      'weight' => 30,
+    ),
+  );
+
   // Exported field_instance: 'node-company-field_company_logo'
   $field_instances['node-company-field_company_logo'] = array(
     'bundle' => 'company',
@@ -456,74 +514,6 @@ function yellow_pages_company_ct_field_default_field_instances() {
       'settings' => array(),
       'type' => 'link_field',
       'weight' => 4,
-    ),
-  );
-
-  // Exported field_instance: 'node-company-field_company_views'
-  $field_instances['node-company-field_company_views'] = array(
-    'bundle' => 'company',
-    'default_value' => array(
-      0 => array(
-        'value' => 0,
-      ),
-    ),
-    'deleted' => 0,
-    'description' => '',
-    'display' => array(
-      'default' => array(
-        'label' => 'above',
-        'module' => 'number',
-        'settings' => array(
-          'decimal_separator' => '.',
-          'prefix_suffix' => TRUE,
-          'scale' => 0,
-          'thousand_separator' => ' ',
-        ),
-        'type' => 'number_integer',
-        'weight' => 25,
-      ),
-      'full' => array(
-        'label' => 'above',
-        'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 0,
-      ),
-      'search_index' => array(
-        'label' => 'above',
-        'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 12,
-      ),
-      'slider_teaser' => array(
-        'label' => 'above',
-        'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 0,
-      ),
-      'teaser' => array(
-        'label' => 'above',
-        'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 8,
-      ),
-    ),
-    'entity_type' => 'node',
-    'field_name' => 'field_company_views',
-    'label' => 'Views',
-    'required' => 0,
-    'settings' => array(
-      'max' => '',
-      'min' => '',
-      'prefix' => '',
-      'suffix' => '',
-      'user_register_form' => FALSE,
-    ),
-    'widget' => array(
-      'active' => 0,
-      'module' => 'number',
-      'settings' => array(),
-      'type' => 'number',
-      'weight' => 2,
     ),
   );
 
@@ -1513,6 +1503,7 @@ function yellow_pages_company_ct_field_default_field_instances() {
   t('Address');
   t('Advertisements');
   t('Articles');
+  t('Business hours');
   t('Description of activity');
   t('Email');
   t('Fax');
@@ -1530,7 +1521,6 @@ function yellow_pages_company_ct_field_default_field_instances() {
   t('Region');
   t('Site URL');
   t('Social links');
-  t('Views');
 
   return $field_instances;
 }

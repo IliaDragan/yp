@@ -1221,9 +1221,6 @@ form.yellow-pages-feedback-ad-request {
         }
       }
     }
-
-
-
     .owl-item .content {
       img {
         width: 100%;
@@ -1262,6 +1259,17 @@ form.yellow-pages-feedback-ad-request {
           }
         }
       }
+    }
+  }
+  .field-name-field-filials {
+    .field-item .node-company {
+      .field-name-field-address .street-block{
+        &:before {
+          content: '';
+          margin: 0;
+        }
+      }
+      position: relative;
     }
   }
 }
@@ -1375,13 +1383,10 @@ form.yellow-pages-feedback-ad-request {
       @include breakpoint ($mobile) {
         max-width: 80px;
       }
-    }
-    > img {
       margin: 10px;
     }
   }
 }
-
 
 div.panel-pane div.node-teaser {
   margin-bottom: 30px;
@@ -1634,6 +1639,25 @@ div.panel-pane div.node-teaser {
       margin: 0;
       padding: 15px 20px;
       font-size: 12px;
+
+      .field-name-field-business-hours {
+        .business-hours {
+          tr {
+            &.today {
+              background-color: $bg-lingth-green;
+            }
+            td {
+              padding: 5px 15px;
+              &.time {
+                text-align: center;
+              }
+              &.weekday {
+                text-transform: capitalize;
+              }
+            }
+          }
+        }
+      }
       @include breakpoint ($mobile) {
         padding: 15px;
       }
@@ -1672,7 +1696,7 @@ div.panel-pane div.node-teaser {
       display: block;
       position: absolute;
       top: 0px;
-      left: -5px;
+      left: -10px;
       height: 100%;
       width: 20px;
       background: $light-yellow;
@@ -1893,6 +1917,22 @@ div.panel-pane div.node-teaser {
   }
   a {
     text-decoration: none;
+  }
+  @include breakpoint ($mobilesm) {
+    .field-name-field-landline-phone,
+    .field-name-field-mobile-phone {
+      &:before {
+        color: $green-phone;
+        line-height: 24px;
+      }
+      line-height: 24px;
+    }
+    .field-name-field-fax {
+      &:before {
+        line-height: 24px;
+      }
+      line-height: 24px;
+    }
   }
 }
 .node--company--teaser,
@@ -2732,5 +2772,25 @@ body > .node-advertisement {
   .homepage-container .pane-title {
     margin: 15px 0;
     font-size: 20px;
+  }
+}
+
+.page-batch {
+  h2.title {
+    font-size: 20px;
+  }
+  .progress {
+    border-radius: 0;
+    height: auto;
+    .filled {
+      background-color: $main-yellow;
+    }
+  }
+}
+
+#yellow-pages-sync-categories-and-products-form {
+  background-color: transparent;
+  input[type="submit"] {
+    padding: 0 10px;
   }
 }

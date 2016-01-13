@@ -97,6 +97,7 @@ function yellow_pages_sync_admin_form_submit($form, &$form_state) {
   );
 
   if (!empty($operations)) {
+    variable_set('i18n_string_source_language', 'ru');
     batch_set($batch);
   }
   else {

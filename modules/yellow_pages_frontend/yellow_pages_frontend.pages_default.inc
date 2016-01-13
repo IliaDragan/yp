@@ -142,7 +142,7 @@ function yellow_pages_frontend_default_page_manager_handlers() {
     $pane->configuration = array(
       'context' => 'argument_entity_id:node_1',
       'override_title' => 0,
-      'override_title_text' => '',
+      'override_title_text' => 'Articles',
       'override_title_heading' => 'h2',
     );
     $pane->cache = array();

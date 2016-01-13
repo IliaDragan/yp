@@ -100,6 +100,10 @@ function yellow_pages_preprocess_panels_pane(&$vars) {
   if ($vars['pane']->type == 'yp_news_carousel') {
     yellow_pages_inject_owl();
   }
+  // Translate pene title.
+  if (isset($vars['title']) && !empty($vars['title'])) {
+    $vars['title'] = t($vars['title']);
+  }
 }
 
 /**
@@ -108,6 +112,10 @@ function yellow_pages_preprocess_panels_pane(&$vars) {
 function yellow_pages_preprocess_node(&$vars) {
   $vars['classes_array'][] = 'node--' . $vars['type'] . '--' . $vars['view_mode'];
   $vars['theme_hook_suggestions'][] = 'node__' . $vars['type'] . '__' . $vars['view_mode'];
+  if ($vars['type'] == 'advertisement' && $vars['view_mode'] == 'slider_teaser') {
+    $vars['link_href'] = !empty($vars['content']['field_ad_url'][0]['#element']['url']) ? $vars['content']['field_ad_url'][0]['#element']['url'] : drupal_get_path_alias('node/' . $vars['node']->nid);
+    $vars['link_attributes'] = !empty($vars['content']['field_ad_url'][0]['#element']['attributes']) ? drupal_attributes($vars['content']['field_ad_url'][0]['#element']['attributes']) : '';
+  }
 }
 
 /**
@@ -115,6 +123,15 @@ function yellow_pages_preprocess_node(&$vars) {
  */
 function yellow_pages_preprocess_field(&$vars) {
   $vars['theme_hook_suggestions'][] = 'field__' . $vars['element']['#field_name'] . '__' . $vars['element']['#view_mode'];
+  if ($vars['element']['#field_name'] == 'field_business_hours') {
+    foreach($vars['element']['#items'] as $key => $item) {
+      $variables = array(
+        'hours' => unserialize($item['value']),
+        'weekday' => date('l'),
+      );
+      $vars['items'][$key]['#markup'] = theme('business_hours', $variables);
+    }
+  }
 }
 
 /**

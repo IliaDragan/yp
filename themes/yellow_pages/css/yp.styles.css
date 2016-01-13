@@ -1428,6 +1428,13 @@ form.yellow-pages-feedback-ad-request .form-type-textarea textarea {
   transform: translate(0, 0);
   z-index: 3;
 }
+.node-type-company .field-name-field-filials .field-item .node-company {
+  position: relative;
+}
+.node-type-company .field-name-field-filials .field-item .node-company .field-name-field-address .street-block:before {
+  content: '';
+  margin: 0;
+}
 
 /* Views block */
 .node-teaser,
@@ -1583,16 +1590,13 @@ form.yellow-pages-feedback-ad-request .form-type-textarea textarea {
 .node--company--search_index .left img {
   max-width: 150px;
   height: auto;
+  margin: 10px;
 }
 @media (min-width: 0px) and (max-width: 767px) {
   .node--company--teaser .left img,
   .node--company--search_index .left img {
     max-width: 80px;
   }
-}
-.node--company--teaser .left > img,
-.node--company--search_index .left > img {
-  margin: 10px;
 }
 
 div.panel-pane div.node-teaser {
@@ -1867,6 +1871,18 @@ div.panel-pane div.node-teaser {
   padding: 15px 20px;
   font-size: 12px;
 }
+.group-tabbed-content .horizontal-tabs fieldset.horizontal-tabs-pane .field-name-field-business-hours .business-hours tr.today {
+  background-color: #75ee8d;
+}
+.group-tabbed-content .horizontal-tabs fieldset.horizontal-tabs-pane .field-name-field-business-hours .business-hours tr td {
+  padding: 5px 15px;
+}
+.group-tabbed-content .horizontal-tabs fieldset.horizontal-tabs-pane .field-name-field-business-hours .business-hours tr td.time {
+  text-align: center;
+}
+.group-tabbed-content .horizontal-tabs fieldset.horizontal-tabs-pane .field-name-field-business-hours .business-hours tr td.weekday {
+  text-transform: capitalize;
+}
 @media (min-width: 0px) and (max-width: 767px) {
   .group-tabbed-content .horizontal-tabs fieldset.horizontal-tabs-pane {
     padding: 15px;
@@ -1911,7 +1927,7 @@ div.panel-pane div.node-teaser {
   display: block;
   position: absolute;
   top: 0px;
-  left: -5px;
+  left: -10px;
   height: 100%;
   width: 20px;
   background: #fff7c0;
@@ -2148,6 +2164,23 @@ div.panel-pane div.node-teaser {
 }
 .node-company.node--company--full a {
   text-decoration: none;
+}
+@media (min-width: 0px) and (max-width: 539px) {
+  .node-company.node--company--full .field-name-field-landline-phone,
+  .node-company.node--company--full .field-name-field-mobile-phone {
+    line-height: 24px;
+  }
+  .node-company.node--company--full .field-name-field-landline-phone:before,
+  .node-company.node--company--full .field-name-field-mobile-phone:before {
+    color: #00a500;
+    line-height: 24px;
+  }
+  .node-company.node--company--full .field-name-field-fax {
+    line-height: 24px;
+  }
+  .node-company.node--company--full .field-name-field-fax:before {
+    line-height: 24px;
+  }
 }
 
 .node--company--teaser .field-name-body,
@@ -3054,4 +3087,21 @@ body > .node-advertisement {
     margin: 15px 0;
     font-size: 20px;
   }
+}
+.page-batch h2.title {
+  font-size: 20px;
+}
+.page-batch .progress {
+  border-radius: 0;
+  height: auto;
+}
+.page-batch .progress .filled {
+  background-color: #ffdd00;
+}
+
+#yellow-pages-sync-categories-and-products-form {
+  background-color: transparent;
+}
+#yellow-pages-sync-categories-and-products-form input[type="submit"] {
+  padding: 0 10px;
 }

@@ -123,6 +123,9 @@ projects[panels][subdir] = "contrib"
 projects[rules][version] = "2.9"
 projects[rules][subdir] = "contrib"
 
+projects[rules_onceperday][version] = "1.2"
+projects[rules_onceperday][subdir] = "contrib"
+
 projects[search_api][version] = "1.14"
 projects[search_api][subdir] = "contrib"
 
@@ -159,7 +162,7 @@ projects[views_autocomplete_filters][subdir] = "contrib"
 projects[views_bulk_operations][version] = "3.3"
 projects[views_bulk_operations][subdir] = "contrib"
 
-projects[nodeviewcount][version] = "2.3"
+projects[nodeviewcount][version] = "2.4"
 projects[nodeviewcount][subdir] = "contrib"
 
 projects[bootstrap][version] = "3.0"
@@ -168,7 +171,7 @@ projects[bootstrap][version] = "3.0"
 libraries[fontawesome][destination]    = "libraries"
 libraries[fontawesome][directory_name] = "fontawesome"
 libraries[fontawesome][download][type] = "get"
-libraries[fontawesome][download][url]  = "http://fortawesome.github.io/Font-Awesome/assets/font-awesome-4.4.0.zip"
+libraries[fontawesome][download][url]  = "http://fortawesome.github.io/Font-Awesome/assets/font-awesome-4.5.0.zip"
 
 libraries[leaflet][destination]    = "libraries"
 libraries[leaflet][directory_name] = "leaflet"

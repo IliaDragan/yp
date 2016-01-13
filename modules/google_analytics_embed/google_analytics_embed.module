@@ -1,0 +1,109 @@
+<?php
+
+/**
+ * Implements hook_ctools_plugin_directory().
+ */
+function google_analytics_embed_ctools_plugin_directory($owner, $plugin_type) {
+  if ($owner == 'ctools' && $plugin_type == 'content_types') {
+    return 'plugins/' . $plugin_type;
+  }
+}
+
+
+
+/**
+ * Implements hook_menu().
+ */
+function google_analytics_embed_menu() {
+  $items['admin/reports/google-analytics'] = array(
+    'title' => 'Analytics',
+    'page callback' => 'theme',
+    'access arguments' => TRUE,
+    'page arguments' => array('google_analytics_embed_page'),
+    'type' => MENU_NORMAL_ITEM,
+  );
+
+  return $items;
+}
+
+function google_analytics_embed_analytics_callback() {
+  return theme('google_analytics_embed_page');
+}
+
+/**
+ * Implements hook_theme().
+ */
+function google_analytics_embed_theme() {
+  return array(
+    'google_analytics_embed_page' => array(
+      'template' => 'templates/analytics-page',
+      'variables' => array(
+        'code' => '',
+      )
+    ),
+    'google_analytics_embed_dashboard' => array(
+      'template' => 'templates/dashboard',
+      'variables' => array(
+        'code' => '',
+      )
+    ),
+  );
+}
+
+
+/**
+ * Implements hook_preprocess().
+ */
+function template_preprocess_google_analytics_embed_page(&$variables) {
+  // Add settings
+  $settings = array(
+    'view_id' => 'ga:' . variable_get('google_analytics_embed_view_id', ''),
+    'token' => google_analytics_embed_token(),
+  );
+  drupal_add_js(array('google_analytics_embed' => $settings), 'setting');
+
+  // Add Google JS
+  drupal_add_js("(function(w,d,s,g,js,fs){
+      g=w.gapi||(w.gapi={});g.analytics={q:[],ready:function(f){this.q.push(f);}};
+      js=d.createElement(s);fs=d.getElementsByTagName(s)[0];
+      js.src='https://apis.google.com/js/platform.js';
+      fs.parentNode.insertBefore(js,fs);js.onload=function(){g.load('analytics');};
+    }(window,document,'script'));",
+    array('type' => 'inline', 'scope' => 'header', 'weight' => 5)
+  );
+}
+
+
+
+/**
+ * Implements hook_preprocess().
+ */
+function template_preprocess_google_analytics_embed_dashboard(&$variables) {
+  template_preprocess_google_analytics_embed_page($variables);
+}
+
+
+/**
+ * Get auth token from Google Api service account.
+ * @todo: make service account file a variable
+ * @todo: cache access token for 1hr.
+ */
+function google_analytics_embed_token() {
+  require_once libraries_get_path('google-sdk') . '/vendor/autoload.php';
+  $client = new Google_Client();
+  if ($credentials_file = variable_get('google_analytics_embed_credential_file', '')) {
+    // set the location manually
+    $client->setAuthConfig($credentials_file);
+  } elseif (getenv('GOOGLE_APPLICATION_CREDENTIALS')) {
+    // use the application default credentials
+    $client->useApplicationDefaultCredentials();
+  } else {
+    echo missingServiceAccountDetailsWarning();
+  exit;
+  }
+  $client->setScopes(['https://www.googleapis.com/auth/analytics.readonly']);
+  $client->refreshTokenWithAssertion();
+  $accessToken = $client->getAccessToken();
+
+  return $accessToken['access_token'];
+}

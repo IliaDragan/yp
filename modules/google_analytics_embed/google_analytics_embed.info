@@ -1,0 +1,4 @@
+name = Google analytics embed
+description = Provides several custom panes of google analytics embed information.
+core = 7.x
+dependencies[] = ctools

@@ -43,17 +43,15 @@ function yellow_pages_solr_configuration_default_search_api_index() {
       "fields" : {
         "body:value" : { "type" : "text", "boost" : "2.0" },
         "city_filter" : { "type" : "string" },
-        "field_address:locality" : { "type" : "text" },
-        "field_address:thoroughfare" : { "type" : "text" },
-        "field_email" : { "type" : "list\\u003Ctext\\u003E" },
-        "field_landline_phone" : { "type" : "list\\u003Ctext\\u003E" },
-        "field_mobile_phone" : { "type" : "list\\u003Ctext\\u003E" },
+        "field_address:locality" : { "type" : "text", "boost" : "0.8" },
+        "field_address:thoroughfare" : { "type" : "text", "boost" : "0.8" },
+        "field_email" : { "type" : "list\\u003Ctext\\u003E", "boost" : "0.2" },
+        "field_fax" : { "type" : "list\\u003Ctext\\u003E", "boost" : "0.3" },
+        "field_invisible_field" : { "type" : "text", "boost" : "8.0" },
+        "field_landline_phone" : { "type" : "list\\u003Ctext\\u003E", "boost" : "0.3" },
+        "field_mobile_phone" : { "type" : "list\\u003Ctext\\u003E", "boost" : "0.3" },
         "field_products:product" : { "type" : "list\\u003Cinteger\\u003E", "entity_type" : "taxonomy_term" },
-        "field_products:product:name" : { "type" : "list\\u003Ctext\\u003E", "boost" : "3.0" },
-        "field_products:product:parent" : {
-          "type" : "list\\u003Clist\\u003Cinteger\\u003E\\u003E",
-          "entity_type" : "taxonomy_term"
-        },
+        "field_products:product:name" : { "type" : "list\\u003Ctext\\u003E" },
         "field_products:product:parents_all" : {
           "type" : "list\\u003Clist\\u003Cinteger\\u003E\\u003E",
           "entity_type" : "taxonomy_term"
@@ -64,8 +62,8 @@ function yellow_pages_solr_configuration_default_search_api_index() {
         "search_api_language" : { "type" : "string" },
         "sticky" : { "type" : "boolean" },
         "title" : { "type" : "text", "boost" : "5.0" },
-        "title_sort" : { "type" : "string" },
-        "type" : { "type" : "string" }
+        "type" : { "type" : "string" },
+        "url" : { "type" : "uri" }
       },
       "data_alter_callbacks" : {
         "search_api_alter_bundle_filter" : {
@@ -73,7 +71,7 @@ function yellow_pages_solr_configuration_default_search_api_index() {
           "weight" : "-10",
           "settings" : {
             "default" : "0",
-            "bundles" : { "article" : "article", "company" : "company", "news" : "news" }
+            "bundles" : { "company" : "company", "news" : "news", "article" : "article" }
           }
         },
         "search_api_alter_node_access" : { "status" : 0, "weight" : "0", "settings" : [] },
@@ -97,6 +95,7 @@ function yellow_pages_solr_configuration_default_search_api_index() {
           "weight" : "0",
           "settings" : { "fields" : {
               "title" : true,
+              "field_invisible_field" : true,
               "body:value" : true,
               "field_products:product" : true,
               "field_products:product:name" : true,

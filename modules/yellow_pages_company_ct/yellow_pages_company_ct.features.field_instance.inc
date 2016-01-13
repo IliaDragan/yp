@@ -192,7 +192,7 @@ function yellow_pages_company_ct_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 10,
+        'weight' => 14,
       ),
       'slider_teaser' => array(
         'label' => 'above',
@@ -253,7 +253,7 @@ function yellow_pages_company_ct_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 9,
+        'weight' => 13,
       ),
       'slider_teaser' => array(
         'label' => 'above',
@@ -285,6 +285,64 @@ function yellow_pages_company_ct_field_default_field_instances() {
       ),
       'type' => 'entityreference_autocomplete',
       'weight' => 28,
+    ),
+  );
+
+  // Exported field_instance: 'node-company-field_business_hours'
+  $field_instances['node-company-field_business_hours'] = array(
+    'bundle' => 'company',
+    'default_value' => NULL,
+    'deleted' => 0,
+    'description' => '',
+    'display' => array(
+      'default' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 29,
+      ),
+      'full' => array(
+        'label' => 'hidden',
+        'module' => 'text',
+        'settings' => array(),
+        'type' => 'text_default',
+        'weight' => 27,
+      ),
+      'search_index' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+      'slider_teaser' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+      'teaser' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+    ),
+    'entity_type' => 'node',
+    'field_name' => 'field_business_hours',
+    'label' => 'Business hours',
+    'required' => 0,
+    'settings' => array(
+      'text_processing' => 0,
+      'user_register_form' => FALSE,
+    ),
+    'widget' => array(
+      'active' => 1,
+      'module' => 'text',
+      'settings' => array(
+        'rows' => 5,
+      ),
+      'type' => 'text_textarea',
+      'weight' => 30,
     ),
   );
 
@@ -408,7 +466,7 @@ function yellow_pages_company_ct_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 15,
+        'weight' => 19,
       ),
       'slider_teaser' => array(
         'label' => 'above',
@@ -456,74 +514,6 @@ function yellow_pages_company_ct_field_default_field_instances() {
       'settings' => array(),
       'type' => 'link_field',
       'weight' => 4,
-    ),
-  );
-
-  // Exported field_instance: 'node-company-field_company_views'
-  $field_instances['node-company-field_company_views'] = array(
-    'bundle' => 'company',
-    'default_value' => array(
-      0 => array(
-        'value' => 0,
-      ),
-    ),
-    'deleted' => 0,
-    'description' => '',
-    'display' => array(
-      'default' => array(
-        'label' => 'above',
-        'module' => 'number',
-        'settings' => array(
-          'decimal_separator' => '.',
-          'prefix_suffix' => TRUE,
-          'scale' => 0,
-          'thousand_separator' => ' ',
-        ),
-        'type' => 'number_integer',
-        'weight' => 25,
-      ),
-      'full' => array(
-        'label' => 'above',
-        'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 0,
-      ),
-      'search_index' => array(
-        'label' => 'above',
-        'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 8,
-      ),
-      'slider_teaser' => array(
-        'label' => 'above',
-        'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 0,
-      ),
-      'teaser' => array(
-        'label' => 'above',
-        'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 8,
-      ),
-    ),
-    'entity_type' => 'node',
-    'field_name' => 'field_company_views',
-    'label' => 'Views',
-    'required' => 0,
-    'settings' => array(
-      'max' => '',
-      'min' => '',
-      'prefix' => '',
-      'suffix' => '',
-      'user_register_form' => FALSE,
-    ),
-    'widget' => array(
-      'active' => 0,
-      'module' => 'number',
-      'settings' => array(),
-      'type' => 'number',
-      'weight' => 2,
     ),
   );
 
@@ -612,7 +602,7 @@ function yellow_pages_company_ct_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 14,
+        'weight' => 18,
       ),
       'slider_teaser' => array(
         'label' => 'above',
@@ -676,7 +666,7 @@ function yellow_pages_company_ct_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 7,
+        'weight' => 11,
       ),
       'slider_teaser' => array(
         'label' => 'above',
@@ -808,7 +798,7 @@ function yellow_pages_company_ct_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 12,
+        'weight' => 16,
       ),
       'slider_teaser' => array(
         'label' => 'above',
@@ -855,6 +845,64 @@ function yellow_pages_company_ct_field_default_field_instances() {
     ),
   );
 
+  // Exported field_instance: 'node-company-field_invisible_field'
+  $field_instances['node-company-field_invisible_field'] = array(
+    'bundle' => 'company',
+    'default_value' => NULL,
+    'deleted' => 0,
+    'description' => '',
+    'display' => array(
+      'default' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 28,
+      ),
+      'full' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+      'search_index' => array(
+        'label' => 'hidden',
+        'module' => 'text',
+        'settings' => array(),
+        'type' => 'text_plain',
+        'weight' => 6,
+      ),
+      'slider_teaser' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+      'teaser' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+    ),
+    'entity_type' => 'node',
+    'field_name' => 'field_invisible_field',
+    'label' => 'Invisible field',
+    'required' => 0,
+    'settings' => array(
+      'text_processing' => 0,
+      'user_register_form' => FALSE,
+    ),
+    'widget' => array(
+      'active' => 1,
+      'module' => 'text',
+      'settings' => array(
+        'rows' => 5,
+      ),
+      'type' => 'text_textarea',
+      'weight' => 29,
+    ),
+  );
+
   // Exported field_instance: 'node-company-field_landline_phone'
   $field_instances['node-company-field_landline_phone'] = array(
     'bundle' => 'company',
@@ -880,7 +928,7 @@ function yellow_pages_company_ct_field_default_field_instances() {
         'label' => 'hidden',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 6,
+        'weight' => 10,
       ),
       'slider_teaser' => array(
         'label' => 'above',
@@ -936,7 +984,7 @@ function yellow_pages_company_ct_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 0,
+        'weight' => 9,
       ),
       'slider_teaser' => array(
         'label' => 'above',
@@ -1007,7 +1055,7 @@ function yellow_pages_company_ct_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 18,
+        'weight' => 22,
       ),
       'slider_teaser' => array(
         'label' => 'above',
@@ -1074,7 +1122,7 @@ function yellow_pages_company_ct_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 16,
+        'weight' => 20,
       ),
       'slider_teaser' => array(
         'label' => 'above',
@@ -1148,7 +1196,7 @@ function yellow_pages_company_ct_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 13,
+        'weight' => 17,
       ),
       'slider_teaser' => array(
         'label' => 'above',
@@ -1210,7 +1258,7 @@ function yellow_pages_company_ct_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 17,
+        'weight' => 21,
       ),
       'slider_teaser' => array(
         'label' => 'above',
@@ -1342,7 +1390,7 @@ function yellow_pages_company_ct_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 0,
+        'weight' => 8,
       ),
       'slider_teaser' => array(
         'label' => 'above',
@@ -1455,11 +1503,13 @@ function yellow_pages_company_ct_field_default_field_instances() {
   t('Address');
   t('Advertisements');
   t('Articles');
+  t('Business hours');
   t('Description of activity');
   t('Email');
   t('Fax');
   t('Filials');
   t('Geocode');
+  t('Invisible field');
   t('Landline phone');
   t('Logo');
   t('Logo expiration date');
@@ -1471,7 +1521,6 @@ function yellow_pages_company_ct_field_default_field_instances() {
   t('Region');
   t('Site URL');
   t('Social links');
-  t('Views');
 
   return $field_instances;
 }

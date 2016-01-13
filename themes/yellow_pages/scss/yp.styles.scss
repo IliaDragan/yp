@@ -1383,13 +1383,10 @@ form.yellow-pages-feedback-ad-request {
       @include breakpoint ($mobile) {
         max-width: 80px;
       }
-    }
-    > img {
       margin: 10px;
     }
   }
 }
-
 
 div.panel-pane div.node-teaser {
   margin-bottom: 30px;
@@ -1642,6 +1639,25 @@ div.panel-pane div.node-teaser {
       margin: 0;
       padding: 15px 20px;
       font-size: 12px;
+
+      .field-name-field-business-hours {
+        .business-hours {
+          tr {
+            &.today {
+              background-color: $bg-lingth-green;
+            }
+            td {
+              padding: 5px 15px;
+              &.time {
+                text-align: center;
+              }
+              &.weekday {
+                text-transform: capitalize;
+              }
+            }
+          }
+        }
+      }
       @include breakpoint ($mobile) {
         padding: 15px;
       }
@@ -1901,6 +1917,22 @@ div.panel-pane div.node-teaser {
   }
   a {
     text-decoration: none;
+  }
+  @include breakpoint ($mobilesm) {
+    .field-name-field-landline-phone,
+    .field-name-field-mobile-phone {
+      &:before {
+        color: $green-phone;
+        line-height: 24px;
+      }
+      line-height: 24px;
+    }
+    .field-name-field-fax {
+      &:before {
+        line-height: 24px;
+      }
+      line-height: 24px;
+    }
   }
 }
 .node--company--teaser,

@@ -312,3 +312,43 @@ function yellow_pages_addressfield_container($variables) {
 function yellow_pages_facetapi_deactivate_widget($variables) {
   return '&#xf00d;';
 }
+
+/**
+ * Rewrite theme_business_hours().
+ */
+function yellow_pages_business_hours($vars) {
+  $markup = '';
+  if (!empty($vars['hours'])) {
+    foreach ($vars['hours'] as $hour) {
+      $weekday_match = $hour['day'] == $vars['weekday'];
+      $class = 'inline-business-hours' . ($weekday_match ? ' today' : '');
+      $day_off = $hour['start'] == 'None' || $hour['end'] == 'None';
+      $time = $day_off ? t('Day off') : $hour['start'] . ' - ' . $hour['end'];
+
+      $table_vars = array(
+        'rows' => array(
+          array(
+            array(
+              'data' => t($hour['day']),
+              'attributes' => array(
+                'class' => 'weekday',
+              ),
+            ),
+          ),
+          array(
+            array(
+              'data' => $time,
+              'attributes' => array(
+                'class' => 'time',
+              ),
+            ),
+          )
+        ),
+      );
+      $markup .= '<div class="' . $class . '">' . theme('table', $table_vars) . '</div>';
+    }
+    $markup = '<div class="business-hours">' . $markup . '</div>';
+  }
+
+  return $markup;
+}

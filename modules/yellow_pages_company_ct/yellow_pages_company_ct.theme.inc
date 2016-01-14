@@ -11,15 +11,20 @@
 function theme_business_hours($vars) {
   $markup = '';
   if (!empty($vars['hours'])) {
+    $cells = array();
     foreach ($vars['hours'] as $hour) {
-      $markup .= '<td>';
-      $markup .= '<div class="weekday">' . t($hour['day']) . '</div>';
       $day_off = $hour['start'] == 'None' || $hour['end'] == 'None';
       $time = $day_off ? t('Day off') : $hour['start'] . ' - ' . $hour['end'];
-      $markup .= '<div class="time">' . $time . '</div>';
-      $markup .= '</td>';
+      $cells[] = '<div>' . t($hour['day']) . '</div><div>' . $time . '</div>';
     }
-    $markup = '<table class="business-hours"><tr>' . $markup . '</tr></table>';
+
+    $table_vars = array(
+      'rows' => array($cells),
+      'attributes' => array(
+        'class' => 'business-hours',
+      ),
+    );
+    $markup = theme('table', $table_vars);
   }
 
   return $markup;

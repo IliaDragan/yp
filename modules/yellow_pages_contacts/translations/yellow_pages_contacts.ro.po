@@ -76,7 +76,7 @@ msgid "Contact us"
 msgstr "Luaţi legătura cu noi"
 
 #: yellow_pages_contacts.module:52
-msgid "Contacts us"
+msgid "Contact us"
 msgstr "Luaţi legătura cu noi"
 
 #: yellow_pages_contacts.module:16

@@ -13,14 +13,17 @@ function theme_business_hours($vars) {
   if (!empty($vars['hours'])) {
     foreach ($vars['hours'] as $hour) {
       $weekday_match = $hour['day'] == $vars['weekday'];
-      $markup .= $weekday_match ? '<tr class="today">' : '<tr>';
-      $markup .= '<td class="weekday">' . t($hour['day']) . '</td>';
+      $class = 'inline-business-hours' . ($weekday_match ? ' today' : '');
+      $markup .= '<div class="' . $class . '">';
+      $markup .= '<table><tbody>';
+      $markup .= '<tr><td class="weekday">' . t($hour['day']) . '</td></tr>';
       $day_off = $hour['start'] == 'None' || $hour['end'] == 'None';
       $time = $day_off ? t('Day off') : $hour['start'] . ' - ' . $hour['end'];
-      $markup .= '<td class="time">' . $time . '</td>';
-      $markup .= '</tr>';
+      $markup .= '<tr><td class="time">' . $time . '</td></tr>';
+      $markup .= '</tbody></table>';
+      $markup .= '</div>';
     }
-    $markup = '<table class="business-hours"><tbody>' . $markup . '</tbody></table>';
+    $markup = '<div class="business-hours">' . $markup . '</div>';
   }
 
   return $markup;

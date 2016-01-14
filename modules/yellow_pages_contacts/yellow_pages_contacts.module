@@ -46,10 +46,10 @@ function yellow_pages_contacts_block_view($delta = '') {
 
   switch ($delta) {
     case 'yp_contacts':
-      $block['subject'] = t('Contacts');
+      $block['subject'] = t('Contact us');
       $block['content'] = array(
         '#theme' => 'yp_contacts',
-        '#title' => t('Contacts'),
+        '#title' => t('Contacts us'),
         '#mail' => variable_get('yp_contacts_mail', ''),
         '#phone' => variable_get('yp_contacts_phone', ''),
         '#url' => variable_get('yp_contacts_social', ''),

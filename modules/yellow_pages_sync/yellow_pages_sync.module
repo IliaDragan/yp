@@ -361,6 +361,13 @@ function yellow_pages_sync_node(SimpleXMLElement $list_item) {
       $entity->field_fax[LANGUAGE_NONE][$k]['value'] = $number;
     }
   }
+
+  // Invisible field
+  if (!empty($item['invisible_field'])) {
+    unset($entity->field_invisible_field[LANGUAGE_NONE]);
+    $entity->field_invisible_field[LANGUAGE_NONE][0]['value'] = $item['invisible_field'];
+  }
+
   // Business hours
   if (isset($entity->field_business_hours[LANGUAGE_NONE])) {
     unset($entity->field_business_hours[LANGUAGE_NONE]);
@@ -506,6 +513,10 @@ function yellow_page_sync_process_source_element(SimpleXMLElement $source) {
   $result['last_change'] = strtotime((string) $source->last_change);
   // Old aliases.
   $result['path_alias'] = yellow_pages_sync_process_source_element_aliases($source);
+  // Invisible field.
+  if (!empty($source->invisible_field)) {
+    $result['invisible_field'] = $source->invisible_field;
+  }
   // Business hours
   $result['business_hours'] = yellow_pages_sync_process_source_element_business_hours($source);
 

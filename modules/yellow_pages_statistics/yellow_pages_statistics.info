@@ -1,0 +1,4 @@
+name = Yellow pages statistics
+description = Statistics for Yellow pages site.
+core = 7.x
+package = Yellow Pages

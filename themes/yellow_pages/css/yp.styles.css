@@ -1871,16 +1871,18 @@ div.panel-pane div.node-teaser {
   padding: 15px 20px;
   font-size: 12px;
 }
-.group-tabbed-content .horizontal-tabs fieldset.horizontal-tabs-pane .field-name-field-business-hours .business-hours tr.today {
-  background-color: #75ee8d;
+.group-tabbed-content .horizontal-tabs fieldset.horizontal-tabs-pane .field-name-field-business-hours .business-hours .inline-business-hours {
+  display: inline-block;
+  margin-top: 20px;
 }
-.group-tabbed-content .horizontal-tabs fieldset.horizontal-tabs-pane .field-name-field-business-hours .business-hours tr td {
+.group-tabbed-content .horizontal-tabs fieldset.horizontal-tabs-pane .field-name-field-business-hours .business-hours .inline-business-hours.today {
+  background-color: #66dd00;
+}
+.group-tabbed-content .horizontal-tabs fieldset.horizontal-tabs-pane .field-name-field-business-hours .business-hours .inline-business-hours table td {
   padding: 5px 15px;
-}
-.group-tabbed-content .horizontal-tabs fieldset.horizontal-tabs-pane .field-name-field-business-hours .business-hours tr td.time {
   text-align: center;
 }
-.group-tabbed-content .horizontal-tabs fieldset.horizontal-tabs-pane .field-name-field-business-hours .business-hours tr td.weekday {
+.group-tabbed-content .horizontal-tabs fieldset.horizontal-tabs-pane .field-name-field-business-hours .business-hours .inline-business-hours table td.weekday {
   text-transform: capitalize;
 }
 @media (min-width: 0px) and (max-width: 767px) {

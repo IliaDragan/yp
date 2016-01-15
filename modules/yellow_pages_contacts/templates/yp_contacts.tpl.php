@@ -27,5 +27,10 @@
       <?php print l($link_title, $url, array('attributes' => array('target' => '_blank'))); ?>
     </span>
   </div>
+  <div class="entry contact-ad-order">
+    <span class="item">
+      <?php print l(t('Advertisement order'), 'feedback/ad'); ?>
+    </span>
+  </div>
   <?php endif; ?>
 </div>

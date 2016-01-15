@@ -1642,17 +1642,19 @@ div.panel-pane div.node-teaser {
 
       .field-name-field-business-hours {
         .business-hours {
-          tr {
+          .inline-business-hours {
+            display: inline-block;
+            margin-top: 20px;
             &.today {
               background-color: $bg-lingth-green;
             }
-            td {
-              padding: 5px 15px;
-              &.time {
+            table {
+              td {
+                padding: 5px 15px;
                 text-align: center;
-              }
-              &.weekday {
-                text-transform: capitalize;
+                &.weekday {
+                  text-transform: capitalize;
+                }
               }
             }
           }

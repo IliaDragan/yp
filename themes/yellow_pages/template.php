@@ -330,17 +330,13 @@ function yellow_pages_business_hours($vars) {
           array(
             array(
               'data' => t($hour['day']),
-              'attributes' => array(
-                'class' => 'weekday',
-              ),
+              'class' => 'weekday',
             ),
           ),
           array(
             array(
               'data' => $time,
-              'attributes' => array(
-                'class' => 'time',
-              ),
+              'class' => 'time',
             ),
           )
         ),

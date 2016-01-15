@@ -20,7 +20,7 @@
 
     // Step 3: Authorize the user.
 
-    var CLIENT_ID = 'UA-4629623-1';
+    var CLIENT_ID = '460171337724-oqrvpj1ara3g8pnsn2f7t9l1ush2gsm1.apps.googleusercontent.com';
 
     gapi.analytics.auth.authorize({
       container: 'auth-button',

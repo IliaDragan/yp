@@ -1,5 +1,4 @@
 <?php
-
 /**
  * @file
  * Collect Yellow Pages site statistics.
@@ -24,7 +23,7 @@ function yellow_pages_statistics_menu() {
 
 /**
  * Callback page function for tracking advertisement node clicks and redirect
- *   to its link field value.
+ * to its link field value.
  *
  * @param $node
  *   Advertisement node object.

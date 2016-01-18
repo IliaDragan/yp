@@ -1,9 +1,7 @@
 <?php
-
 /**
  * @file
- * Install, update and uninstall functions for the Yellow Pages statistics
- *   module.
+ * Install, update and uninstall functions for the Yellow Pages statistics module.
  */
 
 /**

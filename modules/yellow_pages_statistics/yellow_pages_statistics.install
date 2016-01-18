@@ -1,6 +1,12 @@
 <?php
 
 /**
+ * @file
+ * Install, update and uninstall functions for the Yellow Pages statistics
+ *   module.
+ */
+
+/**
  * Implements hook_schema().
  */
 function yellow_pages_statistics_schema() {

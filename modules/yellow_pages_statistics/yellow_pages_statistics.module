@@ -1,6 +1,11 @@
 <?php
 
 /**
+ * @file
+ * Collect Yellow Pages site statistics.
+ */
+
+/**
  * Implements hook_menu().
  */
 function yellow_pages_statistics_menu() {
@@ -34,4 +39,16 @@ function yellow_pages_statistics_advertisement_tracker($node) {
   // Redirect to url field value or node page.
   $url = !empty($node->field_ad_url['und'][0]['url']) ? $node->field_ad_url['und'][0]['url'] : drupal_get_path_alias('node/' . $node->nid);
   drupal_goto($url);
+}
+
+/**
+ * Implements hook_node_delete().
+ */
+function yellow_pages_statistics_node_delete($node) {
+  if ($node->type == 'advertisement') {
+    // Remove statistics for deleted node.
+    db_delete('yp_ad_statistics')
+      ->condition('nid', $node->nid)
+      ->execute();
+  }
 }

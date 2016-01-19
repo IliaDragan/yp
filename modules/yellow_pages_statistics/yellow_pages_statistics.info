@@ -1,0 +1,12 @@
+name = Yellow Pages statistics
+description = Statistics functionality and configurations for Yllow Pages site.
+core = 7.x
+package = Yellow Pages
+version = 7.x-1.0
+project = yellow_pages_statistics
+dependencies[] = ctools
+dependencies[] = strongarm
+dependencies[] = zend
+features[ctools][] = strongarm:strongarm:1
+features[features_api][] = api:2
+features[variable][] = zend_path

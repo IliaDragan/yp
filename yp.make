@@ -113,6 +113,9 @@ projects[navigation404][subdir] = "contrib"
 projects[node_expire][version] = "1.8"
 projects[node_expire][subdir] = "contrib"
 
+projects[nodeviewcount][version] = "2.4"
+projects[nodeviewcount][subdir] = "contrib"
+
 projects[owlcarousel][version] = "1.5"
 projects[owlcarousel][subdir] = "contrib"
 projects[owlcarousel][patch][] = "http://am.storage.dev.inlead.dk/owlcarousel-fixed_libraries_owlcarousel_path.patch"
@@ -162,8 +165,9 @@ projects[views_autocomplete_filters][subdir] = "contrib"
 projects[views_bulk_operations][version] = "3.3"
 projects[views_bulk_operations][subdir] = "contrib"
 
-projects[nodeviewcount][version] = "2.4"
-projects[nodeviewcount][subdir] = "contrib"
+; Use version 1.x of zend module for Zend Framework 1
+projects[zend][version] = "1.0-beta1"
+projects[zend][subdir] = "contrib"
 
 projects[bootstrap][version] = "3.0"
 
@@ -182,3 +186,8 @@ libraries[owl-carousel][destination]    = "libraries"
 libraries[owl-carousel][directory_name] = "owl-carousel"
 libraries[owl-carousel][download][type] = "get"
 libraries[owl-carousel][download][url]  = "http://owlgraphic.com/owlcarousel/owl.carousel.zip"
+
+libraries[zend][destination]    = "libraries"
+libraries[zend][directory_name] = "zend"
+libraries[zend][download][type] = "get"
+libraries[zend][download][url]  = "http://packages.zendframework.com/releases/ZendFramework-1.12.17/ZendFramework-1.12.17.zip"

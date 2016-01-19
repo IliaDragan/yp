@@ -1,0 +1,7 @@
+<?php
+/**
+ * @file
+ * Code for the Yellow Pages statistics feature.
+ */
+
+include_once 'yellow_pages_statistics.features.inc';

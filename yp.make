@@ -165,10 +165,6 @@ projects[views_autocomplete_filters][subdir] = "contrib"
 projects[views_bulk_operations][version] = "3.3"
 projects[views_bulk_operations][subdir] = "contrib"
 
-; Use version 1.x of zend module for Zend Framework 1
-projects[zend][version] = "1.0-beta1"
-projects[zend][subdir] = "contrib"
-
 projects[bootstrap][version] = "3.0"
 
 ; Libraries
@@ -186,8 +182,3 @@ libraries[owl-carousel][destination]    = "libraries"
 libraries[owl-carousel][directory_name] = "owl-carousel"
 libraries[owl-carousel][download][type] = "get"
 libraries[owl-carousel][download][url]  = "http://owlgraphic.com/owlcarousel/owl.carousel.zip"
-
-libraries[zend][destination]    = "libraries"
-libraries[zend][directory_name] = "zend"
-libraries[zend][download][type] = "get"
-libraries[zend][download][url]  = "http://packages.zendframework.com/releases/ZendFramework-1.12.17/ZendFramework-1.12.17.zip"

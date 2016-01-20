@@ -5,3 +5,24 @@
  */
 
 include_once 'yellow_pages_statistics.features.inc';
+
+function yellow_pages_statistics_menu() {
+  $items = array();
+
+  $items['ga'] = array(
+    'title' => 'GA data',
+    'page callback' => 'yellow_pages_statistics_ga_data',
+    'access arguments' => array('access content'),
+    'type' => MENU_CALLBACK,
+
+  );
+
+  return $items;
+}
+
+function yellow_pages_statistics_ga_data() {
+  //$email = 'varoinform.com@gmail.com';
+  //$password = 'Varo2014';
+  $email = 'mak@ipgroupmd.com';
+  $password = 'makIPG-13jan';
+}

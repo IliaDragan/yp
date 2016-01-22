@@ -6,23 +6,39 @@
 
 include_once 'yellow_pages_statistics.features.inc';
 
+
+function yellow_pages_permission() {
+  return array(
+    'administer yellow pages statistics' => array(
+      'title' => t('Administer Yellow Pages statistics'),
+    ),
+    'access yellow pages google analytics page' => array(
+      'title' => t('Access Yellow Pages Google Analytics page'),
+    ),
+  );
+}
+
+/**
+ * Implements hook_menu().
+ */
 function yellow_pages_statistics_menu() {
   $items = array();
 
   $items['ga'] = array(
     'title' => 'GA data',
-    'page callback' => 'yellow_pages_statistics_ga_data',
-    'access arguments' => array('access content'),
+    'page callback' => 'yellow_pages_statistics_ga_page',
+    'access arguments' => array('access yellow pages google analytics page'),
+    'file' => 'yellow_pages_statistics.ga.inc',
     'type' => MENU_CALLBACK,
+  );
 
+  $items['admin/config/yp/ga_client'] = array(
+    'title' => 'GA data',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('yellow_pages_statistics_ga_client_settings_form'),
+    'access arguments' => array('administer yellow pages statistics'),
+    'file' => 'yellow_pages_statistics.admin.inc',
   );
 
   return $items;
-}
-
-function yellow_pages_statistics_ga_data() {
-  //$email = 'varoinform.com@gmail.com';
-  //$password = 'Varo2014';
-  $email = 'mak@ipgroupmd.com';
-  $password = 'makIPG-13jan';
 }

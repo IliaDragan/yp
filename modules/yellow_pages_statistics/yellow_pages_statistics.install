@@ -1,0 +1,13 @@
+<?php
+/**
+ * @file
+ * Install/uninstall routine.
+ */
+
+/**
+ * Implements hook_uninstall().
+ */
+function yellow_pages_statistics_uninstall() {
+  variable_del('google_service_account_email');
+  variable_del('google_service_account_keys');
+}

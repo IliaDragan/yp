@@ -5,3 +5,5 @@ package = Yellow Pages
 version = 7.x-1.0
 project = yellow_pages_statistics
 dependencies[] = ctools
+
+configure = admin/config/yp/ga_client

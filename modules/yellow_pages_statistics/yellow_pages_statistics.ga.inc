@@ -8,23 +8,58 @@
  * Form function that returns google analytics page content.
  */
 function yellow_pages_statistics_ga($form, &$form_state) {
+  $analytics = yellow_pages_statistics_get_google_analytics_service();
+
+  $form['filter'] = array(
+    '#type' => 'fieldset',
+  );
+
+  // Metrics.
   $metrics_options = array(
     'ga:entrances' => t('Entrances'),
     'ga:users'     => t('Users'),
+    'ga:sessions'  => t('Sessions'),
+    'ga:pageviews' => t('Pageviews'),
+    'ga:avgSessionDuration' => t('Session duration average')
   );
-  $default_metric = empty($form_state['storage']['metrics']) ? 'ga:entrances' : $form_state['storage']['metrics'];
-  $form['metrics'] = array(
+  $default_metric = empty($form_state['storage']['metric']) ? 'ga:entrances' : $form_state['storage']['metric'];
+  $form['filter']['metric'] = array(
     '#type' => 'select',
-    '#title' => t('Select Metrics'),
+    '#title' => t('Select Metric'),
     '#options' => $metrics_options,
     '#default_value' => $default_metric,
   );
-  $form['submit'] = array(
+
+  // Profiles.
+  $profiles_options = yellow_pages_statistics_get_google_user_profiles_ids($analytics);
+  $default_profile = empty($form_state['storage']['profile']) ? key($profiles_options) : $form_state['storage']['profile'];
+  $form['filter']['profile'] = array(
+    '#type' => 'select',
+    '#title' => t('Select Profile'),
+    '#options' => $profiles_options,
+    '#default_value' => $default_profile,
+  );
+
+  // Periods.
+  $periods_options = array(
+    'year' => t('Last year'),
+    'month' => t('Last month'),
+    'week' => t('Last week')
+  );
+  $default_period = empty($form_state['storage']['period']) ? 'year' : $form_state['storage']['period'];
+  $form['filter']['period'] = array(
+    '#type' => 'select',
+    '#title' => t('Select Period'),
+    '#options' => $periods_options,
+    '#default_value' => $default_period,
+  );
+
+  $form['filter']['submit'] = array(
     '#type' => 'submit',
     '#value' => t('Show'),
   );
   $form['chart'] = array(
-    '#markup' => yellow_pages_statistics_ga_chart($default_metric, $metrics_options),
+    '#markup' => yellow_pages_statistics_ga_chart($analytics, $default_profile, $default_metric, $metrics_options, $default_period),
   );
 
   return $form;
@@ -33,14 +68,20 @@ function yellow_pages_statistics_ga($form, &$form_state) {
 /**
  * Submit function for google analytics page content form.
  */
-function yellow_pages_statistics_ga_submit (&$form, &$form_state) {
-  $form_state['storage']['metrics'] = $form_state['values']['metrics'];
+function yellow_pages_statistics_ga_submit(&$form, &$form_state) {
+  $form_state['storage']['metric'] = $form_state['values']['metric'];
+  $form_state['storage']['profile'] = $form_state['values']['profile'];
+  $form_state['storage']['period'] = $form_state['values']['period'];
   $form_state['rebuild'] = TRUE;
 }
 
 /**
  * This function creates google analytics chart for given metrics for last year.
  *
+ * @param $analytics
+ *   Google_Service_Analytics object.
+ * @param $profile_id
+ *   Service user ID.
  * @param $metric
  *   Selected metric.
  * @param $metrics
@@ -49,19 +90,16 @@ function yellow_pages_statistics_ga_submit (&$form, &$form_state) {
  * @return string
  *   Html of chart content.
  */
-function yellow_pages_statistics_ga_chart($metric, $metrics) {
-  $analytics = yellow_pages_statistics_get_google_analytics_service();
-  $profile_id = yellow_pages_statistics_get_first_google_user_profile_id($analytics);
-
-  $start_date = date('Y-m-d', strtotime('-1 year'));
+function yellow_pages_statistics_ga_chart($analytics, $profile_id, $metric, $metrics, $period) {
+  $period_vars = yellow_pages_statistics_ga_get_period_variables($period);
 
   $results = $analytics->data_ga->get(
     'ga:' . $profile_id,
-    $start_date,
+    $period_vars['start_date'],
     'today',
     $metric,
     array(
-      'dimensions' => 'ga:year,ga:month'
+      'dimensions' => $period_vars['dimensions'],
     )
   );
   $rows = $results->getRows();
@@ -73,8 +111,8 @@ function yellow_pages_statistics_ga_chart($metric, $metrics) {
     $chart_data = array();
     foreach ($rows as $row) {
       $chart_data[] = array(
-        date("F Y", mktime(null, null, null, $row[1], 1, $row[0])),
-        intval($row[2])
+        date($period_vars['format'], mktime(NULL, NULL, NULL, $row[1], ($period_vars['with_day'] ? $row[2] : 1), $row[0])),
+        intval(($period_vars['with_day'] ? $row[3] : $row[2]))
       );
     }
 
@@ -85,10 +123,11 @@ function yellow_pages_statistics_ga_chart($metric, $metrics) {
         'chartTitle' => t('Google Analytics for @profile', array('@profile' => $profile_name)),
         'chartColumns' => array(
           array('string', t('Months')),
-          array('number', t($metrics[$metric])),
+          array('number', $metrics[$metric]),
         ),
       ),
     );
+
     drupal_add_js($js_data, 'setting');
     drupal_add_js('http://www.google.com/jsapi', 'external');
     drupal_add_js($module_path . '/js/yellow_pages_statistics.chart.js');
@@ -133,50 +172,86 @@ function yellow_pages_statistics_get_google_analytics_service() {
 }
 
 /**
- * Get the user's first view (profile) ID.
+ * Get the user's views (profiles) IDs.
  *
  * @param Google_Service_Analytics $analytics
  *   the Analytics service object.
  *
  * @return
- *   user profile ID.
+ *   available user profile IDs list.
  */
-function yellow_pages_statistics_get_first_google_user_profile_id(&$analytics) {
+function yellow_pages_statistics_get_google_user_profiles_ids(&$analytics) {
   // Get the list of accounts for the authorized user.
   $accounts = $analytics->management_accounts->listManagementAccounts();
 
-  if (count($accounts->getItems()) > 0) {
-    $items = $accounts->getItems();
-    $first_ccount_id = $items[0]->getId();
+  $profiles_ids = array();
+  $account_items = $accounts->getItems();
+  foreach ($account_items as $account_item) {
+    $account_id = $account_item->getId();
 
     // Get the list of properties for the authorized user.
     $properties = $analytics->management_webproperties
-      ->listManagementWebproperties($first_ccount_id);
+      ->listManagementWebproperties($account_id);
 
-    if (count($properties->getItems()) > 0) {
-      $items = $properties->getItems();
-      $first_property_id = $items[0]->getId();
+    $property_items = $properties->getItems();
+    foreach ($property_items as $property_item) {
+      $property_id = $property_item->getId();
 
       // Get the list of views (profiles) for the authorized user.
       $profiles = $analytics->management_profiles
-        ->listManagementProfiles($first_ccount_id, $first_property_id);
+        ->listManagementProfiles($account_id, $property_id);
 
-      if (count($profiles->getItems()) > 0) {
-        $items = $profiles->getItems();
-
-        // Return the first view (profile) ID.
-        return $items[0]->getId();
-
-      }
-      else {
-        throw new Exception(t('No views (profiles) found for this user.'));
+      $profiles_items = $profiles->getItems();
+      foreach ($profiles_items as $profiles_item) {
+        $profiles_ids[$profiles_item->getId()] = $profiles_item->getName();
       }
     }
-    else {
-      throw new Exception(t('No properties found for this user.'));
-    }
+  }
+  if (count($profiles_ids)) {
+    return $profiles_ids;
   }
   else {
-    throw new Exception(t('No accounts found for this user.'));
+    throw new Exception(t('No views (profiles) found for this user.'));
   }
+}
+
+/**
+ * Gets specific for period type variables values.
+ *
+ * @param $period
+ *   The selected period type.
+ *
+ * @return array
+ *   List of variables values.
+ */
+function yellow_pages_statistics_ga_get_period_variables($period) {
+  switch ($period) {
+    case 'week':
+      $variables = array(
+        'with_day' => TRUE,
+        'dimensions' => 'ga:year,ga:month,ga:day',
+        'start_date' => '7daysAgo',
+        'format' => 'd M',
+      );
+      break;
+
+    case 'month':
+      $variables = array(
+        'with_day' => TRUE,
+        'dimensions' => 'ga:year,ga:month,ga:day',
+        'start_date' => date('Y-m-d', strtotime('-1 month')),
+        'format' => 'd M',
+      );
+      break;
+
+    case 'year':
+    default:
+      $variables = array(
+        'with_day' => FALSE,
+        'dimensions' => 'ga:year,ga:month',
+        'start_date' => date('Y-m-d', strtotime('-1 year')),
+        'format' => 'M Y',
+      );
+  }
+  return $variables;
 }

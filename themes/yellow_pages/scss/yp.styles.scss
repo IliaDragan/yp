@@ -2796,3 +2796,21 @@ body > .node-advertisement {
     padding: 0 10px;
   }
 }
+
+#yellow-pages-statistics-ga {
+  #edit-filter {
+    border: none;
+    .fieldset-wrapper {
+      .form-type-select {
+        display: inline-block;
+        margin-right: 30px;
+        .chosen-container {
+          min-width: 250px;
+        }
+      }
+      #edit-submit {
+        display: inline-block;
+      }
+    }
+  }
+}

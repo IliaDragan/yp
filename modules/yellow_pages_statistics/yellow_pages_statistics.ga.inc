@@ -58,6 +58,7 @@ function yellow_pages_statistics_ga($form, &$form_state) {
     '#type' => 'submit',
     '#value' => t('Show'),
   );
+
   $form['chart'] = array(
     '#markup' => yellow_pages_statistics_ga_chart($analytics, $default_profile, $default_metric, $metrics_options, $default_period),
   );
@@ -119,17 +120,23 @@ function yellow_pages_statistics_ga_chart($analytics, $profile_id, $metric, $met
     $module_path = drupal_get_path('module', 'yellow_pages_statistics');
     $js_data = array(
       'analyticsChart' => array(
-        'chartData' => $chart_data,
+        'chartData' => json_encode($chart_data),
         'chartTitle' => t('Google Analytics for @profile', array('@profile' => $profile_name)),
         'chartColumns' => array(
-          array('string', t('Months')),
-          array('number', $metrics[$metric]),
+          'col1' => array(
+            'type' => 'string',
+            'title' => t('Months')
+          ),
+          'col2' => array(
+            'type' => 'number',
+            'title' => $metrics[$metric]
+          ),
         ),
       ),
     );
 
     drupal_add_js($js_data, 'setting');
-    drupal_add_js('http://www.google.com/jsapi', 'external');
+    drupal_add_js('http://www.google.com/jsapi', array('type' => 'external', 'group' => JS_LIBRARY));
     drupal_add_js($module_path . '/js/yellow_pages_statistics.chart.js');
 
     $data .= '<div id="chart"></div>';

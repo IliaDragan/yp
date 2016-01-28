@@ -11,24 +11,28 @@ function createChart() {
 
   // Define columns.
   var cols = ga['chartColumns'];
-  dataTable.addColumn(cols[0][0],cols[0][1]);
-  dataTable.addColumn(cols[1][0],cols[1][1]);
+  dataTable.addColumn(cols['col1']['type'],cols['col1']['title']);
+  dataTable.addColumn(cols['col2']['type'],cols['col2']['title']);
 
   // Define rows of data.
-  dataTable.addRows(ga['chartData']);
+  var data = JSON.parse(ga['chartData']);
+  dataTable.addRows(data);
 
   // Instantiate our chart object.
-  var chart = new google.visualization.AreaChart(document.getElementById('chart'));
+  var element = document.getElementById('chart');
+  if (element) {
+    var chart = new google.visualization.AreaChart(element);
 
-  // Define options for visualization.
-  var options = {
-    height: 400,
-    title: ga['chartTitle'],
-    legend: {position: 'none'},
-    lineWidth: 4,
-    pointSize: 7
-  };
+    // Define options for visualization.
+    var options = {
+      height: 400,
+      title: ga['chartTitle'],
+      legend: {position: 'none'},
+      lineWidth: 4,
+      pointSize: 7
+    };
 
-  // Draw our chart.
-  chart.draw(dataTable, options);
+    // Draw our chart.
+    chart.draw(dataTable, options);
+  }
 }

@@ -80,8 +80,8 @@
  * @ingroup themeable
  */
 ?>
-<div id="node-<?php print $node->nid; ?>" class="<?php print $classes; ?> node--news--slider_teaser clearfix"<?php print $attributes; ?>>
-  <div class="content"<?php print $content_attributes; ?>>
+<div id="node-<?php print $node->nid; ?>" class="<?php print $classes; ?> node--news--slider_teaser clearfix" <?php print $attributes; ?>>
+  <div class="content" <?php print $content_attributes; ?>>
     <div class="left">
       <a href="<?php print $link_href; ?>" <?php print $link_attributes; ?>>
       <?php

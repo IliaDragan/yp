@@ -1,8 +1,50 @@
 <?php
 /**
  * @file
- * Install/uninstall routine.
+ * Install, update and uninstall functions for the Yellow Pages statistics module.
  */
+
+/**
+ * Implements hook_schema().
+ */
+function yellow_pages_statistics_schema() {
+  $schema = array();
+  $schema['yp_ad_statistics'] = array(
+    'description' => 'The count of redirects to advertisement banner url.',
+    'fields' => array(
+      'id' => array(
+        'description' => 'The unique ID.',
+        'type' => 'serial',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+      ),
+      'nid' => array(
+        'description' => 'The advertisement node ID.',
+        'type' => 'int',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+      ),
+      'timestamp' => array(
+        'description' => 'The Unix timestamp when the node was view.',
+        'type' => 'int',
+        'not null' => TRUE,
+        'default' => 0,
+      ),
+      'http_referer' => array(
+        'description' => 'The url from whict was clicked the ad.',
+        'type' => 'varchar',
+        'length' => 256,
+        'not null' => FALSE,
+      ),
+    ),
+    'primary key' => array('id'),
+    'indexes' => array(
+      'nid' => array('nid'),
+      'timestamp' => array('timestamp'),
+    ),
+  );
+  return $schema;
+}
 
 /**
  * Implements hook_uninstall().

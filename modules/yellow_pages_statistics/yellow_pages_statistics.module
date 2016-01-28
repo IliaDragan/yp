@@ -1,0 +1,47 @@
+<?php
+/**
+ * @file
+ * Code for the Yellow Pages statistics feature.
+ */
+
+include_once 'yellow_pages_statistics.features.inc';
+
+/**
+ * Implements hook_permission().
+ */
+function yellow_pages_statistics_permission() {
+  return array(
+    'administer yellow pages statistics' => array(
+      'title' => t('Administer Yellow Pages statistics'),
+    ),
+    'access yellow pages google analytics page' => array(
+      'title' => t('Access Yellow Pages Google Analytics page'),
+    ),
+  );
+}
+
+/**
+ * Implements hook_menu().
+ */
+function yellow_pages_statistics_menu() {
+  $items = array();
+
+  $items['google-analytics'] = array(
+    'title' => 'Google Analytics',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('yellow_pages_statistics_ga'),
+    'access arguments' => array('access yellow pages google analytics page'),
+    'file' => 'yellow_pages_statistics.ga.inc',
+    'type' => MENU_CALLBACK,
+  );
+
+  $items['admin/config/yp/ga_client'] = array(
+    'title' => 'GA data',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('yellow_pages_statistics_ga_client_settings_form'),
+    'access arguments' => array('administer yellow pages statistics'),
+    'file' => 'yellow_pages_statistics.admin.inc',
+  );
+
+  return $items;
+}

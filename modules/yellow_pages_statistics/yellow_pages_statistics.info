@@ -1,0 +1,17 @@
+name = Yellow Pages statistics
+description = Statistics functionality and configurations for Yellow Pages site.
+core = 7.x
+package = Yellow Pages
+version = 7.x-1.0
+project = yellow_pages_statistics
+dependencies[] = ctools
+dependencies[] = features
+dependencies[] = strongarm
+dependencies[] = yellow_pages_statistics
+configure = admin/config/yp/ga_client
+features[ctools][] = strongarm:strongarm:1
+features[features_api][] = api:2
+features[user_permission][] = access yellow pages google analytics page
+features[user_permission][] = administer yellow pages statistics
+features[variable][] = google_service_account_email
+features[variable][] = google_service_account_keys

@@ -31,13 +31,19 @@ function yellow_pages_statistics_ga($form, &$form_state) {
   );
 
   // Profiles.
-  $profiles_options = yellow_pages_statistics_get_google_user_profiles_ids($analytics);
-  $default_profile = empty($form_state['storage']['profile']) ? key($profiles_options) : $form_state['storage']['profile'];
+  if (empty($form_state['storage']['profile'])) {
+    $profiles_options = yellow_pages_statistics_get_google_user_profiles_ids($analytics);
+    reset($profiles_options);
+    $default_profile = key($profiles_options);
+  }
+  else {
+    $default_profile = $form_state['storage']['profile'];
+
+  }
+
   $form['filter']['profile'] = array(
-    '#type' => 'select',
-    '#title' => t('Select Profile'),
-    '#options' => $profiles_options,
-    '#default_value' => $default_profile,
+    '#type' => 'value',
+    '#value' => $default_profile,
   );
 
   // Periods.
@@ -121,7 +127,7 @@ function yellow_pages_statistics_ga_chart($analytics, $profile_id, $metric, $met
     $js_data = array(
       'analyticsChart' => array(
         'chartData' => json_encode($chart_data),
-        'chartTitle' => t('Google Analytics for @profile', array('@profile' => $profile_name)),
+        'chartTitle' => t('@metric on @profile', array('@metric' => $metrics[$metric], '@profile' => $profile_name)),
         'chartColumns' => array(
           'col1' => array(
             'type' => 'string',

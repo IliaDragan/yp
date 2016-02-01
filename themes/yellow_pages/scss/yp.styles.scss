@@ -2802,9 +2802,11 @@ body > .node-advertisement {
   #edit-filter {
     border: none;
     .fieldset-wrapper {
+      text-align: center;
       .form-type-select {
         display: inline-block;
         margin-right: 30px;
+        text-align: left;
         .chosen-container {
           min-width: 250px;
         }

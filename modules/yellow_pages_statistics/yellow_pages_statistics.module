@@ -1,7 +1,7 @@
 <?php
 /**
  * @file
- * Code for the Yellow Pages statistics feature.
+ * Collect Yellow Pages site statistics.
  */
 
 include_once 'yellow_pages_statistics.features.inc';
@@ -43,5 +43,54 @@ function yellow_pages_statistics_menu() {
     'file' => 'yellow_pages_statistics.admin.inc',
   );
 
+  $items['yp/advertisement/%node'] = array(
+    'title' => 'Advertisement statistics tracker',
+    'page callback' => 'yellow_pages_statistics_advertisement_tracker',
+    'page arguments' => array(2),
+    'access arguments' => array('access content'),
+    'type' => MENU_CALLBACK,
+  );
+
   return $items;
+}
+
+/**
+ * Callback page function for tracking advertisement node clicks and redirect
+ * to its link field value.
+ *
+ * @param $node
+ *   Advertisement node object.
+ */
+function yellow_pages_statistics_advertisement_tracker($node) {
+  if ($node->type == 'advertisement') {
+    // Insert statistics information.
+    $fields = array(
+      'nid' => $node->nid,
+      'timestamp' => time(),
+    );
+    if (!empty($_SERVER['HTTP_REFERER'])) {
+      $fields['http_referer'] = $_SERVER['HTTP_REFERER'];
+    }
+
+    db_insert('yp_ad_statistics')
+      ->fields($fields)
+      ->execute();
+
+    // Redirect to url field value or node page.
+    $url = !empty($node->field_ad_url['und'][0]['url']) ? $node->field_ad_url['und'][0]['url'] : drupal_get_path_alias('node/' . $node->nid);
+    drupal_goto($url);
+  }
+  drupal_not_found();
+}
+
+/**
+ * Implements hook_node_delete().
+ */
+function yellow_pages_statistics_node_delete($node) {
+  if ($node->type == 'advertisement') {
+    // Remove statistics for deleted node.
+    db_delete('yp_ad_statistics')
+      ->condition('nid', $node->nid)
+      ->execute();
+  }
 }

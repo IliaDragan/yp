@@ -112,7 +112,7 @@ function yellow_pages_statistics_ga_chart($analytics, $profile_id, $metric, $met
     $chart_data = array();
     foreach ($rows as $row) {
       $chart_data[] = array(
-        date($period_vars['format'], mktime(NULL, NULL, NULL, $row[1], ($period_vars['with_day'] ? $row[2] : 1), $row[0])),
+        format_date(mktime(NULL, NULL, NULL, $row[1], ($period_vars['with_day'] ? $row[2] : 1), $row[0]), 'custom', $period_vars['format']),
         intval(($period_vars['with_day'] ? $row[3] : $row[2]))
       );
     }

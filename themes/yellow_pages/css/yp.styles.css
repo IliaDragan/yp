@@ -3112,9 +3112,13 @@ body > .node-advertisement {
 #yellow-pages-statistics-ga #edit-filter {
   border: none;
 }
+#yellow-pages-statistics-ga #edit-filter .fieldset-wrapper {
+  text-align: center;
+}
 #yellow-pages-statistics-ga #edit-filter .fieldset-wrapper .form-type-select {
   display: inline-block;
   margin-right: 30px;
+  text-align: left;
 }
 #yellow-pages-statistics-ga #edit-filter .fieldset-wrapper .form-type-select .chosen-container {
   min-width: 250px;

@@ -112,8 +112,14 @@ function yellow_pages_preprocess_panels_pane(&$vars) {
 function yellow_pages_preprocess_node(&$vars) {
   $vars['classes_array'][] = 'node--' . $vars['type'] . '--' . $vars['view_mode'];
   $vars['theme_hook_suggestions'][] = 'node__' . $vars['type'] . '__' . $vars['view_mode'];
-  if ($vars['type'] == 'advertisement' && $vars['view_mode'] == 'slider_teaser') {
-    $vars['link_href'] = !empty($vars['content']['field_ad_url'][0]['#element']['url']) ? $vars['content']['field_ad_url'][0]['#element']['url'] : drupal_get_path_alias('node/' . $vars['node']->nid);
+  if ($vars['type'] == 'advertisement') {
+    if (!empty($vars['field_ad_type']['und'][0]['value'])) {
+      $vars['theme_hook_suggestions'][] = 'node__' . $vars['type'] . '__' . $vars['field_ad_type']['und'][0]['value'];
+      $vars['theme_hook_suggestions'][] = 'node__' . $vars['type'] . '__' . $vars['view_mode'] . '__' . $vars['field_ad_type']['und'][0]['value'];
+
+    }
+
+    $vars['link_href'] = drupal_get_path_alias('/yp/advertisement/' . $vars['node']->nid);
     $vars['link_attributes'] = !empty($vars['content']['field_ad_url'][0]['#element']['attributes']) ? drupal_attributes($vars['content']['field_ad_url'][0]['#element']['attributes']) : '';
   }
 }
@@ -311,4 +317,40 @@ function yellow_pages_addressfield_container($variables) {
  */
 function yellow_pages_facetapi_deactivate_widget($variables) {
   return '&#xf00d;';
+}
+
+/**
+ * Rewrite theme_business_hours().
+ */
+function yellow_pages_business_hours($vars) {
+  $markup = '';
+  if (!empty($vars['hours'])) {
+    foreach ($vars['hours'] as $hour) {
+      $weekday_match = $hour['day'] == $vars['weekday'];
+      $class = 'inline-business-hours' . ($weekday_match ? ' today' : '');
+      $day_off = $hour['start'] == 'None' || $hour['end'] == 'None';
+      $time = $day_off ? t('Day off') : $hour['start'] . ' - ' . $hour['end'];
+
+      $table_vars = array(
+        'rows' => array(
+          array(
+            array(
+              'data' => t($hour['day']),
+              'class' => 'weekday',
+            ),
+          ),
+          array(
+            array(
+              'data' => $time,
+              'class' => 'time',
+            ),
+          )
+        ),
+      );
+      $markup .= '<div class="' . $class . '">' . theme('table', $table_vars) . '</div>';
+    }
+    $markup = '<div class="business-hours">' . $markup . '</div>';
+  }
+
+  return $markup;
 }

@@ -1642,17 +1642,20 @@ div.panel-pane div.node-teaser {
 
       .field-name-field-business-hours {
         .business-hours {
-          tr {
+          .inline-business-hours {
+            display: inline-block;
+            margin-top: 20px;
             &.today {
-              background-color: $bg-lingth-green;
+              border: 2px solid $bg-lingth-green;
             }
-            td {
-              padding: 5px 15px;
-              &.time {
+            table {
+              td {
+                padding: 5px 15px;
                 text-align: center;
-              }
-              &.weekday {
-                text-transform: capitalize;
+                &.weekday {
+                  font-weight: bold;
+                  text-transform: capitalize;
+                }
               }
             }
           }
@@ -2792,5 +2795,25 @@ body > .node-advertisement {
   background-color: transparent;
   input[type="submit"] {
     padding: 0 10px;
+  }
+}
+
+#yellow-pages-statistics-ga {
+  #edit-filter {
+    border: none;
+    .fieldset-wrapper {
+      text-align: center;
+      .form-type-select {
+        display: inline-block;
+        margin-right: 30px;
+        text-align: left;
+        .chosen-container {
+          min-width: 250px;
+        }
+      }
+      #edit-submit {
+        display: inline-block;
+      }
+    }
   }
 }

@@ -1,6 +1,7 @@
 libraries/fontawesome
 libraries/leaflet
 modules/contrib
+modules/yellow_pages_statistics/google_api_php_client
 themes/bootstrap
 themes/config.rb
 

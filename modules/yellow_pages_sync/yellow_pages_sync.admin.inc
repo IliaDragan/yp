@@ -31,12 +31,7 @@ function yellow_pages_sync_admin_form($form, $form_state) {
       'filials' => t('Filials linkage'),
       'logos' => t('Logos'),
     ),
-    '#default_value' => array(
-      'taxonomy',
-      'nodes',
-      'filials',
-      'logos',
-    ),
+    '#default_value' => array(),
   );
 
   $form['page'] = array(

@@ -194,7 +194,7 @@ function yellow_pages_company_ct_field_group_info() {
   $field_group->parent_name = 'group_tabbed_content';
   $field_group->data = array(
     'label' => 'Filials',
-    'weight' => '30',
+    'weight' => '31',
     'children' => array(
       0 => 'field_filials',
     ),
@@ -465,7 +465,7 @@ function yellow_pages_company_ct_field_group_info() {
   $field_group->parent_name = 'group_tabbed_content';
   $field_group->data = array(
     'label' => 'Working hours',
-    'weight' => '21',
+    'weight' => '30',
     'children' => array(
       0 => 'field_business_hours',
     ),

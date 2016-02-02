@@ -1,0 +1,153 @@
+
+
+# $Id$
+#
+# Russian translation of Drupal (general)
+# Copyright YEAR NAME <EMAIL@ADDRESS>
+# Generated from files:
+#  yellow_pages_statistics.admin.inc: n/a
+#  yellow_pages_statistics.ga.inc: n/a
+#  yellow_pages_statistics.module: n/a
+#  yellow_pages_statistics.info: n/a
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PROJECT VERSION\n"
+"POT-Creation-Date: 2016-02-01 12:18+0200\n"
+"PO-Revision-Date: 2016-02-01 12:18+0200\n"
+"Last-Translator: NAME <EMAIL@ADDRESS>\n"
+"Language-Team: Russian <EMAIL@ADDRESS>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=((((n%10)==1)&&((n%100)!=11))?(0):(((((n%10)>=2)&&((n%10)<=4))&&(((n%100)<10)||((n%100)>=20)))?(1):2));\n"
+
+#: yellow_pages_statistics.admin.inc:12
+msgid "E-mail"
+msgstr "E-mail"
+
+#: yellow_pages_statistics.admin.inc:13
+msgid "Service account email address"
+msgstr ""
+
+#: yellow_pages_statistics.admin.inc:20
+msgid "Key file"
+msgstr ""
+
+#: yellow_pages_statistics.admin.inc:21
+msgid "File with service account keys (p12 format)."
+msgstr ""
+
+#: yellow_pages_statistics.admin.inc:27
+msgid "How to create service account"
+msgstr ""
+
+#: yellow_pages_statistics.admin.inc:38
+msgid "Save settings"
+msgstr "Сохранить настройки"
+
+#: yellow_pages_statistics.admin.inc:50
+msgid "The value of field email is not a valid email address"
+msgstr ""
+
+#: yellow_pages_statistics.admin.inc:59
+msgid "The key file could not be uploaded."
+msgstr ""
+
+#: yellow_pages_statistics.admin.inc:75
+msgid "For security reason the content of your key file was saved in the database and the file was deleted."
+msgstr ""
+
+#: yellow_pages_statistics.ga.inc:19
+msgid "Entrances"
+msgstr "Входы"
+
+#: yellow_pages_statistics.ga.inc:20
+msgid "Users"
+msgstr "Пользователи"
+
+#: yellow_pages_statistics.ga.inc:21
+msgid "Sessions"
+msgstr "Сессии"
+
+#: yellow_pages_statistics.ga.inc:22
+msgid "Pageviews"
+msgstr "Просмотры страниц"
+
+#: yellow_pages_statistics.ga.inc:23
+msgid "Session duration average"
+msgstr "Средняя продолжительность сессии"
+
+#: yellow_pages_statistics.ga.inc:28
+msgid "Select Metric"
+msgstr "Выберите Метрику"
+
+#: yellow_pages_statistics.ga.inc:51
+msgid "Last year"
+msgstr "Последний год"
+
+#: yellow_pages_statistics.ga.inc:52
+msgid "Last month"
+msgstr "Последний месяц"
+
+#: yellow_pages_statistics.ga.inc:53
+msgid "Last week"
+msgstr "Последняя неделя"
+
+#: yellow_pages_statistics.ga.inc:58
+msgid "Select Period"
+msgstr "Выберите Период"
+
+#: yellow_pages_statistics.ga.inc:65
+msgid "Show"
+msgstr "Показать"
+
+#: yellow_pages_statistics.ga.inc:130
+msgid "@metric on @profile"
+msgstr "@metric на @profile"
+
+#: yellow_pages_statistics.ga.inc:134
+msgid "Months"
+msgstr "Месяцы"
+
+#: yellow_pages_statistics.ga.inc:151
+msgid "No results found."
+msgstr ""
+
+#: yellow_pages_statistics.ga.inc:227
+msgid "No views (profiles) found for this user."
+msgstr ""
+
+#: yellow_pages_statistics.module:15
+msgid "Administer Yellow Pages statistics"
+msgstr ""
+
+#: yellow_pages_statistics.module:18
+msgid "Access Yellow Pages Google Analytics page"
+msgstr ""
+
+#: yellow_pages_statistics.module:30
+msgid "Google Analytics"
+msgstr ""
+
+#: yellow_pages_statistics.module:39
+msgid "GA data"
+msgstr ""
+
+#: yellow_pages_statistics.module:47
+msgid "Advertisement statistics tracker"
+msgstr ""
+
+#: yellow_pages_statistics.info:0
+msgid "Yellow Pages statistics"
+msgstr ""
+
+#: yellow_pages_statistics.info:0
+msgid "Statistics functionality and configurations for Yellow Pages site."
+msgstr ""
+
+#: yellow_pages_statistics.info:0
+msgid "Yellow Pages"
+msgstr ""
+

@@ -25,7 +25,7 @@ function yellow_pages_statistics_schema() {
         'not null' => TRUE,
       ),
       'timestamp' => array(
-        'description' => 'The Unix timestamp when the node was view.',
+        'description' => 'The Unix timestamp when the user clics the ad.',
         'type' => 'int',
         'not null' => TRUE,
         'default' => 0,
@@ -43,6 +43,36 @@ function yellow_pages_statistics_schema() {
       'timestamp' => array('timestamp'),
     ),
   );
+
+  $schema['yp_company_statistics'] = array(
+    'description' => 'The count of redirects to company site url.',
+    'fields' => array(
+      'id' => array(
+        'description' => 'The unique ID.',
+        'type' => 'serial',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+      ),
+      'nid' => array(
+        'description' => 'The company node ID.',
+        'type' => 'int',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+      ),
+      'timestamp' => array(
+        'description' => 'The Unix timestamp when the user clicks the url.',
+        'type' => 'int',
+        'not null' => TRUE,
+        'default' => 0,
+      ),
+    ),
+    'primary key' => array('id'),
+    'indexes' => array(
+      'nid' => array('nid'),
+      'timestamp' => array('timestamp'),
+    ),
+  );
+
   return $schema;
 }
 
@@ -52,4 +82,40 @@ function yellow_pages_statistics_schema() {
 function yellow_pages_statistics_uninstall() {
   variable_del('google_service_account_email');
   variable_del('google_service_account_keys');
+}
+
+/**
+ * Creates "yp_company_statistics" table for collecting company redirects.
+ */
+function yellow_pages_statistics_update_7001(&$sandbox) {
+  $table = array(
+    'description' => 'The count of redirects to company site url.',
+    'fields' => array(
+      'id' => array(
+        'description' => 'The unique ID.',
+        'type' => 'serial',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+      ),
+      'nid' => array(
+        'description' => 'The company node ID.',
+        'type' => 'int',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+      ),
+      'timestamp' => array(
+        'description' => 'The Unix timestamp when the user clicks the url.',
+        'type' => 'int',
+        'not null' => TRUE,
+        'default' => 0,
+      ),
+    ),
+    'primary key' => array('id'),
+    'indexes' => array(
+      'nid' => array('nid'),
+      'timestamp' => array('timestamp'),
+    ),
+  );
+
+  db_create_table('yp_company_statistics', $table);
 }

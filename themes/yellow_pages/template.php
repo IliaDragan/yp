@@ -112,8 +112,14 @@ function yellow_pages_preprocess_panels_pane(&$vars) {
 function yellow_pages_preprocess_node(&$vars) {
   $vars['classes_array'][] = 'node--' . $vars['type'] . '--' . $vars['view_mode'];
   $vars['theme_hook_suggestions'][] = 'node__' . $vars['type'] . '__' . $vars['view_mode'];
-  if ($vars['type'] == 'advertisement' && $vars['view_mode'] == 'slider_teaser') {
-    $vars['link_href'] = !empty($vars['content']['field_ad_url'][0]['#element']['url']) ? $vars['content']['field_ad_url'][0]['#element']['url'] : drupal_get_path_alias('node/' . $vars['node']->nid);
+  if ($vars['type'] == 'advertisement') {
+    if (!empty($vars['field_ad_type']['und'][0]['value'])) {
+      $vars['theme_hook_suggestions'][] = 'node__' . $vars['type'] . '__' . $vars['field_ad_type']['und'][0]['value'];
+      $vars['theme_hook_suggestions'][] = 'node__' . $vars['type'] . '__' . $vars['view_mode'] . '__' . $vars['field_ad_type']['und'][0]['value'];
+
+    }
+
+    $vars['link_href'] = drupal_get_path_alias('/yp/advertisement/' . $vars['node']->nid);
     $vars['link_attributes'] = !empty($vars['content']['field_ad_url'][0]['#element']['attributes']) ? drupal_attributes($vars['content']['field_ad_url'][0]['#element']['attributes']) : '';
   }
 }
@@ -330,17 +336,13 @@ function yellow_pages_business_hours($vars) {
           array(
             array(
               'data' => t($hour['day']),
-              'attributes' => array(
-                'class' => 'weekday',
-              ),
+              'class' => 'weekday',
             ),
           ),
           array(
             array(
               'data' => $time,
-              'attributes' => array(
-                'class' => 'time',
-              ),
+              'class' => 'time',
             ),
           )
         ),

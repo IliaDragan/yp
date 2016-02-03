@@ -45,6 +45,8 @@ function yellow_pages_solr_configuration_default_search_api_index() {
         "city_filter" : { "type" : "string" },
         "field_address:locality" : { "type" : "text", "boost" : "0.8" },
         "field_address:thoroughfare" : { "type" : "text", "boost" : "0.8" },
+        "field_advertisements:field_ad_category" : { "type" : "list\\u003Cstring\\u003E" },
+        "field_advertisements:nid" : { "type" : "list\\u003Cinteger\\u003E" },
         "field_email" : { "type" : "list\\u003Ctext\\u003E", "boost" : "0.2" },
         "field_fax" : { "type" : "list\\u003Ctext\\u003E", "boost" : "0.3" },
         "field_invisible_field" : { "type" : "text", "boost" : "8.0" },

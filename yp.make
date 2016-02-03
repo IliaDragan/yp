@@ -113,6 +113,9 @@ projects[navigation404][subdir] = "contrib"
 projects[node_expire][version] = "1.8"
 projects[node_expire][subdir] = "contrib"
 
+projects[nodeviewcount][version] = "2.4"
+projects[nodeviewcount][subdir] = "contrib"
+
 projects[owlcarousel][version] = "1.5"
 projects[owlcarousel][subdir] = "contrib"
 projects[owlcarousel][patch][] = "http://am.storage.dev.inlead.dk/owlcarousel-fixed_libraries_owlcarousel_path.patch"
@@ -162,9 +165,6 @@ projects[views_autocomplete_filters][subdir] = "contrib"
 projects[views_bulk_operations][version] = "3.3"
 projects[views_bulk_operations][subdir] = "contrib"
 
-projects[nodeviewcount][version] = "2.4"
-projects[nodeviewcount][subdir] = "contrib"
-
 projects[bootstrap][version] = "3.0"
 
 ; Libraries
@@ -182,3 +182,9 @@ libraries[owl-carousel][destination]    = "libraries"
 libraries[owl-carousel][directory_name] = "owl-carousel"
 libraries[owl-carousel][download][type] = "get"
 libraries[owl-carousel][download][url]  = "http://owlgraphic.com/owlcarousel/owl.carousel.zip"
+
+libraries[google_api_php_client][destination] = "modules/yellow_pages_statistics"
+libraries[google_api_php_client][directory_name] = "google_api_php_client"
+libraries[google_api_php_client][download][tag] = "1.1.6"
+libraries[google_api_php_client][download][type] = "git"
+libraries[google_api_php_client][download][url] = "https://github.com/google/google-api-php-client.git"

@@ -4,15 +4,56 @@
  * Collect Yellow Pages site statistics.
  */
 
+include_once 'yellow_pages_statistics.features.inc';
+
+/**
+ * Implements hook_permission().
+ */
+function yellow_pages_statistics_permission() {
+  return array(
+    'administer yellow pages statistics' => array(
+      'title' => t('Administer Yellow Pages statistics'),
+    ),
+    'access yellow pages google analytics page' => array(
+      'title' => t('Access Yellow Pages Google Analytics page'),
+    ),
+  );
+}
+
 /**
  * Implements hook_menu().
  */
 function yellow_pages_statistics_menu() {
   $items = array();
 
+  $items['google-analytics'] = array(
+    'title' => 'Google Analytics',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('yellow_pages_statistics_ga'),
+    'access arguments' => array('access yellow pages google analytics page'),
+    'file' => 'yellow_pages_statistics.ga.inc',
+    'type' => MENU_CALLBACK,
+  );
+
+  $items['admin/config/yp/ga_client'] = array(
+    'title' => 'GA data',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('yellow_pages_statistics_ga_client_settings_form'),
+    'access arguments' => array('administer yellow pages statistics'),
+    'file' => 'yellow_pages_statistics.admin.inc',
+  );
+
   $items['yp/advertisement/%node'] = array(
     'title' => 'Advertisement statistics tracker',
-    'page callback' => 'yellow_pages_statistics_advertisement_tracker',
+    'page callback' => 'yellow_pages_statistics_tracker',
+    'page arguments' => array(2),
+    'access arguments' => array('access content'),
+    'type' => MENU_CALLBACK,
+  );
+  
+  $items['yp/enterprise/%node'] = array(
+    'title' => 'Enterprise statistics tracker',
+    'page callback' => 'yellow_pages_statistics_tracker',
     'page arguments' => array(2),
     'access arguments' => array('access content'),
     'type' => MENU_CALLBACK,
@@ -28,7 +69,7 @@ function yellow_pages_statistics_menu() {
  * @param $node
  *   Advertisement node object.
  */
-function yellow_pages_statistics_advertisement_tracker($node) {
+function yellow_pages_statistics_tracker($node) {
   if ($node->type == 'advertisement') {
     // Insert statistics information.
     $fields = array(
@@ -47,6 +88,21 @@ function yellow_pages_statistics_advertisement_tracker($node) {
     $url = !empty($node->field_ad_url['und'][0]['url']) ? $node->field_ad_url['und'][0]['url'] : drupal_get_path_alias('node/' . $node->nid);
     drupal_goto($url);
   }
+  elseif ($node->type == 'company') {
+    // Insert statistics information.
+    $fields = array(
+      'nid' => $node->nid,
+      'timestamp' => time(),
+    );
+
+    db_insert('yp_company_statistics')
+      ->fields($fields)
+      ->execute();
+
+    // Redirect to url field value or node page.
+    $url = !empty($node->field_company_site['und'][0]['url']) ? $node->field_company_site['und'][0]['url'] : drupal_get_path_alias('node/' . $node->nid);
+    drupal_goto($url);
+  }
   drupal_not_found();
 }
 
@@ -57,6 +113,12 @@ function yellow_pages_statistics_node_delete($node) {
   if ($node->type == 'advertisement') {
     // Remove statistics for deleted node.
     db_delete('yp_ad_statistics')
+      ->condition('nid', $node->nid)
+      ->execute();
+  }
+  elseif ($node->type == 'company') {
+    // Remove statistics for deleted node.
+    db_delete('yp_company_statistics')
       ->condition('nid', $node->nid)
       ->execute();
   }

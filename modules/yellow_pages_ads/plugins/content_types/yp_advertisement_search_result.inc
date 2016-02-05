@@ -126,7 +126,7 @@ function yellow_pages_ads_search_result_plugin_render($subtype, $conf, $panel_ar
       $query->condition('n.nid', $result, 'NOT IN');
       $other_nodes = $query->execute()->fetchCol();
 
-      if (!emtpy($other_nodes)) {
+      if (!empty($other_nodes)) {
         $result = array_merge($result, $other_nodes);
       }
     }

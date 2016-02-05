@@ -236,126 +236,6 @@ Type another search phrase or check your spelling.';
       'label' => 'Search: Fulltext search',
     ),
   );
-
-  /* Display: Search companies ads */
-  $handler = $view->new_display('panel_pane', 'Search companies ads', 'search_company_ads_pane');
-  $handler->display->display_options['defaults']['title'] = FALSE;
-  $handler->display->display_options['display_description'] = 'Search companies result related advertisements';
-  $handler->display->display_options['defaults']['use_more'] = FALSE;
-  $handler->display->display_options['defaults']['use_more_always'] = FALSE;
-  $handler->display->display_options['defaults']['use_more_always'] = FALSE;
-  $handler->display->display_options['use_more_always'] = FALSE;
-  $handler->display->display_options['defaults']['use_more_text'] = FALSE;
-  $handler->display->display_options['use_more_text'] = 'ещё';
-  $handler->display->display_options['defaults']['access'] = FALSE;
-  $handler->display->display_options['access']['type'] = 'none';
-  $handler->display->display_options['defaults']['exposed_form'] = FALSE;
-  $handler->display->display_options['exposed_form']['type'] = 'basic';
-  $handler->display->display_options['exposed_form']['options']['submit_button'] = 'Поиск';
-  $handler->display->display_options['exposed_form']['options']['reset_button_label'] = 'Сбросить';
-  $handler->display->display_options['exposed_form']['options']['exposed_sorts_label'] = 'Сортировать по:';
-  $handler->display->display_options['exposed_form']['options']['sort_asc_label'] = 'По возрастанию';
-  $handler->display->display_options['exposed_form']['options']['sort_desc_label'] = 'По убыванию';
-  $handler->display->display_options['defaults']['pager'] = FALSE;
-  $handler->display->display_options['pager']['type'] = 'some';
-  $handler->display->display_options['pager']['options']['items_per_page'] = '7';
-  $handler->display->display_options['pager']['options']['offset'] = '0';
-  $handler->display->display_options['defaults']['style_plugin'] = FALSE;
-  $handler->display->display_options['style_plugin'] = 'default';
-  $handler->display->display_options['defaults']['style_options'] = FALSE;
-  $handler->display->display_options['defaults']['row_plugin'] = FALSE;
-  $handler->display->display_options['row_plugin'] = 'fields';
-  $handler->display->display_options['row_options']['hide_empty'] = TRUE;
-  $handler->display->display_options['defaults']['row_options'] = FALSE;
-  $handler->display->display_options['exposed_block'] = TRUE;
-  $handler->display->display_options['defaults']['empty'] = FALSE;
-  $handler->display->display_options['defaults']['relationships'] = FALSE;
-  /* Relationship: Indexed Node: Advertisements */
-  $handler->display->display_options['relationships']['field_advertisements']['id'] = 'field_advertisements';
-  $handler->display->display_options['relationships']['field_advertisements']['table'] = 'search_api_index_company_nodes';
-  $handler->display->display_options['relationships']['field_advertisements']['field'] = 'field_advertisements';
-  $handler->display->display_options['defaults']['fields'] = FALSE;
-  /* Field: Indexed Node: Advertisements */
-  $handler->display->display_options['fields']['field_advertisements']['id'] = 'field_advertisements';
-  $handler->display->display_options['fields']['field_advertisements']['table'] = 'search_api_index_company_nodes';
-  $handler->display->display_options['fields']['field_advertisements']['field'] = 'field_advertisements';
-  $handler->display->display_options['fields']['field_advertisements']['label'] = '';
-  $handler->display->display_options['fields']['field_advertisements']['element_label_colon'] = FALSE;
-  $handler->display->display_options['fields']['field_advertisements']['list']['mode'] = 'first';
-  $handler->display->display_options['fields']['field_advertisements']['link_to_entity'] = 1;
-  $handler->display->display_options['fields']['field_advertisements']['display'] = 'view';
-  $handler->display->display_options['fields']['field_advertisements']['view_mode'] = 'search_result';
-  $handler->display->display_options['fields']['field_advertisements']['bypass_access'] = 0;
-  $handler->display->display_options['defaults']['sorts'] = FALSE;
-  /* Sort criterion: Indexed Node: Sticky in lists */
-  $handler->display->display_options['sorts']['sticky']['id'] = 'sticky';
-  $handler->display->display_options['sorts']['sticky']['table'] = 'search_api_index_company_nodes';
-  $handler->display->display_options['sorts']['sticky']['field'] = 'sticky';
-  $handler->display->display_options['sorts']['sticky']['order'] = 'DESC';
-  /* Sort criterion: Search: Relevance */
-  $handler->display->display_options['sorts']['search_api_relevance']['id'] = 'search_api_relevance';
-  $handler->display->display_options['sorts']['search_api_relevance']['table'] = 'search_api_index_company_nodes';
-  $handler->display->display_options['sorts']['search_api_relevance']['field'] = 'search_api_relevance';
-  $handler->display->display_options['sorts']['search_api_relevance']['order'] = 'DESC';
-  $handler->display->display_options['defaults']['arguments'] = FALSE;
-  /* Contextual filter: Search: Fulltext search */
-  $handler->display->display_options['arguments']['search_api_views_fulltext']['id'] = 'search_api_views_fulltext';
-  $handler->display->display_options['arguments']['search_api_views_fulltext']['table'] = 'search_api_index_company_nodes';
-  $handler->display->display_options['arguments']['search_api_views_fulltext']['field'] = 'search_api_views_fulltext';
-  $handler->display->display_options['arguments']['search_api_views_fulltext']['exception']['value'] = '';
-  $handler->display->display_options['arguments']['search_api_views_fulltext']['exception']['title'] = 'Все';
-  $handler->display->display_options['arguments']['search_api_views_fulltext']['default_argument_type'] = 'raw';
-  $handler->display->display_options['arguments']['search_api_views_fulltext']['default_argument_options']['index'] = '2';
-  $handler->display->display_options['arguments']['search_api_views_fulltext']['summary']['format'] = 'default_summary';
-  $handler->display->display_options['arguments']['search_api_views_fulltext']['break_phrase'] = 0;
-  $handler->display->display_options['arguments']['search_api_views_fulltext']['not'] = 0;
-  $handler->display->display_options['arguments']['search_api_views_fulltext']['fields'] = array(
-    'body:value' => 'body:value',
-    'field_address:locality' => 'field_address:locality',
-    'field_address:thoroughfare' => 'field_address:thoroughfare',
-    'field_email' => 'field_email',
-    'field_fax' => 'field_fax',
-    'field_invisible_field' => 'field_invisible_field',
-    'field_landline_phone' => 'field_landline_phone',
-    'field_mobile_phone' => 'field_mobile_phone',
-    'field_products:product:name' => 'field_products:product:name',
-    'title' => 'title',
-  );
-  $handler->display->display_options['defaults']['filter_groups'] = FALSE;
-  $handler->display->display_options['defaults']['filters'] = FALSE;
-  /* Filter criterion: Indexed Node: Item language */
-  $handler->display->display_options['filters']['search_api_language']['id'] = 'search_api_language';
-  $handler->display->display_options['filters']['search_api_language']['table'] = 'search_api_index_company_nodes';
-  $handler->display->display_options['filters']['search_api_language']['field'] = 'search_api_language';
-  $handler->display->display_options['filters']['search_api_language']['value'] = array(
-    'current' => 'current',
-  );
-  /* Filter criterion: Indexed Node: Content type */
-  $handler->display->display_options['filters']['type']['id'] = 'type';
-  $handler->display->display_options['filters']['type']['table'] = 'search_api_index_company_nodes';
-  $handler->display->display_options['filters']['type']['field'] = 'type';
-  $handler->display->display_options['filters']['type']['value'] = array(
-    'company' => 'company',
-  );
-  /* Filter criterion: Advertisements: Category (indexed) */
-  $handler->display->display_options['filters']['field_advertisements_field_ad_category']['id'] = 'field_advertisements_field_ad_category';
-  $handler->display->display_options['filters']['field_advertisements_field_ad_category']['table'] = 'search_api_index_company_nodes';
-  $handler->display->display_options['filters']['field_advertisements_field_ad_category']['field'] = 'field_advertisements_field_ad_category';
-  $handler->display->display_options['filters']['field_advertisements_field_ad_category']['value'] = array(
-    'sidebar' => 'sidebar',
-  );
-  $handler->display->display_options['pane_category']['name'] = 'Представления-Фрагменты';
-  $handler->display->display_options['argument_input'] = array(
-    'search_api_views_fulltext' => array(
-      'type' => 'context',
-      'context' => 'string.raw',
-      'context_optional' => 0,
-      'panel' => '0',
-      'fixed' => '',
-      'label' => 'Search: Fulltext search',
-    ),
-  );
-  $handler->display->display_options['inherit_panels_path'] = '0';
   $translatables['solr_views'] = array(
     t('Master'),
     t('more'),
@@ -383,9 +263,6 @@ Type another search phrase or check your spelling.'),
     t('Все'),
     t('View panes'),
     t('Search articles'),
-    t('Search companies ads'),
-    t('Search companies result related advertisements'),
-    t('Advertisements'),
   );
   $export['solr_views'] = $view;
 

@@ -113,10 +113,8 @@ function yellow_pages_ads_search_result_plugin_render($subtype, $conf, $panel_ar
 
   $found_count = empty($result) ? 0 : count($result);
   if ($found_count) {
-    $nodes = node_load_multiple($result);
     if ($found_count < $amount) {
       $limit = $amount - $found_count;
-
       $query = db_select('node', 'n');
       $query->join('field_data_field_ad_category', 'ad_cat', 'n.nid = ad_cat.entity_id');
       $query->fields('n', array('nid'));
@@ -126,10 +124,13 @@ function yellow_pages_ads_search_result_plugin_render($subtype, $conf, $panel_ar
       $query->range(0, $limit);
       $query->orderRandom();
       $query->condition('n.nid', $result, 'NOT IN');
-
       $other_nodes = $query->execute()->fetchCol();
-      $nodes = array_merge($nodes, $other_nodes);
+
+      if (!emtpy($other_nodes)) {
+        $result = array_merge($result, $other_nodes);
+      }
     }
+    $nodes = node_load_multiple($result);
   }
   else {
     $nodes = yellow_pages_ads_get_ads($amount, $category, $order);

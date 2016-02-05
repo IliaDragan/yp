@@ -106,19 +106,31 @@ function yellow_pages_ads_search_result_plugin_render($subtype, $conf, $panel_ar
     $query->condition('fdfa.entity_type', 'node', '=');
     $query->condition('fdfa.bundle', 'company', '=');
     $query->condition('fdfa.entity_id', $solr_results, 'IN');
-    $query->orderBy('sticky', 'DESC')->orderRandom();
+    $query->orderBy('n.sticky', 'DESC')->orderRandom();
     $query->range(0, $amount);
     $result = $query->execute()->fetchCol();
   }
 
   $found_count = empty($result) ? 0 : count($result);
   if ($found_count) {
-    $nodes = node_load_multiple($result);
     if ($found_count < $amount) {
       $limit = $amount - $found_count;
-      $other_nodes = yellow_pages_ads_get_ads($limit, $category, $order);
-      $nodes = array_merge($nodes, $other_nodes);
+      $query = db_select('node', 'n');
+      $query->join('field_data_field_ad_category', 'ad_cat', 'n.nid = ad_cat.entity_id');
+      $query->fields('n', array('nid'));
+      $query->condition('n.status', NODE_PUBLISHED, '=');
+      $query->condition('n.language', $language->language, '=');
+      $query->condition('ad_cat.field_ad_category_value', $category, '=');
+      $query->range(0, $limit);
+      $query->orderRandom();
+      $query->condition('n.nid', $result, 'NOT IN');
+      $other_nodes = $query->execute()->fetchCol();
+
+      if (!empty($other_nodes)) {
+        $result = array_merge($result, $other_nodes);
+      }
     }
+    $nodes = node_load_multiple($result);
   }
   else {
     $nodes = yellow_pages_ads_get_ads($amount, $category, $order);

@@ -215,7 +215,7 @@ function yellow_pages_solr_configuration_default_page_manager_pages() {
     ),
   );
   $display->cache = array();
-  $display->title = '';
+  $display->title = 'Search results';
   $display->uuid = '3f950459-f8e8-4d09-80b9-2b61daa560b3';
   $display->content = array();
   $display->panels = array();

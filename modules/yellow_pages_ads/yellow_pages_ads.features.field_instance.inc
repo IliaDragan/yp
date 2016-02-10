@@ -10,7 +10,7 @@
 function yellow_pages_ads_field_default_field_instances() {
   $field_instances = array();
 
-  // Exported field_instance: 'node-advertisement-body'
+  // Exported field_instance: 'node-advertisement-body'.
   $field_instances['node-advertisement-body'] = array(
     'bundle' => 'advertisement',
     'default_value' => NULL,
@@ -65,7 +65,7 @@ function yellow_pages_ads_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-advertisement-field_ad_category'
+  // Exported field_instance: 'node-advertisement-field_ad_category'.
   $field_instances['node-advertisement-field_ad_category'] = array(
     'bundle' => 'advertisement',
     'default_value' => array(
@@ -119,7 +119,7 @@ function yellow_pages_ads_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-advertisement-field_ad_image'
+  // Exported field_instance: 'node-advertisement-field_ad_image'.
   $field_instances['node-advertisement-field_ad_image'] = array(
     'bundle' => 'advertisement',
     'deleted' => 0,
@@ -203,7 +203,7 @@ function yellow_pages_ads_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-advertisement-field_ad_placement_in_search'
+  // Exported field_instance: 'node-advertisement-field_ad_placement_in_search'.
   $field_instances['node-advertisement-field_ad_placement_in_search'] = array(
     'bundle' => 'advertisement',
     'default_value' => NULL,
@@ -253,7 +253,7 @@ function yellow_pages_ads_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-advertisement-field_ad_schedule'
+  // Exported field_instance: 'node-advertisement-field_ad_schedule'.
   $field_instances['node-advertisement-field_ad_schedule'] = array(
     'bundle' => 'advertisement',
     'deleted' => 0,
@@ -311,7 +311,7 @@ function yellow_pages_ads_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-advertisement-field_ad_type'
+  // Exported field_instance: 'node-advertisement-field_ad_type'.
   $field_instances['node-advertisement-field_ad_type'] = array(
     'bundle' => 'advertisement',
     'default_value' => array(
@@ -363,7 +363,7 @@ function yellow_pages_ads_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-advertisement-field_ad_url'
+  // Exported field_instance: 'node-advertisement-field_ad_url'.
   $field_instances['node-advertisement-field_ad_url'] = array(
     'bundle' => 'advertisement',
     'default_value' => NULL,

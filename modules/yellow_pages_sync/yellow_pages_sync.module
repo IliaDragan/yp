@@ -343,6 +343,18 @@ function yellow_pages_sync_node(SimpleXMLElement $list_item) {
       $entity->field_region[LANGUAGE_NONE][$k]['value'] = $address['region'];
     }
   }
+
+  // Geo.
+  // todo: verify for multiple values.
+  if (!empty($item['geo'])) {
+    unset($entity->field_geocode[LANGUAGE_NONE]);
+
+    foreach ($item['geo'] as $k => $geo) {
+      $entity->field_region[LANGUAGE_NONE][$k] = $geo;
+      $entity->field_geocode[LANGUAGE_NONE][$k]['geom'] = "POINT ({$geo['lon']} {$geo['lat']})";
+    }
+  }
+
   // Contacts.
   if (!empty($item['contacts'])) {
     unset($entity->field_landline_phone[LANGUAGE_NONE]);
@@ -506,6 +518,8 @@ function yellow_page_sync_process_source_element(SimpleXMLElement $source) {
   $result['products'] = yellow_pages_sync_process_source_element_products($source);
   // Addresses.
   $result['addresses'] = yellow_pages_sync_process_source_element_address($source);
+  // Geo.
+  $result['geo'] = yellow_pages_sync_process_source_element_geo($source);
   // Contacts.
   $result['contacts'] = yellow_pages_sync_process_source_element_contacts($source);
   // Last change.
@@ -747,6 +761,34 @@ function yellow_pages_sync_process_source_element_address(SimpleXMLElement $sour
   }
 
   return $addresses;
+}
+
+/**
+ * Processes enterprise geo coordinates.
+ *
+ * @param SimpleXMLElement $source
+ *   Enterprise XML data.
+ *
+ * @return array
+ *   Set of geo coordinates.
+ */
+function yellow_pages_sync_process_source_element_geo(SimpleXMLElement $source) {
+  $source_address = $source->locations;
+  $geo = array();
+
+  if (isset($source_address->{'list-item'})) {
+    foreach ($source_address->{'list-item'} as $item) {
+      if (!empty($item->long) && !empty($item->lat)) {
+        $geo[] = array(
+          'lon' => floatval($item->long),
+          'lat' => floatval($item->lat),
+        );
+      }
+      //todo: Else generate coordinates from address.
+    }
+  }
+
+  return $geo;
 }
 
 /**

@@ -781,7 +781,7 @@ function yellow_pages_company_ct_field_default_field_instances() {
           'geofield_map_maptype' => 'map',
           'geofield_map_max_zoom' => 0,
           'geofield_map_min_zoom' => 0,
-          'geofield_map_mtc' => 'standard',
+          'geofield_map_mtc' => 'none',
           'geofield_map_overview' => 0,
           'geofield_map_overview_opened' => 0,
           'geofield_map_pancontrol' => 1,

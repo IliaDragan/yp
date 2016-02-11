@@ -789,7 +789,7 @@ function yellow_pages_company_ct_field_default_field_instances() {
           'geofield_map_scrollwheel' => 0,
           'geofield_map_streetview_show' => 0,
           'geofield_map_width' => '100%',
-          'geofield_map_zoom' => 18,
+          'geofield_map_zoom' => 16,
         ),
         'type' => 'geofield_map_map',
         'weight' => 8,

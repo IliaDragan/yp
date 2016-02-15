@@ -704,6 +704,7 @@ function yellow_pages_company_ct_field_default_field_instances() {
   // Exported field_instance: 'node-company-field_geocode'.
   $field_instances['node-company-field_geocode'] = array(
     'bundle' => 'company',
+    'default_value' => NULL,
     'deleted' => 0,
     'description' => '',
     'display' => array(
@@ -822,25 +823,11 @@ function yellow_pages_company_ct_field_default_field_instances() {
     ),
     'widget' => array(
       'active' => 1,
-      'module' => 'geocoder',
+      'module' => 'geofield',
       'settings' => array(
-        'delta_handling' => 'default',
-        'geocoder_field' => 'field_address',
-        'geocoder_handler' => 'google',
-        'handler_settings' => array(
-          'google' => array(
-            'all_results' => 0,
-            'geometry_type' => 'point',
-            'reject_results' => array(
-              'APPROXIMATE' => 0,
-              'GEOMETRIC_CENTER' => 0,
-              'RANGE_INTERPOLATED' => 0,
-              'ROOFTOP' => 0,
-            ),
-          ),
-        ),
+        'html5_geolocation' => 0,
       ),
-      'type' => 'geocoder',
+      'type' => 'geofield_latlon',
       'weight' => 11,
     ),
   );

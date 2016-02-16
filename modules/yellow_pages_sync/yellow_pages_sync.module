@@ -109,7 +109,6 @@ function yellow_pages_sync_single_node($eid) {
     $entity = yellow_pages_sync_node($xml);
 
     yellow_pages_sync_link_filials($entity->nid);
-    yellow_pages_sync_attach_logo((int) $xml->id, $entity->nid);
 
     if (isset($entity->nid)) {
       $message = 'OK';

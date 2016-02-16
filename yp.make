@@ -44,10 +44,10 @@ projects[facetapi][patch][] = "http://am.storage.dev.inlead.dk/facetapi_accents-
 projects[field_sql_norevisions][version] = "2.1"
 projects[field_sql_norevisions][subdir] = "contrib"
 
-projects[features][version] = "2.3"
+projects[features][version] = "2.7"
 projects[features][subdir] = "contrib"
 
-projects[features_extra][version] = "1.0-beta1"
+projects[features_extra][version] = "1.0"
 projects[features_extra][subdir] = "contrib"
 
 projects[file_entity][version] = "2.0-beta1"
@@ -129,10 +129,10 @@ projects[rules][subdir] = "contrib"
 projects[rules_onceperday][version] = "1.2"
 projects[rules_onceperday][subdir] = "contrib"
 
-projects[search_api][version] = "1.14"
+projects[search_api][version] = "1.16"
 projects[search_api][subdir] = "contrib"
 
-projects[search_api_solr][version] = "1.6"
+projects[search_api_solr][version] = "1.9"
 projects[search_api_solr][subdir] = "contrib"
 
 projects[service_links][version] = "2.3"
@@ -156,7 +156,7 @@ projects[transliteration][subdir] = "contrib"
 projects[variable][version] = "2.5"
 projects[variable][subdir] = "contrib"
 
-projects[views][version] = "3.10"
+projects[views][version] = "3.13"
 projects[views][subdir] = "contrib"
 
 projects[views_autocomplete_filters][version] = "1.2"

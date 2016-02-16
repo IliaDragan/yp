@@ -23,7 +23,6 @@ dependencies[] = leaflet
 dependencies[] = link
 dependencies[] = media
 dependencies[] = mediafield
-dependencies[] = node
 dependencies[] = number
 dependencies[] = options
 dependencies[] = service_links

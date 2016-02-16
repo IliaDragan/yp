@@ -10,7 +10,7 @@
 function yellow_pages_taxonomy_field_default_field_instances() {
   $field_instances = array();
 
-  // Exported field_instance: 'taxonomy_term-products-field_product_type'
+  // Exported field_instance: 'taxonomy_term-products-field_product_type'.
   $field_instances['taxonomy_term-products-field_product_type'] = array(
     'bundle' => 'products',
     'default_value' => array(
@@ -44,7 +44,7 @@ function yellow_pages_taxonomy_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'taxonomy_term-products-field_related'
+  // Exported field_instance: 'taxonomy_term-products-field_related'.
   $field_instances['taxonomy_term-products-field_related'] = array(
     'bundle' => 'products',
     'default_value' => NULL,

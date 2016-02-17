@@ -73,6 +73,35 @@ function yellow_pages_statistics_schema() {
     ),
   );
 
+  $schema['yp_ad_nodeviewcount'] = array(
+    'description' => 'The count views of advertisement node.',
+    'fields' => array(
+      'id' => array(
+        'description' => 'The unique ID.',
+        'type' => 'serial',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+      ),
+      'nid' => array(
+        'description' => 'The node ID.',
+        'type' => 'int',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+      ),
+      'timestamp' => array(
+        'description' => 'The Unix timestamp when the node was view.',
+        'type' => 'int',
+        'not null' => TRUE,
+        'default' => 0,
+      ),
+    ),
+    'primary key' => array('id'),
+    'indexes' => array(
+      'nid' => array('nid'),
+      'timestamp' => array('timestamp'),
+    ),
+  );
+
   return $schema;
 }
 
@@ -118,4 +147,40 @@ function yellow_pages_statistics_update_7001(&$sandbox) {
   );
 
   db_create_table('yp_company_statistics', $table);
+}
+
+/**
+ * Creates table for collecting advertisement nodes views.
+ */
+function yellow_pages_statistics_update_7002(&$sandbox) {
+  $table = array(
+    'description' => 'The count views of advertisement node.',
+    'fields' => array(
+      'id' => array(
+        'description' => 'The unique ID.',
+        'type' => 'serial',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+      ),
+      'nid' => array(
+        'description' => 'The node ID.',
+        'type' => 'int',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+      ),
+      'timestamp' => array(
+        'description' => 'The Unix timestamp when the node was view.',
+        'type' => 'int',
+        'not null' => TRUE,
+        'default' => 0,
+      ),
+    ),
+    'primary key' => array('id'),
+    'indexes' => array(
+      'nid' => array('nid'),
+      'timestamp' => array('timestamp'),
+    ),
+  );
+
+  db_create_table('yp_ad_nodeviewcount', $table);
 }

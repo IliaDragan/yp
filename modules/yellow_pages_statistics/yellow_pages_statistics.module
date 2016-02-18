@@ -61,7 +61,6 @@ function yellow_pages_statistics_menu() {
 
   $items['yp/ads-nvc'] = array(
     'page callback' => 'yellow_pages_statistics_nvc_count_node_view_ajax',
-    'page arguments' => array(2),
     'access arguments' => array('access content'),
     'type' => MENU_CALLBACK,
   );
@@ -150,18 +149,18 @@ function yellow_pages_statistics_node_view($node, $view_mode, $langcode) {
 
 /**
  * Page callback: Add node view ajax.
- *
- * @param object $node
- *   The node for counting.
  */
 function yellow_pages_statistics_nvc_count_node_view_ajax() {
-  var_dump($_POST);die;
-  //if (!empty($node->nid)) {
-  //  $fields = array(
-  //    'nid' => $node->nid,
-  //    'timestamp' => REQUEST_TIME,
-  //  );
-  //
-  //  drupal_write_record('yp_ad_nodeviewcount', $fields);
-  //}
+  if (!empty($_POST['nids'])) {
+    $nids = json_decode($_POST['nids']);
+    if (!empty($nids)) {
+      foreach ($nids as $nid) {
+        $fields = array(
+          'nid' => $nid,
+          'timestamp' => REQUEST_TIME,
+        );
+        drupal_write_record('yp_ad_nodeviewcount', $fields);
+      }
+    }
+  }
 }

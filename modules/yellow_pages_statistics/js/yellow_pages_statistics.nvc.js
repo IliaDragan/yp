@@ -4,7 +4,9 @@ jQuery(document).ready(function($) {
       type: 'POST',
       url: Drupal.settings.basePath + 'yp/ads-nvc',
       dataType: 'json',
-      data: JSON.stringify(nids)
+      data: {
+        nids: JSON.stringify(nids)
+      }
     });
   }
 

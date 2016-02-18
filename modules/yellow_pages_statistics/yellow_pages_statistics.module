@@ -121,6 +121,10 @@ function yellow_pages_statistics_node_delete($node) {
     db_delete('yp_ad_statistics')
       ->condition('nid', $node->nid)
       ->execute();
+    // Remove node views for deleted node.
+    db_delete('yp_ad_nodeviewcount')
+      ->condition('nid', $node->nid)
+      ->execute();
   }
   elseif ($node->type == 'company') {
     // Remove statistics for deleted node.

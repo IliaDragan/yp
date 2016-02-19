@@ -4,6 +4,11 @@
  * Code for the Yellow Pages statistics reports.
  */
 
+/**
+ * Page callback - node statistics tab.
+ *
+ * @param $node
+ */
 function yellow_pages_statistics_node_stat($node) {
   $statistics_node_types = array('company', 'advertisement');
 
@@ -17,6 +22,11 @@ function yellow_pages_statistics_node_stat($node) {
   return $data;
 }
 
+/**
+ * Form callback - show node statistics information by period.
+ *
+ * @param $node
+ */
 function yellow_pages_statistics_node_stat_report_form($form, &$form_state, $node) {
   $start_date = !empty($form_state['storage']['start_date']) ? $form_state['storage']['start_date'] : date('Y-m-d', strtotime('-1month'));
   $start_timestamp = strtotime($start_date);
@@ -38,7 +48,7 @@ function yellow_pages_statistics_node_stat_report_form($form, &$form_state, $nod
   }
 
   $form['period'] = array(
-    '#title' => t('Period'),
+    '#title' => t('Select period'),
     '#type' => 'fieldset',
   );
   $form['period']['start_date'] = array(
@@ -101,29 +111,36 @@ function yellow_pages_statistics_node_stat_report_form($form, &$form_state, $nod
 
   $rows = array(
     array(
-      t('Period'),
-      t('Total'),
-      t('From @start to @end', array('@start' => $start_date, '@end' => $end_date)),
+      array('data' => t('Period'), 'header' => TRUE),
+      array('data' => t('Total'), 'header' => TRUE),
+      array('data' => t('From @start to @end', array('@start' => format_date($start_timestamp, 'custom', 'd M Y'), '@end' => format_date($end_timestamp, 'custom', 'd M Y'))), 'header' => TRUE),
     ),
     array(
-      t('Views'),
+      array('data' => t('Views'), 'header' => TRUE),
       $views,
       $views_period,
     ),
     array(
-      t('Clicks'),
+      array('data' => t('Clicks'), 'header' => TRUE),
       $clicks,
       $clicks_period,
     ),
   );
 
-  $form['total_views'] = array(
+  $form['statistics'] = array(
     '#markup' => theme('table', array('rows' => $rows)),
+  );
+
+  $form['#attached']['css'] = array(
+    drupal_get_path('module', 'yellow_pages_statistics') . '/css/yellow_pages_statistics.css',
   );
 
   return $form;
 }
 
+/**
+ * Submit action for yellow_pages_statistics_node_stat_report_form().
+ */
 function yellow_pages_statistics_node_stat_report_form_submit(&$form, &$form_state) {
   $values = $form_state['values'];
   $form_state['storage']['start_date'] = $values['start_date'];

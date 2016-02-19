@@ -82,6 +82,16 @@ function yellow_pages_statistics_menu() {
 }
 
 /**
+ * Implements hook_admin_paths().
+ */
+function yellow_pages_statistics_admin_paths() {
+  $paths = array(
+    'node/*/yp-statistics' => TRUE,
+  );
+  return $paths;
+}
+
+/**
  * Callback page function for tracking advertisement node clicks and redirect
  * to its link field value.
  *

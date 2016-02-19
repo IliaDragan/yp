@@ -5,39 +5,3 @@
  */
 
 include_once 'yellow_pages_nodeviewcount.features.inc';
-
-/**
- * Implements hook_form_FORM_ID_alter().
- *
- * Add nodeviewcount statistics as field in company node form.
- */
-function yellow_pages_nodeviewcount_form_company_node_form_alter(&$form, &$form_state) {
-  // Get all company translations nids.
-  $nids = array();
-  if (!empty($form['tnid']['#value'])) {
-    $nids = yellow_pages_core_node_get_translation_nids($form['tnid']['#value']);
-  }
-  elseif (!empty($form['nid']['#value'])) {
-    $nids[] = $form['nid']['#value'];
-  }
-
-  // Count views for all node translations.
-  $views = 0;
-  if (!empty($nids)) {
-    $query = db_select('nodeviewcount', 'nvc')
-      ->fields('nvc', array('id'))
-      ->condition('nid', $nids, 'IN');
-
-    $views = $query->execute()->rowCount();
-  }
-
-  // Add views count as read only field.
-  $form['nodeviewcount'] = array(
-    '#title' => t('Views (nodeviewcount)'),
-    '#type' => 'textfield',
-    '#disabled' => TRUE,
-    '#default_value' => $views,
-    '#size' => 20,
-    '#weight' => 51,
-  );
-}

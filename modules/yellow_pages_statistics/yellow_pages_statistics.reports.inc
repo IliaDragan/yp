@@ -29,9 +29,9 @@ function yellow_pages_statistics_node_stat($node) {
  */
 function yellow_pages_statistics_node_stat_report_form($form, &$form_state, $node) {
   $start_date = !empty($form_state['storage']['start_date']) ? $form_state['storage']['start_date'] : date('Y-m-d', strtotime('-1month'));
-  $start_timestamp = strtotime($start_date);
+  $start_timestamp = strtotime($start_date . ' 00:00');
   $end_date = !empty($form_state['storage']['end_date']) ? $form_state['storage']['end_date'] : date('Y-m-d');
-  $end_timestamp = strtotime($end_date);
+  $end_timestamp = strtotime($end_date . ' 23:59');
   // Get all company translations nids.
   if (empty($form_state['storage']['nids'])) {
     $nids = array();
@@ -72,6 +72,44 @@ function yellow_pages_statistics_node_stat_report_form($form, &$form_state, $nod
     '#value' => t('Show'),
   );
 
+  $module_path = drupal_get_path('module', 'yellow_pages_statistics');
+  $form['statistics'] = array(
+    '#markup' => yellow_pages_statistics_get_statistics_data_for_node($node, $nids, $start_timestamp, $end_timestamp, $module_path),
+  );
+
+  $form['#attached']['css'] = array(
+    $module_path . '/css/yellow_pages_statistics.css',
+  );
+
+  return $form;
+}
+
+/**
+ * Submit action for yellow_pages_statistics_node_stat_report_form().
+ */
+function yellow_pages_statistics_node_stat_report_form_submit(&$form, &$form_state) {
+  $values = $form_state['values'];
+  $form_state['storage']['start_date'] = $values['start_date'];
+  $form_state['storage']['end_date'] = $values['end_date'];
+  $form_state['rebuild'] = TRUE;
+}
+
+/**
+ * Returns node statistic data for selected period.
+ *
+ * @param $node
+ *   Node object of which statistic will be showed.
+ * @param $nids
+ *   Node translations nids.
+ * @param $start
+ *   Start date timestamp.
+ * @param $end
+ *   End date timestamp.
+ * @param $module_path
+ *
+ * @return string
+ */
+function yellow_pages_statistics_get_statistics_data_for_node(&$node, $nids, $start, $end, $module_path) {
   switch ($node->type) {
     case 'company':
       $table_views = 'nodeviewcount';
@@ -97,23 +135,25 @@ function yellow_pages_statistics_node_stat_report_form($form, &$form_state, $nod
   $clicks = $query->execute()->rowCount();
 
   // Statistics for period.
-  $query = db_select($table_views, 'views')
-    ->fields('views', array('id'))
+  $query_views = db_select($table_views, 'views')
+    ->fields('views', array('id', 'timestamp'))
     ->condition('nid', $nids, 'IN')
-    ->condition('timestamp', array($start_timestamp, $end_timestamp), 'BETWEEN');
-  $views_period = $query->execute()->rowCount();
+    ->condition('timestamp', array($start, $end), 'BETWEEN');
+  $result_views = $query_views->execute();
+  $views_period = $result_views->rowCount();
 
-  $query = db_select($table_clicks, 'clicks')
-    ->fields('clicks', array('id'))
+  $query_clicks = db_select($table_clicks, 'clicks')
+    ->fields('clicks', array('id', 'timestamp'))
     ->condition('nid', $nids, 'IN')
-    ->condition('timestamp', array($start_timestamp, $end_timestamp), 'BETWEEN');
-  $clicks_period = $query->execute()->rowCount();
+    ->condition('timestamp', array($start, $end), 'BETWEEN');
+  $result_clicks = $query_clicks->execute();
+  $clicks_period = $result_clicks->rowCount();
 
   $rows = array(
     array(
       array('data' => t('Period'), 'header' => TRUE),
       array('data' => t('Total'), 'header' => TRUE),
-      array('data' => t('From @start to @end', array('@start' => format_date($start_timestamp, 'custom', 'd M Y'), '@end' => format_date($end_timestamp, 'custom', 'd M Y'))), 'header' => TRUE),
+      array('data' => t('From @start to @end', array('@start' => format_date($start, 'custom', 'd M Y'), '@end' => format_date($end, 'custom', 'd M Y'))), 'header' => TRUE),
     ),
     array(
       array('data' => t('Views'), 'header' => TRUE),
@@ -126,24 +166,47 @@ function yellow_pages_statistics_node_stat_report_form($form, &$form_state, $nod
       $clicks_period,
     ),
   );
+  $statistics_table = theme('table', array('rows' => $rows));
 
-  $form['statistics'] = array(
-    '#markup' => theme('table', array('rows' => $rows)),
+  // Create chart.
+  $dates = yellow_pages_core_date_range($start, $end, '+1 day', 'd M Y', 'Ymd');
+  $chart_data = array();
+  foreach ($dates as $key => $date) {
+    $chart_data[$key] = array(
+      'date' => $date,
+      'views' => 0,
+      'clicks' => 0,
+    );
+  }
+
+  foreach ($result_views as $view) {
+    $date = date('Ymd', $view->timestamp);
+    $chart_data[$date]['views']++;
+  }
+
+  foreach ($result_clicks as $click) {
+    $date = date('Ymd', $click->timestamp);
+    $chart_data[$date]['clicks']++;
+  }
+  $chart_prepared_array = array(
+    array(t('Date'), t('Views'), t('Clicks')),
   );
+  foreach ($chart_data as $row) {
+    $chart_prepared_array[] = array(
+      $row['date'],
+      $row['views'],
+      $row['clicks'],
+    );
+  }
+  $js_data = array('nodeStatistics' => array(
+    'chartData' => json_encode($chart_prepared_array),
+  ));
 
-  $form['#attached']['css'] = array(
-    drupal_get_path('module', 'yellow_pages_statistics') . '/css/yellow_pages_statistics.css',
-  );
+  drupal_add_js($js_data, 'setting');
+  drupal_add_js('http://www.google.com/jsapi', array('type' => 'external', 'group' => JS_LIBRARY));
+  drupal_add_js($module_path . '/js/yellow_pages_statistics_node.chart.js');
 
-  return $form;
-}
+  $chart = '<div id="chart"></div>';
 
-/**
- * Submit action for yellow_pages_statistics_node_stat_report_form().
- */
-function yellow_pages_statistics_node_stat_report_form_submit(&$form, &$form_state) {
-  $values = $form_state['values'];
-  $form_state['storage']['start_date'] = $values['start_date'];
-  $form_state['storage']['end_date'] = $values['end_date'];
-  $form_state['rebuild'] = TRUE;
+  return $statistics_table . $chart;
 }

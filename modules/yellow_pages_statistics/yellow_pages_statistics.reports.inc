@@ -59,12 +59,20 @@ function yellow_pages_statistics_node_stat_report_form($form, &$form_state, $nod
   );
 
   $module_path = drupal_get_path('module', 'yellow_pages_statistics');
-  $form['statistics'] = array(
+  $form['base_stat'] = array(
+    '#type' => 'fieldset',
+    '#title' => t('Statistics for selected period'),
+  );
+  $form['base_stat']['statistics'] = array(
     '#markup' => yellow_pages_statistics_get_statistics_data_for_node($node, $start_timestamp, $end_timestamp, $module_path),
   );
   if (!empty($node->field_advertisements['und'][0]['target_id'])) {
     $adv = node_load($node->field_advertisements['und'][0]['target_id']);
-    $form['related_statistics'] = array(
+    $form['related_stat'] = array(
+      '#type' => 'fieldset',
+      '#title' => t('Company related advertisement statistics for selected period'),
+    );
+    $form['related_stat']['related_statistics'] = array(
       '#markup' => yellow_pages_statistics_get_statistics_data_for_node($adv, $start_timestamp, $end_timestamp, $module_path),
     );
   }

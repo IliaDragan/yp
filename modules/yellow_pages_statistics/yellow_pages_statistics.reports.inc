@@ -32,20 +32,6 @@ function yellow_pages_statistics_node_stat_report_form($form, &$form_state, $nod
   $start_timestamp = strtotime($start_date . ' 00:00');
   $end_date = !empty($form_state['storage']['end_date']) ? $form_state['storage']['end_date'] : date('Y-m-d');
   $end_timestamp = strtotime($end_date . ' 23:59');
-  // Get all company translations nids.
-  if (empty($form_state['storage']['nids'])) {
-    $nids = array();
-    if (!empty($node->tnid)) {
-      $nids = yellow_pages_core_node_get_translation_nids($node->tnid);
-    }
-    else {
-      $nids[] = $node->nid;
-    }
-    $form_state['storage']['nids'] = $nids;
-  }
-  else {
-    $nids = $form_state['storage']['nids'];
-  }
 
   $form['period'] = array(
     '#title' => t('Select period'),
@@ -74,8 +60,14 @@ function yellow_pages_statistics_node_stat_report_form($form, &$form_state, $nod
 
   $module_path = drupal_get_path('module', 'yellow_pages_statistics');
   $form['statistics'] = array(
-    '#markup' => yellow_pages_statistics_get_statistics_data_for_node($node, $nids, $start_timestamp, $end_timestamp, $module_path),
+    '#markup' => yellow_pages_statistics_get_statistics_data_for_node($node, $start_timestamp, $end_timestamp, $module_path),
   );
+  if (!empty($node->field_advertisements['und'][0]['target_id'])) {
+    $adv = node_load($node->field_advertisements['und'][0]['target_id']);
+    $form['related_statistics'] = array(
+      '#markup' => yellow_pages_statistics_get_statistics_data_for_node($adv, $start_timestamp, $end_timestamp, $module_path),
+    );
+  }
 
   $form['#attached']['css'] = array(
     $module_path . '/css/yellow_pages_statistics.css',
@@ -109,7 +101,16 @@ function yellow_pages_statistics_node_stat_report_form_submit(&$form, &$form_sta
  *
  * @return string
  */
-function yellow_pages_statistics_get_statistics_data_for_node(&$node, $nids, $start, $end, $module_path) {
+function yellow_pages_statistics_get_statistics_data_for_node(&$node, $start, $end, $module_path) {
+  // Get all translations nodes nids.
+  $nids = array();
+  if (!empty($node->tnid)) {
+    $nids = yellow_pages_core_node_get_translation_nids($node->tnid);
+  }
+  else {
+    $nids[] = $node->nid;
+  }
+
   switch ($node->type) {
     case 'company':
       $table_views = 'nodeviewcount';
@@ -189,7 +190,11 @@ function yellow_pages_statistics_get_statistics_data_for_node(&$node, $nids, $st
     $chart_data[$date]['clicks']++;
   }
   $chart_prepared_array = array(
-    array(t('Date'), t('Views'), t('Clicks')),
+    array(
+      array('label' => t('Date'), 'type' => 'string'),
+      array('label' => t('Views'), 'type' => 'number'),
+      array('label' => t('Clicks'), 'type' => 'number'),
+    ),
   );
   foreach ($chart_data as $row) {
     $chart_prepared_array[] = array(
@@ -199,14 +204,14 @@ function yellow_pages_statistics_get_statistics_data_for_node(&$node, $nids, $st
     );
   }
   $js_data = array('nodeStatistics' => array(
-    'chartData' => json_encode($chart_prepared_array),
+    $node->type . 'ChartData' => json_encode($chart_prepared_array),
   ));
 
   drupal_add_js($js_data, 'setting');
   drupal_add_js('http://www.google.com/jsapi', array('type' => 'external', 'group' => JS_LIBRARY));
   drupal_add_js($module_path . '/js/yellow_pages_statistics_node.chart.js');
 
-  $chart = '<div id="chart"></div>';
+  $chart = '<div id="'.$node->type.'Chart"></div>';
 
   return $statistics_table . $chart;
 }

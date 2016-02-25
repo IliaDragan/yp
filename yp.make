@@ -62,9 +62,6 @@ projects[fontawesome][subdir] = "contrib"
 projects[forward][version] = "2.0"
 projects[forward][subdir] = "contrib"
 
-projects[geocoder][version] = "1.2"
-projects[geocoder][subdir] = "contrib"
-
 projects[geofield][version] = "2.3"
 projects[geofield][subdir] = "contrib"
 

@@ -37,15 +37,6 @@ function yellow_pages_sync_menu() {
     'file' => 'yellow_pages_sync.admin.inc',
   );
 
-  $items['admin/config/yp/rebuild'] = array(
-    'title' => 'Rebuild geodata',
-    'description' => 'Update enterprises geodata.',
-    'page callback' => 'drupal_get_form',
-    'page arguments' => array('yellow_pages_sync_rebuild_form'),
-    'access arguments' => array('administer yellow pages sync'),
-    'file' => 'yellow_pages_sync.admin.inc',
-  );
-
   $items['yp/sync/%'] = array(
     'title' => 'Sync single entry',
     'page callback' => 'yellow_pages_sync_single_node',
@@ -343,6 +334,16 @@ function yellow_pages_sync_node(SimpleXMLElement $list_item) {
       $entity->field_region[LANGUAGE_NONE][$k]['value'] = $address['region'];
     }
   }
+
+  // Geo.
+  unset($entity->field_geocode[LANGUAGE_NONE]);
+  if (!empty($item['geo'])) {
+    foreach ($item['geo'] as $k => $geo) {
+      $entity->field_region[LANGUAGE_NONE][$k] = $geo;
+      $entity->field_geocode[LANGUAGE_NONE][$k]['geom'] = "POINT ({$geo['lon']} {$geo['lat']})";
+    }
+  }
+
   // Contacts.
   if (!empty($item['contacts'])) {
     unset($entity->field_landline_phone[LANGUAGE_NONE]);
@@ -506,6 +507,8 @@ function yellow_page_sync_process_source_element(SimpleXMLElement $source) {
   $result['products'] = yellow_pages_sync_process_source_element_products($source);
   // Addresses.
   $result['addresses'] = yellow_pages_sync_process_source_element_address($source);
+  // Geo.
+  $result['geo'] = yellow_pages_sync_process_source_element_geo($source);
   // Contacts.
   $result['contacts'] = yellow_pages_sync_process_source_element_contacts($source);
   // Last change.
@@ -747,6 +750,33 @@ function yellow_pages_sync_process_source_element_address(SimpleXMLElement $sour
   }
 
   return $addresses;
+}
+
+/**
+ * Processes enterprise geo coordinates.
+ *
+ * @param SimpleXMLElement $source
+ *   Enterprise XML data.
+ *
+ * @return array
+ *   Set of geo coordinates.
+ */
+function yellow_pages_sync_process_source_element_geo(SimpleXMLElement $source) {
+  $source_address = $source->locations;
+  $geo = array();
+
+  if (isset($source_address->{'list-item'})) {
+    foreach ($source_address->{'list-item'} as $item) {
+      if (!empty($item->long) && !empty($item->lat)) {
+        $geo[] = array(
+          'lon' => floatval($item->long),
+          'lat' => floatval($item->lat),
+        );
+      }
+    }
+  }
+
+  return $geo;
 }
 
 /**
@@ -1384,150 +1414,6 @@ function yellow_pages_sync_read_logo($path) {
   }
 
   return @file_get_contents($path);
-}
-
-/**
- * Creates a batch operation for bulk updating the nodes.
- *
- * Mainly used to update geocoder maps.
- */
-function yellow_pages_sync_node_batch_rebuild(&$context) {
-  if (!isset($context['sandbox']['progress'])) {
-    $context['sandbox']['synced'] = 0;
-    $context['sandbox']['progress'] = 0;
-    $context['sandbox']['max'] = 2500;
-  }
-
-  $query = db_select('yp_sync_state', 'yss')
-    ->fields('yss', array('nid'))
-    ->isNull('fdfg.entity_id');
-  $query
-    ->leftJoin('field_data_field_geocode', 'fdfg', 'yss.nid=fdfg.entity_id');
-  $query
-    ->range($context['sandbox']['progress'], SYNC_BATCH);
-
-  $skip = variable_get('yp_rebuild_skip', array());
-  if (!empty($skip)) {
-    $query->condition('nid', $skip, 'NOT IN');
-  }
-
-  $result = $query->execute()->fetchCol();
-
-  if (!empty($result)) {
-    foreach ($result as $nid) {
-      if (yellow_pages_sync_node_rebuild($nid)) {
-        $context['results'][] = $nid;
-        $context['sandbox']['synced']++;
-
-        if ($context['sandbox']['synced'] == $context['sandbox']['max']) {
-          break;
-        }
-      }
-      else {
-        $skip[] = $nid;
-      }
-    }
-
-    $t = array(
-      '@count' => $context['sandbox']['synced'],
-      '@total' => $context['sandbox']['max'],
-    );
-    $context['message'] = t('Processed: @count/@total', $t);
-
-    $context['sandbox']['progress'] += count($result);
-    variable_set('yp_last_rebuild', REQUEST_TIME);
-
-    if ($context['sandbox']['synced'] == $context['sandbox']['max']) {
-      $context['finished'] = 1;
-    }
-    else {
-      $context['finished'] = $context['sandbox']['progress'] / $context['sandbox']['max'];
-    }
-  }
-  else {
-    $context['finished'] = 1;
-  }
-
-  variable_set('yp_rebuild_skip', $skip);
-}
-
-/**
- * Finish callback for bulk node update batch.
- *
- * @see yellow_pages_sync_node_batch_rebuild()
- */
-function yellow_pages_sync_node_batch_rebuild_finish($success, $results, $operations) {
-  drupal_get_messages();
-
-  if ($success) {
-    drupal_set_message(t('@count nodes updated.', array('@count' => count($results))));
-  }
-  else {
-    drupal_set_message(t('Failed to rebuild nodes.'), 'error');
-  }
-}
-
-/**
- * Forces the node to be re-saved.
- *
- * @param int $nid
- *   Node id.
- */
-function yellow_pages_sync_node_rebuild($nid) {
-  $node = node_load($nid);
-  $address = field_get_items('node', $node, 'field_address');
-
-  // Do not fetch geodata if no address is present
-  // or premise (office) is defined.
-  if (!$address || !empty($address[0]['premise'])) {
-    return FALSE;
-  }
-
-  module_load_include('inc', 'node', 'node.pages');
-  $test_state = array(
-    'values' => array(
-      'op' => t('Save'),
-    ),
-  );
-  drupal_form_submit('company_node_form', $test_state, $node);
-  drupal_get_messages();
-
-  $geocode = field_get_items('node', $node, 'field_geocode');
-  if (!$geocode) {
-    return FALSE;
-  }
-
-  yellow_pages_sync_update_geocode($node);
-
-  return TRUE;
-}
-
-/**
- * Updates geocode field data for translations of a given node.
- *
- * @param stdClass $node
- *   Main node, whose translations should be updated.
- */
-function yellow_pages_sync_update_geocode(stdClass $node) {
-  if (!isset($node->field_geocode[LANGUAGE_NONE])) {
-    return;
-  }
-
-  $lat = $node->field_geocode[LANGUAGE_NONE][0]['lat'];
-  $lon = $node->field_geocode[LANGUAGE_NONE][0]['lon'];
-
-  $query = db_select('node', 'n')
-    ->fields('n', array('nid'))
-    ->condition('tnid', $node->nid, '=')
-    ->condition('nid', $node->nid, '<>');
-  $result = $query->execute()->fetchCol();
-
-  foreach ($result as $_nid) {
-    $_n = node_load($_nid);
-    $_n->field_geocode = $node->field_geocode;
-    $_n->field_geocode[LANGUAGE_NONE][0]['geom'] = "POINT ($lon $lat)";
-    field_attach_update('node', $_n);
-  }
 }
 
 /**

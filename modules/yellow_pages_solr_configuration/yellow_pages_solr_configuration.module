@@ -195,9 +195,12 @@ function yellow_pages_solr_configuration_search_api_solr_documents_alter(array &
       $term_ids = $document->getField('im_field_products$product');
 
       if (isset($term_ids['value']) && is_array($term_ids['value'])) {
-        $locales = array('en', 'ro');
+        $term_parents_ids = $document->getField('im_field_products$product$parents_all');
+        $term_ids['value'] += $term_parents_ids['value'];
 
-        foreach ($term_ids['value'] as $key => $term_id) {
+        $locales = array('en', 'ro', 'ru');
+
+        foreach ($term_ids['value'] as $term_id) {
           $term = i18n_get_object('taxonomy_term', $term_id);
           foreach ($locales as $locale) {
             $translated_term = $term->localize($locale);

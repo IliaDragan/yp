@@ -704,6 +704,7 @@ function yellow_pages_company_ct_field_default_field_instances() {
   // Exported field_instance: 'node-company-field_geocode'.
   $field_instances['node-company-field_geocode'] = array(
     'bundle' => 'company',
+    'default_value' => NULL,
     'deleted' => 0,
     'description' => '',
     'display' => array(
@@ -781,7 +782,7 @@ function yellow_pages_company_ct_field_default_field_instances() {
           'geofield_map_maptype' => 'map',
           'geofield_map_max_zoom' => 0,
           'geofield_map_min_zoom' => 0,
-          'geofield_map_mtc' => 'standard',
+          'geofield_map_mtc' => 'none',
           'geofield_map_overview' => 0,
           'geofield_map_overview_opened' => 0,
           'geofield_map_pancontrol' => 1,
@@ -789,7 +790,7 @@ function yellow_pages_company_ct_field_default_field_instances() {
           'geofield_map_scrollwheel' => 0,
           'geofield_map_streetview_show' => 0,
           'geofield_map_width' => '100%',
-          'geofield_map_zoom' => 18,
+          'geofield_map_zoom' => 16,
         ),
         'type' => 'geofield_map_map',
         'weight' => 8,
@@ -822,25 +823,11 @@ function yellow_pages_company_ct_field_default_field_instances() {
     ),
     'widget' => array(
       'active' => 1,
-      'module' => 'geocoder',
+      'module' => 'geofield',
       'settings' => array(
-        'delta_handling' => 'default',
-        'geocoder_field' => 'field_address',
-        'geocoder_handler' => 'google',
-        'handler_settings' => array(
-          'google' => array(
-            'all_results' => 0,
-            'geometry_type' => 'point',
-            'reject_results' => array(
-              'APPROXIMATE' => 0,
-              'GEOMETRIC_CENTER' => 0,
-              'RANGE_INTERPOLATED' => 0,
-              'ROOFTOP' => 0,
-            ),
-          ),
-        ),
+        'html5_geolocation' => 0,
       ),
-      'type' => 'geocoder',
+      'type' => 'geofield_latlon',
       'weight' => 11,
     ),
   );

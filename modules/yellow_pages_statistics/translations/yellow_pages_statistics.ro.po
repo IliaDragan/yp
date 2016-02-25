@@ -1,5 +1,3 @@
-
-
 # $Id$
 #
 # Romanian translation of Drupal (general)
@@ -7,21 +5,23 @@
 # Generated from files:
 #  yellow_pages_statistics.admin.inc: n/a
 #  yellow_pages_statistics.ga.inc: n/a
+#  yellow_pages_statistics.reports.inc: n/a
 #  yellow_pages_statistics.module: n/a
 #  yellow_pages_statistics.info: n/a
 #
-#, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
-"POT-Creation-Date: 2016-02-01 12:18+0200\n"
-"PO-Revision-Date: 2016-02-01 12:18+0200\n"
+"POT-Creation-Date: 2016-02-25 16:07+0200\n"
+"PO-Revision-Date: 2016-02-25 16:11+0300\n"
 "Last-Translator: NAME <EMAIL@ADDRESS>\n"
 "Language-Team: Romanian <EMAIL@ADDRESS>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=((((n%10)==1)&&((n%100)!=11))?(0):(((((n%10)>=2)&&((n%10)<=4))&&(((n%100)<10)||((n%100)>=20)))?(1):2));\n"
+"Plural-Forms: nplurals=3; plural=((((n%10)==1)&&((n%100)!=11))?(0):(((((n"
+"%10)>=2)&&((n%10)<=4))&&(((n%100)<10)||((n%100)>=20)))?(1):2));\n"
+"X-Generator: Poedit 1.5.4\n"
 
 #: yellow_pages_statistics.admin.inc:12
 msgid "E-mail"
@@ -56,7 +56,9 @@ msgid "The key file could not be uploaded."
 msgstr ""
 
 #: yellow_pages_statistics.admin.inc:75
-msgid "For security reason the content of your key file was saved in the database and the file was deleted."
+msgid ""
+"For security reason the content of your key file was saved in the database "
+"and the file was deleted."
 msgstr ""
 
 #: yellow_pages_statistics.ga.inc:19
@@ -99,7 +101,7 @@ msgstr "Ultima săptămână"
 msgid "Select Period"
 msgstr "Selectați Perioada"
 
-#: yellow_pages_statistics.ga.inc:65
+#: yellow_pages_statistics.ga.inc:65 yellow_pages_statistics.reports.inc:58
 msgid "Show"
 msgstr "Afişare"
 
@@ -119,25 +121,85 @@ msgstr ""
 msgid "No views (profiles) found for this user."
 msgstr ""
 
+#: yellow_pages_statistics.reports.inc:19
+msgid "No statistics information for this node."
+msgstr "Statistica nu este disponibilă pentru această nodă."
+
+#: yellow_pages_statistics.reports.inc:37
+msgid "Select period"
+msgstr "Selectați perioada"
+
+#: yellow_pages_statistics.reports.inc:41
+msgid "Start date"
+msgstr "Data de început"
+
+#: yellow_pages_statistics.reports.inc:49
+msgid "End date"
+msgstr "Data de sfârşit"
+
+#: yellow_pages_statistics.reports.inc:64
+msgid "Statistics for selected period"
+msgstr "Statistica pentru perioada selectată"
+
+#: yellow_pages_statistics.reports.inc:73
+msgid "Company related advertisement statistics for selected period"
+msgstr "Statistica pentru publicitatea legată de companie"
+
+#: yellow_pages_statistics.reports.inc:163
+msgid "Period"
+msgstr "Perioada"
+
+#: yellow_pages_statistics.reports.inc:164
+msgid "Total"
+msgstr ""
+
+#: yellow_pages_statistics.reports.inc:165
+msgid "From @start to @end"
+msgstr "Din @start până @end"
+
+#: yellow_pages_statistics.reports.inc:168;203
+msgid "Views"
+msgstr "Vizualizări"
+
+#: yellow_pages_statistics.reports.inc:173;204
+msgid "Clicks"
+msgstr "Clicuri"
+
+#: yellow_pages_statistics.reports.inc:202
+msgid "Date"
+msgstr "Data"
+
 #: yellow_pages_statistics.module:15
 msgid "Administer Yellow Pages statistics"
 msgstr ""
 
 #: yellow_pages_statistics.module:18
+msgid "Access Yellow Pages node statistics"
+msgstr ""
+
+#: yellow_pages_statistics.module:21
 msgid "Access Yellow Pages Google Analytics page"
 msgstr ""
 
-#: yellow_pages_statistics.module:30
+#: yellow_pages_statistics.module:33
 msgid "Google Analytics"
 msgstr ""
 
-#: yellow_pages_statistics.module:39
+#: yellow_pages_statistics.module:42
 msgid "GA data"
 msgstr ""
 
-#: yellow_pages_statistics.module:47
+#: yellow_pages_statistics.module:50
 msgid "Advertisement statistics tracker"
 msgstr ""
+
+#: yellow_pages_statistics.module:58
+msgid "Enterprise statistics tracker"
+msgstr ""
+
+#: yellow_pages_statistics.module:72
+msgid "Statistics"
+msgstr "Statistici"
 
 #: yellow_pages_statistics.info:0
 msgid "Yellow Pages statistics"
@@ -150,4 +212,3 @@ msgstr ""
 #: yellow_pages_statistics.info:0
 msgid "Yellow Pages"
 msgstr ""
-

@@ -102,6 +102,47 @@ function yellow_pages_statistics_schema() {
     ),
   );
 
+  $schema['yp_search_company_statistics'] = array(
+    'description' => 'Statistics of company searches.',
+    'fields' => array(
+      'id' => array(
+        'description' => 'The unique ID.',
+        'type' => 'serial',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+      ),
+      'nid' => array(
+        'description' => 'The company node ID.',
+        'type' => 'int',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+      ),
+      'timestamp' => array(
+        'description' => 'The Unix timestamp when the user searched the node.',
+        'type' => 'int',
+        'not null' => TRUE,
+        'default' => 0,
+      ),
+      'page' => array(
+        'description' => 'The number of page on which this node was showed.',
+        'type' => 'int',
+        'not null' => TRUE,
+        'default' => 0,
+      ),
+      'keywords' => array(
+        'description' => 'The search keywords.',
+        'type' => 'varchar',
+        'length' => 256,
+        'not null' => FALSE,
+      ),
+    ),
+    'primary key' => array('id'),
+    'indexes' => array(
+      'nid' => array('nid'),
+      'timestamp' => array('timestamp'),
+    ),
+  );
+
   return $schema;
 }
 
@@ -183,4 +224,52 @@ function yellow_pages_statistics_update_7002(&$sandbox) {
   );
 
   db_create_table('yp_ad_nodeviewcount', $table);
+}
+
+/**
+ * Creates table for collecting company search results.
+ */
+function yellow_pages_statistics_update_7003(&$sandbox) {
+  $table = array(
+    'description' => 'Statistics of company searches.',
+    'fields' => array(
+      'id' => array(
+        'description' => 'The unique ID.',
+        'type' => 'serial',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+      ),
+      'nid' => array(
+        'description' => 'The company node ID.',
+        'type' => 'int',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+      ),
+      'timestamp' => array(
+        'description' => 'The Unix timestamp when the user searched the node.',
+        'type' => 'int',
+        'not null' => TRUE,
+        'default' => 0,
+      ),
+      'page' => array(
+        'description' => 'The number of page on which this node was showed.',
+        'type' => 'int',
+        'not null' => TRUE,
+        'default' => 0,
+      ),
+      'keywords' => array(
+        'description' => 'The search keywords.',
+        'type' => 'varchar',
+        'length' => 256,
+        'not null' => FALSE,
+      ),
+    ),
+    'primary key' => array('id'),
+    'indexes' => array(
+      'nid' => array('nid'),
+      'timestamp' => array('timestamp'),
+    ),
+  );
+
+  db_create_table('yp_search_company_statistics', $table);
 }

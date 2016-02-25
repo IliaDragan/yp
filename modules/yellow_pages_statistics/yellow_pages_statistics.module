@@ -14,6 +14,9 @@ function yellow_pages_statistics_permission() {
     'administer yellow pages statistics' => array(
       'title' => t('Administer Yellow Pages statistics'),
     ),
+    'access yellow pages node statistics' => array(
+      'title' => t('Access Yellow Pages node statistics'),
+    ),
     'access yellow pages google analytics page' => array(
       'title' => t('Access Yellow Pages Google Analytics page'),
     ),
@@ -65,7 +68,27 @@ function yellow_pages_statistics_menu() {
     'type' => MENU_CALLBACK,
   );
 
+  $items['node/%node/yp-statistics'] = array(
+    'title' => 'Statistics',
+    'page callback' => 'yellow_pages_statistics_node_stat',
+    'page arguments' => array(1),
+    'access arguments' => array('access yellow pages node statistics'),
+    'type' => MENU_LOCAL_TASK,
+    'file' => 'yellow_pages_statistics.reports.inc',
+    'weight' => 50,
+  );
+
   return $items;
+}
+
+/**
+ * Implements hook_admin_paths().
+ */
+function yellow_pages_statistics_admin_paths() {
+  $paths = array(
+    'node/*/yp-statistics' => TRUE,
+  );
+  return $paths;
 }
 
 /**

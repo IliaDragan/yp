@@ -20,6 +20,16 @@ function yellow_pages_statistics_user_default_permissions() {
     'module' => 'yellow_pages_statistics',
   );
 
+  // Exported permission: 'access yellow pages node statistics'.
+  $permissions['access yellow pages node statistics'] = array(
+    'name' => 'access yellow pages node statistics',
+    'roles' => array(
+      'administrator' => 'administrator',
+      'global editor' => 'global editor',
+    ),
+    'module' => 'yellow_pages_statistics',
+  );
+
   // Exported permission: 'administer yellow pages statistics'.
   $permissions['administer yellow pages statistics'] = array(
     'name' => 'administer yellow pages statistics',

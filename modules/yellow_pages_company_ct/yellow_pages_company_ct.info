@@ -14,7 +14,6 @@ dependencies[] = features
 dependencies[] = field_group
 dependencies[] = font_icons
 dependencies[] = forward
-dependencies[] = geocoder
 dependencies[] = geofield
 dependencies[] = geofield_map
 dependencies[] = i18n_taxonomy

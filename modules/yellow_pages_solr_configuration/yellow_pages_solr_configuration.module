@@ -196,7 +196,9 @@ function yellow_pages_solr_configuration_search_api_solr_documents_alter(array &
 
       if (isset($term_ids['value']) && is_array($term_ids['value'])) {
         $term_parents_ids = $document->getField('im_field_products$product$parents_all');
-        $term_ids['value'] += $term_parents_ids['value'];
+        if (is_array($term_parents_ids['value'])) {
+          $term_ids['value'] += $term_parents_ids['value'];
+        }
 
         $locales = array('en', 'ro', 'ru');
 

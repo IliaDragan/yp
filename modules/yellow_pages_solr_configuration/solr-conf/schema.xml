@@ -176,6 +176,7 @@
       <analyzer type="query">
         <charFilter class="solr.MappingCharFilterFactory" mapping="mapping-FoldToASCII.txt"/>
         <tokenizer class="solr.WhitespaceTokenizerFactory"/>
+        <filter class="solr.LengthFilterFactory" min="3" max="100" />
         <filter class="solr.HunspellStemFilterFactory"
                 dictionary="dic/ru/ru_RU.dic"
                 affix="dic/ru/ru_RU.aff"

@@ -44,10 +44,10 @@ projects[facetapi][patch][] = "http://am.storage.dev.inlead.dk/facetapi_accents-
 projects[field_sql_norevisions][version] = "2.1"
 projects[field_sql_norevisions][subdir] = "contrib"
 
-projects[features][version] = "2.3"
+projects[features][version] = "2.7"
 projects[features][subdir] = "contrib"
 
-projects[features_extra][version] = "1.0-beta1"
+projects[features_extra][version] = "1.0"
 projects[features_extra][subdir] = "contrib"
 
 projects[file_entity][version] = "2.0-beta1"
@@ -61,9 +61,6 @@ projects[fontawesome][subdir] = "contrib"
 
 projects[forward][version] = "2.0"
 projects[forward][subdir] = "contrib"
-
-projects[geocoder][version] = "1.2"
-projects[geocoder][subdir] = "contrib"
 
 projects[geofield][version] = "2.3"
 projects[geofield][subdir] = "contrib"

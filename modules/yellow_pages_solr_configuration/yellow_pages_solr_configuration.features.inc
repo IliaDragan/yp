@@ -128,12 +128,16 @@ function yellow_pages_solr_configuration_default_search_api_index() {
           }
         },
         "search_api_stopwords" : {
-          "status" : 0,
+          "status" : 1,
           "weight" : "30",
           "settings" : {
-            "fields" : { "title" : true },
+            "fields" : {
+              "title" : true,
+              "field_products:product:name" : true,
+              "field_products:product:parents_all" : true
+            },
             "file" : "",
-            "stopwords" : "but\\r\\ndid\\r\\nthe this that those\\r\\netc"
+            "stopwords" : "but\\r\\ndid\\r\\nthe this that those\\r\\netc\\r\\nex e\\r\\n\\u0438 \\u0438\\u043b\\u0438 \\u043d\\u0430 \\u043f\\u043e\\u0434 \\u0432 \\u0438\\u0437\\r\\n\\u0219i \\u00een pe la lui"
           }
         },
         "search_api_highlighting" : {

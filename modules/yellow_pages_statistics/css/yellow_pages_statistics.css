@@ -23,3 +23,7 @@
 #yellow-pages-statistics-node-stat-report-form #edit-submit {
   vertical-align: top;
 }
+#yellow-pages-statistics-node-stat-report-form table caption {
+  font-size: 20px;
+  margin: 40px 0 10px;
+}

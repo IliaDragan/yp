@@ -66,6 +66,9 @@ function yellow_pages_statistics_node_stat_report_form($form, &$form_state, $nod
   $form['base_stat']['statistics'] = array(
     '#markup' => yellow_pages_statistics_get_statistics_data_for_node($node, $start_timestamp, $end_timestamp, $module_path),
   );
+  $form['base_stat']['search'] = array(
+    '#markup' => yellow_pages_statistics_get_search_statistics_data_for_node($node, $start_timestamp, $end_timestamp, $module_path),
+  );
   if (!empty($node->field_advertisements['und'][0]['target_id'])) {
     $adv = node_load($node->field_advertisements['und'][0]['target_id']);
     $form['related_stat'] = array(
@@ -99,8 +102,6 @@ function yellow_pages_statistics_node_stat_report_form_submit(&$form, &$form_sta
  *
  * @param $node
  *   Node object of which statistic will be showed.
- * @param $nids
- *   Node translations nids.
  * @param $start
  *   Start date timestamp.
  * @param $end
@@ -222,4 +223,82 @@ function yellow_pages_statistics_get_statistics_data_for_node(&$node, $start, $e
   $chart = '<div id="'.$node->type.'Chart"></div>';
 
   return $statistics_table . $chart;
+}
+
+/**
+ * Returns node search statistic data for selected period.
+ *
+ * @param $node
+ *   Node object of which statistic will be showed.
+ * @param $start
+ *   Start date timestamp.
+ * @param $end
+ *   End date timestamp.
+ * @param $module_path
+ *
+ * @return string
+ */
+function yellow_pages_statistics_get_search_statistics_data_for_node(&$node, $start, $end, $module_path) {
+  if ($node->type == 'company') {
+    // Get all translations nodes nids.
+    $nids = array();
+    if (!empty($node->tnid)) {
+      $nids = yellow_pages_core_node_get_translation_nids($node->tnid);
+    }
+    else {
+      $nids[] = $node->nid;
+    }
+
+    $languages = array();
+    foreach ($nids as $lang => $nid) {
+      $language = i18n_language_load($lang);
+      $languages[$nid] = t($language->name);
+    }
+
+    $rows = array();
+
+    $query = db_select('yp_search_company_statistics', 'scs')
+      ->fields('scs', array('nid', 'timestamp', 'page', 'keywords'))
+      ->condition('timestamp', array($start, $end), 'BETWEEN')
+      ->condition('nid', $nids, 'IN');
+    $result = $query->execute();
+
+    $total = $result->rowCount();
+
+    if (!empty($total)) {
+      foreach ($result as $row) {
+        $rows[] = array(
+          format_date($row->timestamp, 'custom', 'd M Y H:i'),
+          $row->keywords,
+          $row->page + 1,
+          $languages[$row->nid],
+        );
+      }
+
+      $rows[] = array(
+        t('TOTAL'),
+        array(
+          'data' => t('@total views', array('@total' => $total)),
+          'colspan' => 3,
+        ),
+      );
+    }
+
+    $table = array(
+      'header' => array(
+        t('Date/time'),
+        t('Search phrase'),
+        t('Page'),
+        t('Language'),
+      ),
+      'caption' => t('Search statistics'),
+      'empty' => t('No search statistics for this period.'),
+      'rows' => $rows,
+    );
+
+    return theme('table', $table);
+  }
+  else {
+    return '';
+  }
 }

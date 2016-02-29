@@ -198,7 +198,7 @@ function yellow_pages_statistics_nvc_count_node_view_ajax() {
 function yellow_pages_statistics_views_post_execute(&$view) {
   if ($view->current_display == 'solr_node_search' && empty($view->advertisement_call)) {
     if (!empty($view->args[0])) {
-      $page = $view->query->pager->current_page;
+      $page = !empty($view->query->pager->current_page) ? $view->query->pager->current_page : 0;
       $keywords = $view->args[0];
       $timestamp = time();
       $entities = $view->result;

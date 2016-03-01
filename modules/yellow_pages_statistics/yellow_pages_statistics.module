@@ -17,6 +17,9 @@ function yellow_pages_statistics_permission() {
     'access yellow pages node statistics' => array(
       'title' => t('Access Yellow Pages node statistics'),
     ),
+    'access yellow pages search statistics' => array(
+      'title' => t('Access Yellow Pages search statistics'),
+    ),
     'access yellow pages google analytics page' => array(
       'title' => t('Access Yellow Pages Google Analytics page'),
     ),
@@ -35,6 +38,15 @@ function yellow_pages_statistics_menu() {
     'page arguments' => array('yellow_pages_statistics_ga'),
     'access arguments' => array('access yellow pages google analytics page'),
     'file' => 'yellow_pages_statistics.ga.inc',
+    'type' => MENU_CALLBACK,
+  );
+
+  $items['search-statistics'] = array(
+    'title' => 'Search statistics',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('yellow_pages_search_statistics'),
+    'access arguments' => array('access yellow pages search statistics'),
+    'file' => 'yellow_pages_statistics.reports.inc',
     'type' => MENU_CALLBACK,
   );
 
@@ -196,11 +208,25 @@ function yellow_pages_statistics_nvc_count_node_view_ajax() {
  * Implements hook_views_post_execute().
  */
 function yellow_pages_statistics_views_post_execute(&$view) {
-  if ($view->current_display == 'solr_node_search' && empty($view->advertisement_call)) {
-    if (!empty($view->args[0])) {
+  $search_company = ($view->current_display == 'solr_node_search');
+  $search_news = ($view->current_display == 'panel_pane_2');
+  $no_adv_view = empty($view->advertisement_call);
+  $has_argument = !empty($view->args[0]);
+
+  if (($search_company || $search_news) && $no_adv_view && $has_argument) {
+    watchdog('debug', $view->current_display);
+    // Add keywords statistics.
+    $timestamp = time();
+    $keywords = $view->args[0];
+    $fields = array(
+      'keywords' => $keywords,
+      'timestamp' => $timestamp,
+    );
+    drupal_write_record('yp_search_statistics', $fields);
+
+    // Add company search statistics.
+    if (!$search_news) {
       $page = !empty($view->query->pager->current_page) ? $view->query->pager->current_page : 0;
-      $keywords = $view->args[0];
-      $timestamp = time();
       $entities = $view->result;
       foreach($entities as $entity) {
         if (!empty($entity->_entity_properties['search_api_id'])) {

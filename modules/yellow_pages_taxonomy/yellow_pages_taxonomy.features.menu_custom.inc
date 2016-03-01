@@ -23,6 +23,5 @@ function yellow_pages_taxonomy_menu_default_menu_custom() {
   t('Automated menu items based on product terms.');
   t('Product menu');
 
-
   return $menus;
 }

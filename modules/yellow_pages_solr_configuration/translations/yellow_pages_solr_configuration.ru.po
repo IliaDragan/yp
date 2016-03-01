@@ -1,0 +1,231 @@
+
+
+# $Id$
+#
+# Russian translation of Drupal (general)
+# Copyright YEAR NAME <EMAIL@ADDRESS>
+# Generated from files:
+#  yellow_pages_solr_configuration.admin.inc: n/a
+#  yellow_pages_solr_configuration.module: n/a
+#  yellow_pages_solr_configuration.views_default.inc: n/a
+#  plugins/content_types/switch_search.inc: n/a
+#  sty_adverts.module: n/a
+#  sty_adverts.info: n/a
+#  yellow_pages_solr_configuration.info: n/a
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PROJECT VERSION\n"
+"POT-Creation-Date: 2016-02-08 16:24+0200\n"
+"PO-Revision-Date: 2016-02-08 16:24+0200\n"
+"Last-Translator: NAME <EMAIL@ADDRESS>\n"
+"Language-Team: Russian <EMAIL@ADDRESS>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=((((n%10)==1)&&((n%100)!=11))?(0):(((((n%10)>=2)&&((n%10)<=4))&&(((n%100)<10)||((n%100)>=20)))?(1):2));\n"
+
+#: yellow_pages_solr_configuration.admin.inc:13 yellow_pages_solr_configuration.module:31
+msgid "Rebuild products facet"
+msgstr ""
+
+#: yellow_pages_solr_configuration.admin.inc:68
+msgid "Products facet rebuilt."
+msgstr ""
+
+#: yellow_pages_solr_configuration.views_default.inc:311
+msgid "Master"
+msgstr "Основной"
+
+#: yellow_pages_solr_configuration.views_default.inc:312
+msgid "ещё"
+msgstr ""
+
+#: yellow_pages_solr_configuration.views_default.inc:313
+msgid "Применить"
+msgstr ""
+
+#: yellow_pages_solr_configuration.views_default.inc:314
+msgid "Сбросить"
+msgstr ""
+
+#: yellow_pages_solr_configuration.views_default.inc:315
+msgid "Сортировать по:"
+msgstr ""
+
+#: yellow_pages_solr_configuration.views_default.inc:316
+msgid "По возрастанию"
+msgstr ""
+
+#: yellow_pages_solr_configuration.views_default.inc:317
+msgid "По убыванию"
+msgstr ""
+
+#: yellow_pages_solr_configuration.views_default.inc:318
+msgid "Элементов на страницу"
+msgstr ""
+
+#: yellow_pages_solr_configuration.views_default.inc:319
+msgid "- Все -"
+msgstr ""
+
+#: yellow_pages_solr_configuration.views_default.inc:320
+msgid "Пропустить"
+msgstr ""
+
+#: yellow_pages_solr_configuration.views_default.inc:321
+msgid "« первая"
+msgstr ""
+
+#: yellow_pages_solr_configuration.views_default.inc:322
+msgid "‹ предыдущая"
+msgstr ""
+
+#: yellow_pages_solr_configuration.views_default.inc:323
+msgid "следующая ›"
+msgstr ""
+
+#: yellow_pages_solr_configuration.views_default.inc:324
+msgid "последняя »"
+msgstr ""
+
+#: yellow_pages_solr_configuration.views_default.inc:325
+msgid "No results found for (!1).\nType another search phrase or check your spelling."
+msgstr ""
+
+#: yellow_pages_solr_configuration.views_default.inc:327
+msgid "Node ID"
+msgstr "ID материала"
+
+#: yellow_pages_solr_configuration.views_default.inc:328
+msgid "."
+msgstr "."
+
+#: yellow_pages_solr_configuration.views_default.inc:329
+msgid ","
+msgstr ","
+
+#: yellow_pages_solr_configuration.views_default.inc:330 plugins/content_types/switch_search.inc:32
+msgid "Search companies"
+msgstr "Найдено в предприятиях"
+
+#: yellow_pages_solr_configuration.views_default.inc:331
+msgid "Поиск"
+msgstr ""
+
+#: yellow_pages_solr_configuration.views_default.inc:332
+msgid "Items per page"
+msgstr "Элементов на страницу"
+
+#: yellow_pages_solr_configuration.views_default.inc:333
+msgid "- All -"
+msgstr "- Все -"
+
+#: yellow_pages_solr_configuration.views_default.inc:334
+msgid "Offset"
+msgstr "Пропустить"
+
+#: yellow_pages_solr_configuration.views_default.inc:335
+msgid "« first"
+msgstr "« первая"
+
+#: yellow_pages_solr_configuration.views_default.inc:336
+msgid "‹ previous"
+msgstr "‹ предыдущая"
+
+#: yellow_pages_solr_configuration.views_default.inc:337
+msgid "next ›"
+msgstr "следующая ›"
+
+#: yellow_pages_solr_configuration.views_default.inc:338
+msgid "last »"
+msgstr "последняя »"
+
+#: yellow_pages_solr_configuration.views_default.inc:339
+msgid "<p>No results found for (!1).</p>\n<p>Type another search phrase or check your spelling.</p>"
+msgstr ""
+"<p>Ничего не найдено для (!1).</p> <p>Введите "
+"другую поисковую фразу или проверьте "
+"правописание.</p>"
+
+#: yellow_pages_solr_configuration.views_default.inc:341
+msgid "Все"
+msgstr ""
+
+#: yellow_pages_solr_configuration.views_default.inc:342
+msgid "Представления-Фрагменты"
+msgstr ""
+
+#: yellow_pages_solr_configuration.views_default.inc:343
+msgid "Similar companies"
+msgstr "Похожие предприятия"
+
+#: yellow_pages_solr_configuration.views_default.inc:344
+msgid "more"
+msgstr "ещё"
+
+#: yellow_pages_solr_configuration.views_default.inc:345
+msgid "Search articles"
+msgstr ""
+
+#: sty_adverts.module:39;48;60
+msgid "- Any -"
+msgstr "- Любой -"
+
+#: sty_adverts.module:405
+msgid "- None -"
+msgstr "- Не указано -"
+
+#: yellow_pages_solr_configuration.module:94
+msgid "Filter by city."
+msgstr "городу"
+
+#: yellow_pages_solr_configuration.module:100
+msgid "Sort by title."
+msgstr ""
+
+#: yellow_pages_solr_configuration.module:32
+msgid "Rebuild products translations and hierarchy"
+msgstr ""
+
+#: sty_adverts.info:0
+msgid "Stylista Adverts (Creatiove formats)"
+msgstr ""
+
+#: sty_adverts.info:0
+msgid "A module that allows publishing of certain promoted contents in a special manner."
+msgstr ""
+
+#: sty_adverts.info:0
+msgid "STYLISTA"
+msgstr ""
+
+#: yellow_pages_solr_configuration.info:0
+msgid "Yellow Pages Solr configuration"
+msgstr ""
+
+#: yellow_pages_solr_configuration.info:0
+msgid "Feature with all Solr configurations"
+msgstr ""
+
+#: yellow_pages_solr_configuration.info:0
+msgid "Yellow Pages"
+msgstr ""
+
+#: plugins/content_types/switch_search.inc:8
+msgid "Yellow pages switch search."
+msgstr ""
+
+#: plugins/content_types/switch_search.inc:9
+msgid "Display block fot search switch."
+msgstr ""
+
+#: plugins/content_types/switch_search.inc:11
+msgid "YellowPages"
+msgstr ""
+
+#: plugins/content_types/switch_search.inc:33
+msgid "Search content"
+msgstr "Найдено в новостях"
+

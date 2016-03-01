@@ -23,28 +23,15 @@ function yellow_pages_solr_configuration_views_default_views() {
   /* Display: Master */
   $handler = $view->new_display('default', 'Master', 'default');
   $handler->display->display_options['use_more_always'] = FALSE;
-  $handler->display->display_options['use_more_text'] = 'ещё';
   $handler->display->display_options['access']['type'] = 'none';
   $handler->display->display_options['cache']['type'] = 'none';
   $handler->display->display_options['query']['type'] = 'views_query';
   $handler->display->display_options['exposed_form']['type'] = 'basic';
-  $handler->display->display_options['exposed_form']['options']['submit_button'] = 'Применить';
-  $handler->display->display_options['exposed_form']['options']['reset_button_label'] = 'Сбросить';
-  $handler->display->display_options['exposed_form']['options']['exposed_sorts_label'] = 'Сортировать по:';
-  $handler->display->display_options['exposed_form']['options']['sort_asc_label'] = 'По возрастанию';
-  $handler->display->display_options['exposed_form']['options']['sort_desc_label'] = 'По убыванию';
   $handler->display->display_options['pager']['type'] = 'full';
   $handler->display->display_options['pager']['options']['items_per_page'] = '10';
   $handler->display->display_options['pager']['options']['offset'] = '0';
   $handler->display->display_options['pager']['options']['id'] = '0';
   $handler->display->display_options['pager']['options']['quantity'] = '9';
-  $handler->display->display_options['pager']['options']['expose']['items_per_page_label'] = 'Элементов на страницу';
-  $handler->display->display_options['pager']['options']['expose']['items_per_page_options_all_label'] = '- Все -';
-  $handler->display->display_options['pager']['options']['expose']['offset_label'] = 'Пропустить';
-  $handler->display->display_options['pager']['options']['tags']['first'] = '« первая';
-  $handler->display->display_options['pager']['options']['tags']['previous'] = '‹ предыдущая';
-  $handler->display->display_options['pager']['options']['tags']['next'] = 'следующая ›';
-  $handler->display->display_options['pager']['options']['tags']['last'] = 'последняя »';
   $handler->display->display_options['style_plugin'] = 'default';
   $handler->display->display_options['row_plugin'] = 'fields';
   /* No results behavior: Global: Text area */
@@ -70,16 +57,23 @@ Type another search phrase or check your spelling.';
   $handler->display->display_options['defaults']['use_more_always'] = FALSE;
   $handler->display->display_options['use_more_always'] = FALSE;
   $handler->display->display_options['defaults']['use_more_text'] = FALSE;
-  $handler->display->display_options['use_more_text'] = 'ещё';
   $handler->display->display_options['defaults']['access'] = FALSE;
   $handler->display->display_options['access']['type'] = 'none';
+  $handler->display->display_options['defaults']['cache'] = FALSE;
+  $handler->display->display_options['cache']['type'] = 'none';
   $handler->display->display_options['defaults']['exposed_form'] = FALSE;
   $handler->display->display_options['exposed_form']['type'] = 'basic';
-  $handler->display->display_options['exposed_form']['options']['submit_button'] = 'Поиск';
+  $handler->display->display_options['exposed_form']['options']['submit_button'] = 'Search';
   $handler->display->display_options['exposed_form']['options']['reset_button_label'] = 'Сбросить';
   $handler->display->display_options['exposed_form']['options']['exposed_sorts_label'] = 'Сортировать по:';
   $handler->display->display_options['exposed_form']['options']['sort_asc_label'] = 'По возрастанию';
   $handler->display->display_options['exposed_form']['options']['sort_desc_label'] = 'По убыванию';
+  $handler->display->display_options['defaults']['pager'] = FALSE;
+  $handler->display->display_options['pager']['type'] = 'full';
+  $handler->display->display_options['pager']['options']['items_per_page'] = '10';
+  $handler->display->display_options['pager']['options']['offset'] = '0';
+  $handler->display->display_options['pager']['options']['id'] = '0';
+  $handler->display->display_options['pager']['options']['quantity'] = '9';
   $handler->display->display_options['defaults']['style_plugin'] = FALSE;
   $handler->display->display_options['style_plugin'] = 'default';
   $handler->display->display_options['defaults']['style_options'] = FALSE;
@@ -164,7 +158,6 @@ Type another search phrase or check your spelling.';
   $handler->display->display_options['filters']['type']['value'] = array(
     'company' => 'company',
   );
-  $handler->display->display_options['pane_category']['name'] = 'Представления-Фрагменты';
   $handler->display->display_options['argument_input'] = array(
     'search_api_views_fulltext' => array(
       'type' => 'context',
@@ -177,61 +170,14 @@ Type another search phrase or check your spelling.';
   );
   $handler->display->display_options['inherit_panels_path'] = '0';
 
-  /* Display: Similar companies */
-  $handler = $view->new_display('panel_pane', 'Similar companies', 'similar_companies');
-  $handler->display->display_options['defaults']['pager'] = FALSE;
-  $handler->display->display_options['pager']['type'] = 'some';
-  $handler->display->display_options['pager']['options']['items_per_page'] = '3';
-  $handler->display->display_options['pager']['options']['offset'] = '0';
-  $handler->display->display_options['defaults']['style_plugin'] = FALSE;
-  $handler->display->display_options['style_plugin'] = 'default';
-  $handler->display->display_options['defaults']['style_options'] = FALSE;
-  $handler->display->display_options['defaults']['row_plugin'] = FALSE;
-  $handler->display->display_options['row_plugin'] = 'entity';
-  $handler->display->display_options['row_options']['view_mode'] = 'search_index';
-  $handler->display->display_options['defaults']['row_options'] = FALSE;
-  $handler->display->display_options['defaults']['arguments'] = FALSE;
-  /* Contextual filter: Search: More like this */
-  $handler->display->display_options['arguments']['search_api_views_more_like_this']['id'] = 'search_api_views_more_like_this';
-  $handler->display->display_options['arguments']['search_api_views_more_like_this']['table'] = 'search_api_index_company_nodes';
-  $handler->display->display_options['arguments']['search_api_views_more_like_this']['field'] = 'search_api_views_more_like_this';
-  $handler->display->display_options['arguments']['search_api_views_more_like_this']['default_action'] = 'not found';
-  $handler->display->display_options['arguments']['search_api_views_more_like_this']['exception']['title'] = 'Все';
-  $handler->display->display_options['arguments']['search_api_views_more_like_this']['default_argument_type'] = 'fixed';
-  $handler->display->display_options['arguments']['search_api_views_more_like_this']['summary']['format'] = 'default_summary';
-  $handler->display->display_options['arguments']['search_api_views_more_like_this']['fields'] = array(
-    'field_goods_and_services' => 'field_goods_and_services',
-  );
-  $handler->display->display_options['defaults']['filter_groups'] = FALSE;
-  $handler->display->display_options['defaults']['filters'] = FALSE;
-  /* Filter criterion: Indexed Node: Item language */
-  $handler->display->display_options['filters']['search_api_language']['id'] = 'search_api_language';
-  $handler->display->display_options['filters']['search_api_language']['table'] = 'search_api_index_company_nodes';
-  $handler->display->display_options['filters']['search_api_language']['field'] = 'search_api_language';
-  $handler->display->display_options['filters']['search_api_language']['value'] = array(
-    'current' => 'current',
-  );
-  /* Filter criterion: Indexed Node: Content type */
-  $handler->display->display_options['filters']['type']['id'] = 'type';
-  $handler->display->display_options['filters']['type']['table'] = 'search_api_index_company_nodes';
-  $handler->display->display_options['filters']['type']['field'] = 'type';
-  $handler->display->display_options['filters']['type']['value'] = array(
-    'company' => 'company',
-  );
-  $handler->display->display_options['pane_category']['name'] = 'Представления-Фрагменты';
-  $handler->display->display_options['argument_input'] = array(
-    'search_api_views_more_like_this' => array(
-      'type' => 'context',
-      'context' => 'entity:taxonomy_term.tid',
-      'context_optional' => 0,
-      'panel' => '0',
-      'fixed' => '',
-      'label' => 'Search: More like this',
-    ),
-  );
-
   /* Display: Search articles */
   $handler = $view->new_display('panel_pane', 'Search articles', 'panel_pane_2');
+  $handler->display->display_options['defaults']['cache'] = FALSE;
+  $handler->display->display_options['cache']['type'] = 'search_api_views_cache';
+  $handler->display->display_options['cache']['results_lifespan'] = '21600';
+  $handler->display->display_options['cache']['results_lifespan_custom'] = '0';
+  $handler->display->display_options['cache']['output_lifespan'] = '21600';
+  $handler->display->display_options['cache']['output_lifespan_custom'] = '0';
   $handler->display->display_options['defaults']['style_plugin'] = FALSE;
   $handler->display->display_options['style_plugin'] = 'default';
   $handler->display->display_options['defaults']['style_options'] = FALSE;
@@ -290,7 +236,6 @@ Type another search phrase or check your spelling.';
   $handler->display->display_options['filters']['type']['value'] = array(
     'article' => 'article',
   );
-  $handler->display->display_options['pane_category']['name'] = 'Представления-Фрагменты';
   $handler->display->display_options['argument_input'] = array(
     'search_api_views_fulltext' => array(
       'type' => 'context',
@@ -303,32 +248,37 @@ Type another search phrase or check your spelling.';
   );
   $translatables['solr_views'] = array(
     t('Master'),
-    t('ещё'),
-    t('Применить'),
-    t('Сбросить'),
-    t('Сортировать по:'),
-    t('По возрастанию'),
-    t('По убыванию'),
-    t('Элементов на страницу'),
-    t('- Все -'),
-    t('Пропустить'),
-    t('« первая'),
-    t('‹ предыдущая'),
-    t('следующая ›'),
-    t('последняя »'),
+    t('more'),
+    t('Apply'),
+    t('Reset'),
+    t('Sort by'),
+    t('Asc'),
+    t('Desc'),
+    t('Items per page'),
+    t('- All -'),
+    t('Offset'),
+    t('« first'),
+    t('‹ previous'),
+    t('next ›'),
+    t('last »'),
     t('No results found for (!1).
 Type another search phrase or check your spelling.'),
     t('Node ID'),
     t('.'),
     t(','),
     t('Search companies'),
-    t('Поиск'),
+    t('Search'),
+    t('Items per page'),
+    t('- All -'),
+    t('Offset'),
+    t('« first'),
+    t('‹ previous'),
+    t('next ›'),
+    t('last »'),
     t('<p>No results found for (!1).</p>
 <p>Type another search phrase or check your spelling.</p>'),
     t('Все'),
-    t('Представления-Фрагменты'),
-    t('Similar companies'),
-    t('more'),
+    t('View panes'),
     t('Search articles'),
   );
   $export['solr_views'] = $view;

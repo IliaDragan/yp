@@ -1,0 +1,29 @@
+#yellow-pages-statistics-node-stat-report-form .container-inline-date {
+  display: inline-block;
+  margin-right: 20px;
+}
+#yellow-pages-statistics-node-stat-report-form .form-type-date-popup label {
+  float: left;
+  line-height: 30px;
+  margin-right: 10px;
+}
+#yellow-pages-statistics-node-stat-report-form .form-type-textfield {
+  margin: 0;
+}
+#edit-start-date,
+#edit-end-date {
+  padding: 0;
+}
+#edit-start-date label,
+#edit-end-date label,
+#edit-start-date .description,
+#edit-end-date .description {
+  display: none;
+}
+#yellow-pages-statistics-node-stat-report-form #edit-submit {
+  vertical-align: top;
+}
+#yellow-pages-statistics-node-stat-report-form table caption {
+  font-size: 20px;
+  margin: 40px 0 10px;
+}

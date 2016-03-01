@@ -1,0 +1,3 @@
+ru,RU,ru_RU,Russian (Russia),ru_RU.zip
+ru,RU,ru_RU_ye,Russian_ye (Russia),ru_RU_ye.zip
+ru,RU,ru_RU_yo,Russian_yo (Russia),ru_RU_yo.zip

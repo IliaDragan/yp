@@ -168,12 +168,8 @@ function yellow_pages_solr_configuration_preprocess(&$variables, $hook) {
  * Implements hook_search_api_solr_query_alter().
  */
 function yellow_pages_solr_configuration_search_api_solr_query_alter(array &$call_args, SearchApiQueryInterface $query) {
-  $call_args['params']['qf'][] = 'textWord^5.0';
-  $call_args['params']['qf'][] = 'textExact^3.0';
-
-  if ($call_args['query']) {
-    $call_args['query'] = '"' . str_replace(array('"', 'AND ', 'OR ') , '', $call_args['query']) . '"';
-  }
+  $call_args['params']['qf'][] = 'textChunk^1.0';
+  $call_args['params']['qf'][] = 'textUri^2.0';
 }
 
 /**
@@ -199,9 +195,14 @@ function yellow_pages_solr_configuration_search_api_solr_documents_alter(array &
       $term_ids = $document->getField('im_field_products$product');
 
       if (isset($term_ids['value']) && is_array($term_ids['value'])) {
-        $locales = array('en', 'ro');
+        $term_parents_ids = $document->getField('im_field_products$product$parents_all');
+        if (is_array($term_parents_ids['value'])) {
+          $term_ids['value'] += $term_parents_ids['value'];
+        }
 
-        foreach ($term_ids['value'] as $key => $term_id) {
+        $locales = array('en', 'ro', 'ru');
+
+        foreach ($term_ids['value'] as $term_id) {
           $term = i18n_get_object('taxonomy_term', $term_id);
           foreach ($locales as $locale) {
             $translated_term = $term->localize($locale);
@@ -280,4 +281,30 @@ function _field_products_labels(array $ids) {
   }
 
   return isset($static[$language->language]) ? $static[$language->language] : array();
+}
+
+/**
+ * Implements hook_preprocess_html().
+ */
+function yellow_pages_solr_configuration_preprocess_html(&$vars) {
+  if ($searchers = facetapi_get_active_searchers()) {
+    $searcher = reset($searchers);
+    $adapter = facetapi_adapter_load($searcher);
+
+    $items = $adapter->getAllActiveItems();
+    if (!empty($items)) {
+      $data = array();
+      foreach ($items as $key => $item) {
+        if (strpos($key, 'field_products') === 0) {
+          $term = taxonomy_term_load($item['value']);
+          $data[] = $term->name;
+        }
+      }
+      if (!empty($data)) {
+        $title = implode(' :: ', $data);
+        drupal_set_title($title);
+        $vars['head_title'] = $title . ' | ' . variable_get('site_name','YELLOW PAGES OF MOLDOVAS');
+      }
+    }
+  }
 }

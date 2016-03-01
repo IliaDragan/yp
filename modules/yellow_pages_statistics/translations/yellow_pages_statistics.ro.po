@@ -7,6 +7,7 @@
 # Generated from files:
 #  yellow_pages_statistics.admin.inc: n/a
 #  yellow_pages_statistics.ga.inc: n/a
+#  yellow_pages_statistics.reports.inc: n/a
 #  yellow_pages_statistics.module: n/a
 #  yellow_pages_statistics.info: n/a
 #
@@ -14,8 +15,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
-"POT-Creation-Date: 2016-02-01 12:18+0200\n"
-"PO-Revision-Date: 2016-02-01 12:18+0200\n"
+"POT-Creation-Date: 2016-02-29 17:26+0200\n"
+"PO-Revision-Date: 2016-02-29 17:26+0200\n"
 "Last-Translator: NAME <EMAIL@ADDRESS>\n"
 "Language-Team: Romanian <EMAIL@ADDRESS>\n"
 "MIME-Version: 1.0\n"
@@ -99,7 +100,7 @@ msgstr "Ultima săptămână"
 msgid "Select Period"
 msgstr "Selectați Perioada"
 
-#: yellow_pages_statistics.ga.inc:65
+#: yellow_pages_statistics.ga.inc:65 yellow_pages_statistics.reports.inc:58
 msgid "Show"
 msgstr "Afişare"
 
@@ -119,25 +120,117 @@ msgstr ""
 msgid "No views (profiles) found for this user."
 msgstr ""
 
+#: yellow_pages_statistics.reports.inc:19
+msgid "No statistics information for this node."
+msgstr "Statistica nu este disponibilă pentru această nodă."
+
+#: yellow_pages_statistics.reports.inc:37
+msgid "Select period"
+msgstr "Selectați perioada"
+
+#: yellow_pages_statistics.reports.inc:41
+msgid "Start date"
+msgstr "Data de început"
+
+#: yellow_pages_statistics.reports.inc:49
+msgid "End date"
+msgstr "Data de sfârşit"
+
+#: yellow_pages_statistics.reports.inc:64
+msgid "Statistics for selected period"
+msgstr "Statistica pentru perioada selectată"
+
+#: yellow_pages_statistics.reports.inc:76
+msgid "Company related advertisement statistics for selected period"
+msgstr "Statistica pentru publicitatea legată de companie"
+
+#: yellow_pages_statistics.reports.inc:164
+msgid "Period"
+msgstr "Perioada"
+
+#: yellow_pages_statistics.reports.inc:165
+msgid "Total"
+msgstr ""
+
+#: yellow_pages_statistics.reports.inc:166
+msgid "From @start to @end"
+msgstr "Din @start până @end"
+
+#: yellow_pages_statistics.reports.inc:169;204
+msgid "Views"
+msgstr "Vizualizări"
+
+#: yellow_pages_statistics.reports.inc:174;205
+msgid "Clicks"
+msgstr "Clicuri"
+
+#: yellow_pages_statistics.reports.inc:203
+msgid "Date"
+msgstr "Data"
+
+#: yellow_pages_statistics.reports.inc:279
+msgid "TOTAL"
+msgstr ""
+
+#: yellow_pages_statistics.reports.inc:281
+msgid "@total views"
+msgstr "@total vizualizări"
+
+#: yellow_pages_statistics.reports.inc:289
+msgid "Date/time"
+msgstr "Data/ora"
+
+#: yellow_pages_statistics.reports.inc:290
+msgid "Search phrase"
+msgstr "Expresia de căutare"
+
+#: yellow_pages_statistics.reports.inc:291
+msgid "Page"
+msgstr "Pagina"
+
+#: yellow_pages_statistics.reports.inc:292
+msgid "Language"
+msgstr "Limba"
+
+#: yellow_pages_statistics.reports.inc:294
+msgid "Search statistics"
+msgstr "Statistica de căutare"
+
+#: yellow_pages_statistics.reports.inc:295
+msgid "No search statistics for this period."
+msgstr "Nu este statistică de căutare pentru perioada aleasă."
+
 #: yellow_pages_statistics.module:15
 msgid "Administer Yellow Pages statistics"
 msgstr ""
 
 #: yellow_pages_statistics.module:18
+msgid "Access Yellow Pages node statistics"
+msgstr ""
+
+#: yellow_pages_statistics.module:21
 msgid "Access Yellow Pages Google Analytics page"
 msgstr ""
 
-#: yellow_pages_statistics.module:30
+#: yellow_pages_statistics.module:33
 msgid "Google Analytics"
 msgstr ""
 
-#: yellow_pages_statistics.module:39
+#: yellow_pages_statistics.module:42
 msgid "GA data"
 msgstr ""
 
-#: yellow_pages_statistics.module:47
+#: yellow_pages_statistics.module:50
 msgid "Advertisement statistics tracker"
 msgstr ""
+
+#: yellow_pages_statistics.module:58
+msgid "Enterprise statistics tracker"
+msgstr ""
+
+#: yellow_pages_statistics.module:72
+msgid "Statistics"
+msgstr "Statistici"
 
 #: yellow_pages_statistics.info:0
 msgid "Yellow Pages statistics"

@@ -66,23 +66,77 @@ function yellow_pages_ads_search_result_plugin_edit_form_submit($form, &$form_st
  * Plugin render callback.
  */
 function yellow_pages_ads_search_result_plugin_render($subtype, $conf, $panel_args, $context) {
+  global $language;
+  $view = views_get_view('solr_views');
+  $view->advertisement_call = TRUE;
+  if (is_array($panel_args)) {
+    $view->set_arguments($panel_args);
+  }
+  $view->set_display('solr_node_search');
+  $view->display_handler->options['pager'] = array(
+    'type' => 'none',
+    'options' => array(
+      'offset' => 0,
+    ),
+  );
+
+  $view->pre_execute();
+  $view->execute();
+  $companies = $view->result;
+
+  $solr_results = array();
+  foreach ($companies as $company) {
+    if (!empty($company->_entity_properties['search_api_id'])) {
+      $solr_results[] = $company->entity;
+    }
+  }
+
   $amount = isset($conf['ads_amount']) ? $conf['ads_amount'] : YP_ADS_AMOUNT;
   $category = isset($conf['ads_category']) ? $conf['ads_category'] : 'sidebar';
   $order = isset($conf['ads_order']) ? $conf['ads_order'] : 'random';
 
-  $solr_results = drupal_static('yp_solr_search_results', array());
-
-  $preload = array();
   if (!empty($solr_results)) {
-    $query = db_select('field_data_field_advertisements', 'fdfa')
-      ->fields('fdfa', array('field_advertisements_target_id'))
-      ->condition('entity_type', 'node', '=')
-      ->condition('bundle', 'company', '=')
-      ->condition('entity_id', $solr_results, 'IN');
-    $preload = $query->execute()->fetchCol();
+    $query = db_select('node', 'n');
+    $query->distinct();
+    $query->join('field_data_field_advertisements', 'fdfa', 'n.nid=fdfa.field_advertisements_target_id');
+    $query->join('field_data_field_ad_category', 'ad_cat', 'n.nid = ad_cat.entity_id');
+    $query->fields('n', array('nid'));
+    $query->condition('n.status', NODE_PUBLISHED, '=');
+    $query->condition('n.language', $language->language, '=');
+    $query->condition('ad_cat.field_ad_category_value', $category, '=');
+    $query->condition('fdfa.entity_type', 'node', '=');
+    $query->condition('fdfa.bundle', 'company', '=');
+    $query->condition('fdfa.entity_id', $solr_results, 'IN');
+    $query->orderBy('n.sticky', 'DESC')->orderRandom();
+    $query->range(0, $amount);
+    $result = $query->execute()->fetchCol();
   }
 
-  $nodes = yellow_pages_ads_get_ads($amount, $category, $order, $preload);
+  $found_count = empty($result) ? 0 : count($result);
+  if ($found_count) {
+    if ($found_count < $amount) {
+      $limit = $amount - $found_count;
+      $query = db_select('node', 'n');
+      $query->join('field_data_field_ad_category', 'ad_cat', 'n.nid = ad_cat.entity_id');
+      $query->fields('n', array('nid'));
+      $query->condition('n.status', NODE_PUBLISHED, '=');
+      $query->condition('n.language', $language->language, '=');
+      $query->condition('ad_cat.field_ad_category_value', $category, '=');
+      $query->range(0, $limit);
+      $query->orderRandom();
+      $query->condition('n.nid', $result, 'NOT IN');
+      $other_nodes = $query->execute()->fetchCol();
+
+      if (!empty($other_nodes)) {
+        $result = array_merge($result, $other_nodes);
+      }
+    }
+    $nodes = node_load_multiple($result);
+  }
+  else {
+    $nodes = yellow_pages_ads_get_ads($amount, $category, $order);
+  }
+
   $content = yellow_pages_ads_create_content($nodes);
 
   $plugin_data = new stdClass();

@@ -75,3 +75,29 @@ function yellow_pages_core_node_get_translation_nids($tnid) {
 
   return $translations;
 }
+
+/**
+ * Creating date collection between two dates
+ *
+ * @param string $first
+ *   Timestamp since.
+ * @param string $last
+ *   Timestamp until.
+ * @param string $step
+ * @param string $output_format
+ *   Format of output dates.
+ *
+ * @return array of dates.
+ */
+function yellow_pages_core_date_range($first, $last, $step = '+1 day', $output_format = 'd/m/Y', $key_format = 'Ymd') {
+  $dates = array();
+  $current = $first;
+
+  while( $current <= $last ) {
+    $key = date($key_format, $current);
+    $dates[$key] = format_date($current, 'custom', $output_format);
+    $current = strtotime($step, $current);
+  }
+
+  return $dates;
+}

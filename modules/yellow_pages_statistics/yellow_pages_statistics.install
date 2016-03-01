@@ -31,10 +31,10 @@ function yellow_pages_statistics_schema() {
         'default' => 0,
       ),
       'http_referer' => array(
-        'description' => 'The url from whict was clicked the ad.',
-        'type' => 'varchar',
-        'length' => 256,
+        'description' => 'The url from whitch was clicked the ad.',
+        'type' => 'text',
         'not null' => FALSE,
+        'size' => 'medium',
       ),
     ),
     'primary key' => array('id'),
@@ -272,4 +272,22 @@ function yellow_pages_statistics_update_7003(&$sandbox) {
   );
 
   db_create_table('yp_search_company_statistics', $table);
+}
+
+/**
+ * Change 'http_referer' field from varchar to text.
+ */
+function yellow_pages_statistics_update_7004(&$sandbox) {
+  // Remove old 'http_referer' field.
+  db_drop_field('yp_ad_statistics', 'http_referer');
+
+  // Add new field.
+  $spec = array(
+    'description' => 'The url from whitch was clicked the ad.',
+    'type' => 'text',
+    'not null' => FALSE,
+    'size' => 'medium',
+  );
+
+  db_add_field('yp_ad_statistics', 'http_referer', $spec);
 }

@@ -141,6 +141,7 @@ function yellow_pages_statistics_ga_chart($analytics, $profile_id, $metric, $met
       ),
     );
 
+    // For duration add "sec" to the value.
     if ($metric == 'ga:avgSessionDuration') {
       $js_data['analyticsChart']['chartColumns']['col2']['format'] = '# ' . t('sec');
     }

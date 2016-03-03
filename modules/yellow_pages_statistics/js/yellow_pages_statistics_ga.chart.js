@@ -32,10 +32,10 @@ function createChart() {
       pointSize: 7
     };
 
+    // Add vAxis format if is set.
     if (cols['col2']['format']) {
       options.vAxis = {format: cols['col2']['format']};
     }
-
 
     // Draw our chart.
     chart.draw(dataTable, options);

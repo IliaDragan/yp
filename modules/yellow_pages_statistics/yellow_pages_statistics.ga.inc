@@ -141,6 +141,10 @@ function yellow_pages_statistics_ga_chart($analytics, $profile_id, $metric, $met
       ),
     );
 
+    if ($metric == 'ga:avgSessionDuration') {
+      $js_data['analyticsChart']['chartColumns']['col2']['format'] = '# ' . t('sec');
+    }
+
     drupal_add_js($js_data, 'setting');
     drupal_add_js('http://www.google.com/jsapi', array('type' => 'external', 'group' => JS_LIBRARY));
     drupal_add_js($module_path . '/js/yellow_pages_statistics_ga.chart.js');

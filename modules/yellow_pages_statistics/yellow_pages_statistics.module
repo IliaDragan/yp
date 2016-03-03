@@ -90,6 +90,16 @@ function yellow_pages_statistics_menu() {
     'weight' => 50,
   );
 
+  $items['yp-form-action'] = array(
+    'title' => 'Statistics',
+    'page callback' => 'yellow_pages_statistics_node_stat',
+    'page arguments' => array(1),
+    'access arguments' => array('access yellow pages node statistics'),
+    'type' => MENU_LOCAL_TASK,
+    'file' => 'yellow_pages_statistics.reports.inc',
+    'weight' => 50,
+  );
+
   return $items;
 }
 
@@ -214,7 +224,8 @@ function yellow_pages_statistics_views_post_execute(&$view) {
   $has_argument = !empty($view->args[0]);
 
   if (($search_company || $search_news) && $no_adv_view && $has_argument) {
-    watchdog('debug', $view->current_display);
+    watchdog('debug', 'keyword=' . $view->args[0] . '   time=' . time(date('H:i:s')));
+
     // Add keywords statistics.
     $timestamp = time();
     $keywords = $view->args[0];
@@ -241,4 +252,11 @@ function yellow_pages_statistics_views_post_execute(&$view) {
       }
     }
   }
+}
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ */
+function yellow_pages_statistics_form_search_block_form_alter(&$form, &$form_state) {
+  $form['#action'] = url();
 }

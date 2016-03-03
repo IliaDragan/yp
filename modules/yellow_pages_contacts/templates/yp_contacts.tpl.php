@@ -28,7 +28,7 @@
     </span>
   </div>
   <div class="entry contact-ad-order">
-    <span class="item">
+    <span class="item link">
       <?php print l(t('Advertisement order'), 'feedback/ad'); ?>
     </span>
   </div>

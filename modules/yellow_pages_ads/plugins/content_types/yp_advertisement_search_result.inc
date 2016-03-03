@@ -91,6 +91,8 @@ function yellow_pages_ads_search_result_plugin_render($subtype, $conf, $panel_ar
     }
   }
 
+//   $solr_results = drupal_static('yp_solr_search_results', array());
+
   $amount = isset($conf['ads_amount']) ? $conf['ads_amount'] : YP_ADS_AMOUNT;
   $category = isset($conf['ads_category']) ? $conf['ads_category'] : 'sidebar';
   $order = isset($conf['ads_order']) ? $conf['ads_order'] : 'random';

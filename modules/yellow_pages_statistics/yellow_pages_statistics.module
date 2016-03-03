@@ -65,7 +65,7 @@ function yellow_pages_statistics_menu() {
     'access arguments' => array('access content'),
     'type' => MENU_CALLBACK,
   );
-  
+
   $items['yp/enterprise/%node'] = array(
     'title' => 'Enterprise statistics tracker',
     'page callback' => 'yellow_pages_statistics_tracker',
@@ -252,11 +252,4 @@ function yellow_pages_statistics_views_post_execute(&$view) {
       }
     }
   }
-}
-
-/**
- * Implements hook_form_FORM_ID_alter().
- */
-function yellow_pages_statistics_form_search_block_form_alter(&$form, &$form_state) {
-  $form['#action'] = url();
 }

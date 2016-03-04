@@ -15,8 +15,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
-"POT-Creation-Date: 2016-02-29 17:27+0200\n"
-"PO-Revision-Date: 2016-02-29 17:27+0200\n"
+"POT-Creation-Date: 2016-03-04 16:21+0200\n"
+"PO-Revision-Date: 2016-03-04 16:21+0200\n"
 "Last-Translator: NAME <EMAIL@ADDRESS>\n"
 "Language-Team: Russian <EMAIL@ADDRESS>\n"
 "MIME-Version: 1.0\n"
@@ -100,7 +100,7 @@ msgstr "Последняя неделя"
 msgid "Select Period"
 msgstr "Выберите Период"
 
-#: yellow_pages_statistics.ga.inc:65 yellow_pages_statistics.reports.inc:58
+#: yellow_pages_statistics.ga.inc:65 yellow_pages_statistics.reports.inc:58;337
 msgid "Show"
 msgstr "Показать"
 
@@ -124,15 +124,15 @@ msgstr ""
 msgid "No statistics information for this node."
 msgstr "Для данной ноды нет статистики."
 
-#: yellow_pages_statistics.reports.inc:37
+#: yellow_pages_statistics.reports.inc:37;316
 msgid "Select period"
 msgstr "Выберите период"
 
-#: yellow_pages_statistics.reports.inc:41
+#: yellow_pages_statistics.reports.inc:41;320
 msgid "Start date"
 msgstr "Дата начала"
 
-#: yellow_pages_statistics.reports.inc:49
+#: yellow_pages_statistics.reports.inc:49;328
 msgid "End date"
 msgstr "Дата окончания"
 
@@ -142,7 +142,9 @@ msgstr "Статистика для выбранного периода"
 
 #: yellow_pages_statistics.reports.inc:76
 msgid "Company related advertisement statistics for selected period"
-msgstr "Статистика связанной с компанией рекламы"
+msgstr ""
+"Статистика связанной с компанией "
+"рекламы"
 
 #: yellow_pages_statistics.reports.inc:164
 msgid "Period"
@@ -180,7 +182,7 @@ msgstr "@total просмотров"
 msgid "Date/time"
 msgstr "Дата/время"
 
-#: yellow_pages_statistics.reports.inc:290
+#: yellow_pages_statistics.reports.inc:290;355
 msgid "Search phrase"
 msgstr "Поисковая фраза"
 
@@ -192,7 +194,7 @@ msgstr "Страница"
 msgid "Language"
 msgstr "Язык"
 
-#: yellow_pages_statistics.reports.inc:294
+#: yellow_pages_statistics.reports.inc:294 yellow_pages_statistics.module:45
 msgid "Search statistics"
 msgstr "Статистика поиков."
 
@@ -201,6 +203,20 @@ msgid "No search statistics for this period."
 msgstr ""
 "Статистика по поиску на данный период "
 "отсутствует."
+
+#: yellow_pages_statistics.reports.inc:356
+msgid "Count of searching"
+msgstr "Количество поисков"
+
+#: yellow_pages_statistics.reports.inc:358
+msgid "Search phrases statistics"
+msgstr "Статистика поисковых запросов"
+
+#: yellow_pages_statistics.reports.inc:359
+msgid "No search phrases statistics for this period."
+msgstr ""
+"Статистика поисковых запросов для "
+"выбранного периода отсутствует."
 
 #: yellow_pages_statistics.module:15
 msgid "Administer Yellow Pages statistics"
@@ -211,26 +227,30 @@ msgid "Access Yellow Pages node statistics"
 msgstr ""
 
 #: yellow_pages_statistics.module:21
+msgid "Access Yellow Pages search statistics"
+msgstr ""
+
+#: yellow_pages_statistics.module:24
 msgid "Access Yellow Pages Google Analytics page"
 msgstr ""
 
-#: yellow_pages_statistics.module:33
+#: yellow_pages_statistics.module:36
 msgid "Google Analytics"
 msgstr ""
 
-#: yellow_pages_statistics.module:42
+#: yellow_pages_statistics.module:54
 msgid "GA data"
 msgstr ""
 
-#: yellow_pages_statistics.module:50
+#: yellow_pages_statistics.module:62
 msgid "Advertisement statistics tracker"
 msgstr ""
 
-#: yellow_pages_statistics.module:58
+#: yellow_pages_statistics.module:70
 msgid "Enterprise statistics tracker"
 msgstr ""
 
-#: yellow_pages_statistics.module:72
+#: yellow_pages_statistics.module:84;94
 msgid "Statistics"
 msgstr "Статистика"
 

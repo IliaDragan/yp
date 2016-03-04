@@ -61,7 +61,7 @@ function _blank_page() {
  */
 function yellow_pages_solr_configuration_form_alter(&$form, &$form_state, $form_id) {
   if($form_id == 'search_block_form') {
-    $form['#action'] = '?q=search-blank';
+    $form['#action'] = url('search-blank');
 
     $uri = arg();
     if ($uri[0] === 'search' && isset($uri[2])) {

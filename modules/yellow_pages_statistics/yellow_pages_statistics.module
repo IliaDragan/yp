@@ -224,8 +224,6 @@ function yellow_pages_statistics_views_post_execute(&$view) {
   $has_argument = !empty($view->args[0]);
 
   if (($search_company || $search_news) && $no_adv_view && $has_argument) {
-    watchdog('debug', 'keyword=' . $view->args[0] . '   time=' . time(date('H:i:s')));
-
     // Add keywords statistics.
     $timestamp = time();
     $keywords = $view->args[0];

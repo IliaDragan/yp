@@ -143,6 +143,34 @@ function yellow_pages_statistics_schema() {
     ),
   );
 
+  $schema['yp_search_statistics'] = array(
+    'description' => 'Statistics of search keywords.',
+    'fields' => array(
+      'id' => array(
+        'description' => 'The unique ID.',
+        'type' => 'serial',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+      ),
+      'timestamp' => array(
+        'description' => 'The Unix timestamp when the user searched the node.',
+        'type' => 'int',
+        'not null' => TRUE,
+        'default' => 0,
+      ),
+      'keywords' => array(
+        'description' => 'The search keywords.',
+        'type' => 'varchar',
+        'length' => 256,
+        'not null' => FALSE,
+      ),
+    ),
+    'primary key' => array('id'),
+    'indexes' => array(
+      'timestamp' => array('timestamp'),
+    ),
+  );
+
   return $schema;
 }
 
@@ -290,4 +318,39 @@ function yellow_pages_statistics_update_7004(&$sandbox) {
   );
 
   db_add_field('yp_ad_statistics', 'http_referer', $spec);
+}
+
+/**
+ * Add search stitistics table.
+ */
+function yellow_pages_statistics_update_7005(&$sandbox) {
+  $table = array(
+    'description' => 'Statistics of search keywords.',
+    'fields' => array(
+      'id' => array(
+        'description' => 'The unique ID.',
+        'type' => 'serial',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+      ),
+      'timestamp' => array(
+        'description' => 'The Unix timestamp when the user searched the node.',
+        'type' => 'int',
+        'not null' => TRUE,
+        'default' => 0,
+      ),
+      'keywords' => array(
+        'description' => 'The search keywords.',
+        'type' => 'varchar',
+        'length' => 256,
+        'not null' => FALSE,
+      ),
+    ),
+    'primary key' => array('id'),
+    'indexes' => array(
+      'timestamp' => array('timestamp'),
+    ),
+  );
+
+  db_create_table('yp_search_statistics', $table);
 }

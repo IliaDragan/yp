@@ -302,3 +302,82 @@ function yellow_pages_statistics_get_search_statistics_data_for_node(&$node, $st
     return '';
   }
 }
+
+/**
+ * Form callback - show search statistics information by period.
+ */
+function yellow_pages_search_statistics($form, &$form_state) {
+  $start_date = !empty($form_state['storage']['start_date']) ? $form_state['storage']['start_date'] : date('Y-m-d', strtotime('-1month'));
+  $start_timestamp = strtotime($start_date . ' 00:00');
+  $end_date = !empty($form_state['storage']['end_date']) ? $form_state['storage']['end_date'] : date('Y-m-d');
+  $end_timestamp = strtotime($end_date . ' 23:59');
+
+  $form['period'] = array(
+    '#title' => t('Select period'),
+    '#type' => 'fieldset',
+  );
+  $form['period']['start_date'] = array(
+    '#title' => t('Start date'),
+    '#type' => 'date_popup',
+    '#date_format' => 'Y-m-d',
+    '#date_year_range' => '-3:0',
+    '#default_value' => $start_date,
+    '#required' => TRUE,
+  );
+  $form['period']['end_date'] = array(
+    '#title' => t('End date'),
+    '#type' => 'date_popup',
+    '#date_format' => 'Y-m-d',
+    '#date_year_range' => '-3:0',
+    '#default_value' => $end_date,
+    '#required' => TRUE,
+  );
+  $form['period']['submit'] = array(
+    '#type' => 'submit',
+    '#value' => t('Show'),
+  );
+
+  $query = db_select('yp_search_statistics', 'yss')
+    ->fields('yss', array('keywords'))
+    ->condition('timestamp', array($start_timestamp, $end_timestamp), 'BETWEEN');
+  $query->addExpression('COUNT(yss.id)', 'search_count');
+  $query->groupBy('yss.keywords');
+  $query->orderBy('search_count', 'DESC');
+  $result = $query->execute();
+
+  $rows = array();
+  while($record = $result->fetchAssoc()) {
+    $rows[] = $record;
+  }
+
+  $table = array(
+    'header' => array(
+      t('Search phrase'),
+      t('Count of searching'),
+    ),
+    'caption' => t('Search phrases statistics'),
+    'empty' => t('No search phrases statistics for this period.'),
+    'rows' => $rows,
+  );
+
+  $form['result'] = array(
+    '#markup' => theme('table', $table),
+  );
+
+  $module_path = drupal_get_path('module', 'yellow_pages_statistics');
+  $form['#attached']['css'] = array(
+    $module_path . '/css/yellow_pages_statistics.css',
+  );
+
+  return $form;
+}
+
+/**
+ * Submit action for yellow_pages_search_statistics().
+ */
+function yellow_pages_search_statistics_submit(&$form, &$form_state) {
+  $values = $form_state['values'];
+  $form_state['storage']['start_date'] = $values['start_date'];
+  $form_state['storage']['end_date'] = $values['end_date'];
+  $form_state['rebuild'] = TRUE;
+}

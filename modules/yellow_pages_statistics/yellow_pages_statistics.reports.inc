@@ -345,9 +345,39 @@ function yellow_pages_search_statistics($form, &$form_state) {
   $query->orderBy('search_count', 'DESC');
   $result = $query->execute();
 
+  $rows = array();
   while($record = $result->fetchAssoc()) {
-    //dpm($record);
+    $rows[] = $record;
   }
 
+  $table = array(
+    'header' => array(
+      t('Search phrase'),
+      t('Count of searching'),
+    ),
+    'caption' => t('Search phrases statistics'),
+    'empty' => t('No search phrases statistics for this period.'),
+    'rows' => $rows,
+  );
+
+  $form['result'] = array(
+    '#markup' => theme('table', $table),
+  );
+
+  $module_path = drupal_get_path('module', 'yellow_pages_statistics');
+  $form['#attached']['css'] = array(
+    $module_path . '/css/yellow_pages_statistics.css',
+  );
+
   return $form;
+}
+
+/**
+ * Submit action for yellow_pages_search_statistics().
+ */
+function yellow_pages_search_statistics_submit(&$form, &$form_state) {
+  $values = $form_state['values'];
+  $form_state['storage']['start_date'] = $values['start_date'];
+  $form_state['storage']['end_date'] = $values['end_date'];
+  $form_state['rebuild'] = TRUE;
 }

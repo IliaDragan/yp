@@ -1,8 +1,10 @@
-#yellow-pages-statistics-node-stat-report-form .container-inline-date {
+#yellow-pages-statistics-node-stat-report-form .container-inline-date,
+#yellow-pages-search-statistics .container-inline-date {
   display: inline-block;
   margin-right: 20px;
 }
-#yellow-pages-statistics-node-stat-report-form .form-type-date-popup label {
+#yellow-pages-statistics-node-stat-report-form .form-type-date-popup label,
+#yellow-pages-search-statistics .form-type-date-popup label {
   float: left;
   line-height: 30px;
   margin-right: 10px;
@@ -20,10 +22,21 @@
 #edit-end-date .description {
   display: none;
 }
-#yellow-pages-statistics-node-stat-report-form #edit-submit {
+#yellow-pages-statistics-node-stat-report-form #edit-submit,
+#yellow-pages-search-statistics #edit-submit {
   vertical-align: top;
 }
-#yellow-pages-statistics-node-stat-report-form table caption {
+#yellow-pages-statistics-node-stat-report-form table caption,
+#yellow-pages-search-statistics table caption {
   font-size: 20px;
   margin: 40px 0 10px;
+}
+#yellow-pages-search-statistics table th {
+  background-color: #ffdd00;
+}
+
+#yellow-pages-search-statistics table th,
+#yellow-pages-search-statistics table td {
+  border: 1px solid #d1b500;
+  padding: 10px 30px;
 }

@@ -17,6 +17,9 @@ function yellow_pages_statistics_permission() {
     'access yellow pages node statistics' => array(
       'title' => t('Access Yellow Pages node statistics'),
     ),
+    'access yellow pages search statistics' => array(
+      'title' => t('Access Yellow Pages search statistics'),
+    ),
     'access yellow pages google analytics page' => array(
       'title' => t('Access Yellow Pages Google Analytics page'),
     ),
@@ -38,6 +41,15 @@ function yellow_pages_statistics_menu() {
     'type' => MENU_CALLBACK,
   );
 
+  $items['search-statistics'] = array(
+    'title' => 'Search statistics',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('yellow_pages_search_statistics'),
+    'access arguments' => array('access yellow pages search statistics'),
+    'file' => 'yellow_pages_statistics.reports.inc',
+    'type' => MENU_CALLBACK,
+  );
+
   $items['admin/config/yp/ga_client'] = array(
     'title' => 'GA data',
     'page callback' => 'drupal_get_form',
@@ -53,7 +65,7 @@ function yellow_pages_statistics_menu() {
     'access arguments' => array('access content'),
     'type' => MENU_CALLBACK,
   );
-  
+
   $items['yp/enterprise/%node'] = array(
     'title' => 'Enterprise statistics tracker',
     'page callback' => 'yellow_pages_statistics_tracker',
@@ -69,6 +81,16 @@ function yellow_pages_statistics_menu() {
   );
 
   $items['node/%node/yp-statistics'] = array(
+    'title' => 'Statistics',
+    'page callback' => 'yellow_pages_statistics_node_stat',
+    'page arguments' => array(1),
+    'access arguments' => array('access yellow pages node statistics'),
+    'type' => MENU_LOCAL_TASK,
+    'file' => 'yellow_pages_statistics.reports.inc',
+    'weight' => 50,
+  );
+
+  $items['yp-form-action'] = array(
     'title' => 'Statistics',
     'page callback' => 'yellow_pages_statistics_node_stat',
     'page arguments' => array(1),
@@ -187,6 +209,44 @@ function yellow_pages_statistics_nvc_count_node_view_ajax() {
           'timestamp' => REQUEST_TIME,
         );
         drupal_write_record('yp_ad_nodeviewcount', $fields);
+      }
+    }
+  }
+}
+
+/**
+ * Implements hook_views_post_execute().
+ */
+function yellow_pages_statistics_views_post_execute(&$view) {
+  $search_company = ($view->current_display == 'solr_node_search');
+  $search_news = ($view->current_display == 'panel_pane_2');
+  $no_adv_view = empty($view->advertisement_call);
+  $has_argument = !empty($view->args[0]);
+
+  if (($search_company || $search_news) && $no_adv_view && $has_argument) {
+    // Add keywords statistics.
+    $timestamp = time();
+    $keywords = $view->args[0];
+    $fields = array(
+      'keywords' => $keywords,
+      'timestamp' => $timestamp,
+    );
+    drupal_write_record('yp_search_statistics', $fields);
+
+    // Add company search statistics.
+    if (!$search_news) {
+      $page = !empty($view->query->pager->current_page) ? $view->query->pager->current_page : 0;
+      $entities = $view->result;
+      foreach($entities as $entity) {
+        if (!empty($entity->_entity_properties['search_api_id'])) {
+          $fields = array(
+            'page' => $page,
+            'keywords' => $keywords,
+            'timestamp' => $timestamp,
+            'nid' => $entity->entity,
+          );
+          drupal_write_record('yp_search_company_statistics', $fields);
+        }
       }
     }
   }

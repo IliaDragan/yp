@@ -112,11 +112,15 @@ msgstr "@metric на @profile"
 msgid "Months"
 msgstr "Месяцы"
 
-#: yellow_pages_statistics.ga.inc:151
+#: yellow_pages_statistics.ga.inc:146
+msgid "sec"
+msgstr "сек"
+
+#: yellow_pages_statistics.ga.inc:156
 msgid "No results found."
 msgstr ""
 
-#: yellow_pages_statistics.ga.inc:227
+#: yellow_pages_statistics.ga.inc:232
 msgid "No views (profiles) found for this user."
 msgstr ""
 

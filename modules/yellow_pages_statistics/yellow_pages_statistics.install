@@ -31,10 +31,10 @@ function yellow_pages_statistics_schema() {
         'default' => 0,
       ),
       'http_referer' => array(
-        'description' => 'The url from whict was clicked the ad.',
-        'type' => 'varchar',
-        'length' => 256,
+        'description' => 'The url from whitch was clicked the ad.',
+        'type' => 'text',
         'not null' => FALSE,
+        'size' => 'medium',
       ),
     ),
     'primary key' => array('id'),
@@ -98,6 +98,75 @@ function yellow_pages_statistics_schema() {
     'primary key' => array('id'),
     'indexes' => array(
       'nid' => array('nid'),
+      'timestamp' => array('timestamp'),
+    ),
+  );
+
+  $schema['yp_search_company_statistics'] = array(
+    'description' => 'Statistics of company searches.',
+    'fields' => array(
+      'id' => array(
+        'description' => 'The unique ID.',
+        'type' => 'serial',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+      ),
+      'nid' => array(
+        'description' => 'The company node ID.',
+        'type' => 'int',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+      ),
+      'timestamp' => array(
+        'description' => 'The Unix timestamp when the user searched the node.',
+        'type' => 'int',
+        'not null' => TRUE,
+        'default' => 0,
+      ),
+      'page' => array(
+        'description' => 'The number of page on which this node was showed.',
+        'type' => 'int',
+        'not null' => TRUE,
+        'default' => 0,
+      ),
+      'keywords' => array(
+        'description' => 'The search keywords.',
+        'type' => 'varchar',
+        'length' => 256,
+        'not null' => FALSE,
+      ),
+    ),
+    'primary key' => array('id'),
+    'indexes' => array(
+      'nid' => array('nid'),
+      'timestamp' => array('timestamp'),
+    ),
+  );
+
+  $schema['yp_search_statistics'] = array(
+    'description' => 'Statistics of search keywords.',
+    'fields' => array(
+      'id' => array(
+        'description' => 'The unique ID.',
+        'type' => 'serial',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+      ),
+      'timestamp' => array(
+        'description' => 'The Unix timestamp when the user searched the node.',
+        'type' => 'int',
+        'not null' => TRUE,
+        'default' => 0,
+      ),
+      'keywords' => array(
+        'description' => 'The search keywords.',
+        'type' => 'varchar',
+        'length' => 256,
+        'not null' => FALSE,
+      ),
+    ),
+    'primary key' => array('id'),
+    'indexes' => array(
       'timestamp' => array('timestamp'),
     ),
   );
@@ -183,4 +252,105 @@ function yellow_pages_statistics_update_7002(&$sandbox) {
   );
 
   db_create_table('yp_ad_nodeviewcount', $table);
+}
+
+/**
+ * Creates table for collecting company search results.
+ */
+function yellow_pages_statistics_update_7003(&$sandbox) {
+  $table = array(
+    'description' => 'Statistics of company searches.',
+    'fields' => array(
+      'id' => array(
+        'description' => 'The unique ID.',
+        'type' => 'serial',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+      ),
+      'nid' => array(
+        'description' => 'The company node ID.',
+        'type' => 'int',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+      ),
+      'timestamp' => array(
+        'description' => 'The Unix timestamp when the user searched the node.',
+        'type' => 'int',
+        'not null' => TRUE,
+        'default' => 0,
+      ),
+      'page' => array(
+        'description' => 'The number of page on which this node was showed.',
+        'type' => 'int',
+        'not null' => TRUE,
+        'default' => 0,
+      ),
+      'keywords' => array(
+        'description' => 'The search keywords.',
+        'type' => 'varchar',
+        'length' => 256,
+        'not null' => FALSE,
+      ),
+    ),
+    'primary key' => array('id'),
+    'indexes' => array(
+      'nid' => array('nid'),
+      'timestamp' => array('timestamp'),
+    ),
+  );
+
+  db_create_table('yp_search_company_statistics', $table);
+}
+
+/**
+ * Change 'http_referer' field from varchar to text.
+ */
+function yellow_pages_statistics_update_7004(&$sandbox) {
+  // Remove old 'http_referer' field.
+  db_drop_field('yp_ad_statistics', 'http_referer');
+
+  // Add new field.
+  $spec = array(
+    'description' => 'The url from whitch was clicked the ad.',
+    'type' => 'text',
+    'not null' => FALSE,
+    'size' => 'medium',
+  );
+
+  db_add_field('yp_ad_statistics', 'http_referer', $spec);
+}
+
+/**
+ * Add search stitistics table.
+ */
+function yellow_pages_statistics_update_7005(&$sandbox) {
+  $table = array(
+    'description' => 'Statistics of search keywords.',
+    'fields' => array(
+      'id' => array(
+        'description' => 'The unique ID.',
+        'type' => 'serial',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+      ),
+      'timestamp' => array(
+        'description' => 'The Unix timestamp when the user searched the node.',
+        'type' => 'int',
+        'not null' => TRUE,
+        'default' => 0,
+      ),
+      'keywords' => array(
+        'description' => 'The search keywords.',
+        'type' => 'varchar',
+        'length' => 256,
+        'not null' => FALSE,
+      ),
+    ),
+    'primary key' => array('id'),
+    'indexes' => array(
+      'timestamp' => array('timestamp'),
+    ),
+  );
+
+  db_create_table('yp_search_statistics', $table);
 }

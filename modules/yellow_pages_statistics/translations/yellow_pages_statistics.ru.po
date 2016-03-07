@@ -1,3 +1,5 @@
+
+
 # $Id$
 #
 # Russian translation of Drupal (general)
@@ -9,19 +11,18 @@
 #  yellow_pages_statistics.module: n/a
 #  yellow_pages_statistics.info: n/a
 #
+#, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
-"POT-Creation-Date: 2016-02-25 16:07+0200\n"
-"PO-Revision-Date: 2016-02-25 16:12+0300\n"
+"POT-Creation-Date: 2016-03-04 16:21+0200\n"
+"PO-Revision-Date: 2016-03-04 16:21+0200\n"
 "Last-Translator: NAME <EMAIL@ADDRESS>\n"
 "Language-Team: Russian <EMAIL@ADDRESS>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=((((n%10)==1)&&((n%100)!=11))?(0):(((((n"
-"%10)>=2)&&((n%10)<=4))&&(((n%100)<10)||((n%100)>=20)))?(1):2));\n"
-"X-Generator: Poedit 1.5.4\n"
+"Plural-Forms: nplurals=3; plural=((((n%10)==1)&&((n%100)!=11))?(0):(((((n%10)>=2)&&((n%10)<=4))&&(((n%100)<10)||((n%100)>=20)))?(1):2));\n"
 
 #: yellow_pages_statistics.admin.inc:12
 msgid "E-mail"
@@ -56,9 +57,7 @@ msgid "The key file could not be uploaded."
 msgstr ""
 
 #: yellow_pages_statistics.admin.inc:75
-msgid ""
-"For security reason the content of your key file was saved in the database "
-"and the file was deleted."
+msgid "For security reason the content of your key file was saved in the database and the file was deleted."
 msgstr ""
 
 #: yellow_pages_statistics.ga.inc:19
@@ -101,7 +100,7 @@ msgstr "Последняя неделя"
 msgid "Select Period"
 msgstr "Выберите Период"
 
-#: yellow_pages_statistics.ga.inc:65 yellow_pages_statistics.reports.inc:58
+#: yellow_pages_statistics.ga.inc:65 yellow_pages_statistics.reports.inc:58;337
 msgid "Show"
 msgstr "Показать"
 
@@ -125,15 +124,15 @@ msgstr ""
 msgid "No statistics information for this node."
 msgstr "Для данной ноды нет статистики."
 
-#: yellow_pages_statistics.reports.inc:37
+#: yellow_pages_statistics.reports.inc:37;316
 msgid "Select period"
 msgstr "Выберите период"
 
-#: yellow_pages_statistics.reports.inc:41
+#: yellow_pages_statistics.reports.inc:41;320
 msgid "Start date"
 msgstr "Дата начала"
 
-#: yellow_pages_statistics.reports.inc:49
+#: yellow_pages_statistics.reports.inc:49;328
 msgid "End date"
 msgstr "Дата окончания"
 
@@ -141,33 +140,83 @@ msgstr "Дата окончания"
 msgid "Statistics for selected period"
 msgstr "Статистика для выбранного периода"
 
-#: yellow_pages_statistics.reports.inc:73
+#: yellow_pages_statistics.reports.inc:76
 msgid "Company related advertisement statistics for selected period"
-msgstr "Статистика связанной с компанией рекламы"
+msgstr ""
+"Статистика связанной с компанией "
+"рекламы"
 
-#: yellow_pages_statistics.reports.inc:163
+#: yellow_pages_statistics.reports.inc:164
 msgid "Period"
 msgstr "Период"
 
-#: yellow_pages_statistics.reports.inc:164
+#: yellow_pages_statistics.reports.inc:165
 msgid "Total"
 msgstr "Всего"
 
-#: yellow_pages_statistics.reports.inc:165
+#: yellow_pages_statistics.reports.inc:166
 msgid "From @start to @end"
 msgstr "С @start по @end"
 
-#: yellow_pages_statistics.reports.inc:168;203
+#: yellow_pages_statistics.reports.inc:169;204
 msgid "Views"
 msgstr "Представления"
 
-#: yellow_pages_statistics.reports.inc:173;204
+#: yellow_pages_statistics.reports.inc:174;205
 msgid "Clicks"
 msgstr "Клики"
 
-#: yellow_pages_statistics.reports.inc:202
+#: yellow_pages_statistics.reports.inc:203
 msgid "Date"
 msgstr "Дата"
+
+#: yellow_pages_statistics.reports.inc:279
+msgid "TOTAL"
+msgstr "ИТОГО"
+
+#: yellow_pages_statistics.reports.inc:281
+msgid "@total views"
+msgstr "@total просмотров"
+
+#: yellow_pages_statistics.reports.inc:289
+msgid "Date/time"
+msgstr "Дата/время"
+
+#: yellow_pages_statistics.reports.inc:290;355
+msgid "Search phrase"
+msgstr "Поисковая фраза"
+
+#: yellow_pages_statistics.reports.inc:291
+msgid "Page"
+msgstr "Страница"
+
+#: yellow_pages_statistics.reports.inc:292
+msgid "Language"
+msgstr "Язык"
+
+#: yellow_pages_statistics.reports.inc:294 yellow_pages_statistics.module:45
+msgid "Search statistics"
+msgstr "Статистика поиков."
+
+#: yellow_pages_statistics.reports.inc:295
+msgid "No search statistics for this period."
+msgstr ""
+"Статистика по поиску на данный период "
+"отсутствует."
+
+#: yellow_pages_statistics.reports.inc:356
+msgid "Count of searching"
+msgstr "Количество поисков"
+
+#: yellow_pages_statistics.reports.inc:358
+msgid "Search phrases statistics"
+msgstr "Статистика поисковых запросов"
+
+#: yellow_pages_statistics.reports.inc:359
+msgid "No search phrases statistics for this period."
+msgstr ""
+"Статистика поисковых запросов для "
+"выбранного периода отсутствует."
 
 #: yellow_pages_statistics.module:15
 msgid "Administer Yellow Pages statistics"
@@ -178,26 +227,30 @@ msgid "Access Yellow Pages node statistics"
 msgstr ""
 
 #: yellow_pages_statistics.module:21
+msgid "Access Yellow Pages search statistics"
+msgstr ""
+
+#: yellow_pages_statistics.module:24
 msgid "Access Yellow Pages Google Analytics page"
 msgstr ""
 
-#: yellow_pages_statistics.module:33
+#: yellow_pages_statistics.module:36
 msgid "Google Analytics"
 msgstr ""
 
-#: yellow_pages_statistics.module:42
+#: yellow_pages_statistics.module:54
 msgid "GA data"
 msgstr ""
 
-#: yellow_pages_statistics.module:50
+#: yellow_pages_statistics.module:62
 msgid "Advertisement statistics tracker"
 msgstr ""
 
-#: yellow_pages_statistics.module:58
+#: yellow_pages_statistics.module:70
 msgid "Enterprise statistics tracker"
 msgstr ""
 
-#: yellow_pages_statistics.module:72
+#: yellow_pages_statistics.module:84;94
 msgid "Statistics"
 msgstr "Статистика"
 
@@ -212,3 +265,4 @@ msgstr ""
 #: yellow_pages_statistics.info:0
 msgid "Yellow Pages"
 msgstr ""
+

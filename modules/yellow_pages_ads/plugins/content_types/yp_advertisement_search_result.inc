@@ -68,6 +68,7 @@ function yellow_pages_ads_search_result_plugin_edit_form_submit($form, &$form_st
 function yellow_pages_ads_search_result_plugin_render($subtype, $conf, $panel_args, $context) {
   global $language;
   $view = views_get_view('solr_views');
+  $view->advertisement_call = TRUE;
   if (is_array($panel_args)) {
     $view->set_arguments($panel_args);
   }

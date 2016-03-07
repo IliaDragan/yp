@@ -1259,6 +1259,10 @@ function yellow_pages_sync_batch_finish($success, $results, $operations) {
   drupal_get_messages();
   if ($success) {
     drupal_set_message(t('Synchronisation process complete.'));
+
+    // Rebuild products facet.
+    module_load_include('inc', 'yellow_pages_solr_configuration', 'yellow_pages_solr_configuration.admin');
+    yellow_pages_solr_configuration_rubuild_products_facet();
   }
   else {
     drupal_set_message(t('Synchronisation process failed.'), 'error');

@@ -1,4 +1,4 @@
- <?php
+<?php
 /**
  * @file
  * Solr search administrative routine.
@@ -22,6 +22,14 @@ function yellow_pages_solr_configuration_admin_rebuild_form($form, $form_state) 
  * @see yellow_pages_solr_configuration_admin_rebuild_form()
  */
 function yellow_pages_solr_configuration_admin_rebuild_form_submit($form, &$form_state) {
+  yellow_pages_solr_configuration_rubuild_products_facet();
+  drupal_set_message(t('Products facet rebuilt.'));
+}
+
+/**
+ * Rebuild products facet.
+ */
+function yellow_pages_solr_configuration_rubuild_products_facet() {
   $tids = db_query('SELECT tid FROM {taxonomy_term_data}')
     ->fetchCol();
 
@@ -64,6 +72,4 @@ function yellow_pages_solr_configuration_admin_rebuild_form_submit($form, &$form
   }
 
   cache_set('yp_products_labels', $labels, 'cache_yp', CACHE_PERMANENT);
-
-  drupal_set_message(t('Products facet rebuilt.'));
 }

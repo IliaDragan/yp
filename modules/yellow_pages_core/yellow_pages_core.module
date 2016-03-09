@@ -1,3 +1,4 @@
+
 <?php
 /**
  * @file
@@ -35,4 +36,68 @@ function yellow_pages_core_form_system_site_information_settings_alter(&$form, &
   );
 
   $form['site_information']['site_mail']['#weight'] = '99';
+}
+
+/**
+ * Implements hook_user_logout().
+ */
+function yellow_pages_core_user_logout($account) {
+  // Unset cookies.
+  if (isset($_SERVER['HTTP_COOKIE'])) {
+    $cookies = explode(';', $_SERVER['HTTP_COOKIE']);
+    foreach($cookies as $cookie) {
+      $parts = explode('=', $cookie);
+      $name = trim($parts[0]);
+      setrawcookie($name, '', REQUEST_TIME - 3600, '/');
+    }
+  }
+}
+
+/**
+ * Callback function that finds node translations.
+ * @param int $tnid
+ *   Translation node id.
+ *
+ * @return array
+ *   Array of translation node nids with language as array-keys.
+ */
+function yellow_pages_core_node_get_translation_nids($tnid) {
+  $translations = array();
+  $result = db_select('node', 'n')
+    ->fields('n', array('nid', 'language'))
+    ->condition('n.tnid', $tnid)
+    ->execute();
+
+  foreach ($result as $node) {
+    $langcode = $node->language;
+    $translations[$langcode] = $node->nid;
+  }
+
+  return $translations;
+}
+
+/**
+ * Creating date collection between two dates
+ *
+ * @param string $first
+ *   Timestamp since.
+ * @param string $last
+ *   Timestamp until.
+ * @param string $step
+ * @param string $output_format
+ *   Format of output dates.
+ *
+ * @return array of dates.
+ */
+function yellow_pages_core_date_range($first, $last, $step = '+1 day', $output_format = 'd/m/Y', $key_format = 'Ymd') {
+  $dates = array();
+  $current = $first;
+
+  while( $current <= $last ) {
+    $key = date($key_format, $current);
+    $dates[$key] = format_date($current, 'custom', $output_format);
+    $current = strtotime($step, $current);
+  }
+
+  return $dates;
 }

@@ -14,7 +14,7 @@ function yellow_pages_contacts_strongarm() {
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
   $strongarm->name = 'yp_contacts_mail';
-  $strongarm->value = 'info@varoinform.md';
+  $strongarm->value = 'inform@varo-inform.com';
   $export['yp_contacts_mail'] = $strongarm;
 
   $strongarm = new stdClass();

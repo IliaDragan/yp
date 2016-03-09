@@ -4,6 +4,9 @@
  * Code for the Yellow Pages Solr configuration feature.
  */
 
+define('YP_PRODUCTS_HIERARACHY_CACHE', 'yp_product_hierarchy');
+define('YP_PRODUCTS_LABEL_CACHE', 'yp_products_labels');
+
 include_once 'yellow_pages_solr_configuration.features.inc';
 
 /**
@@ -19,32 +22,70 @@ function yellow_pages_solr_configuration_ctools_plugin_directory($module, $plugi
 }
 
 /**
+ * Implements hook_menu().
+ */
+function yellow_pages_solr_configuration_menu() {
+  $menu = array();
+
+  $menu['admin/config/yp/products'] = array(
+    'title' => 'Rebuild products facet',
+    'description' => 'Rebuild products translations and hierarchy',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('yellow_pages_solr_configuration_admin_rebuild_form'),
+    'access arguments' => array('administer yellow pages facet rebuild'),
+    'file' => 'yellow_pages_solr_configuration.admin.inc',
+  );
+
+  $menu['search-blank'] = array(
+    'title' => 'Empty page',
+    'page callback' => '_blank_page',
+    'access callback' => TRUE,
+    'access arguments' => array(),
+    'type' => MENU_CALLBACK,
+  );
+
+  return $menu;
+}
+
+/**
+ * Provides an empty page for redirects.
+ *
+ * Small hack to prevent search results being fetched twice.
+ */
+function _blank_page() {
+  return '';
+}
+
+/**
  * Implementation of hook_form_alter()
  */
 function yellow_pages_solr_configuration_form_alter(&$form, &$form_state, $form_id) {
   if($form_id == 'search_block_form') {
+    $form['#action'] = url('search-blank');
+
     $uri = arg();
     if ($uri[0] === 'search' && isset($uri[2])) {
       $form['search_block_form']['#default_value'] = $uri[2];
     }
-    $form['#submit'][] = 'yellow_pages_solr_configuration_form_submit';
+    $form['#submit'][] = '_yellow_pages_solr_configuration_search_form_submit';
   }
 }
 
 /**
  * Process a block search form submission.
  */
-function yellow_pages_solr_configuration_form_submit($form, &$form_state) {
-  // The search form relies on control of the redirect destination for its
-  // functionality, so we override any static destination set in the request,
-  // for example by drupal_access_denied() or drupal_not_found()
-  // (see http://drupal.org/node/292565).
+function _yellow_pages_solr_configuration_search_form_submit($form, &$form_state) {
   if (isset($_GET['destination'])) {
     unset($_GET['destination']);
   }
 
+  $form_state['redirect'] = FALSE;
+
   $form_id = $form['form_id']['#value'];
-  $form_state['redirect'] = 'search/companies/'. trim($form_state['values'][$form_id]);
+  $keys = $form_state['values'][$form_id];
+  $url = 'search/companies' . '/' . trim($keys);
+
+  drupal_goto($url);
 }
 
 /**
@@ -147,10 +188,8 @@ function yellow_pages_solr_configuration_preprocess(&$variables, $hook) {
  * Implements hook_search_api_solr_query_alter().
  */
 function yellow_pages_solr_configuration_search_api_solr_query_alter(array &$call_args, SearchApiQueryInterface $query) {
-  $call_args['params']['qf'][] = 'precise_text^50.0';
-  if ($call_args['query']) {
-    $call_args['query'] = str_replace('"' , '*', $call_args['query']);
-  }
+  $call_args['params']['qf'][] = 'textChunk^1.0';
+  $call_args['params']['qf'][] = 'textUri^2.0';
 }
 
 /**
@@ -176,9 +215,14 @@ function yellow_pages_solr_configuration_search_api_solr_documents_alter(array &
       $term_ids = $document->getField('im_field_products$product');
 
       if (isset($term_ids['value']) && is_array($term_ids['value'])) {
-        $locales = array('en', 'ro');
+        $term_parents_ids = $document->getField('im_field_products$product$parents_all');
+        if (is_array($term_parents_ids['value'])) {
+          $term_ids['value'] += $term_parents_ids['value'];
+        }
 
-        foreach ($term_ids['value'] as $key => $term_id) {
+        $locales = array('en', 'ro', 'ru');
+
+        foreach ($term_ids['value'] as $term_id) {
           $term = i18n_get_object('taxonomy_term', $term_id);
           foreach ($locales as $locale) {
             $translated_term = $term->localize($locale);
@@ -188,6 +232,101 @@ function yellow_pages_solr_configuration_search_api_solr_documents_alter(array &
             }
           }
         }
+      }
+    }
+  }
+}
+
+/**
+ * Implements hook_facetapi_facet_info_alter().
+ */
+function yellow_pages_solr_configuration_facetapi_facet_info_alter(array &$facet_info, array $searcher_info) {
+  $facet_info['field_products:product:parents_all']['hierarchy callback'] = '_field_products_hierarchy_override';
+  $facet_info['field_products:product:parents_all']['map options']['value callback'] = '_field_products_label_override';
+}
+
+/**
+ * Custom callback for products term hierarchy.
+ *
+ * @see yellow_pages_solr_configuration_facetapi_facet_info_alter()
+ */
+function _field_products_hierarchy_override(array $values) {
+  $hierarchy = &drupal_static(__FUNCTION__, array());
+
+  if (empty($hierarchy) && !empty($values)) {
+    $cid = YP_PRODUCTS_HIERARACHY_CACHE;
+    $cache = cache_get($cid, 'cache_yp');
+
+    if ($cache) {
+      $hierarchy = $cache->data;
+    }
+  }
+
+  return $hierarchy;
+}
+
+/**
+ * Custom callback for field label value.
+ *
+ * @see yellow_pages_solr_configuration_facetapi_facet_info_alter()
+ */
+function _field_products_label_override(array $values, array $options) {
+  $labels = _field_products_labels($values);
+  return $labels;
+}
+
+/**
+ * Fetches labels for certain term ids.
+ *
+ * This function is language aware, so it will return labels
+ * for the current site used locale.
+ *
+ * @param array $ids
+ *   Term id's whose labels are to be fetched.
+ *
+ * @return array
+ *   An set of labels keyed by term id.
+ */
+function _field_products_labels(array $ids) {
+  global $language;
+  $static = &drupal_static(__FUNCTION__, array());
+
+  if (empty($static)) {
+    $cid = YP_PRODUCTS_LABEL_CACHE;
+    $cache = cache_get($cid, 'cache_yp');
+
+    if ($cache) {
+      $static = $cache->data;
+    }
+  }
+
+  return isset($static[$language->language]) ? $static[$language->language] : array();
+}
+
+/**
+ * Implements hook_preprocess_html().
+ */
+function yellow_pages_solr_configuration_preprocess_html(&$vars) {
+  if ($searchers = facetapi_get_active_searchers()) {
+    $searcher = reset($searchers);
+    $adapter = facetapi_adapter_load($searcher);
+
+    $items = $adapter->getAllActiveItems();
+    if (!empty($items)) {
+      $data = array();
+      foreach ($items as $key => $item) {
+        if (strpos($key, 'field_products') === 0) {
+          $term = taxonomy_term_load($item['value']);
+          if (module_exists('i18n_taxonomy')) {
+            $term = i18n_taxonomy_localize_terms($term);
+          }
+          $data[] = $term->name;
+        }
+      }
+      if (!empty($data)) {
+        $title = implode(' :: ', $data);
+        drupal_set_title($title);
+        $vars['head_title'] = $title . ' | ' . variable_get('site_name','YELLOW PAGES OF MOLDOVAS');
       }
     }
   }

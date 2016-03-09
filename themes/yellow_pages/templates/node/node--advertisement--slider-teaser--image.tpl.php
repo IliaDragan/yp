@@ -80,20 +80,14 @@
  * @ingroup themeable
  */
 ?>
-<div id="node-<?php print $node->nid; ?>" class="<?php print $classes; ?> node--news--slider_teaser clearfix"<?php print $attributes; ?>>
-  <div class="content"<?php print $content_attributes; ?>>
+<div id="node-<?php print $node->nid; ?>" class="<?php print $classes; ?> node--news--slider_teaser clearfix" <?php print $attributes; ?>>
+  <div class="content" <?php print $content_attributes; ?>>
     <div class="left">
-    <?php
-      print render($content['field_ad_image']);
-    ?>
+      <a href="<?php print $link_href; ?>" <?php print $link_attributes; ?>>
+      <?php
+        print render($content['field_ad_image']);
+      ?>
+      </a>
     </div>
-    <div class="right">
-      <div class="node-title">
-        <?php print render($content['field_ad_url']);?>
-      </div>
-      <div class="node-created">
-        <span>&nbsp;</span>
-      </div>
-    </div>
-  </div>
+ </div>
 </div>

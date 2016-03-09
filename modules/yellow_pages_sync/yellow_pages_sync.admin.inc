@@ -31,12 +31,7 @@ function yellow_pages_sync_admin_form($form, $form_state) {
       'filials' => t('Filials linkage'),
       'logos' => t('Logos'),
     ),
-    '#default_value' => array(
-      'taxonomy',
-      'nodes',
-      'filials',
-      'logos',
-    ),
+    '#default_value' => array(),
   );
 
   $form['page'] = array(
@@ -97,69 +92,10 @@ function yellow_pages_sync_admin_form_submit($form, &$form_state) {
   );
 
   if (!empty($operations)) {
+    variable_set('i18n_string_source_language', 'ru');
     batch_set($batch);
   }
   else {
     drupal_set_message(t('Nothing selected.'), 'error');
   }
-}
-
-/**
- * Form builder for the rebuild interface.
- */
-function yellow_pages_sync_rebuild_form($form, $form_state) {
-  $query = db_select('yp_sync_state')
-    ->countQuery();
-  $result = $query->execute()->fetchCol();
-  $count = reset($result);
-
-  $query = db_select('yp_sync_state', 'yss')
-    ->fields('yss', array('nid'))
-    ->isNull('fdfg.entity_id');
-  $query->leftJoin('field_data_field_geocode', 'fdfg', 'yss.nid=fdfg.entity_id');
-  $result = $query->countQuery()->execute()->fetchCol();
-  $current = $count - reset($result);
-
-  $last_rebuild = variable_get('yp_last_rebuild', 0);
-
-  $form['status'] = array(
-    '#type' => 'item',
-    '#markup' => t('Status: @current/@count', array('@current' => $current, '@count' => $count)),
-  );
-
-  $form['skipped'] = array(
-    '#type' => 'item',
-    '#markup' => t('Skipped: @skipped', array('@skipped' => count(variable_get('yp_rebuild_skip', array())))),
-  );
-
-  $form['last_rebuild'] = array(
-    '#type' => 'item',
-    '#markup' => t('Last rebuild: @last', array('@last' => $last_rebuild > 0 ? date('d-m-Y H:i:s', $last_rebuild) : t('Never'))),
-  );
-
-  $last_rebuild = variable_get('yp_last_rebuild', 0);
-  $form['rebuild'] = array(
-    '#type' => 'submit',
-    '#value' => $current > 0 ? t('Continue rebuilding') : t('Rebuild'),
-  );
-
-  return $form;
-}
-
-/**
- * Custom submit callback for node rebulding form.
- *
- * @see yellow_pages_sync_rebuild_form()
- */
-function yellow_pages_sync_rebuild_form_submit($form, &$form_state) {
-  $batch = array(
-    'operations' => array(
-      array('yellow_pages_sync_node_batch_rebuild', array()),
-    ),
-    'title' => t('Rebuilding nodes...'),
-    'finished' => 'yellow_pages_sync_node_batch_rebuild_finish',
-  );
-
-  batch_set($batch);
-
 }

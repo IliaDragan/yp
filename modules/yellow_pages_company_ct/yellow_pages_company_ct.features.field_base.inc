@@ -10,7 +10,7 @@
 function yellow_pages_company_ct_field_default_field_bases() {
   $field_bases = array();
 
-  // Exported field_base: 'body'
+  // Exported field_base: 'body'.
   $field_bases['body'] = array(
     'active' => 1,
     'cardinality' => 1,
@@ -19,6 +19,9 @@ function yellow_pages_company_ct_field_default_field_bases() {
       0 => 'node',
     ),
     'field_name' => 'body',
+    'field_permissions' => array(
+      'type' => 0,
+    ),
     'indexes' => array(
       'format' => array(
         0 => 'format',
@@ -31,13 +34,16 @@ function yellow_pages_company_ct_field_default_field_bases() {
     'type' => 'text_with_summary',
   );
 
-  // Exported field_base: 'field_address'
+  // Exported field_base: 'field_address'.
   $field_bases['field_address'] = array(
     'active' => 1,
     'cardinality' => 1,
     'deleted' => 0,
     'entity_types' => array(),
     'field_name' => 'field_address',
+    'field_permissions' => array(
+      'type' => 0,
+    ),
     'indexes' => array(),
     'locked' => 0,
     'module' => 'addressfield',
@@ -46,7 +52,7 @@ function yellow_pages_company_ct_field_default_field_bases() {
     'type' => 'addressfield',
   );
 
-  // Exported field_base: 'field_advertisements'
+  // Exported field_base: 'field_advertisements'.
   $field_bases['field_advertisements'] = array(
     'active' => 1,
     'cardinality' => -1,
@@ -83,7 +89,7 @@ function yellow_pages_company_ct_field_default_field_bases() {
     'type' => 'entityreference',
   );
 
-  // Exported field_base: 'field_articles'
+  // Exported field_base: 'field_articles'.
   $field_bases['field_articles'] = array(
     'active' => 1,
     'cardinality' => -1,
@@ -149,13 +155,35 @@ function yellow_pages_company_ct_field_default_field_bases() {
     'type' => 'datetime',
   );
 
-  // Exported field_base: 'field_company_logo'
+  // Exported field_base: 'field_business_hours'.
+  $field_bases['field_business_hours'] = array(
+    'active' => 1,
+    'cardinality' => 1,
+    'deleted' => 0,
+    'entity_types' => array(),
+    'field_name' => 'field_business_hours',
+    'indexes' => array(
+      'format' => array(
+        0 => 'format',
+      ),
+    ),
+    'locked' => 0,
+    'module' => 'text',
+    'settings' => array(),
+    'translatable' => 0,
+    'type' => 'text_long',
+  );
+
+  // Exported field_base: 'field_company_logo'.
   $field_bases['field_company_logo'] = array(
     'active' => 1,
     'cardinality' => 1,
     'deleted' => 0,
     'entity_types' => array(),
     'field_name' => 'field_company_logo',
+    'field_permissions' => array(
+      'type' => 0,
+    ),
     'indexes' => array(
       'fid' => array(
         0 => 'fid',
@@ -171,13 +199,16 @@ function yellow_pages_company_ct_field_default_field_bases() {
     'type' => 'image',
   );
 
-  // Exported field_base: 'field_company_site'
+  // Exported field_base: 'field_company_site'.
   $field_bases['field_company_site'] = array(
     'active' => 1,
     'cardinality' => 1,
     'deleted' => 0,
     'entity_types' => array(),
     'field_name' => 'field_company_site',
+    'field_permissions' => array(
+      'type' => 0,
+    ),
     'indexes' => array(),
     'locked' => 0,
     'module' => 'link',
@@ -200,28 +231,16 @@ function yellow_pages_company_ct_field_default_field_bases() {
     'type' => 'link_field',
   );
 
-  // Exported field_base: 'field_company_views'
-  $field_bases['field_company_views'] = array(
-    'active' => 1,
-    'cardinality' => 1,
-    'deleted' => 0,
-    'entity_types' => array(),
-    'field_name' => 'field_company_views',
-    'indexes' => array(),
-    'locked' => 0,
-    'module' => 'number',
-    'settings' => array(),
-    'translatable' => 0,
-    'type' => 'number_integer',
-  );
-
-  // Exported field_base: 'field_email'
+  // Exported field_base: 'field_email'.
   $field_bases['field_email'] = array(
     'active' => 1,
     'cardinality' => -1,
     'deleted' => 0,
     'entity_types' => array(),
     'field_name' => 'field_email',
+    'field_permissions' => array(
+      'type' => 0,
+    ),
     'indexes' => array(),
     'locked' => 0,
     'module' => 'email',
@@ -230,13 +249,16 @@ function yellow_pages_company_ct_field_default_field_bases() {
     'type' => 'email',
   );
 
-  // Exported field_base: 'field_fax'
+  // Exported field_base: 'field_fax'.
   $field_bases['field_fax'] = array(
     'active' => 1,
     'cardinality' => -1,
     'deleted' => 0,
     'entity_types' => array(),
     'field_name' => 'field_fax',
+    'field_permissions' => array(
+      'type' => 0,
+    ),
     'indexes' => array(
       'format' => array(
         0 => 'format',
@@ -251,7 +273,7 @@ function yellow_pages_company_ct_field_default_field_bases() {
     'type' => 'text',
   );
 
-  // Exported field_base: 'field_filials'
+  // Exported field_base: 'field_filials'.
   $field_bases['field_filials'] = array(
     'active' => 1,
     'cardinality' => -1,
@@ -288,13 +310,16 @@ function yellow_pages_company_ct_field_default_field_bases() {
     'type' => 'entityreference',
   );
 
-  // Exported field_base: 'field_geocode'
+  // Exported field_base: 'field_geocode'.
   $field_bases['field_geocode'] = array(
     'active' => 1,
     'cardinality' => 1,
     'deleted' => 0,
     'entity_types' => array(),
     'field_name' => 'field_geocode',
+    'field_permissions' => array(
+      'type' => 0,
+    ),
     'indexes' => array(
       'bbox' => array(
         0 => 'top',
@@ -338,13 +363,35 @@ function yellow_pages_company_ct_field_default_field_bases() {
     'type' => 'geofield',
   );
 
-  // Exported field_base: 'field_landline_phone'
+  // Exported field_base: 'field_invisible_field'.
+  $field_bases['field_invisible_field'] = array(
+    'active' => 1,
+    'cardinality' => 1,
+    'deleted' => 0,
+    'entity_types' => array(),
+    'field_name' => 'field_invisible_field',
+    'indexes' => array(
+      'format' => array(
+        0 => 'format',
+      ),
+    ),
+    'locked' => 0,
+    'module' => 'text',
+    'settings' => array(),
+    'translatable' => 0,
+    'type' => 'text_long',
+  );
+
+  // Exported field_base: 'field_landline_phone'.
   $field_bases['field_landline_phone'] = array(
     'active' => 1,
     'cardinality' => -1,
     'deleted' => 0,
     'entity_types' => array(),
     'field_name' => 'field_landline_phone',
+    'field_permissions' => array(
+      'type' => 0,
+    ),
     'indexes' => array(
       'format' => array(
         0 => 'format',
@@ -359,7 +406,7 @@ function yellow_pages_company_ct_field_default_field_bases() {
     'type' => 'text',
   );
 
-  // Exported field_base: 'field_logo_expiration_date'
+  // Exported field_base: 'field_logo_expiration_date'.
   $field_bases['field_logo_expiration_date'] = array(
     'active' => 1,
     'cardinality' => 1,
@@ -388,13 +435,16 @@ function yellow_pages_company_ct_field_default_field_bases() {
     'type' => 'datetime',
   );
 
-  // Exported field_base: 'field_mdb_sync_date'
+  // Exported field_base: 'field_mdb_sync_date'.
   $field_bases['field_mdb_sync_date'] = array(
     'active' => 1,
     'cardinality' => 1,
     'deleted' => 0,
     'entity_types' => array(),
     'field_name' => 'field_mdb_sync_date',
+    'field_permissions' => array(
+      'type' => 0,
+    ),
     'indexes' => array(),
     'locked' => 0,
     'module' => 'date',
@@ -417,7 +467,7 @@ function yellow_pages_company_ct_field_default_field_bases() {
     'type' => 'datetime',
   );
 
-  // Exported field_base: 'field_media_materials'
+  // Exported field_base: 'field_media_materials'.
   $field_bases['field_media_materials'] = array(
     'active' => 1,
     'cardinality' => -1,
@@ -436,13 +486,16 @@ function yellow_pages_company_ct_field_default_field_bases() {
     'type' => 'media',
   );
 
-  // Exported field_base: 'field_mobile_phone'
+  // Exported field_base: 'field_mobile_phone'.
   $field_bases['field_mobile_phone'] = array(
     'active' => 1,
     'cardinality' => -1,
     'deleted' => 0,
     'entity_types' => array(),
     'field_name' => 'field_mobile_phone',
+    'field_permissions' => array(
+      'type' => 0,
+    ),
     'indexes' => array(
       'format' => array(
         0 => 'format',
@@ -457,7 +510,7 @@ function yellow_pages_company_ct_field_default_field_bases() {
     'type' => 'text',
   );
 
-  // Exported field_base: 'field_price_list'
+  // Exported field_base: 'field_price_list'.
   $field_bases['field_price_list'] = array(
     'active' => 1,
     'cardinality' => -1,
@@ -476,7 +529,7 @@ function yellow_pages_company_ct_field_default_field_bases() {
     'type' => 'media',
   );
 
-  // Exported field_base: 'field_products'
+  // Exported field_base: 'field_products'.
   $field_bases['field_products'] = array(
     'active' => 1,
     'cardinality' => -1,
@@ -491,7 +544,7 @@ function yellow_pages_company_ct_field_default_field_bases() {
     'type' => 'yp_product',
   );
 
-  // Exported field_base: 'field_region'
+  // Exported field_base: 'field_region'.
   $field_bases['field_region'] = array(
     'active' => 1,
     'cardinality' => 1,
@@ -512,13 +565,16 @@ function yellow_pages_company_ct_field_default_field_bases() {
     'type' => 'text',
   );
 
-  // Exported field_base: 'field_social_links'
+  // Exported field_base: 'field_social_links'.
   $field_bases['field_social_links'] = array(
     'active' => 1,
     'cardinality' => -1,
     'deleted' => 0,
     'entity_types' => array(),
     'field_name' => 'field_social_links',
+    'field_permissions' => array(
+      'type' => 0,
+    ),
     'indexes' => array(),
     'locked' => 0,
     'module' => 'socialfield',

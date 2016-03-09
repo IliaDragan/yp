@@ -167,7 +167,7 @@ function yellow_pages_company_ct_field_group_info() {
   $field_group->parent_name = 'group_tabbed_content';
   $field_group->data = array(
     'label' => 'Details',
-    'weight' => '18',
+    'weight' => '22',
     'children' => array(
       0 => 'body',
     ),
@@ -194,7 +194,7 @@ function yellow_pages_company_ct_field_group_info() {
   $field_group->parent_name = 'group_tabbed_content';
   $field_group->data = array(
     'label' => 'Filials',
-    'weight' => '26',
+    'weight' => '31',
     'children' => array(
       0 => 'field_filials',
     ),
@@ -255,7 +255,7 @@ function yellow_pages_company_ct_field_group_info() {
   $field_group->parent_name = 'group_tabbed_content';
   $field_group->data = array(
     'label' => 'Price lists',
-    'weight' => '24',
+    'weight' => '28',
     'children' => array(
       0 => 'field_price_list',
     ),
@@ -282,7 +282,7 @@ function yellow_pages_company_ct_field_group_info() {
   $field_group->parent_name = 'group_tabbed_content';
   $field_group->data = array(
     'label' => 'Products',
-    'weight' => '19',
+    'weight' => '23',
     'children' => array(),
     'format_type' => 'htab',
     'format_settings' => array(
@@ -307,7 +307,7 @@ function yellow_pages_company_ct_field_group_info() {
   $field_group->parent_name = 'group_tabbed_content';
   $field_group->data = array(
     'label' => 'Services',
-    'weight' => '20',
+    'weight' => '24',
     'children' => array(),
     'format_type' => 'htab',
     'format_settings' => array(
@@ -343,6 +343,7 @@ function yellow_pages_company_ct_field_group_info() {
       6 => 'group_we_buy',
       7 => 'group_we_export',
       8 => 'group_we_sell',
+      9 => 'group_working_hours',
     ),
     'format_type' => 'htabs',
     'format_settings' => array(
@@ -365,7 +366,7 @@ function yellow_pages_company_ct_field_group_info() {
   $field_group->parent_name = 'group_tabbed_content';
   $field_group->data = array(
     'label' => 'Vouchers',
-    'weight' => '25',
+    'weight' => '29',
     'children' => array(),
     'format_type' => 'htab',
     'format_settings' => array(
@@ -390,7 +391,7 @@ function yellow_pages_company_ct_field_group_info() {
   $field_group->parent_name = 'group_tabbed_content';
   $field_group->data = array(
     'label' => 'We buy',
-    'weight' => '22',
+    'weight' => '26',
     'children' => array(),
     'format_type' => 'htab',
     'format_settings' => array(
@@ -415,7 +416,7 @@ function yellow_pages_company_ct_field_group_info() {
   $field_group->parent_name = 'group_tabbed_content';
   $field_group->data = array(
     'label' => 'We export',
-    'weight' => '23',
+    'weight' => '27',
     'children' => array(),
     'format_type' => 'htab',
     'format_settings' => array(
@@ -440,7 +441,7 @@ function yellow_pages_company_ct_field_group_info() {
   $field_group->parent_name = 'group_tabbed_content';
   $field_group->data = array(
     'label' => 'We sell',
-    'weight' => '21',
+    'weight' => '25',
     'children' => array(),
     'format_type' => 'htab',
     'format_settings' => array(
@@ -453,6 +454,33 @@ function yellow_pages_company_ct_field_group_info() {
     ),
   );
   $export['group_we_sell|node|company|full'] = $field_group;
+
+  $field_group = new stdClass();
+  $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
+  $field_group->api_version = 1;
+  $field_group->identifier = 'group_working_hours|node|company|full';
+  $field_group->group_name = 'group_working_hours';
+  $field_group->entity_type = 'node';
+  $field_group->bundle = 'company';
+  $field_group->mode = 'full';
+  $field_group->parent_name = 'group_tabbed_content';
+  $field_group->data = array(
+    'label' => 'Working hours',
+    'weight' => '30',
+    'children' => array(
+      0 => 'field_business_hours',
+    ),
+    'format_type' => 'htab',
+    'format_settings' => array(
+      'formatter' => 'closed',
+      'instance_settings' => array(
+        'description' => '',
+        'classes' => 'group-working-hours field-group-htab',
+        'id' => '',
+      ),
+    ),
+  );
+  $export['group_working_hours|node|company|full'] = $field_group;
 
   return $export;
 }

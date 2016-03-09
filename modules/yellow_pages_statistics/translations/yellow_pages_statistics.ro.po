@@ -1,0 +1,268 @@
+
+
+# $Id$
+#
+# Romanian translation of Drupal (general)
+# Copyright YEAR NAME <EMAIL@ADDRESS>
+# Generated from files:
+#  yellow_pages_statistics.admin.inc: n/a
+#  yellow_pages_statistics.ga.inc: n/a
+#  yellow_pages_statistics.reports.inc: n/a
+#  yellow_pages_statistics.module: n/a
+#  yellow_pages_statistics.info: n/a
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PROJECT VERSION\n"
+"POT-Creation-Date: 2016-03-04 16:21+0200\n"
+"PO-Revision-Date: 2016-03-04 16:21+0200\n"
+"Last-Translator: NAME <EMAIL@ADDRESS>\n"
+"Language-Team: Romanian <EMAIL@ADDRESS>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=((((n%10)==1)&&((n%100)!=11))?(0):(((((n%10)>=2)&&((n%10)<=4))&&(((n%100)<10)||((n%100)>=20)))?(1):2));\n"
+
+#: yellow_pages_statistics.admin.inc:12
+msgid "E-mail"
+msgstr "E-mail"
+
+#: yellow_pages_statistics.admin.inc:13
+msgid "Service account email address"
+msgstr ""
+
+#: yellow_pages_statistics.admin.inc:20
+msgid "Key file"
+msgstr ""
+
+#: yellow_pages_statistics.admin.inc:21
+msgid "File with service account keys (p12 format)."
+msgstr ""
+
+#: yellow_pages_statistics.admin.inc:27
+msgid "How to create service account"
+msgstr ""
+
+#: yellow_pages_statistics.admin.inc:38
+msgid "Save settings"
+msgstr "Salvare opţiuni"
+
+#: yellow_pages_statistics.admin.inc:50
+msgid "The value of field email is not a valid email address"
+msgstr ""
+
+#: yellow_pages_statistics.admin.inc:59
+msgid "The key file could not be uploaded."
+msgstr ""
+
+#: yellow_pages_statistics.admin.inc:75
+msgid "For security reason the content of your key file was saved in the database and the file was deleted."
+msgstr ""
+
+#: yellow_pages_statistics.ga.inc:19
+msgid "Entrances"
+msgstr "Intrări"
+
+#: yellow_pages_statistics.ga.inc:20
+msgid "Users"
+msgstr "Utilizatori"
+
+#: yellow_pages_statistics.ga.inc:21
+msgid "Sessions"
+msgstr "Sesiuni"
+
+#: yellow_pages_statistics.ga.inc:22
+msgid "Pageviews"
+msgstr "Vizualizări de pagină"
+
+#: yellow_pages_statistics.ga.inc:23
+msgid "Session duration average"
+msgstr "Durata medie a sesiunii"
+
+#: yellow_pages_statistics.ga.inc:28
+msgid "Select Metric"
+msgstr "Selectați Metrica"
+
+#: yellow_pages_statistics.ga.inc:51
+msgid "Last year"
+msgstr "Ultimul an"
+
+#: yellow_pages_statistics.ga.inc:52
+msgid "Last month"
+msgstr "Ultima lună"
+
+#: yellow_pages_statistics.ga.inc:53
+msgid "Last week"
+msgstr "Ultima săptămână"
+
+#: yellow_pages_statistics.ga.inc:58
+msgid "Select Period"
+msgstr "Selectați Perioada"
+
+#: yellow_pages_statistics.ga.inc:65 yellow_pages_statistics.reports.inc:58;337
+msgid "Show"
+msgstr "Afişare"
+
+#: yellow_pages_statistics.ga.inc:130
+msgid "@metric on @profile"
+msgstr "@metric pe @profile"
+
+#: yellow_pages_statistics.ga.inc:134
+msgid "Months"
+msgstr ""
+
+#: yellow_pages_statistics.ga.inc:146
+msgid "sec"
+msgstr "sec"
+
+#: yellow_pages_statistics.ga.inc:156
+msgid "No results found."
+msgstr ""
+
+#: yellow_pages_statistics.ga.inc:232
+msgid "No views (profiles) found for this user."
+msgstr ""
+
+#: yellow_pages_statistics.reports.inc:19
+msgid "No statistics information for this node."
+msgstr "Statistica nu este disponibilă pentru această nodă."
+
+#: yellow_pages_statistics.reports.inc:37;316
+msgid "Select period"
+msgstr "Selectați perioada"
+
+#: yellow_pages_statistics.reports.inc:41;320
+msgid "Start date"
+msgstr "Data de început"
+
+#: yellow_pages_statistics.reports.inc:49;328
+msgid "End date"
+msgstr "Data de sfârşit"
+
+#: yellow_pages_statistics.reports.inc:64
+msgid "Statistics for selected period"
+msgstr "Statistica pentru perioada selectată"
+
+#: yellow_pages_statistics.reports.inc:76
+msgid "Company related advertisement statistics for selected period"
+msgstr "Statistica pentru publicitatea legată de companie"
+
+#: yellow_pages_statistics.reports.inc:164
+msgid "Period"
+msgstr "Perioada"
+
+#: yellow_pages_statistics.reports.inc:165
+msgid "Total"
+msgstr ""
+
+#: yellow_pages_statistics.reports.inc:166
+msgid "From @start to @end"
+msgstr "Din @start până @end"
+
+#: yellow_pages_statistics.reports.inc:169;204
+msgid "Views"
+msgstr "Vizualizări"
+
+#: yellow_pages_statistics.reports.inc:174;205
+msgid "Clicks"
+msgstr "Clicuri"
+
+#: yellow_pages_statistics.reports.inc:203
+msgid "Date"
+msgstr "Data"
+
+#: yellow_pages_statistics.reports.inc:279
+msgid "TOTAL"
+msgstr ""
+
+#: yellow_pages_statistics.reports.inc:281
+msgid "@total views"
+msgstr "@total vizualizări"
+
+#: yellow_pages_statistics.reports.inc:289
+msgid "Date/time"
+msgstr "Data/ora"
+
+#: yellow_pages_statistics.reports.inc:290;355
+msgid "Search phrase"
+msgstr "Expresia de căutare"
+
+#: yellow_pages_statistics.reports.inc:291
+msgid "Page"
+msgstr "Pagina"
+
+#: yellow_pages_statistics.reports.inc:292
+msgid "Language"
+msgstr "Limba"
+
+#: yellow_pages_statistics.reports.inc:294 yellow_pages_statistics.module:45
+msgid "Search statistics"
+msgstr "Statistica de căutare"
+
+#: yellow_pages_statistics.reports.inc:295
+msgid "No search statistics for this period."
+msgstr "Nu este statistică de căutare pentru perioada aleasă."
+
+#: yellow_pages_statistics.reports.inc:356
+msgid "Count of searching"
+msgstr "Numărul de căutări"
+
+#: yellow_pages_statistics.reports.inc:358
+msgid "Search phrases statistics"
+msgstr "Statistica frazelor de căutare"
+
+#: yellow_pages_statistics.reports.inc:359
+msgid "No search phrases statistics for this period."
+msgstr ""
+"Statistica frazelor de căutare nu este disponibilă pentru perioada "
+"aleasă."
+
+#: yellow_pages_statistics.module:15
+msgid "Administer Yellow Pages statistics"
+msgstr ""
+
+#: yellow_pages_statistics.module:18
+msgid "Access Yellow Pages node statistics"
+msgstr ""
+
+#: yellow_pages_statistics.module:21
+msgid "Access Yellow Pages search statistics"
+msgstr ""
+
+#: yellow_pages_statistics.module:24
+msgid "Access Yellow Pages Google Analytics page"
+msgstr ""
+
+#: yellow_pages_statistics.module:36
+msgid "Google Analytics"
+msgstr ""
+
+#: yellow_pages_statistics.module:54
+msgid "GA data"
+msgstr ""
+
+#: yellow_pages_statistics.module:62
+msgid "Advertisement statistics tracker"
+msgstr ""
+
+#: yellow_pages_statistics.module:70
+msgid "Enterprise statistics tracker"
+msgstr ""
+
+#: yellow_pages_statistics.module:84;94
+msgid "Statistics"
+msgstr "Statistici"
+
+#: yellow_pages_statistics.info:0
+msgid "Yellow Pages statistics"
+msgstr ""
+
+#: yellow_pages_statistics.info:0
+msgid "Statistics functionality and configurations for Yellow Pages site."
+msgstr ""
+
+#: yellow_pages_statistics.info:0
+msgid "Yellow Pages"
+msgstr ""
+

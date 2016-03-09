@@ -33,6 +33,12 @@ h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
   font-weight: bold;
 }
 
+strong.block-title {
+  display: block;
+  font-size: 14px;
+  margin-bottom: 20px;
+  margin-top: 20px;
+}
 
 a {
   color: $dark;
@@ -50,6 +56,12 @@ a {
 }
 .mobile-only {
   display: none !important;
+}
+
+#cboxLoadedContent iframe {
+  border: 0 none;
+  display: block;
+  overflow: hidden;
 }
 
 @media (min-width: 1990px) {
@@ -404,9 +416,6 @@ header {
       }
     }
   }
-}
-.product-link {
-  display: none;
 }
 .inner-menu-wrapper {
   float: right;
@@ -1112,7 +1121,7 @@ form.yellow-pages-feedback-ad-request {
       padding: 0;
     }
     @include breakpoint ($extralargedown) {
-      max-height: 110px;
+      max-height: 115px;
       overflow: hidden;
     }
   }
@@ -1132,85 +1141,139 @@ form.yellow-pages-feedback-ad-request {
   font-weight: bold;
 }
 
-/* Carousel one company */
+/* Company node page */
 
-.company-content .field-type-media {
-  .field-label {
-    padding: 0 20px 20px;
-    font-size: 12px;
-    font-weight: 700;
-    text-transform: uppercase;
+.node-type-company {
+  .pane-node article {
+    margin-bottom: 0;
   }
-  .owl-dots {
-    position: absolute;
-    top: -40px;
-    left: 0;
-    right: 0;
-    text-align: center;
-    .owl-dot {
-      display: inline-block;
-      width: 6px;
-      height: 6px;
-      margin: 10px 3px;
-      background: $dark;
-      &.active {
-        background: $main-yellow;
+  .col-sm-12 {
+    margin-bottom: 30px;
+  }
+  .view-media-field {
+    background-color: white;
+    .owl-wrapper-outer {
+      padding-top: 30px;
+    }
+    .field-label {
+      padding: 0 20px 20px;
+      font-size: 12px;
+      font-weight: 700;
+      text-transform: uppercase;
+    }
+    .owl-theme {
+      .video-icon-wrapper {
+        height: 50px;
+        left: 50%;
+        margin-left: -25px;
+        margin-top: -25px;
+        position: absolute;
+        top: 50%;
+        width: 50px;
+        .video-icon {
+          background: url(../images/video-icon.png) transparent no-repeat;
+          height: 50px;
+          width: 50px;
+        }
+      }
+      .owl-controls {
+        .owl-pagination {
+          position: absolute;
+          top: 0;
+          text-align: center;
+          width: 100%;
+          .owl-page {
+            width: 6px;
+            height: 6px;
+            margin: 10px 3px;
+            background: $dark;
+            &.active {
+              background: $main-yellow;
+            }
+            span {
+              background: none;
+            }
+          }
+        }
+        .owl-buttons {
+          .owl-prev,
+          .owl-next {
+            background: rgba(29, 29, 29, 0.8);
+            border-radius: 0;
+            color: #ffdd00;
+            font-size: 30px;
+            height: 40px;
+            line-height: 40px;
+            margin: -5px 0 0;
+            opacity: 1;
+            padding: 0;
+            position: absolute;
+            text-align: center;
+            top: 50%;
+            width: 30px;
+          }
+          .owl-prev {
+            left: 0;
+          }
+          .owl-next {
+            right: 0;
+          }
+        }
+      }
+    }
+    .owl-item .content {
+      img {
+        width: 100%;
+        height: auto;
+      }
+      a {
+        display: block;
+        position: relative;
+        &:hover {
+          &:before {
+            content: "";
+            display: block;
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.6);
+            z-index: 2;
+          }
+          &:after {
+            content: "\f002";
+            display: block;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            margin-top: -15px;
+            margin-left: -10px;
+            font: normal normal normal 20px/30px FontAwesome;
+            text-rendering: auto;
+            color: #fff;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            transform: translate(0, 0);
+            z-index: 3;
+          }
+        }
       }
     }
   }
-  .owl-prev,
-  .owl-next {
-    position: absolute;
-    top: 50%;
-    margin-top: -20px;
-    width: 30px;
-    height: 40px;
-    background: rgba(29, 29, 29, 0.8);
-    text-align: center;
-    line-height: 40px;
-    color: #ffdd00;
-    font-size: 30px;
-  }
-  .owl-prev {
-    left: 0;
-  }
-  .owl-next {
-    right: 0;
-  }
-  .owl-item .content a {
-    display: block;
-    position: relative;
-    &:hover {
-      &:before {
-        content: "";
-        display: block;
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background: rgba(0, 0, 0, 0.6);
-        z-index: 2;
+  .field-name-field-filials {
+    .field-item .node-company {
+      .field-name-field-address .street-block{
+        &:before {
+          content: '';
+          margin: 0;
+        }
       }
-      &:after {
-        content: "\f002";
-        display: block;
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        margin-top: -15px;
-        margin-left: -10px;
-        font: normal normal normal 20px/30px FontAwesome;
-        text-rendering: auto;
-        color: #fff;
-        -webkit-font-smoothing: antialiased;
-        -moz-osx-font-smoothing: grayscale;
-        transform: translate(0, 0);
-        z-index: 3;
-      }
+      position: relative;
     }
   }
 }
+
 
 /* Views block */
 .node-teaser,
@@ -1320,13 +1383,10 @@ form.yellow-pages-feedback-ad-request {
       @include breakpoint ($mobile) {
         max-width: 80px;
       }
-    }
-    > img {
       margin: 10px;
     }
   }
 }
-
 
 div.panel-pane div.node-teaser {
   margin-bottom: 30px;
@@ -1579,6 +1639,28 @@ div.panel-pane div.node-teaser {
       margin: 0;
       padding: 15px 20px;
       font-size: 12px;
+
+      .field-name-field-business-hours {
+        .business-hours {
+          .inline-business-hours {
+            display: inline-block;
+            margin-top: 20px;
+            &.today {
+              border: 2px solid $bg-lingth-green;
+            }
+            table {
+              td {
+                padding: 5px 15px;
+                text-align: center;
+                &.weekday {
+                  font-weight: bold;
+                  text-transform: capitalize;
+                }
+              }
+            }
+          }
+        }
+      }
       @include breakpoint ($mobile) {
         padding: 15px;
       }
@@ -1617,7 +1699,7 @@ div.panel-pane div.node-teaser {
       display: block;
       position: absolute;
       top: 0px;
-      left: -5px;
+      left: -10px;
       height: 100%;
       width: 20px;
       background: $light-yellow;
@@ -1750,6 +1832,9 @@ div.panel-pane div.node-teaser {
         top: 12px;
         right: 20px;
       }
+      .company-contact-title {
+        display: none !important;
+      }
     }
     @include breakpoint ($mobile) {
       padding-left: 20px;
@@ -1835,6 +1920,22 @@ div.panel-pane div.node-teaser {
   }
   a {
     text-decoration: none;
+  }
+  @include breakpoint ($mobilesm) {
+    .field-name-field-landline-phone,
+    .field-name-field-mobile-phone {
+      &:before {
+        color: $green-phone;
+        line-height: 24px;
+      }
+      line-height: 24px;
+    }
+    .field-name-field-fax {
+      &:before {
+        line-height: 24px;
+      }
+      line-height: 24px;
+    }
   }
 }
 .node--company--teaser,
@@ -2086,21 +2187,10 @@ article {
           padding: 3px 10px 3px 0;
         }
         .facetapi-active {
-          color: #393939;
+          color: $main-yellow;
+          font: normal normal normal 14px/1 FontAwesome;
           position: absolute;
           left: -20px;
-          &:before {
-            content: "\f00d";
-            display: inline-block;
-            position: absolute;
-            top: 0;
-            font: normal normal normal 14px/1 FontAwesome;
-            text-rendering: auto;
-            color: $main-yellow;
-            -webkit-font-smoothing: antialiased;
-            -moz-osx-font-smoothing: grayscale;
-            transform: translate(0, 0);
-          }
         }
         .facetapi-inactive {
           color: $gray;
@@ -2500,6 +2590,7 @@ article {
     a {
       display: block;
       img {
+        height: auto;
         max-width: 100%;
         width: 100%;
       }
@@ -2545,29 +2636,6 @@ body > .node-advertisement {
   }
   .block-system.block-menu{
     display: none;
-  }
-  .product-link {
-    clear: both;
-    display: block;
-    margin: 0 -30px;
-    line-height: 30px;
-    background: #c8c8c8;
-    text-align: center;
-    text-transform: uppercase;
-    font-size: 12px;
-    font-weight: bold;
-    &:hover {
-      color: $dark;
-    }
-    .link-icon {
-      display: inline-block;
-      vertical-align: 1px;
-      margin-right: 15px;
-      width: 6px;
-      height: 6px;
-      background: $dark;
-      @include box-shadow(-8px 0px 0 0 $dark, 8px 0 0 0 $dark);
-    }
   }
   .homepage-container .pane-title {
     margin: 30px 0;
@@ -2711,95 +2779,42 @@ body > .node-advertisement {
   }
 }
 
+.page-batch {
+  h2.title {
+    font-size: 20px;
+  }
+  .progress {
+    border-radius: 0;
+    height: auto;
+    .filled {
+      background-color: $main-yellow;
+    }
+  }
+}
 
-/* Print styles */
+#yellow-pages-sync-categories-and-products-form {
+  background-color: transparent;
+  input[type="submit"] {
+    padding: 0 10px;
+  }
+}
 
-@media print {
-  html {
-    zoom: 100%;
-  }
-  .container {
-    min-width: 90% !important;
-    margin: 0;
-    float: none;
-  }
-  a[href]:after {
-    content: "";
-    font-weight: normal;
-    font-size: 16px;
-  }
-  .navbar-header .region-header,
-  .no-touch .pane-yellow-pages-print-yp-print,
-  .horizontal-tabs ul.horizontal-tabs-list,
-  .region-asides,
-  .footer,
-  .node-advertisement,
-  #toolbar,
-  .node-tabs-block,
-  .node-type-article .node--article--full .social-links, 
-  .node-type-news .node--news--full .social-links {
-    display: none;
-  }
-  .horizontal-tabs .horizontal-tab-hidden {
-    position: static;
-  }
-  .footer .copyright {
+#yellow-pages-statistics-ga {
+  #edit-filter {
     border: none;
-  }
-  .node-company.node--company--full .company-content .col-company-logo {
-    text-align: left;
-  }
-  .main-container {
-    min-height: 0 !important;
-  }
- 
-  .node-type-news,
-  .node-type-article {
-    .region-content {
-      padding: 10px 0;
-    }
-    .pane-entity-view {
-      .field-name-field-main-image {
-        img {
-          max-width: 300px !important;
-          float: left;
-          margin-right: 20px;
+    .fieldset-wrapper {
+      text-align: center;
+      .form-type-select {
+        display: inline-block;
+        margin-right: 30px;
+        text-align: left;
+        .chosen-container {
+          min-width: 250px;
         }
       }
-      .node-main-image-block  {
-        min-height: 0;
-        header {
-          position: static;
-          padding: 10px 0;
-        }
-      }
-      .field-name-body {
-        padding-top: 0;
+      #edit-submit {
+        display: inline-block;
       }
     }
   }
-  .node-type-news,
-  .node-type-article {
-    .yp-twocol-75-25-layout {
-      .col-sm-9 {
-        float: none;
-        width: 100%;
-      }
-      .col-sm-3 {
-        display: none;
-      }
-    }
-  }
-  .company-content .field-type-media {
-    .owl-controls {
-      display: none;
-    }
-  }
-  .group-tabbed-content .fieldset-wrapper .horizontal-tab-title {
-    display: block;
-    margin-bottom: 15px;
-    font-weight: bold;
-    text-transform: uppercase;
-  }
-
 }

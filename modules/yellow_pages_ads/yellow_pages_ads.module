@@ -225,8 +225,6 @@ function yellow_pages_ads_cron() {
   $query->entityCondition('bundle', 'advertisement');
   $result = $query->execute();
 
-  // TODO: check if advert should be unpubliseh in week.
-
   if (isset($result['node']) && is_array($result['node'])) {
     $nids = array_keys($result['node']);
     $nodes = node_load_multiple($nids);
@@ -273,8 +271,6 @@ function yellow_pages_ads_scheduler(stdClass $node) {
 
   $publish_date = strtotime($ad_schedule[0]['value']);
   $unpublish_date = strtotime($ad_schedule[0]['value2']);
-  $tod_plus_week = mktime(0, 0, 0) + (7 * 24 * 60 * 60);
-  $tod_plus_day = mktime(0, 0, 0) + (24 * 60 * 60);
 
   $new_status = $node->status;
   if ($node->status == NODE_PUBLISHED && ($unpublish_date < REQUEST_TIME || $publish_date > REQUEST_TIME)) {
@@ -287,13 +283,6 @@ function yellow_pages_ads_scheduler(stdClass $node) {
   if ($new_status != $node->status) {
     $node->status = $new_status;
     node_save($node);
-  }
-
-  if ($unpublish_date == $tod_plus_week) {
-    rules_invoke_event('advert_expire_in_week', $node);
-  }
-  elseif ($unpublish_date == $tod_plus_day) {
-    rules_invoke_event('advert_expire_in_day', $node);
   }
 }
 
@@ -336,10 +325,15 @@ function yellow_pages_ads_form_advertisement_node_form_alter(&$form, &$form_stat
     'translation',
     'path',
     'author',
+    'promote',
+    'sticky',
   );
   foreach ($hide as $item) {
     if (isset($form[$item])) {
       hide($form[$item]);
+    }
+    elseif (isset($form['options'][$item])) {
+      hide($form['options'][$item]);
     }
   }
 }
@@ -363,7 +357,10 @@ function yellow_pages_ads_form_advertisement_node_form_validate(&$form, &$form_s
   $query = new EntityFieldQuery();
   $query->entityCondition('entity_type', 'node');
   $query->entityCondition('bundle', 'advertisement');
-  $query->propertyCondition('nid', $form['nid']['#value'], '!=');
+  if (!empty($form['nid']['#value'])) {
+    $query->propertyCondition('nid', $form['nid']['#value'], '!=');
+  }
+  $query->propertyCondition('language', $form['language']['#value'], '=');
   $query->propertyCondition('status', NODE_PUBLISHED);
   $query->fieldCondition('field_ad_category', 'value', 'content', '=');
   $query->fieldCondition('field_ad_placement_in_search', 'value', $placement, '=');
@@ -378,6 +375,7 @@ function yellow_pages_ads_form_advertisement_node_form_validate(&$form, &$form_s
 /**
  * Implements hook_views_post_execute().
  */
+
 function yellow_pages_ads_views_post_execute(&$view) {
   // Check if search views.
   $content_search_view = $view->base_table == 'search_api_index_company_nodes'
@@ -388,23 +386,19 @@ function yellow_pages_ads_views_post_execute(&$view) {
     && $view->current_display == 'solr_node_search'
     && $view->name == 'solr_views';
 
-  $news_view = $view->base_table == 'node'
-    && $view->current_display == 'panel_pane_2'
-    && $view->name == 'news';
-
-  $articles_view = $view->base_table == 'node'
-    && $view->current_display == 'panel_pane_2'
-    && $view->name == 'articles';
-
-  if ($content_search_view || $company_search_view || $news_view || $articles_view) {
+  if ($content_search_view || $company_search_view) {
     // Don't insert advert on pages other than first.
     if (isset($_GET['page']) && is_numeric($_GET['page'])) {
       return;
     }
 
-    $limit = (int)$view->query->pager->options['items_per_page'];
+    // Limit selected adverts to the count of elements in current page.
+    $limit = count($view->result);
+    if (empty($limit)) {
+      return;
+    }
 
-    $result = yellow_pages_ads_get_ads($limit, 'content', 'random');
+    $result = yellow_pages_ads_get_content_ads($limit);
 
     if (empty($result)) {
       return;
@@ -413,9 +407,7 @@ function yellow_pages_ads_views_post_execute(&$view) {
     $search_adverts = array();
     foreach ($result as $adv) {
       $ad = array();
-      $advert = node_load($adv->nid);
-
-      $ad['advert'] = $advert;
+      $ad['advert'] = $adv;
       $ad['nid'] = $adv->nid;
       $search_adverts[$adv->nid] = $ad;
     }
@@ -449,12 +441,7 @@ function yellow_pages_ads_views_post_execute(&$view) {
     // We have to render nodes using the same display mode as the view uses.
     foreach ($search_adverts as $ad) {
       $rendered_ad = new stdClass();
-      if ($content_search_view || $company_search_view) {
-        $rendered_ad->entity = $ad['advert']->nid;
-      }
-      elseif ($news_view || $articles_view) {
-        $rendered_ad->nid = $ad['advert']->nid;
-      }
+      $rendered_ad->entity = $ad['advert']->nid;
 
       // Create a entity metadata wrapper
       $entity_wrapper = entity_metadata_wrapper('node', $ad['advert']);
@@ -464,11 +451,6 @@ function yellow_pages_ads_views_post_execute(&$view) {
       $position = $row - 1;
 
       array_splice($view->result, $position, 0, array($rendered_ad));
-    }
-
-    // Insertions lead to more result items than initially set in pagination settings.
-    if (count($view->result) > $limit) {
-      $view->result = array_slice($view->result, 0, $limit);
     }
   }
 }
@@ -481,4 +463,37 @@ function yellow_pages_ads_preprocess(&$variables, $hook) {
   if (!$search_page) {
     return;
   }
+}
+
+/**
+ * Retrieves ads nodes with category 'content' ordered by placement field.
+ *
+ * @param int $limit
+ *   Number of nodes to fetch.
+ *
+ * @return array
+ *   Set of node objects.
+ */
+function yellow_pages_ads_get_content_ads($limit = 0) {
+  global $language;
+  $lang = $language->language;
+
+  $query = db_select('node', 'n')
+    ->fields('n', array('nid'))
+    ->condition('n.status', NODE_PUBLISHED)
+    ->condition('n.language', array($lang, LANGUAGE_NONE), 'IN');
+  $query->innerJoin('field_data_field_ad_category', 'ad_cat', 'n.nid = ad_cat.entity_id');
+  $query->condition('ad_cat.field_ad_category_value', 'content');
+  $query->innerJoin('field_data_field_ad_placement_in_search', 'ad_place', 'n.nid = ad_place.entity_id');
+  $query->orderBy('ad_place.field_ad_placement_in_search_value', 'asc');
+
+  if (!empty($limit)) {
+    $query->condition('ad_place.field_ad_placement_in_search_value', $limit, '<=');
+    $query->range(0, $limit);
+  }
+
+  $result = $query->execute()->fetchCol();
+  $nodes = node_load_multiple($result);
+
+  return $nodes;
 }

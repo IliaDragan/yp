@@ -15,8 +15,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
-"POT-Creation-Date: 2016-03-04 16:21+0200\n"
-"PO-Revision-Date: 2016-03-04 16:21+0200\n"
+"POT-Creation-Date: 2016-03-10 16:48+0200\n"
+"PO-Revision-Date: 2016-03-10 16:48+0200\n"
 "Last-Translator: NAME <EMAIL@ADDRESS>\n"
 "Language-Team: Romanian <EMAIL@ADDRESS>\n"
 "MIME-Version: 1.0\n"
@@ -161,7 +161,7 @@ msgid "From @start to @end"
 msgstr "Din @start până @end"
 
 #: yellow_pages_statistics.reports.inc:169;204
-msgid "Views"
+msgid "Views count"
 msgstr "Vizualizări"
 
 #: yellow_pages_statistics.reports.inc:174;205

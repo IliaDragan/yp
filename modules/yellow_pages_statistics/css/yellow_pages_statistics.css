@@ -40,3 +40,7 @@
   border: 1px solid #d1b500;
   padding: 10px 30px;
 }
+
+#yellow-pages-search-statistics fieldset {
+  border: none;
+}

@@ -166,7 +166,7 @@ function yellow_pages_statistics_get_statistics_data_for_node(&$node, $start, $e
       array('data' => t('From @start to @end', array('@start' => format_date($start, 'custom', 'd M Y'), '@end' => format_date($end, 'custom', 'd M Y'))), 'header' => TRUE),
     ),
     array(
-      array('data' => t('Views'), 'header' => TRUE),
+      array('data' => t('Views count'), 'header' => TRUE),
       $views,
       $views_period,
     ),
@@ -201,7 +201,7 @@ function yellow_pages_statistics_get_statistics_data_for_node(&$node, $start, $e
   $chart_prepared_array = array(
     array(
       array('label' => t('Date'), 'type' => 'string'),
-      array('label' => t('Views'), 'type' => 'number'),
+      array('label' => t('Views count'), 'type' => 'number'),
       array('label' => t('Clicks'), 'type' => 'number'),
     ),
   );

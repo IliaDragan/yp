@@ -31,8 +31,15 @@ function constructChart(chartId, dataJSON) {
       lineWidth: 2,
       pointSize: 4,
       vAxis: {
-        gridlines: {count: -1},
-        minValue: 0
+        minValue: 0,
+        baseline: 0,
+        viewWindow: {min: 0}
+      },
+      series: {
+        0: {
+          pointShape: 'diamond',
+          pointSize: 10
+        }
       }
     }
 

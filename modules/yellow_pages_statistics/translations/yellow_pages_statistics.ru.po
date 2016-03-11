@@ -15,8 +15,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
-"POT-Creation-Date: 2016-03-10 16:48+0200\n"
-"PO-Revision-Date: 2016-03-10 16:48+0200\n"
+"POT-Creation-Date: 2016-03-11 13:57+0200\n"
+"PO-Revision-Date: 2016-03-11 13:57+0200\n"
 "Last-Translator: NAME <EMAIL@ADDRESS>\n"
 "Language-Team: Russian <EMAIL@ADDRESS>\n"
 "MIME-Version: 1.0\n"
@@ -100,7 +100,7 @@ msgstr "Последняя неделя"
 msgid "Select Period"
 msgstr "Выберите Период"
 
-#: yellow_pages_statistics.ga.inc:65 yellow_pages_statistics.reports.inc:58;337
+#: yellow_pages_statistics.ga.inc:65 yellow_pages_statistics.reports.inc:58;340
 msgid "Show"
 msgstr "Показать"
 
@@ -128,15 +128,15 @@ msgstr ""
 msgid "No statistics information for this node."
 msgstr "Для данной ноды нет статистики."
 
-#: yellow_pages_statistics.reports.inc:37;316
+#: yellow_pages_statistics.reports.inc:37;319
 msgid "Select period"
 msgstr "Выберите период"
 
-#: yellow_pages_statistics.reports.inc:41;320
+#: yellow_pages_statistics.reports.inc:41;323
 msgid "Start date"
 msgstr "Дата начала"
 
-#: yellow_pages_statistics.reports.inc:49;328
+#: yellow_pages_statistics.reports.inc:49;331
 msgid "End date"
 msgstr "Дата окончания"
 
@@ -150,73 +150,81 @@ msgstr ""
 "Статистика связанной с компанией "
 "рекламы"
 
-#: yellow_pages_statistics.reports.inc:164
+#: yellow_pages_statistics.reports.inc:127
+msgid "Company card views"
+msgstr "Показы карточки предприятия"
+
+#: yellow_pages_statistics.reports.inc:128
+msgid "Clicks on the site link"
+msgstr "Клики по ссылке сайта"
+
+#: yellow_pages_statistics.reports.inc:134
+msgid "Banner views"
+msgstr "Показы баннера"
+
+#: yellow_pages_statistics.reports.inc:135
+msgid "Clicks on the banner"
+msgstr "Клики по баннеру"
+
+#: yellow_pages_statistics.reports.inc:167
 msgid "Period"
 msgstr "Период"
 
-#: yellow_pages_statistics.reports.inc:165
+#: yellow_pages_statistics.reports.inc:168
 msgid "Total"
 msgstr "Всего"
 
-#: yellow_pages_statistics.reports.inc:166
+#: yellow_pages_statistics.reports.inc:169
 msgid "From @start to @end"
 msgstr "С @start по @end"
 
-#: yellow_pages_statistics.reports.inc:169;204
-msgid "Views count"
-msgstr "Показы"
-
-#: yellow_pages_statistics.reports.inc:174;205
-msgid "Clicks"
-msgstr "Клики"
-
-#: yellow_pages_statistics.reports.inc:203
+#: yellow_pages_statistics.reports.inc:206
 msgid "Date"
 msgstr "Дата"
 
-#: yellow_pages_statistics.reports.inc:279
+#: yellow_pages_statistics.reports.inc:282
 msgid "TOTAL"
 msgstr "ИТОГО"
 
-#: yellow_pages_statistics.reports.inc:281
+#: yellow_pages_statistics.reports.inc:284
 msgid "@total views"
 msgstr "@total просмотров"
 
-#: yellow_pages_statistics.reports.inc:289
+#: yellow_pages_statistics.reports.inc:292
 msgid "Date/time"
 msgstr "Дата/время"
 
-#: yellow_pages_statistics.reports.inc:290;355
+#: yellow_pages_statistics.reports.inc:293;358
 msgid "Search phrase"
 msgstr "Поисковая фраза"
 
-#: yellow_pages_statistics.reports.inc:291
+#: yellow_pages_statistics.reports.inc:294
 msgid "Page"
 msgstr "Страница"
 
-#: yellow_pages_statistics.reports.inc:292
+#: yellow_pages_statistics.reports.inc:295
 msgid "Language"
 msgstr "Язык"
 
-#: yellow_pages_statistics.reports.inc:294 yellow_pages_statistics.module:45
+#: yellow_pages_statistics.reports.inc:297 yellow_pages_statistics.module:45
 msgid "Search statistics"
 msgstr "Статистика поиков."
 
-#: yellow_pages_statistics.reports.inc:295
+#: yellow_pages_statistics.reports.inc:298
 msgid "No search statistics for this period."
 msgstr ""
 "Статистика по поиску на данный период "
 "отсутствует."
 
-#: yellow_pages_statistics.reports.inc:356
+#: yellow_pages_statistics.reports.inc:359
 msgid "Count of searching"
 msgstr "Количество поисков"
 
-#: yellow_pages_statistics.reports.inc:358
+#: yellow_pages_statistics.reports.inc:361
 msgid "Search phrases statistics"
 msgstr "Статистика поисковых запросов"
 
-#: yellow_pages_statistics.reports.inc:359
+#: yellow_pages_statistics.reports.inc:362
 msgid "No search phrases statistics for this period."
 msgstr ""
 "Статистика поисковых запросов для "

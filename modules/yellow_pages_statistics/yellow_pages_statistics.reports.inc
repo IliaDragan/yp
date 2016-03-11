@@ -124,12 +124,15 @@ function yellow_pages_statistics_get_statistics_data_for_node(&$node, $start, $e
     case 'company':
       $table_views = 'nodeviewcount';
       $table_clicks = 'yp_company_statistics';
+      $views_title = t('Company card views');
+      $clicks_title = t('Clicks on the site link');
       break;
 
     case 'advertisement':
       $table_views = 'yp_ad_nodeviewcount';
       $table_clicks = 'yp_ad_statistics';
-
+      $views_title = t('Banner views');
+      $clicks_title = t('Clicks on the banner');
       break;
   }
 
@@ -166,12 +169,12 @@ function yellow_pages_statistics_get_statistics_data_for_node(&$node, $start, $e
       array('data' => t('From @start to @end', array('@start' => format_date($start, 'custom', 'd M Y'), '@end' => format_date($end, 'custom', 'd M Y'))), 'header' => TRUE),
     ),
     array(
-      array('data' => t('Views count'), 'header' => TRUE),
+      array('data' => $views_title, 'header' => TRUE),
       $views,
       $views_period,
     ),
     array(
-      array('data' => t('Clicks'), 'header' => TRUE),
+      array('data' => $clicks_title, 'header' => TRUE),
       $clicks,
       $clicks_period,
     ),
@@ -201,8 +204,8 @@ function yellow_pages_statistics_get_statistics_data_for_node(&$node, $start, $e
   $chart_prepared_array = array(
     array(
       array('label' => t('Date'), 'type' => 'string'),
-      array('label' => t('Views count'), 'type' => 'number'),
-      array('label' => t('Clicks'), 'type' => 'number'),
+      array('label' => $views_title, 'type' => 'number'),
+      array('label' => $clicks_title, 'type' => 'number'),
     ),
   );
   foreach ($chart_data as $row) {

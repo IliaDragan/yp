@@ -46,7 +46,7 @@ function yellow_pages_solr_configuration_form_alter(&$form, &$form_state, $form_
   if($form_id == 'search_block_form') {
     $uri = arg();
     if ($uri[0] === 'search' && isset($uri[2])) {
-      $form['search_block_form']['#default_value'] = $uri[2];
+      $form['search_block_form']['#default_value'] = rawurldecode($uri[2]);
     }
     $form['#submit'][] = 'yellow_pages_solr_configuration_form_submit';
   }
@@ -65,7 +65,7 @@ function yellow_pages_solr_configuration_form_submit($form, &$form_state) {
   }
 
   $form_id = $form['form_id']['#value'];
-  $form_state['redirect'] = 'search/companies/'. trim($form_state['values'][$form_id]);
+  $form_state['redirect'] = 'search/companies/'. yellow_pages_solr_configuration_urlencode(trim($form_state['values'][$form_id]));
 }
 
 /**
@@ -170,6 +170,33 @@ function yellow_pages_solr_configuration_preprocess(&$variables, $hook) {
 function yellow_pages_solr_configuration_search_api_solr_query_alter(array &$call_args, SearchApiQueryInterface $query) {
   $call_args['params']['qf'][] = 'textChunk^1.0';
   $call_args['params']['qf'][] = 'textUri^2.0';
+
+  $keys = $query->getKeys();
+  $conjunction = $keys['#conjunction'];
+
+  $tokens = explode(" $conjunction ", $call_args['query']);
+
+  array_walk($tokens, function (&$v) {
+    $v = rawurldecode($v);
+  });
+
+  $call_args['query'] = implode(" $conjunction ", $tokens);
+}
+
+/**
+ * Encode certain url charaters to their equivalent entities.
+ *
+ * @param string $input
+ *   Input string.
+ *
+ * @return string
+ *   Output string.
+ */
+function yellow_pages_solr_configuration_urlencode($input) {
+  $target = array('$', '/');
+  $replacement = array('%24', '%2F');
+
+  return str_replace($target, $replacement, $input);
 }
 
 /**

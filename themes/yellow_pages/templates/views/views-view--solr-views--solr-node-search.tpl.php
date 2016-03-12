@@ -37,7 +37,7 @@
   <div class="view-empty">
     <div class="notfound-search">
       <div class="logo"></div>
-      <?php print $empty; ?>
+      <?php print rawurldecode($empty); ?>
     </div>
   </div>
 <?php endif; ?>

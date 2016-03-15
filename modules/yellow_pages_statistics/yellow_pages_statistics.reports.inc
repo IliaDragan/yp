@@ -142,17 +142,6 @@ function yellow_pages_statistics_get_statistics_data_for_node(&$node, $start, $e
       break;
   }
 
-  //// Statistics total.
-  //$query = db_select($table_views, 'views')
-  //  ->fields('views', array('id'))
-  //  ->condition('nid', $nids, 'IN');
-  //$views = $query->execute()->rowCount();
-  //
-  //$query = db_select($table_clicks, 'clicks')
-  //  ->fields('clicks', array('id'))
-  //  ->condition('nid', $nids, 'IN');
-  //$clicks = $query->execute()->rowCount();
-
   // Statistics for period.
   $query_views = db_select($table_views, 'views')
     ->fields('views', array('id', 'timestamp'))
@@ -167,25 +156,6 @@ function yellow_pages_statistics_get_statistics_data_for_node(&$node, $start, $e
     ->condition('timestamp', array($start, $end), 'BETWEEN');
   $result_clicks = $query_clicks->execute();
   $clicks_period = $result_clicks->rowCount();
-
-  //$rows = array(
-  //  array(
-  //    array('data' => t('Period'), 'header' => TRUE),
-  //    array('data' => t('All the time'), 'header' => TRUE),
-  //    array('data' => t('From @start to @end', array('@start' => format_date($start, 'custom', 'd M Y'), '@end' => format_date($end, 'custom', 'd M Y'))), 'header' => TRUE),
-  //  ),
-  //  array(
-  //    array('data' => $views_title, 'header' => TRUE),
-  //    $views,
-  //    $views_period,
-  //  ),
-  //  array(
-  //    array('data' => $clicks_title, 'header' => TRUE),
-  //    $clicks,
-  //    $clicks_period,
-  //  ),
-  //);
-  //$statistics_table = theme('table', array('rows' => $rows));
 
   // Create chart.
   $dates = yellow_pages_core_date_range($start, $end, '+1 day', 'd M Y', 'Ymd');
@@ -248,7 +218,6 @@ function yellow_pages_statistics_get_statistics_data_for_node(&$node, $start, $e
   $views_chart = '<div id="'.$node->type.'ViewsChart"></div>';
   $clicks_chart = '<div id="'.$node->type.'ClicksChart"></div>';
 
-  //return $statistics_table . $views_chart . $clicks_chart;
   return $views_chart . $clicks_chart;
 }
 
@@ -412,20 +381,33 @@ function yellow_pages_search_statistics_submit(&$form, &$form_state) {
   $form_state['rebuild'] = TRUE;
 }
 
+/**
+ * Function that create print button and its options for statistics page.
+ *
+ * @param $type
+ *   Node content type.
+ * @param $has_adv
+ *   Flag if node has related advertisement.
+ * @param $module_path
+ *   Path to yellow_page_statistics module.
+ *
+ * @return string
+ *   Html of print button and its options depend on params.
+ */
 function yellow_pages_statistics_print_button($type, $has_adv, $module_path) {
-  $output = '<div id="print-wrapper">';
-  $output .= '<div id="print-button">' . t('Print') . '</div>';
+  $output = '<div id="print-wrapper" class="clearfix">';
+  $output .= '<a id="print-button" class="button" href="javascript:yellowPagesStatisticsPrint();">' . t('Print') . '</a>';
 
-  $output .= '<div id="print-checkboxes">';
-  $output .= '<input type="checkbox" name="views" value="Views" id="print-views" checked="checked">' . t('Views count') . '<br>';
-  $output .= '<input type="checkbox" name="clicks" value="Clicks" id="print-clicks" checked="checked">' . t('Clicks') . '<br>';
+  $output .= '<div id="print-checkboxes" class="clearfix">';
+  $output .= '<div class="print-checkbox"><input type="checkbox" name="views" value="Views" id="print-views" checked="checked">' . t('Views count') . '</div>';
+  $output .= '<div class="print-checkbox"><input type="checkbox" name="clicks" value="Clicks" id="print-clicks" checked="checked">' . t('Clicks') . '</div>';
 
   if ($type == 'company') {
-    $output .= '<input type="checkbox" name="search" value="Search" id="print-search" checked="checked">' . t('Search statistics') . '<br>';
+    $output .= '<div class="print-checkbox"><input type="checkbox" name="search" value="Search" id="print-search" checked="checked">' . t('Search statistics') . '</div>';
 
     if ($has_adv) {
-      $output .= '<input type="checkbox" name="adv_views" value="Advertisement Views" id="print-adv-views" checked="checked">' . t('Advertisement views count') . '<br>';
-      $output .= '<input type="checkbox" name="adv_clicks" value="Advertisement Clicks" id="print-adv-clicks" checked="checked">' . t('Advertisement clicks') . '<br>';
+      $output .= '<div class="print-checkbox"><input type="checkbox" name="adv_views" value="Advertisement Views" id="print-adv-views" checked="checked">' . t('Advertisement views count') . '</div>';
+      $output .= '<div class="print-checkbox"><input type="checkbox" name="adv_clicks" value="Advertisement Clicks" id="print-adv-clicks" checked="checked">' . t('Advertisement clicks') . '</div>';
     }
   }
 
@@ -436,4 +418,3 @@ function yellow_pages_statistics_print_button($type, $has_adv, $module_path) {
 
   return $output;
 }
-

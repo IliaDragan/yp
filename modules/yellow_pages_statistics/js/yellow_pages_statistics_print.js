@@ -1,38 +1,14 @@
-Drupal.behaviors.statisticsPrint = {
-  attach : function (context) {
-    var $printCheckboxes = jQuery('#print-checkboxes', context);
-    //jQuery('#print-wrapper', context)
-    //  .mouseenter(function(){
-    //    $printCheckboxes.show();
-    //  })
-    //  .mouseleave(function(){
-    //    $printCheckboxes.hide();
-    //  })
-    //  .trigger('mouseleave');
-
-
-
-
-
-
-    jQuery('#print-search', context).on('change', function(){
-      var obj = jQuery(this);
-      if (obj.attr('checked') == 'checked') {
-        jQuery('.print-search', context).removeClass('no-print');
-        alert('checked');
-      }
-      else {
-        jQuery('.print-search', context).addClass('no-print');
-        alert('unchecked');
-      }
-
-    });
-
-
-
-
-
-
-
-  }
+function yellowPagesStatisticsPrint() {
+  jQuery('.print-checkbox input').each(function(){
+    var $this = jQuery(this);
+    var id = $this.attr('id');
+    var selector = '.' + id;
+    if ($this.attr('checked') == 'checked') {
+      jQuery(selector).removeClass('no-print');
+    }
+    else {
+      jQuery(selector).addClass('no-print');
+    }
+  });
+  window.print();
 }

@@ -44,11 +44,26 @@
 #yellow-pages-search-statistics fieldset {
   border: none;
 }
+/* Print button and options. */
+#print-wrapper {
+  width: 200px;
+}
+#print-button {
+  float: left;
+}
+#print-checkboxes {
+  float: left;
+}
+#print-checkboxes input {
+
+}
 
 @media print {
   #toolbar,
   #branding,
   #edit-period,
+  #print-wrapper,
+  .sticky-header,
   .no-print {
     display: none;
   }

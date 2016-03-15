@@ -215,8 +215,8 @@ function yellow_pages_statistics_get_statistics_data_for_node(&$node, $start, $e
   drupal_add_js('http://www.google.com/jsapi', array('type' => 'external', 'group' => JS_LIBRARY));
   drupal_add_js($module_path . '/js/yellow_pages_statistics_node.chart.js');
 
-  $views_chart = '<div id="'.$node->type.'ViewsChart"></div>';
-  $clicks_chart = '<div id="'.$node->type.'ClicksChart"></div>';
+  $views_chart = '<div id="'.$node->type.'-views-chart" class="print-views-'.$node->type.'"></div>';
+  $clicks_chart = '<div id="'.$node->type.'-clicks-chart" class="print-clicks-'.$node->type.'"></div>';
 
   return $views_chart . $clicks_chart;
 }
@@ -399,15 +399,15 @@ function yellow_pages_statistics_print_button($type, $has_adv, $module_path) {
   $output .= '<a id="print-button" class="button" href="javascript:yellowPagesStatisticsPrint();">' . t('Print') . '</a>';
 
   $output .= '<div id="print-checkboxes" class="clearfix">';
-  $output .= '<div class="print-checkbox"><input type="checkbox" name="views" value="Views" id="print-views" checked="checked">' . t('Views count') . '</div>';
-  $output .= '<div class="print-checkbox"><input type="checkbox" name="clicks" value="Clicks" id="print-clicks" checked="checked">' . t('Clicks') . '</div>';
+  $output .= '<div class="print-checkbox"><input type="checkbox" name="' . $type . '_views" value="' . $type . ' views" id="print-views-' . $type . '" checked="checked">' . t('@type views count', array('@type'=> $type)) . '</div>';
+  $output .= '<div class="print-checkbox"><input type="checkbox" name="' . $type . '_clicks" value="' . $type . ' clicks" id="print-clicks-' . $type . '" checked="checked">' . t('@type clicks', array('@type'=> $type)) . '</div>';
 
   if ($type == 'company') {
     $output .= '<div class="print-checkbox"><input type="checkbox" name="search" value="Search" id="print-search" checked="checked">' . t('Search statistics') . '</div>';
 
     if ($has_adv) {
-      $output .= '<div class="print-checkbox"><input type="checkbox" name="adv_views" value="Advertisement Views" id="print-adv-views" checked="checked">' . t('Advertisement views count') . '</div>';
-      $output .= '<div class="print-checkbox"><input type="checkbox" name="adv_clicks" value="Advertisement Clicks" id="print-adv-clicks" checked="checked">' . t('Advertisement clicks') . '</div>';
+      $output .= '<div class="print-checkbox"><input type="checkbox" name="advertisement_views" value="advertisement views" id="print-views-advertisement" checked="checked">' . t('Advertisement views count') . '</div>';
+      $output .= '<div class="print-checkbox"><input type="checkbox" name="advertisement_clicks" value="advertisement clicks" id="print-clicks-advertisement" checked="checked">' . t('Advertisement clicks') . '</div>';
     }
   }
 

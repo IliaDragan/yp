@@ -57,8 +57,9 @@
   padding: 4px 0;
 }
 #print-checkboxes .print-checkbox {
-  padding-left: 30px;
   float: left;
+  padding-left: 30px;
+  text-transform: capitalize;
 }
 #print-checkboxes .print-checkbox input {
   margin-right: 10px;

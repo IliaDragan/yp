@@ -6,16 +6,16 @@ google.setOnLoadCallback(createNodeChart);
 function createNodeChart() {
   var ns = Drupal.settings.nodeStatistics;
   if (ns['companyViewsChartData']) {
-    constructChart('companyViewsChart', ns['companyViewsChartData']);
+    constructChart('company-views-chart', ns['companyViewsChartData']);
   }
   if (ns['companyClicksChartData']) {
-    constructChart('companyClicksChart', ns['companyClicksChartData']);
+    constructChart('company-clicks-chart', ns['companyClicksChartData']);
   }
   if (ns['advertisementViewsChartData']) {
-    constructChart('advertisementViewsChart', ns['advertisementViewsChartData']);
+    constructChart('advertisement-views-chart', ns['advertisementViewsChartData']);
   }
   if (ns['advertisementClicksChartData']) {
-    constructChart('advertisementClicksChart', ns['advertisementClicksChartData']);
+    constructChart('advertisement-clicks-chart', ns['advertisementClicksChartData']);
   }
 }
 

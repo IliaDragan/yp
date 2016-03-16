@@ -15,8 +15,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
-"POT-Creation-Date: 2016-03-16 10:51+0200\n"
-"PO-Revision-Date: 2016-03-16 10:51+0200\n"
+"POT-Creation-Date: 2016-03-16 11:14+0200\n"
+"PO-Revision-Date: 2016-03-16 11:14+0200\n"
 "Last-Translator: NAME <EMAIL@ADDRESS>\n"
 "Language-Team: Russian <EMAIL@ADDRESS>\n"
 "MIME-Version: 1.0\n"
@@ -196,7 +196,7 @@ msgstr "Язык"
 
 #: yellow_pages_statistics.reports.inc:290;408 yellow_pages_statistics.module:45
 msgid "Search statistics"
-msgstr "Статистика поиков"
+msgstr "Статистика поиcков"
 
 #: yellow_pages_statistics.reports.inc:291
 msgid "No search statistics for this period."
@@ -222,11 +222,19 @@ msgstr ""
 msgid "Print"
 msgstr "Печать"
 
-#: yellow_pages_statistics.reports.inc:411
+#: yellow_pages_statistics.reports.inc:401
+msgid "Company views count"
+msgstr "Показы карточки предприятия"
+
+#: yellow_pages_statistics.reports.inc:401;411
 msgid "Advertisement views count"
 msgstr "Показы баннера"
 
-#: yellow_pages_statistics.reports.inc:412
+#: yellow_pages_statistics.reports.inc:402
+msgid "Company clicks"
+msgstr "Клики по ссылке сайта"
+
+#: yellow_pages_statistics.reports.inc:402;412
 msgid "Advertisement clicks"
 msgstr "Клики по баннеру"
 

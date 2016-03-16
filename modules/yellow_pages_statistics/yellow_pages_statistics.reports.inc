@@ -61,7 +61,7 @@ function yellow_pages_statistics_node_stat_report_form($form, &$form_state, $nod
   $module_path = drupal_get_path('module', 'yellow_pages_statistics');
   $form['base_stat'] = array(
     '#type' => 'fieldset',
-    '#title' => t('Statistics for selected period'),
+    '#title' => t('Statistics of @title from @start to @end', array('@title' => $node->title, '@start' => date('d.m.Y', $start_timestamp), '@end' => date('d.m.Y', $end_timestamp))),
   );
   $form['base_stat']['statistics'] = array(
     '#markup' => yellow_pages_statistics_get_statistics_data_for_node($node, $start_timestamp, $end_timestamp, $module_path),
@@ -69,7 +69,9 @@ function yellow_pages_statistics_node_stat_report_form($form, &$form_state, $nod
   $form['base_stat']['search'] = array(
     '#markup' => yellow_pages_statistics_get_search_statistics_data_for_node($node, $start_timestamp, $end_timestamp, $module_path),
   );
-  if (!empty($node->field_advertisements['und'][0]['target_id'])) {
+
+  $has_related_adv = !empty($node->field_advertisements['und'][0]['target_id']);
+  if ($has_related_adv) {
     $adv = node_load($node->field_advertisements['und'][0]['target_id']);
     $form['related_stat'] = array(
       '#type' => 'fieldset',
@@ -79,6 +81,10 @@ function yellow_pages_statistics_node_stat_report_form($form, &$form_state, $nod
       '#markup' => yellow_pages_statistics_get_statistics_data_for_node($adv, $start_timestamp, $end_timestamp, $module_path),
     );
   }
+
+  $form['period']['print_button'] = array(
+    '#markup' => yellow_pages_statistics_print_button($node->type, $has_related_adv, $module_path),
+  );
 
   $form['#attached']['css'] = array(
     $module_path . '/css/yellow_pages_statistics.css',
@@ -124,25 +130,17 @@ function yellow_pages_statistics_get_statistics_data_for_node(&$node, $start, $e
     case 'company':
       $table_views = 'nodeviewcount';
       $table_clicks = 'yp_company_statistics';
+      $views_title = t('Company card views');
+      $clicks_title = t('Clicks on the site link');
       break;
 
     case 'advertisement':
       $table_views = 'yp_ad_nodeviewcount';
       $table_clicks = 'yp_ad_statistics';
-
+      $views_title = t('Banner views');
+      $clicks_title = t('Clicks on the banner');
       break;
   }
-
-  // Statistics total.
-  $query = db_select($table_views, 'views')
-    ->fields('views', array('id'))
-    ->condition('nid', $nids, 'IN');
-  $views = $query->execute()->rowCount();
-
-  $query = db_select($table_clicks, 'clicks')
-    ->fields('clicks', array('id'))
-    ->condition('nid', $nids, 'IN');
-  $clicks = $query->execute()->rowCount();
 
   // Statistics for period.
   $query_views = db_select($table_views, 'views')
@@ -158,25 +156,6 @@ function yellow_pages_statistics_get_statistics_data_for_node(&$node, $start, $e
     ->condition('timestamp', array($start, $end), 'BETWEEN');
   $result_clicks = $query_clicks->execute();
   $clicks_period = $result_clicks->rowCount();
-
-  $rows = array(
-    array(
-      array('data' => t('Period'), 'header' => TRUE),
-      array('data' => t('Total'), 'header' => TRUE),
-      array('data' => t('From @start to @end', array('@start' => format_date($start, 'custom', 'd M Y'), '@end' => format_date($end, 'custom', 'd M Y'))), 'header' => TRUE),
-    ),
-    array(
-      array('data' => t('Views count'), 'header' => TRUE),
-      $views,
-      $views_period,
-    ),
-    array(
-      array('data' => t('Clicks'), 'header' => TRUE),
-      $clicks,
-      $clicks_period,
-    ),
-  );
-  $statistics_table = theme('table', array('rows' => $rows));
 
   // Create chart.
   $dates = yellow_pages_core_date_range($start, $end, '+1 day', 'd M Y', 'Ymd');
@@ -198,31 +177,48 @@ function yellow_pages_statistics_get_statistics_data_for_node(&$node, $start, $e
     $date = date('Ymd', $click->timestamp);
     $chart_data[$date]['clicks']++;
   }
-  $chart_prepared_array = array(
+  $chart_prepared_views_array = array(
     array(
       array('label' => t('Date'), 'type' => 'string'),
-      array('label' => t('Views count'), 'type' => 'number'),
-      array('label' => t('Clicks'), 'type' => 'number'),
+      array('label' => $views_title, 'type' => 'number'),
+    ),
+  );
+  $chart_prepared_clicks_array = array(
+    array(
+      array('label' => t('Date'), 'type' => 'string'),
+      array('label' => $clicks_title, 'type' => 'number'),
     ),
   );
   foreach ($chart_data as $row) {
-    $chart_prepared_array[] = array(
+    $chart_prepared_views_array[] = array(
       $row['date'],
       $row['views'],
+    );
+    $chart_prepared_clicks_array[] = array(
+      $row['date'],
       $row['clicks'],
     );
   }
   $js_data = array('nodeStatistics' => array(
-    $node->type . 'ChartData' => json_encode($chart_prepared_array),
+    $node->type . 'ViewsChartData' => array(
+      'title' => $views_title . ': ' . $views_period,
+      'values' => json_encode($chart_prepared_views_array),
+    ),
+
+    $node->type . 'ClicksChartData' => array(
+      'title' => $clicks_title . ': ' . $clicks_period,
+      'values' => json_encode($chart_prepared_clicks_array),
+    )
   ));
 
   drupal_add_js($js_data, 'setting');
   drupal_add_js('http://www.google.com/jsapi', array('type' => 'external', 'group' => JS_LIBRARY));
   drupal_add_js($module_path . '/js/yellow_pages_statistics_node.chart.js');
 
-  $chart = '<div id="'.$node->type.'Chart"></div>';
+  $views_chart = '<div id="'.$node->type.'-views-chart" class="chart-flash"></div>';
+  $clicks_chart = '<div id="'.$node->type.'-clicks-chart" class="chart-flash"></div>';
 
-  return $statistics_table . $chart;
+  return $views_chart . $clicks_chart;
 }
 
 /**
@@ -294,6 +290,9 @@ function yellow_pages_statistics_get_search_statistics_data_for_node(&$node, $st
       'caption' => t('Search statistics'),
       'empty' => t('No search statistics for this period.'),
       'rows' => $rows,
+      'attributes' => array(
+        'class' => array('print-search'),
+      ),
     );
 
     return theme('table', $table);
@@ -380,4 +379,44 @@ function yellow_pages_search_statistics_submit(&$form, &$form_state) {
   $form_state['storage']['start_date'] = $values['start_date'];
   $form_state['storage']['end_date'] = $values['end_date'];
   $form_state['rebuild'] = TRUE;
+}
+
+/**
+ * Function that create print button and its options for statistics page.
+ *
+ * @param $type
+ *   Node content type.
+ * @param $has_adv
+ *   Flag if node has related advertisement.
+ * @param $module_path
+ *   Path to yellow_page_statistics module.
+ *
+ * @return string
+ *   Html of print button and its options depend on params.
+ */
+function yellow_pages_statistics_print_button($type, $has_adv, $module_path) {
+  $output = '<div id="print-wrapper" class="clearfix">';
+  $output .= '<a id="print-button" class="button" href="javascript:yellowPagesStatisticsPrint();">' . t('Print') . '</a>';
+
+  $views_title = ($type=="company") ? t('Company views count') : t('Advertisement views count');
+  $clicks_title = ($type=="company") ? t('Company clicks') : t('Advertisement clicks');
+  $output .= '<div id="print-checkboxes" class="clearfix">';
+  $output .= '<div class="print-checkbox"><input type="checkbox" name="' . $type . '_views" value="' . $type . ' views" id="' . $type . '-views-chart-print" checked="checked">' . $views_title . '</div>';
+  $output .= '<div class="print-checkbox"><input type="checkbox" name="' . $type . '_clicks" value="' . $type . ' clicks" id="' . $type . '-clicks-chart-print" checked="checked">' . $clicks_title . '</div>';
+
+  if ($type == 'company') {
+    $output .= '<div class="print-checkbox"><input type="checkbox" name="search" value="Search" id="print-search" checked="checked">' . t('Search statistics') . '</div>';
+
+    if ($has_adv) {
+      $output .= '<div class="print-checkbox"><input type="checkbox" name="advertisement_views" value="advertisement views" id="advertisement-views-chart-print" checked="checked">' . t('Advertisement views count') . '</div>';
+      $output .= '<div class="print-checkbox"><input type="checkbox" name="advertisement_clicks" value="advertisement clicks" id="advertisement-clicks-chart-print" checked="checked">' . t('Advertisement clicks') . '</div>';
+    }
+  }
+
+  $output .= '</div>';
+  $output .= '</div>';
+
+  drupal_add_js($module_path . '/js/yellow_pages_statistics_print.js');
+
+  return $output;
 }

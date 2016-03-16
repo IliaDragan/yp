@@ -69,6 +69,9 @@ img.graph-as-png {
 }
 
 @media print {
+  @page {
+    size: landscape;
+  }
   #toolbar,
   #branding,
   #edit-period,

@@ -15,8 +15,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
-"POT-Creation-Date: 2016-03-16 10:51+0200\n"
-"PO-Revision-Date: 2016-03-16 10:51+0200\n"
+"POT-Creation-Date: 2016-03-16 11:14+0200\n"
+"PO-Revision-Date: 2016-03-16 11:14+0200\n"
 "Last-Translator: NAME <EMAIL@ADDRESS>\n"
 "Language-Team: Romanian <EMAIL@ADDRESS>\n"
 "MIME-Version: 1.0\n"
@@ -218,11 +218,19 @@ msgstr ""
 msgid "Print"
 msgstr "Printare"
 
-#: yellow_pages_statistics.reports.inc:411
+#: yellow_pages_statistics.reports.inc:401
+msgid "Company views count"
+msgstr "Vizualizări al cardului companiei"
+
+#: yellow_pages_statistics.reports.inc:401;411
 msgid "Advertisement views count"
 msgstr "Vizualizări al banerului"
 
-#: yellow_pages_statistics.reports.inc:412
+#: yellow_pages_statistics.reports.inc:402
+msgid "Company clicks"
+msgstr "Click-uri pe link-ul site-ului"
+
+#: yellow_pages_statistics.reports.inc:402;412
 msgid "Advertisement clicks"
 msgstr "Click-uri pe baner"
 

@@ -5,18 +5,24 @@ google.setOnLoadCallback(createNodeChart);
 
 function createNodeChart() {
   var ns = Drupal.settings.nodeStatistics;
-  if (ns['companyChartData']) {
-    constructChart('companyChart', ns['companyChartData']);
+  if (ns['companyViewsChartData']) {
+    constructChart('company-views-chart', ns['companyViewsChartData']);
   }
-  if (ns['advertisementChartData']) {
-    constructChart('advertisementChart', ns['advertisementChartData']);
+  if (ns['companyClicksChartData']) {
+    constructChart('company-clicks-chart', ns['companyClicksChartData']);
+  }
+  if (ns['advertisementViewsChartData']) {
+    constructChart('advertisement-views-chart', ns['advertisementViewsChartData']);
+  }
+  if (ns['advertisementClicksChartData']) {
+    constructChart('advertisement-clicks-chart', ns['advertisementClicksChartData']);
   }
 }
 
-function constructChart(chartId, dataJSON) {
+function constructChart(chartId, chartData) {
 
   // Create data table object.
-  var data = JSON.parse(dataJSON);
+  var data = JSON.parse(chartData.values);
   var dataTable = new google.visualization.arrayToDataTable(data);
 
   // Instantiate our chart object.
@@ -27,19 +33,16 @@ function constructChart(chartId, dataJSON) {
     // Define options for visualization.
     var options = {
       height: 400,
-      legend: {position: 'bottom'},
-      lineWidth: 2,
-      pointSize: 4,
+      title: chartData.title,
+      legend: {position: 'none'},
+      colors: ['#333333'],
+      lineWidth: 3,
+      pointSize: 6,
+      pointShape: 'diamond',
       vAxis: {
         minValue: 0,
         baseline: 0,
         viewWindow: {min: 0}
-      },
-      series: {
-        0: {
-          pointShape: 'diamond',
-          pointSize: 10
-        }
       }
     }
 

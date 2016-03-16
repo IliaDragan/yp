@@ -59,7 +59,6 @@
 #print-checkboxes .print-checkbox {
   float: left;
   padding-left: 30px;
-  text-transform: capitalize;
 }
 #print-checkboxes .print-checkbox input {
   margin-right: 10px;

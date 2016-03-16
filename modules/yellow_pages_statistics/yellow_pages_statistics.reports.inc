@@ -398,9 +398,11 @@ function yellow_pages_statistics_print_button($type, $has_adv, $module_path) {
   $output = '<div id="print-wrapper" class="clearfix">';
   $output .= '<a id="print-button" class="button" href="javascript:yellowPagesStatisticsPrint();">' . t('Print') . '</a>';
 
+  $views_title = ucfirst($type) . ' views count';
+  $clicks_title = ucfirst($type) . ' clicks';
   $output .= '<div id="print-checkboxes" class="clearfix">';
-  $output .= '<div class="print-checkbox"><input type="checkbox" name="' . $type . '_views" value="' . $type . ' views" id="print-views-' . $type . '" checked="checked">' . t('@type views count', array('@type'=> $type)) . '</div>';
-  $output .= '<div class="print-checkbox"><input type="checkbox" name="' . $type . '_clicks" value="' . $type . ' clicks" id="print-clicks-' . $type . '" checked="checked">' . t('@type clicks', array('@type'=> $type)) . '</div>';
+  $output .= '<div class="print-checkbox"><input type="checkbox" name="' . $type . '_views" value="' . $type . ' views" id="print-views-' . $type . '" checked="checked">' . t($views_title) . '</div>';
+  $output .= '<div class="print-checkbox"><input type="checkbox" name="' . $type . '_clicks" value="' . $type . ' clicks" id="print-clicks-' . $type . '" checked="checked">' . t($clicks_title) . '</div>';
 
   if ($type == 'company') {
     $output .= '<div class="print-checkbox"><input type="checkbox" name="search" value="Search" id="print-search" checked="checked">' . t('Search statistics') . '</div>';

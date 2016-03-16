@@ -44,3 +44,67 @@
 #yellow-pages-search-statistics fieldset {
   border: none;
 }
+/* Print button and options. */
+#print-wrapper {
+  padding: 10px;
+}
+#print-button {
+  margin: 0;
+  float: left;
+}
+#print-checkboxes {
+
+  padding: 4px 0;
+}
+#print-checkboxes .print-checkbox {
+  float: left;
+  padding-left: 30px;
+}
+#print-checkboxes .print-checkbox input {
+  margin-right: 10px;
+  vertical-align: middle;
+}
+
+@media print {
+  #toolbar,
+  #branding,
+  #edit-period,
+  #print-wrapper,
+  #edit-related-stat legend,
+  .sticky-header,
+  .no-print {
+    display: none;
+  }
+  fieldset {
+    border: none;
+  }
+  fieldset legend{
+    width: 100%;
+  }
+  fieldset .fieldset-legend {
+    display: block;
+    font-size: 20pt;
+    text-align: center;
+  }
+  fieldset .fieldset-wrapper {
+    text-align: center;
+  }
+  table {
+    display: inline-table;
+    margin: 10px;
+  }
+  table td {
+    border: 1px solid;
+    padding: 5px 10px;
+  }
+  table th {
+    border: 1px solid;
+    font-weight: bold;
+    padding: 5px 10px;
+  }
+  table tr.odd,
+  table tr.even {
+    background: none;
+  }
+}
+

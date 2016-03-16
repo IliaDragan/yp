@@ -64,6 +64,9 @@
   margin-right: 10px;
   vertical-align: middle;
 }
+img.graph-as-png {
+  display: none;
+}
 
 @media print {
   #toolbar,
@@ -71,9 +74,14 @@
   #edit-period,
   #print-wrapper,
   #edit-related-stat legend,
+  .chart-flash,
   .sticky-header,
-  .no-print {
+  .no-print,
+  img.graph-as-png.no-print{
     display: none;
+  }
+  img.graph-as-png {
+    display: block;
   }
   fieldset {
     border: none;
@@ -107,4 +115,3 @@
     background: none;
   }
 }
-

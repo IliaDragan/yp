@@ -15,8 +15,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
-"POT-Creation-Date: 2016-03-11 13:56+0200\n"
-"PO-Revision-Date: 2016-03-11 13:56+0200\n"
+"POT-Creation-Date: 2016-03-16 10:51+0200\n"
+"PO-Revision-Date: 2016-03-16 10:51+0200\n"
 "Last-Translator: NAME <EMAIL@ADDRESS>\n"
 "Language-Team: Romanian <EMAIL@ADDRESS>\n"
 "MIME-Version: 1.0\n"
@@ -100,7 +100,7 @@ msgstr "Ultima săptămână"
 msgid "Select Period"
 msgstr "Selectați Perioada"
 
-#: yellow_pages_statistics.ga.inc:65 yellow_pages_statistics.reports.inc:58;340
+#: yellow_pages_statistics.ga.inc:65 yellow_pages_statistics.reports.inc:58;336
 msgid "Show"
 msgstr "Afişare"
 
@@ -128,103 +128,103 @@ msgstr ""
 msgid "No statistics information for this node."
 msgstr "Statistica nu este disponibilă pentru această nodă."
 
-#: yellow_pages_statistics.reports.inc:37;319
+#: yellow_pages_statistics.reports.inc:37;315
 msgid "Select period"
 msgstr "Selectați perioada"
 
-#: yellow_pages_statistics.reports.inc:41;323
+#: yellow_pages_statistics.reports.inc:41;319
 msgid "Start date"
 msgstr "Data de început"
 
-#: yellow_pages_statistics.reports.inc:49;331
+#: yellow_pages_statistics.reports.inc:49;327
 msgid "End date"
 msgstr "Data de sfârşit"
 
 #: yellow_pages_statistics.reports.inc:64
-msgid "Statistics for selected period"
-msgstr "Statistica pentru perioada selectată"
+msgid "Statistics of @title from @start to @end"
+msgstr "Statistica @title de la @start pâna la @end"
 
-#: yellow_pages_statistics.reports.inc:76
+#: yellow_pages_statistics.reports.inc:78
 msgid "Company related advertisement statistics for selected period"
 msgstr "Statistica pentru publicitatea legată de companie"
 
-#: yellow_pages_statistics.reports.inc:127
+#: yellow_pages_statistics.reports.inc:133
 msgid "Company card views"
 msgstr "Vizualizări al cardului companiei"
 
-#: yellow_pages_statistics.reports.inc:128
+#: yellow_pages_statistics.reports.inc:134
 msgid "Clicks on the site link"
 msgstr "Click-uri pe link-ul site-ului"
 
-#: yellow_pages_statistics.reports.inc:134
+#: yellow_pages_statistics.reports.inc:140
 msgid "Banner views"
 msgstr "Vizualizări al banerului"
 
-#: yellow_pages_statistics.reports.inc:135
+#: yellow_pages_statistics.reports.inc:141
 msgid "Clicks on the banner"
 msgstr "Click-uri pe baner"
 
-#: yellow_pages_statistics.reports.inc:167
-msgid "Period"
-msgstr "Perioada"
-
-#: yellow_pages_statistics.reports.inc:168
-msgid "Total"
-msgstr ""
-
-#: yellow_pages_statistics.reports.inc:169
-msgid "From @start to @end"
-msgstr "Din @start până @end"
-
-#: yellow_pages_statistics.reports.inc:206
+#: yellow_pages_statistics.reports.inc:182;188
 msgid "Date"
 msgstr "Data"
 
-#: yellow_pages_statistics.reports.inc:282
+#: yellow_pages_statistics.reports.inc:275
 msgid "TOTAL"
 msgstr ""
 
-#: yellow_pages_statistics.reports.inc:284
+#: yellow_pages_statistics.reports.inc:277
 msgid "@total views"
 msgstr "@total vizualizări"
 
-#: yellow_pages_statistics.reports.inc:292
+#: yellow_pages_statistics.reports.inc:285
 msgid "Date/time"
 msgstr "Data/ora"
 
-#: yellow_pages_statistics.reports.inc:293;358
+#: yellow_pages_statistics.reports.inc:286;354
 msgid "Search phrase"
 msgstr "Expresia de căutare"
 
-#: yellow_pages_statistics.reports.inc:294
+#: yellow_pages_statistics.reports.inc:287
 msgid "Page"
 msgstr "Pagina"
 
-#: yellow_pages_statistics.reports.inc:295
+#: yellow_pages_statistics.reports.inc:288
 msgid "Language"
 msgstr "Limba"
 
-#: yellow_pages_statistics.reports.inc:297 yellow_pages_statistics.module:45
+#: yellow_pages_statistics.reports.inc:290;408 yellow_pages_statistics.module:45
 msgid "Search statistics"
 msgstr "Statistica de căutare"
 
-#: yellow_pages_statistics.reports.inc:298
+#: yellow_pages_statistics.reports.inc:291
 msgid "No search statistics for this period."
 msgstr "Nu este statistică de căutare pentru perioada aleasă."
 
-#: yellow_pages_statistics.reports.inc:359
+#: yellow_pages_statistics.reports.inc:355
 msgid "Count of searching"
 msgstr "Numărul de căutări"
 
-#: yellow_pages_statistics.reports.inc:361
+#: yellow_pages_statistics.reports.inc:357
 msgid "Search phrases statistics"
 msgstr "Statistica frazelor de căutare"
 
-#: yellow_pages_statistics.reports.inc:362
+#: yellow_pages_statistics.reports.inc:358
 msgid "No search phrases statistics for this period."
 msgstr ""
 "Statistica frazelor de căutare nu este disponibilă pentru perioada "
 "aleasă."
+
+#: yellow_pages_statistics.reports.inc:399
+msgid "Print"
+msgstr "Printare"
+
+#: yellow_pages_statistics.reports.inc:411
+msgid "Advertisement views count"
+msgstr "Vizualizări al banerului"
+
+#: yellow_pages_statistics.reports.inc:412
+msgid "Advertisement clicks"
+msgstr "Click-uri pe baner"
 
 #: yellow_pages_statistics.module:15
 msgid "Administer Yellow Pages statistics"

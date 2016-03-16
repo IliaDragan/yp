@@ -46,6 +46,12 @@ function constructChart(chartId, chartData) {
       }
     }
 
+    google.visualization.events.addListener(chart, 'ready', function () {
+      // Add chart copy as png image for print version.
+      var img = '<img class="graph-as-png ' + chartId + '-print" src="' + chart.getImageURI() + '">';
+      jQuery(element).after(img);
+    });
+
     // Draw our chart.
     chart.draw(dataTable, options);
 

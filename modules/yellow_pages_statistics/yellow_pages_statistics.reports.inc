@@ -215,8 +215,8 @@ function yellow_pages_statistics_get_statistics_data_for_node(&$node, $start, $e
   drupal_add_js('http://www.google.com/jsapi', array('type' => 'external', 'group' => JS_LIBRARY));
   drupal_add_js($module_path . '/js/yellow_pages_statistics_node.chart.js');
 
-  $views_chart = '<div id="'.$node->type.'-views-chart" class="print-views-'.$node->type.'"></div>';
-  $clicks_chart = '<div id="'.$node->type.'-clicks-chart" class="print-clicks-'.$node->type.'"></div>';
+  $views_chart = '<div id="'.$node->type.'-views-chart" class="chart-flash"></div>';
+  $clicks_chart = '<div id="'.$node->type.'-clicks-chart" class="chart-flash"></div>';
 
   return $views_chart . $clicks_chart;
 }
@@ -401,15 +401,15 @@ function yellow_pages_statistics_print_button($type, $has_adv, $module_path) {
   $views_title = ($type=="company") ? t('Company views count') : t('Advertisement views count');
   $clicks_title = ($type=="company") ? t('Company clicks') : t('Advertisement clicks');
   $output .= '<div id="print-checkboxes" class="clearfix">';
-  $output .= '<div class="print-checkbox"><input type="checkbox" name="' . $type . '_views" value="' . $type . ' views" id="print-views-' . $type . '" checked="checked">' . $views_title . '</div>';
-  $output .= '<div class="print-checkbox"><input type="checkbox" name="' . $type . '_clicks" value="' . $type . ' clicks" id="print-clicks-' . $type . '" checked="checked">' . $clicks_title . '</div>';
+  $output .= '<div class="print-checkbox"><input type="checkbox" name="' . $type . '_views" value="' . $type . ' views" id="' . $type . '-views-chart-print" checked="checked">' . $views_title . '</div>';
+  $output .= '<div class="print-checkbox"><input type="checkbox" name="' . $type . '_clicks" value="' . $type . ' clicks" id="' . $type . '-clicks-chart-print" checked="checked">' . $clicks_title . '</div>';
 
   if ($type == 'company') {
     $output .= '<div class="print-checkbox"><input type="checkbox" name="search" value="Search" id="print-search" checked="checked">' . t('Search statistics') . '</div>';
 
     if ($has_adv) {
-      $output .= '<div class="print-checkbox"><input type="checkbox" name="advertisement_views" value="advertisement views" id="print-views-advertisement" checked="checked">' . t('Advertisement views count') . '</div>';
-      $output .= '<div class="print-checkbox"><input type="checkbox" name="advertisement_clicks" value="advertisement clicks" id="print-clicks-advertisement" checked="checked">' . t('Advertisement clicks') . '</div>';
+      $output .= '<div class="print-checkbox"><input type="checkbox" name="advertisement_views" value="advertisement views" id="advertisement-views-chart-print" checked="checked">' . t('Advertisement views count') . '</div>';
+      $output .= '<div class="print-checkbox"><input type="checkbox" name="advertisement_clicks" value="advertisement clicks" id="advertisement-clicks-chart-print" checked="checked">' . t('Advertisement clicks') . '</div>';
     }
   }
 

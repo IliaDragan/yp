@@ -473,21 +473,22 @@ function yellow_pages_company_ct_theme($existing, $type, $theme, $path) {
 function yellow_pages_preprocess_user_profile(&$variables) {
   $profile = &$variables['user_profile'];
   $profile['username'] = array(
-    '#markup' =>   '<div class="field field-label-inline"><div class="field-label">' . t('User name') . ': </div><div class="field-items">' . $variables['elements']['#account']->name . '</div>',
+    '#markup' =>   '<div class="field field-label-inline clearfix"><div class="field-label">' . t('User name') . ':&nbsp;</div><div class="field-items">' . $variables['elements']['#account']->name . '</div></div>',
     '#weight' => 1,
   );
   $profile['user_email'] = array(
-    '#markup' =>   '<div class="field field-label-inline"><div class="field-label">' . t('User e-mail') . ': </div><div class="field-items">' . $variables['elements']['#account']->init . '</div>',
+    '#markup' =>   '<div class="field field-label-inline clearfix"><div class="field-label">' . t('User e-mail') . ':&nbsp;</div><div class="field-items">' . $variables['elements']['#account']->init . '</div></div>',
     '#weight' => 2,
   );
   $profile['field_edit_pricelist']['#weight'] = 3;
+  $profile['field_edit_pricelist']['#title'] = t('You can edit pricelist');
 
   // Add company links.
   $profile['field_related_company']['#title'] = t('Companies which you can edit');
   $profile['field_related_company']['#weight'] = 4;
   foreach ($profile['field_related_company']['#items'] as $key => &$item) {
     $edit = l(t('Edit'), 'node/' . $item['target_id'] . '/edit', array('#attributes' => array('class' => array('related-company-edit'))));
-    $profile['field_related_company'][$key]['#markup'] .= $edit;
+    $profile['field_related_company'][$key]['#markup'] .= '&nbsp;' . $edit;
   }
 
   $profile['summary']['#weight'] = 5;

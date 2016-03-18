@@ -2818,3 +2818,18 @@ body > .node-advertisement {
     }
   }
 }
+
+.page-user {
+  .profile {
+    .field {
+      padding: 10px 0;
+
+      a {
+        border-bottom: 2px solid #ffdd00;
+      }
+    }
+    h3 {
+      font-size: 16px;
+    }
+  }
+}

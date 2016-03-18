@@ -62,6 +62,16 @@ function yellow_pages_permissions_user_default_permissions() {
     'module' => 'toolbar',
   );
 
+  // Exported permission: 'access user profiles'.
+  $permissions['access user profiles'] = array(
+    'name' => 'access user profiles',
+    'roles' => array(
+      'administrator' => 'administrator',
+      'global editor' => 'global editor',
+    ),
+    'module' => 'user',
+  );
+
   // Exported permission: 'access yellow pages sync'.
   $permissions['access yellow pages sync'] = array(
     'name' => 'access yellow pages sync',
@@ -87,6 +97,7 @@ function yellow_pages_permissions_user_default_permissions() {
     'name' => 'add related companies to user',
     'roles' => array(
       'administrator' => 'administrator',
+      'global editor' => 'global editor',
     ),
     'module' => 'yellow_pages_company_ct',
   );
@@ -136,6 +147,16 @@ function yellow_pages_permissions_user_default_permissions() {
       'global editor' => 'global editor',
     ),
     'module' => 'node',
+  );
+
+  // Exported permission: 'administer users'.
+  $permissions['administer users'] = array(
+    'name' => 'administer users',
+    'roles' => array(
+      'administrator' => 'administrator',
+      'global editor' => 'global editor',
+    ),
+    'module' => 'user',
   );
 
   // Exported permission: 'administer yellow pages sync'.

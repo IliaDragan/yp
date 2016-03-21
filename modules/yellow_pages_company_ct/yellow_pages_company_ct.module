@@ -151,9 +151,36 @@ function yellow_pages_company_ct_form_company_node_form_alter(&$form, &$form_sta
       }
     }
 
-    // Override form submit function for enterprise editor.
+    // Form modifications for enterprise editor.
     if (user_access('edit related companies')) {
+      $user = user_load($GLOBALS['user']->uid);
+
+      // Override form submit function.
       $form['actions']['submit']['#submit'] = array('yellow_pages_company_ct_company_edit_submit');
+
+      // Fields' permissions.
+      $form['field_company_logo']['#access'] = FALSE;
+      $form['field_logo_expiration_date']['#access'] = FALSE;
+      $form['field_media_materials']['#access'] = FALSE;
+      $form['field_advertisements']['#access'] = FALSE;
+
+      // Price list field permission.
+      $access = TRUE;
+      $user->field_edit_pricelist['und'][0]['value'];
+      $user->field_edit_pricelist['und'][0]['value2'];
+      if (empty($user->field_edit_pricelist['und'][0]['value']) || empty($user->field_edit_pricelist['und'][0]['value2'])) {
+        $access = FALSE;
+      }
+      else {
+        $time = strtotime($user->field_edit_pricelist['und'][0]['value']);
+        $time2 = strtotime($user->field_edit_pricelist['und'][0]['value2']);
+        $limit = time();
+        $limit2 = strtotime('-1 day');
+        if ($time > $limit || $time2 < $limit2) {
+          $access = FALSE;
+        }
+      }
+      $form['field_price_list']['#access'] = $access;
     }
 
     // Add sticker to node if not syncronized.

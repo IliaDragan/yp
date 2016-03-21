@@ -365,3 +365,75 @@ function yellow_pages_business_hours($vars) {
 
   return $markup;
 }
+
+/**
+ * Rewrite form element markup for compatibility with field_group module.
+ */
+function yellow_pages_form_element($variables) {
+
+  $element = &$variables['element'];
+  $attr = isset($element['#attributes']) ? $element['#attributes'] : array();
+  if (isset($attr['id'])) unset($attr['id']);
+  $attributes = $attr;
+
+  if (!empty($element['#type'])) {
+    $attributes['class'][] = 'form-type-' . strtr($element['#type'], '_', '-');
+  }
+  if (!empty($element['#name'])) {
+    $attributes['class'][] = 'form-item-' . strtr($element['#name'],
+        array(' ' => '-', '_' => '-', '[' => '-', ']' => '')
+      );
+  }
+
+  // Add disabled class.
+  if (!empty($element['#attributes']['disabled'])) {
+    $attributes['class'][] = 'form-disabled';
+  }
+
+  // If #title is not set, we don't display any label or required marker.
+  if (!isset($element['#title'])) {
+    $element['#title_display'] = 'none';
+  }
+
+  if (isset($attributes['class'])) {
+    $output = '<div' . drupal_attributes($attributes) . '>';
+  }
+  else {
+    $output = '<div>';
+  }
+
+  // Prefix and suffix markup improvements.
+  $prefix = isset($element['#field_prefix']) ? '<span class="field-prefix">' . $element['#field_prefix'] . '</span> ' : '';
+  $suffix = isset($element['#field_suffix']) ? ' <span class="field-suffix">' . $element['#field_suffix'] . '</span>' : '';
+
+  if (isset($element['#title_display']) && !empty($element['#title_display'])) {
+    switch ($element['#title_display']) {
+      case 'before':
+      case 'invisible':
+        $output .= ' ' . theme('form_element_label', $variables);
+        $output .= ' ' . $prefix . $element['#children'] . $suffix;
+        break;
+
+      case 'after':
+        $output .= ' ' . $prefix . $element['#children'] . $suffix;
+        $output .= ' ' . theme('form_element_label', $variables);
+        break;
+
+      case 'none':
+      case 'attribute':
+        // Output no label and no required marker, only the children.
+        $output .= ' ' . $prefix . $element['#children'] . $suffix;
+        break;
+
+    }
+  }
+
+  if (!empty($element['#description'])) {
+    // Changes the description <div class="description"> to <small>.
+    $output .= '<small class="description">' . $element['#description'] . '</small>';
+  }
+
+  $output .= '</div>';
+
+  return $output;
+}

@@ -192,6 +192,7 @@ function yellow_pages_company_ct_form_company_node_form_alter(&$form, &$form_sta
           $form['xml_data'] = array(
             '#type' => 'fieldset',
             '#weight' => 1,
+            '#tree' => TRUE,
           );
           $default_idno = (string) $xml->idno;
           $form['xml_data']['idno'] = array(
@@ -310,6 +311,32 @@ function yellow_pages_company_ct_company_edit_submit(&$form, &$form_state) {
     'style="font-size: 10px; font-weight: bold; padding: 2px 10px;"',
   );
   $changes = str_replace ($search , $replace , $form_state['node_preview']);
+
+  // Additional fields.
+  $xml_changes = array();
+  $xml_data = $form_state['values']['xml_data'];
+  $xml_form = $form['xml_data'];
+  foreach ($xml_data as $field => $value) {
+    if ($xml_form[$field]['#default_value'] != $value) {
+      $xml_changes[] = array(
+        $xml_form[$field]['#title'],
+        $xml_form[$field]['#default_value'],
+        $value,
+      );
+    }
+  }
+  if (!empty($xml_changes)) {
+    $table = array(
+      'header' => array(
+        t('Field name'),
+        t('Old value'),
+        t('New value'),
+      ),
+      'rows' => $xml_changes,
+      'caption' => t('Additional fields changes'),
+    );
+    $changes .= theme('table', $table);
+  }
 
   $new_node->company_diff = $changes;
   unset($form_state['node_preview']);

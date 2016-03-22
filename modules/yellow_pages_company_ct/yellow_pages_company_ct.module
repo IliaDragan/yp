@@ -163,6 +163,8 @@ function yellow_pages_company_ct_form_company_node_form_alter(&$form, &$form_sta
       $form['field_logo_expiration_date']['#access'] = FALSE;
       $form['field_media_materials']['#access'] = FALSE;
       $form['field_advertisements']['#access'] = FALSE;
+      $form['actions']['preview']['#access'] = FALSE;
+      $form['actions']['preview_changes']['#access'] = FALSE;
 
       // Price list field permission.
       $access = TRUE;

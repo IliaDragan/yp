@@ -100,7 +100,6 @@ function yellow_pages_company_ct_form_forward_form_alter(&$form, &$form_state) {
 function yellow_pages_company_ct_form_company_node_form_alter(&$form, &$form_state, $form_id) {
   // Make sync date field readonly.
   $form['field_mdb_sync_date']['#disabled'] = TRUE;
-  $form['field_changed_by_editor_date']['#disabled'] = TRUE;
   $hide = array(
     'comment_settings',
     'revision_information',
@@ -155,6 +154,19 @@ function yellow_pages_company_ct_form_company_node_form_alter(&$form, &$form_sta
     if (user_access('edit related companies')) {
       $user = user_load($GLOBALS['user']->uid);
 
+      // Get default values from storage file.
+      $defaults = db_select('company_node_changes', 'cc')
+        ->fields('cc', array('timestamp', 'changes'))
+        ->condition('cc.nid', $form['#node']->nid)
+        ->condition('cc.uid', $user->uid)
+        ->execute()
+        ->fetch();
+
+      if (!empty($defaults)) {
+        $default_values = unserialize($defaults->changes);
+        $form_state['input'] = $default_values;
+      }
+
       // Override form submit function.
       $form['actions']['submit']['#submit'] = array('yellow_pages_company_ct_company_edit_submit');
 
@@ -189,72 +201,81 @@ function yellow_pages_company_ct_form_company_node_form_alter(&$form, &$form_sta
         $xml = yellow_pages_sync_fetch_remote_enterprise($eid);
 
         if (is_object($xml)) {
+          $form['language']['#weight'] = -9;
           $form['xml_data'] = array(
             '#type' => 'fieldset',
-            '#weight' => 1,
+            '#weight' => -8,
             '#tree' => TRUE,
           );
-          $default_idno = (string) $xml->idno;
           $form['xml_data']['idno'] = array(
             '#type' => 'textfield',
             '#title' => 'IDNO',
-            '#default_value' => $default_idno,
           );
-          $default_tva = (string) $xml->tva;
           $form['xml_data']['tva'] = array(
             '#type' => 'radios',
             '#title' => 'TVA',
             '#options' => array('False' => t('No'), 'True' => t('Yes')),
-            '#default_value' => $default_tva,
           );
-          $default_year = (string) $xml->creation_year;
           $form['xml_data']['creation_year'] = array(
             '#type' => 'textfield',
             '#title' => t('Year of foundation'),
-            '#default_value' => $default_year,
           );
-          $default_jobs = (string) $xml->number_of_jobs;
           $form['xml_data']['number_of_jobs'] = array(
             '#type' => 'textfield',
             '#title' => t('Number of jobs'),
-            '#default_value' => $default_jobs,
           );
-
-          $brands = array();
-          if (!empty($xml->brands->{'list-item'})) {
-            $brands_list = $xml->brands->{'list-item'};
-            foreach ($brands_list as $brand) {
-              $brands[] = (string) $brand;
-            }
-          }
-          $default_brands = implode("\n", $brands);
           $form['xml_data']['brands'] = array(
             '#type' => 'textarea',
             '#title' => t('Brands'),
-            '#default_value' => $default_brands,
           );
 
-          $lang = $form['#node']->language;
-          $field = $lang . '_field';
-          $persons = array();
-          if (!empty($xml->persons->{'list-item'})) {
-            $persons_list = $xml->persons->{'list-item'};
-            foreach ($persons_list as $person) {
-              $person_array = array(
-                (string) $person->first_name->{$field} . ' ' . (string) $person->last_name->{$field},
-                (string) $person->position->{$field},
-                (string) $person->phone->phone_type . ': ' . (string) $person->phone->phone,
-              );
-
-              $persons[] = implode(', ', $person_array);
-            }
-          }
-          $default_persons = implode("\n", $persons);
           $form['xml_data']['persons'] = array(
             '#type' => 'textarea',
             '#title' => t('Persons'),
-            '#default_value' => $default_persons,
           );
+
+          // Default values.
+          if (empty($default_values)) {
+            $default_idno = (string) $xml->idno;
+            $form['xml_data']['idno']['#default_value'] = $default_idno;
+
+            $default_tva = (string) $xml->tva;
+            $form['xml_data']['tva']['#default_value'] = $default_tva;
+
+            $default_year = (string) $xml->creation_year;
+            $form['xml_data']['creation_year']['#default_value'] = $default_year;
+
+            $default_jobs = (string) $xml->number_of_jobs;
+            $form['xml_data']['number_of_jobs']['#default_value'] = $default_jobs;
+
+            $brands = array();
+            if (!empty($xml->brands->{'list-item'})) {
+              $brands_list = $xml->brands->{'list-item'};
+              foreach ($brands_list as $brand) {
+                $brands[] = (string) $brand;
+              }
+            }
+            $default_brands = implode("\n", $brands);
+            $form['xml_data']['brands']['#default_value'] = $default_brands;
+
+            $lang = $form['#node']->language;
+            $field = $lang . '_field';
+            $persons = array();
+            if (!empty($xml->persons->{'list-item'})) {
+              $persons_list = $xml->persons->{'list-item'};
+              foreach ($persons_list as $person) {
+                $person_array = array(
+                  (string) $person->first_name->{$field} . ' ' . (string) $person->last_name->{$field},
+                  (string) $person->position->{$field},
+                  (string) $person->phone->phone_type . ': ' . (string) $person->phone->phone,
+                );
+
+                $persons[] = implode(', ', $person_array);
+              }
+            }
+            $default_persons = implode("\n", $persons);
+            $form['xml_data']['persons']['#default_value'] = $default_persons;
+          }
         }
       }
     }
@@ -267,8 +288,8 @@ function yellow_pages_company_ct_form_company_node_form_alter(&$form, &$form_sta
       $sync = 0;
     }
 
-    if (!empty($form['#node']->field_changed_by_editor_date[LANGUAGE_NONE][0]['value'])) {
-      $changed = strtotime($form['#node']->field_changed_by_editor_date[LANGUAGE_NONE][0]['value']);
+    if (!empty($defaults->timestamp)) {
+      $changed = $defaults->timestamp;
     }
     else {
       $changed = 0;
@@ -279,6 +300,7 @@ function yellow_pages_company_ct_form_company_node_form_alter(&$form, &$form_sta
         '#prefix' => '<div class="messages status">',
         '#markup' => t('Your changes being validated.'),
         '#suffix' => '</div>',
+        '#weight' => -10,
       );
     }
   }
@@ -288,6 +310,20 @@ function yellow_pages_company_ct_form_company_node_form_alter(&$form, &$form_sta
  * Alternative submit for company edit form for enterprise editor roles.
  */
 function yellow_pages_company_ct_company_edit_submit(&$form, &$form_state) {
+  $values = $form_state['values'];
+
+  // Insert current state of node into table as temporary storage.
+  db_merge('company_node_changes')
+    ->key(array(
+      'nid' => $form['#node']->nid,
+      'uid' => $GLOBALS['user']->uid,
+    ))
+    ->fields(array(
+      'timestamp' => time(),
+      'changes' => serialize($values),
+    ))
+    ->execute();
+
   $new_node = node_form_submit_build_node($form, $form_state);
   diff_node_form_build_preview_changes($form, $form_state);
 
@@ -314,7 +350,7 @@ function yellow_pages_company_ct_company_edit_submit(&$form, &$form_state) {
 
   // Additional fields.
   $xml_changes = array();
-  $xml_data = $form_state['values']['xml_data'];
+  $xml_data = $values['xml_data'];
   $xml_form = $form['xml_data'];
   foreach ($xml_data as $field => $value) {
     if ($xml_form[$field]['#default_value'] != $value) {

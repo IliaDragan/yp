@@ -288,79 +288,6 @@ function yellow_pages_company_ct_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-company-field_changed_by_editor_date'
-  $field_instances['node-company-field_changed_by_editor_date'] = array(
-    'bundle' => 'company',
-    'deleted' => 0,
-    'description' => '',
-    'display' => array(
-      'default' => array(
-        'label' => 'above',
-        'module' => 'date',
-        'settings' => array(
-          'format_type' => 'long',
-          'fromto' => 'both',
-          'multiple_from' => '',
-          'multiple_number' => '',
-          'multiple_to' => '',
-          'show_remaining_days' => FALSE,
-        ),
-        'type' => 'date_default',
-        'weight' => 27,
-      ),
-      'full' => array(
-        'label' => 'above',
-        'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 0,
-      ),
-      'search_index' => array(
-        'label' => 'above',
-        'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 0,
-      ),
-      'slider_teaser' => array(
-        'label' => 'above',
-        'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 0,
-      ),
-      'teaser' => array(
-        'label' => 'above',
-        'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 0,
-      ),
-    ),
-    'entity_type' => 'node',
-    'field_name' => 'field_changed_by_editor_date',
-    'label' => 'Changed by editor date',
-    'required' => 0,
-    'settings' => array(
-      'default_value' => 'blank',
-      'default_value2' => 'same',
-      'default_value_code' => '',
-      'default_value_code2' => '',
-      'user_register_form' => FALSE,
-    ),
-    'widget' => array(
-      'active' => 1,
-      'module' => 'date',
-      'settings' => array(
-        'increment' => 15,
-        'input_format' => 'm/d/Y - H:i:s',
-        'input_format_custom' => '',
-        'label_position' => 'above',
-        'no_fieldset' => 0,
-        'text_parts' => array(),
-        'year_range' => '-3:+3',
-      ),
-      'type' => 'date_text',
-      'weight' => 8,
-    ),
-  );
-
   // Exported field_instance: 'node-company-field_business_hours'.
   $field_instances['node-company-field_business_hours'] = array(
     'bundle' => 'company',
@@ -1565,7 +1492,6 @@ function yellow_pages_company_ct_field_default_field_instances() {
   t('Advertisements');
   t('Articles');
   t('Business hours');
-  t('Changed by editor date');
   t('Description of activity');
   t('Email');
   t('Fax');

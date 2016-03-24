@@ -344,6 +344,32 @@ function yellow_pages_solr_configuration_default_page_manager_pages() {
     $display->content['new-f6de7a52-dac3-444b-9875-9341fda95d30'] = $pane;
     $display->panels['beta_50'][1] = 'new-f6de7a52-dac3-444b-9875-9341fda95d30';
     $pane = new stdClass();
+    $pane->pid = 'new-2ffdd5f8-a660-4774-80de-f17ac54ee37c';
+    $pane->panel = 'gamma_25';
+    $pane->type = 'block';
+    $pane->subtype = 'block-3';
+    $pane->shown = TRUE;
+    $pane->access = array();
+    $pane->configuration = array(
+      'override_title' => 0,
+      'override_title_text' => '',
+      'override_title_heading' => 'h2',
+    );
+    $pane->cache = array();
+    $pane->style = array(
+      'settings' => NULL,
+    );
+    $pane->css = array(
+      'css_id' => 'adsense-search-300-250',
+      'css_class' => '',
+    );
+    $pane->extras = array();
+    $pane->position = 0;
+    $pane->locks = array();
+    $pane->uuid = '2ffdd5f8-a660-4774-80de-f17ac54ee37c';
+    $display->content['new-2ffdd5f8-a660-4774-80de-f17ac54ee37c'] = $pane;
+    $display->panels['gamma_25'][0] = 'new-2ffdd5f8-a660-4774-80de-f17ac54ee37c';
+    $pane = new stdClass();
     $pane->pid = 'new-62591355-b8f6-4fa2-a910-833ecac4bc07';
     $pane->panel = 'gamma_25';
     $pane->type = 'yp_advertisement_search_result';
@@ -364,11 +390,11 @@ function yellow_pages_solr_configuration_default_page_manager_pages() {
     );
     $pane->css = array();
     $pane->extras = array();
-    $pane->position = 0;
+    $pane->position = 1;
     $pane->locks = array();
     $pane->uuid = '62591355-b8f6-4fa2-a910-833ecac4bc07';
     $display->content['new-62591355-b8f6-4fa2-a910-833ecac4bc07'] = $pane;
-    $display->panels['gamma_25'][0] = 'new-62591355-b8f6-4fa2-a910-833ecac4bc07';
+    $display->panels['gamma_25'][1] = 'new-62591355-b8f6-4fa2-a910-833ecac4bc07';
   $display->hide_title = PANELS_TITLE_FIXED;
   $display->title_pane = '0';
   $handler->conf['display'] = $display;

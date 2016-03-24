@@ -16,7 +16,6 @@ dependencies[] = owlcarousel_views
 dependencies[] = page_manager
 dependencies[] = search
 dependencies[] = strongarm
-dependencies[] = system
 dependencies[] = views
 dependencies[] = views_content
 dependencies[] = yellow_pages_contacts

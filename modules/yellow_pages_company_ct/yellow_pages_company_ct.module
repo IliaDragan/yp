@@ -239,8 +239,8 @@ function yellow_pages_company_ct_form_company_node_form_alter(&$form, &$form_sta
           $xml_defaults = array(
             'idno' => (string) $xml->idno,
             'tva' => (string) $xml->tva,
-            'year' => (string) $xml->creation_year,
-            'jobs' => (string) $xml->number_of_jobs,
+            'creation_year' => (string) $xml->creation_year,
+            'number_of_jobs' => (string) $xml->number_of_jobs,
           );
 
           $brands = array();
@@ -274,8 +274,8 @@ function yellow_pages_company_ct_form_company_node_form_alter(&$form, &$form_sta
           if (empty($defaults)) {
             $form['xml_data']['idno']['#default_value'] = $xml_defaults['idno'];
             $form['xml_data']['tva']['#default_value'] = $xml_defaults['tva'];
-            $form['xml_data']['creation_year']['#default_value'] = $xml_defaults['year'];
-            $form['xml_data']['number_of_jobs']['#default_value'] = $xml_defaults['jobs'];
+            $form['xml_data']['creation_year']['#default_value'] = $xml_defaults['creation_year'];
+            $form['xml_data']['number_of_jobs']['#default_value'] = $xml_defaults['number_of_jobs'];
             $form['xml_data']['brands']['#default_value'] = $xml_defaults['brands'];
             $form['xml_data']['persons']['#default_value'] = $xml_defaults['persons'];
           }
@@ -333,7 +333,7 @@ function yellow_pages_company_ct_company_edit_submit(&$form, &$form_state) {
     if ($form_state['storage']['xml_defaults'][$field] != $value) {
       $xml_changes[] = array(
         $xml_form[$field]['#title'],
-        $xml_form[$field]['#default_value'],
+        $form_state['storage']['xml_defaults'][$field],
         $value,
       );
     }
@@ -354,8 +354,7 @@ function yellow_pages_company_ct_company_edit_submit(&$form, &$form_state) {
   $new_node->company_diff = $changes;
   unset($form_state['node_preview']);
 
-  rules_invoke_event('node_presave--company', $new_node);
-  rules_invoke_event('node_presave', $new_node);
+  rules_invoke_event('company_changed_by_enterprise_editor', $new_node);
 }
 
 /**

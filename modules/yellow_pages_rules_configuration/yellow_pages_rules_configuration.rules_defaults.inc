@@ -46,8 +46,8 @@ function yellow_pages_rules_configuration_default_rules_configuration() {
       "PLUGIN" : "reaction rule",
       "OWNER" : "rules",
       "TAGS" : [ "company", "editor", "update" ],
-      "REQUIRES" : [ "rules" ],
-      "ON" : { "node_presave--company" : { "bundle" : "company" } },
+      "REQUIRES" : [ "rules", "yellow_pages_rules_configuration" ],
+      "ON" : { "company_changed_by_enterprise_editor" : [] },
       "DO" : [
         { "mail_to_users_of_role" : {
             "roles" : { "value" : { "4" : "4" } },

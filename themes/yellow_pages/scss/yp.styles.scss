@@ -2876,6 +2876,25 @@ body > .node-advertisement {
       fieldset {
         border: none;
 
+        &.date-combo legend {
+          display: block;
+        }
+        #edit-field-price-list fieldset {
+          legend {
+            display: block;
+          }
+          label {
+            display: none;
+          }
+          input.upload {
+            border-color: $main-yellow;
+            display: inline-block !important;
+          }
+          a.browse {
+            background: $main-yellow;
+            padding: 6px 15px;
+          }
+        }
         legend {
           display: none;
         }

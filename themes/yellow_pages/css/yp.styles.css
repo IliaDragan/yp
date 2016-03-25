@@ -3173,6 +3173,23 @@ body > .node-advertisement {
 #company-node-form .vertical-tabs .vertical-tabs-panes fieldset {
   border: none;
 }
+#company-node-form .vertical-tabs .vertical-tabs-panes fieldset.date-combo legend {
+  display: block;
+}
+#company-node-form .vertical-tabs .vertical-tabs-panes fieldset #edit-field-price-list fieldset legend {
+  display: block;
+}
+#company-node-form .vertical-tabs .vertical-tabs-panes fieldset #edit-field-price-list fieldset label {
+  display: none;
+}
+#company-node-form .vertical-tabs .vertical-tabs-panes fieldset #edit-field-price-list fieldset input.upload {
+  border-color: #ffdd00;
+  display: inline-block !important;
+}
+#company-node-form .vertical-tabs .vertical-tabs-panes fieldset #edit-field-price-list fieldset a.browse {
+  background: #ffdd00;
+  padding: 6px 15px;
+}
 #company-node-form .vertical-tabs .vertical-tabs-panes fieldset legend {
   display: none;
 }

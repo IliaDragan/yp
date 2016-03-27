@@ -47,6 +47,7 @@ function yellow_pages_permissions_user_default_permissions() {
     'name' => 'access media browser',
     'roles' => array(
       'administrator' => 'administrator',
+      'enterprise editor' => 'enterprise editor',
       'global editor' => 'global editor',
     ),
     'module' => 'media',
@@ -180,6 +181,7 @@ function yellow_pages_permissions_user_default_permissions() {
     'name' => 'create files',
     'roles' => array(
       'administrator' => 'administrator',
+      'enterprise editor' => 'enterprise editor',
       'global editor' => 'global editor',
     ),
     'module' => 'file_entity',
@@ -210,6 +212,7 @@ function yellow_pages_permissions_user_default_permissions() {
     'name' => 'delete own document files',
     'roles' => array(
       'administrator' => 'administrator',
+      'enterprise editor' => 'enterprise editor',
       'global editor' => 'global editor',
     ),
     'module' => 'file_entity',
@@ -260,6 +263,7 @@ function yellow_pages_permissions_user_default_permissions() {
     'name' => 'download own document files',
     'roles' => array(
       'administrator' => 'administrator',
+      'enterprise editor' => 'enterprise editor',
       'global editor' => 'global editor',
     ),
     'module' => 'file_entity',
@@ -309,6 +313,7 @@ function yellow_pages_permissions_user_default_permissions() {
     'name' => 'edit own document files',
     'roles' => array(
       'administrator' => 'administrator',
+      'enterprise editor' => 'enterprise editor',
       'global editor' => 'global editor',
     ),
     'module' => 'file_entity',
@@ -421,6 +426,7 @@ function yellow_pages_permissions_user_default_permissions() {
     'name' => 'view own files',
     'roles' => array(
       'administrator' => 'administrator',
+      'enterprise editor' => 'enterprise editor',
       'global editor' => 'global editor',
     ),
     'module' => 'file_entity',

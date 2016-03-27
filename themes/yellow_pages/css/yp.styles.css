@@ -3202,3 +3202,7 @@ body > .node-advertisement {
 #company-node-form .field-multiple-table td div {
   margin: 0;
 }
+
+#autocomplete {
+  background-color: #f4f4f4;
+}

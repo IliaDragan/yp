@@ -648,3 +648,27 @@ function yellow_pages_preprocess_user_profile(&$variables) {
 
   $profile['summary']['#weight'] = 5;
 }
+
+/**
+ * Implements hook_node_delete().
+ */
+function yellow_pages_company_ct_node_delete($node) {
+  if ($node->type == 'company') {
+    // Remove temporary stored changes.
+    db_delete('company_node_changes')
+      ->condition('nid', $node->nid)
+      ->execute();
+  }
+}
+
+/**
+ * Implements hook_entity_sync_with_mdb().
+ */
+function yellow_pages_company_ct_entity_sync_with_mdb($entity) {
+  if (!empty($entity->nid)) {
+    // Remove temporary stored changes.
+    db_delete('company_node_changes')
+      ->condition('nid', $entity->nid)
+      ->execute();
+  }
+}

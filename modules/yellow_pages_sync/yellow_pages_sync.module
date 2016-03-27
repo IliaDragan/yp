@@ -386,6 +386,8 @@ function yellow_pages_sync_node(SimpleXMLElement $list_item) {
 
   // Save new node.
   node_save($entity);
+  module_invoke_all('entity_sync_with_mdb', $entity);
+
 
   if (!empty($path_alias['ru'])) {
     $url_alias = array(
@@ -470,6 +472,7 @@ function yellow_pages_sync_node(SimpleXMLElement $list_item) {
     }
 
     node_save($translated_entity);
+    module_invoke_all('entity_sync_with_mdb', $translated_entity);
 
     if (!empty($path_alias[$lang])) {
       $url_alias = array(

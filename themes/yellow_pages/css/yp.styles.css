@@ -3137,6 +3137,9 @@ body > .node-advertisement {
 .page-user .profile h3 {
   font-size: 16px;
 }
+.page-user .profile table td {
+  padding: 5px 15px;
+}
 
 /* Company edit form. */
 #company-node-form .vertical-tabs {

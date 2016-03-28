@@ -642,8 +642,19 @@ function yellow_pages_preprocess_user_profile(&$variables) {
   $profile['field_related_company']['#title'] = t('Companies which you can edit');
   $profile['field_related_company']['#weight'] = 4;
   foreach ($profile['field_related_company']['#items'] as $key => &$item) {
-    $edit = l(t('Edit'), 'node/' . $item['target_id'] . '/edit', array('#attributes' => array('class' => array('related-company-edit'))));
-    $profile['field_related_company'][$key]['#markup'] .= '&nbsp;' . $edit;
+    $tnid = $item['entity']->tnid;
+    $nids = yellow_pages_core_node_get_translation_nids($tnid);
+    $links = array();
+    $options = array('#attributes' => array('class' => array('related-company-edit')));
+    foreach ($nids as $lang => $nid) {
+      $node = node_load($nid);
+      $links[] = array(
+        l($node->title . ' (' . $node->language . ')', 'node/' . $nid),
+        l(t('Edit'), 'node/' . $nid . '/edit', $options),
+      );
+    }
+
+    $profile['field_related_company'][$key]['#markup'] = theme('table', array('rows' => $links));
   }
 
   $profile['summary']['#weight'] = 5;

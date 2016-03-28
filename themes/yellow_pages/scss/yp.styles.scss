@@ -2831,6 +2831,9 @@ body > .node-advertisement {
     h3 {
       font-size: 16px;
     }
+    table td {
+      padding: 5px 15px;
+    }
   }
 }
 
@@ -2922,4 +2925,3 @@ body > .node-advertisement {
 #autocomplete {
  background-color: $light-gray;
 }
-

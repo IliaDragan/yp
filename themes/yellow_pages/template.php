@@ -370,12 +370,9 @@ function yellow_pages_business_hours($vars) {
  * Rewrite form element markup for compatibility with field_group module.
  */
 function yellow_pages_form_element($variables) {
-
   $element = &$variables['element'];
-  $attr = isset($element['#attributes']) ? $element['#attributes'] : array();
-  if (isset($attr['id'])) unset($attr['id']);
-  $attributes = $attr;
-
+  $attributes = isset($element['#attributes']) ? $element['#attributes'] : array();
+  $attributes['class'] = array('form-item');
   if (!empty($element['#type'])) {
     $attributes['class'][] = 'form-type-' . strtr($element['#type'], '_', '-');
   }
@@ -395,18 +392,13 @@ function yellow_pages_form_element($variables) {
     $element['#title_display'] = 'none';
   }
 
-  if (isset($attributes['class'])) {
-    $output = '<div' . drupal_attributes($attributes) . '>';
-  }
-  else {
-    $output = '<div>';
-  }
+  $output = '<div' . drupal_attributes($attributes) . '>';
 
   // Prefix and suffix markup improvements.
   $prefix = isset($element['#field_prefix']) ? '<span class="field-prefix">' . $element['#field_prefix'] . '</span> ' : '';
   $suffix = isset($element['#field_suffix']) ? ' <span class="field-suffix">' . $element['#field_suffix'] . '</span>' : '';
 
-  if (isset($element['#title_display']) && !empty($element['#title_display'])) {
+  if (!empty($element['#title_display'])) {
     switch ($element['#title_display']) {
       case 'before':
       case 'invisible':

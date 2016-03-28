@@ -151,7 +151,7 @@ function yellow_pages_company_ct_form_company_node_form_alter(&$form, &$form_sta
     }
 
     // Form modifications for enterprise editor.
-    if (user_access('edit related companies')) {
+    if (user_access('edit related companies') && $GLOBALS['user']->uid != 1) {
       $user = user_load($GLOBALS['user']->uid);
 
       // Get default values from storage file.
@@ -383,7 +383,7 @@ function company_create_editor_user_submit(&$form, &$form_state) {
   try {
     $account = user_save('', $fields);
     _user_mail_notify('register_admin_created', $account);
-    $msg = t('User created successfully. You will receive confirmation e-mail message at your emai.');
+    $msg = t('User created successfully. You will receive confirmation e-mail message at your email.');
     $form_state['storage']['add_editor_message'] = '<div class="messages status">' . $msg . '</div>';
   }
   catch (Exception $e) {

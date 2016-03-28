@@ -339,9 +339,6 @@ function yellow_pages_company_ct_company_edit_submit(&$form, &$form_state) {
     ))
     ->execute();
 
-
-
-
   diff_node_form_build_preview_changes($form, $form_state);
 
   // Add styles.
@@ -396,7 +393,7 @@ function yellow_pages_company_ct_company_edit_submit(&$form, &$form_state) {
 
   $new_node->company_diff = theme('table', array('rows' => $form_state['values']));
 
-  //rules_invoke_event('company_changed_by_enterprise_editor', $new_node);
+  rules_invoke_event('company_changed_by_enterprise_editor', $new_node);
 }
 
 /**

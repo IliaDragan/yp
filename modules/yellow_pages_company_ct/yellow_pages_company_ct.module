@@ -644,12 +644,13 @@ function yellow_pages_preprocess_user_profile(&$variables) {
   foreach ($profile['field_related_company']['#items'] as $key => &$item) {
     $tnid = $item['entity']->tnid;
     $nids = yellow_pages_core_node_get_translation_nids($tnid);
+    $languages = language_list();
     $links = array();
-    $options = array('#attributes' => array('class' => array('related-company-edit')));
     foreach ($nids as $lang => $nid) {
       $node = node_load($nid);
+      $options = array('language' => $languages[$lang]);
       $links[] = array(
-        l($node->title . ' (' . $node->language . ')', 'node/' . $nid),
+        l($node->title . ' (' . $languages[$lang]->name . ')', 'node/' . $nid, $options),
         l(t('Edit'), 'node/' . $nid . '/edit', $options),
       );
     }

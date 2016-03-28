@@ -3209,3 +3209,23 @@ body > .node-advertisement {
 #autocomplete {
   background-color: #f4f4f4;
 }
+
+/* Style messages. */
+.messages {
+  border: 1px solid;
+  font-weight: bold;
+  margin: 5px 0;
+  padding: 20px 10px;
+}
+.messages.status {
+  border-color: #00a500;
+  color: #00a500;
+}
+.messages.warning {
+  border-color: #ff7200;
+  color: #ff7200;
+}
+.messages.error {
+  border-color: #ff0000;
+  color: #ff0000;
+}

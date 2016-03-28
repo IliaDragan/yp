@@ -50,8 +50,14 @@ function yellow_pages_company_ct_schema() {
         'not null' => TRUE,
         'default' => 0,
       ),
-      'changes' => array(
+      'node_object' => array(
         'description' => 'The node form values.',
+        'type' => 'text',
+        'not null' => FALSE,
+        'size' => 'medium',
+      ),
+      'xml_changes' => array(
+        'description' => 'The xml form values - not from node.',
         'type' => 'text',
         'not null' => FALSE,
         'size' => 'medium',
@@ -91,8 +97,14 @@ function yellow_pages_company_ct_update_7001(&$sandbox) {
         'not null' => TRUE,
         'default' => 0,
       ),
-      'changes' => array(
+      'node_object' => array(
         'description' => 'The node form values.',
+        'type' => 'text',
+        'not null' => FALSE,
+        'size' => 'medium',
+      ),
+      'xml_changes' => array(
+        'description' => 'The xml form values - not from node.',
         'type' => 'text',
         'not null' => FALSE,
         'size' => 'medium',

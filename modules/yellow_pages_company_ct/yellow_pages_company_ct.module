@@ -29,7 +29,35 @@ function yellow_pages_company_ct_menu() {
 
   $menu['yp/autocomplete/category'] = array() + $menu['yp/autocomplete/product'];
 
+  $menu['company/%node/edit'] = array(
+    'title' => 'Edit',
+    'page callback' => 'yellow_pages_company_ct_node_page_edit',
+    'page arguments' => array(1),
+    'access callback' => 'node_access',
+    'access arguments' => array('update', 1),
+    'type' => MENU_CALLBACK,
+  );
+
   return $menu;
+}
+
+function yellow_pages_company_ct_node_page_edit($node) {
+  global $user;
+
+  // Get new node from database if exists.
+  $node_changed = db_select('company_node_changes', 'cc')
+    ->fields('cc', array('node_object'))
+    ->condition('cc.nid', $node->nid)
+    ->condition('cc.uid', $user->uid)
+    ->execute()
+    ->fetchField();
+
+  if (!empty($node_changed)) {
+    $node = unserialize($node_changed);
+  }
+
+  module_load_include('inc', 'node', 'node.pages');
+  return node_page_edit($node);
 }
 
 /**
@@ -98,6 +126,8 @@ function yellow_pages_company_ct_form_forward_form_alter(&$form, &$form_state) {
  * Implements hook_form_FORM_ID_alter().
  */
 function yellow_pages_company_ct_form_company_node_form_alter(&$form, &$form_state, $form_id) {
+  global $user;
+
   // Make sync date field readonly.
   $form['field_mdb_sync_date']['#disabled'] = TRUE;
   $hide = array(
@@ -151,20 +181,8 @@ function yellow_pages_company_ct_form_company_node_form_alter(&$form, &$form_sta
     }
 
     // Form modifications for enterprise editor.
-    if (user_access('edit related companies') && $GLOBALS['user']->uid != 1) {
-      $user = user_load($GLOBALS['user']->uid);
-
-      // Get default values from storage file.
-      $defaults = db_select('company_node_changes', 'cc')
-        ->fields('cc', array('changes'))
-        ->condition('cc.nid', $form['#node']->nid)
-        ->condition('cc.uid', $user->uid)
-        ->execute()
-        ->fetchField();
-
-      if (!empty($defaults)) {
-        $form_state['input'] = unserialize($defaults);
-      }
+    if (user_access('edit related companies') && $user->uid != 1) {
+      $user = user_load($user->uid);
 
       // Override form submit function.
       $form['actions']['submit']['#submit'] = array('yellow_pages_company_ct_company_edit_submit');
@@ -235,6 +253,14 @@ function yellow_pages_company_ct_form_company_node_form_alter(&$form, &$form_sta
             '#title' => t('Persons'),
           );
 
+          // Get default values from db.
+          $defaults = db_select('company_node_changes', 'cc')
+            ->fields('cc', array('xml_changes'))
+            ->condition('cc.nid', $form['#node']->nid)
+            ->condition('cc.uid', $user->uid)
+            ->execute()
+            ->fetchField();
+
           // Get default values from xml.
           $xml_defaults = array(
             'idno' => (string) $xml->idno,
@@ -279,6 +305,15 @@ function yellow_pages_company_ct_form_company_node_form_alter(&$form, &$form_sta
             $form['xml_data']['brands']['#default_value'] = $xml_defaults['brands'];
             $form['xml_data']['persons']['#default_value'] = $xml_defaults['persons'];
           }
+          else {
+            $defaults = unserialize($defaults);
+            $form['xml_data']['idno']['#default_value'] = $defaults['idno'];
+            $form['xml_data']['tva']['#default_value'] = $defaults['tva'];
+            $form['xml_data']['creation_year']['#default_value'] = $defaults['creation_year'];
+            $form['xml_data']['number_of_jobs']['#default_value'] = $defaults['number_of_jobs'];
+            $form['xml_data']['brands']['#default_value'] = $defaults['brands'];
+            $form['xml_data']['persons']['#default_value'] = $defaults['persons'];
+          }
         }
       }
     }
@@ -289,6 +324,8 @@ function yellow_pages_company_ct_form_company_node_form_alter(&$form, &$form_sta
  * Alternative submit for company edit form for enterprise editor roles.
  */
 function yellow_pages_company_ct_company_edit_submit(&$form, &$form_state) {
+  $new_node = node_form_submit_build_node($form, $form_state);
+
   // Insert current state of node into table as temporary storage.
   db_merge('company_node_changes')
     ->key(array(
@@ -297,11 +334,14 @@ function yellow_pages_company_ct_company_edit_submit(&$form, &$form_state) {
     ))
     ->fields(array(
       'timestamp' => time(),
-      'changes' => serialize($form_state['input']),
+      'node_object' => serialize($new_node),
+      'xml_changes' => serialize($form_state['values']['xml_data']),
     ))
     ->execute();
 
-  $new_node = node_form_submit_build_node($form, $form_state);
+
+
+
   diff_node_form_build_preview_changes($form, $form_state);
 
   // Add styles.
@@ -354,7 +394,9 @@ function yellow_pages_company_ct_company_edit_submit(&$form, &$form_state) {
   $new_node->company_diff = $changes;
   unset($form_state['node_preview']);
 
-  rules_invoke_event('company_changed_by_enterprise_editor', $new_node);
+  $new_node->company_diff = theme('table', array('rows' => $form_state['values']));
+
+  //rules_invoke_event('company_changed_by_enterprise_editor', $new_node);
 }
 
 /**
@@ -651,7 +693,7 @@ function yellow_pages_preprocess_user_profile(&$variables) {
       $options = array('language' => $languages[$lang]);
       $links[] = array(
         l($node->title . ' (' . $languages[$lang]->name . ')', 'node/' . $nid, $options),
-        l(t('Edit'), 'node/' . $nid . '/edit', $options),
+        l(t('Edit'), 'company/' . $nid . '/edit', $options),
       );
     }
 

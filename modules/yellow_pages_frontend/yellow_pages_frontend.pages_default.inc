@@ -214,7 +214,7 @@ function yellow_pages_frontend_default_page_manager_handlers() {
     $pane->shown = TRUE;
     $pane->access = array();
     $pane->configuration = array(
-      'ads_amount' => '2',
+      'ads_amount' => '1',
       'ads_category' => 'sidebar',
       'ads_order' => 'random',
       'override_title' => 1,

@@ -51,13 +51,13 @@ function yellow_pages_company_ct_node_page_edit($node) {
     ->condition('cc.uid', $user->uid)
     ->execute()
     ->fetchField();
-
   if (!empty($node_changed)) {
     $node = unserialize($node_changed);
   }
 
   module_load_include('inc', 'node', 'node.pages');
   return node_page_edit($node);
+  // TODO: Fix "add more" button in multivalue fields.
 }
 
 /**
@@ -324,6 +324,10 @@ function yellow_pages_company_ct_form_company_node_form_alter(&$form, &$form_sta
  * Alternative submit for company edit form for enterprise editor roles.
  */
 function yellow_pages_company_ct_company_edit_submit(&$form, &$form_state) {
+  // Artificialy prepare product fields for custom saving.
+  yellow_pages_company_ct_field_presave('', '', '', '', '', $form_state['values']['field_products'][LANGUAGE_NONE]);
+
+  // Create new node object from $form values.
   $new_node = node_form_submit_build_node($form, $form_state);
 
   // Insert current state of node into table as temporary storage.
@@ -339,6 +343,7 @@ function yellow_pages_company_ct_company_edit_submit(&$form, &$form_state) {
     ))
     ->execute();
 
+  // TODO: Do something for adding product comparations. @see profiles/yp/modules/contrib/diff/includes/taxonomy.inc
   diff_node_form_build_preview_changes($form, $form_state);
 
   // Add styles.
@@ -390,8 +395,6 @@ function yellow_pages_company_ct_company_edit_submit(&$form, &$form_state) {
 
   $new_node->company_diff = $changes;
   unset($form_state['node_preview']);
-
-  $new_node->company_diff = theme('table', array('rows' => $form_state['values']));
 
   rules_invoke_event('company_changed_by_enterprise_editor', $new_node);
 }

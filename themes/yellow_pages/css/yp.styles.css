@@ -3129,30 +3129,19 @@ body > .node-advertisement {
 }
 
 /* AdSense styles*/
-#adsense-front-468-60-left {
-  left: 0;
+.front .region-content .yp-onecol-100-layout .container .col-sm-12 {
+  text-align: center;
+}
+.front .region-content .yp-onecol-100-layout .container .col-sm-12 #adsense-front-468-60-left,
+.front .region-content .yp-onecol-100-layout .container .col-sm-12 #adsense-front-468-60-right {
+  display: inline-block;
   height: 60px;
-  margin: 40px 15px;
+  margin: 20px 15px 0;
   padding: 0;
-  position: absolute;
   width: 468px;
 }
-#adsense-front-468-60-left .pane-content {
-  height: 100%;
-  margin: 0;
-  padding: 0;
-  width: 100%;
-}
-
-#adsense-front-468-60-right {
-  height: 60px;
-  margin: 40px 15px;
-  padding: 0;
-  position: absolute;
-  right: 0;
-  width: 468px;
-}
-#adsense-front-468-60-right .pane-content {
+.front .region-content .yp-onecol-100-layout .container .col-sm-12 #adsense-front-468-60-left .pane-content,
+.front .region-content .yp-onecol-100-layout .container .col-sm-12 #adsense-front-468-60-right .pane-content {
   height: 100%;
   margin: 0;
   padding: 0;

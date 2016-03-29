@@ -10,7 +10,7 @@
 function yellow_pages_frontend_menu_default_menu_links() {
   $menu_links = array();
 
-  // Exported menu link: main-menu_news:news
+  // Exported menu link: main-menu_news:news.
   $menu_links['main-menu_news:news'] = array(
     'menu_name' => 'main-menu',
     'link_path' => 'news',
@@ -33,10 +33,10 @@ function yellow_pages_frontend_menu_default_menu_links() {
     'language' => 'und',
     'menu_links_customized' => 1,
   );
+
   // Translatables
   // Included for use with string extractors like potx.
   t('News');
-
 
   return $menu_links;
 }

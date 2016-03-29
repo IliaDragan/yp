@@ -3127,3 +3127,62 @@ body > .node-advertisement {
 #yellow-pages-statistics-ga #edit-filter .fieldset-wrapper #edit-submit {
   display: inline-block;
 }
+
+/* AdSense styles*/
+#adsense-front-468-60-left {
+  left: 0;
+  height: 60px;
+  margin: 40px 15px;
+  padding: 0;
+  position: absolute;
+  width: 468px;
+}
+#adsense-front-468-60-left .pane-content {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+}
+
+#adsense-front-468-60-right {
+  height: 60px;
+  margin: 40px 15px;
+  padding: 0;
+  position: absolute;
+  right: 0;
+  width: 468px;
+}
+#adsense-front-468-60-right .pane-content {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+}
+
+#adsense-search-300-250,
+#adsense-company-300-250 {
+  background: 0;
+  height: 250px;
+  padding: 0;
+  margin-bottom: 0;
+  width: 300px;
+}
+#adsense-search-300-250 .pane-content,
+#adsense-company-300-250 .pane-content {
+  height: 250px;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+}
+
+.adsense-news-728-90 {
+  height: 90px;
+  padding: 0;
+  width: 728px;
+}
+.adsense-news-728-90 .pane-content {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+}

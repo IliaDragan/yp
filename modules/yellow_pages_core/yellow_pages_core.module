@@ -1,4 +1,3 @@
-
 <?php
 /**
  * @file
@@ -100,4 +99,186 @@ function yellow_pages_core_date_range($first, $last, $step = '+1 day', $output_f
   }
 
   return $dates;
+}
+
+/**
+ * Implements hook_block_info()
+ */
+function yellow_pages_core_block_info() {
+
+  $blocks['adsense_company_300_250'] = array(
+    'info' => t('AdSense Company 300x250'),
+    'cache' => DRUPAL_CACHE_GLOBAL,
+  );
+
+  $blocks['adsense_search_300_250'] = array(
+    'info' => t('AdSense Search 300x250'),
+    'cache' => DRUPAL_CACHE_GLOBAL,
+  );
+
+  $blocks['adsense_front_468_60_left'] = array(
+    'info' => t('AdSense Frontpage 468x60 left'),
+    'cache' => DRUPAL_CACHE_GLOBAL,
+  );
+
+  $blocks['adsense_front_468_60_right'] = array(
+    'info' => t('AdSense Frontpage 468x60 right'),
+    'cache' => DRUPAL_CACHE_GLOBAL,
+  );
+
+  $blocks['adsense_news_728_90_first'] = array(
+    'info' => t('AdSense News 728x90 First'),
+    'cache' => DRUPAL_CACHE_GLOBAL,
+  );
+
+  $blocks['adsense_news_728_90_second'] = array(
+    'info' => t('AdSense News 728x90 Second'),
+    'cache' => DRUPAL_CACHE_GLOBAL,
+  );
+
+  return $blocks;
+}
+
+/**
+ * Implements hook_block_view().
+ */
+function yellow_pages_core_block_view($delta = '') {
+  // This example is adapted from node.module.
+  $block = array();
+
+  switch ($delta) {
+    case 'adsense_company_300_250':
+    case 'adsense_search_300_250':
+      $block['subject'] = '';
+      $block['content'] = yellow_pages_core_get_300_250_ad_block_content();
+      break;
+
+    case 'adsense_front_468_60_left':
+      $block['subject'] = '';
+      $block['content'] = yellow_pages_core_get_google_adsense();
+      break;
+
+    case 'adsense_front_468_60_right':
+      $block['subject'] = '';
+      $block['content'] = yellow_pages_core_get_468_60_ad_block_content();
+      break;
+
+    case 'adsense_news_728_90_first':
+      $block['subject'] = '';
+      $block['content'] = yellow_pages_core_get_google_adsense();
+      break;
+
+    case 'adsense_news_728_90_second':
+      $block['subject'] = '';
+      $block['content'] = yellow_pages_core_get_728_90_ad_block_content();
+      break;
+
+
+  }
+  return $block;
+}
+
+/**
+ * Get ad for 300x250px block.
+ */
+function yellow_pages_core_get_300_250_ad_block_content() {
+  return "<script type='text/javascript'>
+<!--//<![CDATA[
+document.MAX_ct0 ='';
+var m3_u = (location.protocol=='https:'?'https://cas.criteo.com/delivery/ajs.php?':'http://cas.criteo.com/delivery/ajs.php?');
+var m3_r = Math.floor(Math.random()*99999999999);
+document.write (\"<scr\"+\"ipt type='text/javascript' src='\"+m3_u);
+document.write (\"zoneid=384256\");document.write(\"&amp;nodis=1\");
+document.write ('&amp;cb=' + m3_r);
+if (document.MAX_used != ',') document.write (\"&amp;exclude=\" + document.MAX_used);
+document.write (document.charset ? '&amp;charset='+document.charset : (document.characterSet ?
+'&amp;charset='+document.characterSet : ''));
+document.write (\"&amp;loc=\" + escape(window.location).substring(0,1600));
+if (document.context) document.write (\"&context=\" + escape(document.context));
+if ((typeof(document.MAX_ct0) != 'undefined') && (document.MAX_ct0.substring(0,4) == 'http')) {
+document.write (\"&amp;ct0=\" + escape(document.MAX_ct0));
+}
+if (document.mmm_fo) document.write (\"&amp;mmm_fo=1\");
+document.write (\"'></scr\"+\"ipt>\");
+//]]>--></script>";
+}
+
+/**
+ * Get ad for 468x60px block.
+ */
+function yellow_pages_core_get_468_60_ad_block_content() {
+  return "<script type='text/javascript'>
+<!--//<![CDATA[
+document.MAX_ct0 ='';
+var m3_u = (location.protocol=='https:'?'https://cas.criteo.com/delivery/ajs.php?':'http://cas.criteo.com/delivery/ajs.php?');
+var m3_r = Math.floor(Math.random()*99999999999);
+document.write (\"<scr\"+\"ipt type='text/javascript' src='\"+m3_u);
+document.write (\"zoneid=388187\");document.write(\"&amp;nodis=1\");
+document.write ('&amp;cb=' + m3_r);
+if (document.MAX_used != ',') document.write (\"&amp;exclude=\" + document.MAX_used);
+document.write (document.charset ? '&amp;charset='+document.charset : (document.characterSet ?
+'&amp;charset='+document.characterSet : ''));
+document.write (\"&amp;loc=\" + escape(window.location).substring(0,1600));
+if (document.context) document.write (\"&context=\" + escape(document.context));
+if ((typeof(document.MAX_ct0) != 'undefined') && (document.MAX_ct0.substring(0,4) == 'http')) {
+document.write (\"&amp;ct0=\" + escape(document.MAX_ct0));
+}
+if (document.mmm_fo) document.write (\"&amp;mmm_fo=1\");
+document.write (\"'></scr\"+\"ipt>\");
+//]]>--></script>";
+}
+
+/**
+ * Get ad for 728x90px block.
+ */
+function yellow_pages_core_get_728_90_ad_block_content() {
+  return "<script type='text/javascript'>
+<!--//<![CDATA[
+document.MAX_ct0 ='';
+var m3_u = (location.protocol=='https:'?'https://cas.criteo.com/delivery/ajs.php?':'http://cas.criteo.com/delivery/ajs.php?');
+var m3_r = Math.floor(Math.random()*99999999999);
+document.write (\"<scr\"+\"ipt type='text/javascript' src='\"+m3_u);
+document.write (\"zoneid=388188\");document.write(\"&amp;nodis=1\");
+document.write ('&amp;cb=' + m3_r);
+if (document.MAX_used != ',') document.write (\"&amp;exclude=\" + document.MAX_used);
+document.write (document.charset ? '&amp;charset='+document.charset : (document.characterSet ?
+'&amp;charset='+document.characterSet : ''));
+document.write (\"&amp;loc=\" + escape(window.location).substring(0,1600));
+if (document.context) document.write (\"&context=\" + escape(document.context));
+if ((typeof(document.MAX_ct0) != 'undefined') && (document.MAX_ct0.substring(0,4) == 'http')) {
+document.write (\"&amp;ct0=\" + escape(document.MAX_ct0));
+}
+if (document.mmm_fo) document.write (\"&amp;mmm_fo=1\");
+document.write (\"'></scr\"+\"ipt>\");
+//]]>--></script>";
+}
+
+/**
+ * Get google AdSense adaptive block content.
+ */
+function yellow_pages_core_get_google_adsense() {
+  if (in_array($_SERVER['SERVER_NAME'], array('yp.md', 'www.yp.md'))) {
+    return '<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+  <!-- yp.md_auto -->
+  <ins class="adsbygoogle"
+       style="display:block"
+       data-ad-client="ca-pub-4252189351312901"
+       data-ad-slot="9560898878"
+       data-ad-format="auto"></ins>
+  <script>
+    (adsbygoogle = window.adsbygoogle || []).push({});
+  </script>';
+  }
+  else {
+    return '<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+  <!-- yellowpages.md_auto -->
+  <ins class="adsbygoogle"
+       style="display:block"
+       data-ad-client="ca-pub-4252189351312901"
+       data-ad-slot="2037632074"
+       data-ad-format="auto"></ins>
+  <script>
+    (adsbygoogle = window.adsbygoogle || []).push({});
+  </script>';
+  }
 }

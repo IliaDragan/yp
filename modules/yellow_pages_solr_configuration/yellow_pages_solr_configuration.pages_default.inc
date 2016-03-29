@@ -377,7 +377,7 @@ function yellow_pages_solr_configuration_default_page_manager_pages() {
     $pane->shown = TRUE;
     $pane->access = array();
     $pane->configuration = array(
-      'ads_amount' => '7',
+      'ads_amount' => '6',
       'ads_category' => 'sidebar',
       'ads_order' => 'random',
       'override_title' => 1,

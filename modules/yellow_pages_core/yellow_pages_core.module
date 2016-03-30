@@ -4,6 +4,8 @@
  * Core functionality, not suitable to be specifically placed anywhere else.
  */
 
+include_once 'yellow_pages_core.fields.inc';
+
 /**
  * Implements hook_menu().
  */
@@ -19,7 +21,76 @@ function yellow_pages_core_menu() {
     'file path' => drupal_get_path('module', 'system'),
   );
 
+  // @todo
+  // CSRF token
+  $items['node/%node/geomap'] = array(
+    'title' => 'Geo map',
+    'description' => 'Rendered map for certain node',
+    'page callback' => 'yellow_pages_core_node_geomap',
+    'page arguments' => array(1),
+    'access arguments' => array('access content'),
+    'type' => MENU_CALLBACK,
+  );
+
   return $items;
+}
+
+/**
+ * Return field renderable array with a map for a certain node.
+ *
+ * @param stdClass $node
+ *   The node object.
+ *
+ * @return array
+ *   Render array with geo field data.
+ */
+function yellow_pages_core_node_geomap(stdClass $node) {
+  $entity = $node;
+  $entity_type = 'node';
+  $geo_items = field_get_items($entity_type, $entity, 'field_geocode');
+
+  if (!$geo_items) {
+    return drupal_not_found();
+  }
+
+  $settings = array(
+    'geofield_map_baselayers_hybrid' => 1,
+    'geofield_map_baselayers_map' => 1,
+    'geofield_map_baselayers_physical' => 0,
+    'geofield_map_baselayers_satellite' => 1,
+    'geofield_map_center' => array(
+      'geocode' => 'Find my location',
+      'lat' => '',
+      'lon' => ''
+    ),
+    'geofield_map_controltype' => 'default',
+    'geofield_map_draggable' => 1,
+    'geofield_map_height' => '768px',
+    'geofield_map_maptype' => 'map',
+    'geofield_map_max_zoom' => 0,
+    'geofield_map_min_zoom' => 0,
+    'geofield_map_mtc' => 'none',
+    'geofield_map_overview' => 0,
+    'geofield_map_overview_opened' => 0,
+    'geofield_map_pancontrol' => 1,
+    'geofield_map_scale' => 1,
+    'geofield_map_scrollwheel' => 1,
+    'geofield_map_streetview_show' => 1,
+    'geofield_map_width' => '100%',
+    'geofield_map_zoom' => 18,
+  );
+
+  $field = array('field_name' => 'field_address');
+  $instance = array();
+  $langcode = LANGUAGE_NONE;
+
+  $geo_map = geofield_map_field_formatter_view($entity_type, $entity, $field, $instance, $langcode, $geo_items, array('settings' => $settings));
+
+  $geo_map['#prefix'] = "<h1>{$entity->title}</h1>";
+
+  drupal_set_title($entity->title . variable_set('site_name', 'YELLOW PAGES OF MOLDOVA'));
+
+  return $geo_map;
 }
 
 /**

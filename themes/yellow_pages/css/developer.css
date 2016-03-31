@@ -16,3 +16,11 @@
   display: inline-block !important;
   margin-right: 4px;
 }
+
+.pane-yellow-pages-core-adsense-300-250 {
+  background: none!important;
+}
+
+.pane-yellow-pages-core-adsense-300-250 .pane-content {
+  padding: 0px!important;
+}

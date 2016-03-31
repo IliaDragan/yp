@@ -2818,3 +2818,49 @@ body > .node-advertisement {
     }
   }
 }
+
+/* AdSense styles*/
+.front .region-content .yp-onecol-100-layout .container .col-sm-12 {
+  text-align: center;
+  #adsense-front-468-60-left,
+  #adsense-front-468-60-right {
+    display: inline-block;
+    height: 60px;
+    margin: 20px 15px 0;
+    padding: 0;
+    width: 468px;
+    .pane-content {
+      height: 100%;
+      margin: 0;
+      padding: 0;
+      width: 100%;
+    }
+  }
+}
+
+#adsense-search-300-250,
+#adsense-company-300-250 {
+  background: 0;
+  height: 250px;
+  padding: 0;
+  margin-bottom: 0;
+  width: 300px;
+  .pane-content {
+    height: 250px;
+    margin: 0;
+    padding: 0;
+    width: 100%;
+  }
+}
+
+.adsense-news-728-90 {
+  height: 90px;
+  padding: 0;
+  width: 728px;
+  .pane-content {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    width: 100%;
+  }
+}

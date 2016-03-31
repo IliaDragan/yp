@@ -8,7 +8,7 @@
  * Implements hook_field_group_info().
  */
 function yellow_pages_ads_field_group_info() {
-  $export = array();
+  $field_groups = array();
 
   $field_group = new stdClass();
   $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
@@ -37,7 +37,7 @@ function yellow_pages_ads_field_group_info() {
       'formatter' => 'collapsed',
     ),
   );
-  $export['group_ad_image|node|advertisement|form'] = $field_group;
+  $field_groups['group_ad_image|node|advertisement|form'] = $field_group;
 
   $field_group = new stdClass();
   $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
@@ -65,7 +65,12 @@ function yellow_pages_ads_field_group_info() {
       'formatter' => 'collapsed',
     ),
   );
-  $export['group_ad_wysiwyg|node|advertisement|form'] = $field_group;
+  $field_groups['group_ad_wysiwyg|node|advertisement|form'] = $field_group;
 
-  return $export;
+  // Translatables
+  // Included for use with string extractors like potx.
+  t('Image');
+  t('WYSIWYG');
+
+  return $field_groups;
 }

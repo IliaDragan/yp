@@ -195,6 +195,11 @@ function yellow_pages_solr_configuration_search_api_solr_query_alter(array &$cal
 
   $keys = $query->getKeys();
   $conjunction = $keys['#conjunction'];
+  $call_args['query'] = preg_replace("/(\".{1,2}\"\sAND\s)|(\sAND\s?\".{1,2}\")/u", "", $call_args['query']);
+
+
+  $call_args['query'] = preg_replace("/\"%2f\"\sAND\s/", "", $call_args['query']);
+
 
   $tokens = explode(" $conjunction ", $call_args['query']);
 

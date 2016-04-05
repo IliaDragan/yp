@@ -3175,3 +3175,105 @@ body > .node-advertisement {
   padding: 0;
   width: 100%;
 }
+
+.page-user .profile .field {
+  padding: 10px 0;
+}
+.page-user .profile .field a {
+  border-bottom: 2px solid #ffdd00;
+}
+.page-user .profile h3 {
+  font-size: 16px;
+}
+.page-user .profile table td {
+  padding: 5px 15px;
+}
+
+/* Company edit form. */
+#company-node-form .vertical-tabs {
+  border: 0;
+  padding: 0;
+}
+#company-node-form .vertical-tabs .vertical-tabs-list {
+  float: left;
+  list-style: none;
+  padding: 0;
+  width: 25%;
+}
+#company-node-form .vertical-tabs .vertical-tabs-list li.vertical-tab-button {
+  border: 2px solid #ffdd00;
+  border-collapse: collapse;
+  font-size: 16px;
+  padding: 5px 10px;
+}
+#company-node-form .vertical-tabs .vertical-tabs-list li.vertical-tab-button.selected {
+  background-color: #ffdd00;
+}
+#company-node-form .vertical-tabs .vertical-tabs-list li.vertical-tab-button a {
+  display: block;
+  width: 100%;
+}
+#company-node-form .vertical-tabs .vertical-tabs-list li.vertical-tab-button a:hover, #company-node-form .vertical-tabs .vertical-tabs-list li.vertical-tab-button a:active, #company-node-form .vertical-tabs .vertical-tabs-list li.vertical-tab-button a:focus {
+  color: #1d1d1d;
+}
+#company-node-form .vertical-tabs .vertical-tabs-panes {
+  border: 2px solid #ffdd00;
+  float: left;
+  width: 75%;
+}
+#company-node-form .vertical-tabs .vertical-tabs-panes fieldset {
+  border: none;
+}
+#company-node-form .vertical-tabs .vertical-tabs-panes fieldset.date-combo legend {
+  display: block;
+}
+#company-node-form .vertical-tabs .vertical-tabs-panes fieldset #edit-field-price-list fieldset legend {
+  display: block;
+}
+#company-node-form .vertical-tabs .vertical-tabs-panes fieldset #edit-field-price-list fieldset label {
+  display: none;
+}
+#company-node-form .vertical-tabs .vertical-tabs-panes fieldset #edit-field-price-list fieldset input.upload {
+  border-color: #ffdd00;
+  display: inline-block !important;
+}
+#company-node-form .vertical-tabs .vertical-tabs-panes fieldset #edit-field-price-list fieldset a.browse {
+  background: #ffdd00;
+  padding: 6px 15px;
+}
+#company-node-form .vertical-tabs .vertical-tabs-panes fieldset legend {
+  display: none;
+}
+#company-node-form .field-multiple-table td .tabledrag-handle .handle {
+  background-position: 6px -14px;
+  height: 22px;
+  padding: 0;
+  width: 22px;
+}
+#company-node-form .field-multiple-table td div {
+  margin: 0;
+}
+
+#autocomplete {
+  background-color: #f4f4f4;
+}
+
+/* Style messages. */
+.messages {
+  border: 1px solid;
+  font-weight: bold;
+  margin: 5px 0;
+  padding: 20px 10px;
+}
+.messages.status {
+  border-color: #00a500;
+  color: #00a500;
+}
+.messages.warning {
+  border-color: #ff7200;
+  color: #ff7200;
+}
+.messages.error {
+  border-color: #ff0000;
+  color: #ff0000;
+}

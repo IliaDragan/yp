@@ -1,0 +1,463 @@
+# $Id$
+#
+# Romanian translation of Drupal (general)
+# Copyright YEAR NAME <EMAIL@ADDRESS>
+# Generated from files:
+#  yellow_pages_company_ct.features.field_instance.inc: n/a
+#  yellow_pages_company_ct.field_group.inc: n/a
+#  yellow_pages_company_ct.module: n/a
+#  yellow_pages_company_ct.fields.inc: n/a
+#  yellow_pages_company_ct.features.inc: n/a
+#  yellow_pages_company_ct.rules.inc: n/a
+#  yellow_pages_company_ct.theme.inc: n/a
+#  yellow_pages_company_ct.views_default.inc: n/a
+#  yellow_pages_company_ct.info: n/a
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PROJECT VERSION\n"
+"POT-Creation-Date: 2016-03-28 12:56+0300\n"
+"PO-Revision-Date: 2016-03-28 13:18+0300\n"
+"Last-Translator: NAME <EMAIL@ADDRESS>\n"
+"Language-Team: Romanian <EMAIL@ADDRESS>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=((((n%10)==1)&&((n%100)!=11))?(0):(((((n"
+"%10)>=2)&&((n%10)<=4))&&(((n%100)<10)||((n%100)>=20)))?(1):2));\n"
+"X-Generator: Poedit 1.5.4\n"
+
+#: yellow_pages_company_ct.features.field_instance.inc:1491
+msgid "Address"
+msgstr "Adresă"
+
+#: yellow_pages_company_ct.features.field_instance.inc:1492
+#: yellow_pages_company_ct.field_group.inc:488
+msgid "Advertisements"
+msgstr "Banere"
+
+#: yellow_pages_company_ct.features.field_instance.inc:1493
+#: yellow_pages_company_ct.field_group.inc:489
+msgid "Articles"
+msgstr "Articole"
+
+#: yellow_pages_company_ct.features.field_instance.inc:1494
+#: yellow_pages_company_ct.module:123
+msgid "Business hours"
+msgstr "Orele de lucru"
+
+#: yellow_pages_company_ct.features.field_instance.inc:1495
+msgid "Description of activity"
+msgstr "Descrierea activității"
+
+#: yellow_pages_company_ct.features.field_instance.inc:1496
+msgid "Email"
+msgstr "E-mail"
+
+#: yellow_pages_company_ct.features.field_instance.inc:1497
+msgid "Fax"
+msgstr ""
+
+#: yellow_pages_company_ct.features.field_instance.inc:1498
+#: yellow_pages_company_ct.field_group.inc:492
+msgid "Filials"
+msgstr "Filiale"
+
+#: yellow_pages_company_ct.features.field_instance.inc:1499
+msgid "Geocode"
+msgstr ""
+
+#: yellow_pages_company_ct.features.field_instance.inc:1500
+msgid "Invisible field"
+msgstr "Câmp invizibil"
+
+#: yellow_pages_company_ct.features.field_instance.inc:1501
+msgid "Landline phone"
+msgstr "Telefon fix"
+
+#: yellow_pages_company_ct.features.field_instance.inc:1502
+msgid "Logo"
+msgstr "Logo"
+
+#: yellow_pages_company_ct.features.field_instance.inc:1503
+msgid "Logo expiration date"
+msgstr "Data de expirare a logo-ului"
+
+#: yellow_pages_company_ct.features.field_instance.inc:1504
+msgid "MDB sync date"
+msgstr "Data ultimei sincronizări cu MDB"
+
+#: yellow_pages_company_ct.features.field_instance.inc:1505
+msgid "Media materials"
+msgstr "Materiale media"
+
+#: yellow_pages_company_ct.features.field_instance.inc:1506
+msgid "Mobile phone"
+msgstr "Telefon mobil"
+
+#: yellow_pages_company_ct.features.field_instance.inc:1507
+msgid "Price list"
+msgstr "Lista de prețuri"
+
+#: yellow_pages_company_ct.features.field_instance.inc:1508
+#: yellow_pages_company_ct.field_group.inc:495
+#: yellow_pages_company_ct.fields.inc:13
+msgid "Products"
+msgstr "Producere"
+
+#: yellow_pages_company_ct.features.field_instance.inc:1509
+msgid "Region"
+msgstr "Regiune"
+
+#: yellow_pages_company_ct.features.field_instance.inc:1510
+msgid "Site URL"
+msgstr "Adresa URL a site-ului"
+
+#: yellow_pages_company_ct.features.field_instance.inc:1511
+msgid "Social links"
+msgstr "Lincuri sociale"
+
+#: yellow_pages_company_ct.features.inc:56
+msgid "Company"
+msgstr "Companie"
+
+#: yellow_pages_company_ct.features.inc:58
+msgid "CT contain company entity fields."
+msgstr ""
+
+#: yellow_pages_company_ct.features.inc:60
+msgid "Title"
+msgstr "Titlu"
+
+#: yellow_pages_company_ct.field_group.inc:487
+msgid "Additional information"
+msgstr "Informaţii suplimentare"
+
+#: yellow_pages_company_ct.field_group.inc:490
+msgid "Contacts"
+msgstr "Contacte"
+
+#: yellow_pages_company_ct.field_group.inc:491
+msgid "Details"
+msgstr "Detalii"
+
+#: yellow_pages_company_ct.field_group.inc:493
+msgid "Main content"
+msgstr "Conținutul de bază"
+
+#: yellow_pages_company_ct.field_group.inc:494
+msgid "Price lists"
+msgstr "Liste de prețuri"
+
+#: yellow_pages_company_ct.field_group.inc:496
+msgid "Services"
+msgstr "Servicii"
+
+#: yellow_pages_company_ct.field_group.inc:497
+msgid "Tabbed content"
+msgstr ""
+
+#: yellow_pages_company_ct.field_group.inc:498
+msgid "Vouchers"
+msgstr "Voucere"
+
+#: yellow_pages_company_ct.field_group.inc:499
+#: yellow_pages_company_ct.fields.inc:96
+msgid "We buy"
+msgstr "Import"
+
+#: yellow_pages_company_ct.field_group.inc:500
+#: yellow_pages_company_ct.fields.inc:99
+msgid "We export"
+msgstr "Noi exportăm"
+
+#: yellow_pages_company_ct.field_group.inc:501
+#: yellow_pages_company_ct.fields.inc:95
+msgid "We sell"
+msgstr "Сomerț"
+
+#: yellow_pages_company_ct.field_group.inc:502
+msgid "Working hours"
+msgstr "Orele de lucru"
+
+#: yellow_pages_company_ct.fields.inc:14
+msgid "Products related to this company."
+msgstr "Produsele referite la această companie."
+
+#: yellow_pages_company_ct.fields.inc:65
+msgid "Product activity type"
+msgstr "Tipul de activitate a produsului"
+
+#: yellow_pages_company_ct.fields.inc:70
+msgid "Product term name"
+msgstr "Denumirea produsului"
+
+#: yellow_pages_company_ct.fields.inc:78
+msgid "!label of field %name"
+msgstr "!label câmpului %name"
+
+#: yellow_pages_company_ct.fields.inc:97
+msgid "Manufacture"
+msgstr ""
+
+#: yellow_pages_company_ct.fields.inc:98
+msgid "Service"
+msgstr ""
+
+#: yellow_pages_company_ct.fields.inc:109
+msgid "Target products"
+msgstr ""
+
+#: yellow_pages_company_ct.fields.inc:113
+msgid "Target categories"
+msgstr ""
+
+#: yellow_pages_company_ct.fields.inc:147
+msgid "Activity"
+msgstr "Activitate"
+
+#: yellow_pages_company_ct.fields.inc:157
+msgid "Product"
+msgstr ""
+
+#: yellow_pages_company_ct.fields.inc:174
+msgid "Category"
+msgstr "Categorie"
+
+#: yellow_pages_company_ct.fields.inc:220
+msgid "Default"
+msgstr "Implicit"
+
+#: yellow_pages_company_ct.fields.inc:224
+msgid "Parent category"
+msgstr "Categoria părinte"
+
+#: yellow_pages_company_ct.rules.inc:14
+msgid "Check if company has related users."
+msgstr "Verifică dacă compania are utilizatori legați."
+
+#: yellow_pages_company_ct.rules.inc:18
+msgid "Company node nid"
+msgstr ""
+
+#: yellow_pages_company_ct.rules.inc:19
+msgid "Select the nid of company node"
+msgstr ""
+
+#: yellow_pages_company_ct.rules.inc:22
+msgid "Custom"
+msgstr "Personalizat"
+
+#: yellow_pages_company_ct.theme.inc:17
+msgid "Day off"
+msgstr "Zi liberă"
+
+#: yellow_pages_company_ct.views_default.inc:113
+msgid "Master"
+msgstr ""
+
+#: yellow_pages_company_ct.views_default.inc:114
+msgid "Similar companies"
+msgstr "Сompanii similare"
+
+#: yellow_pages_company_ct.views_default.inc:115
+msgid "more"
+msgstr "mai multe"
+
+#: yellow_pages_company_ct.views_default.inc:116
+msgid "Apply"
+msgstr "Aplicare"
+
+#: yellow_pages_company_ct.views_default.inc:117
+msgid "Reset"
+msgstr "Resetează"
+
+#: yellow_pages_company_ct.views_default.inc:118
+msgid "Sort by"
+msgstr "Sortare după"
+
+#: yellow_pages_company_ct.views_default.inc:119
+msgid "Asc"
+msgstr "Ascendent"
+
+#: yellow_pages_company_ct.views_default.inc:120
+msgid "Desc"
+msgstr ""
+
+#: yellow_pages_company_ct.views_default.inc:121
+msgid "Items per page"
+msgstr "Elemente pe pagină"
+
+#: yellow_pages_company_ct.views_default.inc:122
+msgid "- All -"
+msgstr ""
+
+#: yellow_pages_company_ct.views_default.inc:123
+msgid "Offset"
+msgstr ""
+
+#: yellow_pages_company_ct.views_default.inc:124
+msgid "« first"
+msgstr "« primul"
+
+#: yellow_pages_company_ct.views_default.inc:125
+msgid "‹ previous"
+msgstr "‹ anterior"
+
+#: yellow_pages_company_ct.views_default.inc:126
+msgid "next ›"
+msgstr "următor ›"
+
+#: yellow_pages_company_ct.views_default.inc:127
+msgid "last »"
+msgstr "ultima »"
+
+#: yellow_pages_company_ct.views_default.inc:128
+msgid "All"
+msgstr "Toate"
+
+#: yellow_pages_company_ct.views_default.inc:129
+msgid "Contextual"
+msgstr ""
+
+#: yellow_pages_company_ct.views_default.inc:130
+msgid "View panes"
+msgstr ""
+
+#: yellow_pages_company_ct.module:42
+msgid "Use autocomplete in products field"
+msgstr ""
+
+#: yellow_pages_company_ct.module:43
+msgid "Allow roles to use autocomplete on products field."
+msgstr ""
+
+#: yellow_pages_company_ct.module:47
+msgid "Edit related companies"
+msgstr ""
+
+#: yellow_pages_company_ct.module:48
+msgid "Allow users to edit only related companies."
+msgstr ""
+
+#: yellow_pages_company_ct.module:52
+msgid "Add related companies to user"
+msgstr ""
+
+#: yellow_pages_company_ct.module:53
+msgid ""
+"Allow users to add related companies to another users (works only if role "
+"has permission \"Administer users\")."
+msgstr ""
+
+#: yellow_pages_company_ct.module:137
+msgid "Create company editor for mail @mail"
+msgstr "Creează editor al companiei pentru adresa de email @mail"
+
+#: yellow_pages_company_ct.module:218
+msgid "No"
+msgstr "Nu"
+
+#: yellow_pages_company_ct.module:218
+msgid "Yes"
+msgstr "Da"
+
+#: yellow_pages_company_ct.module:222
+msgid "Year of foundation"
+msgstr "Anul fondării"
+
+#: yellow_pages_company_ct.module:226
+msgid "Number of jobs"
+msgstr "Numărul locurilor de muncă"
+
+#: yellow_pages_company_ct.module:230
+msgid "Brands"
+msgstr "Brănduri"
+
+#: yellow_pages_company_ct.module:235
+msgid "Persons"
+msgstr "Persoane"
+
+#: yellow_pages_company_ct.module:344
+msgid "Field name"
+msgstr "Nume câmp"
+
+#: yellow_pages_company_ct.module:345
+msgid "Old value"
+msgstr "Valoarea veche"
+
+#: yellow_pages_company_ct.module:346
+msgid "New value"
+msgstr "Valoarea nouă"
+
+#: yellow_pages_company_ct.module:349
+msgid "Additional fields changes"
+msgstr "Modificările câmpurilor adăugătoare"
+
+#: yellow_pages_company_ct.module:386
+msgid ""
+"User created successfully. You will receive confirmation e-mail message at "
+"your email."
+msgstr ""
+"Utilizatorul a fost creat cu succes. Veți primi un mesaj de confirmare la "
+"adresa Dvs de email."
+
+#: yellow_pages_company_ct.module:391
+msgid "Something went wrong. Please contact site administrator."
+msgstr ""
+"A survenit o eroare neprevăzută. Vă rugăm să contactați administratorul site-"
+"ului."
+
+#: yellow_pages_company_ct.module:460
+msgid "Your changes being validated."
+msgstr "Modificările Dvs sunt în stare de verificare."
+
+#: yellow_pages_company_ct.module:536
+msgid "Company editors emails"
+msgstr "Emal-urile editorilor companiei"
+
+#: yellow_pages_company_ct.module:537
+msgid ""
+"Email addresses of Enterprise Editors which has current company node as "
+"related company."
+msgstr "Adresele de email al Editorilor ce conțin compania dată în legătură."
+
+#: yellow_pages_company_ct.module:541
+msgid "Company node modified fields"
+msgstr "Câmpurile modificate a companiei"
+
+#: yellow_pages_company_ct.module:542
+msgid "Fields modified in company node on edit."
+msgstr "Câmpurile modificate în noda companiei în timpul editării."
+
+#: yellow_pages_company_ct.module:631
+msgid "User name"
+msgstr "Numele utilizatorului"
+
+#: yellow_pages_company_ct.module:635
+msgid "User e-mail"
+msgstr "Adresa de email"
+
+#: yellow_pages_company_ct.module:639
+msgid "You can edit pricelist"
+msgstr "Puteți edita listele de prețuri"
+
+#: yellow_pages_company_ct.module:642
+msgid "Companies which you can edit"
+msgstr "Companiile ce le puteți edita"
+
+#: yellow_pages_company_ct.module:654
+msgid "Edit"
+msgstr "Modifică"
+
+#: yellow_pages_company_ct.module:23
+msgid "Autocomplete for products"
+msgstr ""
+
+#: yellow_pages_company_ct.info:0
+msgid "Yellow pages Company CT"
+msgstr ""
+
+#: yellow_pages_company_ct.info:0
+msgid "Yellow Pages"
+msgstr ""

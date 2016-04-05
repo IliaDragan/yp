@@ -8,7 +8,7 @@
  * Implements hook_field_group_info().
  */
 function yellow_pages_company_ct_field_group_info() {
-  $export = array();
+  $field_groups = array();
 
   $field_group = new stdClass();
   $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
@@ -21,7 +21,7 @@ function yellow_pages_company_ct_field_group_info() {
   $field_group->parent_name = 'group_company_info';
   $field_group->data = array(
     'label' => 'Additional information',
-    'weight' => '25',
+    'weight' => '26',
     'children' => array(
       0 => 'body',
       1 => 'field_media_materials',
@@ -38,7 +38,7 @@ function yellow_pages_company_ct_field_group_info() {
       ),
     ),
   );
-  $export['group_additional_information|node|company|form'] = $field_group;
+  $field_groups['group_additional_information|node|company|form'] = $field_group;
 
   $field_group = new stdClass();
   $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
@@ -51,7 +51,7 @@ function yellow_pages_company_ct_field_group_info() {
   $field_group->parent_name = 'group_company_info';
   $field_group->data = array(
     'label' => 'Advertisements',
-    'weight' => '26',
+    'weight' => '27',
     'children' => array(
       0 => 'field_advertisements',
     ),
@@ -65,7 +65,7 @@ function yellow_pages_company_ct_field_group_info() {
       ),
     ),
   );
-  $export['group_advertisement|node|company|form'] = $field_group;
+  $field_groups['group_advertisement|node|company|form'] = $field_group;
 
   $field_group = new stdClass();
   $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
@@ -78,7 +78,7 @@ function yellow_pages_company_ct_field_group_info() {
   $field_group->parent_name = 'group_company_info';
   $field_group->data = array(
     'label' => 'Articles',
-    'weight' => '27',
+    'weight' => '28',
     'children' => array(
       0 => 'field_articles',
     ),
@@ -92,7 +92,7 @@ function yellow_pages_company_ct_field_group_info() {
       ),
     ),
   );
-  $export['group_articles|node|company|form'] = $field_group;
+  $field_groups['group_articles|node|company|form'] = $field_group;
 
   $field_group = new stdClass();
   $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
@@ -121,7 +121,7 @@ function yellow_pages_company_ct_field_group_info() {
       ),
     ),
   );
-  $export['group_company_info|node|company|form'] = $field_group;
+  $field_groups['group_company_info|node|company|form'] = $field_group;
 
   $field_group = new stdClass();
   $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
@@ -134,7 +134,7 @@ function yellow_pages_company_ct_field_group_info() {
   $field_group->parent_name = 'group_company_info';
   $field_group->data = array(
     'label' => 'Contacts',
-    'weight' => '24',
+    'weight' => '25',
     'children' => array(
       0 => 'field_address',
       1 => 'field_fax',
@@ -154,7 +154,7 @@ function yellow_pages_company_ct_field_group_info() {
       ),
     ),
   );
-  $export['group_contacts|node|company|form'] = $field_group;
+  $field_groups['group_contacts|node|company|form'] = $field_group;
 
   $field_group = new stdClass();
   $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
@@ -181,7 +181,7 @@ function yellow_pages_company_ct_field_group_info() {
       ),
     ),
   );
-  $export['group_details|node|company|full'] = $field_group;
+  $field_groups['group_details|node|company|full'] = $field_group;
 
   $field_group = new stdClass();
   $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
@@ -208,7 +208,7 @@ function yellow_pages_company_ct_field_group_info() {
       ),
     ),
   );
-  $export['group_filials|node|company|full'] = $field_group;
+  $field_groups['group_filials|node|company|full'] = $field_group;
 
   $field_group = new stdClass();
   $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
@@ -229,7 +229,8 @@ function yellow_pages_company_ct_field_group_info() {
       3 => 'field_mdb_sync_date',
       4 => 'field_products',
       5 => 'field_logo_expiration_date',
-      6 => 'title',
+      6 => 'field_changed_by_editor_date',
+      7 => 'title',
     ),
     'format_type' => 'tab',
     'format_settings' => array(
@@ -241,7 +242,7 @@ function yellow_pages_company_ct_field_group_info() {
       ),
     ),
   );
-  $export['group_main_content|node|company|form'] = $field_group;
+  $field_groups['group_main_content|node|company|form'] = $field_group;
 
   $field_group = new stdClass();
   $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
@@ -268,7 +269,7 @@ function yellow_pages_company_ct_field_group_info() {
       ),
     ),
   );
-  $export['group_price_lists|node|company|full'] = $field_group;
+  $field_groups['group_price_lists|node|company|full'] = $field_group;
 
   $field_group = new stdClass();
   $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
@@ -293,7 +294,7 @@ function yellow_pages_company_ct_field_group_info() {
       ),
     ),
   );
-  $export['group_products|node|company|full'] = $field_group;
+  $field_groups['group_products|node|company|full'] = $field_group;
 
   $field_group = new stdClass();
   $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
@@ -318,7 +319,7 @@ function yellow_pages_company_ct_field_group_info() {
       ),
     ),
   );
-  $export['group_services|node|company|full'] = $field_group;
+  $field_groups['group_services|node|company|full'] = $field_group;
 
   $field_group = new stdClass();
   $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
@@ -352,7 +353,7 @@ function yellow_pages_company_ct_field_group_info() {
       ),
     ),
   );
-  $export['group_tabbed_content|node|company|full'] = $field_group;
+  $field_groups['group_tabbed_content|node|company|full'] = $field_group;
 
   $field_group = new stdClass();
   $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
@@ -377,7 +378,7 @@ function yellow_pages_company_ct_field_group_info() {
       ),
     ),
   );
-  $export['group_vouchers|node|company|full'] = $field_group;
+  $field_groups['group_vouchers|node|company|full'] = $field_group;
 
   $field_group = new stdClass();
   $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
@@ -402,7 +403,7 @@ function yellow_pages_company_ct_field_group_info() {
       ),
     ),
   );
-  $export['group_we_buy|node|company|full'] = $field_group;
+  $field_groups['group_we_buy|node|company|full'] = $field_group;
 
   $field_group = new stdClass();
   $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
@@ -427,7 +428,7 @@ function yellow_pages_company_ct_field_group_info() {
       ),
     ),
   );
-  $export['group_we_export|node|company|full'] = $field_group;
+  $field_groups['group_we_export|node|company|full'] = $field_group;
 
   $field_group = new stdClass();
   $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
@@ -452,7 +453,7 @@ function yellow_pages_company_ct_field_group_info() {
       ),
     ),
   );
-  $export['group_we_sell|node|company|full'] = $field_group;
+  $field_groups['group_we_sell|node|company|full'] = $field_group;
 
   $field_group = new stdClass();
   $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
@@ -479,7 +480,26 @@ function yellow_pages_company_ct_field_group_info() {
       ),
     ),
   );
-  $export['group_working_hours|node|company|full'] = $field_group;
+  $field_groups['group_working_hours|node|company|full'] = $field_group;
 
-  return $export;
+  // Translatables
+  // Included for use with string extractors like potx.
+  t('Additional information');
+  t('Advertisements');
+  t('Articles');
+  t('Contacts');
+  t('Details');
+  t('Filials');
+  t('Main content');
+  t('Price lists');
+  t('Products');
+  t('Services');
+  t('Tabbed content');
+  t('Vouchers');
+  t('We buy');
+  t('We export');
+  t('We sell');
+  t('Working hours');
+
+  return $field_groups;
 }

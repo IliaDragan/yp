@@ -77,5 +77,16 @@ function yellow_pages_company_ct_user_default_permissions() {
     'module' => 'service_links',
   );
 
+  // Exported permission: 'use products autocomplete'.
+  $permissions['use products autocomplete'] = array(
+    'name' => 'use products autocomplete',
+    'roles' => array(
+      'administrator' => 'administrator',
+      'enterprise editor' => 'enterprise editor',
+      'global editor' => 'global editor',
+    ),
+    'module' => 'yellow_pages_company_ct',
+  );
+
   return $permissions;
 }

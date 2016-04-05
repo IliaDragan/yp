@@ -18,7 +18,7 @@
  *
  * @see template_preprocess_mimemail_message()
  */
-$theme_path = realpath(drupal_get_path('theme', 'yellow_pages'));
+$theme_path = drupal_get_path('theme', 'yellow_pages');
 ?>
 <html>
   <head>
@@ -32,29 +32,8 @@ $theme_path = realpath(drupal_get_path('theme', 'yellow_pages'));
       <div style="background-color: #f4f4f4; padding: 10px 20px; text-align: left; width: 560px; color: #2e2e2e; min-height: 170px;">
         <?php print $body ?>
       </div>
-      <div style="padding: 10px 20px; color: #2e2e2e; width: 560px;">
-        <p><?php print t('Social links:'); ?></p>
-        <p>
-          <a href="#" style="display: inline-block; height: 25px; width: 50px; text-decoration: none;">
-            <img src="<?php print $theme_path; ?>/images/google.png" />
-          </a>
-          <a href="#" style="display: inline-block; height: 25px; width: 50px; text-decoration: none;">
-            <img src="<?php print $theme_path; ?>/images/facebook2.png" />
-          </a>
-          <a href="#" style="display: inline-block; height: 25px; width: 50px; text-decoration: none;">
-            <img src="<?php print $theme_path; ?>/images/twitter.png" />
-          </a>
-          <a href="#" style="display: inline-block; height: 25px; width: 50px; text-decoration: none;">
-            <img src="<?php print $theme_path; ?>/images/linkedin.png" />
-          </a>
-          <a href="#" style="display: inline-block; height: 25px; width: 50px; text-decoration: none;">
-            <img src="<?php print $theme_path; ?>/images/vkontakte.png" />
-          </a>
-        </p>
-      </div>
       <div class="mail-footer" style="background-color: #2e2e2e; padding: 10px 20px; color: white; box-sizing: border-box;">
-        <p><?php print t('123 Stefan cel Mare str., Chisinau, Republic of Moldova'); ?></p>
-        <p>2015 &copy; Yellow Pages of Moldova</p>
+        <p><?php print date ('Y'); ?> &copy; Yellow Pages of Moldova</p>
       </div>
     </div>
   </body>

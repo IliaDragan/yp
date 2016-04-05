@@ -5,3 +5,13 @@
  */
 
 include_once 'yellow_pages_admin.features.inc';
+
+/**
+ * Implements hook_admin_paths().
+ */
+function yellow_pages_admin_admin_paths() {
+  $paths = array(
+    'admin/structure/features/*/diff' => TRUE,
+  );
+  return $paths;
+}

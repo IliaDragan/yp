@@ -191,12 +191,32 @@ function yellow_pages_company_ct_form_company_node_form_alter(&$form, &$form_sta
     if (user_access('edit related companies') && $user->uid != 1) {
       $user = user_load($user->uid);
 
+      $form['agreement_check'] = array(
+        '#type' => 'checkbox',
+        '#title' => t('Accept agreement'),
+        '#weight' => 97,
+      );
+
+      $form['agreement_text'] = array(
+        '#type' => 'textarea',
+        '#weight' => 98,
+        '#default_value' => '', // @todo
+        '#attributes' => array(
+          'readonly' => 'readonly',
+        ),
+      );
+
       // Override form submit function.
       $form['submit'] = array(
         '#type' => 'submit',
         '#value' => t('Save'),
         '#weight' => 99,
         '#submit' => array('yellow_pages_company_ct_company_edit_submit'),
+        '#states' => array(
+          'enabled' => array(
+            ':input[name="agreement_check"]' => array('checked' => TRUE),
+          ),
+        ),
       );
 
       $hidden = array(

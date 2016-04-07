@@ -339,7 +339,6 @@ function yellow_pages_company_ct_form_company_node_form_alter(&$form, &$form_sta
             }
           }
           $xml_defaults['persons'] = implode("\n", $persons);
-          $form_state['storage']['xml_defaults'] = $xml_defaults;
 
           // Set default values from xml if first change.
           if (empty($defaults)) {
@@ -349,6 +348,7 @@ function yellow_pages_company_ct_form_company_node_form_alter(&$form, &$form_sta
             $form['xml_data']['number_of_jobs']['#default_value'] = $xml_defaults['number_of_jobs'];
             $form['xml_data']['brands']['#default_value'] = $xml_defaults['brands'];
             $form['xml_data']['persons']['#default_value'] = $xml_defaults['persons'];
+            $form_state['storage']['xml_defaults'] = $xml_defaults;
           }
           else {
             $defaults = unserialize($defaults);
@@ -358,6 +358,7 @@ function yellow_pages_company_ct_form_company_node_form_alter(&$form, &$form_sta
             $form['xml_data']['number_of_jobs']['#default_value'] = $defaults['number_of_jobs'];
             $form['xml_data']['brands']['#default_value'] = $defaults['brands'];
             $form['xml_data']['persons']['#default_value'] = $defaults['persons'];
+            $form_state['storage']['xml_defaults'] = $defaults;
           }
         }
       }
@@ -370,8 +371,12 @@ function yellow_pages_company_ct_form_company_node_form_alter(&$form, &$form_sta
  */
 function yellow_pages_company_ct_company_edit_submit(&$form, &$form_state) {
   global $user;
+
+  $input = $form_state['input'];
   $node = $form['#node'];
-  // Artificialy prepare product fields for custom saving.
+  $xml_defaults = $form_state['storage']['xml_defaults'];
+
+  // Artificially prepare product fields for custom saving.
   yellow_pages_company_ct_field_presave('', '', '', '', '', $form_state['values']['field_products'][LANGUAGE_NONE]);
 
   // Create new node object from $form values.
@@ -390,25 +395,36 @@ function yellow_pages_company_ct_company_edit_submit(&$form, &$form_state) {
     ))
     ->execute();
 
-  $input = $form_state['input'];
-
   $header = array(
     t('Field'),
-    t('Value')
+    t('Value'),
   );
 
-  $rows = array();
+  // Inline method to compare values.
+  // Note: mention that array parameters are given to fapi render(),
+  // so don't try to compare generic arrays.
+  $_field_label = function($label, $new_value, $old_value) {
+    $new_value = is_array($new_value) ? render($new_value) : $new_value;
+    $old_value = is_array($old_value) ? render($old_value) : $old_value;
 
+    if ($new_value !== $old_value) {
+      return '<span style="background-color: #ff9933;">' . $label . '</span>';
+    }
+
+    return $label;
+  };
+
+  $rows = array();
   // Title.
-  $rows[] = array(t('Title') . ': ', $input['title']);
+  $rows[] = array($_field_label(t('Title'), $input['title'], $node->title) . ': ', $input['title']);
 
   // Custom fields.
-  $rows[] = array(t('IDNO') . ': ', $input['xml_data']['idno']);
-  $rows[] = array(t('TVA') . ': ', (boolean) $input['xml_data']['tva'] ? t('Yes') : t('No'));
-  $rows[] = array(t('Year of foundation') . ': ', $input['xml_data']['creation_year']);
-  $rows[] = array(t('Number of jobs') . ': ', $input['xml_data']['number_of_jobs']);
-  $rows[] = array(t('Brands') . ': ', $input['xml_data']['brands']);
-  $rows[] = array(t('Persons') . ': ', $input['xml_data']['persons']);
+  $rows[] = array($_field_label(t('IDNO'), $input['xml_data']['idno'], $xml_defaults['idno']) . ': ', $input['xml_data']['idno']);
+  $rows[] = array($_field_label(t('TVA'), (boolean) $input['xml_data']['tva'], (boolean) $xml_defaults['tva']) . ': ', (boolean) $input['xml_data']['tva'] ? t('Yes') : t('No'));
+  $rows[] = array($_field_label(t('Year of foundation'), $input['xml_data']['creation_year'], $xml_defaults['creation_year']) . ': ', $input['xml_data']['creation_year']);
+  $rows[] = array($_field_label(t('Number of jobs'), $input['xml_data']['number_of_jobs'], $xml_defaults['number_of_jobs']) . ': ', $input['xml_data']['number_of_jobs']);
+  $rows[] = array($_field_label(t('Brands'), $input['xml_data']['brands'], $xml_defaults['brands']) . ': ', $input['xml_data']['brands']);
+  $rows[] = array($_field_label(t('Persons'), $input['xml_data']['persons'], $xml_defaults['persons']) . ': ', $input['xml_data']['persons']);
 
   $fields = array(
     'field_company_site',
@@ -421,14 +437,18 @@ function yellow_pages_company_ct_company_edit_submit(&$form, &$form_state) {
   );
 
   foreach ($fields as $field) {
-    $field_info = field_info_instance('node', $field, 'company');
-    $field_view = field_view_field('node', $new_node, $field, array('label' => 'hidden'));
-    $label = i18n_field_translate_property($field_info, 'label');
+    $new_field_info = field_info_instance('node', $field, 'company');
+    $new_field_view = field_view_field('node', $new_node, $field, array('label' => 'hidden'));
+    $old_field_view = field_view_field('node', $node, $field, array('label' => 'hidden'));
 
-    $rows[] = array($label . ': ', render($field_view));
+    $label = i18n_field_translate_property($new_field_info, 'label');
+
+    $label = $_field_label($label, $new_field_view, $old_field_view);
+
+    $rows[] = array($label . ': ', render($new_field_view));
   }
 
-  $changes_markup = theme('table', array('header' => $header, 'rows' => $rows, 'empty' => '', 'attributes' => array('border' => 1, 'border-collapse' => 'collapse')));
+  $changes_markup = theme('table', array('header' => $header, 'rows' => $rows, 'empty' => ''));
 
   $new_node->company_diff = $changes_markup;
 

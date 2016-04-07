@@ -38,6 +38,18 @@ function yellow_pages_core_form_system_site_information_settings_alter(&$form, &
 }
 
 /**
+ * Implements hook_form_FORM_ID_alter().
+ *
+ * Adds a password reset link.
+ */
+function yellow_pages_core_form_user_login_alter(&$form, &$form_state) {
+  $form['pass_reset'] = array(
+    '#type' => 'item',
+    '#markup' => l(t('Request new password'), 'user/password', array('attributes' => array('title' => t('Request new password via e-mail.')))),
+  );
+}
+
+/**
  * Implements hook_user_logout().
  */
 function yellow_pages_core_user_logout($account) {

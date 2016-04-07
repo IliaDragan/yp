@@ -4,6 +4,8 @@
  * Core functionality, not suitable to be specifically placed anywhere else.
  */
 
+include_once 'yellow_pages_core.fields.inc';
+
 /**
  * Implements hook_menu().
  */

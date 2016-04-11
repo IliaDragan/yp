@@ -10,6 +10,43 @@
 function yellow_pages_permissions_field_default_field_instances() {
   $field_instances = array();
 
+  // Exported field_instance: 'user-user-field_edit_information'.
+  $field_instances['user-user-field_edit_information'] = array(
+    'bundle' => 'user',
+    'default_value' => array(
+      0 => array(
+        'value' => 0,
+      ),
+    ),
+    'deleted' => 0,
+    'description' => '',
+    'display' => array(
+      'default' => array(
+        'label' => 'above',
+        'module' => 'list',
+        'settings' => array(),
+        'type' => 'list_default',
+        'weight' => 2,
+      ),
+    ),
+    'entity_type' => 'user',
+    'field_name' => 'field_edit_information',
+    'label' => 'Edit information',
+    'required' => 0,
+    'settings' => array(
+      'user_register_form' => 0,
+    ),
+    'widget' => array(
+      'active' => 1,
+      'module' => 'options',
+      'settings' => array(
+        'display_label' => 1,
+      ),
+      'type' => 'options_onoff',
+      'weight' => 7,
+    ),
+  );
+
   // Exported field_instance: 'user-user-field_edit_pricelist'.
   $field_instances['user-user-field_edit_pricelist'] = array(
     'bundle' => 'user',
@@ -55,7 +92,7 @@ function yellow_pages_permissions_field_default_field_instances() {
         'year_range' => '-3:+3',
       ),
       'type' => 'date_popup',
-      'weight' => 12,
+      'weight' => 8,
     ),
   );
 
@@ -92,12 +129,13 @@ function yellow_pages_permissions_field_default_field_instances() {
         'size' => 60,
       ),
       'type' => 'entityreference_autocomplete',
-      'weight' => 11,
+      'weight' => 6,
     ),
   );
 
   // Translatables
   // Included for use with string extractors like potx.
+  t('Edit information');
   t('Edit pricelist');
   t('Related company');
 

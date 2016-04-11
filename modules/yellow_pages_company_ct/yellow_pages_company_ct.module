@@ -220,7 +220,6 @@ function yellow_pages_company_ct_form_company_node_form_alter(&$form, &$form_sta
       );
 
       $hidden = array(
-        'body',
         'language',
         'field_media_materials',
         'field_company_logo',
@@ -238,15 +237,17 @@ function yellow_pages_company_ct_form_company_node_form_alter(&$form, &$form_sta
         'field_region',
       );
 
+      if (empty($user->field_edit_information[LANGUAGE_NONE][0]['value'])) {
+        $hidden[] = 'body';
+      }
+
       foreach ($hidden as $v) {
         $form[$v]['#access'] = FALSE;
       }
 
       // Price list field permission.
       $access = TRUE;
-      $user->field_edit_pricelist['und'][0]['value'];
-      $user->field_edit_pricelist['und'][0]['value2'];
-      if (empty($user->field_edit_pricelist['und'][0]['value']) || empty($user->field_edit_pricelist['und'][0]['value2'])) {
+      if (empty($user->field_edit_pricelist[LANGUAGE_NONE][0]['value']) || empty($user->field_edit_pricelist[LANGUAGE_NONE][0]['value2'])) {
         $access = FALSE;
       }
       else {
@@ -427,6 +428,7 @@ function yellow_pages_company_ct_company_edit_submit(&$form, &$form_state) {
   $rows[] = array($_field_label(t('Persons'), $input['xml_data']['persons'], $xml_defaults['persons']) . ': ', $input['xml_data']['persons']);
 
   $fields = array(
+    'body',
     'field_company_site',
     'field_email',
     'field_products',

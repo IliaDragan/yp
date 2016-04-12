@@ -54,7 +54,7 @@ function yellow_pages_permissions_field_default_field_instances() {
     'description' => '',
     'display' => array(
       'default' => array(
-        'label' => 'inline',
+        'label' => 'above',
         'module' => 'date',
         'settings' => array(
           'format_type' => 'beautiful',
@@ -106,10 +106,8 @@ function yellow_pages_permissions_field_default_field_instances() {
       'default' => array(
         'label' => 'above',
         'module' => 'entityreference',
-        'settings' => array(
-          'link' => 1,
-        ),
-        'type' => 'entityreference_label',
+        'settings' => array(),
+        'type' => 'entityreference_entity_id',
         'weight' => 0,
       ),
     ),

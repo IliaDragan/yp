@@ -58,6 +58,7 @@ features[user_permission][] = download own audio files
 features[user_permission][] = download own document files
 features[user_permission][] = download own image files
 features[user_permission][] = download own video files
+features[user_permission][] = edit any company content
 features[user_permission][] = edit own audio files
 features[user_permission][] = edit own comments
 features[user_permission][] = edit own document files

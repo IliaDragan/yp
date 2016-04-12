@@ -572,8 +572,16 @@ function yellow_pages_company_ct_entity_view($entity, $entity_type, $view_mode, 
 function yellow_pages_company_ct_form_user_profile_form_alter(&$form, &$form_state) {
   $account = $form['#user'];
   $access = user_access('edit related companies', $account) && user_access('add related companies to user');
-  $form['field_related_company']['#access'] = $access;
-  $form['field_edit_pricelist']['#access'] = $access;
+
+  $fields_access = array(
+    'field_related_company',
+    'field_edit_pricelist',
+    'field_edit_information',
+  );
+
+  foreach ($fields_access as $field) {
+    $form[$field]['#access'] = $access;
+  }
 }
 
 /**
@@ -731,6 +739,8 @@ function yellow_pages_preprocess_user_profile(&$variables) {
   $profile = &$variables['user_profile'];
 
   hide($profile['mimemail']);
+  hide($profile['field_edit_information']);
+  hide($profile['field_related_company']);
 
   $profile['username'] = array(
     '#markup' => '<div class="field field-label-inline clearfix"><div class="field-label">' . t('User name') . ':&nbsp;</div><div class="field-items">' . $variables['elements']['#account']->name . '</div></div>',
@@ -743,14 +753,10 @@ function yellow_pages_preprocess_user_profile(&$variables) {
   $profile['field_edit_pricelist']['#weight'] = 3;
   $profile['field_edit_pricelist']['#title'] = t('You can edit pricelist');
 
-  // Add company links.
-  $profile['field_related_company']['#title'] = t('Companies which you can edit');
-  $profile['field_related_company']['#weight'] = 4;
-
   global $language;
   $links = array();
   if (isset($profile['field_related_company']['#items']) && is_array($profile['field_related_company']['#items'])) {
-    foreach ($profile['field_related_company']['#items'] as $key => &$item) {
+    foreach ($profile['field_related_company']['#items'] as $key => $item) {
       $tnid = $item['entity']->tnid;
       $nids = yellow_pages_core_node_get_translation_nids($tnid);
       $nid = $nids[$language->language];
@@ -760,11 +766,16 @@ function yellow_pages_preprocess_user_profile(&$variables) {
         l($node->title, 'node/' . $nid),
         l(t('Edit'), 'company/' . $nid . '/edit'),
       );
-
-      $profile['field_related_company'][$key]['#markup'] = theme('table', array('rows' => $links));
     }
-  }
 
+    $profile['field_related_company_edit_list'] = array(
+      '#prefix' => '<div class="field"><div class="field-label"><strong>' . t('Companies which you can edit:') . '</strong></div>',
+      '#suffix' => '</div>',
+      '#type' => 'item',
+      '#markup' => theme('table', array('rows' => $links)),
+      '#weight' => 4,
+    );
+  }
 
   $profile['summary']['#weight'] = 5;
 }

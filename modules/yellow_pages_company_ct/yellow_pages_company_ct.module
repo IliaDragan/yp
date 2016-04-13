@@ -237,29 +237,38 @@ function yellow_pages_company_ct_form_company_node_form_alter(&$form, &$form_sta
         'field_region',
       );
 
-      if (empty($user->field_edit_information[LANGUAGE_NONE][0]['value'])) {
-        $hidden[] = 'body';
+      $date_access_fields = array(
+        'body' => 'field_edit_information',
+        'field_price_list' => 'field_edit_pricelist',
+      );
+
+      foreach ($date_access_fields as $node_field => $user_field) {
+        if (!isset($form[$node_field]) || !isset($user->{$user_field})) {
+          continue;
+        }
+
+        $access = TRUE;
+        if (empty($user->{$user_field}[LANGUAGE_NONE][0]['value']) || empty($user->{$user_field}[LANGUAGE_NONE][0]['value2'])) {
+          $access = FALSE;
+        }
+        else {
+          $time = strtotime($user->{$user_field}['und'][0]['value']);
+          $time2 = strtotime($user->{$user_field}['und'][0]['value2']);
+          $limit = time();
+          $limit2 = strtotime('-1 day');
+          if ($time > $limit || $time2 < $limit2) {
+            $access = FALSE;
+          }
+        }
+
+        if (!$access) {
+          $hidden[] = $node_field;
+        }
       }
 
       foreach ($hidden as $v) {
         $form[$v]['#access'] = FALSE;
       }
-
-      // Price list field permission.
-      $access = TRUE;
-      if (empty($user->field_edit_pricelist[LANGUAGE_NONE][0]['value']) || empty($user->field_edit_pricelist[LANGUAGE_NONE][0]['value2'])) {
-        $access = FALSE;
-      }
-      else {
-        $time = strtotime($user->field_edit_pricelist['und'][0]['value']);
-        $time2 = strtotime($user->field_edit_pricelist['und'][0]['value2']);
-        $limit = time();
-        $limit2 = strtotime('-1 day');
-        if ($time > $limit || $time2 < $limit2) {
-          $access = FALSE;
-        }
-      }
-      $form['field_price_list']['#access'] = $access;
 
       // Additional fields for changing by enterprise editor.
       if ($eid = yellow_pages_sync_get_eid_by_nid($form['#node']->nid)) {
@@ -758,7 +767,7 @@ function yellow_pages_preprocess_user_profile(&$variables) {
   );
 
   $profile['field_edit_information']['#title'] = t('You can edit information');
-  $profile['field_edit_pricelist']['#title'] = t('You can edit pricelist');
+  $profile['field_edit_pricelist']['#title'] = t('You can edit price-lists');
 
   global $language;
   $links = array();

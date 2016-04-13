@@ -17,22 +17,26 @@ function yellow_pages_permissions_field_default_field_bases() {
     'deleted' => 0,
     'entity_types' => array(),
     'field_name' => 'field_edit_information',
-    'indexes' => array(
-      'value' => array(
-        0 => 'value',
-      ),
-    ),
+    'indexes' => array(),
     'locked' => 0,
-    'module' => 'list',
+    'module' => 'date',
     'settings' => array(
-      'allowed_values' => array(
-        0 => '',
-        1 => '',
+      'cache_count' => 4,
+      'cache_enabled' => 0,
+      'granularity' => array(
+        'day' => 'day',
+        'hour' => 0,
+        'minute' => 0,
+        'month' => 'month',
+        'second' => 0,
+        'year' => 'year',
       ),
-      'allowed_values_function' => '',
+      'timezone_db' => '',
+      'todate' => 'required',
+      'tz_handling' => 'none',
     ),
     'translatable' => 0,
-    'type' => 'list_boolean',
+    'type' => 'datetime',
   );
 
   // Exported field_base: 'field_edit_pricelist'.

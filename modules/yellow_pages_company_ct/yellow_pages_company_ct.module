@@ -740,7 +740,6 @@ function yellow_pages_preprocess_user_profile(&$variables) {
 
   $hide_fields = array(
     'mimemail',
-    'field_edit_information',
     'field_related_company',
     'summary',
   );
@@ -753,13 +752,12 @@ function yellow_pages_preprocess_user_profile(&$variables) {
 
   $profile['username'] = array(
     '#markup' => '<div class="field field-label-inline clearfix"><div class="field-label">' . t('User name') . ':&nbsp;</div><div class="field-items">' . $variables['elements']['#account']->name . '</div></div>',
-    '#weight' => 1,
   );
   $profile['user_email'] = array(
     '#markup' => '<div class="field field-label-inline clearfix"><div class="field-label">' . t('User e-mail') . ':&nbsp;</div><div class="field-items">' . $variables['elements']['#account']->init . '</div></div>',
-    '#weight' => 2,
   );
-  $profile['field_edit_pricelist']['#weight'] = 3;
+
+  $profile['field_edit_information']['#title'] = t('You can edit information');
   $profile['field_edit_pricelist']['#title'] = t('You can edit pricelist');
 
   global $language;
@@ -782,11 +780,9 @@ function yellow_pages_preprocess_user_profile(&$variables) {
       '#suffix' => '</div>',
       '#type' => 'item',
       '#markup' => theme('table', array('rows' => $links)),
-      '#weight' => 4,
+      '#weight' => 99,
     );
   }
-
-  $profile['summary']['#weight'] = 5;
 }
 
 /**

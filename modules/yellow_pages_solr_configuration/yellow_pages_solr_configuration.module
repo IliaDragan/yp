@@ -195,11 +195,11 @@ function yellow_pages_solr_configuration_search_api_solr_query_alter(array &$cal
 
   $keys = $query->getKeys();
   $conjunction = $keys['#conjunction'];
-  $call_args['query'] = preg_replace("/(\".{1,2}\"\sAND\s)|(\sAND\s?\".{1,2}\")/u", "", $call_args['query']);
-
-
-  $call_args['query'] = preg_replace("/\"%2f\"\sAND\s/", "", $call_args['query']);
-
+  // Moved to solr schema.xml.
+//  $call_args['query'] = preg_replace("/(\".{1,2}\"\sAND\s)|(\sAND\s?\".{1,2}\")/u", "", $call_args['query']);
+//
+//
+//  $call_args['query'] = preg_replace("/\"%2f\"\sAND\s/", "", $call_args['query']);
 
   $tokens = explode(" $conjunction ", $call_args['query']);
 
@@ -246,6 +246,7 @@ function yellow_pages_solr_configuration_search_api_solr_documents_alter(array &
     $content_type = $document->getField('ss_type');
 
     if ($content_type['value'] === 'company') {
+      /* TERM INDEX */
       $term_ids = $document->getField('im_field_products$product');
 
       if (isset($term_ids['value']) && is_array($term_ids['value'])) {
@@ -267,6 +268,29 @@ function yellow_pages_solr_configuration_search_api_solr_documents_alter(array &
           }
         }
       }
+      /* END TERM INDEX */
+
+      /* TITLE INDEX */
+      $nid_field = $document->getField('is_nid');
+      $title_field = $document->getField('tm_title');
+      $nid = $nid_field['value'];
+
+      $result = db_query('select n2.title from {node} n2 where n2.tnid = (select n1.tnid from node n1 where n1.nid = :nid)', array(':nid' => $nid))->fetchCol();
+
+      if (!empty($result)) {
+        $result = array_map(function($v) {
+          $v = mb_strtolower($v);
+
+          return $v;
+        }, $result);
+
+        foreach ($result as $title) {
+          if (!in_array($title, $title_field['value'])) {
+            $document->addField('tm_title', $title);
+          }
+        }
+      }
+      /* END TITLE INDEX */
     }
   }
 }

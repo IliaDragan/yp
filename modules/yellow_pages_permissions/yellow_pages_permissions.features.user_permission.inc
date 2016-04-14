@@ -289,6 +289,16 @@ function yellow_pages_permissions_user_default_permissions() {
     'module' => 'file_entity',
   );
 
+  // Exported permission: 'edit any company content'.
+  $permissions['edit any company content'] = array(
+    'name' => 'edit any company content',
+    'roles' => array(
+      'administrator' => 'administrator',
+      'global editor' => 'global editor',
+    ),
+    'module' => 'node',
+  );
+
   // Exported permission: 'edit own audio files'.
   $permissions['edit own audio files'] = array(
     'name' => 'edit own audio files',

@@ -7,10 +7,10 @@
 (function($, Drupal) {
   Drupal.behaviors.yp_geomap = {
     attach: function (context) {
-      $('.addressfield-popup-map').click(function() {
-        var nid = $(this).attr('data-nid');
+      $('.address-coordinates').click(function() {
+        var coordinates = $(this).attr('data-coordinates');
 
-        window.open('/node/' + nid + '/geomap');
+        window.open('https://www.google.com/maps/place/' + coordinates + '/@' + coordinates + ',17z');
       });
     }
   }

@@ -191,19 +191,38 @@ function yellow_pages_company_ct_form_company_node_form_alter(&$form, &$form_sta
     if (user_access('edit related companies') && $user->uid != 1) {
       $user = user_load($user->uid);
 
+      $form['agreement_check'] = array(
+        '#type' => 'checkbox',
+        '#title' => t('Accept agreement'),
+        '#weight' => 97,
+      );
+
+      $form['agreement_text'] = array(
+        '#type' => 'textarea',
+        '#weight' => 98,
+        '#default_value' => '', // @todo
+        '#attributes' => array(
+          'readonly' => 'readonly',
+        ),
+      );
+
       // Override form submit function.
       $form['submit'] = array(
         '#type' => 'submit',
         '#value' => t('Save'),
         '#weight' => 99,
         '#submit' => array('yellow_pages_company_ct_company_edit_submit'),
+        '#states' => array(
+          'enabled' => array(
+            ':input[name="agreement_check"]' => array('checked' => TRUE),
+          ),
+        ),
       );
 
 //      drupal_add_css(drupal_get_path('theme', 'yellow_pages') .'/css/company.form.css');
       $form['#attached']['css'][] = drupal_get_path('theme', 'yellow_pages') . '/css/company.form.css';
 
       $hidden = array(
-        'body',
         'language',
         'field_media_materials',
         'field_company_logo',
@@ -221,27 +240,38 @@ function yellow_pages_company_ct_form_company_node_form_alter(&$form, &$form_sta
         'field_region',
       );
 
+      $date_access_fields = array(
+        'body' => 'field_edit_information',
+        'field_price_list' => 'field_edit_pricelist',
+      );
+
+      foreach ($date_access_fields as $node_field => $user_field) {
+        if (!isset($form[$node_field]) || !isset($user->{$user_field})) {
+          continue;
+        }
+
+        $access = TRUE;
+        if (empty($user->{$user_field}[LANGUAGE_NONE][0]['value']) || empty($user->{$user_field}[LANGUAGE_NONE][0]['value2'])) {
+          $access = FALSE;
+        }
+        else {
+          $time = strtotime($user->{$user_field}['und'][0]['value']);
+          $time2 = strtotime($user->{$user_field}['und'][0]['value2']);
+          $limit = time();
+          $limit2 = strtotime('-1 day');
+          if ($time > $limit || $time2 < $limit2) {
+            $access = FALSE;
+          }
+        }
+
+        if (!$access) {
+          $hidden[] = $node_field;
+        }
+      }
+
       foreach ($hidden as $v) {
         $form[$v]['#access'] = FALSE;
       }
-
-      // Price list field permission.
-      $access = TRUE;
-      $user->field_edit_pricelist['und'][0]['value'];
-      $user->field_edit_pricelist['und'][0]['value2'];
-      if (empty($user->field_edit_pricelist['und'][0]['value']) || empty($user->field_edit_pricelist['und'][0]['value2'])) {
-        $access = FALSE;
-      }
-      else {
-        $time = strtotime($user->field_edit_pricelist['und'][0]['value']);
-        $time2 = strtotime($user->field_edit_pricelist['und'][0]['value2']);
-        $limit = time();
-        $limit2 = strtotime('-1 day');
-        if ($time > $limit || $time2 < $limit2) {
-          $access = FALSE;
-        }
-      }
-      $form['field_price_list']['#access'] = $access;
 
       // Additional fields for changing by enterprise editor.
       if ($eid = yellow_pages_sync_get_eid_by_nid($form['#node']->nid)) {
@@ -322,7 +352,6 @@ function yellow_pages_company_ct_form_company_node_form_alter(&$form, &$form_sta
             }
           }
           $xml_defaults['persons'] = implode("\n", $persons);
-          $form_state['storage']['xml_defaults'] = $xml_defaults;
 
           // Set default values from xml if first change.
           if (empty($defaults)) {
@@ -332,6 +361,7 @@ function yellow_pages_company_ct_form_company_node_form_alter(&$form, &$form_sta
             $form['xml_data']['number_of_jobs']['#default_value'] = $xml_defaults['number_of_jobs'];
             $form['xml_data']['brands']['#default_value'] = $xml_defaults['brands'];
             $form['xml_data']['persons']['#default_value'] = $xml_defaults['persons'];
+            $form_state['storage']['xml_defaults'] = $xml_defaults;
           }
           else {
             $defaults = unserialize($defaults);
@@ -341,6 +371,7 @@ function yellow_pages_company_ct_form_company_node_form_alter(&$form, &$form_sta
             $form['xml_data']['number_of_jobs']['#default_value'] = $defaults['number_of_jobs'];
             $form['xml_data']['brands']['#default_value'] = $defaults['brands'];
             $form['xml_data']['persons']['#default_value'] = $defaults['persons'];
+            $form_state['storage']['xml_defaults'] = $defaults;
           }
         }
       }
@@ -353,8 +384,12 @@ function yellow_pages_company_ct_form_company_node_form_alter(&$form, &$form_sta
  */
 function yellow_pages_company_ct_company_edit_submit(&$form, &$form_state) {
   global $user;
+
+  $input = $form_state['input'];
   $node = $form['#node'];
-  // Artificialy prepare product fields for custom saving.
+  $xml_defaults = $form_state['storage']['xml_defaults'];
+
+  // Artificially prepare product fields for custom saving.
   yellow_pages_company_ct_field_presave('', '', '', '', '', $form_state['values']['field_products'][LANGUAGE_NONE]);
 
   // Create new node object from $form values.
@@ -373,27 +408,39 @@ function yellow_pages_company_ct_company_edit_submit(&$form, &$form_state) {
     ))
     ->execute();
 
-  $input = $form_state['input'];
-
   $header = array(
     t('Field'),
-    t('Value')
+    t('Value'),
   );
 
-  $rows = array();
+  // Inline method to compare values.
+  // Note: mention that array parameters are given to fapi render(),
+  // so don't try to compare generic arrays.
+  $_field_label = function($label, $new_value, $old_value) {
+    $new_value = is_array($new_value) ? render($new_value) : $new_value;
+    $old_value = is_array($old_value) ? render($old_value) : $old_value;
 
+    if ($new_value !== $old_value) {
+      return '<span style="background-color: #ff9933;">' . $label . '</span>';
+    }
+
+    return $label;
+  };
+
+  $rows = array();
   // Title.
-  $rows[] = array(t('Title') . ': ', $input['title']);
+  $rows[] = array($_field_label(t('Title'), $input['title'], $node->title) . ': ', $input['title']);
 
   // Custom fields.
-  $rows[] = array(t('IDNO') . ': ', $input['xml_data']['idno']);
-  $rows[] = array(t('TVA') . ': ', (boolean) $input['xml_data']['tva'] ? t('Yes') : t('No'));
-  $rows[] = array(t('Year of foundation') . ': ', $input['xml_data']['creation_year']);
-  $rows[] = array(t('Number of jobs') . ': ', $input['xml_data']['number_of_jobs']);
-  $rows[] = array(t('Brands') . ': ', $input['xml_data']['brands']);
-  $rows[] = array(t('Persons') . ': ', $input['xml_data']['persons']);
+  $rows[] = array($_field_label(t('IDNO'), $input['xml_data']['idno'], $xml_defaults['idno']) . ': ', $input['xml_data']['idno']);
+  $rows[] = array($_field_label(t('TVA'), (boolean) $input['xml_data']['tva'], (boolean) $xml_defaults['tva']) . ': ', (boolean) $input['xml_data']['tva'] ? t('Yes') : t('No'));
+  $rows[] = array($_field_label(t('Year of foundation'), $input['xml_data']['creation_year'], $xml_defaults['creation_year']) . ': ', $input['xml_data']['creation_year']);
+  $rows[] = array($_field_label(t('Number of jobs'), $input['xml_data']['number_of_jobs'], $xml_defaults['number_of_jobs']) . ': ', $input['xml_data']['number_of_jobs']);
+  $rows[] = array($_field_label(t('Brands'), $input['xml_data']['brands'], $xml_defaults['brands']) . ': ', $input['xml_data']['brands']);
+  $rows[] = array($_field_label(t('Persons'), $input['xml_data']['persons'], $xml_defaults['persons']) . ': ', $input['xml_data']['persons']);
 
   $fields = array(
+    'body',
     'field_company_site',
     'field_email',
     'field_products',
@@ -404,14 +451,18 @@ function yellow_pages_company_ct_company_edit_submit(&$form, &$form_state) {
   );
 
   foreach ($fields as $field) {
-    $field_info = field_info_instance('node', $field, 'company');
-    $field_view = field_view_field('node', $new_node, $field, array('label' => 'hidden'));
-    $label = i18n_field_translate_property($field_info, 'label');
+    $new_field_info = field_info_instance('node', $field, 'company');
+    $new_field_view = field_view_field('node', $new_node, $field, array('label' => 'hidden'));
+    $old_field_view = field_view_field('node', $node, $field, array('label' => 'hidden'));
 
-    $rows[] = array($label . ': ', render($field_view));
+    $label = i18n_field_translate_property($new_field_info, 'label');
+
+    $label = $_field_label($label, $new_field_view, $old_field_view);
+
+    $rows[] = array($label . ': ', render($new_field_view));
   }
 
-  $changes_markup = theme('table', array('header' => $header, 'rows' => $rows, 'empty' => '', 'attributes' => array('border' => 1, 'border-collapse' => 'collapse')));
+  $changes_markup = theme('table', array('header' => $header, 'rows' => $rows, 'empty' => ''));
 
   $new_node->company_diff = $changes_markup;
 
@@ -533,8 +584,16 @@ function yellow_pages_company_ct_entity_view($entity, $entity_type, $view_mode, 
 function yellow_pages_company_ct_form_user_profile_form_alter(&$form, &$form_state) {
   $account = $form['#user'];
   $access = user_access('edit related companies', $account) && user_access('add related companies to user');
-  $form['field_related_company']['#access'] = $access;
-  $form['field_edit_pricelist']['#access'] = $access;
+
+  $fields_access = array(
+    'field_related_company',
+    'field_edit_pricelist',
+    'field_edit_information',
+  );
+
+  foreach ($fields_access as $field) {
+    $form[$field]['#access'] = $access;
+  }
 }
 
 /**
@@ -691,27 +750,32 @@ function yellow_pages_company_ct_theme($existing, $type, $theme, $path) {
 function yellow_pages_preprocess_user_profile(&$variables) {
   $profile = &$variables['user_profile'];
 
-  hide($profile['mimemail']);
+  $hide_fields = array(
+    'mimemail',
+    'field_related_company',
+    'summary',
+  );
+
+  foreach ($hide_fields as $field) {
+    if (isset($profile[$field])) {
+      hide($profile[$field]);
+    }
+  }
 
   $profile['username'] = array(
     '#markup' => '<div class="field field-label-inline clearfix"><div class="field-label">' . t('User name') . ':&nbsp;</div><div class="field-items">' . $variables['elements']['#account']->name . '</div></div>',
-    '#weight' => 1,
   );
   $profile['user_email'] = array(
     '#markup' => '<div class="field field-label-inline clearfix"><div class="field-label">' . t('User e-mail') . ':&nbsp;</div><div class="field-items">' . $variables['elements']['#account']->init . '</div></div>',
-    '#weight' => 2,
   );
-  $profile['field_edit_pricelist']['#weight'] = 3;
-  $profile['field_edit_pricelist']['#title'] = t('You can edit pricelist');
 
-  // Add company links.
-  $profile['field_related_company']['#title'] = t('Companies which you can edit');
-  $profile['field_related_company']['#weight'] = 4;
+  $profile['field_edit_information']['#title'] = t('You can edit information');
+  $profile['field_edit_pricelist']['#title'] = t('You can edit price-lists');
 
   global $language;
   $links = array();
   if (isset($profile['field_related_company']['#items']) && is_array($profile['field_related_company']['#items'])) {
-    foreach ($profile['field_related_company']['#items'] as $key => &$item) {
+    foreach ($profile['field_related_company']['#items'] as $key => $item) {
       $tnid = $item['entity']->tnid;
       $nids = yellow_pages_core_node_get_translation_nids($tnid);
       $nid = $nids[$language->language];
@@ -721,13 +785,16 @@ function yellow_pages_preprocess_user_profile(&$variables) {
         l($node->title, 'node/' . $nid),
         l(t('Edit'), 'company/' . $nid . '/edit'),
       );
-
-      $profile['field_related_company'][$key]['#markup'] = theme('table', array('rows' => $links));
     }
+
+    $profile['field_related_company_edit_list'] = array(
+      '#prefix' => '<div class="field"><div class="field-label"><strong>' . t('Companies which you can edit:') . '</strong></div>',
+      '#suffix' => '</div>',
+      '#type' => 'item',
+      '#markup' => theme('table', array('rows' => $links)),
+      '#weight' => 99,
+    );
   }
-
-
-  $profile['summary']['#weight'] = 5;
 }
 
 /**

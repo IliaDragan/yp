@@ -31,3 +31,11 @@
   cursor: pointer;
 }
 
+.form-type-item {
+  margin-bottom: 25px;
+}
+
+.address-coordinates {
+  cursor: pointer;
+  text-decoration: underline;
+}

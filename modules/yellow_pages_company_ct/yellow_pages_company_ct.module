@@ -199,6 +199,9 @@ function yellow_pages_company_ct_form_company_node_form_alter(&$form, &$form_sta
         '#submit' => array('yellow_pages_company_ct_company_edit_submit'),
       );
 
+//      drupal_add_css(drupal_get_path('theme', 'yellow_pages') .'/css/company.form.css');
+      $form['#attached']['css'][] = drupal_get_path('theme', 'yellow_pages') . '/css/company.form.css';
+
       $hidden = array(
         'body',
         'language',

@@ -2,9 +2,6 @@
   display: none;
 }
 
-.frontpage-header .activity-banner {
-  display: none;
-}
 
 .company-content ul.field-type-yp-product li {
   font-size: 11px;
@@ -24,3 +21,13 @@
 .pane-yellow-pages-core-adsense-300-250 .pane-content {
   padding: 0px!important;
 }
+
+.addressfield-popup-map {
+  color: #19AA67
+}
+
+.addressfield-popup-map:hover {
+  text-decoration: underline;
+  cursor: pointer;
+}
+

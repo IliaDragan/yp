@@ -151,8 +151,9 @@
         WordDelim parts) are removed.
         -->
     <fieldType name="text" class="solr.TextField" positionIncrementGap="100">
-      <analyzer type="index">
+      <analyzer>
         <charFilter class="solr.MappingCharFilterFactory" mapping="mapping-FoldToASCII.txt"/>
+        <charFilter class="solr.PatternReplaceCharFilterFactory" pattern="[^\p{L}\s-\/0-9]" replacement="" />
         <tokenizer class="solr.PatternTokenizerFactory" pattern="(\s|,|\/)"/>
         <filter class="solr.TrimFilterFactory"/>
         <filter class="solr.WordDelimiterFilterFactory"
@@ -169,20 +170,9 @@
                 affix="dic/ru/ru_RU.aff"
                 ignoreCase="true"
                 strictAffixParsing="true" />
-        <filter class="solr.LengthFilterFactory" min="3" max="100" />
+        <filter class="solr.LengthFilterFactory" min="2" max="100" />
         <filter class="solr.LowerCaseFilterFactory"/>
         <filter class="solr.RemoveDuplicatesTokenFilterFactory"/>
-      </analyzer>
-      <analyzer type="query">
-        <charFilter class="solr.MappingCharFilterFactory" mapping="mapping-FoldToASCII.txt"/>
-        <tokenizer class="solr.WhitespaceTokenizerFactory"/>
-        <filter class="solr.LengthFilterFactory" min="3" max="100" />
-        <filter class="solr.HunspellStemFilterFactory"
-                dictionary="dic/ru/ru_RU.dic"
-                affix="dic/ru/ru_RU.aff"
-                ignoreCase="true"
-                strictAffixParsing="true" />
-        <filter class="solr.LowerCaseFilterFactory"/>
       </analyzer>
     </fieldType>
 
@@ -213,7 +203,8 @@
     <fieldType name="text_part" class="solr.TextField" positionIncrementGap="100">
       <analyzer type="index">
         <charFilter class="solr.MappingCharFilterFactory" mapping="mapping-FoldToASCII.txt"/>
-        <tokenizer class="solr.NGramTokenizerFactory" minGramSize="3" maxGramSize="20"/>
+        <charFilter class="solr.PatternReplaceCharFilterFactory" pattern="[^\p{L}\s-0-9]" replacement="" />
+        <tokenizer class="solr.EdgeNGramTokenizerFactory" minGramSize="3" maxGramSize="8"/>
         <filter class="solr.TrimFilterFactory"/>
         <filter class="solr.WordDelimiterFilterFactory"
                 protected="protwords.txt"
@@ -230,6 +221,7 @@
       </analyzer>
       <analyzer type="query">
         <charFilter class="solr.MappingCharFilterFactory" mapping="mapping-FoldToASCII.txt"/>
+        <charFilter class="solr.PatternReplaceCharFilterFactory" pattern="[^\p{L}\s-\/0-9]" replacement="" />
         <tokenizer class="solr.WhitespaceTokenizerFactory"/>
         <filter class="solr.WordDelimiterFilterFactory"
                 protected="protwords.txt"
@@ -239,7 +231,7 @@
                 catenateNumbers="0"
                 catenateAll="0"
                 splitOnCaseChange="0"
-                preserveOriginal="1"/>
+                preserveOriginal="0"/>
         <filter class="solr.LengthFilterFactory" min="3" max="100" />
         <filter class="solr.LowerCaseFilterFactory"/>
         <filter class="solr.RemoveDuplicatesTokenFilterFactory"/>        
@@ -389,7 +381,7 @@
 
     <field name="textChunk" type="text_part" indexed="true" stored="true" multiValued="true"/>
     <copyField source="tm_title" dest="textChunk"/>
-    <copyField source="tm_field_products*" dest="textChunk"/>
+    <!--<copyField source="tm_field_products*" dest="textChunk"/>-->
 
     <field name="textUri" type="text_uri" indexed="true" stored="true" multiValued="true"/>
     <copyField source="tm_field_email" dest="textUri"/>

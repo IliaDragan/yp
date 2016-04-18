@@ -46,6 +46,14 @@ function yellow_pages_company_ct_menu() {
     'type' => MENU_CALLBACK,
   );
 
+  $menu['admin/config/yp/company_settings'] = array(
+    'title' => 'Company settings',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('yellow_pages_company_ct_settings_form'),
+    'access arguments' => array('administer yellow pages company settings'),
+    'file' => 'yellow_pages_company_ct.admin.inc',
+  );
+
   return $menu;
 }
 
@@ -99,6 +107,11 @@ function yellow_pages_company_ct_permission() {
   $perm['send request for create company editor'] =  array(
     'title' => t('Send request for create company editor'),
     'description' => t('Allow users to request company editor creation by sending personal data to global editor.'),
+  );
+
+  $perm['administer yellow pages company settings'] =  array(
+    'title' => t('Administer yellow pages company settings'),
+    'description' => t('Allow users to administer settings for company content type module.'),
   );
 
   return $perm;
@@ -204,19 +217,11 @@ function yellow_pages_company_ct_form_company_node_form_alter(&$form, &$form_sta
     if (user_access('edit related companies') && $user->uid != 1) {
       $user = user_load($user->uid);
 
+      $agreement_link = variable_get('user_agreement_page_link', '');
       $form['agreement_check'] = array(
         '#type' => 'checkbox',
-        '#title' => t('Accept agreement'),
+        '#title' => l(t('I accept the user agreement'), $agreement_link),
         '#weight' => 97,
-      );
-
-      $form['agreement_text'] = array(
-        '#type' => 'textarea',
-        '#weight' => 98,
-        '#default_value' => '', // @todo
-        '#attributes' => array(
-          'readonly' => 'readonly',
-        ),
       );
 
       // Override form submit function.

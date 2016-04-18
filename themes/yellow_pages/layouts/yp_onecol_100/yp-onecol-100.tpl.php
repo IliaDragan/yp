@@ -27,9 +27,9 @@
           <div class="activity-banner">
             <?php global $base_url; ?>
             <img src="<?php print $base_url; ?>/profiles/yp/themes/yellow_pages/images/notebook.png" alt="">
-            <h5><?php print t('Introducing mybook') ?></h4>
+            <h5><?php print t('Introducing mybook') ?></h5>
             <p><?php print t('Add business contacts and notes, and get things done anywhere!') ?></p>
-            <a href="/user/login" class="button"><span class="fa fa-bookmark"></span><?php print t('Start adding to ') ?><b><?php print t('mybook') ?></b></a>
+            <a href="/user-register" class="button"><span class="fa fa-bookmark"></span><?php print t('Start adding to ') ?><b><?php print t('mybook') ?></b></a>
           </div>
         </div>
       </div>

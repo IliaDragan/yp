@@ -9,6 +9,11 @@ projects[addressfield][subdir] = "contrib"
 projects[admin_views][version] = "1.5"
 projects[admin_views][subdir] = "contrib"
 
+projects[captcha][version] = "1.3"
+projects[captcha][subdir] = "contrib"
+; https://www.drupal.org/node/2462479
+projects[captcha][patch][] = "https://www.drupal.org/files/issues/captcha-7.x-1.x-fix_missing_image-2462479-5.patch"
+
 projects[ckeditor][version] = "1.16"
 projects[ckeditor][subdir] = "contrib"
 

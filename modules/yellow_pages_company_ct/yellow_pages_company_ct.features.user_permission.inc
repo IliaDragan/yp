@@ -68,6 +68,16 @@ function yellow_pages_company_ct_user_default_permissions() {
     'module' => 'forward',
   );
 
+  // Exported permission: 'send request for create company editor'.
+  $permissions['send request for create company editor'] = array(
+    'name' => 'send request for create company editor',
+    'roles' => array(
+      'anonymous user' => 'anonymous user',
+      'authenticated user' => 'authenticated user',
+    ),
+    'module' => 'yellow_pages_company_ct',
+  );
+
   // Exported permission: 'use PHP for service visibility'.
   $permissions['use PHP for service visibility'] = array(
     'name' => 'use PHP for service visibility',

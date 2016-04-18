@@ -3129,25 +3129,6 @@ body > .node-advertisement {
 }
 
 /* AdSense styles*/
-.front .region-content .yp-onecol-100-layout .container .col-sm-12 {
-  text-align: center;
-}
-.front .region-content .yp-onecol-100-layout .container .col-sm-12 #adsense-front-468-60-left,
-.front .region-content .yp-onecol-100-layout .container .col-sm-12 #adsense-front-468-60-right {
-  display: inline-block;
-  height: 60px;
-  margin: 20px 15px 0;
-  padding: 0;
-  width: 468px;
-}
-.front .region-content .yp-onecol-100-layout .container .col-sm-12 #adsense-front-468-60-left .pane-content,
-.front .region-content .yp-onecol-100-layout .container .col-sm-12 #adsense-front-468-60-right .pane-content {
-  height: 100%;
-  margin: 0;
-  padding: 0;
-  width: 100%;
-}
-
 #adsense-search-300-250,
 #adsense-company-300-250 {
   background: 0;
@@ -3170,6 +3151,25 @@ body > .node-advertisement {
   width: 728px;
 }
 .adsense-news-728-90 .pane-content {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+}
+
+.front .region-content .yp-onecol-100-layout .container .col-sm-12 {
+  text-align: center;
+}
+.front .region-content .yp-onecol-100-layout .container .col-sm-12 #adsense-front-468-60-left,
+.front .region-content .yp-onecol-100-layout .container .col-sm-12 #adsense-front-468-60-right {
+  display: inline-block;
+  height: 60px;
+  margin: 20px 15px 0;
+  padding: 0;
+  width: 468px;
+}
+.front .region-content .yp-onecol-100-layout .container .col-sm-12 #adsense-front-468-60-left .pane-content,
+.front .region-content .yp-onecol-100-layout .container .col-sm-12 #adsense-front-468-60-right .pane-content {
   height: 100%;
   margin: 0;
   padding: 0;

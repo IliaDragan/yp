@@ -3244,6 +3244,18 @@ body > .node-advertisement {
 #company-node-form .vertical-tabs .vertical-tabs-panes fieldset legend {
   display: none;
 }
+#company-node-form #edit-field-price-list #edit-field-price-list-und-table thead {
+  display: none;
+}
+#company-node-form #edit-field-price-list #edit-field-price-list-und-table tbody .tabledrag-handle {
+  display: none;
+}
+#company-node-form #edit-field-price-list #edit-field-price-list-und-table tbody .ctools-modal-media-file-edit {
+  display: none;
+}
+#company-node-form .text-format-wrapper .filter-wrapper {
+  display: none;
+}
 #company-node-form .tabledrag-toggle-weight-wrapper {
   display: none;
 }

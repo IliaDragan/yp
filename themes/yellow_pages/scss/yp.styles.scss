@@ -2948,7 +2948,24 @@ body > .node-advertisement {
       }
     }
   }
-
+  #edit-field-price-list {
+    #edit-field-price-list-und-table {
+      thead {
+        display: none;
+      }
+      tbody {
+        .tabledrag-handle {
+          display: none;
+        }
+        .ctools-modal-media-file-edit {
+          display: none;
+        }
+      }
+    }
+  }
+  .text-format-wrapper .filter-wrapper {
+    display: none;
+  }
   .tabledrag-toggle-weight-wrapper {
     display: none;
   }

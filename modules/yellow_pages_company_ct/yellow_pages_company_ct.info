@@ -38,7 +38,7 @@ dependencies[] = yellow_pages_company_ct
 dependencies[] = yellow_pages_core
 dependencies[] = yellow_pages_news_ct
 dependencies[] = yellow_pages_taxonomy
-explanation = Field type(s) in use - see <a href="/rus/admin/reports/fields">Field list</a>
+explanation = Field type(s) in use - see <a href="/eng/admin/reports/fields">Field list</a>
 features[captcha_points][] = yellow_pages_company_ct_user_register_form
 features[ckeditor_profile][] = Full
 features[ctools][] = captcha:captcha:1

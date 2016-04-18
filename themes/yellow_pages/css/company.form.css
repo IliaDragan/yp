@@ -1,0 +1,7 @@
+
+
+.node-company-form tr.draggable td.field-multiple-drag,
+.node-company-form .field-name-field-company-views,
+.node-company-form .tabledrag-toggle-weight-wrapper {
+ display: none;
+}

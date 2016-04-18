@@ -1263,7 +1263,7 @@ function yellow_pages_company_ct_field_default_field_instances() {
     ),
     'entity_type' => 'node',
     'field_name' => 'field_price_list',
-    'label' => 'Price list',
+    'label' => 'Price-lists',
     'required' => 0,
     'settings' => array(
       'file_extensions' => 'xls xlsx pdf',
@@ -1288,7 +1288,6 @@ function yellow_pages_company_ct_field_default_field_instances() {
           'media_default--media_browser_my_files' => 'media_default--media_browser_my_files',
           'media_internet' => 0,
           'upload' => 'upload',
-          'youtube' => 0,
         ),
       ),
       'type' => 'media_generic',
@@ -1504,7 +1503,7 @@ function yellow_pages_company_ct_field_default_field_instances() {
   t('MDB sync date');
   t('Media materials');
   t('Mobile phone');
-  t('Price list');
+  t('Price-lists');
   t('Products');
   t('Region');
   t('Site URL');

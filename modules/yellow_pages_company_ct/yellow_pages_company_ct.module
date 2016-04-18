@@ -46,6 +46,14 @@ function yellow_pages_company_ct_menu() {
     'type' => MENU_CALLBACK,
   );
 
+  $menu['admin/config/yp/company_settings'] = array(
+    'title' => 'Company settings',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('yellow_pages_company_ct_settings_form'),
+    'access arguments' => array('administer yellow pages company settings'),
+    'file' => 'yellow_pages_company_ct.admin.inc',
+  );
+
   return $menu;
 }
 
@@ -99,6 +107,11 @@ function yellow_pages_company_ct_permission() {
   $perm['send request for create company editor'] =  array(
     'title' => t('Send request for create company editor'),
     'description' => t('Allow users to request company editor creation by sending personal data to global editor.'),
+  );
+
+  $perm['administer yellow pages company settings'] =  array(
+    'title' => t('Administer yellow pages company settings'),
+    'description' => t('Allow users to administer settings for company content type module.'),
   );
 
   return $perm;
@@ -204,19 +217,11 @@ function yellow_pages_company_ct_form_company_node_form_alter(&$form, &$form_sta
     if (user_access('edit related companies') && $user->uid != 1) {
       $user = user_load($user->uid);
 
+      $agreement_link = variable_get('user_agreement_page_link', '');
       $form['agreement_check'] = array(
         '#type' => 'checkbox',
-        '#title' => t('Accept agreement'),
+        '#title' => l(t('I accept the user agreement'), $agreement_link),
         '#weight' => 97,
-      );
-
-      $form['agreement_text'] = array(
-        '#type' => 'textarea',
-        '#weight' => 98,
-        '#default_value' => '', // @todo
-        '#attributes' => array(
-          'readonly' => 'readonly',
-        ),
       );
 
       // Override form submit function.
@@ -268,8 +273,8 @@ function yellow_pages_company_ct_form_company_node_form_alter(&$form, &$form_sta
           $access = FALSE;
         }
         else {
-          $time = strtotime($user->{$user_field}['und'][0]['value']);
-          $time2 = strtotime($user->{$user_field}['und'][0]['value2']);
+          $time = strtotime($user->{$user_field}[LANGUAGE_NONE][0]['value']);
+          $time2 = strtotime($user->{$user_field}[LANGUAGE_NONE][0]['value2']);
           $limit = time();
           $limit2 = strtotime('-1 day');
           if ($time > $limit || $time2 < $limit2) {
@@ -778,9 +783,6 @@ function yellow_pages_preprocess_user_profile(&$variables) {
   $profile['username'] = array(
     '#markup' => '<div class="field field-label-inline clearfix"><div class="field-label">' . t('User name') . ':&nbsp;</div><div class="field-items">' . $variables['elements']['#account']->name . '</div></div>',
   );
-  $profile['user_email'] = array(
-    '#markup' => '<div class="field field-label-inline clearfix"><div class="field-label">' . t('User e-mail') . ':&nbsp;</div><div class="field-items">' . $variables['elements']['#account']->init . '</div></div>',
-  );
 
   $profile['field_edit_information']['#title'] = t('You can edit information');
   $profile['field_edit_pricelist']['#title'] = t('You can edit price-lists');
@@ -887,12 +889,30 @@ function yellow_pages_company_ct_user_register_form_validate($form, &$form_state
  */
 function yellow_pages_company_ct_user_register_form_submit(&$form, &$form_state) {
   $params = $form_state['values'];
-  $role = user_role_load_by_name('global editor');
+
+  // Create inactive user.
+  $password = user_password(8);
+  $ee_role = user_role_load_by_name('enterprise editor');
+
+  $fields = array(
+    'name' => $params['email'],
+    'mail' => $params['email'],
+    'pass' => $password,
+    'status' => 0,
+    'init' => $params['email'],
+    'roles' => array(
+      $ee_role->rid => 'enterprise editor',
+    ),
+  );
+  user_save('', $fields);
+
+  // Inform global editor about user creation.
+  $ge_role = user_role_load_by_name('global editor');
 
   $query = 'SELECT DISTINCT(ur.uid)
   FROM {users_roles} AS ur
   WHERE ur.rid IN (:rids)';
-  $result = db_query($query, array(':rids' => $role->rid));
+  $result = db_query($query, array(':rids' => $ge_role->rid));
 
   $uids = $result->fetchCol();
 

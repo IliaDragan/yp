@@ -27,8 +27,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
-"POT-Creation-Date: 2016-04-18 18:08+0300\n"
-"PO-Revision-Date: 2016-04-18 18:08+0300\n"
+"POT-Creation-Date: 2016-04-19 01:55+0300\n"
+"PO-Revision-Date: 2016-04-19 01:55+0300\n"
 "Last-Translator: NAME <EMAIL@ADDRESS>\n"
 "Language-Team: Romanian <EMAIL@ADDRESS>\n"
 "MIME-Version: 1.0\n"
@@ -86,7 +86,7 @@ msgstr "Căutare"
 
 #: layouts/yp_onecol_100/yp-onecol-100.tpl.php:30
 msgid "Check information about your company."
-msgstr "Verificați informațiile despre compania dumneavoastră."
+msgstr "Verificați informația despre compania Dvs."
 
 #: layouts/yp_onecol_100/yp-onecol-100.tpl.php:31
 msgid "Registration"

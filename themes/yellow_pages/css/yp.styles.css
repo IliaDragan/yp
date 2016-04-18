@@ -3129,25 +3129,6 @@ body > .node-advertisement {
 }
 
 /* AdSense styles*/
-.front .region-content .yp-onecol-100-layout .container .col-sm-12 {
-  text-align: center;
-}
-.front .region-content .yp-onecol-100-layout .container .col-sm-12 #adsense-front-468-60-left,
-.front .region-content .yp-onecol-100-layout .container .col-sm-12 #adsense-front-468-60-right {
-  display: inline-block;
-  height: 60px;
-  margin: 20px 15px 0;
-  padding: 0;
-  width: 468px;
-}
-.front .region-content .yp-onecol-100-layout .container .col-sm-12 #adsense-front-468-60-left .pane-content,
-.front .region-content .yp-onecol-100-layout .container .col-sm-12 #adsense-front-468-60-right .pane-content {
-  height: 100%;
-  margin: 0;
-  padding: 0;
-  width: 100%;
-}
-
 #adsense-search-300-250,
 #adsense-company-300-250 {
   background: 0;
@@ -3170,6 +3151,25 @@ body > .node-advertisement {
   width: 728px;
 }
 .adsense-news-728-90 .pane-content {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+}
+
+.front .region-content .yp-onecol-100-layout .container .col-sm-12 {
+  text-align: center;
+}
+.front .region-content .yp-onecol-100-layout .container .col-sm-12 #adsense-front-468-60-left,
+.front .region-content .yp-onecol-100-layout .container .col-sm-12 #adsense-front-468-60-right {
+  display: inline-block;
+  height: 60px;
+  margin: 20px 15px 0;
+  padding: 0;
+  width: 468px;
+}
+.front .region-content .yp-onecol-100-layout .container .col-sm-12 #adsense-front-468-60-left .pane-content,
+.front .region-content .yp-onecol-100-layout .container .col-sm-12 #adsense-front-468-60-right .pane-content {
   height: 100%;
   margin: 0;
   padding: 0;
@@ -3242,6 +3242,24 @@ body > .node-advertisement {
   padding: 6px 15px;
 }
 #company-node-form .vertical-tabs .vertical-tabs-panes fieldset legend {
+  display: none;
+}
+#company-node-form #edit-field-price-list #edit-field-price-list-und-table thead {
+  display: none;
+}
+#company-node-form #edit-field-price-list #edit-field-price-list-und-table tbody .tabledrag-handle {
+  display: none;
+}
+#company-node-form #edit-field-price-list #edit-field-price-list-und-table tbody .ctools-modal-media-file-edit {
+  display: none;
+}
+#company-node-form .text-format-wrapper .filter-wrapper {
+  display: none;
+}
+#company-node-form .tabledrag-toggle-weight-wrapper {
+  display: none;
+}
+#company-node-form .field-multiple-table tr.draggable td.field-multiple-drag {
   display: none;
 }
 #company-node-form .field-multiple-table td .tabledrag-handle .handle {

@@ -2844,6 +2844,7 @@ body > .node-advertisement {
     margin: 0;
     padding: 0;
     width: 100%;
+  }
 }
 
 .front .region-content .yp-onecol-100-layout .container .col-sm-12 {
@@ -2947,8 +2948,31 @@ body > .node-advertisement {
       }
     }
   }
-
+  #edit-field-price-list {
+    #edit-field-price-list-und-table {
+      thead {
+        display: none;
+      }
+      tbody {
+        .tabledrag-handle {
+          display: none;
+        }
+        .ctools-modal-media-file-edit {
+          display: none;
+        }
+      }
+    }
+  }
+  .text-format-wrapper .filter-wrapper {
+    display: none;
+  }
+  .tabledrag-toggle-weight-wrapper {
+    display: none;
+  }
   .field-multiple-table {
+    tr.draggable td.field-multiple-drag {
+      display: none;
+    }
     td {
       .tabledrag-handle {
         .handle {

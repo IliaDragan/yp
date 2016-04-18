@@ -1,3 +1,4 @@
+
 # $Id$
 #
 # Romanian translation of Drupal (general)
@@ -8,12 +9,13 @@
 #  js/yellow_pages.scripts.js: n/a
 #  layouts/yp_onecol_100/yp-onecol-100.tpl.php: n/a
 #  layouts/yp_onecol_100/yp_onecol_100.inc: n/a
+#  layouts/yp_threecol_25_50_25/yp_threecol_25_50_25.inc: n/a
 #  layouts/yp_twocol_25_75/yp_twocol_25_75.inc: n/a
 #  layouts/yp_twocol_stacked_75_25/yp_twocol_stacked_75_25.inc: n/a
 #  layouts/yp_twocol_75_25/yp_twocol_75_25.inc: n/a
 #  templates/html.tpl.php: n/a
-#  templates/mimemail-message.tpl.php: n/a
 #  templates/page--404.tpl.php: n/a
+#  templates/page--batch.tpl.php: n/a
 #  templates/page.tpl.php: n/a
 #  templates/node/node--article--slider-teaser.tpl.php: n/a
 #  templates/node/node--news--slider-teaser.tpl.php: n/a
@@ -21,27 +23,26 @@
 #  templates/node/node--company.tpl.php: n/a
 #  templates/node/node--news.tpl.php: n/a
 #
+#, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
-"POT-Creation-Date: 2015-10-27 10:15+0200\n"
-"PO-Revision-Date: 2015-10-27 10:22+0300\n"
+"POT-Creation-Date: 2016-04-18 18:08+0300\n"
+"PO-Revision-Date: 2016-04-18 18:08+0300\n"
 "Last-Translator: NAME <EMAIL@ADDRESS>\n"
 "Language-Team: Romanian <EMAIL@ADDRESS>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=((((n%10)==1)&&((n%100)!=11))?(0):(((((n"
-"%10)>=2)&&((n%10)<=4))&&(((n%100)<10)||((n%100)>=20)))?(1):2));\n"
-"X-Generator: Poedit 1.5.4\n"
+"Plural-Forms: nplurals=3; plural=((((n%10)==1)&&((n%100)!=11))?(0):(((((n%10)>=2)&&((n%10)<=4))&&(((n%100)<10)||((n%100)>=20)))?(1):2));\n"
 
-#: template.php:104
+#: template.php:188
 msgid "Menu"
 msgstr "Meniu"
 
-#: template.php:139
-msgid "Список всех ссылок"
-msgstr ""
+#: template.php:343
+msgid "Day off"
+msgstr "Zi liberă"
 
 #: yellow_pages.info:0
 msgid "Yellow Pages"
@@ -81,23 +82,15 @@ msgstr "Subsol"
 
 #: js/yellow_pages.scripts.js:0
 msgid "Facility search"
-msgstr ""
+msgstr "Căutare"
 
 #: layouts/yp_onecol_100/yp-onecol-100.tpl.php:30
-msgid "Introducing mybook"
-msgstr ""
+msgid "Check information about your company."
+msgstr "Verificați informațiile despre compania dumneavoastră."
 
 #: layouts/yp_onecol_100/yp-onecol-100.tpl.php:31
-msgid "Add business contacts and notes, and get things done anywhere!"
-msgstr ""
-
-#: layouts/yp_onecol_100/yp-onecol-100.tpl.php:32
-msgid "Start adding to "
-msgstr ""
-
-#: layouts/yp_onecol_100/yp-onecol-100.tpl.php:32
-msgid "mybook"
-msgstr ""
+msgid "Registration"
+msgstr "Înregistrare"
 
 #: layouts/yp_onecol_100/yp_onecol_100.inc:8
 msgid "One Column 100%"
@@ -107,16 +100,27 @@ msgstr ""
 msgid "Main"
 msgstr ""
 
+#: layouts/yp_threecol_25_50_25/yp_threecol_25_50_25.inc:8
+msgid "Three Column 25%-50%-25%"
+msgstr ""
+
+#: layouts/yp_threecol_25_50_25/yp_threecol_25_50_25.inc:14 layouts/yp_twocol_25_75/yp_twocol_25_75.inc:14
+msgid "Alpha 25"
+msgstr ""
+
+#: layouts/yp_threecol_25_50_25/yp_threecol_25_50_25.inc:15
+msgid "Beta 50"
+msgstr ""
+
+#: layouts/yp_threecol_25_50_25/yp_threecol_25_50_25.inc:16 layouts/yp_twocol_stacked_75_25/yp_twocol_stacked_75_25.inc:16
+msgid "Gamma 25"
+msgstr ""
+
 #: layouts/yp_twocol_25_75/yp_twocol_25_75.inc:8
 msgid "Two Column 25%-75%"
 msgstr ""
 
-#: layouts/yp_twocol_25_75/yp_twocol_25_75.inc:14
-msgid "Alpha 25"
-msgstr ""
-
-#: layouts/yp_twocol_25_75/yp_twocol_25_75.inc:15
-#: layouts/yp_twocol_stacked_75_25/yp_twocol_stacked_75_25.inc:15
+#: layouts/yp_twocol_25_75/yp_twocol_25_75.inc:15 layouts/yp_twocol_stacked_75_25/yp_twocol_stacked_75_25.inc:15
 msgid "Beta 75"
 msgstr ""
 
@@ -144,23 +148,11 @@ msgstr ""
 msgid "Alpha 100"
 msgstr ""
 
-#: layouts/yp_twocol_stacked_75_25/yp_twocol_stacked_75_25.inc:16
-msgid "Gamma 25"
-msgstr ""
-
-#: templates/html.tpl.php:71
+#: templates/html.tpl.php:85
 msgid "Skip to main content"
 msgstr "Mergi la conţinutul principal"
 
-#: templates/mimemail-message.tpl.php:36
-msgid "Social links:"
-msgstr "Rețele sociale:"
-
-#: templates/mimemail-message.tpl.php:56
-msgid "123 Stefan cel Mare str., Chisinau, Republic of Moldova"
-msgstr "str. Ștefan cel Mare 123, Chișinău, Republica Moldova"
-
-#: templates/page--404.tpl.php:80;81 templates/page.tpl.php:80;81
+#: templates/page--404.tpl.php:80;81 templates/page--batch.tpl.php:11;12 templates/page.tpl.php:80;81
 msgid "Home"
 msgstr "Acasă"
 
@@ -172,17 +164,15 @@ msgstr ""
 msgid "Запрашиваемая вами страница не найдена."
 msgstr ""
 
-#: templates/node/node--article--slider-teaser.tpl.php:104
-#: templates/node/node--news--slider-teaser.tpl.php:104
+#: templates/node/node--article--slider-teaser.tpl.php:104 templates/node/node--news--slider-teaser.tpl.php:104
 msgid "Read more"
 msgstr "Citiţi mai departe"
 
-#: templates/node/node--article.tpl.php:16
-#: templates/node/node--company.tpl.php:60
-#: templates/node/node--news.tpl.php:16
+#: templates/node/node--article.tpl.php:16 templates/node/node--company.tpl.php:60 templates/node/node--news.tpl.php:16
 msgid "Unpublished"
 msgstr ""
 
 #: templates/node/node--company.tpl.php:24
 msgid "Date of update: "
-msgstr ""
+msgstr "Data actualizării: "
+

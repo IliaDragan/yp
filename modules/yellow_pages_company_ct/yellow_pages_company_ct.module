@@ -838,12 +838,13 @@ function yellow_pages_company_ct_entity_sync_with_mdb($entity) {
  * Custom user register request form.
  */
 function yellow_pages_company_ct_user_register_form($form, &$form_state) {
+  $info = t('To get access to edit information is necessary to fill the following form. All fields are required.');
   $form['info'] = array(
-    '#markup' => '<div id="register-form-info">To get access to edit information is necessary to fill the following form. All fields are required.</div>',
+    '#markup' => '<div id="register-form-info">' . $info . '</div>',
   );
   $form['name'] = array(
     '#type' => 'textfield',
-    '#title' => t('Full name'),
+    '#title' => t('Your full name'),
     '#required' => TRUE,
     '#default_value' => '',
   );
@@ -924,7 +925,7 @@ function yellow_pages_company_ct_mail($key, &$message, $params) {
       $message['to'] = $params['to'];
       $message['subject'] = t('Request for enterprise editor creation');
       $message['body'][] = t('You have received the request for enterprise editor creation:', $body_t);
-      $message['body'][] = t('Full name: @name;', $body_t);
+      $message['body'][] = t('Full name: @name', $body_t);
       $message['body'][] = t('Email: @email', $body_t);
       $message['body'][] = t('Company name: @company_name', $body_t);
       break;

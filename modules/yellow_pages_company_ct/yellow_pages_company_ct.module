@@ -38,6 +38,14 @@ function yellow_pages_company_ct_menu() {
     'type' => MENU_CALLBACK,
   );
 
+  $menu['user-register'] = array(
+    'title' => 'Request for new account',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('yellow_pages_company_ct_user_register_form'),
+    'access arguments' => array('send request for create company editor'),
+    'type' => MENU_CALLBACK,
+  );
+
   return $menu;
 }
 
@@ -86,6 +94,11 @@ function yellow_pages_company_ct_permission() {
   $perm['add related companies to user'] =  array(
     'title' => t('Add related companies to user'),
     'description' => t('Allow users to add related companies to another users (works only if role has permission "Administer users").'),
+  );
+
+  $perm['send request for create company editor'] =  array(
+    'title' => t('Send request for create company editor'),
+    'description' => t('Allow users to request company editor creation by sending personal data to global editor.'),
   );
 
   return $perm;
@@ -818,5 +831,102 @@ function yellow_pages_company_ct_entity_sync_with_mdb($entity) {
     db_delete('company_node_changes')
       ->condition('nid', $entity->nid)
       ->execute();
+  }
+}
+
+/**
+ * Custom user register request form.
+ */
+function yellow_pages_company_ct_user_register_form($form, &$form_state) {
+  $form['info'] = array(
+    '#markup' => '<div id="register-form-info">To get access to edit information is necessary to fill the following form. All fields are required.</div>',
+  );
+  $form['name'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Full name'),
+    '#required' => TRUE,
+    '#default_value' => '',
+  );
+
+  $form['email'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Email'),
+    '#required' => TRUE,
+    '#default_value' => '',
+  );
+
+  $form['company_name'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Company name'),
+    '#required' => TRUE,
+    '#default_value' => '',
+  );
+
+  $form['send'] = array(
+    '#type' => 'submit',
+    '#value' => t('Send'),
+  );
+
+  return $form;
+}
+
+/**
+ * Validate function for custom user register request form.
+ */
+function yellow_pages_company_ct_user_register_form_validate($form, &$form_state) {
+  $values = $form_state['values'];
+
+  if (!valid_email_address($values['email'])) {
+    form_set_error('email', t('The email address is not valid.'));
+  }
+}
+
+/**
+ * Submit function for custom user register request form.
+ */
+function yellow_pages_company_ct_user_register_form_submit(&$form, &$form_state) {
+  $params = $form_state['values'];
+  $role = user_role_load_by_name('global editor');
+
+  $query = 'SELECT DISTINCT(ur.uid)
+  FROM {users_roles} AS ur
+  WHERE ur.rid IN (:rids)';
+  $result = db_query($query, array(':rids' => $role->rid));
+
+  $uids = $result->fetchCol();
+
+  $users = user_load_multiple($uids);
+
+  $to = '';
+  foreach ($users as $user) {
+    $to .= ', ' . $user->mail;
+  }
+
+  $params['to'] =  $to;
+  $dm = drupal_mail('yellow_pages_company_ct', 'yp_user_register', $to, language_default(), $params, NULL, TRUE);
+
+  if ($dm['result']) {
+    drupal_set_message(t('Thank you, we will contact you soon.'));
+  }
+}
+
+/**
+ * Implements hook_mail().
+ */
+function yellow_pages_company_ct_mail($key, &$message, $params) {
+  switch ($key) {
+    case 'yp_user_register':
+      $body_t = array(
+        '@name' => $params['name'],
+        '@email' => $params['email'],
+        '@company_name' => $params['company_name'],
+      );
+      $message['to'] = $params['to'];
+      $message['subject'] = t('Request for enterprise editor creation');
+      $message['body'][] = t('You have received the request for enterprise editor creation:', $body_t);
+      $message['body'][] = t('Full name: @name;', $body_t);
+      $message['body'][] = t('Email: @email', $body_t);
+      $message['body'][] = t('Company name: @company_name', $body_t);
+      break;
   }
 }

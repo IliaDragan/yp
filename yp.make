@@ -9,6 +9,11 @@ projects[addressfield][subdir] = "contrib"
 projects[admin_views][version] = "1.5"
 projects[admin_views][subdir] = "contrib"
 
+projects[captcha][version] = "1.3"
+projects[captcha][subdir] = "contrib"
+; https://www.drupal.org/node/2462479
+projects[captcha][patch][] = "https://www.drupal.org/files/issues/captcha-7.x-1.x-fix_missing_image-2462479-5.patch"
+
 projects[ckeditor][version] = "1.16"
 projects[ckeditor][subdir] = "contrib"
 
@@ -177,7 +182,7 @@ projects[bootstrap][version] = "3.0"
 libraries[fontawesome][destination]    = "libraries"
 libraries[fontawesome][directory_name] = "fontawesome"
 libraries[fontawesome][download][type] = "get"
-libraries[fontawesome][download][url]  = "http://fortawesome.github.io/Font-Awesome/assets/font-awesome-4.6.0.zip"
+libraries[fontawesome][download][url]  = "http://fortawesome.github.io/Font-Awesome/assets/font-awesome-4.6.1.zip"
 
 libraries[leaflet][destination]    = "libraries"
 libraries[leaflet][directory_name] = "leaflet"

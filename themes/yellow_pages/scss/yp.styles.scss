@@ -2949,7 +2949,13 @@ body > .node-advertisement {
     }
   }
 
+  .tabledrag-toggle-weight-wrapper {
+    display: none;
+  }
   .field-multiple-table {
+    tr.draggable td.field-multiple-drag {
+      display: none;
+    }
     td {
       .tabledrag-handle {
         .handle {

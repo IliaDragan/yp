@@ -3244,6 +3244,12 @@ body > .node-advertisement {
 #company-node-form .vertical-tabs .vertical-tabs-panes fieldset legend {
   display: none;
 }
+#company-node-form .tabledrag-toggle-weight-wrapper {
+  display: none;
+}
+#company-node-form .field-multiple-table tr.draggable td.field-multiple-drag {
+  display: none;
+}
 #company-node-form .field-multiple-table td .tabledrag-handle .handle {
   background-position: 6px -14px;
   height: 22px;

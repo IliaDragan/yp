@@ -273,8 +273,8 @@ function yellow_pages_company_ct_form_company_node_form_alter(&$form, &$form_sta
           $access = FALSE;
         }
         else {
-          $time = strtotime($user->{$user_field}['und'][0]['value']);
-          $time2 = strtotime($user->{$user_field}['und'][0]['value2']);
+          $time = strtotime($user->{$user_field}[LANGUAGE_NONE][0]['value']);
+          $time2 = strtotime($user->{$user_field}[LANGUAGE_NONE][0]['value2']);
           $limit = time();
           $limit2 = strtotime('-1 day');
           if ($time > $limit || $time2 < $limit2) {

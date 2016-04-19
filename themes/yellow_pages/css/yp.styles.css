@@ -3253,6 +3253,9 @@ body > .node-advertisement {
 #company-node-form #edit-field-price-list #edit-field-price-list-und-table tbody .ctools-modal-media-file-edit {
   display: none;
 }
+#company-node-form .form-item-agreement-check {
+  margin: 25px 0;
+}
 #company-node-form .text-format-wrapper .filter-wrapper {
   display: none;
 }

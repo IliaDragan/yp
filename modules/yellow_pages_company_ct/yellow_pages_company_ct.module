@@ -413,6 +413,11 @@ function yellow_pages_company_ct_company_edit_submit(&$form, &$form_state) {
   // Create new node object from $form values.
   $new_node = node_form_submit_build_node($form, $form_state);
 
+  // Save price-lists and body.
+  $node->field_price_list = $new_node->field_price_list;
+  $node->body = $new_node->body;
+  field_attach_update('node', $node);
+
   // Insert current state of node into table as temporary storage.
   db_merge('company_node_changes')
     ->key(array(
@@ -458,7 +463,6 @@ function yellow_pages_company_ct_company_edit_submit(&$form, &$form_state) {
   $rows[] = array($_field_label(t('Persons'), $input['xml_data']['persons'], $xml_defaults['persons']) . ': ', $input['xml_data']['persons']);
 
   $fields = array(
-    'body',
     'field_company_site',
     'field_email',
     'field_products',

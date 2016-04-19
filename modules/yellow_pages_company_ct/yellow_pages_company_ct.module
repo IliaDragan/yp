@@ -177,16 +177,12 @@ function yellow_pages_company_ct_form_company_node_form_alter(&$form, &$form_sta
   }
 
   $form['field_business_hours']['#access'] = FALSE;
+  $business_hours_vars = array();
   if (!empty($form['field_business_hours']['und'][0]['value']['#default_value'])) {
     $hours = $form['field_business_hours']['und'][0]['value']['#default_value'];
-    $vars = array(
+    $business_hours_vars = array(
       'hours' => unserialize($hours),
       'weekday' => date('l'),
-    );
-    $title = t('Business hours');
-    $form['field_business_hours_info'] = array(
-      '#markup' => '<h3>' . $title . '</h3>' . theme('business_hours', $vars),
-      '#weight' => 50,
     );
   }
 
@@ -217,6 +213,61 @@ function yellow_pages_company_ct_form_company_node_form_alter(&$form, &$form_sta
     if (user_access('edit related companies') && $user->uid != 1) {
       $user = user_load($user->uid);
 
+      // Business hours form.
+
+      $business_hours_defaults = array();
+      if (!empty($business_hours_vars['hours'])) {
+        foreach ($business_hours_vars['hours'] as $day_info) {
+          $business_hours_defaults[$day_info['day']] = $day_info;
+        }
+      }
+      //var_dump($business_hours_defaults);die;
+      $form['business_hours'] = array(
+        '#title' => t('Business hours'),
+        '#type' => 'fieldset',
+      );
+      $weekdays = yellow_pages_core_get_weekdays();
+      $day_hours = yellow_pages_core_get_day_hours();
+      $day_hours = array('None' => t('None')) + $day_hours;
+      foreach ($weekdays as $day => $weekday) {
+        $is_working_day = FALSE;
+        $start = 'None';
+        $end = 'None';
+
+        if (!empty($business_hours_defaults[$day]['start']) && !empty($business_hours_defaults[$day]['end']) && $business_hours_defaults[$day]['end'] != 'None' && $business_hours_defaults[$day]['start'] != 'None') {
+          $is_working_day = TRUE;
+          $start = $business_hours_defaults[$day]['start'];
+          $end = $business_hours_defaults[$day]['end'];
+        }
+
+        $form['business_hours'][$day] = array(
+          '#type' => 'fieldset',
+          '#title' => $weekday,
+          '#tree' => TRUE,
+          '#attributes' => array(
+            'class' => array('edit-weekday', 'clearfix'),
+          ),
+        );
+        $form['business_hours'][$day]['is_working_day'] = array(
+          '#type' => 'checkbox',
+          '#title' => ' ',
+          '#default_value' => $is_working_day,
+        );
+        $form['business_hours'][$day]['start'] = array(
+          '#type' => 'select',
+          '#title' => '',
+          '#options' => $day_hours,
+          '#default_value' => $start,
+        );
+        $form['business_hours'][$day]['end'] = array(
+          '#type' => 'select',
+          '#title' => '',
+          '#options' => $day_hours,
+          '#default_value' => $end,
+        );
+      }
+
+      // Agreement checkbox.
       $agreement_link = variable_get('user_agreement_page_link_' . $language->language, '');
       $form['agreement_check'] = array(
         '#type' => 'checkbox',
@@ -394,6 +445,13 @@ function yellow_pages_company_ct_form_company_node_form_alter(&$form, &$form_sta
         }
       }
     }
+    else {
+      $title = t('Business hours');
+      $form['field_business_hours_info'] = array(
+        '#markup' => '<h3>' . $title . '</h3>' . theme('business_hours', $business_hours_vars),
+        '#weight' => 50,
+      );
+    }
   }
 }
 
@@ -402,6 +460,20 @@ function yellow_pages_company_ct_form_company_node_form_alter(&$form, &$form_sta
  */
 function yellow_pages_company_ct_company_edit_submit(&$form, &$form_state) {
   global $user;
+
+  // Serialize working hours.
+  $hours = array();
+  $weekdays = yellow_pages_core_get_weekdays();
+  foreach ($weekdays as $day => $weekday) {
+    $hours[] = array(
+      'day' => $day,
+      'start' => $form_state['input'][$day]['start'],
+      'end' => $form_state['input'][$day]['end'],
+    );
+  }
+  $hours = serialize($hours);
+  $form_state['input']['field_business_hours'][LANGUAGE_NONE][0]['value'] = $hours;
+  $form_state['values']['field_business_hours'][LANGUAGE_NONE][0]['value'] = $hours;
 
   $input = $form_state['input'];
   $node = $form['#node'];
@@ -470,6 +542,7 @@ function yellow_pages_company_ct_company_edit_submit(&$form, &$form_state) {
     'field_landline_phone',
     'field_fax',
     'field_mobile_phone',
+    'field_business_hours',
   );
 
   foreach ($fields as $field) {

@@ -159,7 +159,7 @@ function yellow_pages_company_ct_form_forward_form_alter(&$form, &$form_state) {
  * Implements hook_form_FORM_ID_alter().
  */
 function yellow_pages_company_ct_form_company_node_form_alter(&$form, &$form_state, $form_id) {
-  global $user;
+  global $user, $language;
 
   // Make sync date field readonly.
   $form['field_mdb_sync_date']['#disabled'] = TRUE;
@@ -217,7 +217,7 @@ function yellow_pages_company_ct_form_company_node_form_alter(&$form, &$form_sta
     if (user_access('edit related companies') && $user->uid != 1) {
       $user = user_load($user->uid);
 
-      $agreement_link = variable_get('user_agreement_page_link', '');
+      $agreement_link = variable_get('user_agreement_page_link_' . $language->language, '');
       $form['agreement_check'] = array(
         '#type' => 'checkbox',
         '#title' => l(t('I accept the user agreement'), $agreement_link),

@@ -46,6 +46,13 @@ function yellow_pages_company_ct_menu() {
     'type' => MENU_CALLBACK,
   );
 
+  $menu['user-register/notification'] = array(
+    'title' => 'User register notification',
+    'page callback' => 'yellow_pages_company_ct_user_register_form_notification',
+    'access arguments' => array('send request for create company editor'),
+    'type' => MENU_CALLBACK,
+  );
+
   $menu['admin/config/yp/company_settings'] = array(
     'title' => 'Company settings',
     'page callback' => 'drupal_get_form',
@@ -677,6 +684,24 @@ function yellow_pages_company_ct_entity_view($entity, $entity_type, $view_mode, 
  *   "Edit related companies".
  */
 function yellow_pages_company_ct_form_user_profile_form_alter(&$form, &$form_state) {
+  global $user;
+  if ($user->uid != 1) {
+    // Hide some fields for non admin user.
+    $fields = array(
+      'mimemail',
+      'timezone',
+      'ckeditor',
+    );
+    foreach ($fields as $field) {
+      $form[$field]['#access'] = FALSE;
+    }
+  }
+  // Translate roles in user edit form.
+  if (!empty($form['account']['roles']['#options'])) {
+    foreach($form['account']['roles']['#options'] as &$option) {
+      $option = t($option);
+    }
+  }
   $account = $form['#user'];
   $access = user_access('edit related companies', $account) && user_access('add related companies to user');
 
@@ -981,31 +1006,43 @@ function yellow_pages_company_ct_user_register_form_submit(&$form, &$form_state)
       $ee_role->rid => 'enterprise editor',
     ),
   );
-  user_save('', $fields);
+  $user = user_save('', $fields);
 
-  // Inform global editor about user creation.
-  $ge_role = user_role_load_by_name('global editor');
+  if (!empty($user)) {
+    // Inform global editor about user creation.
+    $ge_role = user_role_load_by_name('global editor');
 
-  $query = 'SELECT DISTINCT(ur.uid)
-  FROM {users_roles} AS ur
-  WHERE ur.rid IN (:rids)';
-  $result = db_query($query, array(':rids' => $ge_role->rid));
+    $query = 'SELECT DISTINCT(ur.uid)
+      FROM {users_roles} AS ur
+      WHERE ur.rid IN (:rids)';
+    $result = db_query($query, array(':rids' => $ge_role->rid));
 
-  $uids = $result->fetchCol();
+    $uids = $result->fetchCol();
 
-  $users = user_load_multiple($uids);
+    $users = user_load_multiple($uids);
 
-  $to = '';
-  foreach ($users as $user) {
-    $to .= ', ' . $user->mail;
+    $to = '';
+    foreach ($users as $user) {
+      $to .= ', ' . $user->mail;
+    }
+
+    $params['to'] =  $to;
+    $dm = drupal_mail('yellow_pages_company_ct', 'yp_user_register', $to, language_default(), $params, NULL, TRUE);
+
+    if ($dm['result']) {
+      drupal_goto('user-register/notification');
+    }
   }
-
-  $params['to'] =  $to;
-  $dm = drupal_mail('yellow_pages_company_ct', 'yp_user_register', $to, language_default(), $params, NULL, TRUE);
-
-  if ($dm['result']) {
-    drupal_set_message(t('Thank you, we will contact you soon.'));
+  else {
+    drupal_set_message(t('Something went wrong. Please contact site administrator.'));
   }
+}
+
+/**
+ * Notification message page for custom user register request form.
+ */
+function yellow_pages_company_ct_user_register_form_notification() {
+  return '<h1>' . t('Thank you, we will contact you soon.') . '</h1>';
 }
 
 /**

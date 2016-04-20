@@ -684,6 +684,24 @@ function yellow_pages_company_ct_entity_view($entity, $entity_type, $view_mode, 
  *   "Edit related companies".
  */
 function yellow_pages_company_ct_form_user_profile_form_alter(&$form, &$form_state) {
+  global $user;
+  if ($user->uid != 1) {
+    // Hide some fields for non admin user.
+    $fields = array(
+      'mimemail',
+      'timezone',
+      'ckeditor',
+    );
+    foreach ($fields as $field) {
+      $form[$field]['#access'] = FALSE;
+    }
+  }
+  // Translate roles in user edit form.
+  if (!empty($form['account']['roles']['#options'])) {
+    foreach($form['account']['roles']['#options'] as &$option) {
+      $option = t($option);
+    }
+  }
   $account = $form['#user'];
   $access = user_access('edit related companies', $account) && user_access('add related companies to user');
 

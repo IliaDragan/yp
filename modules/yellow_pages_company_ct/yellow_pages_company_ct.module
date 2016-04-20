@@ -166,6 +166,7 @@ function yellow_pages_company_ct_form_forward_form_alter(&$form, &$form_state) {
  * Implements hook_form_FORM_ID_alter().
  */
 function yellow_pages_company_ct_form_company_node_form_alter(&$form, &$form_state, $form_id) {
+
   global $user, $language;
 
   // Make sync date field readonly.
@@ -221,14 +222,13 @@ function yellow_pages_company_ct_form_company_node_form_alter(&$form, &$form_sta
       $user = user_load($user->uid);
 
       // Business hours form.
-
       $business_hours_defaults = array();
       if (!empty($business_hours_vars['hours'])) {
         foreach ($business_hours_vars['hours'] as $day_info) {
           $business_hours_defaults[$day_info['day']] = $day_info;
         }
       }
-      //var_dump($business_hours_defaults);die;
+
       $form['business_hours'] = array(
         '#title' => t('Business hours'),
         '#type' => 'fieldset',
@@ -294,9 +294,6 @@ function yellow_pages_company_ct_form_company_node_form_alter(&$form, &$form_sta
           ),
         ),
       );
-
-//      drupal_add_css(drupal_get_path('theme', 'yellow_pages') .'/css/company.form.css');
-      $form['#attached']['css'][] = drupal_get_path('theme', 'yellow_pages') . '/css/company.form.css';
 
       $hidden = array(
         'language',
@@ -483,7 +480,8 @@ function yellow_pages_company_ct_company_edit_submit(&$form, &$form_state) {
   $form_state['values']['field_business_hours'][LANGUAGE_NONE][0]['value'] = $hours;
 
   $input = $form_state['input'];
-  $node = $form['#node'];
+  // Load old node from bd, because $form['#node'] is last modified node value.
+  $node = node_load($form['#node']->nid);
   $xml_defaults = $form_state['storage']['xml_defaults'];
 
   // Artificially prepare product fields for custom saving.

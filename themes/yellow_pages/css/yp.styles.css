@@ -3274,6 +3274,38 @@ body > .node-advertisement {
 #company-node-form .field-multiple-table td div {
   margin: 0;
 }
+#company-node-form #edit-business-hours {
+  margin: 20px 0;
+}
+#company-node-form #edit-business-hours legend {
+  display: block;
+  width: auto;
+}
+#company-node-form #edit-business-hours .edit-weekday {
+  border: none;
+  padding: 5px;
+}
+#company-node-form #edit-business-hours .edit-weekday legend {
+  display: block;
+  float: left;
+  font-size: 18px;
+  margin: 0 10px 0 0;
+  text-transform: capitalize;
+  width: 140px;
+}
+#company-node-form #edit-business-hours .edit-weekday .fieldset-wrapper {
+  float: left;
+}
+#company-node-form #edit-business-hours .edit-weekday .fieldset-wrapper .form-type-checkbox {
+  float: left;
+  font-size: 20px;
+  margin: 0;
+}
+#company-node-form #edit-business-hours .edit-weekday .fieldset-wrapper .form-type-select {
+  float: left;
+  width: 100px;
+  margin: 0 0 0 10px;
+}
 
 #autocomplete {
   background-color: #f4f4f4;

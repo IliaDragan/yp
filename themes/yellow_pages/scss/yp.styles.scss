@@ -2990,6 +2990,40 @@ body > .node-advertisement {
       }
     }
   }
+  #edit-business-hours {
+    margin: 20px 0;
+    legend {
+      display: block;
+      width: auto;
+    }
+    .edit-weekday {
+      border: none;
+      padding: 5px;
+
+      legend {
+        display: block;
+        float: left;
+        font-size: 18px;
+        margin: 0 10px 0 0;
+        text-transform: capitalize;
+        width: 140px;
+      }
+      .fieldset-wrapper {
+        float: left;
+        .form-type-checkbox {
+          float: left;
+          font-size: 20px;
+          margin: 0;
+        }
+        .form-type-select {
+          float: left;
+          width: 100px;
+          margin: 0 0 0 10px;
+        }
+      }
+    }
+
+  }
 }
 
 #autocomplete {

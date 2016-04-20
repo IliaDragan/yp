@@ -185,6 +185,43 @@ function yellow_pages_core_date_range($first, $last, $step = '+1 day', $output_f
 }
 
 /**
+ * Get weekdays' names for current language.
+ *
+ * @return array
+ *   Array of all weekdays translated full names.
+ */
+function yellow_pages_core_get_weekdays() {
+  return array(
+    'Monday' => t('Monday'),
+    'Tuesday' => t('Tuesday'),
+    'Wednesday' => t('Wednesday'),
+    'Thursday' => t('Thursday'),
+    'Friday' => t('Friday'),
+    'Saturday' => t('Saturday'),
+    'Sunday' => t('Sunday')
+  );
+}
+
+/**
+ * Get day hours from 00:00 to 24:00 with half hour range.
+ *
+ * @return array
+ *   Array of times strings.
+ */
+function yellow_pages_core_get_day_hours() {
+  $day_hours = array();
+  for ($i = 0; $i <= 48; $i++) {
+    $j = $i * 30;
+    $h = (int) ($j / 60);
+    $m = $j % 60;
+    $hour = str_pad($h, 2, '0', STR_PAD_LEFT) . ":" . str_pad($m, 2, '0', STR_PAD_RIGHT);
+    $day_hours[$hour] = $hour;
+  }
+
+  return $day_hours;
+}
+
+/**
  * Implements hook_block_info()
  */
 function yellow_pages_core_block_info() {

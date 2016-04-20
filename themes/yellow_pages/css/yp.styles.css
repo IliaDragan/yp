@@ -3330,3 +3330,11 @@ body > .node-advertisement {
   border-color: #ff0000;
   color: #ff0000;
 }
+
+.page-user-register-notification {
+  text-align: center;
+}
+.page-user-register-notification h1 {
+  font-size: 24px;
+  font-weight: normal;
+}

@@ -3278,8 +3278,7 @@ body > .node-advertisement {
   margin: 20px 0;
 }
 #company-node-form #edit-business-hours legend {
-  display: block;
-  width: auto;
+  display: none;
 }
 #company-node-form #edit-business-hours .edit-weekday {
   border: none;
@@ -3305,6 +3304,9 @@ body > .node-advertisement {
   float: left;
   width: 100px;
   margin: 0 0 0 10px;
+}
+#company-node-form #edit-body .field-body-label .field-edit-link {
+  display: none;
 }
 
 #autocomplete {

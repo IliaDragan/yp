@@ -352,36 +352,37 @@ function yellow_pages_company_ct_form_company_node_form_alter(&$form, &$form_sta
 
         if (is_object($xml)) {
           $form['language']['#weight'] = -9;
-          $form['xml_data'] = array(
-            '#type' => 'fieldset',
-            '#weight' => -8,
-            '#tree' => TRUE,
-          );
-          $form['xml_data']['idno'] = array(
+          $form['idno'] = array(
             '#type' => 'textfield',
             '#title' => t('IDNO'),
+            '#weight' => 2,
           );
-          $form['xml_data']['tva'] = array(
+          $form['tva'] = array(
             '#type' => 'radios',
             '#title' => t('TVA'),
             '#options' => array(t('No'), t('Yes')),
+            '#weight' => 3,
           );
-          $form['xml_data']['creation_year'] = array(
+          $form['creation_year'] = array(
             '#type' => 'textfield',
             '#title' => t('Year of foundation'),
+            '#weight' => 4,
           );
-          $form['xml_data']['number_of_jobs'] = array(
+          $form['number_of_jobs'] = array(
             '#type' => 'textfield',
             '#title' => t('Number of jobs'),
+            '#weight' => 5,
           );
-          $form['xml_data']['brands'] = array(
+          $form['brands'] = array(
             '#type' => 'textarea',
             '#title' => t('Brands'),
+            '#weight' => 1,
           );
 
-          $form['xml_data']['persons'] = array(
+          $form['persons'] = array(
             '#type' => 'textarea',
             '#title' => t('Persons'),
+            '#weight' => 1,
           );
 
           // Get default values from db.
@@ -427,27 +428,44 @@ function yellow_pages_company_ct_form_company_node_form_alter(&$form, &$form_sta
           $xml_defaults['persons'] = implode("\n", $persons);
 
           // Set default values from xml if first change.
-          if (empty($defaults)) {
-            $form['xml_data']['idno']['#default_value'] = $xml_defaults['idno'];
-            $form['xml_data']['tva']['#default_value'] = $xml_defaults['tva'];
-            $form['xml_data']['creation_year']['#default_value'] = $xml_defaults['creation_year'];
-            $form['xml_data']['number_of_jobs']['#default_value'] = $xml_defaults['number_of_jobs'];
-            $form['xml_data']['brands']['#default_value'] = $xml_defaults['brands'];
-            $form['xml_data']['persons']['#default_value'] = $xml_defaults['persons'];
-            $form_state['storage']['xml_defaults'] = $xml_defaults;
-          }
-          else {
-            $defaults = unserialize($defaults);
-            $form['xml_data']['idno']['#default_value'] = $defaults['idno'];
-            $form['xml_data']['tva']['#default_value'] = $defaults['tva'];
-            $form['xml_data']['creation_year']['#default_value'] = $defaults['creation_year'];
-            $form['xml_data']['number_of_jobs']['#default_value'] = $defaults['number_of_jobs'];
-            $form['xml_data']['brands']['#default_value'] = $defaults['brands'];
-            $form['xml_data']['persons']['#default_value'] = $defaults['persons'];
-            $form_state['storage']['xml_defaults'] = $defaults;
+          $xml_fields = array('idno', 'tva', 'creation_year', 'number_of_jobs', 'brands', 'persons');
+
+          $form_state['storage']['xml_defaults'] = $xml_defaults;
+          $defaults = empty($defaults) ? $xml_defaults : unserialize($defaults);
+          foreach($xml_fields as $xml_field) {
+            $form[$xml_field]['#default_value'] = $defaults[$xml_field];
           }
         }
       }
+
+      // Group fields into vertical tabs groups.
+      $form['#group_children']['idno'] = 'group_main_content';
+      $form['#group_children']['tva'] = 'group_main_content';
+      $form['#group_children']['creation_year'] = 'group_main_content';
+      $form['#group_children']['number_of_jobs'] = 'group_main_content';
+      $form['#group_children']['brands'] = 'group_products_services';
+
+      $form['#fieldgroups']['group_administration'] = clone($form['#fieldgroups']['group_additional_information']);
+      unset($form['#fieldgroups']['group_administration']->id);
+      $form['#fieldgroups']['group_administration']->identifier = 'group_administration|node|company|form';
+      $form['#fieldgroups']['group_administration']->group_name = 'group_administration';
+      $form['#fieldgroups']['group_administration']->label = t('Administration');
+      $form['#fieldgroups']['group_administration']->children = array('persons');
+      $form['#fieldgroups']['group_administration']->weight = 98;
+      $form['#group_children']['group_administration'] = 'group_company_info';
+      $form['#group_children']['persons'] = 'group_administration';
+
+      $form['#fieldgroups']['group_business_hours'] = clone($form['#fieldgroups']['group_additional_information']);
+      unset($form['#fieldgroups']['group_business_hours']->id);
+      $form['#fieldgroups']['group_business_hours']->identifier = 'group_business_hours|node|company|form';
+      $form['#fieldgroups']['group_business_hours']->group_name = 'group_business_hours';
+      $form['#fieldgroups']['group_business_hours']->label = t('Business hours');
+      $form['#fieldgroups']['group_business_hours']->children = array('business_hours');
+      $form['#fieldgroups']['group_business_hours']->weight = 99;
+      $form['#group_children']['group_business_hours'] = 'group_company_info';
+      $form['#group_children']['business_hours'] = 'group_business_hours';
+
+      $form['#fieldgroups']['group_additional_information']->weight = 100;
     }
     else {
       $title = t('Business hours');
@@ -495,6 +513,13 @@ function yellow_pages_company_ct_company_edit_submit(&$form, &$form_state) {
   $node->body = $new_node->body;
   field_attach_update('node', $node);
 
+  // Collect xml values.
+  $xml_fields = array('idno', 'tva', 'creation_year', 'number_of_jobs', 'brands', 'persons');
+  $xml_values = array();
+  foreach ($xml_fields as $xml_field) {
+    $xml_values[$xml_field] = $input[$xml_field];
+  }
+
   // Insert current state of node into table as temporary storage.
   db_merge('company_node_changes')
     ->key(array(
@@ -504,7 +529,7 @@ function yellow_pages_company_ct_company_edit_submit(&$form, &$form_state) {
     ->fields(array(
       'timestamp' => REQUEST_TIME,
       'node_object' => serialize($new_node),
-      'xml_changes' => serialize($form_state['values']['xml_data']),
+      'xml_changes' => serialize($xml_values),
     ))
     ->execute();
 
@@ -532,12 +557,12 @@ function yellow_pages_company_ct_company_edit_submit(&$form, &$form_state) {
   $rows[] = array($_field_label(t('Title'), $input['title'], $node->title) . ': ', $input['title']);
 
   // Custom fields.
-  $rows[] = array($_field_label(t('IDNO'), $input['xml_data']['idno'], $xml_defaults['idno']) . ': ', $input['xml_data']['idno']);
-  $rows[] = array($_field_label(t('TVA'), (boolean) $input['xml_data']['tva'], (boolean) $xml_defaults['tva']) . ': ', (boolean) $input['xml_data']['tva'] ? t('Yes') : t('No'));
-  $rows[] = array($_field_label(t('Year of foundation'), $input['xml_data']['creation_year'], $xml_defaults['creation_year']) . ': ', $input['xml_data']['creation_year']);
-  $rows[] = array($_field_label(t('Number of jobs'), $input['xml_data']['number_of_jobs'], $xml_defaults['number_of_jobs']) . ': ', $input['xml_data']['number_of_jobs']);
-  $rows[] = array($_field_label(t('Brands'), $input['xml_data']['brands'], $xml_defaults['brands']) . ': ', $input['xml_data']['brands']);
-  $rows[] = array($_field_label(t('Persons'), $input['xml_data']['persons'], $xml_defaults['persons']) . ': ', $input['xml_data']['persons']);
+  $rows[] = array($_field_label(t('IDNO'), $input['idno'], $xml_defaults['idno']) . ': ', $input['idno']);
+  $rows[] = array($_field_label(t('TVA'), (boolean) $input['tva'], (boolean) $xml_defaults['tva']) . ': ', (boolean) $input['tva'] ? t('Yes') : t('No'));
+  $rows[] = array($_field_label(t('Year of foundation'), $input['creation_year'], $xml_defaults['creation_year']) . ': ', $input['creation_year']);
+  $rows[] = array($_field_label(t('Number of jobs'), $input['number_of_jobs'], $xml_defaults['number_of_jobs']) . ': ', $input['number_of_jobs']);
+  $rows[] = array($_field_label(t('Brands'), $input['brands'], $xml_defaults['brands']) . ': ', $input['brands']);
+  $rows[] = array($_field_label(t('Persons'), $input['persons'], $xml_defaults['persons']) . ': ', $input['persons']);
 
   $fields = array(
     'field_company_site',

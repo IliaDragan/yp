@@ -131,6 +131,8 @@ function yellow_pages_company_ct_permission() {
  *   String to search related terms on.
  */
 function _products_autocomplete($type, $input) {
+  global $language;
+
   $product_type = YP_TERM_TYPE_PRODUCT;
   if ($type == 'category') {
     $product_type = YP_TERM_TYPE_CATEGORY;
@@ -140,14 +142,24 @@ function _products_autocomplete($type, $input) {
     ->fields('t', array('tid', 'name'));
   $query->join('field_data_field_product_type', 'fpt', 't.tid = fpt.entity_id');
   $query->condition('fpt.field_product_type_value', $product_type, '=');
-  $query->condition('t.name', '%' . db_like($input) . '%', 'LIKE');
+
+  if ($language->language == 'ro') {
+    $query->join('i18n_string', 'i18n', "t.tid = i18n.objectid AND i18n.textgroup = 'taxonomy'");
+    $query->join('locales_target', 'lt', "i18n.lid = lt.lid AND lt.language = 'ro'");
+    $query->addExpression("CAST(lt.translation AS CHAR(10000) CHARACTER SET utf8)", 'translated_name');
+    $query->havingCondition('translated_name', '%' . db_like($input) . '%', 'LIKE');
+  }
+  else {
+    $query->condition('t.name', '%' . db_like($input) . '%', 'LIKE');
+  }
   $query->range(0, 10);
   $result = $query->execute()->fetchAll();
 
   $response = array();
 
   foreach ($result as $r) {
-    $response[$r->name . ' [tid:' . $r->tid . ']'] = $r->name;
+    $name = empty($r->translated_name) ? $r->name : $r->translated_name;
+    $response[$name . ' [tid:' . $r->tid . ']'] = $name;
   }
 
   echo drupal_json_output($response);
@@ -347,7 +359,7 @@ function yellow_pages_company_ct_form_company_node_form_alter(&$form, &$form_sta
       }
 
       // Additional fields for changing by enterprise editor.
-      if ($eid = yellow_pages_sync_get_eid_by_nid($form['#node']->nid)) {
+      if ($eid = yellow_pages_sync_get_eid_by_nid($form['#node']->tnid)) {
         $xml = yellow_pages_sync_fetch_remote_enterprise($eid);
 
         if (is_object($xml)) {

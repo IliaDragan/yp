@@ -151,6 +151,9 @@ function yellow_pages_company_ct_field_widget_form(&$form, &$form_state, $field,
       );
 
       $term = isset($items[$delta]['product']) ? taxonomy_term_load($items[$delta]['product']) : NULL;
+      if ($term && module_exists('i18n_taxonomy')) {
+        $term = i18n_taxonomy_localize_terms($term);
+      }
       $element['product'] = array(
         '#type' => 'textfield',
         '#autocomplete_path' => 'yp/autocomplete/product',
@@ -168,6 +171,9 @@ function yellow_pages_company_ct_field_widget_form(&$form, &$form_state, $field,
       );
 
       $term = isset($items[$delta]['product']) ? taxonomy_term_load($items[$delta]['product']) : NULL;
+      if ($term && module_exists('i18n_taxonomy')) {
+        $term = i18n_taxonomy_localize_terms($term);
+      }
       $element['product'] = array(
         '#type' => 'textfield',
         '#autocomplete_path' => 'yp/autocomplete/category',

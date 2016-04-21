@@ -60,7 +60,7 @@ function yellow_pages_company_ct_node_info() {
       'base' => 'node_content',
       'description' => t('CT contain company entity fields.'),
       'has_title' => '1',
-      'title_label' => t('Title'),
+      'title_label' => t('Company name'),
       'help' => '',
     ),
   );

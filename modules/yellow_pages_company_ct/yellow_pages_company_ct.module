@@ -545,9 +545,16 @@ function yellow_pages_company_ct_company_edit_submit(&$form, &$form_state) {
     ))
     ->execute();
 
+  $border = 'border-bottom: 1px solid #000000; padding: 5px 10px;';
   $header = array(
-    t('Field'),
-    t('Value'),
+    array(
+      'data' => t('Field'),
+      'style' => $border,
+    ),
+    array(
+      'data' => t('Value'),
+      'style' => $border,
+    ),
   );
 
   // Inline method to compare values.
@@ -566,15 +573,78 @@ function yellow_pages_company_ct_company_edit_submit(&$form, &$form_state) {
 
   $rows = array();
   // Title.
-  $rows[] = array($_field_label(t('Title'), $input['title'], $node->title) . ': ', $input['title']);
+  $rows[] = array(
+    array(
+      'data' => $_field_label(t('Title'), $input['title'], $node->title) . ': ',
+      'style' => $border,
+    ),
+    array(
+      'data' => $input['title'],
+      'style' => $border,
+    ),
+  );
 
   // Custom fields.
-  $rows[] = array($_field_label(t('IDNO'), $input['idno'], $xml_defaults['idno']) . ': ', $input['idno']);
-  $rows[] = array($_field_label(t('TVA'), (boolean) $input['tva'], (boolean) $xml_defaults['tva']) . ': ', (boolean) $input['tva'] ? t('Yes') : t('No'));
-  $rows[] = array($_field_label(t('Year of foundation'), $input['creation_year'], $xml_defaults['creation_year']) . ': ', $input['creation_year']);
-  $rows[] = array($_field_label(t('Number of jobs'), $input['number_of_jobs'], $xml_defaults['number_of_jobs']) . ': ', $input['number_of_jobs']);
-  $rows[] = array($_field_label(t('Brands'), $input['brands'], $xml_defaults['brands']) . ': ', $input['brands']);
-  $rows[] = array($_field_label(t('Persons'), $input['persons'], $xml_defaults['persons']) . ': ', $input['persons']);
+  $rows[] = array(
+    array(
+      'data' => $_field_label(t('IDNO'), $input['idno'], $xml_defaults['idno']) . ': ',
+      'style' => $border,
+    ),
+    array(
+      'data' => $input['idno'],
+      'style' => $border,
+    ),
+  );
+  $rows[] = array(
+    array(
+      'data' => $_field_label(t('TVA'), (boolean) $input['tva'], (boolean) $xml_defaults['tva']) . ': ',
+      'style' => $border,
+    ),
+    array(
+      'data' => (boolean) $input['tva'] ? t('Yes') : t('No'),
+      'style' => $border,
+    ),
+  );
+  $rows[] = array(
+    array(
+      'data' => $_field_label(t('Year of foundation'), $input['creation_year'], $xml_defaults['creation_year']) . ': ',
+      'style' => $border,
+    ),
+    array(
+      'data' => $input['creation_year'],
+      'style' => $border,
+    ),
+  );
+  $rows[] = array(
+    array(
+      'data' => $_field_label(t('Number of jobs'), $input['number_of_jobs'], $xml_defaults['number_of_jobs']) . ': ',
+      'style' => $border,
+    ),
+    array(
+      'data' => $input['number_of_jobs'],
+      'style' => $border,
+    ),
+  );
+  $rows[] = array(
+    array(
+      'data' => $_field_label(t('Brands'), $input['brands'], $xml_defaults['brands']) . ': ',
+      'style' => $border,
+    ),
+    array(
+      'data' => $input['brands'],
+      'style' => $border,
+    ),
+  );
+  $rows[] = array(
+    array(
+      'data' => $_field_label(t('Persons'), $input['persons'], $xml_defaults['persons']) . ': ',
+      'style' => $border,
+    ),
+    array(
+      'data' => $input['persons'],
+      'style' => $border,
+    ),
+  );
 
   $fields = array(
     'field_company_site',
@@ -596,10 +666,20 @@ function yellow_pages_company_ct_company_edit_submit(&$form, &$form_state) {
 
     $label = $_field_label($label, $new_field_view, $old_field_view);
 
-    $rows[] = array($label . ': ', render($new_field_view));
+    $rows[] = array(
+      array(
+        'data' => $label . ': ',
+        'style' => $border,
+      ),
+      array(
+        'data' => render($new_field_view),
+        'style' => $border,
+      ),
+    );
   }
 
-  $changes_markup = theme('table', array('header' => $header, 'rows' => $rows, 'empty' => ''));
+  $attributes = array('style' => 'border-collapse: collapse; display: inline-table;');
+  $changes_markup = theme('table', array('header' => $header, 'rows' => $rows, 'empty' => '', 'attributes' => $attributes));
 
   $new_node->company_diff = $changes_markup;
 

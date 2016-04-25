@@ -2949,7 +2949,7 @@ body > .node-advertisement {
     }
   }
   #edit-field-price-list {
-    #edit-field-price-list-und-table {
+    .sticky-table {
       thead {
         display: none;
       }
@@ -2993,8 +2993,7 @@ body > .node-advertisement {
   #edit-business-hours {
     margin: 20px 0;
     legend {
-      display: block;
-      width: auto;
+      display: none;
     }
     .edit-weekday {
       border: none;
@@ -3024,6 +3023,14 @@ body > .node-advertisement {
     }
 
   }
+  #edit-body {
+    .field-body-label {
+      .field-edit-link {
+        display: none;
+      }
+    }
+  }
+
 }
 
 #autocomplete {
@@ -3048,5 +3055,13 @@ body > .node-advertisement {
   &.error {
     border-color: $red;
     color: $red;
+  }
+}
+
+.page-user-register-notification {
+  text-align: center;
+  h1 {
+    font-size: 24px;
+    font-weight: normal;
   }
 }

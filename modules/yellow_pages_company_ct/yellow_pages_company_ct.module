@@ -46,6 +46,13 @@ function yellow_pages_company_ct_menu() {
     'type' => MENU_CALLBACK,
   );
 
+  $menu['user-register/notification'] = array(
+    'title' => 'User register notification',
+    'page callback' => 'yellow_pages_company_ct_user_register_form_notification',
+    'access arguments' => array('send request for create company editor'),
+    'type' => MENU_CALLBACK,
+  );
+
   $menu['admin/config/yp/company_settings'] = array(
     'title' => 'Company settings',
     'page callback' => 'drupal_get_form',
@@ -124,6 +131,8 @@ function yellow_pages_company_ct_permission() {
  *   String to search related terms on.
  */
 function _products_autocomplete($type, $input) {
+  global $language;
+
   $product_type = YP_TERM_TYPE_PRODUCT;
   if ($type == 'category') {
     $product_type = YP_TERM_TYPE_CATEGORY;
@@ -133,14 +142,24 @@ function _products_autocomplete($type, $input) {
     ->fields('t', array('tid', 'name'));
   $query->join('field_data_field_product_type', 'fpt', 't.tid = fpt.entity_id');
   $query->condition('fpt.field_product_type_value', $product_type, '=');
-  $query->condition('t.name', '%' . db_like($input) . '%', 'LIKE');
+
+  if ($language->language == 'ro') {
+    $query->join('i18n_string', 'i18n', "t.tid = i18n.objectid AND i18n.textgroup = 'taxonomy'");
+    $query->join('locales_target', 'lt', "i18n.lid = lt.lid AND lt.language = 'ro'");
+    $query->addExpression("CAST(lt.translation AS CHAR(10000) CHARACTER SET utf8)", 'translated_name');
+    $query->havingCondition('translated_name', '%' . db_like($input) . '%', 'LIKE');
+  }
+  else {
+    $query->condition('t.name', '%' . db_like($input) . '%', 'LIKE');
+  }
   $query->range(0, 10);
   $result = $query->execute()->fetchAll();
 
   $response = array();
 
   foreach ($result as $r) {
-    $response[$r->name . ' [tid:' . $r->tid . ']'] = $r->name;
+    $name = empty($r->translated_name) ? $r->name : $r->translated_name;
+    $response[$name . ' [tid:' . $r->tid . ']'] = $name;
   }
 
   echo drupal_json_output($response);
@@ -159,6 +178,7 @@ function yellow_pages_company_ct_form_forward_form_alter(&$form, &$form_state) {
  * Implements hook_form_FORM_ID_alter().
  */
 function yellow_pages_company_ct_form_company_node_form_alter(&$form, &$form_state, $form_id) {
+
   global $user, $language;
 
   // Make sync date field readonly.
@@ -214,14 +234,13 @@ function yellow_pages_company_ct_form_company_node_form_alter(&$form, &$form_sta
       $user = user_load($user->uid);
 
       // Business hours form.
-
       $business_hours_defaults = array();
       if (!empty($business_hours_vars['hours'])) {
         foreach ($business_hours_vars['hours'] as $day_info) {
           $business_hours_defaults[$day_info['day']] = $day_info;
         }
       }
-      //var_dump($business_hours_defaults);die;
+
       $form['business_hours'] = array(
         '#title' => t('Business hours'),
         '#type' => 'fieldset',
@@ -288,9 +307,6 @@ function yellow_pages_company_ct_form_company_node_form_alter(&$form, &$form_sta
         ),
       );
 
-//      drupal_add_css(drupal_get_path('theme', 'yellow_pages') .'/css/company.form.css');
-      $form['#attached']['css'][] = drupal_get_path('theme', 'yellow_pages') . '/css/company.form.css';
-
       $hidden = array(
         'language',
         'field_media_materials',
@@ -343,41 +359,42 @@ function yellow_pages_company_ct_form_company_node_form_alter(&$form, &$form_sta
       }
 
       // Additional fields for changing by enterprise editor.
-      if ($eid = yellow_pages_sync_get_eid_by_nid($form['#node']->nid)) {
+      if ($eid = yellow_pages_sync_get_eid_by_nid($form['#node']->tnid)) {
         $xml = yellow_pages_sync_fetch_remote_enterprise($eid);
 
         if (is_object($xml)) {
           $form['language']['#weight'] = -9;
-          $form['xml_data'] = array(
-            '#type' => 'fieldset',
-            '#weight' => -8,
-            '#tree' => TRUE,
-          );
-          $form['xml_data']['idno'] = array(
+          $form['idno'] = array(
             '#type' => 'textfield',
             '#title' => t('IDNO'),
+            '#weight' => 2,
           );
-          $form['xml_data']['tva'] = array(
+          $form['tva'] = array(
             '#type' => 'radios',
             '#title' => t('TVA'),
             '#options' => array(t('No'), t('Yes')),
+            '#weight' => 3,
           );
-          $form['xml_data']['creation_year'] = array(
+          $form['creation_year'] = array(
             '#type' => 'textfield',
             '#title' => t('Year of foundation'),
+            '#weight' => 4,
           );
-          $form['xml_data']['number_of_jobs'] = array(
+          $form['number_of_jobs'] = array(
             '#type' => 'textfield',
             '#title' => t('Number of jobs'),
+            '#weight' => 5,
           );
-          $form['xml_data']['brands'] = array(
+          $form['brands'] = array(
             '#type' => 'textarea',
             '#title' => t('Brands'),
+            '#weight' => 1,
           );
 
-          $form['xml_data']['persons'] = array(
+          $form['persons'] = array(
             '#type' => 'textarea',
             '#title' => t('Persons'),
+            '#weight' => 1,
           );
 
           // Get default values from db.
@@ -423,27 +440,44 @@ function yellow_pages_company_ct_form_company_node_form_alter(&$form, &$form_sta
           $xml_defaults['persons'] = implode("\n", $persons);
 
           // Set default values from xml if first change.
-          if (empty($defaults)) {
-            $form['xml_data']['idno']['#default_value'] = $xml_defaults['idno'];
-            $form['xml_data']['tva']['#default_value'] = $xml_defaults['tva'];
-            $form['xml_data']['creation_year']['#default_value'] = $xml_defaults['creation_year'];
-            $form['xml_data']['number_of_jobs']['#default_value'] = $xml_defaults['number_of_jobs'];
-            $form['xml_data']['brands']['#default_value'] = $xml_defaults['brands'];
-            $form['xml_data']['persons']['#default_value'] = $xml_defaults['persons'];
-            $form_state['storage']['xml_defaults'] = $xml_defaults;
-          }
-          else {
-            $defaults = unserialize($defaults);
-            $form['xml_data']['idno']['#default_value'] = $defaults['idno'];
-            $form['xml_data']['tva']['#default_value'] = $defaults['tva'];
-            $form['xml_data']['creation_year']['#default_value'] = $defaults['creation_year'];
-            $form['xml_data']['number_of_jobs']['#default_value'] = $defaults['number_of_jobs'];
-            $form['xml_data']['brands']['#default_value'] = $defaults['brands'];
-            $form['xml_data']['persons']['#default_value'] = $defaults['persons'];
-            $form_state['storage']['xml_defaults'] = $defaults;
+          $xml_fields = array('idno', 'tva', 'creation_year', 'number_of_jobs', 'brands', 'persons');
+
+          $form_state['storage']['xml_defaults'] = $xml_defaults;
+          $defaults = empty($defaults) ? $xml_defaults : unserialize($defaults);
+          foreach($xml_fields as $xml_field) {
+            $form[$xml_field]['#default_value'] = $defaults[$xml_field];
           }
         }
       }
+
+      // Group fields into vertical tabs groups.
+      $form['#group_children']['idno'] = 'group_main_content';
+      $form['#group_children']['tva'] = 'group_main_content';
+      $form['#group_children']['creation_year'] = 'group_main_content';
+      $form['#group_children']['number_of_jobs'] = 'group_main_content';
+      $form['#group_children']['brands'] = 'group_products_services';
+
+      $form['#fieldgroups']['group_administration'] = clone($form['#fieldgroups']['group_additional_information']);
+      unset($form['#fieldgroups']['group_administration']->id);
+      $form['#fieldgroups']['group_administration']->identifier = 'group_administration|node|company|form';
+      $form['#fieldgroups']['group_administration']->group_name = 'group_administration';
+      $form['#fieldgroups']['group_administration']->label = t('Administration');
+      $form['#fieldgroups']['group_administration']->children = array('persons');
+      $form['#fieldgroups']['group_administration']->weight = 98;
+      $form['#group_children']['group_administration'] = 'group_company_info';
+      $form['#group_children']['persons'] = 'group_administration';
+
+      $form['#fieldgroups']['group_business_hours'] = clone($form['#fieldgroups']['group_additional_information']);
+      unset($form['#fieldgroups']['group_business_hours']->id);
+      $form['#fieldgroups']['group_business_hours']->identifier = 'group_business_hours|node|company|form';
+      $form['#fieldgroups']['group_business_hours']->group_name = 'group_business_hours';
+      $form['#fieldgroups']['group_business_hours']->label = t('Business hours');
+      $form['#fieldgroups']['group_business_hours']->children = array('business_hours');
+      $form['#fieldgroups']['group_business_hours']->weight = 99;
+      $form['#group_children']['group_business_hours'] = 'group_company_info';
+      $form['#group_children']['business_hours'] = 'group_business_hours';
+
+      $form['#fieldgroups']['group_additional_information']->weight = 100;
     }
     else {
       $title = t('Business hours');
@@ -476,7 +510,8 @@ function yellow_pages_company_ct_company_edit_submit(&$form, &$form_state) {
   $form_state['values']['field_business_hours'][LANGUAGE_NONE][0]['value'] = $hours;
 
   $input = $form_state['input'];
-  $node = $form['#node'];
+  // Load old node from bd, because $form['#node'] is last modified node value.
+  $node = node_load($form['#node']->nid);
   $xml_defaults = $form_state['storage']['xml_defaults'];
 
   // Artificially prepare product fields for custom saving.
@@ -490,6 +525,13 @@ function yellow_pages_company_ct_company_edit_submit(&$form, &$form_state) {
   $node->body = $new_node->body;
   field_attach_update('node', $node);
 
+  // Collect xml values.
+  $xml_fields = array('idno', 'tva', 'creation_year', 'number_of_jobs', 'brands', 'persons');
+  $xml_values = array();
+  foreach ($xml_fields as $xml_field) {
+    $xml_values[$xml_field] = $input[$xml_field];
+  }
+
   // Insert current state of node into table as temporary storage.
   db_merge('company_node_changes')
     ->key(array(
@@ -499,13 +541,20 @@ function yellow_pages_company_ct_company_edit_submit(&$form, &$form_state) {
     ->fields(array(
       'timestamp' => REQUEST_TIME,
       'node_object' => serialize($new_node),
-      'xml_changes' => serialize($form_state['values']['xml_data']),
+      'xml_changes' => serialize($xml_values),
     ))
     ->execute();
 
+  $border = 'border-bottom: 1px solid #000000; padding: 5px 10px;';
   $header = array(
-    t('Field'),
-    t('Value'),
+    array(
+      'data' => t('Field'),
+      'style' => $border,
+    ),
+    array(
+      'data' => t('Value'),
+      'style' => $border,
+    ),
   );
 
   // Inline method to compare values.
@@ -524,15 +573,78 @@ function yellow_pages_company_ct_company_edit_submit(&$form, &$form_state) {
 
   $rows = array();
   // Title.
-  $rows[] = array($_field_label(t('Title'), $input['title'], $node->title) . ': ', $input['title']);
+  $rows[] = array(
+    array(
+      'data' => $_field_label(t('Title'), $input['title'], $node->title) . ': ',
+      'style' => $border,
+    ),
+    array(
+      'data' => $input['title'],
+      'style' => $border,
+    ),
+  );
 
   // Custom fields.
-  $rows[] = array($_field_label(t('IDNO'), $input['xml_data']['idno'], $xml_defaults['idno']) . ': ', $input['xml_data']['idno']);
-  $rows[] = array($_field_label(t('TVA'), (boolean) $input['xml_data']['tva'], (boolean) $xml_defaults['tva']) . ': ', (boolean) $input['xml_data']['tva'] ? t('Yes') : t('No'));
-  $rows[] = array($_field_label(t('Year of foundation'), $input['xml_data']['creation_year'], $xml_defaults['creation_year']) . ': ', $input['xml_data']['creation_year']);
-  $rows[] = array($_field_label(t('Number of jobs'), $input['xml_data']['number_of_jobs'], $xml_defaults['number_of_jobs']) . ': ', $input['xml_data']['number_of_jobs']);
-  $rows[] = array($_field_label(t('Brands'), $input['xml_data']['brands'], $xml_defaults['brands']) . ': ', $input['xml_data']['brands']);
-  $rows[] = array($_field_label(t('Persons'), $input['xml_data']['persons'], $xml_defaults['persons']) . ': ', $input['xml_data']['persons']);
+  $rows[] = array(
+    array(
+      'data' => $_field_label(t('IDNO'), $input['idno'], $xml_defaults['idno']) . ': ',
+      'style' => $border,
+    ),
+    array(
+      'data' => $input['idno'],
+      'style' => $border,
+    ),
+  );
+  $rows[] = array(
+    array(
+      'data' => $_field_label(t('TVA'), (boolean) $input['tva'], (boolean) $xml_defaults['tva']) . ': ',
+      'style' => $border,
+    ),
+    array(
+      'data' => (boolean) $input['tva'] ? t('Yes') : t('No'),
+      'style' => $border,
+    ),
+  );
+  $rows[] = array(
+    array(
+      'data' => $_field_label(t('Year of foundation'), $input['creation_year'], $xml_defaults['creation_year']) . ': ',
+      'style' => $border,
+    ),
+    array(
+      'data' => $input['creation_year'],
+      'style' => $border,
+    ),
+  );
+  $rows[] = array(
+    array(
+      'data' => $_field_label(t('Number of jobs'), $input['number_of_jobs'], $xml_defaults['number_of_jobs']) . ': ',
+      'style' => $border,
+    ),
+    array(
+      'data' => $input['number_of_jobs'],
+      'style' => $border,
+    ),
+  );
+  $rows[] = array(
+    array(
+      'data' => $_field_label(t('Brands'), $input['brands'], $xml_defaults['brands']) . ': ',
+      'style' => $border,
+    ),
+    array(
+      'data' => $input['brands'],
+      'style' => $border,
+    ),
+  );
+  $rows[] = array(
+    array(
+      'data' => $_field_label(t('Persons'), $input['persons'], $xml_defaults['persons']) . ': ',
+      'style' => $border,
+    ),
+    array(
+      'data' => $input['persons'],
+      'style' => $border,
+    ),
+  );
 
   $fields = array(
     'field_company_site',
@@ -554,10 +666,20 @@ function yellow_pages_company_ct_company_edit_submit(&$form, &$form_state) {
 
     $label = $_field_label($label, $new_field_view, $old_field_view);
 
-    $rows[] = array($label . ': ', render($new_field_view));
+    $rows[] = array(
+      array(
+        'data' => $label . ': ',
+        'style' => $border,
+      ),
+      array(
+        'data' => render($new_field_view),
+        'style' => $border,
+      ),
+    );
   }
 
-  $changes_markup = theme('table', array('header' => $header, 'rows' => $rows, 'empty' => ''));
+  $attributes = array('style' => 'border-collapse: collapse; display: inline-table;');
+  $changes_markup = theme('table', array('header' => $header, 'rows' => $rows, 'empty' => '', 'attributes' => $attributes));
 
   $new_node->company_diff = $changes_markup;
 
@@ -677,6 +799,24 @@ function yellow_pages_company_ct_entity_view($entity, $entity_type, $view_mode, 
  *   "Edit related companies".
  */
 function yellow_pages_company_ct_form_user_profile_form_alter(&$form, &$form_state) {
+  global $user;
+  if ($user->uid != 1) {
+    // Hide some fields for non admin user.
+    $fields = array(
+      'mimemail',
+      'timezone',
+      'ckeditor',
+    );
+    foreach ($fields as $field) {
+      $form[$field]['#access'] = FALSE;
+    }
+  }
+  // Translate roles in user edit form.
+  if (!empty($form['account']['roles']['#options'])) {
+    foreach($form['account']['roles']['#options'] as &$option) {
+      $option = t($option);
+    }
+  }
   $account = $form['#user'];
   $access = user_access('edit related companies', $account) && user_access('add related companies to user');
 
@@ -981,31 +1121,43 @@ function yellow_pages_company_ct_user_register_form_submit(&$form, &$form_state)
       $ee_role->rid => 'enterprise editor',
     ),
   );
-  user_save('', $fields);
+  $user = user_save('', $fields);
 
-  // Inform global editor about user creation.
-  $ge_role = user_role_load_by_name('global editor');
+  if (!empty($user)) {
+    // Inform global editor about user creation.
+    $ge_role = user_role_load_by_name('global editor');
 
-  $query = 'SELECT DISTINCT(ur.uid)
-  FROM {users_roles} AS ur
-  WHERE ur.rid IN (:rids)';
-  $result = db_query($query, array(':rids' => $ge_role->rid));
+    $query = 'SELECT DISTINCT(ur.uid)
+      FROM {users_roles} AS ur
+      WHERE ur.rid IN (:rids)';
+    $result = db_query($query, array(':rids' => $ge_role->rid));
 
-  $uids = $result->fetchCol();
+    $uids = $result->fetchCol();
 
-  $users = user_load_multiple($uids);
+    $users = user_load_multiple($uids);
 
-  $to = '';
-  foreach ($users as $user) {
-    $to .= ', ' . $user->mail;
+    $to = '';
+    foreach ($users as $user) {
+      $to .= ', ' . $user->mail;
+    }
+
+    $params['to'] =  $to;
+    $dm = drupal_mail('yellow_pages_company_ct', 'yp_user_register', $to, language_default(), $params, NULL, TRUE);
+
+    if ($dm['result']) {
+      drupal_goto('user-register/notification');
+    }
   }
-
-  $params['to'] =  $to;
-  $dm = drupal_mail('yellow_pages_company_ct', 'yp_user_register', $to, language_default(), $params, NULL, TRUE);
-
-  if ($dm['result']) {
-    drupal_set_message(t('Thank you, we will contact you soon.'));
+  else {
+    drupal_set_message(t('Something went wrong. Please contact site administrator.'));
   }
+}
+
+/**
+ * Notification message page for custom user register request form.
+ */
+function yellow_pages_company_ct_user_register_form_notification() {
+  return '<h1>' . t('Thank you, we will contact you soon.') . '</h1>';
 }
 
 /**

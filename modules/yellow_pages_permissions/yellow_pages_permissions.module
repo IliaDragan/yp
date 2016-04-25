@@ -5,7 +5,7 @@
  */
 
 include_once 'yellow_pages_permissions.features.inc';
-/**
- * @file
- * Yellow Pages permissions and roles.
- */
+
+t('administrator');
+t('global editor');
+t('enterprise editor');

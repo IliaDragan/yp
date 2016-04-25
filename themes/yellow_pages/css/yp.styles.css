@@ -3244,13 +3244,13 @@ body > .node-advertisement {
 #company-node-form .vertical-tabs .vertical-tabs-panes fieldset legend {
   display: none;
 }
-#company-node-form #edit-field-price-list #edit-field-price-list-und-table thead {
+#company-node-form #edit-field-price-list .sticky-table thead {
   display: none;
 }
-#company-node-form #edit-field-price-list #edit-field-price-list-und-table tbody .tabledrag-handle {
+#company-node-form #edit-field-price-list .sticky-table tbody .tabledrag-handle {
   display: none;
 }
-#company-node-form #edit-field-price-list #edit-field-price-list-und-table tbody .ctools-modal-media-file-edit {
+#company-node-form #edit-field-price-list .sticky-table tbody .ctools-modal-media-file-edit {
   display: none;
 }
 #company-node-form .form-item-agreement-check {
@@ -3278,8 +3278,7 @@ body > .node-advertisement {
   margin: 20px 0;
 }
 #company-node-form #edit-business-hours legend {
-  display: block;
-  width: auto;
+  display: none;
 }
 #company-node-form #edit-business-hours .edit-weekday {
   border: none;
@@ -3306,6 +3305,9 @@ body > .node-advertisement {
   width: 100px;
   margin: 0 0 0 10px;
 }
+#company-node-form #edit-body .field-body-label .field-edit-link {
+  display: none;
+}
 
 #autocomplete {
   background-color: #f4f4f4;
@@ -3329,4 +3331,12 @@ body > .node-advertisement {
 .messages.error {
   border-color: #ff0000;
   color: #ff0000;
+}
+
+.page-user-register-notification {
+  text-align: center;
+}
+.page-user-register-notification h1 {
+  font-size: 24px;
+  font-weight: normal;
 }

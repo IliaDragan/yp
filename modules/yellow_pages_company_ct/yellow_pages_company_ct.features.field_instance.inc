@@ -138,7 +138,7 @@ function yellow_pages_company_ct_field_default_field_instances() {
     'entity_type' => 'node',
     'field_name' => 'field_address',
     'label' => 'Address',
-    'required' => 0,
+    'required' => 1,
     'settings' => array(
       'user_register_form' => FALSE,
     ),
@@ -156,13 +156,13 @@ function yellow_pages_company_ct_field_default_field_instances() {
           'address-hide-postal-code' => 0,
           'address-hide-street' => 0,
           'organisation' => 0,
-          'name-full' => 0,
           'name-oneline' => 0,
+          'name-full' => 0,
           'address-optional' => 0,
         ),
       ),
       'type' => 'addressfield_standard',
-      'weight' => 9,
+      'weight' => 6,
     ),
   );
 
@@ -632,7 +632,7 @@ function yellow_pages_company_ct_field_default_field_instances() {
         'size' => 60,
       ),
       'type' => 'text_textfield',
-      'weight' => 13,
+      'weight' => 10,
     ),
   );
 
@@ -697,7 +697,7 @@ function yellow_pages_company_ct_field_default_field_instances() {
         'size' => 60,
       ),
       'type' => 'entityreference_autocomplete',
-      'weight' => 15,
+      'weight' => 12,
     ),
   );
 
@@ -828,7 +828,7 @@ function yellow_pages_company_ct_field_default_field_instances() {
         'html5_geolocation' => 0,
       ),
       'type' => 'geofield_latlon',
-      'weight' => 11,
+      'weight' => 8,
     ),
   );
 
@@ -945,7 +945,7 @@ function yellow_pages_company_ct_field_default_field_instances() {
         'size' => 60,
       ),
       'type' => 'text_textfield',
-      'weight' => 12,
+      'weight' => 9,
     ),
   );
 
@@ -1214,7 +1214,7 @@ function yellow_pages_company_ct_field_default_field_instances() {
         'size' => 60,
       ),
       'type' => 'text_textfield',
-      'weight' => 14,
+      'weight' => 11,
     ),
   );
 
@@ -1407,7 +1407,7 @@ function yellow_pages_company_ct_field_default_field_instances() {
         'size' => 60,
       ),
       'type' => 'text_textfield',
-      'weight' => 10,
+      'weight' => 7,
     ),
   );
 

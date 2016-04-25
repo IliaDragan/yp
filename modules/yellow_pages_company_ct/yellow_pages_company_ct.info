@@ -76,6 +76,7 @@ features[field_group][] = group_details|node|company|full
 features[field_group][] = group_filials|node|company|full
 features[field_group][] = group_main_content|node|company|form
 features[field_group][] = group_price_lists|node|company|full
+features[field_group][] = group_products_services|node|company|form
 features[field_group][] = group_products|node|company|full
 features[field_group][] = group_services|node|company|full
 features[field_group][] = group_tabbed_content|node|company|full

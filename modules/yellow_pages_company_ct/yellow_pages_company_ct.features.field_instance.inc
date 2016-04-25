@@ -619,7 +619,7 @@ function yellow_pages_company_ct_field_default_field_instances() {
     ),
     'entity_type' => 'node',
     'field_name' => 'field_fax',
-    'label' => 'Fax',
+    'label' => 'Telephone/Fax',
     'required' => 0,
     'settings' => array(
       'text_processing' => 0,
@@ -1493,7 +1493,6 @@ function yellow_pages_company_ct_field_default_field_instances() {
   t('Business hours');
   t('Description of activity');
   t('Email');
-  t('Fax');
   t('Filials');
   t('Geocode');
   t('Invisible field');
@@ -1508,6 +1507,7 @@ function yellow_pages_company_ct_field_default_field_instances() {
   t('Region');
   t('Site URL');
   t('Social links');
+  t('Telephone/Fax');
 
   return $field_instances;
 }

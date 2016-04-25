@@ -810,7 +810,7 @@ function yellow_pages_sync_process_source_element_contacts(SimpleXMLElement $sou
       case 'MOB':
         $contacts['mobile'][] = $number;
         break;
-      case 'FAX':
+      case 'T/F':
         $contacts['fax'][] = $number;
         break;
     }

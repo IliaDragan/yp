@@ -19,8 +19,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
-"POT-Creation-Date: 2016-04-21 13:53+0300\n"
-"PO-Revision-Date: 2016-04-21 13:53+0300\n"
+"POT-Creation-Date: 2016-04-25 14:16+0300\n"
+"PO-Revision-Date: 2016-04-25 14:16+0300\n"
 "Last-Translator: NAME <EMAIL@ADDRESS>\n"
 "Language-Team: Russian <EMAIL@ADDRESS>\n"
 "MIME-Version: 1.0\n"
@@ -52,7 +52,7 @@ msgstr "Реклама"
 msgid "Articles"
 msgstr "Статьи"
 
-#: yellow_pages_company_ct.features.field_instance.inc:1493 yellow_pages_company_ct.module:233;462;471
+#: yellow_pages_company_ct.features.field_instance.inc:1493 yellow_pages_company_ct.module:245;474;483
 msgid "Business hours"
 msgstr "Рабочие часы"
 
@@ -62,69 +62,69 @@ msgstr ""
 "Описание вида деятельности или "
 "компании"
 
-#: yellow_pages_company_ct.features.field_instance.inc:1495 yellow_pages_company_ct.module:981
+#: yellow_pages_company_ct.features.field_instance.inc:1495 yellow_pages_company_ct.module:1073
 msgid "Email"
 msgstr "Email"
 
-#: yellow_pages_company_ct.features.field_instance.inc:1496
-msgid "Fax"
-msgstr "Факс"
-
-#: yellow_pages_company_ct.features.field_instance.inc:1497 yellow_pages_company_ct.field_group.inc:518
+#: yellow_pages_company_ct.features.field_instance.inc:1496 yellow_pages_company_ct.field_group.inc:518
 msgid "Filials"
 msgstr "Филиалы"
 
-#: yellow_pages_company_ct.features.field_instance.inc:1498
+#: yellow_pages_company_ct.features.field_instance.inc:1497
 msgid "Geocode"
 msgstr "Геоданные"
 
-#: yellow_pages_company_ct.features.field_instance.inc:1499
+#: yellow_pages_company_ct.features.field_instance.inc:1498
 msgid "Invisible field"
 msgstr "Невидимое поле"
 
-#: yellow_pages_company_ct.features.field_instance.inc:1500
+#: yellow_pages_company_ct.features.field_instance.inc:1499
 msgid "Landline phone"
 msgstr "Стационарный телефон"
 
-#: yellow_pages_company_ct.features.field_instance.inc:1501
+#: yellow_pages_company_ct.features.field_instance.inc:1500
 msgid "Logo"
 msgstr "Логотип"
 
-#: yellow_pages_company_ct.features.field_instance.inc:1502
+#: yellow_pages_company_ct.features.field_instance.inc:1501
 msgid "Logo expiration date"
 msgstr "Дата истечения срока логотипа"
 
-#: yellow_pages_company_ct.features.field_instance.inc:1503
+#: yellow_pages_company_ct.features.field_instance.inc:1502
 msgid "MDB sync date"
 msgstr "Дата обновления из MDB"
 
-#: yellow_pages_company_ct.features.field_instance.inc:1504
+#: yellow_pages_company_ct.features.field_instance.inc:1503
 msgid "Media materials"
 msgstr "Медия материалы"
 
-#: yellow_pages_company_ct.features.field_instance.inc:1505
+#: yellow_pages_company_ct.features.field_instance.inc:1504
 msgid "Mobile phone"
 msgstr "Мобильный телефон"
 
-#: yellow_pages_company_ct.features.field_instance.inc:1506
+#: yellow_pages_company_ct.features.field_instance.inc:1505
 msgid "Price-lists"
 msgstr "Прайс-листы"
 
-#: yellow_pages_company_ct.features.field_instance.inc:1507 yellow_pages_company_ct.field_group.inc:521 yellow_pages_company_ct.fields.inc:13
+#: yellow_pages_company_ct.features.field_instance.inc:1506 yellow_pages_company_ct.field_group.inc:521 yellow_pages_company_ct.fields.inc:13
 msgid "Products"
 msgstr "Производим"
 
-#: yellow_pages_company_ct.features.field_instance.inc:1508
+#: yellow_pages_company_ct.features.field_instance.inc:1507
 msgid "Region"
 msgstr "Область"
 
-#: yellow_pages_company_ct.features.field_instance.inc:1509
+#: yellow_pages_company_ct.features.field_instance.inc:1508
 msgid "Site URL"
 msgstr "URL предприятия"
 
-#: yellow_pages_company_ct.features.field_instance.inc:1510
+#: yellow_pages_company_ct.features.field_instance.inc:1509
 msgid "Social links"
 msgstr "Социальные сети"
+
+#: yellow_pages_company_ct.features.field_instance.inc:1510
+msgid "Telephone/Fax"
+msgstr "Телефон/Факс"
 
 #: yellow_pages_company_ct.features.inc:59
 msgid "Company"
@@ -136,7 +136,7 @@ msgstr ""
 "Создавайте и управляйте банерной "
 "рекламой"
 
-#: yellow_pages_company_ct.features.inc:63 yellow_pages_company_ct.module:988
+#: yellow_pages_company_ct.features.inc:63 yellow_pages_company_ct.module:1080
 msgid "Company name"
 msgstr "Название компании"
 
@@ -228,19 +228,19 @@ msgstr ""
 msgid "Activity"
 msgstr "Активность"
 
-#: yellow_pages_company_ct.fields.inc:157
+#: yellow_pages_company_ct.fields.inc:160
 msgid "Product"
 msgstr "Продукт"
 
-#: yellow_pages_company_ct.fields.inc:174
+#: yellow_pages_company_ct.fields.inc:180
 msgid "Category"
 msgstr "Категория"
 
-#: yellow_pages_company_ct.fields.inc:220
+#: yellow_pages_company_ct.fields.inc:226
 msgid "Default"
 msgstr "По умолчанию"
 
-#: yellow_pages_company_ct.fields.inc:224
+#: yellow_pages_company_ct.fields.inc:230
 msgid "Parent category"
 msgstr "Родительская категория"
 
@@ -378,137 +378,137 @@ msgstr ""
 msgid "Allow users to administer settings for company content type module."
 msgstr ""
 
-#: yellow_pages_company_ct.module:204
+#: yellow_pages_company_ct.module:216
 msgid "Create company editor for mail @mail"
 msgstr ""
 "Создать редактора компании для "
 "элекртонной почты @mail"
 
-#: yellow_pages_company_ct.module:238
+#: yellow_pages_company_ct.module:250
 msgid "None"
 msgstr "Нет"
 
-#: yellow_pages_company_ct.module:281
+#: yellow_pages_company_ct.module:293
 msgid "I accept the user agreement"
 msgstr ""
 "Я согласен с пользовательским "
 "соглашением"
 
-#: yellow_pages_company_ct.module:288
+#: yellow_pages_company_ct.module:300
 msgid "Save"
 msgstr "Сохранить"
 
-#: yellow_pages_company_ct.module:357;560
+#: yellow_pages_company_ct.module:369;590
 msgid "IDNO"
 msgstr ""
 
-#: yellow_pages_company_ct.module:362;561
+#: yellow_pages_company_ct.module:374;600
 msgid "TVA"
 msgstr "НДС"
 
-#: yellow_pages_company_ct.module:363;561
+#: yellow_pages_company_ct.module:375;604
 msgid "No"
 msgstr "Нет"
 
-#: yellow_pages_company_ct.module:363;561
+#: yellow_pages_company_ct.module:375;604
 msgid "Yes"
 msgstr "Да"
 
-#: yellow_pages_company_ct.module:368;562
+#: yellow_pages_company_ct.module:380;610
 msgid "Year of foundation"
 msgstr "Год основания компании"
 
-#: yellow_pages_company_ct.module:373;563
+#: yellow_pages_company_ct.module:385;620
 msgid "Number of jobs"
 msgstr "Количесво рабочих мест"
 
-#: yellow_pages_company_ct.module:378;564
+#: yellow_pages_company_ct.module:390;630
 msgid "Brands"
 msgstr "Брэнды"
 
-#: yellow_pages_company_ct.module:384;565
+#: yellow_pages_company_ct.module:396;640
 msgid "Persons"
 msgstr "Люди"
 
-#: yellow_pages_company_ct.module:452
+#: yellow_pages_company_ct.module:464
 msgid "Administration"
 msgstr "Управление"
 
-#: yellow_pages_company_ct.module:537
+#: yellow_pages_company_ct.module:551
 msgid "Field"
 msgstr "Поле"
 
-#: yellow_pages_company_ct.module:538
+#: yellow_pages_company_ct.module:555
 msgid "Value"
 msgstr "Значение"
 
-#: yellow_pages_company_ct.module:557
+#: yellow_pages_company_ct.module:578
 msgid "Title"
 msgstr "Заголовок"
 
-#: yellow_pages_company_ct.module:596
+#: yellow_pages_company_ct.module:688
 msgid "Edits saved."
 msgstr "Изменения сохранены."
 
-#: yellow_pages_company_ct.module:625
+#: yellow_pages_company_ct.module:717
 msgid "User created successfully. You will receive confirmation e-mail message at your email."
 msgstr ""
 "Пользователь успешно создан. Вы "
 "получите письмо с потдверждением на "
 "свою электронную почту."
 
-#: yellow_pages_company_ct.module:630;1060
+#: yellow_pages_company_ct.module:722;1152
 msgid "Something went wrong. Please contact site administrator."
 msgstr ""
 "Произошла непредвиденая ошибка. "
 "Пожалуйста, обратитесь к "
 "администратору сайта."
 
-#: yellow_pages_company_ct.module:699
+#: yellow_pages_company_ct.module:791
 msgid "Your changes being validated."
 msgstr "Ваши изменения ожидают проверки."
 
-#: yellow_pages_company_ct.module:801
+#: yellow_pages_company_ct.module:893
 msgid "Company editors emails"
 msgstr ""
 
-#: yellow_pages_company_ct.module:802
+#: yellow_pages_company_ct.module:894
 msgid "Email addresses of Enterprise Editors which has current company node as related company."
 msgstr ""
 
-#: yellow_pages_company_ct.module:806
+#: yellow_pages_company_ct.module:898
 msgid "Company node modified fields"
 msgstr "Измененные поля компании"
 
-#: yellow_pages_company_ct.module:807
+#: yellow_pages_company_ct.module:899
 msgid "Fields modified in company node on edit."
 msgstr ""
 "Поля измененные в компании во время "
 "редактирования."
 
-#: yellow_pages_company_ct.module:909
+#: yellow_pages_company_ct.module:1001
 msgid "User name"
 msgstr "Имя пользователя"
 
-#: yellow_pages_company_ct.module:912
+#: yellow_pages_company_ct.module:1004
 msgid "You can edit information"
 msgstr "Вы можете редактировать информацию"
 
-#: yellow_pages_company_ct.module:913
+#: yellow_pages_company_ct.module:1005
 msgid "You can edit price-lists"
 msgstr "Вы можете редактировать прайс-листы"
 
-#: yellow_pages_company_ct.module:926;33
+#: yellow_pages_company_ct.module:1018;33
 msgid "Edit"
 msgstr "Редактировать"
 
-#: yellow_pages_company_ct.module:931
+#: yellow_pages_company_ct.module:1023
 msgid "Companies which you can edit:"
 msgstr ""
 "Компании которые вы можете "
 "редактировать:"
 
-#: yellow_pages_company_ct.module:968
+#: yellow_pages_company_ct.module:1060
 msgid "To get access to edit information is necessary to fill the following form. All fields are required."
 msgstr ""
 "Для получения доступа к "
@@ -516,43 +516,43 @@ msgstr ""
 "заполнить следующую форму. Все поля "
 "обязательны к заполнению."
 
-#: yellow_pages_company_ct.module:974
+#: yellow_pages_company_ct.module:1066
 msgid "Your full name"
 msgstr "ФИО"
 
-#: yellow_pages_company_ct.module:995
+#: yellow_pages_company_ct.module:1087
 msgid "Send"
 msgstr "Отправить"
 
-#: yellow_pages_company_ct.module:1008
+#: yellow_pages_company_ct.module:1100
 msgid "The email address is not valid."
 msgstr "E-mail адресс неверный."
 
-#: yellow_pages_company_ct.module:1068
+#: yellow_pages_company_ct.module:1160
 msgid "Thank you, we will contact you soon."
 msgstr "Спасибо, вскоре мы свяжемся с вами."
 
-#: yellow_pages_company_ct.module:1083
+#: yellow_pages_company_ct.module:1175
 msgid "Request for enterprise editor creation"
 msgstr ""
 "Запрос на добавление редактора "
 "предприятия"
 
-#: yellow_pages_company_ct.module:1084
+#: yellow_pages_company_ct.module:1176
 msgid "You have received the request for enterprise editor creation:"
 msgstr ""
 "Вы получили запрос на регистрацию "
 "редатора предприятия:"
 
-#: yellow_pages_company_ct.module:1085
+#: yellow_pages_company_ct.module:1177
 msgid "Full name: @name"
 msgstr "ФИО: @name"
 
-#: yellow_pages_company_ct.module:1086
+#: yellow_pages_company_ct.module:1178
 msgid "Email: @email"
 msgstr ""
 
-#: yellow_pages_company_ct.module:1087
+#: yellow_pages_company_ct.module:1179
 msgid "Company name: @company_name"
 msgstr "Название компании: @company_name"
 

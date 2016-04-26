@@ -305,8 +305,17 @@ function yellow_pages_company_ct_form_company_node_form_alter(&$form, &$form_sta
       );
 
       // Products field.
+      $products_defaults = db_select('company_node_changes', 'cc')
+        ->fields('cc', array('products_field'))
+        ->condition('cc.nid', $form['#node']->nid)
+        ->condition('cc.uid', $user->uid)
+        ->execute()
+        ->fetchField();
       if (!empty($form_state['input']['products'])) {
         $products = $form_state['input']['products'];
+      }
+      elseif (!empty($products_defaults)) {
+        $products = unserialize($products_defaults);
       }
       else {
         $products = parse_products_from_node($form['#node']);
@@ -556,6 +565,14 @@ function yellow_pages_company_ct_company_edit_submit(&$form, &$form_state) {
     $xml_values[$xml_field] = $input[$xml_field];
   }
 
+  // Collect products from custom field.
+  $products = array();
+  foreach ($input['products'] as $product) {
+    if (!empty($product['product_name'])) {
+      $products[] = $product;
+    }
+  }
+
   // Insert current state of node into table as temporary storage.
   db_merge('company_node_changes')
     ->key(array(
@@ -566,6 +583,7 @@ function yellow_pages_company_ct_company_edit_submit(&$form, &$form_state) {
       'timestamp' => REQUEST_TIME,
       'node_object' => serialize($new_node),
       'xml_changes' => serialize($xml_values),
+      'products_field' => serialize($products),
     ))
     ->execute();
 

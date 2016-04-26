@@ -1,9 +1,12 @@
 <?php
+/**
+ * @file
+ * Provides custom product field functionality.
+ */
 
 function yellow_pages_company_ct_product_subform($products) {
   module_load_include('inc', 'yellow_pages_company_ct', 'yellow_pages_company_ct.fields');
 
-  //var_dump($products);die;
   $subform = array(
     '#type' => 'fieldset',
     '#title' => 'Products',

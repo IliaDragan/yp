@@ -62,6 +62,12 @@ function yellow_pages_company_ct_schema() {
         'not null' => FALSE,
         'size' => 'medium',
       ),
+      'products_field' => array(
+        'description' => 'The products field form values.',
+        'type' => 'text',
+        'not null' => FALSE,
+        'size' => 'medium',
+      ),
     ),
     'indexes' => array(
       'nid' => array('nid'),
@@ -117,4 +123,19 @@ function yellow_pages_company_ct_update_7001(&$sandbox) {
   );
 
   db_create_table('company_node_changes', $table);
+}
+
+/*
+ * Add products field to company changes table.
+ */
+function yellow_pages_company_ct_update_7002(&$sandbox) {
+  // Add new field.
+  $spec = array(
+    'description' => 'The products field form values.',
+    'type' => 'text',
+    'not null' => FALSE,
+    'size' => 'medium',
+  );
+
+  db_add_field('company_node_changes', 'products_field', $spec);
 }

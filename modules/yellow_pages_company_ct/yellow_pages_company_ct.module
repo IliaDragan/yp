@@ -27,6 +27,15 @@ function yellow_pages_company_ct_menu() {
     'type' => MENU_CALLBACK,
   );
 
+  $menu['yp/editor_autocomplete/product'] = array(
+    'title' => 'Autocomplete for products for editors',
+    'page callback' => '_products_autocomplete_editor',
+    'access arguments' => array('use products autocomplete'),
+    'type' => MENU_CALLBACK,
+    'file' => 'yellow_pages_company_ct.product.inc',
+  );
+
+
   $menu['yp/autocomplete/category'] = array() + $menu['yp/autocomplete/product'];
 
   $menu['company/%node/edit'] = array(
@@ -231,6 +240,7 @@ function yellow_pages_company_ct_form_company_node_form_alter(&$form, &$form_sta
 
     // Form modifications for enterprise editor.
     if (user_access('edit related companies') && $user->uid != 1) {
+      module_load_include('inc', 'yellow_pages_company_ct', 'yellow_pages_company_ct.product');
       $user = user_load($user->uid);
 
       // Business hours form.
@@ -293,6 +303,16 @@ function yellow_pages_company_ct_form_company_node_form_alter(&$form, &$form_sta
         '#title' => l(t('I accept the user agreement'), $agreement_link),
         '#weight' => 97,
       );
+
+      // Products field.
+      if (!empty($form_state['input']['products'])) {
+        $products = $form_state['input']['products'];
+      }
+      else {
+        $products = parse_products_from_node($form['#node']);
+      }
+
+      $form['products'] = yellow_pages_company_ct_product_subform($products);
 
       // Override form submit function.
       $form['submit'] = array(
@@ -461,7 +481,7 @@ function yellow_pages_company_ct_form_company_node_form_alter(&$form, &$form_sta
       unset($form['#fieldgroups']['group_administration']->id);
       $form['#fieldgroups']['group_administration']->identifier = 'group_administration|node|company|form';
       $form['#fieldgroups']['group_administration']->group_name = 'group_administration';
-      $form['#fieldgroups']['group_administration']->label = t('Administration');
+      $form['#fieldgroups']['group_administration']->label = t('Persons');
       $form['#fieldgroups']['group_administration']->children = array('persons');
       $form['#fieldgroups']['group_administration']->weight = 98;
       $form['#group_children']['group_administration'] = 'group_company_info';
@@ -487,6 +507,10 @@ function yellow_pages_company_ct_form_company_node_form_alter(&$form, &$form_sta
       );
     }
   }
+}
+
+function  yellow_pages_company_ct_company_edit_ajax_submit(&$form, &$form_state) {
+  $form_state['rebuild'] = TRUE;
 }
 
 /**
@@ -975,6 +999,10 @@ function yellow_pages_company_ct_theme($existing, $type, $theme, $path) {
     'business_hours' => array(
       'variables' => array('hours' => NULL, 'weekday' => NULL),
       'file' => 'yellow_pages_company_ct.theme.inc',
+    ),
+    'yellow_pages_products_form' => array(
+      'render element' => 'form',
+      'file' => 'yellow_pages_company_ct.product.inc',
     ),
   );
 }

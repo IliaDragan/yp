@@ -77,14 +77,9 @@ function yellow_pages_company_ct_product_subform($products) {
   return $subform;
 }
 
-//function products_add_more_submit(&$form, &$form_state) {
-//  $form_state['rebuild'] = TRUE;
-//}
-
 function theme_yellow_pages_products_form($variables) {
   module_load_include('inc', 'yellow_pages_company_ct', 'yellow_pages_company_ct.fields');
   $product_activity_list = _yp_product_activity_options_list();
-
 
   $header = array(t('Product'));
   foreach ($product_activity_list as $activity) {
@@ -169,4 +164,60 @@ function parse_products_from_node($node) {
   }
 
   return $products;
+}
+
+/**
+ * Creates products table for user view.
+ *
+ * @param $source
+ *   Node object or $products form values.
+ *
+ * @param string $from
+ *   Indicates from what source will $products be parsed ('node' or 'values').
+ */
+function yellow_pages_company_ct_products_view($source, $from = 'node') {
+  module_load_include('inc', 'yellow_pages_company_ct', 'yellow_pages_company_ct.fields');
+  $product_activity_list = _yp_product_activity_options_list();
+  $style = "font-size: 10pt; border: 1px solid #444444";
+
+  if ($from == 'node') {
+    $products = parse_products_from_node($source);
+  }
+  else {
+    $products = $source;
+  }
+
+  $header = array(
+    array(
+      'data' => t('Product'),
+      'style' => "font-size: 10px; border: 1px solid #444444; padding: 2px 3px;",
+    ),
+  );
+  foreach ($product_activity_list as $activity) {
+    $header[] = array(
+      'data' => $activity,
+      'style' => "font-size: 10px; border: 1px solid #444444; padding: 2px 3px;",
+    );
+  }
+
+  $rows = array();
+  foreach ($products as $tid => $product) {
+    $row = array(
+      array(
+        'data' => $product['product_name'],
+        'style' => "font-size: 10px; border: 1px solid #444444; padding: 2px 3px;",
+      ),
+    );
+    foreach ($product_activity_list as $key => $activity) {
+      $row[] = array(
+        'data' => (empty($product[$key]) ? '&#9744;' : '&#9745;'),
+        'style' => "border: 1px solid #444444; text-align: center;",
+      );
+    }
+    $rows[] = $row;
+  }
+  $attr = array(
+    'style' => "border-collapse: collapse",
+  );
+  return theme('table', array('rows' => $rows, 'header' => $header, 'attributes' => $attr));
 }

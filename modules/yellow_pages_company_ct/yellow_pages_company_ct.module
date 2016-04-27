@@ -526,6 +526,7 @@ function  yellow_pages_company_ct_company_edit_ajax_submit(&$form, &$form_state)
  * Alternative submit for company edit form for enterprise editor roles.
  */
 function yellow_pages_company_ct_company_edit_submit(&$form, &$form_state) {
+  module_load_include('inc', 'yellow_pages_company_ct', 'yellow_pages_company_ct.product');
   global $user;
 
   // Serialize working hours.
@@ -691,7 +692,6 @@ function yellow_pages_company_ct_company_edit_submit(&$form, &$form_state) {
   $fields = array(
     'field_company_site',
     'field_email',
-    'field_products',
     'field_address',
     'field_landline_phone',
     'field_fax',
@@ -719,6 +719,23 @@ function yellow_pages_company_ct_company_edit_submit(&$form, &$form_state) {
       ),
     );
   }
+
+  // Product fields.
+  $old_products_view = yellow_pages_company_ct_products_view($node, 'node');
+  $new_products_view = yellow_pages_company_ct_products_view($products, 'values');
+  $rows[] = array(
+    array(
+      'data' => $_field_label(t('Products and services'), $new_products_view, $old_products_view) . ': ',
+      'colspan' => 2,
+      'style' => "padding: 5px;",
+    ),
+  );
+  $rows[] = array(
+    array(
+      'data' => $new_products_view,
+      'colspan' => 2,
+    ),
+  );
 
   $attributes = array('style' => 'border-collapse: collapse; display: inline-table;');
   $changes_markup = theme('table', array('header' => $header, 'rows' => $rows, 'empty' => '', 'attributes' => $attributes));

@@ -11,6 +11,7 @@ function yellow_pages_company_ct_product_subform($products) {
     '#type' => 'fieldset',
     '#title' => 'Products',
     '#tree' => TRUE,
+    '#weight' => 10,
     '#theme' => 'yellow_pages_products_form',
     '#prefix' => '<div id="products-add-more-wrapper">',
     '#suffix' => '</div>',
@@ -40,6 +41,7 @@ function yellow_pages_company_ct_product_subform($products) {
       'product_name' => array(
         '#type' => 'textfield',
         '#title' => '',
+        '#size' => 40,
         '#autocomplete_path' => 'yp/editor_autocomplete/product',
         '#default_value' => $product['product_name'],
       ),
@@ -60,6 +62,7 @@ function yellow_pages_company_ct_product_subform($products) {
     'product_name' => array(
       '#type' => 'textfield',
       '#title' => '',
+      '#size' => 40,
       '#autocomplete_path' => 'yp/editor_autocomplete/product',
       '#default_value' => '',
     ),

@@ -352,6 +352,7 @@ function yellow_pages_company_ct_form_company_node_form_alter(&$form, &$form_sta
         'field_geocode',
         'field_social_links',
         'field_region',
+        'field_products',
       );
 
       $date_access_fields = array(
@@ -485,6 +486,7 @@ function yellow_pages_company_ct_form_company_node_form_alter(&$form, &$form_sta
       $form['#group_children']['creation_year'] = 'group_main_content';
       $form['#group_children']['number_of_jobs'] = 'group_main_content';
       $form['#group_children']['brands'] = 'group_products_services';
+      $form['#group_children']['products'] = 'group_products_services';
 
       $form['#fieldgroups']['group_administration'] = clone($form['#fieldgroups']['group_additional_information']);
       unset($form['#fieldgroups']['group_administration']->id);

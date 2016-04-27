@@ -73,6 +73,11 @@ function yellow_pages_company_ct_menu() {
   return $menu;
 }
 
+/**
+ * Page callback for company edit form.
+ * @param $node
+ *   Company node object.
+ */
 function yellow_pages_company_ct_node_page_edit($node) {
   if ($node->type != 'company') {
     return drupal_not_found();
@@ -318,7 +323,7 @@ function yellow_pages_company_ct_form_company_node_form_alter(&$form, &$form_sta
         $products = unserialize($products_defaults);
       }
       else {
-        $products = parse_products_from_node($form['#node']);
+        $products = yellow_pages_company_ct_parse_products_from_node($form['#node']);
       }
 
       $form['products'] = yellow_pages_company_ct_product_subform($products);
@@ -474,7 +479,7 @@ function yellow_pages_company_ct_form_company_node_form_alter(&$form, &$form_sta
 
           $form_state['storage']['xml_defaults'] = $xml_defaults;
           $defaults = empty($defaults) ? $xml_defaults : unserialize($defaults);
-          foreach($xml_fields as $xml_field) {
+          foreach ($xml_fields as $xml_field) {
             $form[$xml_field]['#default_value'] = $defaults[$xml_field];
           }
         }
@@ -874,7 +879,7 @@ function yellow_pages_company_ct_form_user_profile_form_alter(&$form, &$form_sta
   }
   // Translate roles in user edit form.
   if (!empty($form['account']['roles']['#options'])) {
-    foreach($form['account']['roles']['#options'] as &$option) {
+    foreach ($form['account']['roles']['#options'] as &$option) {
       $option = t($option);
     }
   }

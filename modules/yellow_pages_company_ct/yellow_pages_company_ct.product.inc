@@ -4,6 +4,15 @@
  * Provides custom product field functionality.
  */
 
+/**
+ * Callback function that creates custom products fieldset.
+ *
+ * @param $products
+ *   Products default values.
+ *
+ * @return array
+ *   Form fieldset element renderable array.
+ */
 function yellow_pages_company_ct_product_subform($products) {
   module_load_include('inc', 'yellow_pages_company_ct', 'yellow_pages_company_ct.fields');
 
@@ -15,6 +24,9 @@ function yellow_pages_company_ct_product_subform($products) {
     '#theme' => 'yellow_pages_products_form',
     '#prefix' => '<div id="products-add-more-wrapper">',
     '#suffix' => '</div>',
+    '#attributes' => array(
+      'class' => array('edit-products-fieldset')
+    ),
     'add_more' => array(
       '#type' => 'submit',
       '#value' => t('Add more'),
@@ -22,12 +34,12 @@ function yellow_pages_company_ct_product_subform($products) {
       '#submit' => array('yellow_pages_company_ct_company_edit_ajax_submit'),
       '#ajax' => array(
         'wrapper' => 'products-add-more-wrapper',
-        'callback' => 'field_product_add_more_js',
+        'callback' => 'yellow_pages_company_ct_field_product_add_more_js',
         'method' => 'replace',
         'effect' => 'fade',
       ),
       '#attributes' => array(
-        'class' => array ('field-add-more-submit'),
+        'class' => array('field-add-more-submit'),
       ),
     ),
   );
@@ -80,6 +92,15 @@ function yellow_pages_company_ct_product_subform($products) {
   return $subform;
 }
 
+/**
+ * Returns HTML for products form fieldset element.
+ *
+ *  @param $variables
+ *   An associative array containing:
+ *   - form: Products fieldset form element.
+ *
+ * @ingroup themeable
+ */
 function theme_yellow_pages_products_form($variables) {
   module_load_include('inc', 'yellow_pages_company_ct', 'yellow_pages_company_ct.fields');
   $product_activity_list = _yp_product_activity_options_list();
@@ -144,11 +165,23 @@ function _products_autocomplete_editor($input) {
   drupal_exit(0);
 }
 
-function field_product_add_more_js($form, $form_state) {
+/**
+ * Ajax callback for products field "add more" submit.
+ */
+function yellow_pages_company_ct_field_product_add_more_js($form, $form_state) {
   return $form['products'];
 }
 
-function parse_products_from_node($node) {
+/**
+ * Transforms products from node entity to products values array.
+ *
+ * @param $node
+ *   Company node object.
+ *
+ * @return array
+ *   Products values array.
+ */
+function yellow_pages_company_ct_parse_products_from_node($node) {
   global $language;
 
   $products = array();
@@ -184,7 +217,7 @@ function yellow_pages_company_ct_products_view($source, $from = 'node') {
   $style = "font-size: 10pt; border: 1px solid #444444";
 
   if ($from == 'node') {
-    $products = parse_products_from_node($source);
+    $products = yellow_pages_company_ct_parse_products_from_node($source);
   }
   else {
     $products = $source;

@@ -3308,25 +3308,25 @@ body > .node-advertisement {
 #company-node-form #edit-body .field-body-label .field-edit-link {
   display: none;
 }
-#company-node-form #edit-products {
+#company-node-form #products-add-more-wrapper .edit-products-fieldset {
   padding: 0;
 }
-#company-node-form #edit-products table {
+#company-node-form #products-add-more-wrapper .edit-products-fieldset table {
   border-collapse: collapse;
   width: 100%;
 }
-#company-node-form #edit-products table th {
+#company-node-form #products-add-more-wrapper .edit-products-fieldset table th {
   padding: 10px 5px;
   border: 1px solid #a4a4a4;
 }
-#company-node-form #edit-products table td {
+#company-node-form #products-add-more-wrapper .edit-products-fieldset table td {
   text-align: center;
   border: 1px solid #a4a4a4;
 }
-#company-node-form #edit-products table td .form-item {
+#company-node-form #products-add-more-wrapper .edit-products-fieldset table td .form-item {
   margin: 0;
 }
-#company-node-form #edit-products table td .form-item input.field-products-textfield {
+#company-node-form #products-add-more-wrapper .edit-products-fieldset table td .form-item input.field-products-textfield {
   width: 100%;
 }
 

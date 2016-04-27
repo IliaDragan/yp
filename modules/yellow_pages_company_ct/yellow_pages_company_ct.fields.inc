@@ -290,7 +290,7 @@ function yellow_pages_company_ct_field_formatter_view($entity_type, $entity, $fi
 
           break;
         case 'yp_product_parent':
-          if ($top_most == false) {
+          if ($top_most == FALSE) {
             break;
           }
           // Do not display same parents more than once.

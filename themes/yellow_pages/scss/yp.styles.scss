@@ -3030,25 +3030,27 @@ body > .node-advertisement {
       }
     }
   }
-  #edit-products {
-    padding: 0;
+  #products-add-more-wrapper {
+    .edit-products-fieldset {
+      padding: 0;
 
-    table {
-      border-collapse: collapse;
-      width: 100%;
+      table {
+        border-collapse: collapse;
+        width: 100%;
 
-      th {
-        padding: 10px 5px;
-        border: 1px solid $gray;
-      }
-      td {
-        text-align: center;
-        border: 1px solid $gray;
-        .form-item {
-          margin: 0;
+        th {
+          padding: 10px 5px;
+          border: 1px solid $gray;
+        }
+        td {
+          text-align: center;
+          border: 1px solid $gray;
+          .form-item {
+            margin: 0;
 
-          input.field-products-textfield {
-            width: 100%;
+            input.field-products-textfield {
+              width: 100%;
+            }
           }
         }
       }

@@ -514,6 +514,11 @@ function yellow_pages_company_ct_form_company_node_form_alter(&$form, &$form_sta
       $form['#group_children']['business_hours'] = 'group_business_hours';
 
       $form['#fieldgroups']['group_additional_information']->weight = 100;
+
+      // Attach javascript to form.
+      $form['#attached']['js'] = array(
+        drupal_get_path('module', 'yellow_pages_company_ct') . '/js/yellow_pages_company_ct.company_form.js',
+      );
     }
     else {
       $title = t('Business hours');

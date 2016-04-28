@@ -443,10 +443,12 @@ function yellow_pages_company_ct_form_company_node_form_alter(&$form, &$form_sta
           // Get default values from xml.
           $xml_defaults = array(
             'idno' => (string) $xml->idno,
-            'tva' => (string) $xml->tva,
             'creation_year' => (string) $xml->creation_year,
             'number_of_jobs' => (string) $xml->number_of_jobs,
           );
+
+          $tva = (string) $xml->tva;
+          $xml_defaults['tva'] = (strtolower($tva) == 'true' ? 1 : 0);
 
           $brands = array();
           if (!empty($xml->brands->{'list-item'})) {

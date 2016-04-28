@@ -3338,10 +3338,6 @@ body > .node-advertisement {
   padding: 0 20px 0 5px;
   width: 100%;
 }
-#company-node-form #products-add-more-wrapper .edit-products-fieldset table td .form-item input.field-products-textfield:hover {
-  background: red;
-  overflow: visible;
-}
 
 #autocomplete {
   background-color: #f4f4f4;

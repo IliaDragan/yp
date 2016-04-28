@@ -18,7 +18,7 @@ function yellow_pages_company_ct_product_subform($products) {
 
   $subform = array(
     '#type' => 'fieldset',
-    '#title' => 'Products',
+    '#title' => t('Products and services'),
     '#tree' => TRUE,
     '#weight' => 10,
     '#theme' => 'yellow_pages_products_form',
@@ -105,7 +105,7 @@ function theme_yellow_pages_products_form($variables) {
   module_load_include('inc', 'yellow_pages_company_ct', 'yellow_pages_company_ct.fields');
   $product_activity_list = _yp_product_activity_options_list();
 
-  $header = array(t('Product'));
+  $header = array(t('Products and services'));
   foreach ($product_activity_list as $activity) {
     $header[] = $activity;
   }

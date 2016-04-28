@@ -757,6 +757,9 @@ function yellow_pages_company_ct_company_edit_submit(&$form, &$form_state) {
   rules_invoke_event('company_changed_by_enterprise_editor', $new_node);
 
   drupal_set_message(t('Edits saved.'), 'status', FALSE);
+
+  // Redirect to user profile page.
+  drupal_goto('user');
 }
 
 /**

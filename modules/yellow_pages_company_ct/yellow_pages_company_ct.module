@@ -443,10 +443,12 @@ function yellow_pages_company_ct_form_company_node_form_alter(&$form, &$form_sta
           // Get default values from xml.
           $xml_defaults = array(
             'idno' => (string) $xml->idno,
-            'tva' => (string) $xml->tva,
             'creation_year' => (string) $xml->creation_year,
             'number_of_jobs' => (string) $xml->number_of_jobs,
           );
+
+          $tva = (string) $xml->tva;
+          $xml_defaults['tva'] = (strtolower($tva) == 'true' ? 1 : 0);
 
           $brands = array();
           if (!empty($xml->brands->{'list-item'})) {
@@ -514,6 +516,11 @@ function yellow_pages_company_ct_form_company_node_form_alter(&$form, &$form_sta
       $form['#group_children']['business_hours'] = 'group_business_hours';
 
       $form['#fieldgroups']['group_additional_information']->weight = 100;
+
+      // Attach javascript to form.
+      $form['#attached']['js'] = array(
+        drupal_get_path('module', 'yellow_pages_company_ct') . '/js/yellow_pages_company_ct.company_form.js',
+      );
     }
     else {
       $title = t('Business hours');
@@ -752,6 +759,9 @@ function yellow_pages_company_ct_company_edit_submit(&$form, &$form_state) {
   rules_invoke_event('company_changed_by_enterprise_editor', $new_node);
 
   drupal_set_message(t('Edits saved.'), 'status', FALSE);
+
+  // Redirect to user profile page.
+  drupal_goto('user');
 }
 
 /**

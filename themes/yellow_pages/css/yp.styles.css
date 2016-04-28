@@ -3319,14 +3319,23 @@ body > .node-advertisement {
   padding: 10px 5px;
   border: 1px solid #a4a4a4;
 }
-#company-node-form #products-add-more-wrapper .edit-products-fieldset table td {
+#company-node-form #products-add-more-wrapper .edit-products-fieldset table th.activity-cell {
+  width: 100px;
   text-align: center;
+}
+#company-node-form #products-add-more-wrapper .edit-products-fieldset table td {
   border: 1px solid #a4a4a4;
+  min-width: 100px;
+}
+#company-node-form #products-add-more-wrapper .edit-products-fieldset table td.activity-cell {
+  width: 100px;
+  text-align: center;
 }
 #company-node-form #products-add-more-wrapper .edit-products-fieldset table td .form-item {
   margin: 0;
 }
 #company-node-form #products-add-more-wrapper .edit-products-fieldset table td .form-item input.field-products-textfield {
+  padding: 0 20px 0 5px;
   width: 100%;
 }
 

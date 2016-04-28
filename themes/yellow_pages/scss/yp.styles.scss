@@ -3041,14 +3041,23 @@ body > .node-advertisement {
         th {
           padding: 10px 5px;
           border: 1px solid $gray;
+          &.activity-cell {
+            width: 100px;
+            text-align: center;
+          }
         }
         td {
-          text-align: center;
           border: 1px solid $gray;
+          min-width: 100px;
+          &.activity-cell {
+            width: 100px;
+            text-align: center;
+          }
           .form-item {
             margin: 0;
 
             input.field-products-textfield {
+              padding: 0 20px 0 5px;
               width: 100%;
             }
           }

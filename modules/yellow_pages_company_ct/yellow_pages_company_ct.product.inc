@@ -107,7 +107,10 @@ function theme_yellow_pages_products_form($variables) {
 
   $header = array(t('Products and services'));
   foreach ($product_activity_list as $activity) {
-    $header[] = $activity;
+    $header[] = array(
+      'data' => $activity,
+      'class' => array('activity-cell'),
+    );
   }
 
   $rows = array();
@@ -117,7 +120,10 @@ function theme_yellow_pages_products_form($variables) {
         drupal_render($fieldset['product_name']),
       );
       foreach ($product_activity_list as $key => $activity) {
-        $row[] = drupal_render($fieldset[$key]);
+        $row[] = array(
+          'data' => drupal_render($fieldset[$key]),
+          'class' => array('activity-cell'),
+        );
       }
       $rows[] = $row;
     }

@@ -248,7 +248,6 @@ function yellow_pages_company_ct_parse_products_from_node($node) {
 function yellow_pages_company_ct_products_view($source, $from = 'node') {
   module_load_include('inc', 'yellow_pages_company_ct', 'yellow_pages_company_ct.fields');
   $product_activity_list = _yp_product_activity_options_list();
-  $style = "font-size: 10pt; border: 1px solid #444444";
 
   if ($from == 'node') {
     $products = yellow_pages_company_ct_parse_products_from_node($source);
@@ -287,7 +286,7 @@ function yellow_pages_company_ct_products_view($source, $from = 'node') {
     $rows[] = $row;
   }
   $attr = array(
-    'style' => "border-collapse: collapse",
+    'style' => "border-collapse: collapse; width: 100%;",
   );
   return theme('table', array('rows' => $rows, 'header' => $header, 'attributes' => $attr));
 }

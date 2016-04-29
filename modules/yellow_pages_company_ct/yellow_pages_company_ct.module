@@ -569,9 +569,9 @@ function yellow_pages_company_ct_company_edit_submit(&$form, &$form_state) {
       'end' => $form_state['input'][$day]['end'],
     );
   }
-  $hours = serialize($hours);
-  $form_state['input']['field_business_hours'][LANGUAGE_NONE][0]['value'] = $hours;
-  $form_state['values']['field_business_hours'][LANGUAGE_NONE][0]['value'] = $hours;
+  $serialized_hours = serialize($hours);
+  $form_state['input']['field_business_hours'][LANGUAGE_NONE][0]['value'] = $serialized_hours;
+  $form_state['values']['field_business_hours'][LANGUAGE_NONE][0]['value'] = $serialized_hours;
 
   $input = $form_state['input'];
   // Load old node from bd, because $form['#node'] is last modified node value.
@@ -642,6 +642,7 @@ function yellow_pages_company_ct_company_edit_submit(&$form, &$form_state) {
   };
 
   $rows = array();
+
   // Title.
   $rows[] = array(
     array(
@@ -723,7 +724,6 @@ function yellow_pages_company_ct_company_edit_submit(&$form, &$form_state) {
     'field_landline_phone',
     'field_fax',
     'field_mobile_phone',
-    'field_business_hours',
   );
 
   foreach ($fields as $field) {
@@ -747,6 +747,28 @@ function yellow_pages_company_ct_company_edit_submit(&$form, &$form_state) {
     );
   }
 
+  // Field business hours.
+  $new_field_view = field_view_field('node', $new_node, 'field_business_hours', array('label' => 'hidden'));
+  $old_field_view = field_view_field('node', $node, 'field_business_hours', array('label' => 'hidden'));
+
+  $label = $_field_label(t('Business hours'), $new_field_view, $old_field_view);
+
+  $rows[] = array(
+    array(
+      'data' => $label . ': ',
+      'colspan' => 2,
+      'style' => "padding: 5px 10px;",
+    ),
+  );
+
+  $rows[] = array(
+    array(
+      'data' => theme('business_hours_for_email', array('hours' => $hours)),
+      'colspan' => 2,
+      'style' => $border,
+    ),
+  );
+
   // Product fields.
   $old_products_view = yellow_pages_company_ct_products_view($node, 'node');
   $new_products_view = yellow_pages_company_ct_products_view($products, 'values');
@@ -754,17 +776,18 @@ function yellow_pages_company_ct_company_edit_submit(&$form, &$form_state) {
     array(
       'data' => $_field_label(t('Products and services'), $new_products_view, $old_products_view) . ': ',
       'colspan' => 2,
-      'style' => "padding: 5px;",
+      'style' => "padding: 5px 10px;",
     ),
   );
   $rows[] = array(
     array(
       'data' => $new_products_view,
       'colspan' => 2,
+      'style' => "padding: 5px 10px;",
     ),
   );
 
-  $attributes = array('style' => 'border-collapse: collapse; display: inline-table;');
+  $attributes = array('style' => 'border-collapse: collapse; display: inline-table; width: 100%;');
   $changes_markup = theme('table', array('header' => $header, 'rows' => $rows, 'empty' => '', 'attributes' => $attributes));
 
   $new_node->company_diff = $changes_markup;
@@ -1063,6 +1086,10 @@ function yellow_pages_company_ct_theme($existing, $type, $theme, $path) {
   return array(
     'business_hours' => array(
       'variables' => array('hours' => NULL, 'weekday' => NULL),
+      'file' => 'yellow_pages_company_ct.theme.inc',
+    ),
+    'business_hours_for_email' => array(
+      'variables' => array('hours' => NULL),
       'file' => 'yellow_pages_company_ct.theme.inc',
     ),
     'yellow_pages_products_form' => array(

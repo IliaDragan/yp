@@ -50,6 +50,18 @@ function yellow_pages_company_ct_product_subform($products) {
   foreach ($products as $tid => $product) {
     $subform[$i] = array(
       '#type' => 'fieldset',
+      'remove' => array(
+        '#type' => 'submit',
+        '#value' => t('Remove'),
+        '#name' => 'remove-product-' . $i,
+        '#submit' => array('yellow_pages_company_ct_company_edit_ajax_submit'),
+        '#ajax' => array(
+          'wrapper' => 'products-add-more-wrapper',
+          'callback' => 'yellow_pages_company_ct_field_product_add_more_js',
+          'method' => 'replace',
+          'effect' => 'fade',
+        ),
+      ),
       'product_name' => array(
         '#type' => 'textfield',
         '#title' => '',
@@ -71,6 +83,18 @@ function yellow_pages_company_ct_product_subform($products) {
   // Add empty field for new product.
   $field = array(
     '#type' => 'fieldset',
+    'remove' => array(
+      '#type' => 'submit',
+      '#value' => t('Remove'),
+      '#name' => 'remove-product-' . $i,
+      '#submit' => array('yellow_pages_company_ct_company_edit_ajax_submit'),
+      '#ajax' => array(
+        'wrapper' => 'products-add-more-wrapper',
+        'callback' => 'yellow_pages_company_ct_field_product_add_more_js',
+        'method' => 'replace',
+        'effect' => 'fade',
+      ),
+    ),
     'product_name' => array(
       '#type' => 'textfield',
       '#title' => '',
@@ -87,7 +111,7 @@ function yellow_pages_company_ct_product_subform($products) {
       '#default_value' => FALSE,
     );
   }
-  $subform[] = $field;
+  $subform[$i] = $field;
 
   return $subform;
 }
@@ -105,7 +129,10 @@ function theme_yellow_pages_products_form($variables) {
   module_load_include('inc', 'yellow_pages_company_ct', 'yellow_pages_company_ct.fields');
   $product_activity_list = _yp_product_activity_options_list();
 
-  $header = array(t('Products and services'));
+  $header = array(
+    '',
+    t('Products and services')
+  );
   foreach ($product_activity_list as $activity) {
     $header[] = array(
       'data' => $activity,
@@ -117,6 +144,7 @@ function theme_yellow_pages_products_form($variables) {
   foreach ($variables['form'] as $tid => $fieldset) {
     if (is_int($tid)) {
       $row = array(
+        drupal_render($fieldset['remove']),
         drupal_render($fieldset['product_name']),
       );
       foreach ($product_activity_list as $key => $activity) {

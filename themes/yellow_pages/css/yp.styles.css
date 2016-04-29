@@ -3325,11 +3325,11 @@ body > .node-advertisement {
 }
 #company-node-form #products-add-more-wrapper .edit-products-fieldset table td {
   border: 1px solid #a4a4a4;
-  min-width: 100px;
 }
 #company-node-form #products-add-more-wrapper .edit-products-fieldset table td.activity-cell {
-  width: 100px;
+  min-width: 100px;
   text-align: center;
+  width: 100px;
 }
 #company-node-form #products-add-more-wrapper .edit-products-fieldset table td .form-item {
   margin: 0;
@@ -3337,6 +3337,10 @@ body > .node-advertisement {
 #company-node-form #products-add-more-wrapper .edit-products-fieldset table td .form-item input.field-products-textfield {
   padding: 0 20px 0 5px;
   width: 100%;
+}
+#company-node-form #products-add-more-wrapper .edit-products-fieldset table td .form-submit {
+  line-height: 30px;
+  min-width: 65px;
 }
 
 #autocomplete {

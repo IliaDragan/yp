@@ -3048,10 +3048,11 @@ body > .node-advertisement {
         }
         td {
           border: 1px solid $gray;
-          min-width: 100px;
+
           &.activity-cell {
-            width: 100px;
+            min-width: 100px;
             text-align: center;
+            width: 100px;
           }
           .form-item {
             margin: 0;
@@ -3060,6 +3061,10 @@ body > .node-advertisement {
               padding: 0 20px 0 5px;
               width: 100%;
             }
+          }
+          .form-submit {
+            line-height: 30px;
+            min-width: 65px;
           }
         }
       }

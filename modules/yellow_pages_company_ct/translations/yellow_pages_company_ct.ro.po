@@ -20,8 +20,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
-"POT-Creation-Date: 2016-04-27 16:06+0300\n"
-"PO-Revision-Date: 2016-04-27 16:06+0300\n"
+"POT-Creation-Date: 2016-05-03 15:05+0300\n"
+"PO-Revision-Date: 2016-05-03 15:05+0300\n"
 "Last-Translator: NAME <EMAIL@ADDRESS>\n"
 "Language-Team: Romanian <EMAIL@ADDRESS>\n"
 "MIME-Version: 1.0\n"
@@ -53,7 +53,7 @@ msgstr "Banere"
 msgid "Articles"
 msgstr "Articole"
 
-#: yellow_pages_company_ct.features.field_instance.inc:1493 yellow_pages_company_ct.module:260;510;519
+#: yellow_pages_company_ct.features.field_instance.inc:1493 yellow_pages_company_ct.module:260;521;535;760
 msgid "Business hours"
 msgstr "Orele de lucru"
 
@@ -61,7 +61,7 @@ msgstr "Orele de lucru"
 msgid "Description of activity"
 msgstr "Descrierea activității"
 
-#: yellow_pages_company_ct.features.field_instance.inc:1495 yellow_pages_company_ct.module:1143
+#: yellow_pages_company_ct.features.field_instance.inc:1495 yellow_pages_company_ct.module:1199
 msgid "Email"
 msgstr "E-mail"
 
@@ -133,7 +133,7 @@ msgstr "Companie"
 msgid "CT contain company entity fields."
 msgstr ""
 
-#: yellow_pages_company_ct.features.inc:63 yellow_pages_company_ct.module:1150
+#: yellow_pages_company_ct.features.inc:63 yellow_pages_company_ct.module:1206
 msgid "Company name"
 msgstr "Denumirea companiei"
 
@@ -157,7 +157,7 @@ msgstr "Conținutul de bază"
 msgid "Price lists"
 msgstr "Liste de prețuri"
 
-#: yellow_pages_company_ct.field_group.inc:522 yellow_pages_company_ct.product.inc:21;108 yellow_pages_company_ct.module:735
+#: yellow_pages_company_ct.field_group.inc:522 yellow_pages_company_ct.product.inc:21;134 yellow_pages_company_ct.module:783
 msgid "Products and services"
 msgstr "Mărfuri și servicii"
 
@@ -225,7 +225,7 @@ msgstr ""
 msgid "Activity"
 msgstr "Activitate"
 
-#: yellow_pages_company_ct.fields.inc:160 yellow_pages_company_ct.product.inc:228
+#: yellow_pages_company_ct.fields.inc:160 yellow_pages_company_ct.product.inc:261
 msgid "Product"
 msgstr "Produs"
 
@@ -245,6 +245,10 @@ msgstr "Categoria părinte"
 msgid "Add more"
 msgstr "Adaugă mai mult"
 
+#: yellow_pages_company_ct.product.inc:55;88
+msgid "Remove"
+msgstr "Elimină"
+
 #: yellow_pages_company_ct.rules.inc:14
 msgid "Check if company has related users."
 msgstr "Verifică dacă compania are utilizatori legați."
@@ -261,7 +265,7 @@ msgstr ""
 msgid "Custom"
 msgstr "Personalizat"
 
-#: yellow_pages_company_ct.theme.inc:17
+#: yellow_pages_company_ct.theme.inc:17;41
 msgid "Day off"
 msgstr "Zi liberă"
 
@@ -389,151 +393,151 @@ msgstr "Nimic"
 msgid "I accept the user agreement"
 msgstr "Accept acordul de utilizator"
 
-#: yellow_pages_company_ct.module:334
+#: yellow_pages_company_ct.module:343
 msgid "Save"
 msgstr "Salvare"
 
-#: yellow_pages_company_ct.module:404;640
+#: yellow_pages_company_ct.module:413;667
 msgid "IDNO"
 msgstr ""
 
-#: yellow_pages_company_ct.module:409;650
+#: yellow_pages_company_ct.module:418;677
 msgid "TVA"
 msgstr "TVA"
 
-#: yellow_pages_company_ct.module:410;654
+#: yellow_pages_company_ct.module:419;681
 msgid "No"
 msgstr "Nu"
 
-#: yellow_pages_company_ct.module:410;654
+#: yellow_pages_company_ct.module:419;681
 msgid "Yes"
 msgstr "Da"
 
-#: yellow_pages_company_ct.module:415;660
+#: yellow_pages_company_ct.module:424;687
 msgid "Year of foundation"
 msgstr "Anul fondării"
 
-#: yellow_pages_company_ct.module:420;670
+#: yellow_pages_company_ct.module:429;697
 msgid "Number of jobs"
 msgstr "Numărul locurilor de muncă"
 
-#: yellow_pages_company_ct.module:425;680
+#: yellow_pages_company_ct.module:434;707
 msgid "Brands"
 msgstr "Brănduri"
 
-#: yellow_pages_company_ct.module:431;500;690
+#: yellow_pages_company_ct.module:440;511;717
 msgid "Persons"
 msgstr "Conducerea\r\n"
 
-#: yellow_pages_company_ct.module:601
+#: yellow_pages_company_ct.module:627
 msgid "Field"
 msgstr "Câmp"
 
-#: yellow_pages_company_ct.module:605
+#: yellow_pages_company_ct.module:631
 msgid "Value"
 msgstr "Valoare"
 
-#: yellow_pages_company_ct.module:628
+#: yellow_pages_company_ct.module:655
 msgid "Title"
 msgstr "Titlu"
 
-#: yellow_pages_company_ct.module:754
+#: yellow_pages_company_ct.module:803
 msgid "Edits saved."
 msgstr "Modificările au fost salvate."
 
-#: yellow_pages_company_ct.module:783
+#: yellow_pages_company_ct.module:835
 msgid "User created successfully. You will receive confirmation e-mail message at your email."
 msgstr ""
 "Utilizatorul a fost creat cu succes. Veți primi un mesaj de "
 "confirmare la adresa Dvs de email."
 
-#: yellow_pages_company_ct.module:788;1222
+#: yellow_pages_company_ct.module:840;1278
 msgid "Something went wrong. Please contact site administrator."
 msgstr ""
 "A survenit o eroare neprevăzută. Vă rugăm să contactați "
 "administratorul site-ului."
 
-#: yellow_pages_company_ct.module:857
+#: yellow_pages_company_ct.module:909
 msgid "Your changes being validated."
 msgstr "Modificările Dvs sunt în stare de verificare."
 
-#: yellow_pages_company_ct.module:959
+#: yellow_pages_company_ct.module:1011
 msgid "Company editors emails"
 msgstr "Emal-urile editorilor companiei"
 
-#: yellow_pages_company_ct.module:960
+#: yellow_pages_company_ct.module:1012
 msgid "Email addresses of Enterprise Editors which has current company node as related company."
 msgstr ""
 "Adresele de email al Editorilor ce conțin compania dată în "
 "legătură."
 
-#: yellow_pages_company_ct.module:964
+#: yellow_pages_company_ct.module:1016
 msgid "Company node modified fields"
 msgstr "Câmpurile modificate a companiei"
 
-#: yellow_pages_company_ct.module:965
+#: yellow_pages_company_ct.module:1017
 msgid "Fields modified in company node on edit."
 msgstr "Câmpurile modificate în noda companiei în timpul editării."
 
-#: yellow_pages_company_ct.module:1071
+#: yellow_pages_company_ct.module:1127
 msgid "User name"
 msgstr "Numele utilizatorului"
 
-#: yellow_pages_company_ct.module:1074
+#: yellow_pages_company_ct.module:1130
 msgid "You can edit information"
 msgstr "Puteți să editați informația"
 
-#: yellow_pages_company_ct.module:1075
+#: yellow_pages_company_ct.module:1131
 msgid "You can edit price-lists"
 msgstr "Puteți edita listele de prețuri"
 
-#: yellow_pages_company_ct.module:1088;42
+#: yellow_pages_company_ct.module:1144;42
 msgid "Edit"
 msgstr "Modifică"
 
-#: yellow_pages_company_ct.module:1093
+#: yellow_pages_company_ct.module:1149
 msgid "Companies which you can edit:"
 msgstr "Companiile ce le puteți edita:"
 
-#: yellow_pages_company_ct.module:1130
+#: yellow_pages_company_ct.module:1186
 msgid "To get access to edit information is necessary to fill the following form. All fields are required."
 msgstr ""
 "Pentru a obține acces la modificarea informației e necesar să "
 "completaţi formularul de mai jos. Toate cîmpurile sunt obligatorii."
 
-#: yellow_pages_company_ct.module:1136
+#: yellow_pages_company_ct.module:1192
 msgid "Your full name"
 msgstr "Numele complet"
 
-#: yellow_pages_company_ct.module:1157
+#: yellow_pages_company_ct.module:1213
 msgid "Send"
 msgstr "Trimitere"
 
-#: yellow_pages_company_ct.module:1170
+#: yellow_pages_company_ct.module:1226
 msgid "The email address is not valid."
 msgstr "Adresa de e-mail nu este validă."
 
-#: yellow_pages_company_ct.module:1230
+#: yellow_pages_company_ct.module:1286
 msgid "Thank you, we will contact you soon."
 msgstr "Vă mulțumim, veți fi contactat în curând."
 
-#: yellow_pages_company_ct.module:1245
+#: yellow_pages_company_ct.module:1301
 msgid "Request for enterprise editor creation"
 msgstr "Cerere pentru crearea editorului întreprinderii"
 
-#: yellow_pages_company_ct.module:1246
+#: yellow_pages_company_ct.module:1302
 msgid "You have received the request for enterprise editor creation:"
 msgstr "Ați primit o cerere pentru crearea editorului întreprinderii:"
 
-#: yellow_pages_company_ct.module:1247
+#: yellow_pages_company_ct.module:1303
 msgid "Full name: @name"
 msgstr "Numele complet: @name"
 
-#: yellow_pages_company_ct.module:1248
+#: yellow_pages_company_ct.module:1304
 msgid "Email: @email"
 msgstr ""
 
-#: yellow_pages_company_ct.module:1249
+#: yellow_pages_company_ct.module:1305
 msgid "Company name: @company_name"
 msgstr "Denumirea companiei: @company_name"
 

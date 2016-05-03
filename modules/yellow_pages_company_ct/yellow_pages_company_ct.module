@@ -331,6 +331,12 @@ function yellow_pages_company_ct_form_company_node_form_alter(&$form, &$form_sta
 
       $form['products'] = yellow_pages_company_ct_product_subform($products);
 
+      // Address fields.
+      if (!empty($form['field_address']['und'][0])) {
+        $form['field_address']['und'][0]['locality_block']['#weight'] = 0;
+        $form['field_address']['und'][0]['street_block']['#weight'] = 1;
+      }
+
       // Override form submit function.
       $form['submit'] = array(
         '#type' => 'submit',

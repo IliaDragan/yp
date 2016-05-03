@@ -64,6 +64,24 @@ a {
   overflow: hidden;
 }
 
+/**
+ * Autocomplete.
+ *
+ * @see autocomplete.js
+ */
+#autocomplete {
+  background-color: $light-gray;
+}
+#autocomplete li {
+  font-size: 14px;
+  line-height: 20px;
+  padding: 3px;
+}
+#autocomplete li.selected {
+  background: $main_yellow;
+  font-weight: bold;
+}
+
 @media (min-width: 1990px) {
   .not-front .container {
     width: 1600px;
@@ -3058,6 +3076,7 @@ body > .node-advertisement {
             margin: 0;
 
             input.field-products-textfield {
+              font-size: 14px;
               padding: 0 20px 0 5px;
               width: 100%;
             }
@@ -3070,10 +3089,6 @@ body > .node-advertisement {
       }
     }
   }
-}
-
-#autocomplete {
-  background-color: $light-gray;
 }
 
 /* Style messages. */

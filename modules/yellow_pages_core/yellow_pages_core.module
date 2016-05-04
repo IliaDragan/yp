@@ -222,6 +222,23 @@ function yellow_pages_core_get_day_hours() {
 }
 
 /**
+ * Implements hook_media_browser_plugins_alter().
+ */
+function yellow_pages_core_media_browser_plugins_alter(&$plugin_output) {
+  $path = drupal_get_path('module', 'yellow_pages_core');
+  drupal_add_css($path . '/css/yellow_pages_core_media_browser.css');
+  if (!empty($plugin_output['upload']['form']['#options']['file_extensions'])) {
+    $ext = trim($plugin_output['upload']['form']['#options']['file_extensions']);
+    $ext_array = explode(' ', $ext);
+    foreach ($ext_array as &$extension) {
+      $extension = '.' . $extension;
+    }
+    $ext_list = implode(', ', $ext_array);
+    $plugin_output['upload']['form']['upload']['upload']['#attributes']['accept'] = $ext_list;
+  }
+}
+
+/**
  * Implements hook_block_info()
  */
 function yellow_pages_core_block_info() {

@@ -1313,18 +1313,3 @@ function yellow_pages_company_ct_mail($key, &$message, $params) {
       break;
   }
 }
-
-/**
- * Implements hook_media_browser_plugins_alter().
- */
-function yellow_pages_company_ct_media_browser_plugins_alter(&$plugin_output) {
-  if (!empty($plugin_output['upload']['form']['#options']['file_extensions'])) {
-    $ext = trim($plugin_output['upload']['form']['#options']['file_extensions']);
-    $ext_array = explode(' ', $ext);
-    foreach ($ext_array as &$extension) {
-      $extension = '.' . $extension;
-    }
-    $ext_list = implode(', ', $ext_array);
-    $plugin_output['upload']['form']['upload']['upload']['#attributes']['accept'] = $ext_list;
-  }
-}

@@ -599,6 +599,15 @@ function yellow_pages_company_ct_company_edit_submit(&$form, &$form_state) {
   $node->body = $new_node->body;
   field_attach_update('node', $node);
 
+  $nodes = yellow_pages_core_node_get_translation_nids($node->tnid);
+  foreach ($nodes as $nid) {
+    if ($nid != $node->nid) {
+      $node_translation = node_load($nid);
+      $node_translation->field_price_list = $new_node->field_price_list;
+      field_attach_update('node', $node_translation);
+    }
+  }
+
   // Collect xml values.
   $xml_fields = array('idno', 'tva', 'creation_year', 'number_of_jobs', 'brands', 'persons');
   $xml_values = array();

@@ -52,7 +52,7 @@ function yellow_pages_company_ct_product_subform($products) {
       '#type' => 'fieldset',
       'remove' => array(
         '#type' => 'submit',
-        '#value' => t('Remove'),
+        '#value' => '–',
         '#name' => 'remove-product-' . $i,
         '#submit' => array('yellow_pages_company_ct_company_edit_ajax_submit'),
         '#ajax' => array(
@@ -85,7 +85,7 @@ function yellow_pages_company_ct_product_subform($products) {
     '#type' => 'fieldset',
     'remove' => array(
       '#type' => 'submit',
-      '#value' => t('Remove'),
+      '#value' => '–',
       '#name' => 'remove-product-' . $i,
       '#submit' => array('yellow_pages_company_ct_company_edit_ajax_submit'),
       '#ajax' => array(

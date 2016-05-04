@@ -3361,7 +3361,7 @@ body > .node-advertisement {
 }
 #company-node-form #products-add-more-wrapper .edit-products-fieldset table td .form-submit {
   line-height: 30px;
-  min-width: 65px;
+  min-width: 35px;
 }
 
 /* Style messages. */

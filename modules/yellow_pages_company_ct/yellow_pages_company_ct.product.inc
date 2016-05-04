@@ -44,7 +44,7 @@ function yellow_pages_company_ct_product_subform($products) {
     ),
   );
 
-  $product_activity_list = _yp_product_activity_options_list();
+  $product_activity_list = yellow_pages_company_ct_product_activity_ordered_list();
 
   $i = 0;
   foreach ($products as $tid => $product) {
@@ -127,7 +127,7 @@ function yellow_pages_company_ct_product_subform($products) {
  */
 function theme_yellow_pages_products_form($variables) {
   module_load_include('inc', 'yellow_pages_company_ct', 'yellow_pages_company_ct.fields');
-  $product_activity_list = _yp_product_activity_options_list();
+  $product_activity_list = yellow_pages_company_ct_product_activity_ordered_list();
 
   $header = array(
     '',
@@ -247,7 +247,7 @@ function yellow_pages_company_ct_parse_products_from_node($node) {
  */
 function yellow_pages_company_ct_products_view($source, $from = 'node') {
   module_load_include('inc', 'yellow_pages_company_ct', 'yellow_pages_company_ct.fields');
-  $product_activity_list = _yp_product_activity_options_list();
+  $product_activity_list = yellow_pages_company_ct_product_activity_ordered_list();
 
   if ($from == 'node') {
     $products = yellow_pages_company_ct_parse_products_from_node($source);
@@ -289,4 +289,20 @@ function yellow_pages_company_ct_products_view($source, $from = 'node') {
     'style' => "border-collapse: collapse; width: 100%;",
   );
   return theme('table', array('rows' => $rows, 'header' => $header, 'attributes' => $attr));
+}
+
+/**
+ * Provides values for product activity in questionary order.
+ *
+ * @return array
+ *   Set of product sources.
+ */
+function yellow_pages_company_ct_product_activity_ordered_list() {
+  return array(
+    YP_PRODUCT_MANUFACTURE => t('Manufacture'),
+    YP_PRODUCT_SELL => t('We sell'),
+    YP_PRODUCT_BUY => t('We buy'),
+    YP_PRODUCT_EXPORT => t('We export'),
+    YP_PRODUCT_SERVICES => t('Service'),
+  );
 }

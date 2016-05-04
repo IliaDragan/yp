@@ -302,10 +302,17 @@ function yellow_pages_company_ct_form_company_node_form_alter(&$form, &$form_sta
       }
 
       // Agreement checkbox.
-      $agreement_link = variable_get('user_agreement_page_link_' . $language->language, '');
+      $agreement_url = variable_get('user_agreement_page_link_' . $language->language, '');
+      $link_options = array(
+        'attributes' => array(
+          'class' => array('agreement-link'),
+          'target'=>'_blank'
+        ),
+      );
+      $user_agreement = l(t('user agreement'), $agreement_url, $link_options);
       $form['agreement_check'] = array(
         '#type' => 'checkbox',
-        '#title' => l(t('I accept the user agreement'), $agreement_link),
+        '#title' => t('I accept the !user_agreement', array('!user_agreement' => $user_agreement)),
         '#weight' => 97,
       );
 

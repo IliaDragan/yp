@@ -78,7 +78,7 @@ a {
   padding: 3px;
 }
 #autocomplete li.selected {
-  background: $main_yellow;
+  background: $main-yellow;
   font-weight: bold;
 }
 
@@ -3088,6 +3088,9 @@ body > .node-advertisement {
         }
       }
     }
+  }
+  .agreement-link {
+    border-bottom: 2px solid $main-yellow;
   }
 }
 

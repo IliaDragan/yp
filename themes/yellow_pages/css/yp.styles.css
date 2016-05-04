@@ -3363,6 +3363,9 @@ body > .node-advertisement {
   line-height: 30px;
   min-width: 35px;
 }
+#company-node-form .agreement-link {
+  border-bottom: 2px solid #ffdd00;
+}
 
 /* Style messages. */
 .messages {

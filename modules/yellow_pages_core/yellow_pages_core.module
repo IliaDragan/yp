@@ -210,8 +210,8 @@ function yellow_pages_core_get_weekdays() {
  */
 function yellow_pages_core_get_day_hours() {
   $day_hours = array();
-  for ($i = 0; $i <= 48; $i++) {
-    $j = $i * 30;
+  for ($i = 0; $i <= 96; $i++) {
+    $j = $i * 15;
     $h = (int) ($j / 60);
     $m = $j % 60;
     $hour = str_pad($h, 2, '0', STR_PAD_LEFT) . ":" . str_pad($m, 2, '0', STR_PAD_RIGHT);

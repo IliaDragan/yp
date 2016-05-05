@@ -2988,11 +2988,36 @@ body > .node-advertisement {
         display: none;
       }
       tbody {
+        tr {
+          border: 1px solid $main-yellow;
+        }
         .tabledrag-handle {
           display: none;
         }
         .ctools-modal-media-file-edit {
           display: none;
+        }
+        .media-item {
+          background: none;
+          border: none;
+          box-shadow: none;
+
+          img.file-icon {
+            display: inline-block;
+          }
+        }
+      }
+    }
+
+    .form-type-media {
+      margin-top: 20px;
+
+      .form-media {
+        input {
+          float: left;
+        }
+        a.browse {
+          float: left;
         }
       }
     }

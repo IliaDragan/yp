@@ -3281,11 +3281,31 @@ body > .node-advertisement {
 #company-node-form #edit-field-price-list .sticky-table thead {
   display: none;
 }
+#company-node-form #edit-field-price-list .sticky-table tbody tr {
+  border: 1px solid #ffdd00;
+}
 #company-node-form #edit-field-price-list .sticky-table tbody .tabledrag-handle {
   display: none;
 }
 #company-node-form #edit-field-price-list .sticky-table tbody .ctools-modal-media-file-edit {
   display: none;
+}
+#company-node-form #edit-field-price-list .sticky-table tbody .media-item {
+  background: none;
+  border: none;
+  box-shadow: none;
+}
+#company-node-form #edit-field-price-list .sticky-table tbody .media-item img.file-icon {
+  display: inline-block;
+}
+#company-node-form #edit-field-price-list .form-type-media {
+  margin-top: 20px;
+}
+#company-node-form #edit-field-price-list .form-type-media .form-media input {
+  float: left;
+}
+#company-node-form #edit-field-price-list .form-type-media .form-media a.browse {
+  float: left;
 }
 #company-node-form .form-item-agreement-check {
   margin: 25px 0;

@@ -82,6 +82,22 @@ a {
   font-weight: bold;
 }
 
+/* CAPTCHA */
+.captcha {
+  img {
+    display: inline-block;
+    height: 42px;
+  }
+  .form-item-captcha-response {
+    display: inline-block;
+    margin-left: 10px;
+    vertical-align: top;
+    label {
+      display: none;
+    }
+  }
+}
+
 @media (min-width: 1990px) {
   .not-front .container {
     width: 1600px;

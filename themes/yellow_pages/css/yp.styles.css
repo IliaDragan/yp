@@ -3365,13 +3365,28 @@ body > .node-advertisement {
   text-align: center;
   width: 100px;
 }
+#company-node-form #products-add-more-wrapper .edit-products-fieldset table td.activity-cell label {
+  margin-top: 8px;
+}
 #company-node-form #products-add-more-wrapper .edit-products-fieldset table td .form-item {
+  height: 30px;
   margin: 0;
+  position: relative;
 }
 #company-node-form #products-add-more-wrapper .edit-products-fieldset table td .form-item input.field-products-textfield {
   font-size: 14px;
   padding: 0 20px 0 5px;
   width: 100%;
+}
+#company-node-form #products-add-more-wrapper .edit-products-fieldset table td .form-item input.field-products-textfield:hover {
+  background: white;
+  position: absolute;
+  vertical-align: top;
+  width: 500px;
+  z-index: 100;
+}
+#company-node-form #products-add-more-wrapper .edit-products-fieldset table td .form-item #autocomplete {
+  width: 500px !important;
 }
 #company-node-form #products-add-more-wrapper .edit-products-fieldset table td .form-submit {
   line-height: 30px;

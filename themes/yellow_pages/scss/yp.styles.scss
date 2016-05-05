@@ -3087,16 +3087,35 @@ body > .node-advertisement {
             min-width: 100px;
             text-align: center;
             width: 100px;
+
+            label {
+              margin-top: 8px;
+            }
           }
+
           .form-item {
+            height: 30px;
             margin: 0;
+            position: relative;
 
             input.field-products-textfield {
               font-size: 14px;
               padding: 0 20px 0 5px;
               width: 100%;
+
+              &:hover {
+                background: white;
+                position: absolute;
+                vertical-align: top;
+                width: 500px;
+                z-index: 100;
+              }
+            }
+            #autocomplete {
+              width: 500px !important;
             }
           }
+
           .form-submit {
             line-height: 30px;
             min-width: 35px;

@@ -545,7 +545,7 @@ msgstr ""
 msgid "You have received the request for enterprise editor creation:"
 msgstr ""
 "Вы получили запрос на регистрацию "
-"редатора предприятия:"
+"редактора предприятия:"
 
 #: yellow_pages_company_ct.module:1304
 msgid "Full name: @name"

@@ -3388,6 +3388,12 @@ body > .node-advertisement {
 #company-node-form #products-add-more-wrapper .edit-products-fieldset table td.activity-cell label {
   margin-top: 8px;
 }
+#company-node-form #products-add-more-wrapper .edit-products-fieldset table td.op-cell {
+  width: 28px;
+}
+#company-node-form #products-add-more-wrapper .edit-products-fieldset table td.op-cell .ajax-progress {
+  display: none;
+}
 #company-node-form #products-add-more-wrapper .edit-products-fieldset table td .form-item {
   height: 30px;
   margin: 0;

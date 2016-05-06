@@ -130,8 +130,15 @@ function theme_yellow_pages_products_form($variables) {
   $product_activity_list = yellow_pages_company_ct_product_activity_ordered_list();
 
   $header = array(
-    '',
-    t('Products and services')
+    array(
+      'data' => '',
+      'class' => array('op-cell'),
+    ),
+    array(
+      'data' => t('Products and services'),
+      'class' => array('product-cell'),
+    ),
+
   );
   foreach ($product_activity_list as $activity) {
     $header[] = array(
@@ -144,8 +151,14 @@ function theme_yellow_pages_products_form($variables) {
   foreach ($variables['form'] as $tid => $fieldset) {
     if (is_int($tid)) {
       $row = array(
-        drupal_render($fieldset['remove']),
-        drupal_render($fieldset['product_name']),
+        array(
+          'data' => drupal_render($fieldset['remove']),
+          'class' => array('op-cell'),
+        ),
+        array(
+          'data' => drupal_render($fieldset['product_name']),
+          'class' => array('product-cell'),
+        ),
       );
       foreach ($product_activity_list as $key => $activity) {
         $row[] = array(

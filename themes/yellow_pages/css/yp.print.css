@@ -127,6 +127,9 @@ a[href]:after {
 .node-type-company .company-content .horizontal-tabs .horizontal-tabs-panes a {
   font-size: 30pt !important;
 }
+.node-type-company .company-content .horizontal-tabs .field-name-body {
+  font-size: 30pt;
+}
 .node-type-company .company-content .horizontal-tabs .field-name-field-filials .content .left {
   display: none !important;
 }
@@ -143,8 +146,14 @@ a[href]:after {
 .node-type-company .company-content .horizontal-tabs .field-name-field-filials .field-name-field-address .street-block::before {
   content: "" !important;
 }
+.node-type-company .company-content .horizontal-tabs .field-name-field-business-hours .today {
+  border: none !important;
+}
 .node-type-company .company-content .horizontal-tabs .field-name-field-business-hours td {
   font-size: 30pt;
+}
+.node-type-company .company-content .horizontal-tabs .group-price-lists {
+  display: none;
 }
 
 .horizontal-tabs .horizontal-tab-hidden {

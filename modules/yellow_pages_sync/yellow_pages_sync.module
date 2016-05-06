@@ -176,7 +176,7 @@ function yellow_pages_sync_read_xml($source) {
     if (!$cache) {
       $xml_data = @file_get_contents($source);
       if (!empty($xml_data)) {
-        cache_set($cid, $xml_data, 'cache', REQUEST_TIME + 3600);
+        cache_set($cid, $xml_data, 'cache', REQUEST_TIME + 30);
       }
     }
     else {

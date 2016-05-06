@@ -136,6 +136,130 @@ function yellow_pages_admin_strongarm() {
   $strongarm = new stdClass();
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
+  $strongarm->name = 'image_captcha_background_color';
+  $strongarm->value = '#ffdd00';
+  $export['image_captcha_background_color'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'image_captcha_bilinear_interpolation';
+  $strongarm->value = 1;
+  $export['image_captcha_bilinear_interpolation'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'image_captcha_character_spacing';
+  $strongarm->value = '0.75';
+  $export['image_captcha_character_spacing'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'image_captcha_code_length';
+  $strongarm->value = '6';
+  $export['image_captcha_code_length'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'image_captcha_distortion_amplitude';
+  $strongarm->value = '4';
+  $export['image_captcha_distortion_amplitude'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'image_captcha_dot_noise';
+  $strongarm->value = 1;
+  $export['image_captcha_dot_noise'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'image_captcha_file_format';
+  $strongarm->value = '1';
+  $export['image_captcha_file_format'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'image_captcha_fonts';
+  $strongarm->value = array(
+    'profiles/yp/modules/contrib/captcha/image_captcha/fonts/Tuffy/Tuffy_Bold.ttf' => 'profiles/yp/modules/contrib/captcha/image_captcha/fonts/Tuffy/Tuffy_Bold.ttf',
+    'profiles/yp/modules/contrib/captcha/image_captcha/fonts/Tuffy/Tuffy.ttf' => 'profiles/yp/modules/contrib/captcha/image_captcha/fonts/Tuffy/Tuffy.ttf',
+  );
+  $export['image_captcha_fonts'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'image_captcha_fonts_preview_map_cache';
+  $strongarm->value = array(
+    '39241d471ac10c2efb4a11e199adaaa8' => (object) array(
+      'uri' => 'profiles/yp/modules/contrib/captcha/image_captcha/fonts/Tesox/tesox.ttf',
+      'filename' => 'tesox.ttf',
+      'name' => 'tesox',
+    ),
+    '3a02c21dc7ca750cf0e7bcc72a661a9e' => (object) array(
+      'uri' => 'profiles/yp/modules/contrib/captcha/image_captcha/fonts/Tuffy/Tuffy_Bold.ttf',
+      'filename' => 'Tuffy_Bold.ttf',
+      'name' => 'Tuffy_Bold',
+    ),
+    'f2582bded2a633269bf85fb1237a1143' => (object) array(
+      'uri' => 'profiles/yp/modules/contrib/captcha/image_captcha/fonts/Tuffy/Tuffy.ttf',
+      'filename' => 'Tuffy.ttf',
+      'name' => 'Tuffy',
+    ),
+  );
+  $export['image_captcha_fonts_preview_map_cache'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'image_captcha_font_size';
+  $strongarm->value = '24';
+  $export['image_captcha_font_size'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'image_captcha_foreground_color';
+  $strongarm->value = '#1d1d1d';
+  $export['image_captcha_foreground_color'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'image_captcha_foreground_color_randomness';
+  $strongarm->value = '100';
+  $export['image_captcha_foreground_color_randomness'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'image_captcha_image_allowed_chars';
+  $strongarm->value = 'aACdEeFfGHhijKLMmNPQRrSTtWXYZ234579';
+  $export['image_captcha_image_allowed_chars'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'image_captcha_line_noise';
+  $strongarm->value = 0;
+  $export['image_captcha_line_noise'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'image_captcha_noise_level';
+  $strongarm->value = '1';
+  $export['image_captcha_noise_level'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
   $strongarm->name = 'user_mail_password_reset_body';
   $strongarm->value = 'Получен запрос на восстановление пароля.
 

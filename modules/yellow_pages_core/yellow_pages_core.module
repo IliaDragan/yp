@@ -210,8 +210,8 @@ function yellow_pages_core_get_weekdays() {
  */
 function yellow_pages_core_get_day_hours() {
   $day_hours = array();
-  for ($i = 0; $i <= 48; $i++) {
-    $j = $i * 30;
+  for ($i = 0; $i <= 96; $i++) {
+    $j = $i * 15;
     $h = (int) ($j / 60);
     $m = $j % 60;
     $hour = str_pad($h, 2, '0', STR_PAD_LEFT) . ":" . str_pad($m, 2, '0', STR_PAD_RIGHT);
@@ -219,6 +219,23 @@ function yellow_pages_core_get_day_hours() {
   }
 
   return $day_hours;
+}
+
+/**
+ * Implements hook_media_browser_plugins_alter().
+ */
+function yellow_pages_core_media_browser_plugins_alter(&$plugin_output) {
+  $path = drupal_get_path('module', 'yellow_pages_core');
+  drupal_add_css($path . '/css/yellow_pages_core_media_browser.css');
+  if (!empty($plugin_output['upload']['form']['#options']['file_extensions'])) {
+    $ext = trim($plugin_output['upload']['form']['#options']['file_extensions']);
+    $ext_array = explode(' ', $ext);
+    foreach ($ext_array as &$extension) {
+      $extension = '.' . $extension;
+    }
+    $ext_list = implode(', ', $ext_array);
+    $plugin_output['upload']['form']['upload']['upload']['#attributes']['accept'] = $ext_list;
+  }
 }
 
 /**

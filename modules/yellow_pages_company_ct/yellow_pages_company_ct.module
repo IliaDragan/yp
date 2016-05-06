@@ -302,31 +302,47 @@ function yellow_pages_company_ct_form_company_node_form_alter(&$form, &$form_sta
       }
 
       // Agreement checkbox.
-      $agreement_link = variable_get('user_agreement_page_link_' . $language->language, '');
+      $agreement_url = variable_get('user_agreement_page_link_' . $language->language, '');
+      $link_options = array(
+        'attributes' => array(
+          'class' => array('agreement-link'),
+          'target'=>'_blank'
+        ),
+      );
+      $user_agreement = l(t('user agreement'), $agreement_url, $link_options);
       $form['agreement_check'] = array(
         '#type' => 'checkbox',
-        '#title' => l(t('I accept the user agreement'), $agreement_link),
+        '#title' => t('I accept the !user_agreement', array('!user_agreement' => $user_agreement)),
         '#weight' => 97,
       );
 
       // Products field.
-      $products_defaults = db_select('company_node_changes', 'cc')
-        ->fields('cc', array('products_field'))
-        ->condition('cc.nid', $form['#node']->nid)
-        ->condition('cc.uid', $user->uid)
-        ->execute()
-        ->fetchField();
-      if (!empty($form_state['input']['products'])) {
+      if (isset($form_state['input']['products'])) {
         $products = $form_state['input']['products'];
       }
-      elseif (!empty($products_defaults)) {
-        $products = unserialize($products_defaults);
-      }
       else {
-        $products = yellow_pages_company_ct_parse_products_from_node($form['#node']);
+        $products_defaults = db_select('company_node_changes', 'cc')
+          ->fields('cc', array('products_field'))
+          ->condition('cc.nid', $form['#node']->nid)
+          ->condition('cc.uid', $user->uid)
+          ->execute()
+          ->fetchField();
+
+        if (!empty($products_defaults)) {
+          $products = unserialize($products_defaults);
+        }
+        else {
+          $products = yellow_pages_company_ct_parse_products_from_node($form['#node']);
+        }
       }
 
       $form['products'] = yellow_pages_company_ct_product_subform($products);
+
+      // Address fields.
+      if (!empty($form['field_address']['und'][0])) {
+        $form['field_address']['und'][0]['locality_block']['#weight'] = 0;
+        $form['field_address']['und'][0]['street_block']['#weight'] = 1;
+      }
 
       // Override form submit function.
       $form['submit'] = array(
@@ -533,6 +549,19 @@ function yellow_pages_company_ct_form_company_node_form_alter(&$form, &$form_sta
 }
 
 function  yellow_pages_company_ct_company_edit_ajax_submit(&$form, &$form_state) {
+  $clicked_button = $form_state['clicked_button']['#name'];
+  if (strpos($clicked_button, 'remove-product') === 0) {
+    $index = (int) str_replace('remove-product-', '', $clicked_button);
+    $last = count($form_state['input']['products']) - 1;
+    unset($form_state['input']['products'][$index]);
+    unset($form_state['values']['products'][$index]);
+    if (empty($form_state['input']['products'][$last]['product_name'])) {
+      unset($form_state['input']['products'][$last]);
+      unset($form_state['values']['products'][$last]);
+    }
+    $form_state['input']['products'] = array_values($form_state['input']['products']);
+    $form_state['values']['products'] = array_values($form_state['values']['products']);
+  }
   $form_state['rebuild'] = TRUE;
 }
 
@@ -553,17 +582,14 @@ function yellow_pages_company_ct_company_edit_submit(&$form, &$form_state) {
       'end' => $form_state['input'][$day]['end'],
     );
   }
-  $hours = serialize($hours);
-  $form_state['input']['field_business_hours'][LANGUAGE_NONE][0]['value'] = $hours;
-  $form_state['values']['field_business_hours'][LANGUAGE_NONE][0]['value'] = $hours;
+  $serialized_hours = serialize($hours);
+  $form_state['input']['field_business_hours'][LANGUAGE_NONE][0]['value'] = $serialized_hours;
+  $form_state['values']['field_business_hours'][LANGUAGE_NONE][0]['value'] = $serialized_hours;
 
   $input = $form_state['input'];
   // Load old node from bd, because $form['#node'] is last modified node value.
   $node = node_load($form['#node']->nid);
   $xml_defaults = $form_state['storage']['xml_defaults'];
-
-  // Artificially prepare product fields for custom saving.
-  yellow_pages_company_ct_field_presave('', '', '', '', '', $form_state['values']['field_products'][LANGUAGE_NONE]);
 
   // Create new node object from $form values.
   $new_node = node_form_submit_build_node($form, $form_state);
@@ -572,6 +598,15 @@ function yellow_pages_company_ct_company_edit_submit(&$form, &$form_state) {
   $node->field_price_list = $new_node->field_price_list;
   $node->body = $new_node->body;
   field_attach_update('node', $node);
+
+  $nodes = yellow_pages_core_node_get_translation_nids($node->tnid);
+  foreach ($nodes as $nid) {
+    if ($nid != $node->nid) {
+      $node_translation = node_load($nid);
+      $node_translation->field_price_list = $new_node->field_price_list;
+      field_attach_update('node', $node_translation);
+    }
+  }
 
   // Collect xml values.
   $xml_fields = array('idno', 'tva', 'creation_year', 'number_of_jobs', 'brands', 'persons');
@@ -629,6 +664,7 @@ function yellow_pages_company_ct_company_edit_submit(&$form, &$form_state) {
   };
 
   $rows = array();
+
   // Title.
   $rows[] = array(
     array(
@@ -710,7 +746,6 @@ function yellow_pages_company_ct_company_edit_submit(&$form, &$form_state) {
     'field_landline_phone',
     'field_fax',
     'field_mobile_phone',
-    'field_business_hours',
   );
 
   foreach ($fields as $field) {
@@ -734,6 +769,28 @@ function yellow_pages_company_ct_company_edit_submit(&$form, &$form_state) {
     );
   }
 
+  // Field business hours.
+  $new_field_view = field_view_field('node', $new_node, 'field_business_hours', array('label' => 'hidden'));
+  $old_field_view = field_view_field('node', $node, 'field_business_hours', array('label' => 'hidden'));
+
+  $label = $_field_label(t('Business hours'), $new_field_view, $old_field_view);
+
+  $rows[] = array(
+    array(
+      'data' => $label . ': ',
+      'colspan' => 2,
+      'style' => "padding: 5px 10px;",
+    ),
+  );
+
+  $rows[] = array(
+    array(
+      'data' => theme('business_hours_for_email', array('hours' => $hours)),
+      'colspan' => 2,
+      'style' => $border,
+    ),
+  );
+
   // Product fields.
   $old_products_view = yellow_pages_company_ct_products_view($node, 'node');
   $new_products_view = yellow_pages_company_ct_products_view($products, 'values');
@@ -741,17 +798,18 @@ function yellow_pages_company_ct_company_edit_submit(&$form, &$form_state) {
     array(
       'data' => $_field_label(t('Products and services'), $new_products_view, $old_products_view) . ': ',
       'colspan' => 2,
-      'style' => "padding: 5px;",
+      'style' => "padding: 5px 10px;",
     ),
   );
   $rows[] = array(
     array(
       'data' => $new_products_view,
       'colspan' => 2,
+      'style' => "padding: 5px 10px;",
     ),
   );
 
-  $attributes = array('style' => 'border-collapse: collapse; display: inline-table;');
+  $attributes = array('style' => 'border-collapse: collapse; display: inline-table; width: 100%;');
   $changes_markup = theme('table', array('header' => $header, 'rows' => $rows, 'empty' => '', 'attributes' => $attributes));
 
   $new_node->company_diff = $changes_markup;
@@ -1052,6 +1110,10 @@ function yellow_pages_company_ct_theme($existing, $type, $theme, $path) {
       'variables' => array('hours' => NULL, 'weekday' => NULL),
       'file' => 'yellow_pages_company_ct.theme.inc',
     ),
+    'business_hours_for_email' => array(
+      'variables' => array('hours' => NULL),
+      'file' => 'yellow_pages_company_ct.theme.inc',
+    ),
     'yellow_pages_products_form' => array(
       'render element' => 'form',
       'file' => 'yellow_pages_company_ct.product.inc',
@@ -1258,20 +1320,5 @@ function yellow_pages_company_ct_mail($key, &$message, $params) {
       $message['body'][] = t('Email: @email', $body_t);
       $message['body'][] = t('Company name: @company_name', $body_t);
       break;
-  }
-}
-
-/**
- * Implements hook_media_browser_plugins_alter().
- */
-function yellow_pages_company_ct_media_browser_plugins_alter(&$plugin_output) {
-  if (!empty($plugin_output['upload']['form']['#options']['file_extensions'])) {
-    $ext = trim($plugin_output['upload']['form']['#options']['file_extensions']);
-    $ext_array = explode(' ', $ext);
-    foreach ($ext_array as &$extension) {
-      $extension = '.' . $extension;
-    }
-    $ext_list = implode(', ', $ext_array);
-    $plugin_output['upload']['form']['upload']['upload']['#attributes']['accept'] = $ext_list;
   }
 }

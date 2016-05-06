@@ -1,0 +1,7 @@
+/**
+ * @file
+ * Media browser custom styles.
+ */
+#file-entity-add-upload .form-managed-file .form-submit {
+  display: none;
+}

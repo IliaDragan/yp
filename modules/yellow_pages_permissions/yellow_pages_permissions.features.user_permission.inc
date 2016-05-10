@@ -47,6 +47,7 @@ function yellow_pages_permissions_user_default_permissions() {
     'name' => 'access media browser',
     'roles' => array(
       'administrator' => 'administrator',
+      'enterprise editor' => 'enterprise editor',
       'global editor' => 'global editor',
     ),
     'module' => 'media',
@@ -60,6 +61,16 @@ function yellow_pages_permissions_user_default_permissions() {
       'global editor' => 'global editor',
     ),
     'module' => 'toolbar',
+  );
+
+  // Exported permission: 'access user profiles'.
+  $permissions['access user profiles'] = array(
+    'name' => 'access user profiles',
+    'roles' => array(
+      'administrator' => 'administrator',
+      'global editor' => 'global editor',
+    ),
+    'module' => 'user',
   );
 
   // Exported permission: 'access yellow pages sync'.
@@ -80,6 +91,16 @@ function yellow_pages_permissions_user_default_permissions() {
       'global editor' => 'global editor',
     ),
     'module' => 'media_internet',
+  );
+
+  // Exported permission: 'add related companies to user'.
+  $permissions['add related companies to user'] = array(
+    'name' => 'add related companies to user',
+    'roles' => array(
+      'administrator' => 'administrator',
+      'global editor' => 'global editor',
+    ),
+    'module' => 'yellow_pages_company_ct',
   );
 
   // Exported permission: 'administer comments'.
@@ -129,6 +150,16 @@ function yellow_pages_permissions_user_default_permissions() {
     'module' => 'node',
   );
 
+  // Exported permission: 'administer users'.
+  $permissions['administer users'] = array(
+    'name' => 'administer users',
+    'roles' => array(
+      'administrator' => 'administrator',
+      'global editor' => 'global editor',
+    ),
+    'module' => 'user',
+  );
+
   // Exported permission: 'administer yellow pages sync'.
   $permissions['administer yellow pages sync'] = array(
     'name' => 'administer yellow pages sync',
@@ -150,6 +181,7 @@ function yellow_pages_permissions_user_default_permissions() {
     'name' => 'create files',
     'roles' => array(
       'administrator' => 'administrator',
+      'enterprise editor' => 'enterprise editor',
       'global editor' => 'global editor',
     ),
     'module' => 'file_entity',
@@ -180,6 +212,7 @@ function yellow_pages_permissions_user_default_permissions() {
     'name' => 'delete own document files',
     'roles' => array(
       'administrator' => 'administrator',
+      'enterprise editor' => 'enterprise editor',
       'global editor' => 'global editor',
     ),
     'module' => 'file_entity',
@@ -230,6 +263,7 @@ function yellow_pages_permissions_user_default_permissions() {
     'name' => 'download own document files',
     'roles' => array(
       'administrator' => 'administrator',
+      'enterprise editor' => 'enterprise editor',
       'global editor' => 'global editor',
     ),
     'module' => 'file_entity',
@@ -253,6 +287,16 @@ function yellow_pages_permissions_user_default_permissions() {
       'global editor' => 'global editor',
     ),
     'module' => 'file_entity',
+  );
+
+  // Exported permission: 'edit any company content'.
+  $permissions['edit any company content'] = array(
+    'name' => 'edit any company content',
+    'roles' => array(
+      'administrator' => 'administrator',
+      'global editor' => 'global editor',
+    ),
+    'module' => 'node',
   );
 
   // Exported permission: 'edit own audio files'.
@@ -279,6 +323,7 @@ function yellow_pages_permissions_user_default_permissions() {
     'name' => 'edit own document files',
     'roles' => array(
       'administrator' => 'administrator',
+      'enterprise editor' => 'enterprise editor',
       'global editor' => 'global editor',
     ),
     'module' => 'file_entity',
@@ -302,6 +347,15 @@ function yellow_pages_permissions_user_default_permissions() {
       'global editor' => 'global editor',
     ),
     'module' => 'file_entity',
+  );
+
+  // Exported permission: 'edit related companies'.
+  $permissions['edit related companies'] = array(
+    'name' => 'edit related companies',
+    'roles' => array(
+      'enterprise editor' => 'enterprise editor',
+    ),
+    'module' => 'yellow_pages_company_ct',
   );
 
   // Exported permission: 'post comments'.
@@ -382,6 +436,7 @@ function yellow_pages_permissions_user_default_permissions() {
     'name' => 'view own files',
     'roles' => array(
       'administrator' => 'administrator',
+      'enterprise editor' => 'enterprise editor',
       'global editor' => 'global editor',
     ),
     'module' => 'file_entity',

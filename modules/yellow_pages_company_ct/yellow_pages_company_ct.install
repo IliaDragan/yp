@@ -23,3 +23,119 @@ function yellow_pages_company_ct_field_schema($field) {
     ),
   );
 }
+
+/**
+ * Implements hook_schema().
+ */
+function yellow_pages_company_ct_schema() {
+  $schema = array();
+  $schema['company_node_changes'] = array(
+    'description' => 'Temporary store nodes modifications.',
+    'fields' => array(
+      'nid' => array(
+        'description' => 'ID of node that was changed.',
+        'type' => 'int',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+      ),
+      'uid' => array(
+        'description' => 'ID of user which changed the node.',
+        'type' => 'int',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+      ),
+      'timestamp' => array(
+        'description' => 'The time of node modification.',
+        'type' => 'int',
+        'not null' => TRUE,
+        'default' => 0,
+      ),
+      'node_object' => array(
+        'description' => 'The node form values.',
+        'type' => 'text',
+        'not null' => FALSE,
+        'size' => 'medium',
+      ),
+      'xml_changes' => array(
+        'description' => 'The xml form values - not from node.',
+        'type' => 'text',
+        'not null' => FALSE,
+        'size' => 'medium',
+      ),
+      'products_field' => array(
+        'description' => 'The products field form values.',
+        'type' => 'text',
+        'not null' => FALSE,
+        'size' => 'medium',
+      ),
+    ),
+    'indexes' => array(
+      'nid' => array('nid'),
+      'uid' => array('uid'),
+    ),
+  );
+
+  return $schema;
+}
+
+/**
+ * Create table for store company node changes.
+ */
+function yellow_pages_company_ct_update_7001(&$sandbox) {
+  $table = array(
+    'description' => 'Temporary store nodes modifications.',
+    'fields' => array(
+      'nid' => array(
+        'description' => 'ID of node that was changed.',
+        'type' => 'int',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+      ),
+      'uid' => array(
+        'description' => 'ID of user which changed the node.',
+        'type' => 'int',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+      ),
+      'timestamp' => array(
+        'description' => 'The time of node modification.',
+        'type' => 'int',
+        'not null' => TRUE,
+        'default' => 0,
+      ),
+      'node_object' => array(
+        'description' => 'The node form values.',
+        'type' => 'text',
+        'not null' => FALSE,
+        'size' => 'medium',
+      ),
+      'xml_changes' => array(
+        'description' => 'The xml form values - not from node.',
+        'type' => 'text',
+        'not null' => FALSE,
+        'size' => 'medium',
+      ),
+    ),
+    'indexes' => array(
+      'nid' => array('nid'),
+      'uid' => array('uid'),
+    ),
+  );
+
+  db_create_table('company_node_changes', $table);
+}
+
+/**
+ * Add products field to company changes table.
+ */
+function yellow_pages_company_ct_update_7002(&$sandbox) {
+  // Add new field.
+  $spec = array(
+    'description' => 'The products field form values.',
+    'type' => 'text',
+    'not null' => FALSE,
+    'size' => 'medium',
+  );
+
+  db_add_field('company_node_changes', 'products_field', $spec);
+}

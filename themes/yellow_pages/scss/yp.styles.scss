@@ -64,6 +64,40 @@ a {
   overflow: hidden;
 }
 
+/**
+ * Autocomplete.
+ *
+ * @see autocomplete.js
+ */
+#autocomplete {
+  background-color: $light-gray;
+}
+#autocomplete li {
+  font-size: 14px;
+  line-height: 20px;
+  padding: 3px;
+}
+#autocomplete li.selected {
+  background: $main-yellow;
+  font-weight: bold;
+}
+
+/* CAPTCHA */
+.captcha {
+  img {
+    display: inline-block;
+    height: 42px;
+  }
+  .form-item-captcha-response {
+    display: inline-block;
+    margin-left: 10px;
+    vertical-align: top;
+    label {
+      display: none;
+    }
+  }
+}
+
 @media (min-width: 1990px) {
   .not-front .container {
     width: 1600px;
@@ -83,7 +117,7 @@ header {
         margin: 0;
       }
     }
-  }  
+  }
   .block-search {
     float: right;
     width: 80%;
@@ -547,7 +581,7 @@ header {
     margin-bottom: 50px;
   }
   &:after {
-    // @include breakpoint ($mobileup) { 
+    // @include breakpoint ($mobileup) {
     //   content: "";
     //   display: block;
     //   position: absolute;
@@ -1299,7 +1333,7 @@ form.yellow-pages-feedback-ad-request {
       @include breakpoint ($mobile) {
         margin-right: 10px;
         img {
-          max-width: 80px; 
+          max-width: 80px;
         }
       }
     }
@@ -1539,7 +1573,7 @@ div.panel-pane div.node-teaser {
   }
   .pane-entity-field {
     .pane-title {
-      margin-top: 0;    
+      margin-top: 0;
       font-size: 12px;
       text-transform: uppercase;
     }
@@ -1925,7 +1959,7 @@ div.panel-pane div.node-teaser {
     .field-name-field-landline-phone,
     .field-name-field-mobile-phone {
       &:before {
-        color: $green-phone;
+        color: $green;
         line-height: 24px;
       }
       line-height: 24px;
@@ -2058,25 +2092,25 @@ article {
   h1, h2, h3 {
     text-transform: uppercase;
   }
-  h1 {  
+  h1 {
     font-size: 30px;
   }
-  h2 {  
+  h2 {
     font-size: 18px;
     @include breakpoint ($mobilesm) {
       font-size: 16px;
     }
   }
-  h3 {  
+  h3 {
     font-size: 16px;
   }
-  h4 {  
+  h4 {
     font-size: 14px;
   }
-  h5 {  
+  h5 {
     font-size: 12px;
   }
-  h6 {  
+  h6 {
     font-size: 11px;
   }
   ul {
@@ -2447,7 +2481,7 @@ article {
     li a {
       color: #fff;
     }
-  } 
+  }
   @include breakpoint ($mobile) {
     padding: 10px 0;
     .menu-main-menu {
@@ -2820,24 +2854,6 @@ body > .node-advertisement {
 }
 
 /* AdSense styles*/
-.front .region-content .yp-onecol-100-layout .container .col-sm-12 {
-  text-align: center;
-  #adsense-front-468-60-left,
-  #adsense-front-468-60-right {
-    display: inline-block;
-    height: 60px;
-    margin: 20px 15px 0;
-    padding: 0;
-    width: 468px;
-    .pane-content {
-      height: 100%;
-      margin: 0;
-      padding: 0;
-      width: 100%;
-    }
-  }
-}
-
 #adsense-search-300-250,
 #adsense-company-300-250 {
   background: 0;
@@ -2862,5 +2878,314 @@ body > .node-advertisement {
     margin: 0;
     padding: 0;
     width: 100%;
+  }
+}
+
+.front .region-content .yp-onecol-100-layout .container .col-sm-12 {
+  text-align: center;
+  #adsense-front-468-60-left,
+  #adsense-front-468-60-right {
+    display: inline-block;
+    height: 60px;
+    margin: 20px 15px 0;
+    padding: 0;
+    width: 468px;
+    .pane-content {
+      height: 100%;
+      margin: 0;
+      padding: 0;
+      width: 100%;
+    }
+  }
+}
+.page-user {
+  .profile {
+    .field {
+      padding: 10px 0;
+
+      a {
+        border-bottom: 2px solid #ffdd00;
+      }
+    }
+    h3 {
+      font-size: 16px;
+    }
+    table td {
+      padding: 5px 15px;
+    }
+  }
+}
+
+/* Company edit form. */
+#company-node-form {
+  .vertical-tabs {
+    border: 0;
+    padding: 0;
+
+    .vertical-tabs-list {
+      float: left;
+      list-style: none;
+      padding: 0;
+      width: 25%;
+
+      li.vertical-tab-button {
+        border: 2px solid $main-yellow;
+        border-collapse: collapse;
+        font-size: 16px;
+        padding: 5px 10px;
+
+        &.selected {
+          background-color: $main-yellow;
+        }
+        a {
+          display: block;
+          width: 100%;
+          &:hover,
+          &:active,
+          &:focus {
+            color: $dark;
+          }
+        }
+      }
+    }
+
+    .vertical-tabs-panes {
+      border: 2px solid $main-yellow;
+      float: left;
+      width: 75%;
+
+      fieldset {
+        border: none;
+
+        &.date-combo legend {
+          display: block;
+        }
+        #edit-field-price-list fieldset {
+          legend {
+            display: block;
+          }
+          label {
+            display: none;
+          }
+          input.upload {
+            border-color: $main-yellow;
+            display: inline-block !important;
+          }
+          a.browse {
+            background: $main-yellow;
+            padding: 6px 15px;
+          }
+        }
+        legend {
+          display: none;
+        }
+      }
+    }
+  }
+  #edit-field-price-list {
+    .sticky-table {
+      thead {
+        display: none;
+      }
+      tbody {
+        tr {
+          border: 1px solid $main-yellow;
+        }
+        .tabledrag-handle {
+          display: none;
+        }
+        .ctools-modal-media-file-edit {
+          display: none;
+        }
+        .media-item {
+          background: none;
+          border: none;
+          box-shadow: none;
+
+          img.file-icon {
+            display: inline-block;
+          }
+        }
+      }
+    }
+
+    .form-type-media {
+      margin-top: 20px;
+
+      .form-media {
+        input {
+          float: left;
+        }
+        a.browse {
+          float: left;
+        }
+      }
+    }
+  }
+  .form-item-agreement-check {
+    margin: 25px 0;
+  }
+  .text-format-wrapper .filter-wrapper {
+    display: none;
+  }
+  .tabledrag-toggle-weight-wrapper {
+    display: none;
+  }
+  .field-multiple-table {
+    tr.draggable td.field-multiple-drag {
+      display: none;
+    }
+    td {
+      .tabledrag-handle {
+        .handle {
+          background-position: 6px -14px;
+          height: 22px;
+          padding: 0;
+          width: 22px;
+        }
+      }
+      div {
+        margin: 0;
+      }
+    }
+  }
+  #edit-business-hours {
+    margin: 20px 0;
+    legend {
+      display: none;
+    }
+    .edit-weekday {
+      border: none;
+      padding: 5px;
+
+      legend {
+        display: block;
+        float: left;
+        font-size: 18px;
+        margin: 0 10px 0 0;
+        text-transform: capitalize;
+        width: 140px;
+      }
+      .fieldset-wrapper {
+        float: left;
+        .form-type-checkbox {
+          float: left;
+          font-size: 20px;
+          margin: 0;
+        }
+        .form-type-select {
+          float: left;
+          width: 100px;
+          margin: 0 0 0 10px;
+        }
+      }
+    }
+
+  }
+  #edit-body {
+    .field-body-label {
+      .field-edit-link {
+        display: none;
+      }
+    }
+  }
+  #products-add-more-wrapper {
+    .edit-products-fieldset {
+      padding: 0;
+
+      table {
+        border-collapse: collapse;
+        width: 100%;
+
+        th {
+          padding: 10px 5px;
+          border: 1px solid $gray;
+          &.activity-cell {
+            width: 100px;
+            text-align: center;
+          }
+        }
+        td {
+          border: 1px solid $gray;
+
+          &.activity-cell {
+            min-width: 100px;
+            text-align: center;
+            width: 100px;
+
+            label {
+              margin-top: 8px;
+            }
+          }
+          &.op-cell {
+            width: 28px;
+
+            .ajax-progress {
+              display: none;
+            }
+          }
+
+          .form-item {
+            height: 30px;
+            margin: 0;
+            position: relative;
+
+            input.field-products-textfield {
+              font-size: 14px;
+              padding: 0 20px 0 5px;
+              width: 100%;
+
+              &:hover {
+                background: white;
+                position: absolute;
+                vertical-align: top;
+                width: 500px;
+                z-index: 100;
+              }
+            }
+            #autocomplete {
+              width: 500px !important;
+            }
+          }
+
+          .form-submit {
+            line-height: 30px;
+            min-width: 35px;
+          }
+        }
+      }
+    }
+  }
+  .agreement-link {
+    border-bottom: 2px solid $main-yellow;
+  }
+}
+
+/* Style messages. */
+.messages {
+  border: 1px solid;
+  font-weight: bold;
+  margin: 5px 0;
+  padding: 20px 10px;
+
+  &.status {
+    border-color: $green;
+    color: $green;
+  }
+  &.warning {
+    border-color: $orange;
+    color: $orange;
+  }
+  &.error {
+    border-color: $red;
+    color: $red;
+  }
+}
+
+.page-user-register-notification {
+  text-align: center;
+  h1 {
+    font-size: 24px;
+    font-weight: normal;
   }
 }

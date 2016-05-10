@@ -101,6 +101,16 @@ function yellow_pages_rules_configuration_rules_event_info() {
         ),
       ),
     ),
+    'company_changed_by_enterprise_editor' => array(
+      'label' => t('Company changed by enterprise editor'),
+      'group' => t('Node'),
+      'variables' => array(
+        'node' => array(
+          'type' => 'node',
+          'label' => t('Node'),
+        ),
+      ),
+    ),
   );
 
   return $event;

@@ -138,7 +138,7 @@ function yellow_pages_company_ct_field_default_field_instances() {
     'entity_type' => 'node',
     'field_name' => 'field_address',
     'label' => 'Address',
-    'required' => 0,
+    'required' => 1,
     'settings' => array(
       'user_register_form' => FALSE,
     ),
@@ -156,13 +156,13 @@ function yellow_pages_company_ct_field_default_field_instances() {
           'address-hide-postal-code' => 0,
           'address-hide-street' => 0,
           'organisation' => 0,
-          'name-full' => 0,
           'name-oneline' => 0,
+          'name-full' => 0,
           'address-optional' => 0,
         ),
       ),
       'type' => 'addressfield_standard',
-      'weight' => 9,
+      'weight' => 6,
     ),
   );
 
@@ -619,7 +619,7 @@ function yellow_pages_company_ct_field_default_field_instances() {
     ),
     'entity_type' => 'node',
     'field_name' => 'field_fax',
-    'label' => 'Fax',
+    'label' => 'Telephone/Fax',
     'required' => 0,
     'settings' => array(
       'text_processing' => 0,
@@ -632,7 +632,7 @@ function yellow_pages_company_ct_field_default_field_instances() {
         'size' => 60,
       ),
       'type' => 'text_textfield',
-      'weight' => 13,
+      'weight' => 10,
     ),
   );
 
@@ -697,7 +697,7 @@ function yellow_pages_company_ct_field_default_field_instances() {
         'size' => 60,
       ),
       'type' => 'entityreference_autocomplete',
-      'weight' => 15,
+      'weight' => 12,
     ),
   );
 
@@ -828,7 +828,7 @@ function yellow_pages_company_ct_field_default_field_instances() {
         'html5_geolocation' => 0,
       ),
       'type' => 'geofield_latlon',
-      'weight' => 11,
+      'weight' => 8,
     ),
   );
 
@@ -945,7 +945,7 @@ function yellow_pages_company_ct_field_default_field_instances() {
         'size' => 60,
       ),
       'type' => 'text_textfield',
-      'weight' => 12,
+      'weight' => 9,
     ),
   );
 
@@ -1028,6 +1028,7 @@ function yellow_pages_company_ct_field_default_field_instances() {
           'multiple_from' => '',
           'multiple_number' => '',
           'multiple_to' => '',
+          'show_remaining_days' => FALSE,
         ),
         'type' => 'date_default',
         'weight' => 14,
@@ -1213,7 +1214,7 @@ function yellow_pages_company_ct_field_default_field_instances() {
         'size' => 60,
       ),
       'type' => 'text_textfield',
-      'weight' => 14,
+      'weight' => 11,
     ),
   );
 
@@ -1262,7 +1263,7 @@ function yellow_pages_company_ct_field_default_field_instances() {
     ),
     'entity_type' => 'node',
     'field_name' => 'field_price_list',
-    'label' => 'Price list',
+    'label' => 'Price-lists',
     'required' => 0,
     'settings' => array(
       'file_extensions' => 'xls xlsx pdf',
@@ -1287,7 +1288,6 @@ function yellow_pages_company_ct_field_default_field_instances() {
           'media_default--media_browser_my_files' => 'media_default--media_browser_my_files',
           'media_internet' => 0,
           'upload' => 'upload',
-          'youtube' => 0,
         ),
       ),
       'type' => 'media_generic',
@@ -1407,7 +1407,7 @@ function yellow_pages_company_ct_field_default_field_instances() {
         'size' => 60,
       ),
       'type' => 'text_textfield',
-      'weight' => 10,
+      'weight' => 7,
     ),
   );
 
@@ -1493,7 +1493,6 @@ function yellow_pages_company_ct_field_default_field_instances() {
   t('Business hours');
   t('Description of activity');
   t('Email');
-  t('Fax');
   t('Filials');
   t('Geocode');
   t('Invisible field');
@@ -1503,11 +1502,12 @@ function yellow_pages_company_ct_field_default_field_instances() {
   t('MDB sync date');
   t('Media materials');
   t('Mobile phone');
-  t('Price list');
+  t('Price-lists');
   t('Products');
   t('Region');
   t('Site URL');
   t('Social links');
+  t('Telephone/Fax');
 
   return $field_instances;
 }

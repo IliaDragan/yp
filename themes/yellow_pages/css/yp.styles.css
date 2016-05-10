@@ -55,6 +55,40 @@ a:hover, a:active, a:focus {
   overflow: hidden;
 }
 
+/**
+ * Autocomplete.
+ *
+ * @see autocomplete.js
+ */
+#autocomplete {
+  background-color: #f4f4f4;
+}
+
+#autocomplete li {
+  font-size: 14px;
+  line-height: 20px;
+  padding: 3px;
+}
+
+#autocomplete li.selected {
+  background: #ffdd00;
+  font-weight: bold;
+}
+
+/* CAPTCHA */
+.captcha img {
+  display: inline-block;
+  height: 42px;
+}
+.captcha .form-item-captcha-response {
+  display: inline-block;
+  margin-left: 10px;
+  vertical-align: top;
+}
+.captcha .form-item-captcha-response label {
+  display: none;
+}
+
 @media (min-width: 1990px) {
   .not-front .container {
     width: 1600px;
@@ -3129,25 +3163,6 @@ body > .node-advertisement {
 }
 
 /* AdSense styles*/
-.front .region-content .yp-onecol-100-layout .container .col-sm-12 {
-  text-align: center;
-}
-.front .region-content .yp-onecol-100-layout .container .col-sm-12 #adsense-front-468-60-left,
-.front .region-content .yp-onecol-100-layout .container .col-sm-12 #adsense-front-468-60-right {
-  display: inline-block;
-  height: 60px;
-  margin: 20px 15px 0;
-  padding: 0;
-  width: 468px;
-}
-.front .region-content .yp-onecol-100-layout .container .col-sm-12 #adsense-front-468-60-left .pane-content,
-.front .region-content .yp-onecol-100-layout .container .col-sm-12 #adsense-front-468-60-right .pane-content {
-  height: 100%;
-  margin: 0;
-  padding: 0;
-  width: 100%;
-}
-
 #adsense-search-300-250,
 #adsense-company-300-250 {
   background: 0;
@@ -3174,4 +3189,263 @@ body > .node-advertisement {
   margin: 0;
   padding: 0;
   width: 100%;
+}
+
+.front .region-content .yp-onecol-100-layout .container .col-sm-12 {
+  text-align: center;
+}
+.front .region-content .yp-onecol-100-layout .container .col-sm-12 #adsense-front-468-60-left,
+.front .region-content .yp-onecol-100-layout .container .col-sm-12 #adsense-front-468-60-right {
+  display: inline-block;
+  height: 60px;
+  margin: 20px 15px 0;
+  padding: 0;
+  width: 468px;
+}
+.front .region-content .yp-onecol-100-layout .container .col-sm-12 #adsense-front-468-60-left .pane-content,
+.front .region-content .yp-onecol-100-layout .container .col-sm-12 #adsense-front-468-60-right .pane-content {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+}
+
+.page-user .profile .field {
+  padding: 10px 0;
+}
+.page-user .profile .field a {
+  border-bottom: 2px solid #ffdd00;
+}
+.page-user .profile h3 {
+  font-size: 16px;
+}
+.page-user .profile table td {
+  padding: 5px 15px;
+}
+
+/* Company edit form. */
+#company-node-form .vertical-tabs {
+  border: 0;
+  padding: 0;
+}
+#company-node-form .vertical-tabs .vertical-tabs-list {
+  float: left;
+  list-style: none;
+  padding: 0;
+  width: 25%;
+}
+#company-node-form .vertical-tabs .vertical-tabs-list li.vertical-tab-button {
+  border: 2px solid #ffdd00;
+  border-collapse: collapse;
+  font-size: 16px;
+  padding: 5px 10px;
+}
+#company-node-form .vertical-tabs .vertical-tabs-list li.vertical-tab-button.selected {
+  background-color: #ffdd00;
+}
+#company-node-form .vertical-tabs .vertical-tabs-list li.vertical-tab-button a {
+  display: block;
+  width: 100%;
+}
+#company-node-form .vertical-tabs .vertical-tabs-list li.vertical-tab-button a:hover, #company-node-form .vertical-tabs .vertical-tabs-list li.vertical-tab-button a:active, #company-node-form .vertical-tabs .vertical-tabs-list li.vertical-tab-button a:focus {
+  color: #1d1d1d;
+}
+#company-node-form .vertical-tabs .vertical-tabs-panes {
+  border: 2px solid #ffdd00;
+  float: left;
+  width: 75%;
+}
+#company-node-form .vertical-tabs .vertical-tabs-panes fieldset {
+  border: none;
+}
+#company-node-form .vertical-tabs .vertical-tabs-panes fieldset.date-combo legend {
+  display: block;
+}
+#company-node-form .vertical-tabs .vertical-tabs-panes fieldset #edit-field-price-list fieldset legend {
+  display: block;
+}
+#company-node-form .vertical-tabs .vertical-tabs-panes fieldset #edit-field-price-list fieldset label {
+  display: none;
+}
+#company-node-form .vertical-tabs .vertical-tabs-panes fieldset #edit-field-price-list fieldset input.upload {
+  border-color: #ffdd00;
+  display: inline-block !important;
+}
+#company-node-form .vertical-tabs .vertical-tabs-panes fieldset #edit-field-price-list fieldset a.browse {
+  background: #ffdd00;
+  padding: 6px 15px;
+}
+#company-node-form .vertical-tabs .vertical-tabs-panes fieldset legend {
+  display: none;
+}
+#company-node-form #edit-field-price-list .sticky-table thead {
+  display: none;
+}
+#company-node-form #edit-field-price-list .sticky-table tbody tr {
+  border: 1px solid #ffdd00;
+}
+#company-node-form #edit-field-price-list .sticky-table tbody .tabledrag-handle {
+  display: none;
+}
+#company-node-form #edit-field-price-list .sticky-table tbody .ctools-modal-media-file-edit {
+  display: none;
+}
+#company-node-form #edit-field-price-list .sticky-table tbody .media-item {
+  background: none;
+  border: none;
+  box-shadow: none;
+}
+#company-node-form #edit-field-price-list .sticky-table tbody .media-item img.file-icon {
+  display: inline-block;
+}
+#company-node-form #edit-field-price-list .form-type-media {
+  margin-top: 20px;
+}
+#company-node-form #edit-field-price-list .form-type-media .form-media input {
+  float: left;
+}
+#company-node-form #edit-field-price-list .form-type-media .form-media a.browse {
+  float: left;
+}
+#company-node-form .form-item-agreement-check {
+  margin: 25px 0;
+}
+#company-node-form .text-format-wrapper .filter-wrapper {
+  display: none;
+}
+#company-node-form .tabledrag-toggle-weight-wrapper {
+  display: none;
+}
+#company-node-form .field-multiple-table tr.draggable td.field-multiple-drag {
+  display: none;
+}
+#company-node-form .field-multiple-table td .tabledrag-handle .handle {
+  background-position: 6px -14px;
+  height: 22px;
+  padding: 0;
+  width: 22px;
+}
+#company-node-form .field-multiple-table td div {
+  margin: 0;
+}
+#company-node-form #edit-business-hours {
+  margin: 20px 0;
+}
+#company-node-form #edit-business-hours legend {
+  display: none;
+}
+#company-node-form #edit-business-hours .edit-weekday {
+  border: none;
+  padding: 5px;
+}
+#company-node-form #edit-business-hours .edit-weekday legend {
+  display: block;
+  float: left;
+  font-size: 18px;
+  margin: 0 10px 0 0;
+  text-transform: capitalize;
+  width: 140px;
+}
+#company-node-form #edit-business-hours .edit-weekday .fieldset-wrapper {
+  float: left;
+}
+#company-node-form #edit-business-hours .edit-weekday .fieldset-wrapper .form-type-checkbox {
+  float: left;
+  font-size: 20px;
+  margin: 0;
+}
+#company-node-form #edit-business-hours .edit-weekday .fieldset-wrapper .form-type-select {
+  float: left;
+  width: 100px;
+  margin: 0 0 0 10px;
+}
+#company-node-form #edit-body .field-body-label .field-edit-link {
+  display: none;
+}
+#company-node-form #products-add-more-wrapper .edit-products-fieldset {
+  padding: 0;
+}
+#company-node-form #products-add-more-wrapper .edit-products-fieldset table {
+  border-collapse: collapse;
+  width: 100%;
+}
+#company-node-form #products-add-more-wrapper .edit-products-fieldset table th {
+  padding: 10px 5px;
+  border: 1px solid #a4a4a4;
+}
+#company-node-form #products-add-more-wrapper .edit-products-fieldset table th.activity-cell {
+  width: 100px;
+  text-align: center;
+}
+#company-node-form #products-add-more-wrapper .edit-products-fieldset table td {
+  border: 1px solid #a4a4a4;
+}
+#company-node-form #products-add-more-wrapper .edit-products-fieldset table td.activity-cell {
+  min-width: 100px;
+  text-align: center;
+  width: 100px;
+}
+#company-node-form #products-add-more-wrapper .edit-products-fieldset table td.activity-cell label {
+  margin-top: 8px;
+}
+#company-node-form #products-add-more-wrapper .edit-products-fieldset table td.op-cell {
+  width: 28px;
+}
+#company-node-form #products-add-more-wrapper .edit-products-fieldset table td.op-cell .ajax-progress {
+  display: none;
+}
+#company-node-form #products-add-more-wrapper .edit-products-fieldset table td .form-item {
+  height: 30px;
+  margin: 0;
+  position: relative;
+}
+#company-node-form #products-add-more-wrapper .edit-products-fieldset table td .form-item input.field-products-textfield {
+  font-size: 14px;
+  padding: 0 20px 0 5px;
+  width: 100%;
+}
+#company-node-form #products-add-more-wrapper .edit-products-fieldset table td .form-item input.field-products-textfield:hover {
+  background: white;
+  position: absolute;
+  vertical-align: top;
+  width: 500px;
+  z-index: 100;
+}
+#company-node-form #products-add-more-wrapper .edit-products-fieldset table td .form-item #autocomplete {
+  width: 500px !important;
+}
+#company-node-form #products-add-more-wrapper .edit-products-fieldset table td .form-submit {
+  line-height: 30px;
+  min-width: 35px;
+}
+#company-node-form .agreement-link {
+  border-bottom: 2px solid #ffdd00;
+}
+
+/* Style messages. */
+.messages {
+  border: 1px solid;
+  font-weight: bold;
+  margin: 5px 0;
+  padding: 20px 10px;
+}
+.messages.status {
+  border-color: #00a500;
+  color: #00a500;
+}
+.messages.warning {
+  border-color: #ff7200;
+  color: #ff7200;
+}
+.messages.error {
+  border-color: #ff0000;
+  color: #ff0000;
+}
+
+.page-user-register-notification {
+  text-align: center;
+}
+.page-user-register-notification h1 {
+  font-size: 24px;
+  font-weight: normal;
 }

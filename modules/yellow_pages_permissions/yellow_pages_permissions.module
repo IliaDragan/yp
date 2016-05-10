@@ -1,5 +1,11 @@
 <?php
 /**
  * @file
- * Yellow Pages permissions and roles.
+ * Code for the Yellow Pages Permissions feature.
  */
+
+include_once 'yellow_pages_permissions.features.inc';
+
+t('administrator');
+t('global editor');
+t('enterprise editor');

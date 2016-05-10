@@ -4,6 +4,8 @@
  * Core functionality, not suitable to be specifically placed anywhere else.
  */
 
+include_once 'yellow_pages_core.fields.inc';
+
 /**
  * Implements hook_menu().
  */
@@ -19,7 +21,76 @@ function yellow_pages_core_menu() {
     'file path' => drupal_get_path('module', 'system'),
   );
 
+  // @todo
+  // CSRF token
+  $items['node/%node/geomap'] = array(
+    'title' => 'Geo map',
+    'description' => 'Rendered map for certain node',
+    'page callback' => 'yellow_pages_core_node_geomap',
+    'page arguments' => array(1),
+    'access arguments' => array('access content'),
+    'type' => MENU_CALLBACK,
+  );
+
   return $items;
+}
+
+/**
+ * Return field renderable array with a map for a certain node.
+ *
+ * @param stdClass $node
+ *   The node object.
+ *
+ * @return array
+ *   Render array with geo field data.
+ */
+function yellow_pages_core_node_geomap(stdClass $node) {
+  $entity = $node;
+  $entity_type = 'node';
+  $geo_items = field_get_items($entity_type, $entity, 'field_geocode');
+
+  if (!$geo_items) {
+    return drupal_not_found();
+  }
+
+  $settings = array(
+    'geofield_map_baselayers_hybrid' => 1,
+    'geofield_map_baselayers_map' => 1,
+    'geofield_map_baselayers_physical' => 0,
+    'geofield_map_baselayers_satellite' => 1,
+    'geofield_map_center' => array(
+      'geocode' => 'Find my location',
+      'lat' => '',
+      'lon' => ''
+    ),
+    'geofield_map_controltype' => 'default',
+    'geofield_map_draggable' => 1,
+    'geofield_map_height' => '768px',
+    'geofield_map_maptype' => 'map',
+    'geofield_map_max_zoom' => 0,
+    'geofield_map_min_zoom' => 0,
+    'geofield_map_mtc' => 'none',
+    'geofield_map_overview' => 0,
+    'geofield_map_overview_opened' => 0,
+    'geofield_map_pancontrol' => 1,
+    'geofield_map_scale' => 1,
+    'geofield_map_scrollwheel' => 1,
+    'geofield_map_streetview_show' => 1,
+    'geofield_map_width' => '100%',
+    'geofield_map_zoom' => 18,
+  );
+
+  $field = array('field_name' => 'field_address');
+  $instance = array();
+  $langcode = LANGUAGE_NONE;
+
+  $geo_map = geofield_map_field_formatter_view($entity_type, $entity, $field, $instance, $langcode, $geo_items, array('settings' => $settings));
+
+  $geo_map['#prefix'] = "<h1>{$entity->title}</h1>";
+
+  drupal_set_title($entity->title . variable_set('site_name', 'YELLOW PAGES OF MOLDOVA'));
+
+  return $geo_map;
 }
 
 /**
@@ -35,6 +106,18 @@ function yellow_pages_core_form_system_site_information_settings_alter(&$form, &
   );
 
   $form['site_information']['site_mail']['#weight'] = '99';
+}
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ *
+ * Adds a password reset link.
+ */
+function yellow_pages_core_form_user_login_alter(&$form, &$form_state) {
+  $form['pass_reset'] = array(
+    '#type' => 'item',
+    '#markup' => l(t('Request new password'), 'user/password', array('attributes' => array('title' => t('Request new password via e-mail.')))),
+  );
 }
 
 /**
@@ -99,6 +182,60 @@ function yellow_pages_core_date_range($first, $last, $step = '+1 day', $output_f
   }
 
   return $dates;
+}
+
+/**
+ * Get weekdays' names for current language.
+ *
+ * @return array
+ *   Array of all weekdays translated full names.
+ */
+function yellow_pages_core_get_weekdays() {
+  return array(
+    'Monday' => t('Monday'),
+    'Tuesday' => t('Tuesday'),
+    'Wednesday' => t('Wednesday'),
+    'Thursday' => t('Thursday'),
+    'Friday' => t('Friday'),
+    'Saturday' => t('Saturday'),
+    'Sunday' => t('Sunday')
+  );
+}
+
+/**
+ * Get day hours from 00:00 to 24:00 with half hour range.
+ *
+ * @return array
+ *   Array of times strings.
+ */
+function yellow_pages_core_get_day_hours() {
+  $day_hours = array();
+  for ($i = 0; $i <= 96; $i++) {
+    $j = $i * 15;
+    $h = (int) ($j / 60);
+    $m = $j % 60;
+    $hour = str_pad($h, 2, '0', STR_PAD_LEFT) . ":" . str_pad($m, 2, '0', STR_PAD_RIGHT);
+    $day_hours[$hour] = $hour;
+  }
+
+  return $day_hours;
+}
+
+/**
+ * Implements hook_media_browser_plugins_alter().
+ */
+function yellow_pages_core_media_browser_plugins_alter(&$plugin_output) {
+  $path = drupal_get_path('module', 'yellow_pages_core');
+  drupal_add_css($path . '/css/yellow_pages_core_media_browser.css');
+  if (!empty($plugin_output['upload']['form']['#options']['file_extensions'])) {
+    $ext = trim($plugin_output['upload']['form']['#options']['file_extensions']);
+    $ext_array = explode(' ', $ext);
+    foreach ($ext_array as &$extension) {
+      $extension = '.' . $extension;
+    }
+    $ext_list = implode(', ', $ext_array);
+    $plugin_output['upload']['form']['upload']['upload']['#attributes']['accept'] = $ext_list;
+  }
 }
 
 /**

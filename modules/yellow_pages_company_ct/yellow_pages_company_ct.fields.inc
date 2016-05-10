@@ -151,6 +151,9 @@ function yellow_pages_company_ct_field_widget_form(&$form, &$form_state, $field,
       );
 
       $term = isset($items[$delta]['product']) ? taxonomy_term_load($items[$delta]['product']) : NULL;
+      if ($term && module_exists('i18n_taxonomy')) {
+        $term = i18n_taxonomy_localize_terms($term);
+      }
       $element['product'] = array(
         '#type' => 'textfield',
         '#autocomplete_path' => 'yp/autocomplete/product',
@@ -168,6 +171,9 @@ function yellow_pages_company_ct_field_widget_form(&$form, &$form_state, $field,
       );
 
       $term = isset($items[$delta]['product']) ? taxonomy_term_load($items[$delta]['product']) : NULL;
+      if ($term && module_exists('i18n_taxonomy')) {
+        $term = i18n_taxonomy_localize_terms($term);
+      }
       $element['product'] = array(
         '#type' => 'textfield',
         '#autocomplete_path' => 'yp/autocomplete/category',
@@ -258,9 +264,11 @@ function yellow_pages_company_ct_field_formatter_prepare_view($entity_type, $ent
  * Implements hook_field_formatter_view().
  */
 function yellow_pages_company_ct_field_formatter_view($entity_type, $entity, $field, $instance, $langcode, $items, $display) {
+  global $language;
+
   $element = array();
   $parents = array();
-  global $language;
+  $product_sources = _yp_product_activity_options_list();
 
   foreach ($items as $delta => $item) {
     if (isset($item['taxonomy_term'])) {
@@ -269,10 +277,20 @@ function yellow_pages_company_ct_field_formatter_view($entity_type, $entity, $fi
 
       switch ($display['type']) {
         case 'yp_product_default':
+          // @todo
+          // DRY
+          $source = $product_sources[$item['product_source']];
+          $uri = entity_uri('taxonomy_term', $term);
+          $element[$delta] = array(
+            '#type' => 'link',
+            '#title' => $source . ': ' . i18n_taxonomy_term_name($term, $language->language),
+            '#href' => $uri['path'],
+            '#options' => $uri['options'],
+          );
 
           break;
         case 'yp_product_parent':
-          if ($top_most == false) {
+          if ($top_most == FALSE) {
             break;
           }
           // Do not display same parents more than once.
@@ -282,6 +300,8 @@ function yellow_pages_company_ct_field_formatter_view($entity_type, $entity, $fi
 
           $term = $top_most;
           $parents[] = $top_most->tid;
+          // @todo
+          // DRY
           $uri = entity_uri('taxonomy_term', $term);
           $element[$delta] = array(
             '#type' => 'link',

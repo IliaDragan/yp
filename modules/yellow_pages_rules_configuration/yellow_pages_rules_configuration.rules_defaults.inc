@@ -41,6 +41,23 @@ function yellow_pages_rules_configuration_default_rules_configuration() {
       ]
     }
   }');
+  $items['rules_company_update_notification'] = entity_import('rules_config', '{ "rules_company_update_notification" : {
+      "LABEL" : "Company update notification",
+      "PLUGIN" : "reaction rule",
+      "OWNER" : "rules",
+      "TAGS" : [ "company", "editor", "update" ],
+      "REQUIRES" : [ "rules", "yellow_pages_rules_configuration" ],
+      "ON" : { "company_changed_by_enterprise_editor" : [] },
+      "DO" : [
+        { "mail_to_users_of_role" : {
+            "roles" : { "value" : { "4" : "4" } },
+            "subject" : "\\u0414\\u0430\\u043d\\u043d\\u044b\\u0435 \\u043f\\u0440\\u0435\\u0434\\u043f\\u0440\\u0438\\u044f\\u0442\\u0438\\u044f [node:title] \\u0431\\u044b\\u043b\\u0438 \\u0438\\u0437\\u043c\\u0435\\u043d\\u0435\\u043d\\u044b.",
+            "message" : "\\u0414\\u0430\\u043d\\u043d\\u044b\\u0435 \\u043f\\u0440\\u0435\\u0434\\u043f\\u0440\\u0438\\u044f\\u0442\\u0438\\u044f [node:url] \\u0431\\u044b\\u043b\\u0438 \\u0438\\u0437\\u043c\\u0435\\u043d\\u0435\\u043d\\u044b.\\r\\n\\u041d\\u043e\\u0432\\u044b\\u0435 \\u0437\\u043d\\u0430\\u0447\\u0435\\u043d\\u0438\\u044f:\\r\\n[node:company-diff]"
+          }
+        }
+      ]
+    }
+  }');
   $items['rules_every_day_expirations_check'] = entity_import('rules_config', '{ "rules_every_day_expirations_check" : {
       "LABEL" : "Every day expirations check",
       "PLUGIN" : "reaction rule",

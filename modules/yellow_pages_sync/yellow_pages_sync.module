@@ -176,7 +176,7 @@ function yellow_pages_sync_read_xml($source) {
     if (!$cache) {
       $xml_data = @file_get_contents($source);
       if (!empty($xml_data)) {
-        cache_set($cid, $xml_data, 'cache', REQUEST_TIME + 3600);
+        cache_set($cid, $xml_data, 'cache', REQUEST_TIME + 30);
       }
     }
     else {
@@ -386,6 +386,8 @@ function yellow_pages_sync_node(SimpleXMLElement $list_item) {
 
   // Save new node.
   node_save($entity);
+  module_invoke_all('entity_sync_with_mdb', $entity);
+
 
   if (!empty($path_alias['ru'])) {
     $url_alias = array(
@@ -470,6 +472,7 @@ function yellow_pages_sync_node(SimpleXMLElement $list_item) {
     }
 
     node_save($translated_entity);
+    module_invoke_all('entity_sync_with_mdb', $translated_entity);
 
     if (!empty($path_alias[$lang])) {
       $url_alias = array(
@@ -808,7 +811,6 @@ function yellow_pages_sync_process_source_element_contacts(SimpleXMLElement $sou
         $contacts['mobile'][] = $number;
         break;
       case 'T/F':
-        $contacts['landline'][] = $number;
         $contacts['fax'][] = $number;
         break;
     }
@@ -1536,4 +1538,22 @@ function yellow_pages_sync_categories_and_products_form_submit($form, &$form_sta
   );
 
   batch_set($batch);
+}
+
+/**
+ * Get Source Enterprise ID for drupal company node.
+ * @param $nid
+ *   Company node nid.
+ *
+ * @return mixed
+ *   Source Enterprise ID of false if not found.
+ */
+function yellow_pages_sync_get_eid_by_nid($nid) {
+  $eid = db_select('yp_sync_state', 'ss')
+    ->fields('ss', array('eid'))
+    ->condition('ss.nid', $nid)
+    ->execute()
+    ->fetchField();
+
+  return $eid;
 }

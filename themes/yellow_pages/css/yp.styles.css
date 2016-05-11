@@ -3457,3 +3457,69 @@ body > .node-advertisement {
 .page-user-password #user-pass #edit-submit {
   padding: 0 20px;
 }
+
+.page-user-edit #user-profile-form .form-item-mail .description {
+  display: none;
+}
+.page-user-edit #user-profile-form .password-parent {
+  clear: left;
+  margin: 0;
+  width: 36.3em;
+}
+.page-user-edit #user-profile-form .password-parent .password-strength {
+  width: 17em;
+  float: right;
+  /* LTR */
+  margin-top: 1.4em;
+}
+.page-user-edit #user-profile-form .password-parent .password-strength .password-strength-title {
+  display: inline;
+}
+.page-user-edit #user-profile-form .password-parent .password-strength .password-strength-text {
+  float: right;
+  font-weight: bold;
+}
+.page-user-edit #user-profile-form .password-parent .password-strength .password-indicator {
+  background-color: #C4C4C4;
+  height: 0.3em;
+  width: 100%;
+}
+.page-user-edit #user-profile-form .password-parent .password-strength .password-indicator div {
+  height: 100%;
+  width: 0%;
+  background-color: #47C965;
+}
+.page-user-edit #user-profile-form .password-parent input.password-field {
+  width: 16em;
+  margin-bottom: 0.4em;
+}
+.page-user-edit #user-profile-form .confirm-parent {
+  clear: left;
+  margin: 0;
+  width: 36.3em;
+}
+.page-user-edit #user-profile-form .confirm-parent div.password-confirm {
+  float: right;
+  margin-top: 1.5em;
+  visibility: hidden;
+  width: 17em;
+}
+.page-user-edit #user-profile-form .confirm-parent div.password-confirm span.ok {
+  color: #00a500;
+}
+.page-user-edit #user-profile-form .confirm-parent div.password-confirm span.error {
+  color: #ff0000;
+}
+.page-user-edit #user-profile-form .confirm-parent input.password-confirm {
+  width: 16em;
+  margin-bottom: 0.4em;
+}
+.page-user-edit #user-profile-form fieldset {
+  border: none;
+}
+.page-user-edit #user-profile-form fieldset .fieldset-legend {
+  display: none;
+}
+.page-user-edit #user-profile-form #edit-actions {
+  margin-top: 20px;
+}

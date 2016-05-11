@@ -2900,6 +2900,10 @@ body > .node-advertisement {
 }
 .page-user {
   .profile {
+    .user-picture img {
+      border: 1px solid $gray;
+      margin-top: 15px;
+    }
     .field {
       padding: 10px 0;
 

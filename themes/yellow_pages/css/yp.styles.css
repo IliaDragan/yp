@@ -3210,6 +3210,10 @@ body > .node-advertisement {
   width: 100%;
 }
 
+.page-user .profile .user-picture img {
+  border: 1px solid #a4a4a4;
+  margin-top: 15px;
+}
 .page-user .profile .field {
   padding: 10px 0;
 }

@@ -963,6 +963,17 @@ function yellow_pages_company_ct_form_user_profile_form_alter(&$form, &$form_sta
   foreach ($fields_access as $field) {
     $form[$field]['#access'] = $access;
   }
+
+  if (user_access('edit related companies') && $user->uid != 1) {
+    $form['#submit'][] = 'yellow_pages_company_ct_user_profile_form_submit';
+  }
+}
+
+/**
+ * Submit function for redirect enterprise editor to profile after set password.
+ */
+function yellow_pages_company_ct_user_profile_form_submit (&$form, &$form_state) {
+  drupal_goto('user');
 }
 
 /**

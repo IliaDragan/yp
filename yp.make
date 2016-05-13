@@ -3,7 +3,7 @@ core = 7.x
 api = 2
 
 ; Contrib modules
-projects[addressfield][version] = "1.1"
+projects[addressfield][version] = "1.2"
 projects[addressfield][subdir] = "contrib"
 
 projects[admin_views][version] = "1.5"
@@ -14,7 +14,7 @@ projects[captcha][subdir] = "contrib"
 ; https://www.drupal.org/node/2462479
 projects[captcha][patch][] = "https://www.drupal.org/files/issues/captcha-7.x-1.x-fix_missing_image-2462479-5.patch"
 
-projects[ckeditor][version] = "1.16"
+projects[ckeditor][version] = "1.17"
 projects[ckeditor][subdir] = "contrib"
 
 projects[coder][version] = "2.5"
@@ -38,7 +38,7 @@ projects[diff][subdir] = "contrib"
 projects[email][version] = "1.3"
 projects[email][subdir] = "contrib"
 
-projects[entity][version] = "1.6"
+projects[entity][version] = "1.7"
 projects[entity][subdir] = "contrib"
 
 projects[entityreference][version] = "1.1"
@@ -52,7 +52,7 @@ projects[facetapi][patch][] = "http://am.storage.dev.inlead.dk/facetapi_accents-
 projects[field_sql_norevisions][version] = "2.1"
 projects[field_sql_norevisions][subdir] = "contrib"
 
-projects[features][version] = "2.7"
+projects[features][version] = "2.10"
 projects[features][subdir] = "contrib"
 
 projects[features_extra][version] = "1.0"
@@ -67,7 +67,7 @@ projects[field_group][subdir] = "contrib"
 projects[fontawesome][version] = "2.1"
 projects[fontawesome][subdir] = "contrib"
 
-projects[forward][version] = "2.0"
+projects[forward][version] = "2.1"
 projects[forward][subdir] = "contrib"
 
 projects[geofield][version] = "2.3"
@@ -85,16 +85,16 @@ projects[l10n_update][subdir] = "contrib"
 projects[libraries][version] = "2.2"
 projects[libraries][subdir] = "contrib"
 
-projects[jquery_update][version] = "2.6"
+projects[jquery_update][version] = "2.7"
 projects[jquery_update][subdir] = "contrib"
 
-projects[leaflet][version] = "1.2"
+projects[leaflet][version] = "1.3"
 projects[leaflet][subdir] = "contrib"
 
 projects[libraries][version] = "2.2"
 projects[libraries][subdir] = "contrib"
 
-projects[link][version] = "1.3"
+projects[link][version] = "1.4"
 projects[link][subdir] = "contrib"
 
 projects[mailsystem][version] = "2.34"
@@ -127,7 +127,7 @@ projects[node_expire][subdir] = "contrib"
 projects[nodeviewcount][version] = "2.4"
 projects[nodeviewcount][subdir] = "contrib"
 
-projects[owlcarousel][version] = "1.5"
+projects[owlcarousel][version] = "1.6"
 projects[owlcarousel][subdir] = "contrib"
 projects[owlcarousel][patch][] = "http://am.storage.dev.inlead.dk/owlcarousel-fixed_libraries_owlcarousel_path.patch"
 
@@ -140,10 +140,10 @@ projects[rules][subdir] = "contrib"
 projects[rules_onceperday][version] = "1.2"
 projects[rules_onceperday][subdir] = "contrib"
 
-projects[search_api][version] = "1.16"
+projects[search_api][version] = "1.18"
 projects[search_api][subdir] = "contrib"
 
-projects[search_api_solr][version] = "1.9"
+projects[search_api_solr][version] = "1.10"
 projects[search_api_solr][subdir] = "contrib"
 
 projects[service_links][version] = "2.3"

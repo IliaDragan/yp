@@ -2843,7 +2843,7 @@ body > .node-advertisement {
         margin-right: 30px;
         text-align: left;
         .chosen-container {
-          min-width: 250px;
+          min-width: 280px;
         }
       }
       #edit-submit {
@@ -2900,6 +2900,10 @@ body > .node-advertisement {
 }
 .page-user {
   .profile {
+    .user-picture img {
+      border: 1px solid $gray;
+      margin-top: 15px;
+    }
     .field {
       padding: 10px 0;
 
@@ -3187,5 +3191,91 @@ body > .node-advertisement {
   h1 {
     font-size: 24px;
     font-weight: normal;
+  }
+}
+
+.page-user-password {
+  #user-pass {
+    #edit-submit {
+      padding: 0 20px;
+    }
+  }
+}
+
+.page-user-edit {
+  #user-profile-form {
+    .form-item-mail {
+      .description {
+        display: none;
+      }
+    }
+    .password-parent {
+      clear: left;
+      margin: 0;
+      width: 36.3em;
+
+      .password-strength {
+        width: 17em;
+        float: right;  /* LTR */
+        margin-top: 1.4em;
+
+        .password-strength-title {
+          display: inline;
+        }
+        .password-strength-text {
+          float: right;
+          font-weight: bold;
+        }
+        .password-indicator {
+          background-color: #C4C4C4;
+          height: 0.3em;
+          width: 100%;
+
+          div {
+            height: 100%;
+            width: 0%;
+            background-color: #47C965;
+          }
+        }
+      }
+      input.password-field {
+        width: 16em;
+        margin-bottom: 0.4em;
+      }
+    }
+
+    .confirm-parent {
+      clear: left;
+      margin: 0;
+      width: 36.3em;
+
+      div.password-confirm {
+        float: right;
+        margin-top: 1.5em;
+        visibility: hidden;
+        width: 17em;
+
+        span.ok {
+          color: $green;
+        }
+        span.error {
+          color: $red;
+        }
+      }
+      input.password-confirm {
+        width: 16em;
+        margin-bottom: 0.4em;
+      }
+    }
+
+    fieldset {
+      border: none;
+      .fieldset-legend {
+        display: none;
+      }
+    }
+    #edit-actions {
+      margin-top: 20px;
+    }
   }
 }

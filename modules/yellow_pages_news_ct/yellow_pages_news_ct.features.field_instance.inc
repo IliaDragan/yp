@@ -31,6 +31,12 @@ function yellow_pages_news_ct_field_default_field_instances() {
         'type' => 'text_default',
         'weight' => 1,
       ),
+      'print_mode' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
       'slider_teaser' => array(
         'label' => 'hidden',
         'module' => 'text',
@@ -89,6 +95,12 @@ function yellow_pages_news_ct_field_default_field_instances() {
         'type' => 'hidden',
         'weight' => 0,
       ),
+      'print_mode' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
       'slider_teaser' => array(
         'label' => 'above',
         'settings' => array(),
@@ -139,6 +151,12 @@ function yellow_pages_news_ct_field_default_field_instances() {
         'settings' => array(),
         'type' => 'hidden',
         'weight' => 6,
+      ),
+      'print_mode' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
       ),
       'slider_teaser' => array(
         'label' => 'hidden',
@@ -229,6 +247,12 @@ function yellow_pages_news_ct_field_default_field_instances() {
         'type' => 'image',
         'weight' => 0,
       ),
+      'print_mode' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
       'slider_teaser' => array(
         'label' => 'hidden',
         'module' => 'image',
@@ -312,6 +336,12 @@ function yellow_pages_news_ct_field_default_field_instances() {
         'type' => 'hidden',
         'weight' => 0,
       ),
+      'print_mode' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
       'slider_teaser' => array(
         'label' => 'above',
         'settings' => array(),
@@ -362,6 +392,12 @@ function yellow_pages_news_ct_field_default_field_instances() {
         'settings' => array(),
         'type' => 'hidden',
         'weight' => 4,
+      ),
+      'print_mode' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
       ),
       'slider_teaser' => array(
         'label' => 'above',

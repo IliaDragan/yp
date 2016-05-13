@@ -10,7 +10,7 @@
 function yellow_pages_article_ct_field_default_field_bases() {
   $field_bases = array();
 
-  // Exported field_base: 'field_front_image'
+  // Exported field_base: 'field_front_image'.
   $field_bases['field_front_image'] = array(
     'active' => 1,
     'cardinality' => 1,

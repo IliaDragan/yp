@@ -114,6 +114,10 @@ function yellow_pages_company_ct_strongarm() {
             'weight' => '15',
             'visible' => FALSE,
           ),
+          'print_mode' => array(
+            'weight' => '14',
+            'visible' => FALSE,
+          ),
         ),
       ),
     ),

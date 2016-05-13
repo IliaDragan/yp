@@ -77,87 +77,45 @@ a[href]:after {
   display: none;
 }
 .node-type-company .company-content {
-  font-size: 30pt;
+  font-size: 25pt;
   width: 100% !important;
 }
-.node-type-company .company-content .field-type-media .owl-controls {
-  display: none;
-}
-.node-type-company .company-content .col-company {
-  display: table-cell;
-  float: none;
-  text-align: left;
-  vertical-align: top;
-  width: auto !important;
-}
-.node-type-company .company-content .col-company.col-company-logo {
-  display: none !important;
-}
-.node-type-company .company-content .col-company.col-company-geo {
-  padding-top: 30px;
-  padding-left: 30px;
-  width: 330px !important;
-}
-.node-type-company .company-content .col-company h2 {
-  font-size: 40pt !important;
-  font-weight: bold;
-}
-.node-type-company .company-content .col-company .field-name-field-address,
-.node-type-company .company-content .col-company .field-name-field-landline-phone,
-.node-type-company .company-content .col-company .field-name-field-fax,
-.node-type-company .company-content .col-company .field-name-field-mobile-phone,
-.node-type-company .company-content .col-company .field-name-field-company-site,
-.node-type-company .company-content .col-company .field-name-field-email {
-  padding-left: 35px;
-}
-.node-type-company .company-content .col-company .field-name-field-address::before,
-.node-type-company .company-content .col-company .field-name-field-landline-phone::before,
-.node-type-company .company-content .col-company .field-name-field-fax::before,
-.node-type-company .company-content .col-company .field-name-field-mobile-phone::before,
-.node-type-company .company-content .col-company .field-name-field-company-site::before,
-.node-type-company .company-content .col-company .field-name-field-email::before {
-  font: 30px/1 FontAwesome !important;
-}
-.node-type-company .company-content .col-company .field-row-tags a {
-  font-size: 25pt !important;
-}
-.node-type-company .company-content .horizontal-tabs .horizontal-tabs-panes span {
-  font-size: 35pt !important;
-}
-.node-type-company .company-content .horizontal-tabs .horizontal-tabs-panes a {
-  font-size: 30pt !important;
-}
-.node-type-company .company-content .horizontal-tabs .field-name-body {
+.node-type-company .company-content h2.node-title {
   font-size: 30pt;
+  margin-bottom: 30pt;
+  text-align: center;
 }
-.node-type-company .company-content .horizontal-tabs .field-name-field-filials .content .left {
-  display: none !important;
+.node-type-company .company-content table.contact-info {
+  margin-bottom: 30pt;
+  width: 100%;
 }
-.node-type-company .company-content .horizontal-tabs .field-name-field-filials .content .right {
-  display: block;
-  margin-left: 0 !important;
+.node-type-company .company-content table.contact-info .field-name-field-geocode {
+  float: right;
+  padding: 0 20pt;
 }
-.node-type-company .company-content .horizontal-tabs .field-name-field-filials .field-name-field-address::before {
-  font: 35pt/1 FontAwesome !important;
+.node-type-company .company-content .field-name-body {
+  margin-bottom: 30pt;
 }
-.node-type-company .company-content .horizontal-tabs .field-name-field-filials .field-name-field-address .street-block .thoroughfare {
-  font-size: 35pt !important;
+.node-type-company .company-content .field-name-field-business-hours {
+  margin-bottom: 30pt;
 }
-.node-type-company .company-content .horizontal-tabs .field-name-field-filials .field-name-field-address .street-block::before {
-  content: "" !important;
+.node-type-company .company-content .field-name-field-business-hours .business-hours {
+  width: 100%;
 }
-.node-type-company .company-content .horizontal-tabs .field-name-field-business-hours .today {
-  border: none !important;
+.node-type-company .company-content .field-name-field-business-hours .business-hours .inline-business-hours {
+  display: inline-block;
+  padding: 0 20pt;
+  text-align: center;
+  font-size: 22pt;
 }
-.node-type-company .company-content .horizontal-tabs .field-name-field-business-hours td {
-  font-size: 30pt;
+.node-type-company .company-content ul.field-type-yp-product li {
+  font-size: 25pt;
+  margin-right: 25pt;
+  text-decoration: none;
 }
-.node-type-company .company-content .horizontal-tabs .group-price-lists {
-  display: none;
-}
-
-.horizontal-tabs .horizontal-tab-hidden {
-  position: static;
+.node-type-company .company-content ul.field-type-yp-product li a {
+  font-size: 25pt;
+  text-decoration: none;
 }
 
 .footer .copyright {

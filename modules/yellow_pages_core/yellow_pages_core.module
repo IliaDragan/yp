@@ -32,7 +32,36 @@ function yellow_pages_core_menu() {
     'type' => MENU_CALLBACK,
   );
 
+  $items['node/%node/print'] = array(
+    'title callback' => 'node_page_title',
+    'title arguments' => array(1),
+    'page callback' => 'yellow_pages_core_node_print',
+    'page arguments' => array(1),
+    'access arguments' => array('access content'),
+    'type' => MENU_CALLBACK,
+  );
+
   return $items;
+}
+
+/**
+ * Print node page callback.
+ */
+function yellow_pages_core_node_print($node) {
+  drupal_set_title($node->title);
+  $nodes = node_view_multiple(array($node->nid => $node), 'print_mode');
+
+  return $nodes;
+}
+
+/**
+ * Implements hook_entity_info_alter().
+ */
+function yellow_pages_core_entity_info_alter(&$entity_info) {
+  $entity_info['node']['view modes']['print_mode'] = array(
+    'label' => t('Print mode'),
+    'custom settings' => TRUE,
+  );
 }
 
 /**
@@ -318,7 +347,7 @@ function yellow_pages_core_block_view($delta = '') {
       $block['content'] = yellow_pages_core_get_adsense_980_120();
       break;
   }
-  
+
   return $block;
 }
 

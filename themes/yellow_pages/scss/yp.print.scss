@@ -75,99 +75,55 @@ a[href]:after {
     display: none;
   }
   .company-content {
-    font-size: 30pt;
+    font-size: 25pt;
     width: 100% !important;
-    .field-type-media {
-      .owl-controls {
-        display: none;
-      }
-    }
-    .col-company {
-      display: table-cell;
-      float: none;
-      text-align: left;
-      vertical-align: top;
-      width: auto !important;
-      &.col-company-logo {
-        display: none !important;
-      }
-      &.col-company-geo {
-        padding-top: 30px;
-        padding-left: 30px;
-        width: 330px !important;
-      }
-      h2 {
-        font-size: 40pt !important;
-        font-weight: bold;
-      }
-      .field-name-field-address,
-      .field-name-field-landline-phone,
-      .field-name-field-fax,
-      .field-name-field-mobile-phone,
-      .field-name-field-company-site,
-      .field-name-field-email {
-        padding-left: 35px;
-        &::before {
-          font: 30px/1 FontAwesome !important;
-        }
-      }
-      .field-row-tags a {
-        font-size: 25pt !important;
-      }
-    }
-    .horizontal-tabs {
-      .horizontal-tabs-panes span {
-        font-size: 35pt !important;
-      }
-      .horizontal-tabs-panes a {
-        font-size: 30pt !important;
-      }
-      .field-name-body {
-        font-size: 30pt;
-      }
-      .field-name-field-filials {
-        .content {
-          .left {
-            display: none !important;
-          }
-          .right {
-            display: block;
-            margin-left: 0 !important;
-          }
-        }
 
-        .field-name-field-address {
-          &::before {
-            font: 35pt/1 FontAwesome !important;
-          }
-          .street-block {
-            .thoroughfare {
-              font-size: 35pt !important;
-            }
-            &::before {
-              content: "" !important;
-            }
-          }
-        }
-      }
-      .field-name-field-business-hours {
-        .today {
-          border: none !important;
-        }
-        td {
-          font-size: 30pt;
-        }
-      }
-      .group-price-lists {
-        display: none;
+    h2.node-title {
+      font-size: 30pt;
+      margin-bottom: 30pt;
+      text-align: center;
+    }
+    table.contact-info {
+      margin-bottom: 30pt;
+      width: 100%;
+
+      .field-name-field-geocode {
+        float: right;
+        padding: 0 20pt;
       }
     }
+    .field-name-body {
+      margin-bottom: 30pt;
+    }
+    .field-name-field-business-hours {
+      margin-bottom: 30pt;
+
+      .business-hours {
+        width: 100%;
+
+        .inline-business-hours {
+          display: inline-block;
+          padding: 0 20pt;
+          text-align: center;
+          font-size: 22pt;
+        }
+      }
+    }
+
+    ul.field-type-yp-product li {
+      font-size: 25pt;
+      margin-right: 25pt;
+      text-decoration: none;
+
+      a {
+        font-size: 25pt;
+        text-decoration: none;
+      }
+    }
+
   }
 }
 
-.horizontal-tabs .horizontal-tab-hidden {
-  position: static;
-}
 .footer .copyright {
   border: none;
 }

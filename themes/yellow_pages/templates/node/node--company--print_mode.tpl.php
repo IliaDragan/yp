@@ -7,9 +7,9 @@
  * @see https://drupal.org/node/1728164
  */
 ?>
-<article class="node-<?php print $node->nid; ?> <?php print $classes; ?> clearfix"<?php print $attributes; ?>>
+<div id="node-print-version" class="node-<?php print $node->nid; ?> <?php print $classes; ?> clearfix"<?php print $attributes; ?>>
   <div class="company-content">
-    <h2 class="node-title"><?php print $title; ?></h2>
+    <h2 class="node-title"><?php print $title; ?> - Print Version</h2>
     <table class="contact-info">
       <tbody>
         <tr>
@@ -40,5 +40,5 @@
     </div>
 
   </div>
-</article>
+</div>
 

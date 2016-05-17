@@ -19,6 +19,10 @@ body.not-front {
   background: #f2f2f2;
 }
 
+#node-print-version {
+  display: none;
+}
+
 h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
   font-family: 'PT Sans', serif;
   font-weight: bold;

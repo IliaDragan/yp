@@ -133,6 +133,16 @@ function yellow_pages_preprocess_node(&$vars) {
     $vars['link_href'] = drupal_get_path_alias('/yp/advertisement/' . $vars['node']->nid);
     $vars['link_attributes'] = !empty($vars['content']['field_ad_url'][0]['#element']['attributes']) ? drupal_attributes($vars['content']['field_ad_url'][0]['#element']['attributes']) : '';
   }
+
+  if ($vars['view_mode'] == 'full' && !empty($vars['page'])) {
+    $js = array(
+      'nodePrintLink' => url('node/' . $vars['node']->nid . '/print'),
+      'nodePrintVersionHTML' => drupal_render(node_view($vars['node'], 'print_mode')),
+    );
+    drupal_add_js($js, 'setting');
+    $path = drupal_get_path('theme', 'yellow_pages') . '/js/yellow_pages_print.js';
+    drupal_add_js($path);
+  }
 }
 
 /**

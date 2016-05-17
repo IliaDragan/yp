@@ -16,6 +16,18 @@ header,
 @page {
   margin: 0 !important;
 }
+
+body.contains-print-iframe > * {
+  display: none;
+}
+div#node-print-version {
+  border:0;
+  display:block;
+  height: 100%;
+  position: absolute;
+  width:100%;
+}
+
 .container {
   min-width: 90% !important;
   margin: 0;
@@ -43,6 +55,7 @@ a[href]:after {
   display: none !important;
 }
 #navbar {
+  display: block;
   width: 100% !important;
   .container {
     margin: 0;

@@ -134,9 +134,9 @@ function yellow_pages_preprocess_node(&$vars) {
     $vars['link_attributes'] = !empty($vars['content']['field_ad_url'][0]['#element']['attributes']) ? drupal_attributes($vars['content']['field_ad_url'][0]['#element']['attributes']) : '';
   }
 
-  if ($vars['view_mode'] == 'full' && !empty($vars['page'])) {
+  if ($vars['type'] == 'company' && $vars['view_mode'] == 'full' && !empty($vars['page'])) {
     $js = array(
-      'nodePrintLink' => url('node/' . $vars['node']->nid . '/print'),
+      'nodeMapVariableName' => 'geofield-map-entity-node-' . $vars['node']->nid . '-field-geocode--2',
       'nodePrintVersionHTML' => drupal_render(node_view($vars['node'], 'print_mode')),
     );
     drupal_add_js($js, 'setting');

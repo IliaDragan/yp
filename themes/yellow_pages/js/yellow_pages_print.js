@@ -9,31 +9,30 @@
       $body.addClass('contains-print-iframe');
       $body.append(settings.nodePrintVersionHTML);
 
-//      function printNode () {
-//        debugger;
-//        var w = window.open(settings.nodePrintLink);
-//        w.load();
-//        w.print();
-//        w.close();
-//      }
-//
-//      window.print = function() {
-//        alert('you can not print');
-//        printNode();
-//      }
+      function hidePrintVersion() {
+        jQuery('#node-print-version', context).addClass('node-print-version');
+      }
 
-//
-//      jQuery(document).bind("keyup keydown", function(e){
-//        debugger;
-//        if(e.ctrlKey && e.keyCode == 80){
-//          debugger;
-//          printNode();
-//          return false;
-//        }
-//      });
-//      jQuery('.yp-print a', context).on('click', function(){
-//        printNode();
-//        return false;
-//      });
+      jQuery(document).ready(function() {
+        if (Drupal.hasOwnProperty('geoField')) {
+          if (Drupal.geoField.hasOwnProperty('maps')) {
+            if (Drupal.geoField.maps.hasOwnProperty(settings.nodeMapVariableName)) {
+              var map = Drupal.geoField.maps[settings.nodeMapVariableName];
+              google.maps.event.addListenerOnce(map, 'idle', function(){
+                hidePrintVersion();
+              });
+            }
+            else {
+              hidePrintVersion();
+            }
+          }
+          else {
+            hidePrintVersion();
+          }
+        }
+        else {
+          hidePrintVersion();
+        }
+      });
     }
   }

@@ -31,14 +31,21 @@
         </tr>
       </tbody>
     </table>
-
-
     <div class="field-row-tags">
       <?php print render($content['body']); ?>
       <?php print render($content['field_business_hours']); ?>
-      <?php print render($content['field_products']); ?>
+      <?php if (!empty($content['field_products'])): ?>
+      <div class="field-products-wrapper">
+        <div class="field-label"><?php print t('Products and services'); ?>:</div>
+        <?php print render($content['field_products']); ?>
+      </div>
+      <?php endif; ?>
+      <?php print render($content['group_products']); ?>
+      <?php print render($content['group_services']); ?>
+      <?php print render($content['group_we_sell']); ?>
+      <?php print render($content['group_we_buy']); ?>
+      <?php print render($content['group_we_export']); ?>
     </div>
-
   </div>
 </div>
 

@@ -22,7 +22,6 @@ body.contains-print-iframe > * {
 div#node-print-version {
   border: 0;
   display: block;
-  height: 100%;
   position: absolute;
   width: 100%;
 }
@@ -36,7 +35,7 @@ div#node-print-version {
 a[href]:after {
   content: "";
   font-weight: normal;
-  font-size: 16pt;
+  font-size: 4mm;
 }
 
 .messages,
@@ -66,7 +65,7 @@ a[href]:after {
 }
 #navbar .container .navbar-header {
   width: 100% !important;
-  height: 84px;
+  height: 20mm;
   margin: 0;
 }
 #navbar .container .navbar-header .logo {
@@ -78,57 +77,76 @@ a[href]:after {
   width: 100% !important;
 }
 #navbar .container .navbar-header .logo img {
-  height: 84px !important;
+  height: 13mm !important;
   display: inline-block !important;
   max-height: none !important;
   position: relative !important;
   vertical-align: baseline;
-  width: 187px !important;
+  width: 30mm !important;
 }
 
 .node-type-company .node-advertisement {
   display: none;
 }
 .node-type-company .company-content {
-  font-size: 25pt;
+  font-size: 4mm;
   width: 100% !important;
 }
 .node-type-company .company-content h2.node-title {
-  font-size: 30pt;
-  margin-bottom: 30pt;
+  font-size: 6mm;
+  margin-bottom: 5mm;
   text-align: center;
 }
 .node-type-company .company-content table.contact-info {
-  margin-bottom: 30pt;
+  margin-bottom: 5mm;
   width: 100%;
 }
-.node-type-company .company-content table.contact-info .field-name-field-geocode {
+.node-type-company .company-content table.contact-info td {
+  font-size: 5mm;
+  vertical-align: top;
+}
+.node-type-company .company-content table.contact-info td .field {
+  margin-bottom: 3mm;
+}
+.node-type-company .company-content table.contact-info td .field-name-field-geocode {
   float: right;
-  padding: 0 20pt;
+  margin-bottom: 0;
+  padding: 0 5mm;
 }
-.node-type-company .company-content .field-name-body {
-  margin-bottom: 30pt;
+.node-type-company .company-content .field-row-tags .field-label {
+  font-size: 5mm;
+  font-weight: bold;
+  margin-bottom: 3mm;
 }
-.node-type-company .company-content .field-name-field-business-hours {
-  margin-bottom: 30pt;
+.node-type-company .company-content .field-row-tags .field-name-body {
+  margin-bottom: 5mm;
 }
-.node-type-company .company-content .field-name-field-business-hours .business-hours {
+.node-type-company .company-content .field-row-tags .field-name-field-business-hours {
+  margin-bottom: 5mm;
+}
+.node-type-company .company-content .field-row-tags .field-name-field-business-hours .business-hours {
   width: 100%;
 }
-.node-type-company .company-content .field-name-field-business-hours .business-hours .inline-business-hours {
+.node-type-company .company-content .field-row-tags .field-name-field-business-hours .business-hours .inline-business-hours {
   display: inline-block;
-  padding: 0 20pt;
+  padding: 0 2mm;
   text-align: center;
-  font-size: 22pt;
+  font-size: 4mm;
 }
-.node-type-company .company-content ul.field-type-yp-product li {
-  font-size: 25pt;
-  margin-right: 25pt;
+.node-type-company .company-content .field-row-tags ul.field-type-yp-product li {
+  font-size: 4mm;
+  margin-right: 2mm;
   text-decoration: none;
 }
-.node-type-company .company-content ul.field-type-yp-product li a {
-  font-size: 25pt;
+.node-type-company .company-content .field-row-tags ul.field-type-yp-product li a {
+  font-size: 4mm;
   text-decoration: none;
+}
+.node-type-company .company-content .field-row-tags .field-group-div {
+  font-size: 4mm;
+}
+.node-type-company .company-content .field-row-tags .field-group-div a.field-group-format-title {
+  font-size: 5mm;
 }
 
 .footer .copyright {

@@ -3465,6 +3465,9 @@ body > .node-advertisement {
 .page-user-edit #user-profile-form .form-item-mail .description {
   display: none;
 }
+.page-user-edit #user-profile-form .form-item-current-pass {
+  margin-bottom: 1.4em;
+}
 .page-user-edit #user-profile-form .password-parent {
   clear: left;
   margin: 0;

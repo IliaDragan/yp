@@ -80,3 +80,4 @@ features[user_permission][] = view own unpublished content
 features[user_permission][] = view revisions
 features[user_permission][] = view the administration theme
 features[variable][] = date_format_user_features
+features[variable][] = user_pictures

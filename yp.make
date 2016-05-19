@@ -112,6 +112,9 @@ projects[media_colorbox][subdir] = "contrib"
 projects[media_youtube][version] = "3.0"
 projects[media_youtube][subdir] = "contrib"
 
+projects[menu_admin_per_menu][version] = "1.1"
+projects[menu_admin_per_menu][subdir] = "contrib"
+
 projects[mimemail][version] = "1.0-beta4"
 projects[mimemail][subdir] = "contrib"
 
@@ -182,7 +185,7 @@ projects[bootstrap][version] = "3.0"
 libraries[fontawesome][destination]    = "libraries"
 libraries[fontawesome][directory_name] = "fontawesome"
 libraries[fontawesome][download][type] = "get"
-libraries[fontawesome][download][url]  = "http://fortawesome.github.io/Font-Awesome/assets/font-awesome-4.6.2.zip"
+libraries[fontawesome][download][url]  = "http://fortawesome.github.io/Font-Awesome/assets/font-awesome-4.6.3.zip"
 
 libraries[leaflet][destination]    = "libraries"
 libraries[leaflet][directory_name] = "leaflet"

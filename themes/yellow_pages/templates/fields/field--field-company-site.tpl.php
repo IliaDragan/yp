@@ -13,7 +13,7 @@
   <?php foreach ($items as $delta => $item): ?>
     <div class="field-item even">
     <?php
-      $url = 'yp/enterprise/' . $element['#object']->nid;
+      $url = 'redirect/enterprise/' . $element['#object']->nid;
       $options = array(
         'attributes' => array('target' => '_blank'),
       );

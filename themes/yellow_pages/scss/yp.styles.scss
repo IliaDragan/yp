@@ -3284,3 +3284,27 @@ body > .node-advertisement {
     }
   }
 }
+
+/* Maintenance page. */
+html.maintenance-html {
+  height: 100%;
+
+  body.maintenance-page {
+    background: url(../images/maintenance_header.jpg) no-repeat fixed center /cover;
+    display: table;
+    height: 100%;
+    text-align: center;
+    width: 100%;
+
+    #page {
+      display: table;
+      height: 100%;
+      width: 100%;
+
+      #container{
+        display: table-cell;
+        vertical-align: middle;
+      }
+    }
+  }
+}

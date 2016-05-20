@@ -133,6 +133,21 @@ function yellow_pages_preprocess_node(&$vars) {
     $vars['link_href'] = drupal_get_path_alias('/yp/advertisement/' . $vars['node']->nid);
     $vars['link_attributes'] = !empty($vars['content']['field_ad_url'][0]['#element']['attributes']) ? drupal_attributes($vars['content']['field_ad_url'][0]['#element']['attributes']) : '';
   }
+  if ($vars['type'] == 'company' && $vars['view_mode'] == 'full' && !empty($vars['page'])) {
+    // Add products meta.
+    if (!empty($vars['node']->field_products)) {
+      $products = $vars['node']->field_products[LANGUAGE_NONE];
+      $keywords = yellow_pages_company_ct_get_products_list($products, 160);
+      $data = array(
+        '#tag' => 'meta',
+        '#attributes' => array(
+          'name' => 'keywords',
+          'content' => $keywords,
+        )
+      );
+      drupal_add_html_head($data, 'company_products_keywords');
+    }
+  }
 }
 
 /**

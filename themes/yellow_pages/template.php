@@ -130,7 +130,7 @@ function yellow_pages_preprocess_node(&$vars) {
 
     }
 
-    $vars['link_href'] = drupal_get_path_alias('/yp/advertisement/' . $vars['node']->nid);
+    $vars['link_href'] = drupal_get_path_alias('/redirect/advertisement/' . $vars['node']->nid);
     $vars['link_attributes'] = !empty($vars['content']['field_ad_url'][0]['#element']['attributes']) ? drupal_attributes($vars['content']['field_ad_url'][0]['#element']['attributes']) : '';
   }
   if ($vars['type'] == 'company' && $vars['view_mode'] == 'full' && !empty($vars['page'])) {

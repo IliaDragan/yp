@@ -3195,6 +3195,10 @@ body > .node-advertisement {
   width: 100%;
 }
 
+#adsense-front-980x120 {
+  margin-top: 20px;
+}
+
 .front .region-content .yp-onecol-100-layout .container .col-sm-12 {
   text-align: center;
 }
@@ -3465,6 +3469,9 @@ body > .node-advertisement {
 .page-user-edit #user-profile-form .form-item-mail .description {
   display: none;
 }
+.page-user-edit #user-profile-form .form-item-current-pass {
+  margin-bottom: 1.4em;
+}
 .page-user-edit #user-profile-form .password-parent {
   clear: left;
   margin: 0;
@@ -3526,4 +3533,25 @@ body > .node-advertisement {
 }
 .page-user-edit #user-profile-form #edit-actions {
   margin-top: 20px;
+}
+
+/* Maintenance page. */
+html.maintenance-html {
+  height: 100%;
+}
+html.maintenance-html body.maintenance-page {
+  background: url(../images/maintenance_header.jpg) no-repeat fixed center/cover;
+  display: table;
+  height: 100%;
+  text-align: center;
+  width: 100%;
+}
+html.maintenance-html body.maintenance-page #page {
+  display: table;
+  height: 100%;
+  width: 100%;
+}
+html.maintenance-html body.maintenance-page #page #container {
+  display: table-cell;
+  vertical-align: middle;
 }

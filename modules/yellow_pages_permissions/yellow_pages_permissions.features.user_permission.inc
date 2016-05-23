@@ -140,6 +140,25 @@ function yellow_pages_permissions_user_default_permissions() {
     'module' => 'media_wysiwyg_view_mode',
   );
 
+  // Exported permission: 'administer menu'.
+  $permissions['administer menu'] = array(
+    'name' => 'administer menu',
+    'roles' => array(
+      'administrator' => 'administrator',
+    ),
+    'module' => 'menu',
+  );
+
+  // Exported permission: 'administer menu-product-menu menu items'.
+  $permissions['administer menu-product-menu menu items'] = array(
+    'name' => 'administer menu-product-menu menu items',
+    'roles' => array(
+      'administrator' => 'administrator',
+      'global editor' => 'global editor',
+    ),
+    'module' => 'menu_admin_per_menu',
+  );
+
   // Exported permission: 'administer nodes'.
   $permissions['administer nodes'] = array(
     'name' => 'administer nodes',

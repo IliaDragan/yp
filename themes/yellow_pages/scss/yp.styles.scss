@@ -2884,7 +2884,9 @@ body > .node-advertisement {
     width: 100%;
   }
 }
-
+#adsense-front-980x120 {
+  margin-top: 20px;
+}
 .front .region-content .yp-onecol-100-layout .container .col-sm-12 {
   text-align: center;
   #adsense-front-468-60-left,
@@ -3213,6 +3215,9 @@ body > .node-advertisement {
         display: none;
       }
     }
+    .form-item-current-pass {
+      margin-bottom: 1.4em;
+    }
     .password-parent {
       clear: left;
       margin: 0;
@@ -3280,6 +3285,30 @@ body > .node-advertisement {
     }
     #edit-actions {
       margin-top: 20px;
+    }
+  }
+}
+
+/* Maintenance page. */
+html.maintenance-html {
+  height: 100%;
+
+  body.maintenance-page {
+    background: url(../images/maintenance_header.jpg) no-repeat fixed center /cover;
+    display: table;
+    height: 100%;
+    text-align: center;
+    width: 100%;
+
+    #page {
+      display: table;
+      height: 100%;
+      width: 100%;
+
+      #container{
+        display: table-cell;
+        vertical-align: middle;
+      }
     }
   }
 }

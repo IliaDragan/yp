@@ -316,3 +316,36 @@ function yellow_pages_company_ct_field_formatter_view($entity_type, $entity, $fi
 
   return $element;
 }
+
+/**
+ * Returns list of products that is not longer that set length.
+ *
+ * @param type $products
+ *   Array of products.
+ * @param type $length
+ *   Max length of list string.
+ */
+function yellow_pages_company_ct_get_products_list(&$products, $length) {
+  global $language;
+
+  $list = '';
+  $len = 0;
+  foreach ($products as $product) {
+    $name = i18n_taxonomy_term_name($product['taxonomy_term'], $language->language);
+    if (strpos($list, $name) !== FALSE) {
+      continue;
+    }
+    $product_len = strlen($name);
+    $prefix = '';
+    if ($len) {
+      $product_len += 2;
+      $prefix = ', ';
+    }
+    if (($len + $product_len) <= $length) {
+      $list .= $prefix . $name;
+      $len += $product_len;
+    }
+  }
+
+  return $list;
+}

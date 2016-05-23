@@ -97,24 +97,6 @@ function yellow_pages_admin_strongarm() {
   $strongarm = new stdClass();
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
-  $strongarm->name = 'captcha_placement_map_cache';
-  $strongarm->value = array(
-    'user_login' => array(
-      'path' => array(),
-      'key' => 'actions',
-      'weight' => 99,
-    ),
-    'yellow_pages_company_ct_user_register_form' => array(
-      'path' => array(),
-      'key' => 'send',
-      'weight' => NULL,
-    ),
-  );
-  $export['captcha_placement_map_cache'] = $strongarm;
-
-  $strongarm = new stdClass();
-  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
-  $strongarm->api_version = 1;
   $strongarm->name = 'captcha_response';
   $strongarm->value = '5FtStS';
   $export['captcha_response'] = $strongarm;
@@ -280,11 +262,9 @@ function yellow_pages_admin_strongarm() {
   $strongarm->value = 'Для Вас создана учетная запись на сайте YP.MD.
 
 Для активации перейдите по ссылке [user:one-time-login-url] или скопируйте ее в адресную строку браузера.
-
 В дальнейшем работа по корректировке информации о Вашем предприятии осуществляется через «Моя учетная запись» в меню на главной странице сайта.
 
-username: [user:name]
-password: Ваш пароль';
+Имя пользователя: [user:name]';
   $export['user_mail_register_admin_created_body'] = $strongarm;
 
   $strongarm = new stdClass();
@@ -293,6 +273,51 @@ password: Ваш пароль';
   $strongarm->name = 'user_mail_register_admin_created_subject';
   $strongarm->value = 'Для Вас создана учетная запись на сайте YP.MD';
   $export['user_mail_register_admin_created_subject'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'user_mail_register_no_approval_required_body';
+  $strongarm->value = 'Для Вас создана учетная запись на сайте YP.MD.
+
+Для активации перейдите по ссылке [user:one-time-login-url] или скопируйте ее в адресную строку браузера.
+В дальнейшем работа по корректировке информации о Вашем предприятии осуществляется через «Моя учетная запись» в меню на главной странице сайта.
+
+Имя пользователя: [user:name]';
+  $export['user_mail_register_no_approval_required_body'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'user_mail_register_no_approval_required_subject';
+  $strongarm->value = 'Для Вас создана учетная запись на сайте YP.MD';
+  $export['user_mail_register_no_approval_required_subject'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'user_mail_status_activated_body';
+  $strongarm->value = 'Для Вас создана учетная запись на сайте YP.MD.
+
+Для активации перейдите по ссылке [user:one-time-login-url] или скопируйте ее в адресную строку браузера.
+В дальнейшем работа по корректировке информации о Вашем предприятии осуществляется через «Моя учетная запись» в меню на главной странице сайта.
+
+Имя пользователя: [user:name]';
+  $export['user_mail_status_activated_body'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'user_mail_status_activated_notify';
+  $strongarm->value = 1;
+  $export['user_mail_status_activated_notify'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'user_mail_status_activated_subject';
+  $strongarm->value = 'Для Вас создана учетная запись на сайте YP.MD';
+  $export['user_mail_status_activated_subject'] = $strongarm;
 
   return $export;
 }

@@ -3191,7 +3191,11 @@ body > .node-advertisement {
     color: $red;
   }
 }
-
+#yellow-pages-company-ct-user-register-form {
+  #register-form-info {
+    margin-bottom: 25px;
+  }
+}
 .page-user-register-notification {
   text-align: center;
   h1 {

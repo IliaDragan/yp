@@ -703,20 +703,19 @@ header .search-link-mobile {
   background: rgba(0, 0, 0, 0.4);
   color: #fff;
   padding: 30px;
-}
-.frontpage-header .activity-banner img,
-.frontpage-header .activity-banner h5 {
-  margin-bottom: 20px;
+  width: 290px;
 }
 .frontpage-header .activity-banner img {
-  display: block;
-  width: 100%;
-  height: auto;
   border-bottom: 1px solid #fff;
+  display: block;
+  height: auto;
+  margin-bottom: 20px;
+  width: 100%;
 }
 .frontpage-header .activity-banner p {
   font-size: 14px;
   margin: 0;
+  text-transform: uppercase;
 }
 .frontpage-header .activity-banner .button {
   display: block;

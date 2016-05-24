@@ -503,7 +503,7 @@ msgid "To get access to edit existing information about your company is necessar
 msgstr ""
 "Pentru a obţine acces la modificarea informaţiei existente despre "
 "compania DVS, e necesar să completaţi formularul de mai jos. Toate "
-"cîmpurile sunt oblidatorii."
+"cîmpurile sunt obligatorii de completat."
 
 #: yellow_pages_company_ct.module:1220
 msgid "Your full name"

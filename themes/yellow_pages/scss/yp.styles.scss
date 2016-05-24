@@ -599,19 +599,19 @@ header {
     background: rgba(0, 0, 0, 0.4);
     color: #fff;
     padding: 30px;
-    img,
-    h5 {
-      margin-bottom: 20px;
-    }
+    width: 290px;
+
     img {
-      display: block;
-      width: 100%;
-      height: auto;
       border-bottom: 1px solid #fff;
+      display: block;
+      height: auto;
+      margin-bottom: 20px;
+      width: 100%;
     }
     p {
       font-size: 14px;
       margin: 0;
+      text-transform: uppercase;
     }
     .button {
       display: block;

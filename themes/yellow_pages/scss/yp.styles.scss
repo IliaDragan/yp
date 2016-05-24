@@ -600,8 +600,7 @@ header {
     color: #fff;
     padding: 30px;
     img,
-    h5,
-    p {
+    h5 {
       margin-bottom: 20px;
     }
     img {
@@ -611,7 +610,8 @@ header {
       border-bottom: 1px solid #fff;
     }
     p {
-      font-size: 12px;
+      font-size: 14px;
+      margin: 0;
     }
     .button {
       display: block;

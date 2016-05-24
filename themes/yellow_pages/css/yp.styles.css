@@ -705,8 +705,7 @@ header .search-link-mobile {
   padding: 30px;
 }
 .frontpage-header .activity-banner img,
-.frontpage-header .activity-banner h5,
-.frontpage-header .activity-banner p {
+.frontpage-header .activity-banner h5 {
   margin-bottom: 20px;
 }
 .frontpage-header .activity-banner img {
@@ -716,7 +715,8 @@ header .search-link-mobile {
   border-bottom: 1px solid #fff;
 }
 .frontpage-header .activity-banner p {
-  font-size: 12px;
+  font-size: 14px;
+  margin: 0;
 }
 .frontpage-header .activity-banner .button {
   display: block;

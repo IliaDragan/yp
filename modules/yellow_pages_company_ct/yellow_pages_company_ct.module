@@ -1211,7 +1211,7 @@ function yellow_pages_company_ct_entity_sync_with_mdb($entity) {
  * Custom user register request form.
  */
 function yellow_pages_company_ct_user_register_form($form, &$form_state) {
-  $info = t('To get access to edit information is necessary to fill the following form. All fields are required.');
+  $info = t('To get access to edit existing information about your company is necessary to fill the following form. All fields are required.');
   $form['info'] = array(
     '#markup' => '<div id="register-form-info">' . $info . '</div>',
   );

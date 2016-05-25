@@ -871,8 +871,9 @@ function company_node_form_create_user_ajax_callback($form, $form_state) {
  */
 function yellow_pages_company_ct_entity_view($entity, $entity_type, $view_mode, $langcode) {
   $is_company_page = $entity_type == 'node' && $entity->type == 'company' && $view_mode == 'full';
+  $is_company_print = $entity_type == 'node' && $entity->type == 'company' && $view_mode == 'print_mode';
 
-  if (!$is_company_page) {
+  if (!($is_company_page || $is_company_print)) {
     return;
   }
 
@@ -1210,7 +1211,7 @@ function yellow_pages_company_ct_entity_sync_with_mdb($entity) {
  * Custom user register request form.
  */
 function yellow_pages_company_ct_user_register_form($form, &$form_state) {
-  $info = t('To get access to edit information is necessary to fill the following form. All fields are required.');
+  $info = t('To get access to edit existing information about your company is necessary to fill the following form. All fields are required.');
   $form['info'] = array(
     '#markup' => '<div id="register-form-info">' . $info . '</div>',
   );

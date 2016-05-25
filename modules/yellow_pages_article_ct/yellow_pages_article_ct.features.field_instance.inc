@@ -10,7 +10,7 @@
 function yellow_pages_article_ct_field_default_field_instances() {
   $field_instances = array();
 
-  // Exported field_instance: 'node-article-body'
+  // Exported field_instance: 'node-article-body'.
   $field_instances['node-article-body'] = array(
     'bundle' => 'article',
     'default_value' => NULL,
@@ -30,6 +30,12 @@ function yellow_pages_article_ct_field_default_field_instances() {
         'settings' => array(),
         'type' => 'text_default',
         'weight' => 1,
+      ),
+      'print_mode' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
       ),
       'search_index' => array(
         'label' => 'hidden',
@@ -73,7 +79,7 @@ function yellow_pages_article_ct_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-article-field_front_image'
+  // Exported field_instance: 'node-article-field_front_image'.
   $field_instances['node-article-field_front_image'] = array(
     'bundle' => 'article',
     'deleted' => 0,
@@ -90,6 +96,12 @@ function yellow_pages_article_ct_field_default_field_instances() {
         'weight' => 8,
       ),
       'full' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+      'print_mode' => array(
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
@@ -159,7 +171,7 @@ function yellow_pages_article_ct_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-article-field_list_image'
+  // Exported field_instance: 'node-article-field_list_image'.
   $field_instances['node-article-field_list_image'] = array(
     'bundle' => 'article',
     'deleted' => 0,
@@ -180,6 +192,12 @@ function yellow_pages_article_ct_field_default_field_instances() {
         'settings' => array(),
         'type' => 'hidden',
         'weight' => 6,
+      ),
+      'print_mode' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
       ),
       'search_index' => array(
         'label' => 'hidden',
@@ -251,7 +269,7 @@ function yellow_pages_article_ct_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-article-field_main_image'
+  // Exported field_instance: 'node-article-field_main_image'.
   $field_instances['node-article-field_main_image'] = array(
     'bundle' => 'article',
     'deleted' => 0,
@@ -275,6 +293,12 @@ function yellow_pages_article_ct_field_default_field_instances() {
           'image_style' => '',
         ),
         'type' => 'image',
+        'weight' => 0,
+      ),
+      'print_mode' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
         'weight' => 0,
       ),
       'search_index' => array(
@@ -351,7 +375,7 @@ function yellow_pages_article_ct_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-article-field_products'
+  // Exported field_instance: 'node-article-field_products'.
   $field_instances['node-article-field_products'] = array(
     'bundle' => 'article',
     'default_value' => NULL,
@@ -366,6 +390,12 @@ function yellow_pages_article_ct_field_default_field_instances() {
         'weight' => 7,
       ),
       'full' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+      'print_mode' => array(
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
@@ -407,7 +437,7 @@ function yellow_pages_article_ct_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-article-field_video'
+  // Exported field_instance: 'node-article-field_video'.
   $field_instances['node-article-field_video'] = array(
     'bundle' => 'article',
     'deleted' => 0,
@@ -427,6 +457,12 @@ function yellow_pages_article_ct_field_default_field_instances() {
         'settings' => array(),
         'type' => 'hidden',
         'weight' => 5,
+      ),
+      'print_mode' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
       ),
       'search_index' => array(
         'label' => 'above',

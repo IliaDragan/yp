@@ -15,6 +15,17 @@ header,
 @page {
   margin: 0 !important;
 }
+body.contains-print-iframe > * {
+  display: none;
+}
+
+div#node-print-version {
+  border: 0;
+  display: block;
+  position: absolute;
+  width: 100%;
+}
+
 .container {
   min-width: 90% !important;
   margin: 0;
@@ -24,7 +35,7 @@ header,
 a[href]:after {
   content: "";
   font-weight: normal;
-  font-size: 16pt;
+  font-size: 4mm;
 }
 
 .messages,
@@ -45,6 +56,7 @@ a[href]:after {
 }
 
 #navbar {
+  display: block;
   width: 100% !important;
 }
 #navbar .container {
@@ -53,7 +65,7 @@ a[href]:after {
 }
 #navbar .container .navbar-header {
   width: 100% !important;
-  height: 84px;
+  height: 20mm;
   margin: 0;
 }
 #navbar .container .navbar-header .logo {
@@ -65,99 +77,76 @@ a[href]:after {
   width: 100% !important;
 }
 #navbar .container .navbar-header .logo img {
-  height: 84px !important;
+  height: 13mm !important;
   display: inline-block !important;
   max-height: none !important;
   position: relative !important;
   vertical-align: baseline;
-  width: 187px !important;
+  width: 30mm !important;
 }
 
 .node-type-company .node-advertisement {
   display: none;
 }
 .node-type-company .company-content {
-  font-size: 30pt;
+  font-size: 4mm;
   width: 100% !important;
 }
-.node-type-company .company-content .field-type-media .owl-controls {
-  display: none;
+.node-type-company .company-content h2.node-title {
+  font-size: 6mm;
+  margin-bottom: 5mm;
+  text-align: center;
 }
-.node-type-company .company-content .col-company {
-  display: table-cell;
-  float: none;
-  text-align: left;
+.node-type-company .company-content table.contact-info {
+  margin-bottom: 5mm;
+  width: 100%;
+}
+.node-type-company .company-content table.contact-info td {
+  font-size: 5mm;
   vertical-align: top;
-  width: auto !important;
 }
-.node-type-company .company-content .col-company.col-company-logo {
-  display: none !important;
+.node-type-company .company-content table.contact-info td .field {
+  margin-bottom: 3mm;
 }
-.node-type-company .company-content .col-company.col-company-geo {
-  padding-top: 30px;
-  padding-left: 30px;
-  width: 330px !important;
+.node-type-company .company-content table.contact-info td .field-name-field-geocode {
+  float: right;
+  margin-bottom: 0;
+  padding: 0 5mm;
 }
-.node-type-company .company-content .col-company h2 {
-  font-size: 40pt !important;
+.node-type-company .company-content .field-row-tags .field-label {
+  font-size: 5mm;
   font-weight: bold;
+  margin-bottom: 3mm;
 }
-.node-type-company .company-content .col-company .field-name-field-address,
-.node-type-company .company-content .col-company .field-name-field-landline-phone,
-.node-type-company .company-content .col-company .field-name-field-fax,
-.node-type-company .company-content .col-company .field-name-field-mobile-phone,
-.node-type-company .company-content .col-company .field-name-field-company-site,
-.node-type-company .company-content .col-company .field-name-field-email {
-  padding-left: 35px;
+.node-type-company .company-content .field-row-tags .field-name-body {
+  margin-bottom: 5mm;
 }
-.node-type-company .company-content .col-company .field-name-field-address::before,
-.node-type-company .company-content .col-company .field-name-field-landline-phone::before,
-.node-type-company .company-content .col-company .field-name-field-fax::before,
-.node-type-company .company-content .col-company .field-name-field-mobile-phone::before,
-.node-type-company .company-content .col-company .field-name-field-company-site::before,
-.node-type-company .company-content .col-company .field-name-field-email::before {
-  font: 30px/1 FontAwesome !important;
+.node-type-company .company-content .field-row-tags .field-name-field-business-hours {
+  margin-bottom: 5mm;
 }
-.node-type-company .company-content .col-company .field-row-tags a {
-  font-size: 25pt !important;
+.node-type-company .company-content .field-row-tags .field-name-field-business-hours .business-hours {
+  width: 100%;
 }
-.node-type-company .company-content .horizontal-tabs .horizontal-tabs-panes span {
-  font-size: 35pt !important;
+.node-type-company .company-content .field-row-tags .field-name-field-business-hours .business-hours .inline-business-hours {
+  display: inline-block;
+  padding: 0 2mm;
+  text-align: center;
+  font-size: 4mm;
 }
-.node-type-company .company-content .horizontal-tabs .horizontal-tabs-panes a {
-  font-size: 30pt !important;
+.node-type-company .company-content .field-row-tags ul.field-type-yp-product li {
+  font-size: 4mm;
+  margin-right: 2mm;
+  text-decoration: none;
 }
-.node-type-company .company-content .horizontal-tabs .field-name-body {
-  font-size: 30pt;
+.node-type-company .company-content .field-row-tags ul.field-type-yp-product li a {
+  font-size: 4mm;
+  text-decoration: none;
 }
-.node-type-company .company-content .horizontal-tabs .field-name-field-filials .content .left {
-  display: none !important;
+.node-type-company .company-content .field-row-tags .field-group-div {
+  font-size: 4mm;
 }
-.node-type-company .company-content .horizontal-tabs .field-name-field-filials .content .right {
-  display: block;
-  margin-left: 0 !important;
-}
-.node-type-company .company-content .horizontal-tabs .field-name-field-filials .field-name-field-address::before {
-  font: 35pt/1 FontAwesome !important;
-}
-.node-type-company .company-content .horizontal-tabs .field-name-field-filials .field-name-field-address .street-block .thoroughfare {
-  font-size: 35pt !important;
-}
-.node-type-company .company-content .horizontal-tabs .field-name-field-filials .field-name-field-address .street-block::before {
-  content: "" !important;
-}
-.node-type-company .company-content .horizontal-tabs .field-name-field-business-hours .today {
-  border: none !important;
-}
-.node-type-company .company-content .horizontal-tabs .field-name-field-business-hours td {
-  font-size: 30pt;
-}
-.node-type-company .company-content .horizontal-tabs .group-price-lists {
-  display: none;
-}
-
-.horizontal-tabs .horizontal-tab-hidden {
-  position: static;
+.node-type-company .company-content .field-row-tags .field-group-div a.field-group-format-title {
+  font-size: 5mm;
 }
 
 .footer .copyright {

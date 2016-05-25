@@ -24,12 +24,13 @@
           </div>
         </div>
         <div class="col-md-4 col-lg-push-1 col-lg-3">
-          <div class="activity-banner">
-            <?php global $base_url; ?>
-            <img src="<?php print $base_url; ?>/profiles/yp/themes/yellow_pages/images/notebook.png" alt="">
-            <p><?php print t('Check information about your company.') ?></p>
-            <a href="<?php print url('user-register'); ?>" class="button"><span class="fa fa-bookmark"></span><?php print t('Registration') ?></a>
-          </div>
+          <a href="<?php print url('user-register'); ?>">
+            <div class="activity-banner">
+              <?php global $base_url; ?>
+              <img src="<?php print $base_url; ?>/profiles/yp/themes/yellow_pages/images/notebook.png" alt="">
+              <p><?php print t('Find and verify information about your company.') ?></p>
+            </div>
+          </a>
         </div>
       </div>
     </div>

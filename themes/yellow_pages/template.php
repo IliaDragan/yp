@@ -142,15 +142,23 @@ function yellow_pages_preprocess_node(&$vars) {
     // Add products meta.
     if (!empty($vars['node']->field_products)) {
       $products = $vars['node']->field_products[LANGUAGE_NONE];
-      $keywords = yellow_pages_company_ct_get_products_list($products, 160);
-      $data = array(
+      $products_lists = yellow_pages_company_ct_get_products_list($products, 160);
+      $keywords = array(
         '#tag' => 'meta',
         '#attributes' => array(
           'name' => 'keywords',
-          'content' => $keywords,
+          'content' => $products_lists['list'],
         )
       );
-      drupal_add_html_head($data, 'company_products_keywords');
+      $description = array(
+        '#tag' => 'meta',
+        '#attributes' => array(
+          'name' => 'description',
+          'content' => $products_lists['full_list'],
+        )
+      );
+      drupal_add_html_head($keywords, 'company_products_keywords');
+      drupal_add_html_head($description, 'company_products_description');
     }
 
     // Prepare page for print.

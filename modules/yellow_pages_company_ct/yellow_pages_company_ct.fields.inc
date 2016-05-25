@@ -320,21 +320,32 @@ function yellow_pages_company_ct_field_formatter_view($entity_type, $entity, $fi
 /**
  * Returns list of products that is not longer that set length.
  *
- * @param type $products
+ * @param array $products
  *   Array of products.
- * @param type $length
+ * @param int $length
  *   Max length of list string.
+ *
+ * @return array
+ *   The array contains two lists of products:
+ *   - list - is limited by length;
+ *   - full_list - contains all products names.
  */
 function yellow_pages_company_ct_get_products_list(&$products, $length) {
   global $language;
 
+  $full_list = array();
   $list = '';
   $len = 0;
   foreach ($products as $product) {
     $name = i18n_taxonomy_term_name($product['taxonomy_term'], $language->language);
-    if (strpos($list, $name) !== FALSE) {
+    if (in_array($name, $full_list)) {
       continue;
     }
+
+    // Add name to full list of products.
+    $full_list[] = $name;
+
+    // Add name to limited list of products.
     $product_len = strlen($name);
     $prefix = '';
     if ($len) {
@@ -347,5 +358,8 @@ function yellow_pages_company_ct_get_products_list(&$products, $length) {
     }
   }
 
-  return $list;
+  return array(
+    'list'      => $list,
+    'full_list' => implode(' ,', $full_list),
+  );
 }

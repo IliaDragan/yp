@@ -284,6 +284,7 @@ function yellow_pages_company_ct_field_group_info() {
     'weight' => '25',
     'children' => array(
       0 => 'field_products',
+      1 => 'field_brands',
     ),
     'format_type' => 'tab',
     'format_settings' => array(

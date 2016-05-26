@@ -379,7 +379,7 @@ function yellow_pages_company_ct_field_default_field_instances() {
         'size' => 60,
       ),
       'type' => 'text_textfield',
-      'weight' => 31,
+      'weight' => 0,
     ),
   );
 
@@ -1567,7 +1567,7 @@ function yellow_pages_company_ct_field_default_field_instances() {
       'module' => 'yellow_pages_company_ct',
       'settings' => array(),
       'type' => 'yp_product_field_products',
-      'weight' => 32,
+      'weight' => 1,
     ),
   );
 

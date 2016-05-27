@@ -362,13 +362,13 @@ function yellow_pages_sync_node(SimpleXMLElement $list_item) {
     }
   }
 
-  // Invisible field
+  // Invisible field.
   if (!empty($item['invisible_field'])) {
     unset($entity->field_invisible_field[LANGUAGE_NONE]);
     $entity->field_invisible_field[LANGUAGE_NONE][0]['value'] = $item['invisible_field'];
   }
 
-  // Business hours
+  // Business hours.
   if (isset($entity->field_business_hours[LANGUAGE_NONE])) {
     unset($entity->field_business_hours[LANGUAGE_NONE]);
   }
@@ -376,6 +376,18 @@ function yellow_pages_sync_node(SimpleXMLElement $list_item) {
        $entity->field_business_hours[LANGUAGE_NONE][0] = array(
         'value' => $item['business_hours'],
       );
+  }
+
+  // Brands.
+  if (isset($entity->field_brands[LANGUAGE_NONE])) {
+    unset($entity->field_brands[LANGUAGE_NONE]);
+  }
+  if (!empty($item['brands'])) {
+    foreach($item['brands'] as $brand) {
+      $entity->field_brands[LANGUAGE_NONE][] = array(
+        'value' => $brand,
+      );
+    }
   }
 
   // Sync time.
@@ -522,8 +534,10 @@ function yellow_page_sync_process_source_element(SimpleXMLElement $source) {
   if (!empty($source->invisible_field)) {
     $result['invisible_field'] = $source->invisible_field;
   }
-  // Business hours
+  // Business hours.
   $result['business_hours'] = yellow_pages_sync_process_source_element_business_hours($source);
+  // Brands.
+  $result['brands'] = yellow_pages_sync_process_source_element_brands($source);
 
   return $result;
 }
@@ -866,6 +880,27 @@ function yellow_pages_sync_process_source_element_business_hours(SimpleXMLElemen
     }
   }
   return (count($business_hours)) ? serialize($business_hours) : '';
+}
+
+/**
+ * Processes enterprises brands.
+ *
+ * @param SimpleXMLElement $source
+ *   Enterprise XML data.
+ *
+ * @return array
+ *   List of enterprise brands.
+ */
+function yellow_pages_sync_process_source_element_brands(SimpleXMLElement $source) {
+  $brands = array();
+  if (!empty($source->brands->{'list-item'})) {
+    $brands_source = $source->brands->{'list-item'};
+    foreach($brands_source as $brand) {
+      $brands[] = (string) $brand;
+    }
+  }
+
+  return $brands;
 }
 
 /**

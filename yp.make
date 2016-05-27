@@ -197,6 +197,11 @@ libraries[owl-carousel][directory_name] = "owl-carousel"
 libraries[owl-carousel][download][type] = "get"
 libraries[owl-carousel][download][url]  = "http://owlgraphic.com/owlcarousel/owl.carousel.zip"
 
+libraries[geoPHP][destination] = "libraries"
+libraries[geoPHP][download][type] = "git"
+libraries[geoPHP][download][url] = "git@github.com:phayes/geoPHP.git"
+libraries[geoPHP][download][tag] = "1.2"
+
 libraries[google_api_php_client][destination] = "modules/yellow_pages_statistics"
 libraries[google_api_php_client][directory_name] = "google_api_php_client"
 libraries[google_api_php_client][download][tag] = "1.1.6"

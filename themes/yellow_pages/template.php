@@ -135,10 +135,6 @@ function yellow_pages_preprocess_node(&$vars) {
   }
 
   if ($vars['type'] == 'company' && $vars['view_mode'] == 'full' && !empty($vars['page'])) {
-
-  }
-
-  if ($vars['type'] == 'company' && $vars['view_mode'] == 'full' && !empty($vars['page'])) {
     // Add products meta.
     if (!empty($vars['node']->field_products)) {
       $products = $vars['node']->field_products[LANGUAGE_NONE];

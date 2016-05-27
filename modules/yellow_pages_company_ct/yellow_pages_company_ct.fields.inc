@@ -360,6 +360,6 @@ function yellow_pages_company_ct_get_products_list(&$products, $length) {
 
   return array(
     'list'      => $list,
-    'full_list' => implode(' ,', $full_list),
+    'full_list' => implode(', ', $full_list),
   );
 }

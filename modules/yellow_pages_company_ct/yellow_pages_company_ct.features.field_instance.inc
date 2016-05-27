@@ -333,9 +333,10 @@ function yellow_pages_company_ct_field_default_field_instances() {
         'weight' => 18,
       ),
       'full' => array(
-        'label' => 'above',
+        'label' => 'hidden',
+        'module' => 'text',
         'settings' => array(),
-        'type' => 'hidden',
+        'type' => 'text_plain',
         'weight' => 0,
       ),
       'print_mode' => array(

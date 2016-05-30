@@ -28,7 +28,7 @@
             <div class="activity-banner">
               <?php global $base_url; ?>
               <img src="<?php print $base_url; ?>/profiles/yp/themes/yellow_pages/images/notebook.png" alt="">
-              <p><?php print t('Find and verify information about your company.') ?></p>
+              <p><?php print t('<span class="yellow">Find and verify</span> information about your company.') ?></p>
             </div>
           </a>
         </div>

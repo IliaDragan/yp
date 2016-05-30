@@ -97,6 +97,33 @@ function yellow_pages_company_ct_field_group_info() {
   $field_group = new stdClass();
   $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
   $field_group->api_version = 1;
+  $field_group->identifier = 'group_brands|node|company|full';
+  $field_group->group_name = 'group_brands';
+  $field_group->entity_type = 'node';
+  $field_group->bundle = 'company';
+  $field_group->mode = 'full';
+  $field_group->parent_name = 'group_tabbed_content';
+  $field_group->data = array(
+    'label' => 'Brands',
+    'weight' => '32',
+    'children' => array(
+      0 => 'field_brands',
+    ),
+    'format_type' => 'htab',
+    'format_settings' => array(
+      'formatter' => 'closed',
+      'instance_settings' => array(
+        'description' => '',
+        'classes' => 'group-brands field-group-htab',
+        'id' => '',
+      ),
+    ),
+  );
+  $field_groups['group_brands|node|company|full'] = $field_group;
+
+  $field_group = new stdClass();
+  $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
+  $field_group->api_version = 1;
   $field_group->identifier = 'group_company_info|node|company|form';
   $field_group->group_name = 'group_company_info';
   $field_group->entity_type = 'node';
@@ -284,6 +311,7 @@ function yellow_pages_company_ct_field_group_info() {
     'weight' => '25',
     'children' => array(
       0 => 'field_products',
+      1 => 'field_brands',
     ),
     'format_type' => 'tab',
     'format_settings' => array(
@@ -325,6 +353,35 @@ function yellow_pages_company_ct_field_group_info() {
   $field_group = new stdClass();
   $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
   $field_group->api_version = 1;
+  $field_group->identifier = 'group_products|node|company|print_mode';
+  $field_group->group_name = 'group_products';
+  $field_group->entity_type = 'node';
+  $field_group->bundle = 'company';
+  $field_group->mode = 'print_mode';
+  $field_group->parent_name = '';
+  $field_group->data = array(
+    'label' => 'Products',
+    'weight' => '10',
+    'children' => array(),
+    'format_type' => 'div',
+    'format_settings' => array(
+      'formatter' => 'collapsible',
+      'instance_settings' => array(
+        'description' => '',
+        'show_label' => 1,
+        'label_element' => 'h3',
+        'effect' => 'none',
+        'speed' => 'fast',
+        'classes' => 'group-products field-group-div',
+        'id' => '',
+      ),
+    ),
+  );
+  $field_groups['group_products|node|company|print_mode'] = $field_group;
+
+  $field_group = new stdClass();
+  $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
+  $field_group->api_version = 1;
   $field_group->identifier = 'group_services|node|company|full';
   $field_group->group_name = 'group_services';
   $field_group->entity_type = 'node';
@@ -350,6 +407,35 @@ function yellow_pages_company_ct_field_group_info() {
   $field_group = new stdClass();
   $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
   $field_group->api_version = 1;
+  $field_group->identifier = 'group_services|node|company|print_mode';
+  $field_group->group_name = 'group_services';
+  $field_group->entity_type = 'node';
+  $field_group->bundle = 'company';
+  $field_group->mode = 'print_mode';
+  $field_group->parent_name = '';
+  $field_group->data = array(
+    'label' => 'Services',
+    'weight' => '11',
+    'children' => array(),
+    'format_type' => 'div',
+    'format_settings' => array(
+      'formatter' => 'collapsible',
+      'instance_settings' => array(
+        'description' => '',
+        'show_label' => 1,
+        'label_element' => 'h3',
+        'effect' => 'none',
+        'speed' => 'fast',
+        'classes' => 'group-services field-group-div',
+        'id' => '',
+      ),
+    ),
+  );
+  $field_groups['group_services|node|company|print_mode'] = $field_group;
+
+  $field_group = new stdClass();
+  $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
+  $field_group->api_version = 1;
   $field_group->identifier = 'group_tabbed_content|node|company|full';
   $field_group->group_name = 'group_tabbed_content';
   $field_group->entity_type = 'node';
@@ -370,6 +456,7 @@ function yellow_pages_company_ct_field_group_info() {
       7 => 'group_we_export',
       8 => 'group_we_sell',
       9 => 'group_working_hours',
+      10 => 'group_brands',
     ),
     'format_type' => 'htabs',
     'format_settings' => array(
@@ -434,6 +521,35 @@ function yellow_pages_company_ct_field_group_info() {
   $field_group = new stdClass();
   $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
   $field_group->api_version = 1;
+  $field_group->identifier = 'group_we_buy|node|company|print_mode';
+  $field_group->group_name = 'group_we_buy';
+  $field_group->entity_type = 'node';
+  $field_group->bundle = 'company';
+  $field_group->mode = 'print_mode';
+  $field_group->parent_name = '';
+  $field_group->data = array(
+    'label' => 'We buy',
+    'weight' => '13',
+    'children' => array(),
+    'format_type' => 'div',
+    'format_settings' => array(
+      'formatter' => 'collapsible',
+      'instance_settings' => array(
+        'description' => '',
+        'show_label' => 1,
+        'label_element' => 'h3',
+        'effect' => 'none',
+        'speed' => 'fast',
+        'classes' => 'group-we-buy field-group-div',
+        'id' => '',
+      ),
+    ),
+  );
+  $field_groups['group_we_buy|node|company|print_mode'] = $field_group;
+
+  $field_group = new stdClass();
+  $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
+  $field_group->api_version = 1;
   $field_group->identifier = 'group_we_export|node|company|full';
   $field_group->group_name = 'group_we_export';
   $field_group->entity_type = 'node';
@@ -459,6 +575,35 @@ function yellow_pages_company_ct_field_group_info() {
   $field_group = new stdClass();
   $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
   $field_group->api_version = 1;
+  $field_group->identifier = 'group_we_export|node|company|print_mode';
+  $field_group->group_name = 'group_we_export';
+  $field_group->entity_type = 'node';
+  $field_group->bundle = 'company';
+  $field_group->mode = 'print_mode';
+  $field_group->parent_name = '';
+  $field_group->data = array(
+    'label' => 'We export',
+    'weight' => '14',
+    'children' => array(),
+    'format_type' => 'div',
+    'format_settings' => array(
+      'formatter' => 'collapsible',
+      'instance_settings' => array(
+        'description' => '',
+        'show_label' => 1,
+        'label_element' => 'h3',
+        'effect' => 'none',
+        'speed' => 'fast',
+        'classes' => 'group-we-export field-group-div',
+        'id' => '',
+      ),
+    ),
+  );
+  $field_groups['group_we_export|node|company|print_mode'] = $field_group;
+
+  $field_group = new stdClass();
+  $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
+  $field_group->api_version = 1;
   $field_group->identifier = 'group_we_sell|node|company|full';
   $field_group->group_name = 'group_we_sell';
   $field_group->entity_type = 'node';
@@ -480,6 +625,35 @@ function yellow_pages_company_ct_field_group_info() {
     ),
   );
   $field_groups['group_we_sell|node|company|full'] = $field_group;
+
+  $field_group = new stdClass();
+  $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
+  $field_group->api_version = 1;
+  $field_group->identifier = 'group_we_sell|node|company|print_mode';
+  $field_group->group_name = 'group_we_sell';
+  $field_group->entity_type = 'node';
+  $field_group->bundle = 'company';
+  $field_group->mode = 'print_mode';
+  $field_group->parent_name = '';
+  $field_group->data = array(
+    'label' => 'We sell',
+    'weight' => '12',
+    'children' => array(),
+    'format_type' => 'div',
+    'format_settings' => array(
+      'formatter' => 'collapsible',
+      'instance_settings' => array(
+        'description' => '',
+        'show_label' => 1,
+        'label_element' => 'h3',
+        'effect' => 'none',
+        'speed' => 'fast',
+        'classes' => 'group-we-sell field-group-div',
+        'id' => '',
+      ),
+    ),
+  );
+  $field_groups['group_we_sell|node|company|print_mode'] = $field_group;
 
   $field_group = new stdClass();
   $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
@@ -513,6 +687,7 @@ function yellow_pages_company_ct_field_group_info() {
   t('Additional information');
   t('Advertisements');
   t('Articles');
+  t('Brands');
   t('Contacts');
   t('Details');
   t('Filials');

@@ -86,6 +86,12 @@ function yellow_pages_company_ct_strongarm() {
       'token' => array(
         'custom_settings' => FALSE,
       ),
+      'print_mode' => array(
+        'custom_settings' => TRUE,
+      ),
+      'diff_standard' => array(
+        'custom_settings' => FALSE,
+      ),
     ),
     'extra_fields' => array(
       'form' => array(
@@ -99,7 +105,7 @@ function yellow_pages_company_ct_strongarm() {
       'display' => array(
         'language' => array(
           'default' => array(
-            'weight' => '0',
+            'weight' => '19',
             'visible' => FALSE,
           ),
           'full' => array(
@@ -112,6 +118,10 @@ function yellow_pages_company_ct_strongarm() {
           ),
           'search_index' => array(
             'weight' => '15',
+            'visible' => FALSE,
+          ),
+          'print_mode' => array(
+            'weight' => '19',
             'visible' => FALSE,
           ),
         ),

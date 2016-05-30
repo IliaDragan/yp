@@ -28,6 +28,10 @@ body {
   }
 }
 
+.node-print-version {
+  display: none;
+}
+
 h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
   font-family: 'PT Sans', serif;
   font-weight: bold;
@@ -595,19 +599,19 @@ header {
     background: rgba(0, 0, 0, 0.4);
     color: #fff;
     padding: 30px;
-    img,
-    h5,
-    p {
-      margin-bottom: 20px;
-    }
+    width: 290px;
+
     img {
-      display: block;
-      width: 100%;
-      height: auto;
       border-bottom: 1px solid #fff;
+      display: block;
+      height: auto;
+      margin-bottom: 20px;
+      width: 100%;
     }
     p {
-      font-size: 12px;
+      font-size: 14px;
+      margin: 0;
+      text-transform: uppercase;
     }
     .button {
       display: block;
@@ -2843,7 +2847,7 @@ body > .node-advertisement {
         margin-right: 30px;
         text-align: left;
         .chosen-container {
-          min-width: 250px;
+          min-width: 280px;
         }
       }
       #edit-submit {
@@ -2880,7 +2884,9 @@ body > .node-advertisement {
     width: 100%;
   }
 }
-
+#adsense-front-980x120 {
+  margin-top: 20px;
+}
 .front .region-content .yp-onecol-100-layout .container .col-sm-12 {
   text-align: center;
   #adsense-front-468-60-left,
@@ -2900,6 +2906,10 @@ body > .node-advertisement {
 }
 .page-user {
   .profile {
+    .user-picture img {
+      border: 1px solid $gray;
+      margin-top: 15px;
+    }
     .field {
       padding: 10px 0;
 
@@ -3181,11 +3191,128 @@ body > .node-advertisement {
     color: $red;
   }
 }
-
+#yellow-pages-company-ct-user-register-form {
+  #register-form-info {
+    margin-bottom: 25px;
+  }
+}
 .page-user-register-notification {
   text-align: center;
   h1 {
     font-size: 24px;
     font-weight: normal;
+  }
+}
+
+.page-user-password {
+  #user-pass {
+    #edit-submit {
+      padding: 0 20px;
+    }
+  }
+}
+
+.page-user-edit {
+  #user-profile-form {
+    .form-item-mail {
+      .description {
+        display: none;
+      }
+    }
+    .form-item-current-pass {
+      margin-bottom: 1.4em;
+    }
+    .password-parent {
+      clear: left;
+      margin: 0;
+      width: 36.3em;
+
+      .password-strength {
+        width: 17em;
+        float: right;  /* LTR */
+        margin-top: 1.4em;
+
+        .password-strength-title {
+          display: inline;
+        }
+        .password-strength-text {
+          float: right;
+          font-weight: bold;
+        }
+        .password-indicator {
+          background-color: #C4C4C4;
+          height: 0.3em;
+          width: 100%;
+
+          div {
+            height: 100%;
+            width: 0%;
+            background-color: #47C965;
+          }
+        }
+      }
+      input.password-field {
+        width: 16em;
+        margin-bottom: 0.4em;
+      }
+    }
+
+    .confirm-parent {
+      clear: left;
+      margin: 0;
+      width: 36.3em;
+
+      div.password-confirm {
+        float: right;
+        margin-top: 1.5em;
+        visibility: hidden;
+        width: 17em;
+
+        span.ok {
+          color: $green;
+        }
+        span.error {
+          color: $red;
+        }
+      }
+      input.password-confirm {
+        width: 16em;
+        margin-bottom: 0.4em;
+      }
+    }
+
+    fieldset {
+      border: none;
+      .fieldset-legend {
+        display: none;
+      }
+    }
+    #edit-actions {
+      margin-top: 20px;
+    }
+  }
+}
+
+/* Maintenance page. */
+html.maintenance-html {
+  height: 100%;
+
+  body.maintenance-page {
+    background: url(../images/maintenance_header.jpg) no-repeat fixed center /cover;
+    display: table;
+    height: 100%;
+    text-align: center;
+    width: 100%;
+
+    #page {
+      display: table;
+      height: 100%;
+      width: 100%;
+
+      #container{
+        display: table-cell;
+        vertical-align: middle;
+      }
+    }
   }
 }

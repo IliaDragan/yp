@@ -8,7 +8,7 @@
  * Implements hook_field_group_info().
  */
 function yellow_pages_news_ct_field_group_info() {
-  $export = array();
+  $field_groups = array();
 
   $field_group = new stdClass();
   $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
@@ -37,7 +37,7 @@ function yellow_pages_news_ct_field_group_info() {
       ),
     ),
   );
-  $export['group_main|node|news|form'] = $field_group;
+  $field_groups['group_main|node|news|form'] = $field_group;
 
   $field_group = new stdClass();
   $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
@@ -66,7 +66,7 @@ function yellow_pages_news_ct_field_group_info() {
       ),
     ),
   );
-  $export['group_media_materials|node|news|form'] = $field_group;
+  $field_groups['group_media_materials|node|news|form'] = $field_group;
 
   $field_group = new stdClass();
   $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
@@ -93,7 +93,7 @@ function yellow_pages_news_ct_field_group_info() {
       ),
     ),
   );
-  $export['group_news_settings|node|news|form'] = $field_group;
+  $field_groups['group_news_settings|node|news|form'] = $field_group;
 
   $field_group = new stdClass();
   $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
@@ -121,7 +121,14 @@ function yellow_pages_news_ct_field_group_info() {
       ),
     ),
   );
-  $export['group_relations|node|news|form'] = $field_group;
+  $field_groups['group_relations|node|news|form'] = $field_group;
 
-  return $export;
+  // Translatables
+  // Included for use with string extractors like potx.
+  t('Вертикальная группа');
+  t('Медиа материалы');
+  t('Основное');
+  t('Связи');
+
+  return $field_groups;
 }

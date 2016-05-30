@@ -32,7 +32,36 @@ function yellow_pages_core_menu() {
     'type' => MENU_CALLBACK,
   );
 
+  $items['node/%node/print'] = array(
+    'title callback' => 'node_page_title',
+    'title arguments' => array(1),
+    'page callback' => 'yellow_pages_core_node_print',
+    'page arguments' => array(1),
+    'access arguments' => array('access content'),
+    'type' => MENU_CALLBACK,
+  );
+
   return $items;
+}
+
+/**
+ * Print node page callback.
+ */
+function yellow_pages_core_node_print($node) {
+  drupal_set_title($node->title);
+  $nodes = node_view_multiple(array($node->nid => $node), 'print_mode');
+
+  return $nodes;
+}
+
+/**
+ * Implements hook_entity_info_alter().
+ */
+function yellow_pages_core_entity_info_alter(&$entity_info) {
+  $entity_info['node']['view modes']['print_mode'] = array(
+    'label' => t('Print mode'),
+    'custom settings' => TRUE,
+  );
 }
 
 /**
@@ -263,6 +292,11 @@ function yellow_pages_core_block_info() {
     'cache' => DRUPAL_CACHE_GLOBAL,
   );
 
+  $blocks['adsense_front_980_120'] = array(
+    'info' => t('AdSense 980x120'),
+    'cache' => DRUPAL_CACHE_GLOBAL,
+  );
+
   return $blocks;
 }
 
@@ -270,23 +304,30 @@ function yellow_pages_core_block_info() {
  * Implements hook_block_view().
  */
 function yellow_pages_core_block_view($delta = '') {
-  // This example is adapted from node.module.
-  $block = array();
+  $block = array(
+    'subject' => '',
+  );
 
-
-  $block['subject'] = '';
   switch ($delta) {
     case 'adsense_300_250':
       $block['content'] = yellow_pages_core_get_adsense_300_250();
       break;
+
     case 'adsense_front_468_60_right':
     case 'adsense_front_468_60_left':
       $block['content'] = yellow_pages_core_get_adsense_468_60();
       break;
+
     case 'adsense_news_728_90':
       $block['content'] = yellow_pages_core_get_adsense_728_90();
       break;
+
+    case 'adsense_front_980_120':
+      $block['content'] = yellow_pages_core_get_adsense_980_120();
+
+      break;
   }
+
   return $block;
 }
 
@@ -303,7 +344,7 @@ function yellow_pages_core_get_adsense_728_90() {
  data-ad-slot="4729439674"></ins>
 <script>
 (adsbygoogle = window.adsbygoogle || []).push({});
-</script>'; 
+</script>';
   } else {
     return '<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
 <!-- 728x90px_yellowpages.md -->
@@ -341,7 +382,7 @@ data-ad-client="ca-pub-4252189351312901"
 data-ad-slot="1584816871"></ins>
 <script>
 (adsbygoogle = window.adsbygoogle || []).push({});
-</script>'; 
+</script>';
   }
 }
 
@@ -372,4 +413,20 @@ function yellow_pages_core_get_adsense_468_60() {
 (adsbygoogle = window.adsbygoogle || []).push({});
 </script>';
   }
+}
+
+/**
+ * Get google AdSense block for 980x120.
+ */
+function yellow_pages_core_get_adsense_980_120() {
+  return '<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+  <!-- yp.md_980x120px -->
+  <ins class="adsbygoogle"
+    style="display:inline-block;width:980px;height:120px"
+    data-ad-client="ca-pub-4252189351312901"
+    data-ad-slot="2403474871">
+  </ins>
+  <script>
+    (adsbygoogle = window.adsbygoogle || []).push({});
+  </script>';
 }

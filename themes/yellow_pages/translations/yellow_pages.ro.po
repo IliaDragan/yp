@@ -28,8 +28,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
-"POT-Creation-Date: 2016-05-23 19:27+0300\n"
-"PO-Revision-Date: 2016-05-23 19:27+0300\n"
+"POT-Creation-Date: 2016-05-30 12:28+0300\n"
+"PO-Revision-Date: 2016-05-30 12:28+0300\n"
 "Last-Translator: NAME <EMAIL@ADDRESS>\n"
 "Language-Team: Romanian <EMAIL@ADDRESS>\n"
 "MIME-Version: 1.0\n"
@@ -37,11 +37,11 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=((((n%10)==1)&&((n%100)!=11))?(0):(((((n%10)>=2)&&((n%10)<=4))&&(((n%100)<10)||((n%100)>=20)))?(1):2));\n"
 
-#: template.php:217
+#: template.php:221
 msgid "Menu"
 msgstr "Meniu"
 
-#: template.php:372
+#: template.php:376
 msgid "Day off"
 msgstr "Zi liberă"
 
@@ -86,8 +86,10 @@ msgid "Facility search"
 msgstr "Căutare"
 
 #: layouts/yp_onecol_100/yp-onecol-100.tpl.php:31
-msgid "Find and verify information about your company."
-msgstr "Găseşte şi verifică informaţia despre întreprinderea Ta."
+msgid "<span class=\"yellow\">Find and verify</span> information about your company."
+msgstr ""
+"<span class=\"yellow\">Găseşte şi verifică</span> informaţia "
+"despre întreprinderea Ta."
 
 #: layouts/yp_onecol_100/yp_onecol_100.inc:8
 msgid "One Column 100%"

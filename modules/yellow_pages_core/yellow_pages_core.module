@@ -271,40 +271,24 @@ function yellow_pages_core_media_browser_plugins_alter(&$plugin_output) {
  * Implements hook_block_info()
  */
 function yellow_pages_core_block_info() {
-
-  $blocks['criteo_300_250'] = array(
-    'info' => t('Criteo 300x250'),
-    'cache' => DRUPAL_CACHE_GLOBAL,
-  );
-
   $blocks['adsense_300_250'] = array(
     'info' => t('AdSense 300x250'),
     'cache' => DRUPAL_CACHE_GLOBAL,
   );
 
   $blocks['adsense_front_468_60_left'] = array(
-    'info' => t('AdSense Front'),
+    'info' => t('AdSense 468x60 left'),
     'cache' => DRUPAL_CACHE_GLOBAL,
   );
 
-  $blocks['adsense_news_728_90_first'] = array(
+  $blocks['adsense_news_728_90'] = array(
     'info' => t('AdSense News'),
     'cache' => DRUPAL_CACHE_GLOBAL,
   );
 
 
   $blocks['adsense_front_468_60_right'] = array(
-    'info' => t('Criteo 468x60'),
-    'cache' => DRUPAL_CACHE_GLOBAL,
-  );
-
-/*  $blocks['adsense_news_728_90_first'] = array(
-    'info' => t('AdSense News 728x90 First'),
-    'cache' => DRUPAL_CACHE_GLOBAL,
-  );*/
-
-  $blocks['adsense_news_728_90_second'] = array(
-    'info' => t('Criteo 728x90'),
+    'info' => t('AdSense 468x60 right'),
     'cache' => DRUPAL_CACHE_GLOBAL,
   );
 
@@ -325,26 +309,22 @@ function yellow_pages_core_block_view($delta = '') {
   );
 
   switch ($delta) {
-    case 'adsense_front_468_60_left':
-    case 'adsense_news_728_90_first':
-    case 'adsense_news_728_90_second':
-      $block['content'] = yellow_pages_core_get_adsense_adaptive();
-      break;
-
     case 'adsense_300_250':
       $block['content'] = yellow_pages_core_get_adsense_300_250();
       break;
 
     case 'adsense_front_468_60_right':
-      $block['content'] = yellow_pages_core_get_criteo_468_60();
+    case 'adsense_front_468_60_left':
+      $block['content'] = yellow_pages_core_get_adsense_468_60();
       break;
 
-    case 'criteo_300_250':
-      $block['content'] = yellow_pages_core_get_criteo_300_250();
+    case 'adsense_news_728_90':
+      $block['content'] = yellow_pages_core_get_adsense_728_90();
       break;
 
     case 'adsense_front_980_120':
       $block['content'] = yellow_pages_core_get_adsense_980_120();
+
       break;
   }
 
@@ -352,78 +332,30 @@ function yellow_pages_core_block_view($delta = '') {
 }
 
 /**
- * Get Criteo ad for 300x250px block.
+ * Get AdSense ad for 728x90px block.
  */
-function yellow_pages_core_get_criteo_300_250() {
-  return "<script type='text/javascript'>
-<!--//<![CDATA[
-document.MAX_ct0 ='';
-var m3_u = (location.protocol=='https:'?'https://cas.criteo.com/delivery/ajs.php?':'http://cas.criteo.com/delivery/ajs.php?');
-var m3_r = Math.floor(Math.random()*99999999999);
-document.write (\"<scr\"+\"ipt type='text/javascript' src='\"+m3_u);
-document.write (\"zoneid=384256\");document.write(\"&amp;nodis=1\");
-document.write ('&amp;cb=' + m3_r);
-if (document.MAX_used != ',') document.write (\"&amp;exclude=\" + document.MAX_used);
-document.write (document.charset ? '&amp;charset='+document.charset : (document.characterSet ?
-'&amp;charset='+document.characterSet : ''));
-document.write (\"&amp;loc=\" + escape(window.location).substring(0,1600));
-if (document.context) document.write (\"&context=\" + escape(document.context));
-if ((typeof(document.MAX_ct0) != 'undefined') && (document.MAX_ct0.substring(0,4) == 'http')) {
-document.write (\"&amp;ct0=\" + escape(document.MAX_ct0));
-}
-if (document.mmm_fo) document.write (\"&amp;mmm_fo=1\");
-document.write (\"'></scr\"+\"ipt>\");
-//]]>--></script>";
-}
-
-/**
- * Get Criteo ad for 468x60px block.
- */
-function yellow_pages_core_get_criteo_468_60() {
-  return "<script type='text/javascript'>
-<!--//<![CDATA[
-document.MAX_ct0 ='';
-var m3_u = (location.protocol=='https:'?'https://cas.criteo.com/delivery/ajs.php?':'http://cas.criteo.com/delivery/ajs.php?');
-var m3_r = Math.floor(Math.random()*99999999999);
-document.write (\"<scr\"+\"ipt type='text/javascript' src='\"+m3_u);
-document.write (\"zoneid=388187\");document.write(\"&amp;nodis=1\");
-document.write ('&amp;cb=' + m3_r);
-if (document.MAX_used != ',') document.write (\"&amp;exclude=\" + document.MAX_used);
-document.write (document.charset ? '&amp;charset='+document.charset : (document.characterSet ?
-'&amp;charset='+document.characterSet : ''));
-document.write (\"&amp;loc=\" + escape(window.location).substring(0,1600));
-if (document.context) document.write (\"&context=\" + escape(document.context));
-if ((typeof(document.MAX_ct0) != 'undefined') && (document.MAX_ct0.substring(0,4) == 'http')) {
-document.write (\"&amp;ct0=\" + escape(document.MAX_ct0));
-}
-if (document.mmm_fo) document.write (\"&amp;mmm_fo=1\");
-document.write (\"'></scr\"+\"ipt>\");
-//]]>--></script>";
-}
-
-/**
- * Get Criteo ad for 728x90px block.
- */
-function yellow_pages_core_get_criteo_728_90() {
-  return "<script type='text/javascript'>
-<!--//<![CDATA[
-document.MAX_ct0 ='';
-var m3_u = (location.protocol=='https:'?'https://cas.criteo.com/delivery/ajs.php?':'http://cas.criteo.com/delivery/ajs.php?');
-var m3_r = Math.floor(Math.random()*99999999999);
-document.write (\"<scr\"+\"ipt type='text/javascript' src='\"+m3_u);
-document.write (\"zoneid=388188\");document.write(\"&amp;nodis=1\");
-document.write ('&amp;cb=' + m3_r);
-if (document.MAX_used != ',') document.write (\"&amp;exclude=\" + document.MAX_used);
-document.write (document.charset ? '&amp;charset='+document.charset : (document.characterSet ?
-'&amp;charset='+document.characterSet : ''));
-document.write (\"&amp;loc=\" + escape(window.location).substring(0,1600));
-if (document.context) document.write (\"&context=\" + escape(document.context));
-if ((typeof(document.MAX_ct0) != 'undefined') && (document.MAX_ct0.substring(0,4) == 'http')) {
-document.write (\"&amp;ct0=\" + escape(document.MAX_ct0));
-}
-if (document.mmm_fo) document.write (\"&amp;mmm_fo=1\");
-document.write (\"'></scr\"+\"ipt>\");
-//]]>--></script>";
+function yellow_pages_core_get_adsense_728_90() {
+  if (in_array($_SERVER['SERVER_NAME'], array('yp.md', 'www.yp.md'))) {
+    return '<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- yp.md_728x90px -->
+<ins class="adsbygoogle"
+ style="display:inline-block;width:728px;height:90px"
+ data-ad-client="ca-pub-4252189351312901"
+ data-ad-slot="4729439674"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>';
+  } else {
+    return '<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- 728x90px_yellowpages.md -->
+<ins class="adsbygoogle"
+ style="display:inline-block;width:728px;height:90px"
+ data-ad-client="ca-pub-4252189351312901"
+ data-ad-slot="3113105679"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>';
+  }
 }
 
 
@@ -431,45 +363,55 @@ document.write (\"'></scr\"+\"ipt>\");
  * Get google AdSense block for 300x250.
  */
 function yellow_pages_core_get_adsense_300_250() {
-  return "<script async src=\"//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js\"></script>
-<!-- yp.md&yellowpages.md_300x250px -->
-<ins class=\"adsbygoogle\"
- style=\"display:inline-block;width: 100%; height: 250px\"
- data-ad-client=\"ca-pub-4252189351312901\"
- data-ad-slot=\"1584816871\"></ins>
+   if (in_array($_SERVER['SERVER_NAME'], array('yp.md', 'www.yp.md'))) {
+  return '<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- 300x250px_yp.md -->
+<ins class="adsbygoogle"
+ style="display:inline-block;width:300px;height:250px"
+ data-ad-client="ca-pub-4252189351312901"
+ data-ad-slot="7543305270"></ins>
 <script>
 (adsbygoogle = window.adsbygoogle || []).push({});
-</script>";
+</script>';
+  } else {
+    return '<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- yellowpages.md_300x250px -->
+<ins class="adsbygoogle"
+style="display:inline-block;width:300px;height:250px"
+data-ad-client="ca-pub-4252189351312901"
+data-ad-slot="1584816871"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>';
+  }
 }
 
 
 /**
- * Get google AdSense adaptive block content.
+ * Get google AdSense 468x60.
  */
-function yellow_pages_core_get_adsense_adaptive() {
+function yellow_pages_core_get_adsense_468_60() {
   if (in_array($_SERVER['SERVER_NAME'], array('yp.md', 'www.yp.md'))) {
     return '<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-  <!-- yp.md_auto -->
-  <ins class="adsbygoogle"
-       style="display:block"
-       data-ad-client="ca-pub-4252189351312901"
-       data-ad-slot="9560898878"
-       data-ad-format="auto"></ins>
-  <script>
-    (adsbygoogle = window.adsbygoogle || []).push({});
-  </script>';
+<!-- 468x60px_yp.md -->
+<ins class="adsbygoogle"
+ style="display:inline-block;width:468px;height:60px"
+ data-ad-client="ca-pub-4252189351312901"
+ data-ad-slot="7682906072"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>';
   }
   else {
     return '<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-  <!-- yellowpages.md_auto -->
-  <ins class="adsbygoogle"
-       style="display:block"
-       data-ad-client="ca-pub-4252189351312901"
-       data-ad-slot="2037632074"
-       data-ad-format="auto"></ins>
-  <script>
-    (adsbygoogle = window.adsbygoogle || []).push({});
-  </script>';
+<!-- 468x60px_yellowpages.md -->
+<ins class="adsbygoogle"
+ style="display:inline-block;width:468px;height:60px"
+ data-ad-client="ca-pub-4252189351312901"
+ data-ad-slot="6066572072"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>';
   }
 }
 

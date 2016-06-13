@@ -9,7 +9,7 @@
 <?php endif; ?>
 <?php foreach ($items as $delta => $item): ?>
 <?php
-  $item['#suffix'] = '.&nbsp;';
+  $item['#suffix'] = '. ';
   $item['#markup'] = l($item['#markup'], 'search/companies/' . strtolower($item['#markup']));
 
   print render($item);

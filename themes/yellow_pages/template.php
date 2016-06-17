@@ -135,27 +135,39 @@ function yellow_pages_preprocess_node(&$vars) {
   }
 
   if ($vars['type'] == 'company' && $vars['view_mode'] == 'full' && !empty($vars['page'])) {
-    // Add products meta.
+    // Add locality and products meta.
+    $locality = t('Moldova');
+    if (!empty($vars['node']->field_address['und'][0]['locality'])) {
+      $locality .= ', ' . $vars['node']->field_address['und'][0]['locality'];
+    }
+    $meta = array(
+      'keywords' => $locality,
+      'description' => $locality,
+    );
     if (!empty($vars['node']->field_products)) {
       $products = $vars['node']->field_products[LANGUAGE_NONE];
       $products_lists = yellow_pages_company_ct_get_products_list($products, 160);
-      $keywords = array(
-        '#tag' => 'meta',
-        '#attributes' => array(
-          'name' => 'keywords',
-          'content' => $products_lists['list'],
-        )
-      );
-      $description = array(
-        '#tag' => 'meta',
-        '#attributes' => array(
-          'name' => 'description',
-          'content' => $products_lists['full_list'],
-        )
-      );
-      drupal_add_html_head($keywords, 'company_products_keywords');
-      drupal_add_html_head($description, 'company_products_description');
+
+      $meta['keywords'] .= ', ' . $products_lists['list'];
+      $meta['description'] .= ', ' . $products_lists['full_list'];
     }
+
+    $keywords = array(
+      '#tag' => 'meta',
+      '#attributes' => array(
+        'name' => 'keywords',
+        'content' => $meta['keywords'],
+      )
+    );
+    $description = array(
+      '#tag' => 'meta',
+      '#attributes' => array(
+        'name' => 'description',
+        'content' => $meta['description'],
+      )
+    );
+    drupal_add_html_head($keywords, 'company_products_keywords');
+    drupal_add_html_head($description, 'company_products_description');
 
     // Prepare page for print.
     $js = array(

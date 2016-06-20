@@ -13,11 +13,14 @@
   <?php foreach ($items as $delta => $item): ?>
     <div class="field-item even">
     <?php
-      $url = 'redirect/enterprise/' . $element['#object']->nid;
       $options = array(
-        'attributes' => array('target' => '_blank'),
+        'attributes' => array(
+          'target' => '_blank',
+          'class' => array('company-site-redirect-link'),
+          'id' => 'company-site-redirect-link-' . $element['#object']->nid,
+        ),
       );
-      print l($item['#element']['url'], $url, $options);
+      print l($item['#element']['url'], $item['#element']['url'], $options);
     ?>
     </div>
   <?php endforeach; ?>

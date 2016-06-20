@@ -130,8 +130,18 @@ function yellow_pages_preprocess_node(&$vars) {
 
     }
 
-    $vars['link_href'] = drupal_get_path_alias('/redirect/advertisement/' . $vars['node']->nid);
-    $vars['link_attributes'] = !empty($vars['content']['field_ad_url'][0]['#element']['attributes']) ? drupal_attributes($vars['content']['field_ad_url'][0]['#element']['attributes']) : '';
+    if (!empty($vars['content']['field_ad_url'][0]['#element'])) {
+      $vars['link_href'] = $vars['content']['field_ad_url'][0]['#element']['url'];
+      $link_attributes = $vars['content']['field_ad_url'][0]['#element']['attributes'];
+    }
+    else {
+      $vars['link_href'] = drupal_get_path_alias('/node/' . $vars['node']->nid);
+    }
+    $link_attributes['target'] = '_blank';
+    $link_attributes['id'] = 'advertisement-redirect-link-' . $vars['node']->nid;
+    $link_attributes['class'] = 'advertisement-redirect-link';
+
+    $vars['link_attributes'] = drupal_attributes($link_attributes);
   }
 
   if ($vars['type'] == 'company' && $vars['view_mode'] == 'full' && !empty($vars['page'])) {

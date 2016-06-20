@@ -451,7 +451,7 @@ function yellow_pages_ads_field_default_field_instances() {
         'configurable_class' => 0,
         'configurable_title' => 1,
         'rel' => '',
-        'target' => 'user',
+        'target' => '_blank',
         'title' => '',
       ),
       'display' => array(

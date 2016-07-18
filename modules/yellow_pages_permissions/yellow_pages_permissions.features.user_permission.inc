@@ -130,16 +130,6 @@ function yellow_pages_permissions_user_default_permissions() {
     'module' => 'media',
   );
 
-  // Exported permission: 'administer media wysiwyg view mode'.
-  $permissions['administer media wysiwyg view mode'] = array(
-    'name' => 'administer media wysiwyg view mode',
-    'roles' => array(
-      'administrator' => 'administrator',
-      'global editor' => 'global editor',
-    ),
-    'module' => 'media_wysiwyg_view_mode',
-  );
-
   // Exported permission: 'administer menu'.
   $permissions['administer menu'] = array(
     'name' => 'administer menu',
@@ -427,6 +417,17 @@ function yellow_pages_permissions_user_default_permissions() {
       'authenticated user' => 'authenticated user',
     ),
     'module' => 'search',
+  );
+
+  // Exported permission: 'use media wysiwyg'.
+  $permissions['use media wysiwyg'] = array(
+    'name' => 'use media wysiwyg',
+    'roles' => array(
+      'administrator' => 'administrator',
+      'enterprise editor' => 'enterprise editor',
+      'global editor' => 'global editor',
+    ),
+    'module' => 'media_wysiwyg',
   );
 
   // Exported permission: 'use text format full_html'.

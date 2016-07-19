@@ -33,7 +33,7 @@ function yellow_pages_permissions_field_default_field_instances() {
     ),
     'entity_type' => 'user',
     'field_name' => 'field_edit_information',
-    'label' => 'Edit information',
+    'label' => 'Edit additional information',
     'required' => 0,
     'settings' => array(
       'default_value' => 'now',
@@ -145,7 +145,7 @@ function yellow_pages_permissions_field_default_field_instances() {
 
   // Translatables
   // Included for use with string extractors like potx.
-  t('Edit information');
+  t('Edit additional information');
   t('Edit pricelist');
   t('Related company');
 

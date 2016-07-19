@@ -180,9 +180,10 @@ function yellow_pages_preprocess_node(&$vars) {
     drupal_add_html_head($description, 'company_products_description');
 
     // Prepare page for print.
+    $node_print = node_view($vars['node'], 'print_mode');
     $js = array(
       'nodeMapVariableName' => 'geofield-map-entity-node-' . $vars['node']->nid . '-field-geocode--2',
-      'nodePrintVersionHTML' => drupal_render(node_view($vars['node'], 'print_mode')),
+      'nodePrintVersionHTML' => drupal_render($node_print),
     );
     drupal_add_js($js, 'setting');
     $path = drupal_get_path('theme', 'yellow_pages') . '/js/yellow_pages_print.js';

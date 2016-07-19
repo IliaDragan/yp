@@ -100,11 +100,11 @@ projects[link][subdir] = "contrib"
 projects[mailsystem][version] = "2.34"
 projects[mailsystem][subdir] = "contrib"
 
-projects[media][type] = "module"
+projects[media][version] = "2.0-beta2"
 projects[media][subdir] = "contrib"
-projects[media][download][type] = "git"
-projects[media][download][url] = "http://git.drupal.org/project/media.git"
-projects[media][download][revision] = "199e5013dc9915a3d67d73d681a1db6ba56b63e6"
+
+projects[media_ckeditor][version] = "2.0-alpha1"
+projects[media_ckeditor][subdir] = "contrib"
 
 projects[media_colorbox][version] = "1.0-rc4"
 projects[media_colorbox][subdir] = "contrib"
@@ -207,3 +207,14 @@ libraries[google_api_php_client][directory_name] = "google_api_php_client"
 libraries[google_api_php_client][download][tag] = "1.1.6"
 libraries[google_api_php_client][download][type] = "git"
 libraries[google_api_php_client][download][url] = "https://github.com/google/google-api-php-client.git"
+
+; CKEditor plugins
+libraries[widget][destination]    = "modules/contrib/ckeditor/plugins"
+libraries[widget][directory_name] = "widget"
+libraries[widget][download][type] = "get"
+libraries[widget][download][url]  = "http://download.ckeditor.com/widget/releases/widget_4.4.8.zip"
+
+libraries[lineutils][destination]    = "modules/contrib/ckeditor/plugins"
+libraries[lineutils][directory_name] = "lineutils"
+libraries[lineutils][download][type] = "get"
+libraries[lineutils][download][url]  = "http://download.ckeditor.com/lineutils/releases/lineutils_4.4.8.zip"

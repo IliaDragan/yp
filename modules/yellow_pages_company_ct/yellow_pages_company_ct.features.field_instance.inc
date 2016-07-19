@@ -101,14 +101,9 @@ function yellow_pages_company_ct_field_default_field_instances() {
       ),
       'full' => array(
         'label' => 'hidden',
-        'module' => 'addressfield',
-        'settings' => array(
-          'format_handlers' => array(
-            0 => 'address',
-          ),
-          'use_widget_handlers' => 1,
-        ),
-        'type' => 'addressfield_default',
+        'module' => 'yellow_pages_core',
+        'settings' => array(),
+        'type' => 'field_address_popup_map',
         'weight' => 1,
       ),
       'print_mode' => array(

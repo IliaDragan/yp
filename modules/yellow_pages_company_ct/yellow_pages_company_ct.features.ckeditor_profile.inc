@@ -77,14 +77,21 @@ function yellow_pages_company_ct_ckeditor_profile_defaults() {
             ),
             'default' => 't',
           ),
+          'lineutils' => array(
+            'name' => 'lineutils',
+            'desc' => 'Plugin file: lineutils',
+            'path' => '%plugin_dir%lineutils/',
+            'buttons' => FALSE,
+            'default' => 'f',
+          ),
           'media' => array(
             'name' => 'media',
             'desc' => 'Plugin for inserting images from Drupal media module',
-            'path' => '%plugin_dir%media/',
+            'path' => '/profiles/yp/modules/contrib/media/modules/media_wysiwyg/wysiwyg_plugins/media_ckeditor/',
             'buttons' => array(
               'Media' => array(
-                'label' => 'Media',
                 'icon' => 'images/icon.gif',
+                'label' => 'Add media',
               ),
             ),
             'default' => 'f',
@@ -95,6 +102,13 @@ function yellow_pages_company_ct_ckeditor_profile_defaults() {
             'path' => '//cdn.ckeditor.com/4.4.3/full-all/plugins/tableresize/',
             'buttons' => FALSE,
             'default' => 't',
+          ),
+          'widget' => array(
+            'name' => 'widget',
+            'desc' => 'Plugin file: widget',
+            'path' => '%plugin_dir%widget/',
+            'buttons' => FALSE,
+            'default' => 'f',
           ),
         ),
       ),

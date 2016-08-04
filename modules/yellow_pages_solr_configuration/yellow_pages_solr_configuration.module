@@ -275,7 +275,7 @@ function yellow_pages_solr_configuration_search_api_solr_documents_alter(array &
       $title_field = $document->getField('tm_title');
       $nid = $nid_field['value'];
 
-      $result = db_query('select n2.title from {node} n2 where n2.tnid = (select n1.tnid from node n1 where n1.nid = :nid)', array(':nid' => $nid))->fetchCol();
+      $result = db_query('select n2.title from {node} n2 where tnid <> 0 AND n2.tnid = (select n1.tnid from node n1 where n1.nid = :nid)', array(':nid' => $nid))->fetchCol();
 
       if (!empty($result)) {
         $result = array_map(function($v) {

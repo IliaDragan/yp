@@ -97,7 +97,7 @@
         <span><?php print date('d.m.Y', $created); ?></span>
       </div>
       <?php if (isset($content['body'][0])): ?>
-        <?php $content['body'][0]['#markup'] = '<p>' . truncate_utf8($content['body'][0]['#markup'], 500) . '</p>'; ?>
+        <?php $content['body'][0]['#markup'] = '<p>' . truncate_utf8(strip_tags($content['body'][0]['#markup']), 500) . '</p>'; ?>
       <?php endif; ?>
       <?php print render($content['body']); ?>
 

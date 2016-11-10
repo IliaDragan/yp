@@ -24,7 +24,6 @@ dependencies[] = link
 dependencies[] = media
 dependencies[] = media_ckeditor
 dependencies[] = mediafield
-dependencies[] = node
 dependencies[] = number
 dependencies[] = options
 dependencies[] = service_links
@@ -39,6 +38,7 @@ dependencies[] = yellow_pages_core
 dependencies[] = yellow_pages_news_ct
 dependencies[] = yellow_pages_taxonomy
 explanation = Field type(s) in use - see <a href="/eng/admin/reports/fields">Field list</a>
+features[ckeditor_profile][] = CKEditor Global Profile
 features[ckeditor_profile][] = Full
 features[ctools][] = field_group:field_group:1
 features[ctools][] = strongarm:strongarm:1

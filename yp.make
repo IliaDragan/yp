@@ -100,11 +100,18 @@ projects[link][subdir] = "contrib"
 projects[mailsystem][version] = "2.34"
 projects[mailsystem][subdir] = "contrib"
 
-projects[media][version] = "2.0-beta2"
+projects[media][version] = "2.0-beta5"
 projects[media][subdir] = "contrib"
 
-projects[media_ckeditor][version] = "2.0-alpha1"
+projects[media_ckeditor][version] = "2.x-dev"
+projects[media_ckeditor][type] = "module"
 projects[media_ckeditor][subdir] = "contrib"
+projects[media_ckeditor][download][type] = "git"
+projects[media_ckeditor][download][branch] = "7.x-2.x"
+; media_ckeditor 7.x-2.0-alpha1+4-dev
+; problem adding .pdf file throught ckeditor media plugin.
+; https://www.drupal.org/node/2177893
+projects[media_ckeditor][download][revision] = "7409f2c0923f7bd81e91303a9d6032505d89d1cf"
 
 projects[media_colorbox][version] = "1.0-rc4"
 projects[media_colorbox][subdir] = "contrib"
@@ -185,7 +192,7 @@ projects[bootstrap][version] = "3.0"
 libraries[fontawesome][destination]    = "libraries"
 libraries[fontawesome][directory_name] = "fontawesome"
 libraries[fontawesome][download][type] = "get"
-libraries[fontawesome][download][url]  = "http://fortawesome.github.io/Font-Awesome/assets/font-awesome-4.6.3.zip"
+libraries[fontawesome][download][url]  = "https://github.com/FortAwesome/Font-Awesome/archive/v4.6.3.zip"
 
 libraries[leaflet][destination]    = "libraries"
 libraries[leaflet][directory_name] = "leaflet"
@@ -212,9 +219,9 @@ libraries[google_api_php_client][download][url] = "https://github.com/google/goo
 libraries[widget][destination]    = "modules/contrib/ckeditor/plugins"
 libraries[widget][directory_name] = "widget"
 libraries[widget][download][type] = "get"
-libraries[widget][download][url]  = "http://download.ckeditor.com/widget/releases/widget_4.4.8.zip"
+libraries[widget][download][url]  = "http://download.ckeditor.com/widget/releases/widget_4.5.11.zip"
 
 libraries[lineutils][destination]    = "modules/contrib/ckeditor/plugins"
 libraries[lineutils][directory_name] = "lineutils"
 libraries[lineutils][download][type] = "get"
-libraries[lineutils][download][url]  = "http://download.ckeditor.com/lineutils/releases/lineutils_4.4.8.zip"
+libraries[lineutils][download][url]  = "http://download.ckeditor.com/lineutils/releases/lineutils_4.5.11.zip"

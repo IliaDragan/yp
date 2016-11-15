@@ -9,6 +9,22 @@
  */
 function yellow_pages_company_ct_ckeditor_profile_defaults() {
   $data = array(
+    'CKEditor Global Profile' => array(
+      'name' => 'CKEditor Global Profile',
+      'settings' => array(
+        'skin' => 'moono',
+        'ckeditor_path' => '//cdn.ckeditor.com/4.5.11/full-all',
+        'ckeditor_local_path' => '',
+        'ckeditor_plugins_path' => '%m/plugins',
+        'ckeditor_plugins_local_path' => '',
+        'ckfinder_path' => '%m/ckfinder',
+        'ckfinder_local_path' => '',
+        'ckeditor_aggregate' => 'f',
+        'toolbar_wizard' => 't',
+        'loadPlugins' => array(),
+      ),
+      'input_formats' => array(),
+    ),
     'Full' => array(
       'name' => 'Full',
       'settings' => array(
@@ -99,7 +115,7 @@ function yellow_pages_company_ct_ckeditor_profile_defaults() {
           'tableresize' => array(
             'name' => 'tableresize',
             'desc' => 'Table Resize plugin. See <a href="http://ckeditor.com/addon/tableresize">addon page</a> for more details.',
-            'path' => '//cdn.ckeditor.com/4.4.3/full-all/plugins/tableresize/',
+            'path' => '//cdn.ckeditor.com/4.5.11/full-all/plugins/tableresize/',
             'buttons' => FALSE,
             'default' => 't',
           ),

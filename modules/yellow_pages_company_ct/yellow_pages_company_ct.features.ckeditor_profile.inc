@@ -13,7 +13,7 @@ function yellow_pages_company_ct_ckeditor_profile_defaults() {
       'name' => 'CKEditor Global Profile',
       'settings' => array(
         'skin' => 'moono',
-        'ckeditor_path' => '//cdn.ckeditor.com/4.5.11/full-all',
+        'ckeditor_path' => '//cdn.ckeditor.com/4.6.0/full-all',
         'ckeditor_local_path' => '',
         'ckeditor_plugins_path' => '%m/plugins',
         'ckeditor_plugins_local_path' => '',
@@ -102,8 +102,8 @@ function yellow_pages_company_ct_ckeditor_profile_defaults() {
           ),
           'media' => array(
             'name' => 'media',
-            'desc' => 'Plugin for inserting images from Drupal media module',
-            'path' => '/profiles/yp/modules/contrib/media/modules/media_wysiwyg/wysiwyg_plugins/media_ckeditor/',
+            'desc' => 'Plugin for embedding files using Media CKEditor',
+            'path' => '%base_path%profiles/yp/modules/contrib/media_ckeditor/js/plugins/media/',
             'buttons' => array(
               'Media' => array(
                 'icon' => 'images/icon.gif',

@@ -58,21 +58,7 @@
   <!--[if lt IE 9]>
     <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
   <![endif]-->
-  <?php if ($is_front): ?>
-    <!-- (C)2000-2015 Gemius SA - gemiusAudience / yellowpages.md / Home page -->
-    <script type="text/javascript">
-      <!--//--><![CDATA[//><!--
-      var pp_gemius_identifier = new String('d1NFzQcQGQ8tVuyrzhokW_WiHWypvYc4sz5dv9WR2TX.p7');
-      //--><!]]>
-    </script>
-  <?php else: ?>
-    <!-- (C)2000-2015 Gemius SA - gemiusAudience / yellowpages.md / Other pages -->
-    <script type="text/javascript">
-      <!--//--><![CDATA[//><!--
-      var pp_gemius_identifier = new String('zZbrCW8KZLsij3VzunyIDJdRP_2sMy7_ZNkP4gpEsxX.77');
-      //--><!]]>
-    </script>
-  <?php endif; ?>
+
   <?php print $scripts; ?>
 </head>
 <?php

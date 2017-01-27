@@ -30,7 +30,6 @@ stylesheets[print][] = css/yp.print.css
 
 scripts[] = js/chosen.jquery.min.js
 scripts[] = js/yellow_pages.scripts.js
-scripts[] = js/xgemius.js
 
 ;;;;;;;;;;;;;;;;;;;;;
 ;; Layouts

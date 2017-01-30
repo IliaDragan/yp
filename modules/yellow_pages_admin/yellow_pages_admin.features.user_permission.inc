@@ -19,6 +19,15 @@ function yellow_pages_admin_user_default_permissions() {
     'module' => 'captcha',
   );
 
+  // Exported permission: 'administer recaptcha'.
+  $permissions['administer recaptcha'] = array(
+    'name' => 'administer recaptcha',
+    'roles' => array(
+      'administrator' => 'administrator',
+    ),
+    'module' => 'recaptcha',
+  );
+
   // Exported permission: 'skip CAPTCHA'.
   $permissions['skip CAPTCHA'] = array(
     'name' => 'skip CAPTCHA',

@@ -88,18 +88,7 @@ a {
 
 /* CAPTCHA */
 .captcha {
-  img {
-    display: inline-block;
-    height: 42px;
-  }
-  .form-item-captcha-response {
-    display: inline-block;
-    margin-left: 10px;
-    vertical-align: top;
-    label {
-      display: none;
-    }
-  }
+  margin: 10px 0;
 }
 
 @media (min-width: 1990px) {

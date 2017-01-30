@@ -144,6 +144,9 @@ projects[owlcarousel][patch][] = "http://am.storage.dev.inlead.dk/owlcarousel-fi
 projects[panels][version] = "3.5"
 projects[panels][subdir] = "contrib"
 
+projects[recaptcha][version] = "2.2"
+projects[recaptcha][subdir] = "contrib"
+
 projects[rules][version] = "2.9"
 projects[rules][subdir] = "contrib"
 

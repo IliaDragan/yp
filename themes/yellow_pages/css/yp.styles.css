@@ -1367,16 +1367,19 @@ form.yellow-pages-feedback-ad-request .form-type-textarea textarea {
 .node-type-company .view-media-field {
   background-color: white;
 }
-.node-type-company .view-media-field .owl-wrapper-outer {
+.node-type-company .view-media-field .view-content {
+  height: auto !important;
+}
+.node-type-company .view-media-field .view-content .owl-wrapper-outer {
   padding-top: 30px;
 }
-.node-type-company .view-media-field .field-label {
+.node-type-company .view-media-field .view-content .field-label {
   padding: 0 20px 20px;
   font-size: 12px;
   font-weight: 700;
   text-transform: uppercase;
 }
-.node-type-company .view-media-field .owl-theme .video-icon-wrapper {
+.node-type-company .view-media-field .view-content .owl-theme .video-icon-wrapper {
   height: 50px;
   left: 50%;
   margin-left: -25px;
@@ -1385,31 +1388,31 @@ form.yellow-pages-feedback-ad-request .form-type-textarea textarea {
   top: 50%;
   width: 50px;
 }
-.node-type-company .view-media-field .owl-theme .video-icon-wrapper .video-icon {
+.node-type-company .view-media-field .view-content .owl-theme .video-icon-wrapper .video-icon {
   background: url(../images/video-icon.png) transparent no-repeat;
   height: 50px;
   width: 50px;
 }
-.node-type-company .view-media-field .owl-theme .owl-controls .owl-pagination {
+.node-type-company .view-media-field .view-content .owl-theme .owl-controls .owl-pagination {
   position: absolute;
   top: 0;
   text-align: center;
   width: 100%;
 }
-.node-type-company .view-media-field .owl-theme .owl-controls .owl-pagination .owl-page {
+.node-type-company .view-media-field .view-content .owl-theme .owl-controls .owl-pagination .owl-page {
   width: 6px;
   height: 6px;
   margin: 10px 3px;
   background: #1d1d1d;
 }
-.node-type-company .view-media-field .owl-theme .owl-controls .owl-pagination .owl-page.active {
+.node-type-company .view-media-field .view-content .owl-theme .owl-controls .owl-pagination .owl-page.active {
   background: #ffdd00;
 }
-.node-type-company .view-media-field .owl-theme .owl-controls .owl-pagination .owl-page span {
+.node-type-company .view-media-field .view-content .owl-theme .owl-controls .owl-pagination .owl-page span {
   background: none;
 }
-.node-type-company .view-media-field .owl-theme .owl-controls .owl-buttons .owl-prev,
-.node-type-company .view-media-field .owl-theme .owl-controls .owl-buttons .owl-next {
+.node-type-company .view-media-field .view-content .owl-theme .owl-controls .owl-buttons .owl-prev,
+.node-type-company .view-media-field .view-content .owl-theme .owl-controls .owl-buttons .owl-next {
   background: rgba(29, 29, 29, 0.8);
   border-radius: 0;
   color: #ffdd00;
@@ -1424,21 +1427,21 @@ form.yellow-pages-feedback-ad-request .form-type-textarea textarea {
   top: 50%;
   width: 30px;
 }
-.node-type-company .view-media-field .owl-theme .owl-controls .owl-buttons .owl-prev {
+.node-type-company .view-media-field .view-content .owl-theme .owl-controls .owl-buttons .owl-prev {
   left: 0;
 }
-.node-type-company .view-media-field .owl-theme .owl-controls .owl-buttons .owl-next {
+.node-type-company .view-media-field .view-content .owl-theme .owl-controls .owl-buttons .owl-next {
   right: 0;
 }
-.node-type-company .view-media-field .owl-item .content img {
+.node-type-company .view-media-field .view-content .owl-item .content img {
   width: 100%;
   height: auto;
 }
-.node-type-company .view-media-field .owl-item .content a {
+.node-type-company .view-media-field .view-content .owl-item .content a {
   display: block;
   position: relative;
 }
-.node-type-company .view-media-field .owl-item .content a:hover:before {
+.node-type-company .view-media-field .view-content .owl-item .content a:hover:before {
   content: "";
   display: block;
   position: absolute;
@@ -1449,7 +1452,7 @@ form.yellow-pages-feedback-ad-request .form-type-textarea textarea {
   background: rgba(0, 0, 0, 0.6);
   z-index: 2;
 }
-.node-type-company .view-media-field .owl-item .content a:hover:after {
+.node-type-company .view-media-field .view-content .owl-item .content a:hover:after {
   content: "\f002";
   display: block;
   position: absolute;

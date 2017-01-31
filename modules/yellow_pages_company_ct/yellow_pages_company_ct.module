@@ -1211,6 +1211,12 @@ function yellow_pages_company_ct_user_register_form($form, &$form_state) {
     '#default_value' => '',
   );
 
+  $form['questionnaire'] = array(
+    '#type' => 'file',
+    '#title' => t('Upload the questionnaire'),
+    '#description' => t('Download !link and fill it. Then upload filled questionnaire.', array('!link' => l(t('empty questionnaire'), 'http://yellowpages.md/sites/default/files/ancheta_ru_0.doc'))),
+  );
+
   $form['send'] = array(
     '#type' => 'submit',
     '#value' => t('Send'),
@@ -1223,7 +1229,28 @@ function yellow_pages_company_ct_user_register_form($form, &$form_state) {
  * Validate function for custom user register request form.
  */
 function yellow_pages_company_ct_user_register_form_validate($form, &$form_state) {
-  $values = $form_state['values'];
+  $values = &$form_state['values'];
+
+  $file = file_save_upload('questionnaire', array(
+    'file_validate_extensions' => array('doc'),
+    'file_validate_size' => array(300*1024), // =300KB.
+  ));
+
+  if (!empty($file)) {
+    // if ($file = file_move($file, 'public://')) {
+    //   $values['file'] = $file;
+    // }
+    // else {
+    //   form_set_error('questionnaire', t('Failed to write the uploaded file the site\'s file folder.'));
+    // }
+    $values['questionnaire'] = $file;
+  }
+  elseif ($file === FALSE) {
+    form_set_error('questionnaire', t('The uploaded file must have ".doc" extension and be less than 300KB.'));
+  }
+  // elseif ($file === NULL) {
+  //   form_set_error('file', t('No file was uploaded. '));
+  // }
 
   if (!valid_email_address($values['email'])) {
     form_set_error('email', t('The email address is not valid.'));
@@ -1234,7 +1261,7 @@ function yellow_pages_company_ct_user_register_form_validate($form, &$form_state
  * Submit function for custom user register request form.
  */
 function yellow_pages_company_ct_user_register_form_submit(&$form, &$form_state) {
-  $params = $form_state['values'];
+  $params = &$form_state['values'];
 
   // Create inactive user.
   $password = user_password(8);
@@ -1251,6 +1278,21 @@ function yellow_pages_company_ct_user_register_form_submit(&$form, &$form_state)
     ),
   );
   $user = user_save('', $fields);
+
+  // Save the file.
+  if (!empty($params['questionnaire'])) {
+    $file=$params['questionnaire'];
+    unset($params['questionnaire']);
+    // $file->status = FILE_STATUS_PERMANENT;
+    // file_save($file);
+    $file_content = file_get_contents($file->uri);
+    $params['attachments'][] = array(
+      'filecontent' => $file_content,
+      //'filepath' => file_create_url($file->uri),
+      'filename' => $file->filename,
+      'filemime' => $file->filemime,
+    );
+  }
 
   if (!empty($user)) {
     // Inform global editor about user creation.

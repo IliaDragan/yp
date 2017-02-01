@@ -1211,6 +1211,12 @@ function yellow_pages_company_ct_user_register_form($form, &$form_state) {
     '#default_value' => '',
   );
 
+  $form['questionnaire'] = array(
+    '#type' => 'file',
+    '#title' => t('Upload the questionnaire'),
+    '#description' => t('Download !link and fill it. Then upload filled questionnaire.', array('!link' => l(t('empty questionnaire'), 'http://yellowpages.md/sites/default/files/ancheta_ru_0.doc'))),
+  );
+
   $form['send'] = array(
     '#type' => 'submit',
     '#value' => t('Send'),
@@ -1223,8 +1229,22 @@ function yellow_pages_company_ct_user_register_form($form, &$form_state) {
  * Validate function for custom user register request form.
  */
 function yellow_pages_company_ct_user_register_form_validate($form, &$form_state) {
-  $values = $form_state['values'];
+  $values = &$form_state['values'];
 
+  // Validate questionaire file.
+  $file = file_save_upload('questionnaire', array(
+    'file_validate_extensions' => array('doc'),
+    'file_validate_size' => array(300*1024), // =300KB.
+  ));
+
+  if (!empty($file)) {
+    $values['questionnaire'] = $file;
+  }
+  elseif ($file === FALSE) {
+    form_set_error('questionnaire', t('The uploaded file must have ".doc" extension and be less than 300KB.'));
+  }
+
+  // Validate email address.
   if (!valid_email_address($values['email'])) {
     form_set_error('email', t('The email address is not valid.'));
   }
@@ -1234,7 +1254,7 @@ function yellow_pages_company_ct_user_register_form_validate($form, &$form_state
  * Submit function for custom user register request form.
  */
 function yellow_pages_company_ct_user_register_form_submit(&$form, &$form_state) {
-  $params = $form_state['values'];
+  $params = &$form_state['values'];
 
   // Create inactive user.
   $password = user_password(8);
@@ -1251,6 +1271,18 @@ function yellow_pages_company_ct_user_register_form_submit(&$form, &$form_state)
     ),
   );
   $user = user_save('', $fields);
+
+  // Attach uploaded file to email.
+  if (!empty($params['questionnaire'])) {
+    $file=$params['questionnaire'];
+    unset($params['questionnaire']);
+    $file_content = file_get_contents($file->uri);
+    $params['attachments'][] = array(
+      'filecontent' => $file_content,
+      'filename' => $file->filename,
+      'filemime' => $file->filemime,
+    );
+  }
 
   if (!empty($user)) {
     // Inform global editor about user creation.

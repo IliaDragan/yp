@@ -1,5 +1,3 @@
-
-
 # $Id$
 #
 # Romanian translation of Drupal (general)
@@ -14,8 +12,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
-"POT-Creation-Date: 2016-01-14 12:57+0200\n"
-"PO-Revision-Date: 2016-01-14 12:57+0200\n"
+"POT-Creation-Date: 2017-02-06 14:05+0200\n"
+"PO-Revision-Date: 2017-02-06 14:05+0200\n"
 "Last-Translator: NAME <EMAIL@ADDRESS>\n"
 "Language-Team: Romanian <EMAIL@ADDRESS>\n"
 "MIME-Version: 1.0\n"
@@ -71,13 +69,9 @@ msgstr "Numărul de telefon indicat nu este valid."
 msgid "Provided URL is not valid."
 msgstr "Adresa URL indicată nu este validă."
 
-#: yellow_pages_contacts.module:49
+#: yellow_pages_contacts.module:49;52
 msgid "Contact us"
-msgstr "Luaţi legătura cu noi"
-
-#: yellow_pages_contacts.module:52
-msgid "Contact us"
-msgstr "Luaţi legătura cu noi"
+msgstr "Redacţia site-ului YP.MD"
 
 #: yellow_pages_contacts.module:16
 msgid "Contacts"

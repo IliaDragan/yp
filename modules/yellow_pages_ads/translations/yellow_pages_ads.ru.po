@@ -1,0 +1,169 @@
+# $Id$
+#
+# Russian translation of Drupal (general)
+# Copyright YEAR NAME <EMAIL@ADDRESS>
+# Generated from files:
+#  yellow_pages_ads.features.field_instance.inc: n/a
+#  yellow_pages_ads.field_group.inc: n/a
+#  yellow_pages_ads.features.inc: n/a
+#  plugins/content_types/yp_advertisement.inc: n/a
+#  plugins/content_types/yp_advertisement_search_result.inc: n/a
+#  yellow_pages_ads.rules.inc: n/a
+#  yellow_pages_ads.module: n/a
+#  yellow_pages_ads.info: n/a
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PROJECT VERSION\n"
+"POT-Creation-Date: 2017-02-06 14:03+0200\n"
+"PO-Revision-Date: 2017-02-06 14:03+0200\n"
+"Last-Translator: NAME <EMAIL@ADDRESS>\n"
+"Language-Team: Russian <EMAIL@ADDRESS>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=((((n%10)==1)&&((n%100)!=11))?(0):(((((n%10)>=2)&&((n%10)<=4))&&(((n%100)<10)||((n%100)>=20)))?(1):2));\n"
+
+#: yellow_pages_ads.features.field_instance.inc:481
+msgid "Ad placement in search"
+msgstr ""
+
+#: yellow_pages_ads.features.field_instance.inc:482
+msgid "Body"
+msgstr "Содержимое"
+
+#: yellow_pages_ads.features.field_instance.inc:483
+msgid "Category"
+msgstr "Категория"
+
+#: yellow_pages_ads.features.field_instance.inc:484 yellow_pages_ads.field_group.inc:72
+msgid "Image"
+msgstr "Изображение"
+
+#: yellow_pages_ads.features.field_instance.inc:485
+msgid "Schedule"
+msgstr "Расписание"
+
+#: yellow_pages_ads.features.field_instance.inc:486
+msgid "Type"
+msgstr "Тип"
+
+#: yellow_pages_ads.features.field_instance.inc:487
+msgid "URL"
+msgstr "URL"
+
+#: yellow_pages_ads.features.inc:25 plugins/content_types/yp_advertisement.inc:8;77 plugins/content_types/yp_advertisement_search_result.inc:143
+msgid "Advertisement"
+msgstr "Реклама"
+
+#: yellow_pages_ads.features.inc:27
+msgid "Use this to create advertisement campaigns."
+msgstr ""
+"Используйте, чтобы добавлять "
+"рекламные кампании"
+
+#: yellow_pages_ads.features.inc:29
+msgid "Title"
+msgstr "Заголовок"
+
+#: yellow_pages_ads.field_group.inc:73
+msgid "WYSIWYG"
+msgstr "WYSIWYG"
+
+#: yellow_pages_ads.rules.inc:18
+msgid "Rules"
+msgstr "Правила"
+
+#: yellow_pages_ads.rules.inc:40
+msgid "Add another"
+msgstr ""
+
+#: yellow_pages_ads.rules.inc:57
+msgid "Save display rules"
+msgstr ""
+
+#: yellow_pages_ads.rules.inc:115
+msgid "Hide"
+msgstr "Скрыть"
+
+#: yellow_pages_ads.rules.inc:116
+msgid "Show"
+msgstr "Показать"
+
+#: yellow_pages_ads.rules.inc:139
+msgid "Action"
+msgstr "Действие"
+
+#: yellow_pages_ads.rules.inc:140
+msgid "Page"
+msgstr "Страница"
+
+#: yellow_pages_ads.module:37
+msgid "Advertisement display rules"
+msgstr ""
+
+#: yellow_pages_ads.module:38
+msgid "Use this to allow roles manage ad display rules."
+msgstr ""
+
+#: yellow_pages_ads.module:353
+msgid "Ad placement should be chosen."
+msgstr ""
+
+#: yellow_pages_ads.module:18
+msgid "Display rules"
+msgstr "Правила показа"
+
+#: yellow_pages_ads.info:0
+msgid "Yellow Pages Ads"
+msgstr ""
+
+#: yellow_pages_ads.info:0
+msgid "Provides advertisement functionality."
+msgstr ""
+
+#: yellow_pages_ads.info:0
+msgid "Yellow Pages"
+msgstr ""
+
+#: plugins/content_types/yp_advertisement.inc:9 plugins/content_types/yp_advertisement_search_result.inc:9
+msgid "YellowPages"
+msgstr ""
+
+#: plugins/content_types/yp_advertisement.inc:10
+msgid "Displays advertisements"
+msgstr ""
+
+#: plugins/content_types/yp_advertisement.inc:24 plugins/content_types/yp_advertisement_search_result.inc:24
+msgid "Amount of ads to display"
+msgstr ""
+
+#: plugins/content_types/yp_advertisement.inc:33 plugins/content_types/yp_advertisement_search_result.inc:33
+msgid "Filter by category"
+msgstr ""
+
+#: plugins/content_types/yp_advertisement.inc:40 plugins/content_types/yp_advertisement_search_result.inc:40
+msgid "Ads order"
+msgstr ""
+
+#: plugins/content_types/yp_advertisement.inc:42 plugins/content_types/yp_advertisement_search_result.inc:42
+msgid "Random"
+msgstr "Случайно"
+
+#: plugins/content_types/yp_advertisement.inc:43 plugins/content_types/yp_advertisement_search_result.inc:43
+msgid "Ascending"
+msgstr "По возрастанию"
+
+#: plugins/content_types/yp_advertisement.inc:44 plugins/content_types/yp_advertisement_search_result.inc:44
+msgid "Descending"
+msgstr "По убыванию"
+
+#: plugins/content_types/yp_advertisement_search_result.inc:8
+msgid "Advertisement (Search Result Context)"
+msgstr ""
+
+#: plugins/content_types/yp_advertisement_search_result.inc:10
+msgid "Displays advertisements based on search results"
+msgstr ""
+

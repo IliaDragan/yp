@@ -28,8 +28,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
-"POT-Creation-Date: 2017-02-06 14:13+0200\n"
-"PO-Revision-Date: 2017-02-06 14:13+0200\n"
+"POT-Creation-Date: 2017-02-06 15:09+0200\n"
+"PO-Revision-Date: 2017-02-06 15:09+0200\n"
 "Last-Translator: NAME <EMAIL@ADDRESS>\n"
 "Language-Team: Russian <EMAIL@ADDRESS>\n"
 "MIME-Version: 1.0\n"
@@ -160,12 +160,14 @@ msgid "Home"
 msgstr "Главная"
 
 #: templates/page--404.tpl.php:111
-msgid "Ошибка"
-msgstr ""
+msgid "Error"
+msgstr "Ошибка"
 
 #: templates/page--404.tpl.php:115
-msgid "Запрашиваемая вами страница не найдена."
+msgid "The requested page could not be found."
 msgstr ""
+"Запрашиваемая вами страница не "
+"найдена."
 
 #: templates/node/node--article--slider-teaser.tpl.php:104 templates/node/node--news--slider-teaser.tpl.php:104
 msgid "Read more"

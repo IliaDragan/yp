@@ -12,7 +12,7 @@ function yellow_pages_preprocess_page(&$variables) {
   $status = drupal_get_http_header("status");
   $variables['page']['main_menu'] = menu_tree('main-menu');
 
-  if($status == "404 Not Found") {
+  if($status == "404 Not Found" || arg(0) == 'navigation404') {
     $variables['theme_hook_suggestions'][] = 'page__404';
   }
   if($status == "403 Forbidden") {

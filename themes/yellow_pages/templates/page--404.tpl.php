@@ -108,11 +108,11 @@
       <div class="notfound-content">
         <div class="notfound-image-block">
           <div class="notfound-image-text">
-            <span><?php print t('Ошибка'); ?></span>
+            <span><?php print t('Error'); ?></span>
             <span class="text-lg">404</span>
           </div>
         </div>
-        <h1><?php print t('Запрашиваемая вами страница не найдена.'); ?></h1>
+        <h1><?php print t('The requested page could not be found.'); ?></h1>
       </div>
     </div>
   </div>

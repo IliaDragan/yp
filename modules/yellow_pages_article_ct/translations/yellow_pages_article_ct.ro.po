@@ -1,0 +1,177 @@
+# $Id$
+#
+# Romanian translation of Drupal (general)
+# Copyright YEAR NAME <EMAIL@ADDRESS>
+# Generated from files:
+#  yellow_pages_article_ct.features.field_instance.inc: n/a
+#  yellow_pages_article_ct.features.inc: n/a
+#  yellow_pages_article_ct.features.menu_links.inc: n/a
+#  yellow_pages_article_ct.field_group.inc: n/a
+#  yellow_pages_article_ct.views_default.inc: n/a
+#  yellow_pages_article_ct.info: n/a
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PROJECT VERSION\n"
+"POT-Creation-Date: 2017-02-06 14:04+0200\n"
+"PO-Revision-Date: 2017-02-06 14:04+0200\n"
+"Last-Translator: NAME <EMAIL@ADDRESS>\n"
+"Language-Team: Romanian <EMAIL@ADDRESS>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=((((n%10)==1)&&((n%100)!=11))?(0):(((((n%10)>=2)&&((n%10)<=4))&&(((n%100)<10)||((n%100)>=20)))?(1):2));\n"
+
+#: yellow_pages_article_ct.features.field_instance.inc:523
+msgid "Body"
+msgstr "Conţinut"
+
+#: yellow_pages_article_ct.features.field_instance.inc:524
+msgid "Front image"
+msgstr ""
+
+#: yellow_pages_article_ct.features.field_instance.inc:525
+msgid "List image"
+msgstr ""
+
+#: yellow_pages_article_ct.features.field_instance.inc:526
+msgid "Main image"
+msgstr ""
+
+#: yellow_pages_article_ct.features.field_instance.inc:527
+msgid "Products"
+msgstr "Producere"
+
+#: yellow_pages_article_ct.features.field_instance.inc:528
+msgid "Video"
+msgstr ""
+
+#: yellow_pages_article_ct.features.inc:32
+msgid "Article"
+msgstr "Articol"
+
+#: yellow_pages_article_ct.features.inc:34
+msgid "CT contain articles entity fields."
+msgstr ""
+
+#: yellow_pages_article_ct.features.inc:36
+msgid "Title"
+msgstr "Titlu"
+
+#: yellow_pages_article_ct.features.menu_links.inc:35
+msgid "Articles"
+msgstr "Articole"
+
+#: yellow_pages_article_ct.field_group.inc:128
+msgid "Медиа материалы"
+msgstr ""
+
+#: yellow_pages_article_ct.field_group.inc:129
+msgid "Основное"
+msgstr ""
+
+#: yellow_pages_article_ct.field_group.inc:130
+msgid "Связи"
+msgstr ""
+
+#: yellow_pages_article_ct.views_default.inc:254
+msgid "Master"
+msgstr "Expert"
+
+#: yellow_pages_article_ct.views_default.inc:255
+msgid "Articles list"
+msgstr ""
+
+#: yellow_pages_article_ct.views_default.inc:256
+msgid "more"
+msgstr "mai multe"
+
+#: yellow_pages_article_ct.views_default.inc:257
+msgid "Apply"
+msgstr "Aplicare"
+
+#: yellow_pages_article_ct.views_default.inc:258
+msgid "Reset"
+msgstr "Resetează"
+
+#: yellow_pages_article_ct.views_default.inc:259
+msgid "Sort by"
+msgstr "Sortare după"
+
+#: yellow_pages_article_ct.views_default.inc:260
+msgid "Asc"
+msgstr "Ascendent"
+
+#: yellow_pages_article_ct.views_default.inc:261
+msgid "Desc"
+msgstr "Desc"
+
+#: yellow_pages_article_ct.views_default.inc:262
+msgid "Items per page"
+msgstr "Elemente pe pagină"
+
+#: yellow_pages_article_ct.views_default.inc:263
+msgid "- All -"
+msgstr "- Toate -"
+
+#: yellow_pages_article_ct.views_default.inc:264
+msgid "Offset"
+msgstr "Decalaj"
+
+#: yellow_pages_article_ct.views_default.inc:265
+msgid "« first"
+msgstr "« primul"
+
+#: yellow_pages_article_ct.views_default.inc:266
+msgid "‹ previous"
+msgstr "‹ anterior"
+
+#: yellow_pages_article_ct.views_default.inc:267
+msgid "next ›"
+msgstr "următor ›"
+
+#: yellow_pages_article_ct.views_default.inc:268
+msgid "last »"
+msgstr "ultima »"
+
+#: yellow_pages_article_ct.views_default.inc:269
+msgid "All"
+msgstr "Toate"
+
+#: yellow_pages_article_ct.views_default.inc:270
+msgid "Contextual"
+msgstr ""
+
+#: yellow_pages_article_ct.views_default.inc:271
+msgid "View panes"
+msgstr ""
+
+#: yellow_pages_article_ct.views_default.inc:272
+msgid "List"
+msgstr "Lista"
+
+#: yellow_pages_article_ct.views_default.inc:273
+msgid "Referenced"
+msgstr ""
+
+#: yellow_pages_article_ct.views_default.inc:274
+msgid "Similar articles"
+msgstr "Articole"
+
+#: yellow_pages_article_ct.views_default.inc:275
+msgid "Content referencing Content from field_articles"
+msgstr ""
+
+#: yellow_pages_article_ct.info:0
+msgid "Yellow pages Article CT"
+msgstr ""
+
+#: yellow_pages_article_ct.info:0
+msgid "Article CT feature"
+msgstr ""
+
+#: yellow_pages_article_ct.info:0
+msgid "Yellow Pages"
+msgstr ""
+

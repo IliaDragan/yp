@@ -28,8 +28,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
-"POT-Creation-Date: 2016-05-30 12:28+0300\n"
-"PO-Revision-Date: 2016-05-30 12:28+0300\n"
+"POT-Creation-Date: 2017-02-06 15:08+0200\n"
+"PO-Revision-Date: 2017-02-06 15:08+0200\n"
 "Last-Translator: NAME <EMAIL@ADDRESS>\n"
 "Language-Team: Romanian <EMAIL@ADDRESS>\n"
 "MIME-Version: 1.0\n"
@@ -37,11 +37,15 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=((((n%10)==1)&&((n%100)!=11))?(0):(((((n%10)>=2)&&((n%10)<=4))&&(((n%100)<10)||((n%100)>=20)))?(1):2));\n"
 
-#: template.php:221
+#: template.php:149
+msgid "Moldova"
+msgstr "Moldova"
+
+#: template.php:244
 msgid "Menu"
 msgstr "Meniu"
 
-#: template.php:376
+#: template.php:399
 msgid "Day off"
 msgstr "Zi liberă"
 
@@ -147,7 +151,7 @@ msgstr ""
 msgid "Alpha 100"
 msgstr ""
 
-#: templates/html.tpl.php:85
+#: templates/html.tpl.php:71
 msgid "Skip to main content"
 msgstr "Mergi la conţinutul principal"
 
@@ -156,12 +160,12 @@ msgid "Home"
 msgstr "Acasă"
 
 #: templates/page--404.tpl.php:111
-msgid "Ошибка"
-msgstr ""
+msgid "Error"
+msgstr "Eroare"
 
 #: templates/page--404.tpl.php:115
-msgid "Запрашиваемая вами страница не найдена."
-msgstr ""
+msgid "The requested page could not be found."
+msgstr "Pagina solicitată nu este găsită."
 
 #: templates/node/node--article--slider-teaser.tpl.php:104 templates/node/node--news--slider-teaser.tpl.php:104
 msgid "Read more"

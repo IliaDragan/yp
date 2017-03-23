@@ -1,0 +1,182 @@
+# $Id$
+#
+# Romanian translation of Drupal (general)
+# Copyright YEAR NAME <EMAIL@ADDRESS>
+# Generated from files:
+#  yellow_pages_sync.admin.inc: n/a
+#  yellow_pages_sync.module: n/a
+#  yellow_pages_sync.info: n/a
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PROJECT VERSION\n"
+"POT-Creation-Date: 2017-02-06 14:12+0200\n"
+"PO-Revision-Date: 2017-02-06 14:12+0200\n"
+"Last-Translator: NAME <EMAIL@ADDRESS>\n"
+"Language-Team: Romanian <EMAIL@ADDRESS>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=((((n%10)==1)&&((n%100)!=11))?(0):(((((n%10)>=2)&&((n%10)<=4))&&(((n%100)<10)||((n%100)>=20)))?(1):2));\n"
+
+#: yellow_pages_sync.admin.inc:13
+msgid "Service URL"
+msgstr ""
+
+#: yellow_pages_sync.admin.inc:16
+msgid "NO trailing slash."
+msgstr ""
+
+#: yellow_pages_sync.admin.inc:21
+msgid "Sync options"
+msgstr ""
+
+#: yellow_pages_sync.admin.inc:29
+msgid "Categories/Products"
+msgstr ""
+
+#: yellow_pages_sync.admin.inc:30
+msgid "Enterprises"
+msgstr ""
+
+#: yellow_pages_sync.admin.inc:31
+msgid "Filials linkage"
+msgstr ""
+
+#: yellow_pages_sync.admin.inc:32
+msgid "Logos"
+msgstr ""
+
+#: yellow_pages_sync.admin.inc:39
+msgid "Page"
+msgstr "Pagina"
+
+#: yellow_pages_sync.admin.inc:40
+msgid "Start fetching enterprises from this page."
+msgstr ""
+
+#: yellow_pages_sync.admin.inc:48
+msgid "This page only"
+msgstr ""
+
+#: yellow_pages_sync.admin.inc:49
+msgid "Sync enterprises from selected page only."
+msgstr ""
+
+#: yellow_pages_sync.admin.inc:55
+msgid "Import companies and products from MDB source."
+msgstr ""
+
+#: yellow_pages_sync.admin.inc:56
+msgid "Start synchronisation"
+msgstr ""
+
+#: yellow_pages_sync.admin.inc:90
+msgid "Synchronizing with MDB data..."
+msgstr ""
+
+#: yellow_pages_sync.admin.inc:99
+msgid "Nothing selected."
+msgstr ""
+
+#: yellow_pages_sync.module:17
+msgid "Administer yellow pages synchronization"
+msgstr ""
+
+#: yellow_pages_sync.module:20
+msgid "Access yellow pages synchronization"
+msgstr ""
+
+#: yellow_pages_sync.module:244
+msgid "Processed: %title (%count/%max)"
+msgstr ""
+
+#: yellow_pages_sync.module:1308
+msgid "Synchronisation process complete."
+msgstr ""
+
+#: yellow_pages_sync.module:1315
+msgid "Synchronisation process failed."
+msgstr ""
+
+#: yellow_pages_sync.module:1561
+msgid "Import Categories and products"
+msgstr ""
+
+#: yellow_pages_sync.module:1579
+msgid "Synchronizing Categories and Products with MDB data..."
+msgstr ""
+
+#: yellow_pages_sync.module:1592
+msgid "Import all Companies"
+msgstr ""
+
+#: yellow_pages_sync.module:1610
+msgid "Synchronizing Companies with MDB data..."
+msgstr ""
+
+#: yellow_pages_sync.module:198;248;469;713;1498;1502
+msgid "yp_sync"
+msgstr ""
+
+#: yellow_pages_sync.module:198
+msgid "Tried to import content from: %source. Exception: %exc."
+msgstr ""
+
+#: yellow_pages_sync.module:248
+msgid "Synced %num enterprises."
+msgstr ""
+
+#: yellow_pages_sync.module:469
+msgid "Failed to load translated entity for node \"@nid\", language \"@lang\""
+msgstr ""
+
+#: yellow_pages_sync.module:713
+msgid "No match found for product with id: %id"
+msgstr ""
+
+#: yellow_pages_sync.module:1498
+msgid "Deleted enterprise with id: @id."
+msgstr ""
+
+#: yellow_pages_sync.module:1502
+msgid "Failed to delete enterprise with id: @id."
+msgstr ""
+
+#: yellow_pages_sync.module:32
+msgid "Synchronize"
+msgstr ""
+
+#: yellow_pages_sync.module:33
+msgid "Sync content from MDB source."
+msgstr ""
+
+#: yellow_pages_sync.module:41
+msgid "Sync single entry"
+msgstr ""
+
+#: yellow_pages_sync.module:49
+msgid "Delete single entry"
+msgstr ""
+
+#: yellow_pages_sync.module:57
+msgid "Sync categories and products"
+msgstr ""
+
+#: yellow_pages_sync.module:67
+msgid "Sync companies"
+msgstr "Sincronizarea companiilor"
+
+#: yellow_pages_sync.info:0
+msgid "Yellow Pages Sync"
+msgstr ""
+
+#: yellow_pages_sync.info:0
+msgid "Synchronize content with original database (MDB)."
+msgstr ""
+
+#: yellow_pages_sync.info:0
+msgid "Yellow Pages"
+msgstr ""
+

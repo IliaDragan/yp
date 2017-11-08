@@ -83,6 +83,15 @@ function yellow_pages_company_ct_strongarm() {
       'slider_teaser' => array(
         'custom_settings' => TRUE,
       ),
+      'token' => array(
+        'custom_settings' => FALSE,
+      ),
+      'print_mode' => array(
+        'custom_settings' => TRUE,
+      ),
+      'diff_standard' => array(
+        'custom_settings' => FALSE,
+      ),
     ),
     'extra_fields' => array(
       'form' => array(
@@ -96,7 +105,7 @@ function yellow_pages_company_ct_strongarm() {
       'display' => array(
         'language' => array(
           'default' => array(
-            'weight' => '0',
+            'weight' => '19',
             'visible' => FALSE,
           ),
           'full' => array(
@@ -104,11 +113,15 @@ function yellow_pages_company_ct_strongarm() {
             'visible' => FALSE,
           ),
           'teaser' => array(
-            'weight' => '8',
+            'weight' => '11',
             'visible' => FALSE,
           ),
           'search_index' => array(
-            'weight' => '9',
+            'weight' => '15',
+            'visible' => FALSE,
+          ),
+          'print_mode' => array(
+            'weight' => '19',
             'visible' => FALSE,
           ),
         ),
@@ -177,7 +190,7 @@ function yellow_pages_company_ct_strongarm() {
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
   $strongarm->name = 'forward_display_news';
-  $strongarm->value = FALSE;
+  $strongarm->value = 0;
   $export['forward_display_news'] = $strongarm;
 
   $strongarm = new stdClass();

@@ -10,14 +10,13 @@
 function yellow_pages_taxonomy_field_default_field_bases() {
   $field_bases = array();
 
-  // Exported field_base: 'field_product_type'
+  // Exported field_base: 'field_product_type'.
   $field_bases['field_product_type'] = array(
     'active' => 1,
     'cardinality' => 1,
     'deleted' => 0,
     'entity_types' => array(),
     'field_name' => 'field_product_type',
-    'foreign keys' => array(),
     'indexes' => array(
       'value' => array(
         0 => 'value',
@@ -27,8 +26,8 @@ function yellow_pages_taxonomy_field_default_field_bases() {
     'module' => 'list',
     'settings' => array(
       'allowed_values' => array(
-        YP_TERM_TYPE_PRODUCT => 'Product',
-        YP_TERM_TYPE_CATEGORY => 'Category',
+        1 => 'Product',
+        2 => 'Category',
       ),
       'allowed_values_function' => '',
     ),
@@ -36,21 +35,13 @@ function yellow_pages_taxonomy_field_default_field_bases() {
     'type' => 'list_text',
   );
 
-  // Exported field_base: 'field_related'
+  // Exported field_base: 'field_related'.
   $field_bases['field_related'] = array(
     'active' => 1,
     'cardinality' => -1,
     'deleted' => 0,
     'entity_types' => array(),
     'field_name' => 'field_related',
-    'foreign keys' => array(
-      'tid' => array(
-        'columns' => array(
-          'tid' => 'tid',
-        ),
-        'table' => 'taxonomy_term_data',
-      ),
-    ),
     'indexes' => array(
       'tid' => array(
         0 => 'tid',

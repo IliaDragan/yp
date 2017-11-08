@@ -34,11 +34,12 @@ function yellow_pages_nodeviewcount_strongarm() {
   $strongarm->api_version = 1;
   $strongarm->name = 'nodeviewcount_node_view_modes';
   $strongarm->value = array(
-    'full' => 0,
+    'full' => 'full',
     'teaser' => 0,
     'rss' => 0,
     'search_index' => 0,
     'search_result' => 0,
+    'diff_standard' => 0,
     'token' => 0,
     'slider_teaser' => 0,
   );
@@ -61,7 +62,7 @@ function yellow_pages_nodeviewcount_strongarm() {
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
   $strongarm->name = 'nodeviewcount_way_counting';
-  $strongarm->value = '0';
+  $strongarm->value = '1';
   $export['nodeviewcount_way_counting'] = $strongarm;
 
   return $export;

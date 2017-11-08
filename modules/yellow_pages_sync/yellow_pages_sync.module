@@ -9,6 +9,20 @@
  define('SYNC_SOURCE', 'http://test.varoinform.md:8080/api');
 
 /**
+ * Implements hook_permission()
+ */
+function yellow_pages_sync_permission() {
+  return array(
+    'administer yellow pages sync' => array(
+      'title' => t('Administer yellow pages synchronization'),
+    ),
+    'access yellow pages sync' => array(
+      'title' => t('Access yellow pages synchronization'),
+    ),
+  );
+}
+
+/**
  * Implements hook_menu().
  */
 function yellow_pages_sync_menu() {
@@ -31,9 +45,46 @@ function yellow_pages_sync_menu() {
     'type' => MENU_CALLBACK,
   );
 
+  $items['yp/delete/%'] = array(
+    'title' => 'Delete single entry',
+    'page callback' => 'yellow_pages_sync_delete_node',
+    'page arguments' => array(2),
+    'access arguments' => array('access content'),
+    'type' => MENU_CALLBACK,
+  );
+
+  $items['admin/sync-categories-products'] = array(
+    'title' => 'Sync categories and products',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('yellow_pages_sync_categories_and_products_form'),
+    'access arguments' => array('access yellow pages sync'),
+    'theme callback' => 'variable_get',
+    'theme arguments' => array('theme_default', ''),
+    'weight' => 10
+  );
+
+  $items['admin/sync-companies'] = array(
+    'title' => 'Sync companies',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('yellow_pages_sync_companies_form'),
+    'access arguments' => array('access yellow pages sync'),
+    'theme callback' => 'variable_get',
+    'theme arguments' => array('theme_default', ''),
+    'weight' => 10
+  );
+
   return $items;
 }
 
+/**
+ * Fetches the remote XML for a single enterprise.
+ *
+ * @param int $eid
+ *   Enterprise id.
+ *
+ * @return SimpleXMLElement
+ *   Enterprise XML data.
+ */
 function yellow_pages_sync_fetch_remote_enterprise($eid) {
   if (empty($eid)) {
     return FALSE;
@@ -45,6 +96,12 @@ function yellow_pages_sync_fetch_remote_enterprise($eid) {
   return $xml;
 }
 
+/**
+ * Menu callback for syncing single enterprise by it's id.
+ *
+ * @param int $eid
+ *   Enterprise id.
+ */
 function yellow_pages_sync_single_node($eid) {
   $xml = yellow_pages_sync_fetch_remote_enterprise($eid);
   $message = 'NOT OK';
@@ -53,7 +110,6 @@ function yellow_pages_sync_single_node($eid) {
     $entity = yellow_pages_sync_node($xml);
 
     yellow_pages_sync_link_filials($entity->nid);
-    yellow_pages_sync_attach_logo((int) $xml->id, $entity->nid);
 
     if (isset($entity->nid)) {
       $message = 'OK';
@@ -64,6 +120,12 @@ function yellow_pages_sync_single_node($eid) {
   drupal_exit(0);
 }
 
+/**
+ * Creates relations between affiliated nodes to a certain 'main' node.
+ *
+ * @param int $nid
+ *   'Main' node id.
+ */
 function yellow_pages_sync_link_filials($nid) {
   $query = db_select('node', 'n')
     ->fields('n', array('nid', 'language'))
@@ -80,22 +142,17 @@ function yellow_pages_sync_link_filials($nid) {
     ->condition('parent', $nid, '=');
   $children = $query->execute()->fetchCol();
 
-  $languages = array_keys(locale_language_list('name'));
   $filials = array();
 
   foreach ($children as $child) {
-    foreach ($languages as $lang) {
+    foreach ($translations as $lang => $parent) {
       $query = db_select('node', 'n')
         ->fields('n', array('nid', 'language'))
         ->condition('tnid', $child, '=')
         ->condition('language', $lang, '=');
       $result = $query->execute()->fetchAll();
       $filial = reset($result);
-      foreach ($translations as $lang => $nid) {
-        if ($filial->language == $lang) {
-          $filials[$nid][] = $filial->nid;
-        }
-      }
+      $filials[$parent][] = $filial->nid;
     }
   }
 
@@ -113,6 +170,12 @@ function yellow_pages_sync_link_filials($nid) {
   }
 }
 
+/**
+ * Reads and caches all raw XML data.
+ *
+ * @param string $source
+ *   Url to the xml content.
+ */
 function yellow_pages_sync_read_xml($source) {
   $xml = FALSE;
 
@@ -120,10 +183,10 @@ function yellow_pages_sync_read_xml($source) {
     $cid = md5($source);
     $cache = cache_get($cid);
     $xml_data = NULL;
-    if (!$cache) {
+    if (!$cache || REQUEST_TIME > $cache->expire) {
       $xml_data = @file_get_contents($source);
       if (!empty($xml_data)) {
-        cache_set($cid, $xml_data, 'cache', REQUEST_TIME + 3600);
+        cache_set($cid, $xml_data, 'cache', REQUEST_TIME + 30);
       }
     }
     else {
@@ -138,6 +201,9 @@ function yellow_pages_sync_read_xml($source) {
   return $xml;
 }
 
+/**
+ * Creates a batch to process multiple enterprise syncing.
+ */
 function yellow_pages_sync_nodes($settings, &$context) {
   $xml = NULL;
 
@@ -193,6 +259,12 @@ function yellow_pages_sync_nodes($settings, &$context) {
   }
 }
 
+/**
+ * Creates a drupal node from a XML input.
+ *
+ * @param SimpleXMLElement $list_item
+ *   Enterprise XML data.
+ */
 function yellow_pages_sync_node(SimpleXMLElement $list_item) {
   $node_defaults = array(
     'type' => 'company',
@@ -256,19 +328,32 @@ function yellow_pages_sync_node(SimpleXMLElement $list_item) {
     }
   }
   // Addresses.
-  if (!empty($item['addresses']['en'])) {
+  if (!empty($item['addresses']['ru'])) {
     unset($entity->field_address[LANGUAGE_NONE]);
-    foreach ($item['addresses']['en'] as $k => $address) {
+    unset($entity->field_region[LANGUAGE_NONE]);
+
+    foreach ($item['addresses']['ru'] as $k => $address) {
       $entity->field_address[LANGUAGE_NONE][$k] = array(
         'country' => 'MD',
         'locality' => $address['city'],
         'postal_code' => $address['pcode'],
         'thoroughfare' => $address['address'],
         'premise' => $address['premise'],
-        'administrative_area' => $address['administrative_area'],
       );
+
+      $entity->field_region[LANGUAGE_NONE][$k]['value'] = $address['region'];
     }
   }
+
+  // Geo.
+  unset($entity->field_geocode[LANGUAGE_NONE]);
+  if (!empty($item['geo'])) {
+    foreach ($item['geo'] as $k => $geo) {
+      $entity->field_region[LANGUAGE_NONE][$k] = $geo;
+      $entity->field_geocode[LANGUAGE_NONE][$k]['geom'] = "POINT ({$geo['lon']} {$geo['lat']})";
+    }
+  }
+
   // Contacts.
   if (!empty($item['contacts'])) {
     unset($entity->field_landline_phone[LANGUAGE_NONE]);
@@ -286,6 +371,35 @@ function yellow_pages_sync_node(SimpleXMLElement $list_item) {
       $entity->field_fax[LANGUAGE_NONE][$k]['value'] = $number;
     }
   }
+
+  // Invisible field.
+  if (!empty($item['invisible_field'])) {
+    unset($entity->field_invisible_field[LANGUAGE_NONE]);
+    $entity->field_invisible_field[LANGUAGE_NONE][0]['value'] = $item['invisible_field'];
+  }
+
+  // Business hours.
+  if (isset($entity->field_business_hours[LANGUAGE_NONE])) {
+    unset($entity->field_business_hours[LANGUAGE_NONE]);
+  }
+  if (!empty($item['business_hours'])) {
+       $entity->field_business_hours[LANGUAGE_NONE][0] = array(
+        'value' => $item['business_hours'],
+      );
+  }
+
+  // Brands.
+  if (isset($entity->field_brands[LANGUAGE_NONE])) {
+    unset($entity->field_brands[LANGUAGE_NONE]);
+  }
+  if (!empty($item['brands'])) {
+    foreach($item['brands'] as $brand) {
+      $entity->field_brands[LANGUAGE_NONE][] = array(
+        'value' => $brand,
+      );
+    }
+  }
+
   // Sync time.
   $sync_time = $item['last_change'];
   $entity->field_mdb_sync_date[LANGUAGE_NONE][0]['value'] = date('Y-m-d H:i:s', $sync_time);
@@ -294,6 +408,8 @@ function yellow_pages_sync_node(SimpleXMLElement $list_item) {
 
   // Save new node.
   node_save($entity);
+  module_invoke_all('entity_sync_with_mdb', $entity);
+
 
   if (!empty($path_alias['ru'])) {
     $url_alias = array(
@@ -331,15 +447,13 @@ function yellow_pages_sync_node(SimpleXMLElement $list_item) {
       continue;
     }
 
-    if ($is_new) {
-      $translated_entity = clone($entity);
-      unset($translated_entity->nid);
-      unset($translated_entity->vid);
+    $translated_entity = clone($entity);
+    unset($translated_entity->nid);
+    unset($translated_entity->vid);
+    $translated_entity->language = $lang;
+    $translated_entity->tnid = $tnid;
 
-      $translated_entity->language = $lang;
-      $translated_entity->tnid = $tnid;
-    }
-    else {
+    if (!$is_new) {
       $query = db_select('node', 'n')
         ->fields('n', array('nid'))
         ->condition('tnid', $tnid, '=')
@@ -348,7 +462,7 @@ function yellow_pages_sync_node(SimpleXMLElement $list_item) {
       $result = $query->execute()->fetchCol();
 
       if (!empty($result)) {
-        $translated_entity = node_load(reset($result));
+        $translated_entity->nid = $translated_entity->vid = reset($result);
       }
       else {
         $t = array('@nid' => $tnid, '@lang' => $lang);
@@ -356,9 +470,31 @@ function yellow_pages_sync_node(SimpleXMLElement $list_item) {
       }
     }
 
+    // Do not overwrite selected advertisements.
+    unset($translated_entity->field_advertisements);
+
     $translated_entity->title = !empty($item['title'][$lang]) ? $item['title'][$lang] : 'Без титула';
 
+    // Addresses.
+    if (!empty($item['addresses'][$lang])) {
+      unset($translated_entity->field_address[LANGUAGE_NONE]);
+      unset($translated_entity->field_region[LANGUAGE_NONE]);
+
+      foreach ($item['addresses'][$lang] as $k => $address) {
+        $translated_entity->field_address[LANGUAGE_NONE][$k] = array(
+          'country' => 'MD',
+          'locality' => $address['city'],
+          'postal_code' => $address['pcode'],
+          'thoroughfare' => $address['address'],
+          'premise' => $address['premise'],
+        );
+
+        $translated_entity->field_region[LANGUAGE_NONE][$k]['value'] = $address['region'];
+      }
+    }
+
     node_save($translated_entity);
+    module_invoke_all('entity_sync_with_mdb', $translated_entity);
 
     if (!empty($path_alias[$lang])) {
       $url_alias = array(
@@ -373,10 +509,15 @@ function yellow_pages_sync_node(SimpleXMLElement $list_item) {
   return $entity;
 }
 
-function yellow_pages_sync_get_alias($nid, $title) {
-  return 'info/companies/' . $nid . '-' . drupal_html_class(transliteration_get($title));
-}
-
+/**
+ * Parses enteprise related data to be usable in fields of the resulting node.
+ *
+ * @param SimpleXMLElement $source
+ *   Enterprise XML data.
+ *
+ * @return array
+ *   An array keyed by main enterprise information.
+ */
 function yellow_page_sync_process_source_element(SimpleXMLElement $source) {
   $result = array();
   $result['id'] = (int) $source->id;
@@ -391,16 +532,32 @@ function yellow_page_sync_process_source_element(SimpleXMLElement $source) {
   $result['products'] = yellow_pages_sync_process_source_element_products($source);
   // Addresses.
   $result['addresses'] = yellow_pages_sync_process_source_element_address($source);
+  // Geo.
+  $result['geo'] = yellow_pages_sync_process_source_element_geo($source);
   // Contacts.
   $result['contacts'] = yellow_pages_sync_process_source_element_contacts($source);
   // Last change.
   $result['last_change'] = strtotime((string) $source->last_change);
   // Old aliases.
   $result['path_alias'] = yellow_pages_sync_process_source_element_aliases($source);
+  // Invisible field.
+  if (!empty($source->invisible_field)) {
+    $result['invisible_field'] = $source->invisible_field;
+  }
+  // Business hours.
+  $result['business_hours'] = yellow_pages_sync_process_source_element_business_hours($source);
+  // Brands.
+  $result['brands'] = yellow_pages_sync_process_source_element_brands($source);
 
   return $result;
 }
 
+/**
+ * Creates the parent enterprise if current is an affiliated one.
+ *
+ * @param SimpleXMLElement $source
+ *   Enterprise XML data.
+ */
 function yellow_pages_sync_process_source_element_parent(SimpleXMLElement $source) {
   $parent_id = (int) $source->parent_id;
 
@@ -423,6 +580,7 @@ function yellow_pages_sync_process_source_element_parent(SimpleXMLElement $sourc
   $source_address = yellow_pages_sync_process_source_element_address($source);
   $parent_title = yellow_pages_sync_process_source_element_title($xml);
 
+  // The affiliated enterprise gets the main enterprise title, thus locality.
   if (empty(array_filter($source_title))) {
     $title = $source->titles;
 
@@ -439,6 +597,7 @@ function yellow_pages_sync_process_source_element_parent(SimpleXMLElement $sourc
 
   $entity = yellow_pages_sync_node($xml);
 
+  // Store the parent enterprise so it's not parsed again.
   if (isset($entity->nid)) {
     $nid = $entity->nid;
     $parents = &drupal_static('synced_parents', array());
@@ -451,6 +610,15 @@ function yellow_pages_sync_process_source_element_parent(SimpleXMLElement $sourc
   return $nid;
 }
 
+/**
+ * Processes enterprise title.
+ *
+ * @param SimpleXMLElement $source
+ *   Enterprise XML data.
+ *
+ * @return array
+ *   A set of titles, for each locale.
+ */
 function yellow_pages_sync_process_source_element_title(SimpleXMLElement $source) {
   $source_title = $source->titles;
   $titles = array();
@@ -465,6 +633,15 @@ function yellow_pages_sync_process_source_element_title(SimpleXMLElement $source
   return $titles;
 }
 
+/**
+ * Processes enterprise email address.
+ *
+ * @param SimpleXMLElement $source
+ *   Enterprise XML data.
+ *
+ * @return array
+ *   A set of emails.
+ */
 function yellow_pages_sync_process_source_element_email(SimpleXMLElement $source) {
   $source_email = $source->emails;
   $emails = array();
@@ -480,6 +657,15 @@ function yellow_pages_sync_process_source_element_email(SimpleXMLElement $source
   return $emails;
 }
 
+/**
+ * Processess enterprise web-site URL.
+ *
+ * @param SimpleXMLElement $source
+ *   Enterprise XML data.
+ *
+ * @return array
+ *   Set of URL's.
+ */
 function yellow_pages_sync_process_source_element_url(SimpleXMLElement $source) {
   $source_url = $source->www_set;
   $urls = array();
@@ -495,6 +681,15 @@ function yellow_pages_sync_process_source_element_url(SimpleXMLElement $source) 
   return $urls;
 }
 
+/**
+ * Processes enterpise products activities.
+ *
+ * @param SimpleXMLElement $source
+ *   Enterprise XML data.
+ *
+ * @return array
+ *   Set of activities.
+ */
 function yellow_pages_sync_process_source_element_products(SimpleXMLElement $source) {
   $source_products = $source->products;
   $products = array();
@@ -531,7 +726,7 @@ function yellow_pages_sync_process_source_element_products(SimpleXMLElement $sou
         else {
           $products[] = array(
             'product' => $tid,
-            'source' => YP_PRODUCT_SERVICES,
+            'source' => YP_PRODUCT_SELL,
           );
         }
       }
@@ -541,6 +736,15 @@ function yellow_pages_sync_process_source_element_products(SimpleXMLElement $sou
   return $products;
 }
 
+/**
+ * Processes enterprise address.
+ *
+ * @param SimpleXMLElement $source
+ *   Enterprise XML data.
+ *
+ * @return array
+ *   Set of addresses for each locale.
+ */
 function yellow_pages_sync_process_source_element_address(SimpleXMLElement $source) {
   $source_address = $source->locations;
   $addresses = array();
@@ -549,24 +753,24 @@ function yellow_pages_sync_process_source_element_address(SimpleXMLElement $sour
     $locales = array('ru', 'ro', 'en');
     foreach ($locales as $locale) {
       foreach ($source_address->{'list-item'} as $item) {
+        $city   = trim((string) $item->town->{$locale . '_field'});
         $street = trim((string) $item->street->{$locale . '_field'});
-        $house = trim((string) $item->house->{$locale . '_field'});
+        $house  = trim((string) $item->house->{$locale . '_field'});
+        $region = trim((string) $item->region->{$locale . '_field'});
         $office = trim((string) $item->office);
+        $postal_code = (int) $item->pcode->{'list-item'};
 
-        $thoroughfare = str_replace(array('bd.', 'str.', 'ул.'), '', $street);
+        $thoroughfare = $street;
         if (!empty($house)) {
-          $thoroughfare .= ', ' . $house;
-        }
-
-        if (!empty($office)) {
-          $thoroughfare .= ', ' . $office;
+          $thoroughfare .= ' ' . $house;
         }
 
         $addresses[$locale][] = array(
-          'city' => str_replace(array('mun.', 'or.', 's.', 'г.'), '', trim((string) $item->town->{$locale . '_field'})),
-          'pcode' => (int) $item->pcode->{'list-item'},
+          'city' => $city,
+          'pcode' => $postal_code,
           'address' => $thoroughfare,
-          'administrative_area' => trim((string) $item->region->{$locale . '_field'})
+          'region' => $region,
+          'premise' => $office,
         );
       }
     }
@@ -575,6 +779,42 @@ function yellow_pages_sync_process_source_element_address(SimpleXMLElement $sour
   return $addresses;
 }
 
+/**
+ * Processes enterprise geo coordinates.
+ *
+ * @param SimpleXMLElement $source
+ *   Enterprise XML data.
+ *
+ * @return array
+ *   Set of geo coordinates.
+ */
+function yellow_pages_sync_process_source_element_geo(SimpleXMLElement $source) {
+  $source_address = $source->locations;
+  $geo = array();
+
+  if (isset($source_address->{'list-item'})) {
+    foreach ($source_address->{'list-item'} as $item) {
+      if (!empty($item->long) && !empty($item->lat)) {
+        $geo[] = array(
+          'lon' => floatval($item->long),
+          'lat' => floatval($item->lat),
+        );
+      }
+    }
+  }
+
+  return $geo;
+}
+
+/**
+ * Processes enterprise phone numbers.
+ *
+ * @param SimpleXMLElement $source
+ *   Enterprise XML data.
+ *
+ * @return array
+ *   Set of phone numbers.
+ */
 function yellow_pages_sync_process_source_element_contacts(SimpleXMLElement $source) {
   $source_contacts = $source->contacts;
   $contacts = array(
@@ -595,7 +835,6 @@ function yellow_pages_sync_process_source_element_contacts(SimpleXMLElement $sou
         $contacts['mobile'][] = $number;
         break;
       case 'T/F':
-        $contacts['landline'][] = $number;
         $contacts['fax'][] = $number;
         break;
     }
@@ -604,6 +843,15 @@ function yellow_pages_sync_process_source_element_contacts(SimpleXMLElement $sou
   return $contacts;
 }
 
+/**
+ * Processes enterprises url aliases.
+ *
+ * @param SimpleXMLElement $source
+ *   Enterprise XML data.
+ *
+ * @return array
+ *   Set of aliases for each locale.
+ */
 function yellow_pages_sync_process_source_element_aliases(SimpleXMLElement $source) {
   $source_aliases = $source->yp_old_url;
   $languages = array('ru', 'ro', 'en');
@@ -616,6 +864,61 @@ function yellow_pages_sync_process_source_element_aliases(SimpleXMLElement $sour
   return $aliases;
 }
 
+/**
+ * Processes enterprises business hours.
+ *
+ * @param SimpleXMLElement $source
+ *   Enterprise XML data.
+ *
+ * @return string
+ *   Serialized array of business hours.
+ */
+function yellow_pages_sync_process_source_element_business_hours(SimpleXMLElement $source) {
+  $business_hours = array();
+  if (!empty($source->business_hours->{'list-item'})) {
+    $hours = $source->business_hours->{'list-item'};
+    foreach ($hours as $hour) {
+      $mathces = array();
+      preg_match('/(Monday|Tuesday|Wednesday|Thursday|Friday|Saturday|Sunday):([^-]*)-(.*)/i', $hour, $mathces);
+      if (count($mathces) >= 4) {
+        $business_hours[] = array(
+          'day' => $mathces[1],
+          'start' => trim($mathces[2]),
+          'end' => trim($mathces[3]),
+        );
+      }
+    }
+  }
+  return (count($business_hours)) ? serialize($business_hours) : '';
+}
+
+/**
+ * Processes enterprises brands.
+ *
+ * @param SimpleXMLElement $source
+ *   Enterprise XML data.
+ *
+ * @return array
+ *   List of enterprise brands.
+ */
+function yellow_pages_sync_process_source_element_brands(SimpleXMLElement $source) {
+  $brands = array();
+  if (!empty($source->brands->{'list-item'})) {
+    $brands_source = $source->brands->{'list-item'};
+    foreach($brands_source as $brand) {
+      $brands[] = (string) $brand;
+    }
+  }
+
+  return $brands;
+}
+
+/**
+ * Provides target vocabulary id for products terms.
+ *
+ * @return int
+ *   Taxonomy vocabulary id.
+ */
 function yellow_pages_sync_term_target_vocabulary() {
   $vid = &drupal_static(__FUNCTION__, NULL);
 
@@ -627,6 +930,15 @@ function yellow_pages_sync_term_target_vocabulary() {
   return $vid;
 }
 
+/**
+ * Provides whitespace cleanup for multiple values.
+ *
+ * @param array $input
+ *   A set of data to trim.
+ *
+ * @return array
+ *   Set of data with whitespaces trimmed.
+ */
 function yellow_pages_sync_trim(array $input) {
   array_walk($input, function (&$v) {
     $v = trim($v);
@@ -635,12 +947,25 @@ function yellow_pages_sync_trim(array $input) {
   return $input;
 }
 
+/**
+ * Stores synced term information.
+ *
+ * @param int $id
+ *   Product original id.
+ * @param int $tid
+ *   Analogic term id.
+ * @param int $parent_id
+ *   Parent category/product original id.
+ * @param int $type
+ *   Whether it's a category or product term.
+ */
 function yellow_pages_sync_write_term_relation($id, $tid, $parent_id = 0, $type = YP_TERM_TYPE_PRODUCT) {
   db_merge('yp_term_sync_state')
     ->key(array(
       'pid' => $id,
       'tid' => $tid,
       'type' => $type,
+      'parent' => $parent_id,
     ))
     ->fields(array(
       'pid' => $id,
@@ -651,6 +976,9 @@ function yellow_pages_sync_write_term_relation($id, $tid, $parent_id = 0, $type 
     ->execute();
 }
 
+/**
+ * Creates a batch for syncing products into taxonomies.
+ */
 function yellow_pages_sync_taxonomy(&$context) {
   if (!isset($context['sandbox']['progress'])) {
     // Read and process categories.
@@ -671,19 +999,24 @@ function yellow_pages_sync_taxonomy(&$context) {
         ->condition('type', YP_TERM_TYPE_CATEGORY, '=');
       $result = $query->execute()->fetchCol();
       $tid = reset($result);
-      if (!$category_term = taxonomy_term_load($tid)) {
-        $category_names = array(
-          'ru' => (string) $item->ru_field,
-          'ro' => (string) $item->ro_field,
-          'en' => (string) $item->en_field,
-        );
-        $category_term = yellow_pages_sync_create_term($category_names, YP_TERM_TYPE_CATEGORY);
-      }
+
+      $category_names = array(
+        'ru' => (string) $item->ru_field,
+        'ro' => (string) $item->ro_field,
+        'en' => (string) $item->en_field,
+      );
+
+      $category_term = yellow_pages_sync_create_term($category_names, YP_TERM_TYPE_CATEGORY, $tid);
 
       $parents = array();
       foreach ($item->parents->{'list-item'} as $parent) {
         $parents[] = (int) $parent;
       }
+
+      db_delete('yp_term_sync_state')
+        ->condition('pid', $id, '=')
+        ->condition('type', YP_TERM_TYPE_CATEGORY, '=')
+        ->execute();
 
       if (empty($parents)) {
         yellow_pages_sync_write_term_relation($id, $category_term->tid, 0, YP_TERM_TYPE_CATEGORY);
@@ -736,19 +1069,24 @@ function yellow_pages_sync_taxonomy(&$context) {
       ->condition('type', YP_TERM_TYPE_PRODUCT, '=');
     $result = $query->execute()->fetchCol();
     $tid = reset($result);
-    if (!$product_term = taxonomy_term_load($tid)) {
-      $product_names = array(
-        'ru' => $item['ru'],
-        'ro' => $item['ro'],
-        'en' => $item['en'],
-      );
-      $product_term = yellow_pages_sync_create_term($product_names, YP_TERM_TYPE_PRODUCT);
-    }
+
+    $product_names = array(
+      'ru' => $item['ru'],
+      'ro' => $item['ro'],
+      'en' => $item['en'],
+    );
+
+    $product_term = yellow_pages_sync_create_term($product_names, YP_TERM_TYPE_PRODUCT, $tid);
 
     $parents = array();
     foreach ($item['parents'] as $parent) {
       $parents[] = $parent;
     }
+
+    db_delete('yp_term_sync_state')
+        ->condition('pid', $item['id'], '=')
+        ->condition('type', YP_TERM_TYPE_PRODUCT, '=')
+        ->execute();
 
     if (empty($parents)) {
       yellow_pages_sync_write_term_relation($item['id'], $product_term->tid, 0, YP_TERM_TYPE_PRODUCT);
@@ -775,16 +1113,22 @@ function yellow_pages_sync_taxonomy(&$context) {
   }
 }
 
+/**
+ * Creates a batch for linking term hirerachy based on products relations.
+ */
 function yellow_pages_sync_taxonomy_parents(&$context) {
   if (!isset($context['sandbox']['progress'])) {
     $query = db_select('yp_term_sync_state', 'ysst')
-      ->fields('ysst')
+      ->fields(NULL, array('tid'))
       ->condition('parent', 0, '<>')
       ->countQuery();
     $result = $query->execute()->fetchCol();
 
     $context['sandbox']['progress'] = 0;
     $context['sandbox']['max'] = reset($result);
+
+    db_query('TRUNCATE {taxonomy_term_hierarchy}');
+    db_query('INSERT INTO {taxonomy_term_hierarchy} SELECT tid, 0 from {taxonomy_term_data}');
   }
 
   $query = db_select('yp_term_sync_state', 'ysst')
@@ -806,13 +1150,20 @@ function yellow_pages_sync_taxonomy_parents(&$context) {
       ->condition('parent', $parent_pid, '=');
     $children = $query->execute()->fetchCol();
 
-    if (!empty($children)) {
-      db_update('taxonomy_term_hierarchy')
-        ->fields(array(
-          'parent' => $parent_tid,
-        ))
+    if (!empty($children) && is_array($children)) {
+      db_delete('taxonomy_term_hierarchy')
         ->condition('tid', $children, 'IN')
+        ->condition('parent', array(0, $parent_tid), 'IN')
         ->execute();
+
+      foreach ($children as $child) {
+        db_insert('taxonomy_term_hierarchy')
+          ->fields(array(
+            'tid' => $child,
+            'parent' => $parent_tid,
+          ))
+          ->execute();
+      }
     }
   }
 
@@ -823,20 +1174,97 @@ function yellow_pages_sync_taxonomy_parents(&$context) {
   }
 }
 
-function yellow_pages_sync_create_term($name, $type = YP_TERM_TYPE_PRODUCT) {
-  $term = new stdClass();
-  $term->name = is_array($name) ? $name['ru'] : $name;
-  $term->vid = yellow_pages_sync_term_target_vocabulary();
-  $term->field_product_type[LANGUAGE_NONE][0]['value'] = $type;
+/**
+ * Creates a batch for assigning orphan products to a defaul category.
+ */
+function yellow_pages_sync_taxonomy_force_parents(&$context) {
+  if (!isset($context['sandbox']['progress'])) {
+    $query = db_select('yp_term_sync_state', 'ysst')
+      ->fields(NULL, array('tid'))
+      ->condition('parent', 0, '=')
+      ->condition('type', YP_TERM_TYPE_PRODUCT)
+      ->countQuery();
+    $result = $query->execute()->fetchCol();
+
+    $context['sandbox']['progress'] = 0;
+    $context['sandbox']['max'] = reset($result);
+    $context['sandbox']['default_parent_tid'] = yellow_pages_sync_default_parent();
+  }
+
+  $query = db_select('yp_term_sync_state', 'ysst')
+    ->fields('ysst', array('tid'))
+    ->condition('parent', 0, '=')
+    ->condition('type', YP_TERM_TYPE_PRODUCT)
+    ->range($context['sandbox']['progress'], SYNC_BATCH);
+  $result = $query->execute()->fetchCol();
+
+  db_update('taxonomy_term_hierarchy')
+    ->fields(array(
+      'parent' => $context['sandbox']['default_parent_tid'],
+    ))
+    ->condition('tid', $result, 'IN')
+    ->execute();
+
+  $context['sandbox']['progress'] += SYNC_BATCH;
+
+  if ($context['sandbox']['progress'] < $context['sandbox']['max'] && $context['sandbox']['progress'] != $context['sandbox']['max']) {
+    $context['finished'] = $context['sandbox']['progress'] / $context['sandbox']['max'];
+  }
+}
+
+/**
+ * Fetches default parent category for orphaned product terms.
+ *
+ * @return int
+ *   Term id.
+ */
+function yellow_pages_sync_default_parent() {
+  $name = array(
+    'ru' => 'Другое',
+    'en' => 'Other',
+    'ro' => 'Diverse',
+  );
+  $terms = taxonomy_get_term_by_name($name['ru'], SYNC_VOCABULARY);
+
+  if (empty($terms)) {
+    $term = yellow_pages_sync_create_term($name, YP_TERM_TYPE_CATEGORY);
+  }
+  else {
+    $term = reset($terms);
+  }
+
+  return $term->tid;
+}
+
+/**
+ * Provides a wrapper for creating product/category terms.
+ *
+ * @param mixed $name
+ *   Single or a set of names.
+ * @param int $type
+ *   Term type (product/category).
+ * @param int $tid
+ *   Term tid, if set a term with this id will be updated.
+ *
+ * @return stdClass
+ *   Altered term object.
+ */
+function yellow_pages_sync_create_term($name, $type = YP_TERM_TYPE_PRODUCT, $tid = NULL) {
+  if ($tid) {
+    $term = taxonomy_term_load($tid);
+  }
+  else {
+    $term = new stdClass();
+    $term->vid = yellow_pages_sync_term_target_vocabulary();
+    $term->field_product_type[LANGUAGE_NONE][0]['value'] = $type;
+  }
+
+  $term->name = is_array($name) ? $name['en'] : $name;
 
   taxonomy_term_save($term);
 
   if (is_array($name)) {
-    $languages = array('en', 'ro');
-
-    if ($type == YP_TERM_TYPE_CATEGORY && $name['ru'] == 'Бизнес' && $name['ro'] == 'Piloţi pentru fundaţii') {
-      var_dump($name);die();
-    }
+    $languages = array('ru', 'ro');
 
     foreach ($languages as $lang) {
       i18n_string_translation_update(
@@ -850,6 +1278,17 @@ function yellow_pages_sync_create_term($name, $type = YP_TERM_TYPE_PRODUCT) {
   return $term;
 }
 
+/**
+ * Fetched the term id for a previously synced product/category.
+ *
+ * @param int $pid
+ *   Original product/category id.
+ * @param int $type
+ *   Entry type.
+ *
+ * @return int
+ *   Term id, if any.
+ */
 function yellow_pages_sync_synced_term($pid, $type = YP_TERM_TYPE_PRODUCT) {
   $query = db_select('yp_term_sync_state', 'yts')
     ->fields('yts', array('tid'))
@@ -860,14 +1299,22 @@ function yellow_pages_sync_synced_term($pid, $type = YP_TERM_TYPE_PRODUCT) {
   return reset($result);
 }
 
+/**
+ * Final callback for the overall sync batch.
+ */
 function yellow_pages_sync_batch_finish($success, $results, $operations) {
   drupal_get_messages();
   if ($success) {
     drupal_set_message(t('Synchronisation process complete.'));
+
+    // Rebuild products facet.
+    module_load_include('inc', 'yellow_pages_solr_configuration', 'yellow_pages_solr_configuration.admin');
+    yellow_pages_solr_configuration_rubuild_products_facet();
   }
   else {
     drupal_set_message(t('Synchronisation process failed.'), 'error');
   }
+  variable_set('i18n_string_source_language', 'en');
 }
 
 /**
@@ -894,6 +1341,9 @@ function yellow_pages_sync_taxonomy_term_delete($term) {
   }
 }
 
+/**
+ * Creates a batch for linking nodes together based on affiliated context.
+ */
 function yellow_pages_sync_filials(&$context) {
   if (!isset($context['sandbox']['progress'])) {
     $query = db_select('yp_sync_state')
@@ -922,6 +1372,9 @@ function yellow_pages_sync_filials(&$context) {
   }
 }
 
+/**
+ * Creates a batch for attaching existing logos to synced enterprises.
+ */
 function yellow_pages_sync_logos(&$context) {
   if (!isset($context['sandbox']['progress'])) {
     $query = db_select('yp_sync_state', 'yss')
@@ -947,6 +1400,14 @@ function yellow_pages_sync_logos(&$context) {
   }
 }
 
+/**
+ * Attaches the logo file to a certain node.
+ *
+ * @param int $eid
+ *   Original enterprise id.
+ * @param int $nid
+ *   Synced node id.
+ */
 function yellow_pages_sync_attach_logo($eid, $nid) {
   $query = db_select('node', 'n')
     ->fields('n', array('nid'))
@@ -965,6 +1426,16 @@ function yellow_pages_sync_attach_logo($eid, $nid) {
   }
 }
 
+/**
+ * Creates an entry in the file system for a certain logo attached
+ * to an enterprise.
+ *
+ * @param int $eid
+ *   Original enterprise id.
+ *
+ * @return mixed
+ *   File object on success, FALSE otherwise.
+ */
 function yellow_pages_sync_create_logo($eid) {
   $path = dirname(__FILE__) . '/logo/' . $eid . '-L1.gif';
   $logo_content = yellow_pages_sync_read_logo($path);
@@ -979,10 +1450,184 @@ function yellow_pages_sync_create_logo($eid) {
   return FALSE;
 }
 
+/**
+ * Reads the content of the logo.
+ *
+ * @param string $path
+ *   File path uri.
+ *
+ * @return string
+ *   File contents if file exists and is readable, FALSE otherwise.
+ */
 function yellow_pages_sync_read_logo($path) {
-  if (!file_exists($path)) {
+  if (!is_readable($path)) {
     return FALSE;
   }
 
   return @file_get_contents($path);
+}
+
+/**
+ * Removes single enterprise.
+ *
+ * This removes localized versions of the enterprise
+ * and filials attache to it.
+ *
+ * @param int $eid
+ *   Enterprise id.
+ */
+function yellow_pages_sync_delete_node($eid) {
+  $query = db_select('yp_sync_state', 'yss')
+    ->fields('yss', array('nid'))
+    ->condition('eid', $eid, '=');
+  $result = $query
+    ->execute()
+    ->fetchCol();
+
+  $message = 'OK';
+  $nid = reset($result);
+  $t = array(
+    '@id' => $eid,
+  );
+  if ($nid) {
+    $artifacts = yellow_pages_sync_enterprise_artifacts($nid);
+    if (!empty($artifacts)) {
+      node_delete_multiple($artifacts);
+    }
+
+    watchdog('yp_sync', 'Deleted enterprise with id: @id.', $t, WATCHDOG_NOTICE);
+  }
+  else {
+    $message = 'NOT OK';
+    watchdog('yp_sync', 'Failed to delete enterprise with id: @id.', $t, WATCHDOG_ERROR);
+  }
+
+  drupal_json_output($message);
+  drupal_exit(0);
+}
+
+/**
+ * Fetches all artifacts attached to a single node nid.
+ *
+ * Artifacts are considered node translations and filials attached to it.
+ * This method will make recursive traversal within all nested
+ * filials found.
+ *
+ * @param int $nid
+ *   Node id.
+ * @param array $artifacts
+ *   Artifacts collection.
+ *
+ * @return array
+ *   A set of node id's.
+ */
+function yellow_pages_sync_enterprise_artifacts($nid, array &$artifacts = array()) {
+  $node = node_load($nid);
+  // Main artifacts - translations.
+  $db_or = db_or()
+    ->condition('nid', $nid, '=')
+    ->condition('tnid', $nid, '=');
+  $query = db_select('node', 'n')
+    ->fields('n', array('nid'))
+    ->condition($db_or);
+  $results = $query
+    ->execute()
+    ->fetchCol();
+
+  if (!empty($results)) {
+    foreach ($results as $result) {
+      $artifacts[] = $result;
+    }
+  }
+
+  // Additional artifacts - filials.
+  $filials = field_get_items('node', $node, 'field_filials');
+  if (!empty($filials)) {
+    foreach ($filials as $filial) {
+      $fid = $filial['target_id'];
+      yellow_pages_sync_enterprise_artifacts($fid, $artifacts);
+    }
+  }
+
+  return $artifacts;
+}
+
+/**
+ * Form for synchronize categories and products.
+ */
+function yellow_pages_sync_categories_and_products_form($form, &$form_state) {
+  $form['submit'] = array(
+    '#type' => 'submit',
+    '#value' => t('Import Categories and products'),
+  );
+
+  return $form;
+}
+
+/**
+ * Submit function for yellow_pages_sync_categories_and_products_form().
+ */
+function yellow_pages_sync_categories_and_products_form_submit($form, &$form_state) {
+  $operations = array(
+    array('yellow_pages_sync_taxonomy', array()),
+    array('yellow_pages_sync_taxonomy_parents', array()),
+    array('yellow_pages_sync_taxonomy_force_parents', array()),
+  );
+
+  $batch = array(
+    'operations' => $operations,
+    'title' => t('Synchronizing Categories and Products with MDB data...'),
+    'finished' => 'yellow_pages_sync_batch_finish',
+  );
+
+  batch_set($batch);
+}
+
+/**
+ * Form for synchronize companies.
+ */
+function yellow_pages_sync_companies_form($form, &$form_state) {
+  $form['submit'] = array(
+    '#type' => 'submit',
+    '#value' => t('Import all Companies'),
+  );
+
+  return $form;
+}
+
+/**
+ * Submit function for yellow_pages_sync_companies_form().
+ */
+function yellow_pages_sync_companies_form_submit($form, &$form_state) {
+  variable_set('i18n_string_source_language', 'ru');
+
+  $operations = array(
+    array('yellow_pages_sync_nodes', array(array('page' => 1, 'single' => FALSE))),
+  );
+
+  $batch = array(
+    'operations' => $operations,
+    'title' => t('Synchronizing Companies with MDB data...'),
+    'finished' => 'yellow_pages_sync_batch_finish',
+  );
+
+  batch_set($batch);
+}
+
+/**
+ * Get Source Enterprise ID for drupal company node.
+ * @param $nid
+ *   Company node nid.
+ *
+ * @return mixed
+ *   Source Enterprise ID of false if not found.
+ */
+function yellow_pages_sync_get_eid_by_nid($nid) {
+  $eid = db_select('yp_sync_state', 'ss')
+    ->fields('ss', array('eid'))
+    ->condition('ss.nid', $nid)
+    ->execute()
+    ->fetchField();
+
+  return $eid;
 }

@@ -72,14 +72,19 @@ function yellow_pages_weather_preprocess_yp_weather(&$variables) {
  *   Various weather information.
  */
 function yellow_pages_current_weather() {
-  $url = 'http://api.openweathermap.org/data/2.5/weather?q=Chisinau,md&units=metric';
+  $url = 'http://api.openweathermap.org/data/2.5/weather?q=Chisinau,md&units=metric&appid=ba247c02f27e8bc95dbe97b4d30ca114';
 
   $cid = md5('yp_weather');
   $cache = cache_get($cid);
 
   if (!$cache || REQUEST_TIME > $cache->expire) {
     try {
-      $weather_api = json_decode(file_get_contents($url));
+      $weather_result = @file_get_contents($url);
+      if (!$weather_result) {
+        watchdog('yp_weather', 'Failed to fetch weather data.', array(), WATCHDOG_ERROR);
+        return;
+      }
+      $weather_api = json_decode($weather_result);
       if (!empty($weather_api)) {
         cache_set($cid, $weather_api, 'cache', REQUEST_TIME + WEATHER_UPDATE_AT);
       }

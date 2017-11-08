@@ -1,6 +1,9 @@
+libraries/colorbox
 libraries/fontawesome
 libraries/leaflet
+libraries/owl-carousel
 modules/contrib
+modules/yellow_pages_statistics/google_api_php_client
 themes/bootstrap
 themes/config.rb
 

@@ -24,12 +24,19 @@ function switch_search_content_type_render($subtype, $conf, $panel_args, $contex
 }
 
 function switch_search_form($form, &$form_state, $search_query) {
+  $search_type = arg(1);
 
   $result_count = &drupal_static('yp_solr_hits', 0);
 
   $search_query = (empty($search_query)) ? '' : $search_query[0];
-  $companies_url = l(t('Search companies') . " ($result_count)" , 'search/companies/' . $search_query);
-  $articles_url = l(t('Search content'), 'search/content/' . $search_query);
+  $companies_link_text = t('Search companies');
+  $content_link_text = t('Search content');
+  if (!empty($result_count)) {
+    ${$search_type . "_link_text"} .= " ($result_count)";
+  }
+
+  $companies_url = l($companies_link_text , 'search/companies/' . $search_query);
+  $articles_url = l($content_link_text, 'search/content/' . $search_query);
   $search_pages = array(
     'companies' => $companies_url,
     'content' => $articles_url,
@@ -46,7 +53,7 @@ function switch_search_form($form, &$form_state, $search_query) {
     '#type' => 'radios',
     '#required' => FALSE,
     '#options' => $search_pages,
-    '#default_value' => arg(1),
+    '#default_value' => $search_type,
   );
 
   return $form;

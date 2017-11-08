@@ -10,7 +10,7 @@
 function yellow_pages_news_ct_field_default_field_instances() {
   $field_instances = array();
 
-  // Exported field_instance: 'node-news-body'
+  // Exported field_instance: 'node-news-body'.
   $field_instances['node-news-body'] = array(
     'bundle' => 'news',
     'default_value' => NULL,
@@ -30,6 +30,12 @@ function yellow_pages_news_ct_field_default_field_instances() {
         'settings' => array(),
         'type' => 'text_default',
         'weight' => 1,
+      ),
+      'print_mode' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
       ),
       'slider_teaser' => array(
         'label' => 'hidden',
@@ -67,7 +73,7 @@ function yellow_pages_news_ct_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-news-field_companies'
+  // Exported field_instance: 'node-news-field_companies'.
   $field_instances['node-news-field_companies'] = array(
     'bundle' => 'news',
     'default_value' => NULL,
@@ -84,6 +90,12 @@ function yellow_pages_news_ct_field_default_field_instances() {
         'weight' => 7,
       ),
       'full' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+      'print_mode' => array(
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
@@ -122,7 +134,7 @@ function yellow_pages_news_ct_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-news-field_list_image'
+  // Exported field_instance: 'node-news-field_list_image'.
   $field_instances['node-news-field_list_image'] = array(
     'bundle' => 'news',
     'deleted' => 0,
@@ -139,6 +151,12 @@ function yellow_pages_news_ct_field_default_field_instances() {
         'settings' => array(),
         'type' => 'hidden',
         'weight' => 6,
+      ),
+      'print_mode' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
       ),
       'slider_teaser' => array(
         'label' => 'hidden',
@@ -203,7 +221,7 @@ function yellow_pages_news_ct_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-news-field_main_image'
+  // Exported field_instance: 'node-news-field_main_image'.
   $field_instances['node-news-field_main_image'] = array(
     'bundle' => 'news',
     'deleted' => 0,
@@ -227,6 +245,12 @@ function yellow_pages_news_ct_field_default_field_instances() {
           'image_style' => '',
         ),
         'type' => 'image',
+        'weight' => 0,
+      ),
+      'print_mode' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
         'weight' => 0,
       ),
       'slider_teaser' => array(
@@ -292,7 +316,7 @@ function yellow_pages_news_ct_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-news-field_products'
+  // Exported field_instance: 'node-news-field_products'.
   $field_instances['node-news-field_products'] = array(
     'bundle' => 'news',
     'default_value' => NULL,
@@ -307,6 +331,12 @@ function yellow_pages_news_ct_field_default_field_instances() {
         'weight' => 6,
       ),
       'full' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+      'print_mode' => array(
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
@@ -342,7 +372,7 @@ function yellow_pages_news_ct_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-news-field_video'
+  // Exported field_instance: 'node-news-field_video'.
   $field_instances['node-news-field_video'] = array(
     'bundle' => 'news',
     'deleted' => 0,
@@ -362,6 +392,12 @@ function yellow_pages_news_ct_field_default_field_instances() {
         'settings' => array(),
         'type' => 'hidden',
         'weight' => 4,
+      ),
+      'print_mode' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
       ),
       'slider_teaser' => array(
         'label' => 'above',

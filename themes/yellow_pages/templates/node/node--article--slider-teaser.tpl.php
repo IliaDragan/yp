@@ -83,8 +83,8 @@
 <div id="node-<?php print $node->nid; ?>" class="<?php print $classes; ?> clearfix"<?php print $attributes; ?>>
   <div class="content"<?php print $content_attributes; ?>>
     <div class="left">
-    <?php if (!empty($content['field_list_image'])): ?>
-      <?php print render($content['field_list_image']);?>
+    <?php if (!empty($content['field_front_image'])): ?>
+      <?php print render($content['field_front_image']);?>
     <?php else: ?>
       <?php print render($content['field_main_image']); ?>
     <?php endif; ?>
@@ -97,7 +97,7 @@
         <span><?php print date('d.m.Y', $created); ?></span>
       </div>
       <?php if (isset($content['body'][0])): ?>
-        <?php $content['body'][0]['#markup'] = '<p>' . truncate_utf8($content['body'][0]['#markup'], 500) . '</p>'; ?>
+        <?php $content['body'][0]['#markup'] = '<p>' . truncate_utf8(strip_tags($content['body'][0]['#markup']), 500) . '</p>'; ?>
       <?php endif; ?>
       <?php print render($content['body']); ?>
 

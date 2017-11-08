@@ -12,11 +12,71 @@ function yellow_pages_preprocess_page(&$variables) {
   $status = drupal_get_http_header("status");
   $variables['page']['main_menu'] = menu_tree('main-menu');
 
-  if($status == "404 Not Found") {
+  if($status == "404 Not Found" || arg(0) == 'navigation404') {
     $variables['theme_hook_suggestions'][] = 'page__404';
   }
-    if($status == "403 Forbidden") {
+  if($status == "403 Forbidden") {
     $variables['theme_hook_suggestions'][] = 'page__403';
+  }
+
+  // Add open graph meta for facebook share button.
+  if (!empty($variables['node'])) {
+    $meta = array(
+      'title' => array(
+        '#type' => 'html_tag',
+        '#tag' => 'meta',
+        '#attributes' => array(
+          'property' => 'og:title',
+          'content' => $variables['node']->title,
+        ),
+      ),
+      'image' => array(
+        '#type' => 'html_tag',
+        '#tag' => 'meta',
+        '#attributes' => array(
+          'property' => 'og:image',
+          'content' => '',
+        ),
+      ),
+    );
+
+    switch ($variables['node']->type) {
+      case 'company':
+        if (!empty($variables['node']->field_company_logo[LANGUAGE_NONE][0]['uri'])) {
+          $uri = $variables['node']->field_company_logo[LANGUAGE_NONE][0]['uri'];
+        }
+      break;
+
+      case 'article':
+      case 'news':
+        if (!empty($variables['node']->field_main_image[LANGUAGE_NONE][0]['uri'])) {
+          $uri = $variables['node']->field_main_image[LANGUAGE_NONE][0]['uri'];
+        }
+        elseif (!empty($variables['node']->field_list_image[LANGUAGE_NONE][0]['uri'])) {
+          $uri = $variables['node']->field_list_image[LANGUAGE_NONE][0]['uri'];
+        }
+        elseif (!empty($variables['node']->field_front_image[LANGUAGE_NONE][0]['uri'])) {
+          $uri = $variables['node']->field_front_image[LANGUAGE_NONE][0]['uri'];
+        }
+      break;
+    }
+
+    if (!empty($uri)) {
+      $path = image_style_path('og_medium', $uri);
+      $style = image_style_load('og_medium');
+      image_style_create_derivative($style, $uri, $path);
+      $url = image_style_url('og_medium', $uri);
+      $meta['image']['#attributes']['content'] = $url;
+    }
+    else {
+      global $base_url;
+      $url = $base_url . '/profiles/yp/themes/yellow_pages/images/og-image-default.png';
+      $meta['image']['#attributes']['content'] = $url;
+    }
+
+    foreach ($meta as $key => $val) {
+      drupal_add_html_head($val, 'meta_og_' . $key);
+    }
   }
 }
 
@@ -41,7 +101,6 @@ function yellow_pages_inject_owl() {
   $path = drupal_get_path('theme', 'yellow_pages');
   drupal_add_js($path . '/js/owl.carousel.min.js');
   drupal_add_css($path . '/css/owl.carousel.css');
-  drupal_add_css($path . '/css/developer.css');
 }
 
 /**
@@ -52,16 +111,84 @@ function yellow_pages_preprocess_panels_pane(&$vars) {
   if ($vars['pane']->type == 'yp_news_carousel') {
     yellow_pages_inject_owl();
   }
+  // Translate pene title.
+  if (isset($vars['title']) && !empty($vars['title'])) {
+    $vars['title'] = t($vars['title']);
+  }
 }
 
 /**
  * Implements hook_preprocess_node().
  */
 function yellow_pages_preprocess_node(&$vars) {
-  yellow_pages_inject_owl();
-
   $vars['classes_array'][] = 'node--' . $vars['type'] . '--' . $vars['view_mode'];
   $vars['theme_hook_suggestions'][] = 'node__' . $vars['type'] . '__' . $vars['view_mode'];
+  if ($vars['type'] == 'advertisement') {
+    if (!empty($vars['field_ad_type']['und'][0]['value'])) {
+      $vars['theme_hook_suggestions'][] = 'node__' . $vars['type'] . '__' . $vars['field_ad_type']['und'][0]['value'];
+      $vars['theme_hook_suggestions'][] = 'node__' . $vars['type'] . '__' . $vars['view_mode'] . '__' . $vars['field_ad_type']['und'][0]['value'];
+
+    }
+
+    if (!empty($vars['content']['field_ad_url'][0]['#element'])) {
+      $vars['link_href'] = $vars['content']['field_ad_url'][0]['#element']['url'];
+      $link_attributes = $vars['content']['field_ad_url'][0]['#element']['attributes'];
+    }
+    else {
+      $vars['link_href'] = drupal_get_path_alias('/node/' . $vars['node']->nid);
+    }
+    $link_attributes['target'] = '_blank';
+    $link_attributes['id'] = 'advertisement-redirect-link-' . $vars['node']->nid;
+    $link_attributes['class'] = 'advertisement-redirect-link';
+
+    $vars['link_attributes'] = drupal_attributes($link_attributes);
+  }
+
+  if ($vars['type'] == 'company' && $vars['view_mode'] == 'full' && !empty($vars['page'])) {
+    // Add locality and products meta.
+    $locality = t('Moldova');
+    if (!empty($vars['node']->field_address['und'][0]['locality'])) {
+      $locality .= ', ' . $vars['node']->field_address['und'][0]['locality'];
+    }
+    $meta = array(
+      'keywords' => $locality,
+      'description' => $locality,
+    );
+    if (!empty($vars['node']->field_products)) {
+      $products = $vars['node']->field_products[LANGUAGE_NONE];
+      $products_lists = yellow_pages_company_ct_get_products_list($products, 160);
+
+      $meta['keywords'] .= ', ' . $products_lists['list'];
+      $meta['description'] .= ', ' . $products_lists['full_list'];
+    }
+
+    $keywords = array(
+      '#tag' => 'meta',
+      '#attributes' => array(
+        'name' => 'keywords',
+        'content' => $meta['keywords'],
+      )
+    );
+    $description = array(
+      '#tag' => 'meta',
+      '#attributes' => array(
+        'name' => 'description',
+        'content' => $meta['description'],
+      )
+    );
+    drupal_add_html_head($keywords, 'company_products_keywords');
+    drupal_add_html_head($description, 'company_products_description');
+
+    // Prepare page for print.
+    $node_print = node_view($vars['node'], 'print_mode');
+    $js = array(
+      'nodeMapVariableName' => 'geofield-map-entity-node-' . $vars['node']->nid . '-field-geocode--2',
+      'nodePrintVersionHTML' => drupal_render($node_print),
+    );
+    drupal_add_js($js, 'setting');
+    $path = drupal_get_path('theme', 'yellow_pages') . '/js/yellow_pages_print.js';
+    drupal_add_js($path);
+  }
 }
 
 /**
@@ -69,6 +196,15 @@ function yellow_pages_preprocess_node(&$vars) {
  */
 function yellow_pages_preprocess_field(&$vars) {
   $vars['theme_hook_suggestions'][] = 'field__' . $vars['element']['#field_name'] . '__' . $vars['element']['#view_mode'];
+  if ($vars['element']['#field_name'] == 'field_business_hours') {
+    foreach($vars['element']['#items'] as $key => $item) {
+      $variables = array(
+        'hours' => unserialize($item['value']),
+        'weekday' => date('l'),
+      );
+      $vars['items'][$key]['#markup'] = theme('business_hours', $variables);
+    }
+  }
 }
 
 /**
@@ -79,6 +215,10 @@ function yellow_pages_preprocess_menu_link(&$variables) {
     $variables['prefix'] = '<span>';
     $variables['suffix'] = '</span>';
   }
+  elseif ($variables['theme_hook_original'] == 'menu_link__main_menu') {
+    $alias_href = drupal_get_path_alias($variables['element']['#href'], 'ru');
+    $variables['element']['#href'] = $alias_href;
+  }
 }
 
 /**
@@ -86,7 +226,7 @@ function yellow_pages_preprocess_menu_link(&$variables) {
  */
 function yellow_pages_menu_link(array $variables) {
   $element = $variables ['element'];
-  $sub_menu =  $element['#below'] ? drupal_render($element ['#below']) : '';
+  $sub_menu = $element['#below'] ? drupal_render($element ['#below']) : '';
   $prefix = isset($variables['prefix']) ? $variables['prefix'] : '';
   $suffix = isset($variables['suffix']) ? $variables['suffix'] : '';
   if ($suffix || $prefix) {
@@ -128,16 +268,6 @@ function yellow_pages_theme() {
       'function' => 'yellow_pages_links_clear',
     ),
   );
-}
-
-/**
- * Implements hook_preprocess_menu_tree().
- */
-function yellow_pages_preprocess_menu_tree(&$variables) {
-  if ($variables['menu_name'] == 'menu-product-menu') {
-    global $base_url;
-    $variables['#suffix'] = '<a href="' . $base_url . '/search' . '" class="product-link"><span class="link-icon"></span>' . t('Список всех ссылок') . '</a>';
-  }
 }
 
 function yellow_pages_html_head_alter(&$elements) {
@@ -197,6 +327,8 @@ function yellow_pages_links_clear($variables) {
       $output .= '<li' . drupal_attributes(array('class' => $class)) . '>';
 
       if (isset($link ['href'])) {
+        // Use path alias instead of drupal path.
+        $link['href'] = drupal_get_path_alias($link['href'], 'ru');
         // Pass in $link as $options, they share the same keys.
         $output .= l($link ['title'], $link ['href'], $link);
       }
@@ -216,6 +348,140 @@ function yellow_pages_links_clear($variables) {
       $output .= "</li>\n";
     }
   }
+
+  return $output;
+}
+
+/**
+ * Overrides theme_addressfield_container().
+ *
+ * Render a container for a set of address fields.
+ */
+function yellow_pages_addressfield_container($variables) {
+  $element = $variables['element'];
+  $element['#children'] = trim($element['#children']);
+  if (strlen($element['#children']) > 0) {
+    $attr = $element['#attributes'];
+    $prefix = '';
+    if (isset($attr['autocomplete'])) {
+      if ($attr['autocomplete'] == 'postal-code') {
+        $prefix = 'MD-';
+      }
+      unset($attr['autocomplete']);
+    }
+    $output = '<' . $element['#tag'] . drupal_attributes($attr) . '>';
+    $output .= $prefix . $element['#children'];
+    $output .= '</' . $element['#tag'] . ">";
+    return $output;
+  }
+  else {
+    return '';
+  }
+}
+
+/**
+ * Overrides theme_facetapi_deactivate_widget().
+ */
+function yellow_pages_facetapi_deactivate_widget($variables) {
+  return '&#xf00d;';
+}
+
+/**
+ * Rewrite theme_business_hours().
+ */
+function yellow_pages_business_hours($vars) {
+  $markup = '';
+  if (!empty($vars['hours'])) {
+    foreach ($vars['hours'] as $hour) {
+      $weekday_match = $hour['day'] == $vars['weekday'];
+      $class = 'inline-business-hours' . ($weekday_match ? ' today' : '');
+      $day_off = $hour['start'] == 'None' || $hour['end'] == 'None';
+      $time = $day_off ? t('Day off') : $hour['start'] . ' - ' . $hour['end'];
+
+      $table_vars = array(
+        'rows' => array(
+          array(
+            array(
+              'data' => t($hour['day']),
+              'class' => 'weekday',
+            ),
+          ),
+          array(
+            array(
+              'data' => $time,
+              'class' => 'time',
+            ),
+          )
+        ),
+      );
+      $markup .= '<div class="' . $class . '">' . theme('table', $table_vars) . '</div>';
+    }
+    $markup = '<div class="business-hours">' . $markup . '</div>';
+  }
+
+  return $markup;
+}
+
+/**
+ * Rewrite form element markup for compatibility with field_group module.
+ */
+function yellow_pages_form_element($variables) {
+  $element = &$variables['element'];
+  $attributes = isset($element['#attributes']) ? $element['#attributes'] : array();
+  $attributes['class'] = array('form-item');
+  if (!empty($element['#type'])) {
+    $attributes['class'][] = 'form-type-' . strtr($element['#type'], '_', '-');
+  }
+  if (!empty($element['#name'])) {
+    $attributes['class'][] = 'form-item-' . strtr($element['#name'],
+        array(' ' => '-', '_' => '-', '[' => '-', ']' => '')
+      );
+  }
+
+  // Add disabled class.
+  if (!empty($element['#attributes']['disabled'])) {
+    $attributes['class'][] = 'form-disabled';
+  }
+
+  // If #title is not set, we don't display any label or required marker.
+  if (!isset($element['#title'])) {
+    $element['#title_display'] = 'none';
+  }
+
+  $output = '<div' . drupal_attributes($attributes) . '>';
+
+  // Prefix and suffix markup improvements.
+  $prefix = isset($element['#field_prefix']) ? '<span class="field-prefix">' . $element['#field_prefix'] . '</span> ' : '';
+  $suffix = isset($element['#field_suffix']) ? ' <span class="field-suffix">' . $element['#field_suffix'] . '</span>' : '';
+
+  if (!empty($element['#title_display'])) {
+    switch ($element['#title_display']) {
+      case 'before':
+      case 'invisible':
+        $output .= ' ' . theme('form_element_label', $variables);
+        $output .= ' ' . $prefix . $element['#children'] . $suffix;
+        break;
+
+      case 'after':
+        $output .= ' ' . $prefix . $element['#children'] . $suffix;
+        $output .= ' ' . theme('form_element_label', $variables);
+        break;
+
+      case 'none':
+      case 'attribute':
+        // Output no label and no required marker, only the children.
+        $output .= ' ' . $prefix . $element['#children'] . $suffix;
+        break;
+
+    }
+  }
+
+  if (!empty($element['#description'])) {
+    // Changes the description <div class="description"> to <small>.
+    $output .= '<small class="description">' . $element['#description'] . '</small>';
+  }
+
+  $output .= '</div>';
 
   return $output;
 }

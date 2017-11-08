@@ -31,17 +31,9 @@ function yellow_pages_company_ct_image_default_styles() {
 
   // Exported image style: company_gallery.
   $styles['company_gallery'] = array(
-    'name' => 'company_gallery',
     'label' => 'Company gallery (185x185)',
     'effects' => array(
       1 => array(
-        'label' => 'Scale and crop',
-        'help' => 'Scale and crop will maintain the aspect-ratio of the original image, then crop the larger dimension. This is most useful for creating perfectly square thumbnails without stretching the image.',
-        'effect callback' => 'image_scale_and_crop_effect',
-        'dimensions callback' => 'image_resize_dimensions',
-        'form callback' => 'image_resize_form',
-        'summary theme' => 'image_resize_summary',
-        'module' => 'image',
         'name' => 'image_scale_and_crop',
         'data' => array(
           'width' => 185,
@@ -65,7 +57,7 @@ function yellow_pages_company_ct_node_info() {
       'base' => 'node_content',
       'description' => t('CT contain company entity fields.'),
       'has_title' => '1',
-      'title_label' => t('Title'),
+      'title_label' => t('Company name'),
       'help' => '',
     ),
   );

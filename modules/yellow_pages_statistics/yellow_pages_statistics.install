@@ -1,0 +1,356 @@
+<?php
+/**
+ * @file
+ * Install, update and uninstall functions for the Yellow Pages statistics module.
+ */
+
+/**
+ * Implements hook_schema().
+ */
+function yellow_pages_statistics_schema() {
+  $schema = array();
+  $schema['yp_ad_statistics'] = array(
+    'description' => 'The count of redirects to advertisement banner url.',
+    'fields' => array(
+      'id' => array(
+        'description' => 'The unique ID.',
+        'type' => 'serial',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+      ),
+      'nid' => array(
+        'description' => 'The advertisement node ID.',
+        'type' => 'int',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+      ),
+      'timestamp' => array(
+        'description' => 'The Unix timestamp when the user clics the ad.',
+        'type' => 'int',
+        'not null' => TRUE,
+        'default' => 0,
+      ),
+      'http_referer' => array(
+        'description' => 'The url from whitch was clicked the ad.',
+        'type' => 'text',
+        'not null' => FALSE,
+        'size' => 'medium',
+      ),
+    ),
+    'primary key' => array('id'),
+    'indexes' => array(
+      'nid' => array('nid'),
+      'timestamp' => array('timestamp'),
+    ),
+  );
+
+  $schema['yp_company_statistics'] = array(
+    'description' => 'The count of redirects to company site url.',
+    'fields' => array(
+      'id' => array(
+        'description' => 'The unique ID.',
+        'type' => 'serial',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+      ),
+      'nid' => array(
+        'description' => 'The company node ID.',
+        'type' => 'int',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+      ),
+      'timestamp' => array(
+        'description' => 'The Unix timestamp when the user clicks the url.',
+        'type' => 'int',
+        'not null' => TRUE,
+        'default' => 0,
+      ),
+    ),
+    'primary key' => array('id'),
+    'indexes' => array(
+      'nid' => array('nid'),
+      'timestamp' => array('timestamp'),
+    ),
+  );
+
+  $schema['yp_ad_nodeviewcount'] = array(
+    'description' => 'The count views of advertisement node.',
+    'fields' => array(
+      'id' => array(
+        'description' => 'The unique ID.',
+        'type' => 'serial',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+      ),
+      'nid' => array(
+        'description' => 'The node ID.',
+        'type' => 'int',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+      ),
+      'timestamp' => array(
+        'description' => 'The Unix timestamp when the node was view.',
+        'type' => 'int',
+        'not null' => TRUE,
+        'default' => 0,
+      ),
+    ),
+    'primary key' => array('id'),
+    'indexes' => array(
+      'nid' => array('nid'),
+      'timestamp' => array('timestamp'),
+    ),
+  );
+
+  $schema['yp_search_company_statistics'] = array(
+    'description' => 'Statistics of company searches.',
+    'fields' => array(
+      'id' => array(
+        'description' => 'The unique ID.',
+        'type' => 'serial',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+      ),
+      'nid' => array(
+        'description' => 'The company node ID.',
+        'type' => 'int',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+      ),
+      'timestamp' => array(
+        'description' => 'The Unix timestamp when the user searched the node.',
+        'type' => 'int',
+        'not null' => TRUE,
+        'default' => 0,
+      ),
+      'page' => array(
+        'description' => 'The number of page on which this node was showed.',
+        'type' => 'int',
+        'not null' => TRUE,
+        'default' => 0,
+      ),
+      'keywords' => array(
+        'description' => 'The search keywords.',
+        'type' => 'varchar',
+        'length' => 256,
+        'not null' => FALSE,
+      ),
+    ),
+    'primary key' => array('id'),
+    'indexes' => array(
+      'nid' => array('nid'),
+      'timestamp' => array('timestamp'),
+    ),
+  );
+
+  $schema['yp_search_statistics'] = array(
+    'description' => 'Statistics of search keywords.',
+    'fields' => array(
+      'id' => array(
+        'description' => 'The unique ID.',
+        'type' => 'serial',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+      ),
+      'timestamp' => array(
+        'description' => 'The Unix timestamp when the user searched the node.',
+        'type' => 'int',
+        'not null' => TRUE,
+        'default' => 0,
+      ),
+      'keywords' => array(
+        'description' => 'The search keywords.',
+        'type' => 'varchar',
+        'length' => 256,
+        'not null' => FALSE,
+      ),
+    ),
+    'primary key' => array('id'),
+    'indexes' => array(
+      'timestamp' => array('timestamp'),
+    ),
+  );
+
+  return $schema;
+}
+
+/**
+ * Implements hook_uninstall().
+ */
+function yellow_pages_statistics_uninstall() {
+  variable_del('google_service_account_email');
+  variable_del('google_service_account_keys');
+}
+
+/**
+ * Creates "yp_company_statistics" table for collecting company redirects.
+ */
+function yellow_pages_statistics_update_7001(&$sandbox) {
+  $table = array(
+    'description' => 'The count of redirects to company site url.',
+    'fields' => array(
+      'id' => array(
+        'description' => 'The unique ID.',
+        'type' => 'serial',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+      ),
+      'nid' => array(
+        'description' => 'The company node ID.',
+        'type' => 'int',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+      ),
+      'timestamp' => array(
+        'description' => 'The Unix timestamp when the user clicks the url.',
+        'type' => 'int',
+        'not null' => TRUE,
+        'default' => 0,
+      ),
+    ),
+    'primary key' => array('id'),
+    'indexes' => array(
+      'nid' => array('nid'),
+      'timestamp' => array('timestamp'),
+    ),
+  );
+
+  db_create_table('yp_company_statistics', $table);
+}
+
+/**
+ * Creates table for collecting advertisement nodes views.
+ */
+function yellow_pages_statistics_update_7002(&$sandbox) {
+  $table = array(
+    'description' => 'The count views of advertisement node.',
+    'fields' => array(
+      'id' => array(
+        'description' => 'The unique ID.',
+        'type' => 'serial',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+      ),
+      'nid' => array(
+        'description' => 'The node ID.',
+        'type' => 'int',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+      ),
+      'timestamp' => array(
+        'description' => 'The Unix timestamp when the node was view.',
+        'type' => 'int',
+        'not null' => TRUE,
+        'default' => 0,
+      ),
+    ),
+    'primary key' => array('id'),
+    'indexes' => array(
+      'nid' => array('nid'),
+      'timestamp' => array('timestamp'),
+    ),
+  );
+
+  db_create_table('yp_ad_nodeviewcount', $table);
+}
+
+/**
+ * Creates table for collecting company search results.
+ */
+function yellow_pages_statistics_update_7003(&$sandbox) {
+  $table = array(
+    'description' => 'Statistics of company searches.',
+    'fields' => array(
+      'id' => array(
+        'description' => 'The unique ID.',
+        'type' => 'serial',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+      ),
+      'nid' => array(
+        'description' => 'The company node ID.',
+        'type' => 'int',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+      ),
+      'timestamp' => array(
+        'description' => 'The Unix timestamp when the user searched the node.',
+        'type' => 'int',
+        'not null' => TRUE,
+        'default' => 0,
+      ),
+      'page' => array(
+        'description' => 'The number of page on which this node was showed.',
+        'type' => 'int',
+        'not null' => TRUE,
+        'default' => 0,
+      ),
+      'keywords' => array(
+        'description' => 'The search keywords.',
+        'type' => 'varchar',
+        'length' => 256,
+        'not null' => FALSE,
+      ),
+    ),
+    'primary key' => array('id'),
+    'indexes' => array(
+      'nid' => array('nid'),
+      'timestamp' => array('timestamp'),
+    ),
+  );
+
+  db_create_table('yp_search_company_statistics', $table);
+}
+
+/**
+ * Change 'http_referer' field from varchar to text.
+ */
+function yellow_pages_statistics_update_7004(&$sandbox) {
+  // Remove old 'http_referer' field.
+  db_drop_field('yp_ad_statistics', 'http_referer');
+
+  // Add new field.
+  $spec = array(
+    'description' => 'The url from whitch was clicked the ad.',
+    'type' => 'text',
+    'not null' => FALSE,
+    'size' => 'medium',
+  );
+
+  db_add_field('yp_ad_statistics', 'http_referer', $spec);
+}
+
+/**
+ * Add search stitistics table.
+ */
+function yellow_pages_statistics_update_7005(&$sandbox) {
+  $table = array(
+    'description' => 'Statistics of search keywords.',
+    'fields' => array(
+      'id' => array(
+        'description' => 'The unique ID.',
+        'type' => 'serial',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+      ),
+      'timestamp' => array(
+        'description' => 'The Unix timestamp when the user searched the node.',
+        'type' => 'int',
+        'not null' => TRUE,
+        'default' => 0,
+      ),
+      'keywords' => array(
+        'description' => 'The search keywords.',
+        'type' => 'varchar',
+        'length' => 256,
+        'not null' => FALSE,
+      ),
+    ),
+    'primary key' => array('id'),
+    'indexes' => array(
+      'timestamp' => array('timestamp'),
+    ),
+  );
+
+  db_create_table('yp_search_statistics', $table);
+}

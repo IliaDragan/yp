@@ -5,7 +5,7 @@
  */
 
 /**
- * Admin form structure.
+ * For builder for the synchronisation routine.
  */
 function yellow_pages_sync_admin_form($form, $form_state) {
   $form['source'] = array(
@@ -31,12 +31,7 @@ function yellow_pages_sync_admin_form($form, $form_state) {
       'filials' => t('Filials linkage'),
       'logos' => t('Logos'),
     ),
-    '#default_value' => array(
-      'taxonomy',
-      'nodes',
-      'filials',
-      'logos',
-    ),
+    '#default_value' => array(),
   );
 
   $form['page'] = array(
@@ -65,9 +60,9 @@ function yellow_pages_sync_admin_form($form, $form_state) {
 }
 
 /**
+ * Custom submit handler for the synchronisation routine.
  *
- * @param unknown $form
- * @param unknown $form_state
+ * @see yellow_pages_sync_admin_form()
  */
 function yellow_pages_sync_admin_form_submit($form, &$form_state) {
   $input = $form_state['values'];
@@ -86,6 +81,7 @@ function yellow_pages_sync_admin_form_submit($form, &$form_state) {
     // Add a step when syncing taxonomy, to link with parents.
     if ($option == 'taxonomy') {
       $operations[] = array('yellow_pages_sync_taxonomy_parents', array());
+      $operations[] = array('yellow_pages_sync_taxonomy_force_parents', array());
     }
   }
 
@@ -96,6 +92,7 @@ function yellow_pages_sync_admin_form_submit($form, &$form_state) {
   );
 
   if (!empty($operations)) {
+    variable_set('i18n_string_source_language', 'ru');
     batch_set($batch);
   }
   else {

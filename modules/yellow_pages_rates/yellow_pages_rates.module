@@ -4,7 +4,7 @@
  * YellowPages currency rates module stub.
  */
 
- define('RATES_UPDATE_AT', 86400);
+ define('RATES_UPDATE_AT', 21600);
 
 /**
  * Implements hook_block_info().

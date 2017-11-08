@@ -1,0 +1,56 @@
+# $Id$
+#
+# Russian translation of Drupal (general)
+# Copyright YEAR NAME <EMAIL@ADDRESS>
+# Generated from files:
+#  yellow_pages_permissions.features.field_instance.inc: n/a
+#  yellow_pages_permissions.module: n/a
+#  yellow_pages_permissions.info: n/a
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PROJECT VERSION\n"
+"POT-Creation-Date: 2017-02-06 14:08+0200\n"
+"PO-Revision-Date: 2017-02-06 14:08+0200\n"
+"Last-Translator: NAME <EMAIL@ADDRESS>\n"
+"Language-Team: Russian <EMAIL@ADDRESS>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=((((n%10)==1)&&((n%100)!=11))?(0):(((((n%10)>=2)&&((n%10)<=4))&&(((n%100)<10)||((n%100)>=20)))?(1):2));\n"
+
+#: yellow_pages_permissions.features.field_instance.inc:148
+msgid "Edit additional information"
+msgstr ""
+"Редактирование дополнительной "
+"информации"
+
+#: yellow_pages_permissions.features.field_instance.inc:149
+msgid "Edit pricelist"
+msgstr "Редактирование прайс-листов"
+
+#: yellow_pages_permissions.features.field_instance.inc:150
+msgid "Related company"
+msgstr "Привязанная компания"
+
+#: yellow_pages_permissions.module:9
+msgid "administrator"
+msgstr "администратор"
+
+#: yellow_pages_permissions.module:10
+msgid "global editor"
+msgstr "редактор"
+
+#: yellow_pages_permissions.module:11
+msgid "enterprise editor"
+msgstr "редактор предприятия"
+
+#: yellow_pages_permissions.info:0
+msgid "Yellow Pages Permissions"
+msgstr ""
+
+#: yellow_pages_permissions.info:0
+msgid "Yellow Pages"
+msgstr ""
+

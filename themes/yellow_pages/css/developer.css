@@ -1,20 +1,36 @@
-.language-switcher-locale-url .en {
-  display: none;
-}
-
-.frontpage-header .activity-banner {
-  display: none;
-}
-/*.page-search .pane-block ul {
-  margin: 0;
-  padding: 0 0 0 8px !important;
-  list-style-type: none;
-  text-align: left;
-}*/
-
 .company-content ul.field-type-yp-product li {
   font-size: 11px;
 }
-/*.node--company--search_index .field-name-field-address .street-block {
-  display: block !important;
-}*/
+
+.node--company--full .field-type-yp-product li,
+.node--company--teaser .field-type-yp-product li,
+.node--company--search_index .field-type-yp-product li {
+  display: inline-block !important;
+  margin-right: 4px;
+}
+
+.pane-yellow-pages-core-adsense-300-250 {
+  background: none!important;
+}
+
+.pane-yellow-pages-core-adsense-300-250 .pane-content {
+  padding: 0px!important;
+}
+
+.addressfield-popup-map {
+  color: #19AA67
+}
+
+.addressfield-popup-map:hover {
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.form-type-item {
+  margin-bottom: 25px;
+}
+
+.address-coordinates {
+  cursor: pointer;
+  text-decoration: underline;
+}

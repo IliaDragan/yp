@@ -151,6 +151,9 @@ function yellow_pages_company_ct_field_widget_form(&$form, &$form_state, $field,
       );
 
       $term = isset($items[$delta]['product']) ? taxonomy_term_load($items[$delta]['product']) : NULL;
+      if ($term && module_exists('i18n_taxonomy')) {
+        $term = i18n_taxonomy_localize_terms($term);
+      }
       $element['product'] = array(
         '#type' => 'textfield',
         '#autocomplete_path' => 'yp/autocomplete/product',
@@ -168,6 +171,9 @@ function yellow_pages_company_ct_field_widget_form(&$form, &$form_state, $field,
       );
 
       $term = isset($items[$delta]['product']) ? taxonomy_term_load($items[$delta]['product']) : NULL;
+      if ($term && module_exists('i18n_taxonomy')) {
+        $term = i18n_taxonomy_localize_terms($term);
+      }
       $element['product'] = array(
         '#type' => 'textfield',
         '#autocomplete_path' => 'yp/autocomplete/category',
@@ -231,16 +237,20 @@ function yellow_pages_company_ct_field_formatter_info() {
  * Implements hook_field_formatter_prepare_view().
  */
 function yellow_pages_company_ct_field_formatter_prepare_view($entity_type, $entities, $field, $instances, $langcode, &$items, $displays) {
-
   foreach ($entities as $id => $entity) {
     $parents = array();
+    $tids = array();
     foreach ($items[$id] as $delta => $item) {
       if (isset($item['product'])) {
-        $tid = $item['product'];
+        $tids[] = $item['product'];
+      }
+    }
 
-        // @todo
-        // Refactor this with taxonomy_term_load_multiple().
-        $term = taxonomy_term_load($tid);
+    $terms = taxonomy_term_load_multiple($tids);
+
+    foreach ($items[$id] as $delta => $item) {
+      if (isset($item['product']) && isset($terms[$item['product']])) {
+        $term = $terms[$item['product']];
         $items[$id][$delta]['taxonomy_term'] = $term;
 
         $parents = taxonomy_get_parents($term->tid);
@@ -254,9 +264,11 @@ function yellow_pages_company_ct_field_formatter_prepare_view($entity_type, $ent
  * Implements hook_field_formatter_view().
  */
 function yellow_pages_company_ct_field_formatter_view($entity_type, $entity, $field, $instance, $langcode, $items, $display) {
+  global $language;
+
   $element = array();
   $parents = array();
-  global $language;
+  $product_sources = _yp_product_activity_options_list();
 
   foreach ($items as $delta => $item) {
     if (isset($item['taxonomy_term'])) {
@@ -265,31 +277,89 @@ function yellow_pages_company_ct_field_formatter_view($entity_type, $entity, $fi
 
       switch ($display['type']) {
         case 'yp_product_default':
+          // @todo
+          // DRY
+          $source = $product_sources[$item['product_source']];
+          $uri = entity_uri('taxonomy_term', $term);
+          $element[$delta] = array(
+            '#type' => 'link',
+            '#title' => $source . ': ' . i18n_taxonomy_term_name($term, $language->language),
+            '#href' => $uri['path'],
+            '#options' => $uri['options'],
+          );
 
           break;
         case 'yp_product_parent':
-          if ($top_most == false) {
+          if ($top_most == FALSE) {
             break;
           }
           // Do not display same parents more than once.
           if (in_array($top_most->tid, $parents)) {
-            break(2);
+            break;
           }
 
           $term = $top_most;
           $parents[] = $top_most->tid;
+          // @todo
+          // DRY
+          $uri = entity_uri('taxonomy_term', $term);
+          $element[$delta] = array(
+            '#type' => 'link',
+            '#title' => i18n_taxonomy_term_name($term, $language->language),
+            '#href' => $uri['path'],
+            '#options' => $uri['options'],
+          );
           break;
       }
-
-      $uri = entity_uri('taxonomy_term', $term);
-      $element[$delta] = array(
-        '#type' => 'link',
-        '#title' => i18n_taxonomy_term_name($term, $language->language),
-        '#href' => $uri['path'],
-        '#options' => $uri['options'],
-      );
     }
   }
 
   return $element;
+}
+
+/**
+ * Returns list of products that is not longer that set length.
+ *
+ * @param array $products
+ *   Array of products.
+ * @param int $length
+ *   Max length of list string.
+ *
+ * @return array
+ *   The array contains two lists of products:
+ *   - list - is limited by length;
+ *   - full_list - contains all products names.
+ */
+function yellow_pages_company_ct_get_products_list(&$products, $length) {
+  global $language;
+
+  $full_list = array();
+  $list = '';
+  $len = 0;
+  foreach ($products as $product) {
+    $name = i18n_taxonomy_term_name($product['taxonomy_term'], $language->language);
+    if (in_array($name, $full_list)) {
+      continue;
+    }
+
+    // Add name to full list of products.
+    $full_list[] = $name;
+
+    // Add name to limited list of products.
+    $product_len = strlen($name);
+    $prefix = '';
+    if ($len) {
+      $product_len += 2;
+      $prefix = ', ';
+    }
+    if (($len + $product_len) <= $length) {
+      $list .= $prefix . $name;
+      $len += $product_len;
+    }
+  }
+
+  return array(
+    'list'      => $list,
+    'full_list' => implode(', ', $full_list),
+  );
 }

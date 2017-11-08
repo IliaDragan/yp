@@ -22,11 +22,23 @@ function yellow_pages_contacts_admin_form($form, &$form_state) {
     '#description' => t('Example: +373-22-123456'),
   );
 
-  $form['yp_contacts_social'] = array(
-    '#type' => 'textfield',
+  $form['yp_contacts_social_wrapper'] = array(
+    '#type' => 'fieldset',
     '#title' => t('Social'),
+  );
+
+  $form['yp_contacts_social_wrapper']['yp_contacts_social'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Link url'),
     '#default_value' => variable_get('yp_contacts_social', ''),
     '#description' => t('Example: http://facebook.com'),
+  );
+
+  $form['yp_contacts_social_wrapper']['yp_contacts_social_link_title'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Link title'),
+    '#default_value' => variable_get('yp_contacts_social_link_title', 'Varo-Inform'),
+    '#description' => t('Example: Varo-Inform'),
   );
 
   return system_settings_form($form);

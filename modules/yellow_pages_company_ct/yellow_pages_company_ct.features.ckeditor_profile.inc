@@ -9,27 +9,38 @@
  */
 function yellow_pages_company_ct_ckeditor_profile_defaults() {
   $data = array(
+    'CKEditor Global Profile' => array(
+      'name' => 'CKEditor Global Profile',
+      'settings' => array(
+        'skin' => 'moono',
+        'ckeditor_path' => '//cdn.ckeditor.com/4.5.11/full-all',
+        'ckeditor_local_path' => '',
+        'ckeditor_plugins_path' => '%m/plugins',
+        'ckeditor_plugins_local_path' => '',
+        'ckfinder_path' => '%m/ckfinder',
+        'ckfinder_local_path' => '',
+        'ckeditor_aggregate' => 'f',
+        'toolbar_wizard' => 't',
+        'loadPlugins' => array(),
+      ),
+      'input_formats' => array(),
+    ),
     'Full' => array(
       'name' => 'Full',
       'settings' => array(
         'ss' => 2,
         'toolbar' => '[
     [\'Source\'],
-    [\'Cut\',\'Copy\',\'Paste\',\'PasteText\',\'PasteFromWord\',\'-\',\'SpellChecker\', \'Scayt\'],
-    [\'Undo\',\'Redo\',\'Find\',\'Replace\',\'-\',\'SelectAll\'],
-    [\'Image\',\'Media\',\'Flash\',\'Table\',\'HorizontalRule\',\'Smiley\',\'SpecialChar\',\'Iframe\'],
+    [\'Cut\',\'Copy\',\'Paste\',\'PasteText\',\'PasteFromWord\',\'-\',\'SpellChecker\',\'Scayt\'],
+    [\'Undo\',\'Redo\',\'Find\',\'Replace\'],
+    [\'Media\',\'Table\'],
     \'/\',
-    [\'Bold\',\'Italic\',\'Underline\',\'Strike\',\'-\',\'Subscript\',\'Superscript\',\'-\',\'RemoveFormat\'],
-    [\'NumberedList\',\'BulletedList\',\'-\',\'Outdent\',\'Indent\',\'Blockquote\',\'CreateDiv\'],
-    [\'JustifyLeft\',\'JustifyCenter\',\'JustifyRight\',\'JustifyBlock\',\'-\',\'BidiLtr\',\'BidiRtl\',\'-\',\'Language\'],
-    [\'Link\',\'Unlink\',\'Anchor\',\'Linkit\'],
-    [\'DrupalBreak\'],
+    [\'Bold\',\'Italic\',\'Underline\',\'Strike\',\'-\',\'NumberedList\',\'BulletedList\',\'-\',\'Outdent\',\'Indent\'],
+    [\'JustifyLeft\',\'JustifyCenter\',\'JustifyRight\',\'JustifyBlock\',\'-\',\'Link\',\'Unlink\'],
     \'/\',
     [\'Format\',\'Font\',\'FontSize\'],
-    [\'TextColor\',\'BGColor\'],
-    [\'Maximize\', \'ShowBlocks\']
-]
-    ',
+    []
+]',
         'expand' => 't',
         'default' => 't',
         'show_toggle' => 't',
@@ -39,7 +50,7 @@ function yellow_pages_company_ct_ckeditor_profile_defaults() {
         'lang' => 'en',
         'auto_lang' => 't',
         'language_direction' => 'default',
-        'allowed_content' => 't',
+        'allowed_content' => 'f',
         'extraAllowedContent' => '',
         'enter_mode' => 'p',
         'shift_enter_mode' => 'br',
@@ -82,14 +93,21 @@ function yellow_pages_company_ct_ckeditor_profile_defaults() {
             ),
             'default' => 't',
           ),
+          'lineutils' => array(
+            'name' => 'lineutils',
+            'desc' => 'Plugin file: lineutils',
+            'path' => '%plugin_dir%lineutils/',
+            'buttons' => FALSE,
+            'default' => 'f',
+          ),
           'media' => array(
             'name' => 'media',
             'desc' => 'Plugin for inserting images from Drupal media module',
-            'path' => '%plugin_dir%media/',
+            'path' => '/profiles/yp/modules/contrib/media/modules/media_wysiwyg/wysiwyg_plugins/media_ckeditor/',
             'buttons' => array(
               'Media' => array(
-                'label' => 'Media',
                 'icon' => 'images/icon.gif',
+                'label' => 'Add media',
               ),
             ),
             'default' => 'f',
@@ -97,9 +115,16 @@ function yellow_pages_company_ct_ckeditor_profile_defaults() {
           'tableresize' => array(
             'name' => 'tableresize',
             'desc' => 'Table Resize plugin. See <a href="http://ckeditor.com/addon/tableresize">addon page</a> for more details.',
-            'path' => '//cdn.ckeditor.com/4.4.3/full-all/plugins/tableresize/',
+            'path' => '//cdn.ckeditor.com/4.5.11/full-all/plugins/tableresize/',
             'buttons' => FALSE,
             'default' => 't',
+          ),
+          'widget' => array(
+            'name' => 'widget',
+            'desc' => 'Plugin file: widget',
+            'path' => '%plugin_dir%widget/',
+            'buttons' => FALSE,
+            'default' => 'f',
           ),
         ),
       ),

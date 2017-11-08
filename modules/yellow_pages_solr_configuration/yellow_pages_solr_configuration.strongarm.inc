@@ -20,6 +20,7 @@ function yellow_pages_solr_configuration_strongarm() {
       'search_api_views:solr_views:panel_pane_1' => 'search_api_views:solr_views:panel_pane_1',
       'search_api_views:solr_views:panel_pane_2' => 'search_api_views:solr_views:panel_pane_2',
       'search_api_views:solr_views:default' => 'search_api_views:solr_views:default',
+      'search_api_views:solr_views:search_company_ads_pane' => 'search_api_views:solr_views:search_company_ads_pane',
     ),
   );
   $export['search_api_facets_search_ids'] = $strongarm;

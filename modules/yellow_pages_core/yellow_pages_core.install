@@ -1,0 +1,25 @@
+<?php
+/**
+ * @file
+ * Install/uninstall routine.
+ */
+
+/**
+ * Implements hook_schema().
+ */
+function yellow_pages_core_schema() {
+  $schema = array();
+
+  $schema['cache_yp'] = drupal_get_schema_unprocessed('system', 'cache');
+
+  return $schema;
+}
+
+/**
+ * Create custom cache table for YP needs.
+ */
+function yellow_pages_core_update_7001() {
+  $cache_yp_def = drupal_get_schema_unprocessed('system', 'cache');
+
+  db_create_table('cache_yp', $cache_yp_def);
+}

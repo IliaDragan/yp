@@ -8,7 +8,7 @@
  * Implements hook_field_group_info().
  */
 function yellow_pages_company_ct_field_group_info() {
-  $export = array();
+  $field_groups = array();
 
   $field_group = new stdClass();
   $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
@@ -21,7 +21,7 @@ function yellow_pages_company_ct_field_group_info() {
   $field_group->parent_name = 'group_company_info';
   $field_group->data = array(
     'label' => 'Additional information',
-    'weight' => '25',
+    'weight' => '26',
     'children' => array(
       0 => 'body',
       1 => 'field_media_materials',
@@ -38,7 +38,7 @@ function yellow_pages_company_ct_field_group_info() {
       ),
     ),
   );
-  $export['group_additional_information|node|company|form'] = $field_group;
+  $field_groups['group_additional_information|node|company|form'] = $field_group;
 
   $field_group = new stdClass();
   $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
@@ -51,7 +51,7 @@ function yellow_pages_company_ct_field_group_info() {
   $field_group->parent_name = 'group_company_info';
   $field_group->data = array(
     'label' => 'Advertisements',
-    'weight' => '26',
+    'weight' => '27',
     'children' => array(
       0 => 'field_advertisements',
     ),
@@ -65,7 +65,7 @@ function yellow_pages_company_ct_field_group_info() {
       ),
     ),
   );
-  $export['group_advertisement|node|company|form'] = $field_group;
+  $field_groups['group_advertisement|node|company|form'] = $field_group;
 
   $field_group = new stdClass();
   $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
@@ -78,7 +78,7 @@ function yellow_pages_company_ct_field_group_info() {
   $field_group->parent_name = 'group_company_info';
   $field_group->data = array(
     'label' => 'Articles',
-    'weight' => '27',
+    'weight' => '28',
     'children' => array(
       0 => 'field_articles',
     ),
@@ -92,7 +92,34 @@ function yellow_pages_company_ct_field_group_info() {
       ),
     ),
   );
-  $export['group_articles|node|company|form'] = $field_group;
+  $field_groups['group_articles|node|company|form'] = $field_group;
+
+  $field_group = new stdClass();
+  $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
+  $field_group->api_version = 1;
+  $field_group->identifier = 'group_brands|node|company|full';
+  $field_group->group_name = 'group_brands';
+  $field_group->entity_type = 'node';
+  $field_group->bundle = 'company';
+  $field_group->mode = 'full';
+  $field_group->parent_name = 'group_tabbed_content';
+  $field_group->data = array(
+    'label' => 'Brands',
+    'weight' => '32',
+    'children' => array(
+      0 => 'field_brands',
+    ),
+    'format_type' => 'htab',
+    'format_settings' => array(
+      'formatter' => 'closed',
+      'instance_settings' => array(
+        'description' => '',
+        'classes' => 'group-brands field-group-htab',
+        'id' => '',
+      ),
+    ),
+  );
+  $field_groups['group_brands|node|company|full'] = $field_group;
 
   $field_group = new stdClass();
   $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
@@ -112,6 +139,7 @@ function yellow_pages_company_ct_field_group_info() {
       2 => 'group_articles',
       3 => 'group_contacts',
       4 => 'group_main_content',
+      5 => 'group_products_services',
     ),
     'format_type' => 'tabs',
     'format_settings' => array(
@@ -121,7 +149,7 @@ function yellow_pages_company_ct_field_group_info() {
       ),
     ),
   );
-  $export['group_company_info|node|company|form'] = $field_group;
+  $field_groups['group_company_info|node|company|form'] = $field_group;
 
   $field_group = new stdClass();
   $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
@@ -137,11 +165,14 @@ function yellow_pages_company_ct_field_group_info() {
     'weight' => '24',
     'children' => array(
       0 => 'field_address',
-      1 => 'field_fax',
-      2 => 'field_geocode',
-      3 => 'field_landline_phone',
-      4 => 'field_mobile_phone',
-      5 => 'field_filials',
+      1 => 'field_company_site',
+      2 => 'field_email',
+      3 => 'field_fax',
+      4 => 'field_geocode',
+      5 => 'field_landline_phone',
+      6 => 'field_mobile_phone',
+      7 => 'field_filials',
+      8 => 'field_region',
     ),
     'format_type' => 'tab',
     'format_settings' => array(
@@ -153,7 +184,7 @@ function yellow_pages_company_ct_field_group_info() {
       ),
     ),
   );
-  $export['group_contacts|node|company|form'] = $field_group;
+  $field_groups['group_contacts|node|company|form'] = $field_group;
 
   $field_group = new stdClass();
   $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
@@ -166,7 +197,7 @@ function yellow_pages_company_ct_field_group_info() {
   $field_group->parent_name = 'group_tabbed_content';
   $field_group->data = array(
     'label' => 'Details',
-    'weight' => '18',
+    'weight' => '22',
     'children' => array(
       0 => 'body',
     ),
@@ -180,7 +211,7 @@ function yellow_pages_company_ct_field_group_info() {
       ),
     ),
   );
-  $export['group_details|node|company|full'] = $field_group;
+  $field_groups['group_details|node|company|full'] = $field_group;
 
   $field_group = new stdClass();
   $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
@@ -193,7 +224,7 @@ function yellow_pages_company_ct_field_group_info() {
   $field_group->parent_name = 'group_tabbed_content';
   $field_group->data = array(
     'label' => 'Filials',
-    'weight' => '26',
+    'weight' => '31',
     'children' => array(
       0 => 'field_filials',
     ),
@@ -207,7 +238,7 @@ function yellow_pages_company_ct_field_group_info() {
       ),
     ),
   );
-  $export['group_filials|node|company|full'] = $field_group;
+  $field_groups['group_filials|node|company|full'] = $field_group;
 
   $field_group = new stdClass();
   $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
@@ -223,11 +254,9 @@ function yellow_pages_company_ct_field_group_info() {
     'weight' => '23',
     'children' => array(
       0 => 'field_company_logo',
-      1 => 'field_company_site',
-      2 => 'field_email',
-      3 => 'field_mdb_sync_date',
-      4 => 'field_products',
-      5 => 'title',
+      1 => 'field_mdb_sync_date',
+      2 => 'field_logo_expiration_date',
+      3 => 'title',
     ),
     'format_type' => 'tab',
     'format_settings' => array(
@@ -239,7 +268,7 @@ function yellow_pages_company_ct_field_group_info() {
       ),
     ),
   );
-  $export['group_main_content|node|company|form'] = $field_group;
+  $field_groups['group_main_content|node|company|form'] = $field_group;
 
   $field_group = new stdClass();
   $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
@@ -252,7 +281,7 @@ function yellow_pages_company_ct_field_group_info() {
   $field_group->parent_name = 'group_tabbed_content';
   $field_group->data = array(
     'label' => 'Price lists',
-    'weight' => '24',
+    'weight' => '28',
     'children' => array(
       0 => 'field_price_list',
     ),
@@ -266,7 +295,35 @@ function yellow_pages_company_ct_field_group_info() {
       ),
     ),
   );
-  $export['group_price_lists|node|company|full'] = $field_group;
+  $field_groups['group_price_lists|node|company|full'] = $field_group;
+
+  $field_group = new stdClass();
+  $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
+  $field_group->api_version = 1;
+  $field_group->identifier = 'group_products_services|node|company|form';
+  $field_group->group_name = 'group_products_services';
+  $field_group->entity_type = 'node';
+  $field_group->bundle = 'company';
+  $field_group->mode = 'form';
+  $field_group->parent_name = 'group_company_info';
+  $field_group->data = array(
+    'label' => 'Products and services',
+    'weight' => '25',
+    'children' => array(
+      0 => 'field_products',
+      1 => 'field_brands',
+    ),
+    'format_type' => 'tab',
+    'format_settings' => array(
+      'formatter' => 'closed',
+      'instance_settings' => array(
+        'description' => '',
+        'classes' => 'group-products-services field-group-tab',
+        'required_fields' => 1,
+      ),
+    ),
+  );
+  $field_groups['group_products_services|node|company|form'] = $field_group;
 
   $field_group = new stdClass();
   $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
@@ -279,7 +336,7 @@ function yellow_pages_company_ct_field_group_info() {
   $field_group->parent_name = 'group_tabbed_content';
   $field_group->data = array(
     'label' => 'Products',
-    'weight' => '19',
+    'weight' => '23',
     'children' => array(),
     'format_type' => 'htab',
     'format_settings' => array(
@@ -291,7 +348,36 @@ function yellow_pages_company_ct_field_group_info() {
       ),
     ),
   );
-  $export['group_products|node|company|full'] = $field_group;
+  $field_groups['group_products|node|company|full'] = $field_group;
+
+  $field_group = new stdClass();
+  $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
+  $field_group->api_version = 1;
+  $field_group->identifier = 'group_products|node|company|print_mode';
+  $field_group->group_name = 'group_products';
+  $field_group->entity_type = 'node';
+  $field_group->bundle = 'company';
+  $field_group->mode = 'print_mode';
+  $field_group->parent_name = '';
+  $field_group->data = array(
+    'label' => 'Products',
+    'weight' => '10',
+    'children' => array(),
+    'format_type' => 'div',
+    'format_settings' => array(
+      'formatter' => 'collapsible',
+      'instance_settings' => array(
+        'description' => '',
+        'show_label' => 1,
+        'label_element' => 'h3',
+        'effect' => 'none',
+        'speed' => 'fast',
+        'classes' => 'group-products field-group-div',
+        'id' => '',
+      ),
+    ),
+  );
+  $field_groups['group_products|node|company|print_mode'] = $field_group;
 
   $field_group = new stdClass();
   $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
@@ -304,7 +390,7 @@ function yellow_pages_company_ct_field_group_info() {
   $field_group->parent_name = 'group_tabbed_content';
   $field_group->data = array(
     'label' => 'Services',
-    'weight' => '20',
+    'weight' => '24',
     'children' => array(),
     'format_type' => 'htab',
     'format_settings' => array(
@@ -316,7 +402,36 @@ function yellow_pages_company_ct_field_group_info() {
       ),
     ),
   );
-  $export['group_services|node|company|full'] = $field_group;
+  $field_groups['group_services|node|company|full'] = $field_group;
+
+  $field_group = new stdClass();
+  $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
+  $field_group->api_version = 1;
+  $field_group->identifier = 'group_services|node|company|print_mode';
+  $field_group->group_name = 'group_services';
+  $field_group->entity_type = 'node';
+  $field_group->bundle = 'company';
+  $field_group->mode = 'print_mode';
+  $field_group->parent_name = '';
+  $field_group->data = array(
+    'label' => 'Services',
+    'weight' => '11',
+    'children' => array(),
+    'format_type' => 'div',
+    'format_settings' => array(
+      'formatter' => 'collapsible',
+      'instance_settings' => array(
+        'description' => '',
+        'show_label' => 1,
+        'label_element' => 'h3',
+        'effect' => 'none',
+        'speed' => 'fast',
+        'classes' => 'group-services field-group-div',
+        'id' => '',
+      ),
+    ),
+  );
+  $field_groups['group_services|node|company|print_mode'] = $field_group;
 
   $field_group = new stdClass();
   $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
@@ -331,15 +446,17 @@ function yellow_pages_company_ct_field_group_info() {
     'label' => 'Tabbed content',
     'weight' => '10',
     'children' => array(
-      0 => 'group_details',
-      1 => 'group_filials',
-      2 => 'group_price_lists',
-      3 => 'group_products',
-      4 => 'group_services',
-      5 => 'group_vouchers',
-      6 => 'group_we_buy',
-      7 => 'group_we_sell',
+      0 => 'group_brands',
+      1 => 'group_details',
+      2 => 'group_filials',
+      3 => 'group_price_lists',
+      4 => 'group_products',
+      5 => 'group_services',
+      6 => 'group_vouchers',
+      7 => 'group_we_buy',
       8 => 'group_we_export',
+      9 => 'group_we_sell',
+      10 => 'group_working_hours',
     ),
     'format_type' => 'htabs',
     'format_settings' => array(
@@ -349,7 +466,7 @@ function yellow_pages_company_ct_field_group_info() {
       ),
     ),
   );
-  $export['group_tabbed_content|node|company|full'] = $field_group;
+  $field_groups['group_tabbed_content|node|company|full'] = $field_group;
 
   $field_group = new stdClass();
   $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
@@ -362,7 +479,7 @@ function yellow_pages_company_ct_field_group_info() {
   $field_group->parent_name = 'group_tabbed_content';
   $field_group->data = array(
     'label' => 'Vouchers',
-    'weight' => '25',
+    'weight' => '29',
     'children' => array(),
     'format_type' => 'htab',
     'format_settings' => array(
@@ -374,7 +491,7 @@ function yellow_pages_company_ct_field_group_info() {
       ),
     ),
   );
-  $export['group_vouchers|node|company|full'] = $field_group;
+  $field_groups['group_vouchers|node|company|full'] = $field_group;
 
   $field_group = new stdClass();
   $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
@@ -387,7 +504,7 @@ function yellow_pages_company_ct_field_group_info() {
   $field_group->parent_name = 'group_tabbed_content';
   $field_group->data = array(
     'label' => 'We buy',
-    'weight' => '22',
+    'weight' => '26',
     'children' => array(),
     'format_type' => 'htab',
     'format_settings' => array(
@@ -399,7 +516,36 @@ function yellow_pages_company_ct_field_group_info() {
       ),
     ),
   );
-  $export['group_we_buy|node|company|full'] = $field_group;
+  $field_groups['group_we_buy|node|company|full'] = $field_group;
+
+  $field_group = new stdClass();
+  $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
+  $field_group->api_version = 1;
+  $field_group->identifier = 'group_we_buy|node|company|print_mode';
+  $field_group->group_name = 'group_we_buy';
+  $field_group->entity_type = 'node';
+  $field_group->bundle = 'company';
+  $field_group->mode = 'print_mode';
+  $field_group->parent_name = '';
+  $field_group->data = array(
+    'label' => 'We buy',
+    'weight' => '13',
+    'children' => array(),
+    'format_type' => 'div',
+    'format_settings' => array(
+      'formatter' => 'collapsible',
+      'instance_settings' => array(
+        'description' => '',
+        'show_label' => 1,
+        'label_element' => 'h3',
+        'effect' => 'none',
+        'speed' => 'fast',
+        'classes' => 'group-we-buy field-group-div',
+        'id' => '',
+      ),
+    ),
+  );
+  $field_groups['group_we_buy|node|company|print_mode'] = $field_group;
 
   $field_group = new stdClass();
   $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
@@ -412,7 +558,7 @@ function yellow_pages_company_ct_field_group_info() {
   $field_group->parent_name = 'group_tabbed_content';
   $field_group->data = array(
     'label' => 'We export',
-    'weight' => '23',
+    'weight' => '27',
     'children' => array(),
     'format_type' => 'htab',
     'format_settings' => array(
@@ -424,7 +570,36 @@ function yellow_pages_company_ct_field_group_info() {
       ),
     ),
   );
-  $export['group_we_export|node|company|full'] = $field_group;
+  $field_groups['group_we_export|node|company|full'] = $field_group;
+
+  $field_group = new stdClass();
+  $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
+  $field_group->api_version = 1;
+  $field_group->identifier = 'group_we_export|node|company|print_mode';
+  $field_group->group_name = 'group_we_export';
+  $field_group->entity_type = 'node';
+  $field_group->bundle = 'company';
+  $field_group->mode = 'print_mode';
+  $field_group->parent_name = '';
+  $field_group->data = array(
+    'label' => 'We export',
+    'weight' => '14',
+    'children' => array(),
+    'format_type' => 'div',
+    'format_settings' => array(
+      'formatter' => 'collapsible',
+      'instance_settings' => array(
+        'description' => '',
+        'show_label' => 1,
+        'label_element' => 'h3',
+        'effect' => 'none',
+        'speed' => 'fast',
+        'classes' => 'group-we-export field-group-div',
+        'id' => '',
+      ),
+    ),
+  );
+  $field_groups['group_we_export|node|company|print_mode'] = $field_group;
 
   $field_group = new stdClass();
   $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
@@ -437,7 +612,7 @@ function yellow_pages_company_ct_field_group_info() {
   $field_group->parent_name = 'group_tabbed_content';
   $field_group->data = array(
     'label' => 'We sell',
-    'weight' => '21',
+    'weight' => '25',
     'children' => array(),
     'format_type' => 'htab',
     'format_settings' => array(
@@ -449,7 +624,84 @@ function yellow_pages_company_ct_field_group_info() {
       ),
     ),
   );
-  $export['group_we_sell|node|company|full'] = $field_group;
+  $field_groups['group_we_sell|node|company|full'] = $field_group;
 
-  return $export;
+  $field_group = new stdClass();
+  $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
+  $field_group->api_version = 1;
+  $field_group->identifier = 'group_we_sell|node|company|print_mode';
+  $field_group->group_name = 'group_we_sell';
+  $field_group->entity_type = 'node';
+  $field_group->bundle = 'company';
+  $field_group->mode = 'print_mode';
+  $field_group->parent_name = '';
+  $field_group->data = array(
+    'label' => 'We sell',
+    'weight' => '12',
+    'children' => array(),
+    'format_type' => 'div',
+    'format_settings' => array(
+      'formatter' => 'collapsible',
+      'instance_settings' => array(
+        'description' => '',
+        'show_label' => 1,
+        'label_element' => 'h3',
+        'effect' => 'none',
+        'speed' => 'fast',
+        'classes' => 'group-we-sell field-group-div',
+        'id' => '',
+      ),
+    ),
+  );
+  $field_groups['group_we_sell|node|company|print_mode'] = $field_group;
+
+  $field_group = new stdClass();
+  $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
+  $field_group->api_version = 1;
+  $field_group->identifier = 'group_working_hours|node|company|full';
+  $field_group->group_name = 'group_working_hours';
+  $field_group->entity_type = 'node';
+  $field_group->bundle = 'company';
+  $field_group->mode = 'full';
+  $field_group->parent_name = 'group_tabbed_content';
+  $field_group->data = array(
+    'label' => 'Working hours',
+    'weight' => '30',
+    'children' => array(
+      0 => 'field_business_hours',
+    ),
+    'format_type' => 'htab',
+    'format_settings' => array(
+      'formatter' => 'closed',
+      'instance_settings' => array(
+        'description' => '',
+        'classes' => 'group-working-hours field-group-htab',
+        'id' => '',
+      ),
+    ),
+  );
+  $field_groups['group_working_hours|node|company|full'] = $field_group;
+
+  // Translatables
+  // Included for use with string extractors like potx.
+  t('Additional information');
+  t('Advertisements');
+  t('Articles');
+  t('Brands');
+  t('Contacts');
+  t('Details');
+  t('Filials');
+  t('Main content');
+  t('Price lists');
+  t('Products');
+  t('Products and services');
+  t('Services');
+  t('Tabbed content');
+  t('Vouchers');
+  t('We buy');
+  t('We export');
+  t('We sell');
+  t('Working hours');
+
+  return $field_groups;
 }

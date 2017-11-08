@@ -14,7 +14,6 @@ function yellow_pages_article_ct_form_article_node_form_alter(&$form, &$form_sta
     'comment_settings',
     'revision_information',
     'translation',
-    'path',
     'author',
   );
   foreach ($hide as $item) {

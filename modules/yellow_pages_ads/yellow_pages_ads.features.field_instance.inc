@@ -10,7 +10,7 @@
 function yellow_pages_ads_field_default_field_instances() {
   $field_instances = array();
 
-  // Exported field_instance: 'node-advertisement-body'
+  // Exported field_instance: 'node-advertisement-body'.
   $field_instances['node-advertisement-body'] = array(
     'bundle' => 'advertisement',
     'default_value' => NULL,
@@ -23,6 +23,12 @@ function yellow_pages_ads_field_default_field_instances() {
         'settings' => array(),
         'type' => 'text_default',
         'weight' => 1,
+      ),
+      'print_mode' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
       ),
       'search_index' => array(
         'label' => 'hidden',
@@ -65,7 +71,7 @@ function yellow_pages_ads_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-advertisement-field_ad_category'
+  // Exported field_instance: 'node-advertisement-field_ad_category'.
   $field_instances['node-advertisement-field_ad_category'] = array(
     'bundle' => 'advertisement',
     'default_value' => array(
@@ -82,6 +88,12 @@ function yellow_pages_ads_field_default_field_instances() {
         'settings' => array(),
         'type' => 'list_default',
         'weight' => 6,
+      ),
+      'print_mode' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
       ),
       'search_index' => array(
         'label' => 'above',
@@ -119,7 +131,7 @@ function yellow_pages_ads_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-advertisement-field_ad_image'
+  // Exported field_instance: 'node-advertisement-field_ad_image'.
   $field_instances['node-advertisement-field_ad_image'] = array(
     'bundle' => 'advertisement',
     'deleted' => 0,
@@ -133,6 +145,12 @@ function yellow_pages_ads_field_default_field_instances() {
           'image_style' => '',
         ),
         'type' => 'image',
+        'weight' => 0,
+      ),
+      'print_mode' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
         'weight' => 0,
       ),
       'search_index' => array(
@@ -203,7 +221,7 @@ function yellow_pages_ads_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-advertisement-field_ad_placement_in_search'
+  // Exported field_instance: 'node-advertisement-field_ad_placement_in_search'.
   $field_instances['node-advertisement-field_ad_placement_in_search'] = array(
     'bundle' => 'advertisement',
     'default_value' => NULL,
@@ -216,6 +234,12 @@ function yellow_pages_ads_field_default_field_instances() {
         'settings' => array(),
         'type' => 'list_default',
         'weight' => 9,
+      ),
+      'print_mode' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
       ),
       'search_index' => array(
         'label' => 'above',
@@ -253,7 +277,7 @@ function yellow_pages_ads_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-advertisement-field_ad_schedule'
+  // Exported field_instance: 'node-advertisement-field_ad_schedule'.
   $field_instances['node-advertisement-field_ad_schedule'] = array(
     'bundle' => 'advertisement',
     'deleted' => 0,
@@ -264,6 +288,12 @@ function yellow_pages_ads_field_default_field_instances() {
         'settings' => array(),
         'type' => 'hidden',
         'weight' => 5,
+      ),
+      'print_mode' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
       ),
       'search_index' => array(
         'label' => 'above',
@@ -304,14 +334,14 @@ function yellow_pages_ads_field_default_field_instances() {
         'input_format_custom' => '',
         'label_position' => 'above',
         'text_parts' => array(),
-        'year_range' => '-0:+1',
+        'year_range' => '-0:+2',
       ),
       'type' => 'date_popup',
       'weight' => 8,
     ),
   );
 
-  // Exported field_instance: 'node-advertisement-field_ad_type'
+  // Exported field_instance: 'node-advertisement-field_ad_type'.
   $field_instances['node-advertisement-field_ad_type'] = array(
     'bundle' => 'advertisement',
     'default_value' => array(
@@ -327,6 +357,12 @@ function yellow_pages_ads_field_default_field_instances() {
         'settings' => array(),
         'type' => 'hidden',
         'weight' => 4,
+      ),
+      'print_mode' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
       ),
       'search_index' => array(
         'label' => 'above',
@@ -363,7 +399,7 @@ function yellow_pages_ads_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-advertisement-field_ad_url'
+  // Exported field_instance: 'node-advertisement-field_ad_url'.
   $field_instances['node-advertisement-field_ad_url'] = array(
     'bundle' => 'advertisement',
     'default_value' => NULL,
@@ -376,6 +412,12 @@ function yellow_pages_ads_field_default_field_instances() {
         'settings' => array(),
         'type' => 'link_default',
         'weight' => 2,
+      ),
+      'print_mode' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
       ),
       'search_index' => array(
         'label' => 'hidden',
@@ -409,7 +451,7 @@ function yellow_pages_ads_field_default_field_instances() {
         'configurable_class' => 0,
         'configurable_title' => 1,
         'rel' => '',
-        'target' => 'user',
+        'target' => '_blank',
         'title' => '',
       ),
       'display' => array(

@@ -1,0 +1,185 @@
+# $Id$
+#
+# Romanian translation of Drupal (general)
+# Copyright YEAR NAME <EMAIL@ADDRESS>
+# Generated from files:
+#  template.php: n/a
+#  yellow_pages.info: n/a
+#  js/yellow_pages.scripts.js: n/a
+#  layouts/yp_onecol_100/yp-onecol-100.tpl.php: n/a
+#  layouts/yp_onecol_100/yp_onecol_100.inc: n/a
+#  layouts/yp_threecol_25_50_25/yp_threecol_25_50_25.inc: n/a
+#  layouts/yp_twocol_25_75/yp_twocol_25_75.inc: n/a
+#  layouts/yp_twocol_stacked_75_25/yp_twocol_stacked_75_25.inc: n/a
+#  layouts/yp_twocol_75_25/yp_twocol_75_25.inc: n/a
+#  templates/html.tpl.php: n/a
+#  templates/maintenance-page.tpl.php: n/a
+#  templates/page--404.tpl.php: n/a
+#  templates/page--batch.tpl.php: n/a
+#  templates/page.tpl.php: n/a
+#  templates/node/node--article--slider-teaser.tpl.php: n/a
+#  templates/node/node--news--slider-teaser.tpl.php: n/a
+#  templates/node/node--article.tpl.php: n/a
+#  templates/node/node--company.tpl.php: n/a
+#  templates/node/node--news.tpl.php: n/a
+#  templates/node/node--company--print_mode.tpl.php: n/a
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PROJECT VERSION\n"
+"POT-Creation-Date: 2017-02-06 15:08+0200\n"
+"PO-Revision-Date: 2017-02-06 15:08+0200\n"
+"Last-Translator: NAME <EMAIL@ADDRESS>\n"
+"Language-Team: Romanian <EMAIL@ADDRESS>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=((((n%10)==1)&&((n%100)!=11))?(0):(((((n%10)>=2)&&((n%10)<=4))&&(((n%100)<10)||((n%100)>=20)))?(1):2));\n"
+
+#: template.php:149
+msgid "Moldova"
+msgstr "Moldova"
+
+#: template.php:244
+msgid "Menu"
+msgstr "Meniu"
+
+#: template.php:399
+msgid "Day off"
+msgstr "Zi liberă"
+
+#: yellow_pages.info:0
+msgid "Yellow Pages"
+msgstr ""
+
+#: yellow_pages.info:0
+msgid "Yellow Pages theme"
+msgstr ""
+
+#: yellow_pages.info:0
+msgid "Header"
+msgstr "Cap"
+
+#: yellow_pages.info:0
+msgid "Help"
+msgstr "Ajutor"
+
+#: yellow_pages.info:0
+msgid "Content"
+msgstr "Conţinut"
+
+#: yellow_pages.info:0
+msgid "Aside Alpha"
+msgstr ""
+
+#: yellow_pages.info:0
+msgid "Aside Beta"
+msgstr ""
+
+#: yellow_pages.info:0
+msgid "Aside Gamma"
+msgstr ""
+
+#: yellow_pages.info:0
+msgid "Footer"
+msgstr "Subsol"
+
+#: js/yellow_pages.scripts.js:0
+msgid "Facility search"
+msgstr "Căutare"
+
+#: layouts/yp_onecol_100/yp-onecol-100.tpl.php:31
+msgid "<span class=\"yellow\">Find and verify</span> information about your company."
+msgstr ""
+"<span class=\"yellow\">Găseşte şi verifică</span> informaţia "
+"despre întreprinderea Ta."
+
+#: layouts/yp_onecol_100/yp_onecol_100.inc:8
+msgid "One Column 100%"
+msgstr ""
+
+#: layouts/yp_onecol_100/yp_onecol_100.inc:14
+msgid "Main"
+msgstr ""
+
+#: layouts/yp_threecol_25_50_25/yp_threecol_25_50_25.inc:8
+msgid "Three Column 25%-50%-25%"
+msgstr ""
+
+#: layouts/yp_threecol_25_50_25/yp_threecol_25_50_25.inc:14 layouts/yp_twocol_25_75/yp_twocol_25_75.inc:14
+msgid "Alpha 25"
+msgstr ""
+
+#: layouts/yp_threecol_25_50_25/yp_threecol_25_50_25.inc:15
+msgid "Beta 50"
+msgstr ""
+
+#: layouts/yp_threecol_25_50_25/yp_threecol_25_50_25.inc:16 layouts/yp_twocol_stacked_75_25/yp_twocol_stacked_75_25.inc:16
+msgid "Gamma 25"
+msgstr ""
+
+#: layouts/yp_twocol_25_75/yp_twocol_25_75.inc:8
+msgid "Two Column 25%-75%"
+msgstr ""
+
+#: layouts/yp_twocol_25_75/yp_twocol_25_75.inc:15 layouts/yp_twocol_stacked_75_25/yp_twocol_stacked_75_25.inc:15
+msgid "Beta 75"
+msgstr ""
+
+#: layouts/yp_twocol_75_25/yp_twocol_75_25.inc:8
+msgid "Two Column 75%-25%"
+msgstr ""
+
+#: layouts/yp_twocol_75_25/yp_twocol_75_25.inc:14
+msgid "Alpha 75"
+msgstr ""
+
+#: layouts/yp_twocol_75_25/yp_twocol_75_25.inc:15
+msgid "tabs 75"
+msgstr ""
+
+#: layouts/yp_twocol_75_25/yp_twocol_75_25.inc:16
+msgid "Beta 25"
+msgstr ""
+
+#: layouts/yp_twocol_stacked_75_25/yp_twocol_stacked_75_25.inc:8
+msgid "Two Column Stacked 100%-75%-25%"
+msgstr ""
+
+#: layouts/yp_twocol_stacked_75_25/yp_twocol_stacked_75_25.inc:14
+msgid "Alpha 100"
+msgstr ""
+
+#: templates/html.tpl.php:71
+msgid "Skip to main content"
+msgstr "Mergi la conţinutul principal"
+
+#: templates/maintenance-page.tpl.php:30;31 templates/page--404.tpl.php:80;81 templates/page--batch.tpl.php:11;12 templates/page.tpl.php:80;81
+msgid "Home"
+msgstr "Acasă"
+
+#: templates/page--404.tpl.php:111
+msgid "Error"
+msgstr "Eroare"
+
+#: templates/page--404.tpl.php:115
+msgid "The requested page could not be found."
+msgstr "Pagina solicitată nu este găsită."
+
+#: templates/node/node--article--slider-teaser.tpl.php:104 templates/node/node--news--slider-teaser.tpl.php:104
+msgid "Read more"
+msgstr "Citiţi mai departe"
+
+#: templates/node/node--article.tpl.php:16 templates/node/node--company.tpl.php:60 templates/node/node--news.tpl.php:16
+msgid "Unpublished"
+msgstr "Nepublicat"
+
+#: templates/node/node--company--print_mode.tpl.php:39
+msgid "Products and services"
+msgstr "Mărfuri și servicii"
+
+#: templates/node/node--company.tpl.php:24
+msgid "Date of update: "
+msgstr "Data actualizării: "
+

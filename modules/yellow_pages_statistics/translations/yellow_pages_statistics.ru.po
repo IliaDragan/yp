@@ -1,5 +1,3 @@
-
-
 # $Id$
 #
 # Russian translation of Drupal (general)
@@ -15,8 +13,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
-"POT-Creation-Date: 2016-03-16 11:14+0200\n"
-"PO-Revision-Date: 2016-03-16 11:14+0200\n"
+"POT-Creation-Date: 2017-02-06 14:11+0200\n"
+"PO-Revision-Date: 2017-02-06 14:11+0200\n"
 "Last-Translator: NAME <EMAIL@ADDRESS>\n"
 "Language-Team: Russian <EMAIL@ADDRESS>\n"
 "MIME-Version: 1.0\n"
@@ -194,7 +192,7 @@ msgstr "Страница"
 msgid "Language"
 msgstr "Язык"
 
-#: yellow_pages_statistics.reports.inc:290;408 yellow_pages_statistics.module:45
+#: yellow_pages_statistics.reports.inc:290;408 yellow_pages_statistics.module:55
 msgid "Search statistics"
 msgstr "Статистика поиcков"
 
@@ -238,39 +236,39 @@ msgstr "Клики по ссылке сайта"
 msgid "Advertisement clicks"
 msgstr "Клики по баннеру"
 
-#: yellow_pages_statistics.module:15
+#: yellow_pages_statistics.module:25
 msgid "Administer Yellow Pages statistics"
 msgstr ""
 
-#: yellow_pages_statistics.module:18
+#: yellow_pages_statistics.module:28
 msgid "Access Yellow Pages node statistics"
 msgstr ""
 
-#: yellow_pages_statistics.module:21
+#: yellow_pages_statistics.module:31
 msgid "Access Yellow Pages search statistics"
 msgstr ""
 
-#: yellow_pages_statistics.module:24
+#: yellow_pages_statistics.module:34
 msgid "Access Yellow Pages Google Analytics page"
 msgstr ""
 
-#: yellow_pages_statistics.module:36
+#: yellow_pages_statistics.module:46
 msgid "Google Analytics"
 msgstr ""
 
-#: yellow_pages_statistics.module:54
+#: yellow_pages_statistics.module:64
 msgid "GA data"
 msgstr ""
 
-#: yellow_pages_statistics.module:62
+#: yellow_pages_statistics.module:72
 msgid "Advertisement statistics tracker"
 msgstr ""
 
-#: yellow_pages_statistics.module:70
+#: yellow_pages_statistics.module:80
 msgid "Enterprise statistics tracker"
 msgstr ""
 
-#: yellow_pages_statistics.module:84;94
+#: yellow_pages_statistics.module:94;104
 msgid "Statistics"
 msgstr "Статистика"
 

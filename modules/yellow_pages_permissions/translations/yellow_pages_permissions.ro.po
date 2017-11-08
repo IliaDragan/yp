@@ -1,4 +1,3 @@
-
 # $Id$
 #
 # Romanian translation of Drupal (general)
@@ -12,8 +11,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
-"POT-Creation-Date: 2016-04-20 16:44+0300\n"
-"PO-Revision-Date: 2016-04-20 16:44+0300\n"
+"POT-Creation-Date: 2017-02-06 14:08+0200\n"
+"PO-Revision-Date: 2017-02-06 14:08+0200\n"
 "Last-Translator: NAME <EMAIL@ADDRESS>\n"
 "Language-Team: Romanian <EMAIL@ADDRESS>\n"
 "MIME-Version: 1.0\n"
@@ -22,8 +21,8 @@ msgstr ""
 "Plural-Forms: nplurals=3; plural=((((n%10)==1)&&((n%100)!=11))?(0):(((((n%10)>=2)&&((n%10)<=4))&&(((n%100)<10)||((n%100)>=20)))?(1):2));\n"
 
 #: yellow_pages_permissions.features.field_instance.inc:148
-msgid "Edit information"
-msgstr "Editarea informațiilor"
+msgid "Edit additional information"
+msgstr "Editarea informației adiționale"
 
 #: yellow_pages_permissions.features.field_instance.inc:149
 msgid "Edit pricelist"

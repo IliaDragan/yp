@@ -76,7 +76,7 @@ projects[geofield][subdir] = "contrib"
 projects[geophp][version] = "1.7"
 projects[geophp][subdir] = "contrib"
 
-projects[i18n][version] = "1.13"
+projects[i18n][version] = "1.15"
 projects[i18n][subdir] = "contrib"
 
 projects[l10n_update][version] = "2.0"
@@ -144,16 +144,19 @@ projects[owlcarousel][patch][] = "http://am.storage.dev.inlead.dk/owlcarousel-fi
 projects[panels][version] = "3.5"
 projects[panels][subdir] = "contrib"
 
+projects[recaptcha][version] = "2.2"
+projects[recaptcha][subdir] = "contrib"
+
 projects[rules][version] = "2.9"
 projects[rules][subdir] = "contrib"
 
 projects[rules_onceperday][version] = "1.2"
 projects[rules_onceperday][subdir] = "contrib"
 
-projects[search_api][version] = "1.18"
+projects[search_api][version] = "1.20"
 projects[search_api][subdir] = "contrib"
 
-projects[search_api_solr][version] = "1.10"
+projects[search_api_solr][version] = "1.11"
 projects[search_api_solr][subdir] = "contrib"
 
 projects[service_links][version] = "2.3"

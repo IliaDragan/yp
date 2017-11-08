@@ -52,7 +52,7 @@ function yellow_pages_solr_configuration_rubuild_products_facet() {
   foreach ($locales as $locale) {
     $rows = array();
 
-    if ($locale == 'ru') {
+    if ($locale == 'en') {
       $result = db_query('SELECT tid, name FROM taxonomy_term_data WHERE tid IN (:tid) ORDER by tid', array(':tid' => $tids));
       $rows = $result->fetchAllKeyed();
     }

@@ -70,17 +70,25 @@ function yellow_pages_admin_captcha_default_points() {
   $captcha->disabled = FALSE; /* Edit this to true to make a default captcha disabled initially */
   $captcha->api_version = 1;
   $captcha->form_id = 'user_register_form';
-  $captcha->module = 'image_captcha';
-  $captcha->captcha_type = 'Image';
+  $captcha->module = 'recaptcha';
+  $captcha->captcha_type = 'reCAPTCHA';
   $export['user_register_form'] = $captcha;
 
   $captcha = new stdClass();
   $captcha->disabled = FALSE; /* Edit this to true to make a default captcha disabled initially */
   $captcha->api_version = 1;
   $captcha->form_id = 'yellow_pages_company_ct_user_register_form';
-  $captcha->module = 'image_captcha';
-  $captcha->captcha_type = 'Image';
+  $captcha->module = 'recaptcha';
+  $captcha->captcha_type = 'reCAPTCHA';
   $export['yellow_pages_company_ct_user_register_form'] = $captcha;
+
+  $captcha = new stdClass();
+  $captcha->disabled = FALSE; /* Edit this to true to make a default captcha disabled initially */
+  $captcha->api_version = 1;
+  $captcha->form_id = 'yellow_pages_feedback_ad_request';
+  $captcha->module = 'recaptcha';
+  $captcha->captcha_type = 'reCAPTCHA';
+  $export['yellow_pages_feedback_ad_request'] = $captcha;
 
   return $export;
 }

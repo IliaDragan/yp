@@ -3452,6 +3452,9 @@ body > .node-advertisement {
 #yellow-pages-company-ct-user-register-form #register-form-info {
   margin-bottom: 25px;
 }
+#yellow-pages-company-ct-user-register-form a {
+  text-decoration: underline;
+}
 
 .page-user-register-notification {
   text-align: center;

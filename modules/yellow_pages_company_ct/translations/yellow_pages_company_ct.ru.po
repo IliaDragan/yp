@@ -19,8 +19,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
-"POT-Creation-Date: 2017-02-06 14:04+0200\n"
-"PO-Revision-Date: 2017-02-06 14:04+0200\n"
+"POT-Creation-Date: 2018-01-26 11:09+0200\n"
+"PO-Revision-Date: 2018-01-26 11:09+0200\n"
 "Last-Translator: NAME <EMAIL@ADDRESS>\n"
 "Language-Team: Russian <EMAIL@ADDRESS>\n"
 "MIME-Version: 1.0\n"
@@ -66,7 +66,7 @@ msgstr ""
 "Описание вида деятельности или "
 "компании"
 
-#: yellow_pages_company_ct.features.field_instance.inc:1722 yellow_pages_company_ct.module:1202
+#: yellow_pages_company_ct.features.field_instance.inc:1722
 msgid "Email"
 msgstr "Email"
 
@@ -459,7 +459,7 @@ msgstr ""
 "получите письмо с потдверждением на "
 "свою электронную почту."
 
-#: yellow_pages_company_ct.module:831;1313
+#: yellow_pages_company_ct.module:831;1327
 msgid "Something went wrong. Please contact site administrator."
 msgstr ""
 "Произошла непредвиденая ошибка. "
@@ -511,7 +511,7 @@ msgstr ""
 "редактировать:"
 
 #: yellow_pages_company_ct.module:1189
-msgid "To get access to edit existing information about your company is necessary to fill the following form. All fields are required."
+msgid "To gain access to edit available information about your company, it is necessary to fill in the following form. All fields are required."
 msgstr ""
 "Для получения доступа к "
 "редактированию имеющейся информации "
@@ -520,58 +520,84 @@ msgstr ""
 "обязательны к заполнению."
 
 #: yellow_pages_company_ct.module:1195
-msgid "Your full name"
+msgid "Full Name"
 msgstr "ФИО"
 
-#: yellow_pages_company_ct.module:1216
-msgid "Upload the questionnaire"
-msgstr ""
+#: yellow_pages_company_ct.module:1202
+msgid "E-mail"
+msgstr "E-mail"
 
-#: yellow_pages_company_ct.module:1217
-msgid "Download !link and fill it. Then upload filled questionnaire."
-msgstr ""
-
-#: yellow_pages_company_ct.module:1217
-msgid "empty questionnaire"
-msgstr ""
+#: yellow_pages_company_ct.module:1218
+msgid "Application"
+msgstr "Анкету"
 
 #: yellow_pages_company_ct.module:1222
+msgid "If your company is not yet on !s, then fill out the !q form with your data and upload it:"
+msgstr ""
+"Если Вашего предприятия нет на сайте "
+"!s, тогда заполните !q с Вашими данными и "
+"загрузите её:"
+
+#: yellow_pages_company_ct.module:1225
+msgid "In short time the moderator will enter data and your company will be displayed on our website."
+msgstr ""
+"В короткое время модератор внесёт "
+"данные и Ваше предприятие отобразится "
+"на нашем сайте."
+
+#: yellow_pages_company_ct.module:1227
+msgid "Welcome!"
+msgstr "Добро пожаловать!"
+
+#: yellow_pages_company_ct.module:1228
+msgid "price list"
+msgstr "Прайсе"
+
+#: yellow_pages_company_ct.module:1229
+msgid "About additional opportunities to distinguish your company from the general list of enterprises (more than 18 000), read the !p."
+msgstr ""
+"О дополнительных возможностях по "
+"выделению Вашей компании из общего "
+"списка предприятий (более 18 000) "
+"ознакомьтесь в !p."
+
+#: yellow_pages_company_ct.module:1236
 msgid "Send"
 msgstr "Отправить"
 
-#: yellow_pages_company_ct.module:1244
+#: yellow_pages_company_ct.module:1258
 msgid "The uploaded file must have \".doc\" extension and be less than 300KB."
 msgstr ""
 
-#: yellow_pages_company_ct.module:1249
+#: yellow_pages_company_ct.module:1263
 msgid "The email address is not valid."
 msgstr "E-mail адресс неверный."
 
-#: yellow_pages_company_ct.module:1321
+#: yellow_pages_company_ct.module:1335
 msgid "Thank you, we will contact you soon."
 msgstr "Спасибо, вскоре мы свяжемся с вами."
 
-#: yellow_pages_company_ct.module:1336
+#: yellow_pages_company_ct.module:1350
 msgid "Request for enterprise editor creation"
 msgstr ""
 "Запрос на добавление редактора "
 "предприятия"
 
-#: yellow_pages_company_ct.module:1337
+#: yellow_pages_company_ct.module:1351
 msgid "You have received the request for enterprise editor creation:"
 msgstr ""
 "Вы получили запрос на регистрацию "
 "редактора предприятия:"
 
-#: yellow_pages_company_ct.module:1338
+#: yellow_pages_company_ct.module:1352
 msgid "Full name: @name"
 msgstr "ФИО: @name"
 
-#: yellow_pages_company_ct.module:1339
+#: yellow_pages_company_ct.module:1353
 msgid "Email: @email"
 msgstr ""
 
-#: yellow_pages_company_ct.module:1340
+#: yellow_pages_company_ct.module:1354
 msgid "Company name: @company_name"
 msgstr "Название компании: @company_name"
 

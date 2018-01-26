@@ -337,21 +337,23 @@ function yellow_pages_core_block_view($delta = '') {
 function yellow_pages_core_get_adsense_728_90() {
   if (in_array($_SERVER['SERVER_NAME'], array('yp.md', 'www.yp.md'))) {
     return '<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-<!-- yp.md_728x90px -->
+<!-- adoptive_www.yp.md -->
 <ins class="adsbygoogle"
- style="display:inline-block;width:728px;height:90px"
- data-ad-client="ca-pub-4252189351312901"
- data-ad-slot="4729439674"></ins>
+style="display:block"
+data-ad-client="ca-pub-4252189351312901"
+data-ad-slot="2224086432"
+data-ad-format="auto"></ins>
 <script>
 (adsbygoogle = window.adsbygoogle || []).push({});
 </script>';
   } else {
     return '<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-<!-- 728x90px_yellowpages.md -->
+<!-- adoptive-www.yellowpages.md -->
 <ins class="adsbygoogle"
- style="display:inline-block;width:728px;height:90px"
- data-ad-client="ca-pub-4252189351312901"
- data-ad-slot="3113105679"></ins>
+style="display:block"
+data-ad-client="ca-pub-4252189351312901"
+data-ad-slot="1891902181"
+data-ad-format="auto"></ins>
 <script>
 (adsbygoogle = window.adsbygoogle || []).push({});
 </script>';
@@ -367,9 +369,9 @@ function yellow_pages_core_get_adsense_300_250() {
   return '<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
 <!-- 300x250px_yp.md -->
 <ins class="adsbygoogle"
- style="display:inline-block;width:300px;height:250px"
- data-ad-client="ca-pub-4252189351312901"
- data-ad-slot="7543305270"></ins>
+style="display:inline-block;width:300px;height:250px"
+data-ad-client="ca-pub-4252189351312901"
+data-ad-slot="7543305270"></ins>
 <script>
 (adsbygoogle = window.adsbygoogle || []).push({});
 </script>';
@@ -393,22 +395,24 @@ data-ad-slot="1584816871"></ins>
 function yellow_pages_core_get_adsense_468_60() {
   if (in_array($_SERVER['SERVER_NAME'], array('yp.md', 'www.yp.md'))) {
     return '<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-<!-- 468x60px_yp.md -->
+<!-- adoptive_www.yp.md -->
 <ins class="adsbygoogle"
- style="display:inline-block;width:468px;height:60px"
- data-ad-client="ca-pub-4252189351312901"
- data-ad-slot="7682906072"></ins>
+style="display:block"
+data-ad-client="ca-pub-4252189351312901"
+data-ad-slot="2224086432"
+data-ad-format="auto"></ins>
 <script>
 (adsbygoogle = window.adsbygoogle || []).push({});
 </script>';
   }
   else {
     return '<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-<!-- 468x60px_yellowpages.md -->
+<!-- adoptive-www.yellowpages.md -->
 <ins class="adsbygoogle"
- style="display:inline-block;width:468px;height:60px"
- data-ad-client="ca-pub-4252189351312901"
- data-ad-slot="6066572072"></ins>
+style="display:block"
+data-ad-client="ca-pub-4252189351312901"
+data-ad-slot="1891902181"
+data-ad-format="auto"></ins>
 <script>
 (adsbygoogle = window.adsbygoogle || []).push({});
 </script>';
@@ -420,13 +424,12 @@ function yellow_pages_core_get_adsense_468_60() {
  */
 function yellow_pages_core_get_adsense_980_120() {
   return '<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-  <!-- yp.md_980x120px -->
-  <ins class="adsbygoogle"
-    style="display:inline-block;width:980px;height:120px"
-    data-ad-client="ca-pub-4252189351312901"
-    data-ad-slot="2403474871">
-  </ins>
-  <script>
-    (adsbygoogle = window.adsbygoogle || []).push({});
-  </script>';
+<!-- yp.md&yellowpages.md_980x120px -->
+<ins class="adsbygoogle"
+style="display:inline-block;width:980px;height:120px"
+data-ad-client="ca-pub-4252189351312901"
+data-ad-slot="2403474871"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>';
 }

@@ -19,8 +19,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
-"POT-Creation-Date: 2017-02-06 14:04+0200\n"
-"PO-Revision-Date: 2017-02-06 14:04+0200\n"
+"POT-Creation-Date: 2018-01-26 11:09+0200\n"
+"PO-Revision-Date: 2018-01-26 11:09+0200\n"
 "Last-Translator: NAME <EMAIL@ADDRESS>\n"
 "Language-Team: Romanian <EMAIL@ADDRESS>\n"
 "MIME-Version: 1.0\n"
@@ -64,7 +64,7 @@ msgstr "Orele de lucru"
 msgid "Description of activity"
 msgstr "Descrierea activității"
 
-#: yellow_pages_company_ct.features.field_instance.inc:1722 yellow_pages_company_ct.module:1202
+#: yellow_pages_company_ct.features.field_instance.inc:1722
 msgid "Email"
 msgstr "E-mail"
 
@@ -450,7 +450,7 @@ msgstr ""
 "Utilizatorul a fost creat cu succes. Veți primi un mesaj de "
 "confirmare la adresa Dvs de email."
 
-#: yellow_pages_company_ct.module:831;1313
+#: yellow_pages_company_ct.module:831;1327
 msgid "Something went wrong. Please contact site administrator."
 msgstr ""
 "A survenit o eroare neprevăzută. Vă rugăm să contactați "
@@ -499,61 +499,85 @@ msgid "Companies which you can edit:"
 msgstr "Companiile ce le puteți edita:"
 
 #: yellow_pages_company_ct.module:1189
-msgid "To get access to edit existing information about your company is necessary to fill the following form. All fields are required."
+msgid "To gain access to edit available information about your company, it is necessary to fill in the following form. All fields are required."
 msgstr ""
 "Pentru a obţine acces la modificarea informaţiei existente despre "
 "compania DVS, e necesar să completaţi formularul de mai jos. Toate "
-"cîmpurile sunt obligatorii de completat."
+"cîmpurile sunt obligatorii pentru completare."
 
 #: yellow_pages_company_ct.module:1195
-msgid "Your full name"
+msgid "Full Name"
 msgstr "Numele complet"
 
-#: yellow_pages_company_ct.module:1216
-msgid "Upload the questionnaire"
-msgstr ""
+#: yellow_pages_company_ct.module:1202
+msgid "E-mail"
+msgstr "E-mail"
 
-#: yellow_pages_company_ct.module:1217
-msgid "Download !link and fill it. Then upload filled questionnaire."
-msgstr ""
-
-#: yellow_pages_company_ct.module:1217
-msgid "empty questionnaire"
-msgstr ""
+#: yellow_pages_company_ct.module:1218
+msgid "Application"
+msgstr "Ancheta"
 
 #: yellow_pages_company_ct.module:1222
+msgid "If your company is not yet on !s, then fill out the !q form with your data and upload it:"
+msgstr ""
+"În caz că compania Dvs nu este încă pe site !s, atunci vă "
+"propunem să completați !q cu datele companiei Dvs și să o "
+"atașați:"
+
+#: yellow_pages_company_ct.module:1225
+msgid "In short time the moderator will enter data and your company will be displayed on our website."
+msgstr ""
+"În scurt timp moderatorul va introduce datele și întreprinderea Dvs "
+"va apărea pe site."
+
+#: yellow_pages_company_ct.module:1227
+msgid "Welcome!"
+msgstr "Bine ați venit!"
+
+#: yellow_pages_company_ct.module:1228
+msgid "price list"
+msgstr "Price"
+
+#: yellow_pages_company_ct.module:1229
+msgid "About additional opportunities to distinguish your company from the general list of enterprises (more than 18 000), read the !p."
+msgstr ""
+"Despre posibilitățile suplimentare pentru scoaterea în evidență a "
+"companie din întreaga listă de companii (mai mult de 18 000) "
+"aflați în !p."
+
+#: yellow_pages_company_ct.module:1236
 msgid "Send"
 msgstr "Trimitere"
 
-#: yellow_pages_company_ct.module:1244
+#: yellow_pages_company_ct.module:1258
 msgid "The uploaded file must have \".doc\" extension and be less than 300KB."
 msgstr ""
 
-#: yellow_pages_company_ct.module:1249
+#: yellow_pages_company_ct.module:1263
 msgid "The email address is not valid."
 msgstr "Adresa de e-mail nu este validă."
 
-#: yellow_pages_company_ct.module:1321
+#: yellow_pages_company_ct.module:1335
 msgid "Thank you, we will contact you soon."
 msgstr "Vă mulțumim, veți fi contactat în curând."
 
-#: yellow_pages_company_ct.module:1336
+#: yellow_pages_company_ct.module:1350
 msgid "Request for enterprise editor creation"
 msgstr "Cerere pentru crearea editorului întreprinderii"
 
-#: yellow_pages_company_ct.module:1337
+#: yellow_pages_company_ct.module:1351
 msgid "You have received the request for enterprise editor creation:"
 msgstr "Ați primit o cerere pentru crearea editorului întreprinderii:"
 
-#: yellow_pages_company_ct.module:1338
+#: yellow_pages_company_ct.module:1352
 msgid "Full name: @name"
 msgstr "Numele complet: @name"
 
-#: yellow_pages_company_ct.module:1339
+#: yellow_pages_company_ct.module:1353
 msgid "Email: @email"
 msgstr ""
 
-#: yellow_pages_company_ct.module:1340
+#: yellow_pages_company_ct.module:1354
 msgid "Company name: @company_name"
 msgstr "Denumirea companiei: @company_name"
 

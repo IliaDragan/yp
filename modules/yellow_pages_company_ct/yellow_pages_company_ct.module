@@ -1223,8 +1223,7 @@ function yellow_pages_company_ct_user_register_form($form, &$form_state) {
   );
 
   $info = t('In short time the moderator will enter data and your company will be displayed on our website.');
-  $info = '<p>' . $info . '</p>';
-  $info .= '<p>' . t('Welcome!') . '</p>';
+  $info = '<p>' . $info . ' ' . t('Welcome!') . '</p>';
   $price_list = '<strong>' . l(t('price list'), '//yp.md/sites/default/files/price_yp_2017.pdf') . '</strong>';
   $info .= '<p>' . t('About additional opportunities to distinguish your company from the general list of enterprises (more than 18 000), read the !p.', array('!p' => $price_list)) . '</p>';
   $form['information'] = array(

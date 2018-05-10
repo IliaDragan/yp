@@ -97,9 +97,25 @@ function yellow_pages_feedback_ad_request($form, &$form_state) {
 
   $form['adv_type'] = array(
     '#type' => 'textarea',
-    '#title' => t('What type of advertising are you interested in?'),
+    '#title' => t('Choose <b>the type of advertising</b> to promote your business and mention it below.'),
     '#default_value' => '',
   );
+
+
+  global $language;
+
+
+  $params = array(
+    // Site link.
+    '!s' => l('www.yp.md', '/', array('absolute' => TRUE)),
+    // Questionaire download link.
+    '!q' => '<strong>' . l(t('Application'), '//yp.md/sites/default/files/ancheta_'.$language->language.'_0.doc') . '</strong>',
+  );
+  $form['questionnaire'] = array(
+    '#type' => 'file',
+    '#title' => t('If your company is not yet on !s, then fill out the !q form with your data and upload it:', $params),
+  );
+
 
   $form['submit'] = array(
     '#type' => 'submit',

@@ -1186,20 +1186,20 @@ function yellow_pages_company_ct_entity_sync_with_mdb($entity) {
  * Custom user register request form.
  */
 function yellow_pages_company_ct_user_register_form($form, &$form_state) {
-  $info = t('To get access to edit existing information about your company is necessary to fill the following form. All fields are required.');
+  $info = t('To gain access to edit available information about your company, it is necessary to fill in the following form. All fields are required.');
   $form['info'] = array(
     '#markup' => '<div id="register-form-info">' . $info . '</div>',
   );
   $form['name'] = array(
     '#type' => 'textfield',
-    '#title' => t('Your full name'),
+    '#title' => t('Full Name'),
     '#required' => TRUE,
     '#default_value' => '',
   );
 
   $form['email'] = array(
     '#type' => 'textfield',
-    '#title' => t('Email'),
+    '#title' => t('E-mail'),
     '#required' => TRUE,
     '#default_value' => '',
   );
@@ -1211,10 +1211,24 @@ function yellow_pages_company_ct_user_register_form($form, &$form_state) {
     '#default_value' => '',
   );
 
+  global $language;
+  $params = array(
+    // Site link.
+    '!s' => l('www.yp.md', '/', array('absolute' => TRUE)),
+    // Questionaire download link.
+    '!q' => '<strong>' . l(t('Application'), '//yp.md/sites/default/files/ancheta_'.$language->language.'_0.doc') . '</strong>',
+  );
   $form['questionnaire'] = array(
     '#type' => 'file',
-    '#title' => t('Upload the questionnaire'),
-    '#description' => t('Download !link and fill it. Then upload filled questionnaire.', array('!link' => l(t('empty questionnaire'), 'http://yellowpages.md/sites/default/files/ancheta_ru_0.doc'))),
+    '#title' => t('If your company is not yet on !s, then fill out the !q form with your data and upload it:', $params),
+  );
+
+  $info = t('In short time the moderator will enter data and your company will be displayed on our website.');
+  $info = '<p>' . $info . ' ' . t('Welcome!') . '</p>';
+  $price_list = '<strong>' . l(t('Price list'), '//yp.md/sites/default/files/price_yp_2017.pdf') . '</strong>';
+  $info .= '<p>' . t('About additional opportunities to distinguish your company from the general list of enterprises (more than 18 000), read the !p.', array('!p' => $price_list)) . '</p>';
+  $form['information'] = array(
+    '#markup' => '<div id="register-form-info-bottom">' . $info . '</div>',
   );
 
   $form['send'] = array(

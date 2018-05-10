@@ -1211,11 +1211,12 @@ function yellow_pages_company_ct_user_register_form($form, &$form_state) {
     '#default_value' => '',
   );
 
+  global $language;
   $params = array(
     // Site link.
     '!s' => l('www.yp.md', '/', array('absolute' => TRUE)),
     // Questionaire download link.
-    '!q' => '<strong>' . l(t('Application'), '//yp.md/sites/default/files/ancheta_ru_0.doc') . '</strong>',
+    '!q' => '<strong>' . l(t('Application'), '//yp.md/sites/default/files/ancheta_'.$language->language.'_0.doc') . '</strong>',
   );
   $form['questionnaire'] = array(
     '#type' => 'file',
@@ -1224,7 +1225,7 @@ function yellow_pages_company_ct_user_register_form($form, &$form_state) {
 
   $info = t('In short time the moderator will enter data and your company will be displayed on our website.');
   $info = '<p>' . $info . ' ' . t('Welcome!') . '</p>';
-  $price_list = '<strong>' . l(t('price list'), '//yp.md/sites/default/files/price_yp_2017.pdf') . '</strong>';
+  $price_list = '<strong>' . l(t('Price list'), '//yp.md/sites/default/files/price_yp_2017.pdf') . '</strong>';
   $info .= '<p>' . t('About additional opportunities to distinguish your company from the general list of enterprises (more than 18 000), read the !p.', array('!p' => $price_list)) . '</p>';
   $form['information'] = array(
     '#markup' => '<div id="register-form-info-bottom">' . $info . '</div>',

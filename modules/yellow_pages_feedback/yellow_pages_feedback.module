@@ -94,15 +94,18 @@ function yellow_pages_feedback_ad_request($form, &$form_state) {
     '#required' => TRUE,
     '#default_value' => '',
   );
+  global $language;
 
-  $form['adv_type'] = array(
-    '#type' => 'textarea',
-    '#title' => t('Choose <b>the type of advertising</b> to promote your business and mention it below.'),
-    '#default_value' => '',
+  $params = array(
+    '!a' => '<strong>' . l(t('the type of advertising'), '//yp.md/sites/default/files/price_yp.pdf') . '</strong>'
   );
 
 
-  global $language;
+  $form['adv_type'] = array(
+    '#type' => 'textarea',
+    '#title' => t('Choose !a to promote your business and mention it below.', $params),
+    '#default_value' => '',
+  );
 
 
   $params = array(
